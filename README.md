@@ -10,7 +10,7 @@
 
 [![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](https://github.com/microsoft)
 [![Power BI](https://img.shields.io/badge/Power%20BI-Templates-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com)
-[![Repositories](https://img.shields.io/badge/Repositories-7-8661c5?style=for-the-badge&logo=github&logoColor=white)](https://github.com/microsoft)
+[![Repositories](https://img.shields.io/badge/Repositories-8-8661c5?style=for-the-badge&logo=github&logoColor=white)](https://github.com/microsoft)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 <br>
@@ -24,7 +24,7 @@
 ---
 
 <div align="center">
-<i>Seven production-ready Power BI templates and PowerShell automation tools — built by Microsoft's Copilot ROI Advisory Team to give every organization the analytics firepower to prove, grow, and sustain AI impact.</i>
+<i>Eight production-ready Power BI templates, add-ons, and PowerShell automation tools — built by Microsoft's Copilot ROI Advisory Team to give every organization the analytics firepower to prove, grow, and sustain AI impact.</i>
 </div>
 
 ---
@@ -81,6 +81,7 @@ Understanding how the tools fit together is key. There are **three data source t
 | How are developers adopting GitHub Copilot? | [GitHub Copilot Impact](#-github-copilot-impact) | GitHub Enterprise |
 | Which users should get Copilot licenses next? | [M365 Copilot Readiness](#-m365-copilot-readiness-report) | Purview + Entra |
 | How do I automate pulling audit logs without manual exports? | [PAX — Portable Audit eXporter](#-pax--portable-audit-exporter) | Microsoft Graph API |
+| I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot--add-on-library) | Viva Insights |
 
 ---
 
@@ -154,6 +155,48 @@ Goes beyond adoption metrics to answer the harder question: *so what?* This temp
 </details>
 
 → **[View Repository](https://github.com/microsoft/superuserimpact)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip)**
+
+---
+
+### 🧩 [CustomizeCopilot — Add-on Library](https://github.com/microsoft/customizecopilot)
+
+[![Data Source](https://img.shields.io/badge/Data-Viva%20Insights-00B294?style=flat-square)](https://analysis.insights.cloud.microsoft/)
+[![Type](https://img.shields.io/badge/Type-Power%20BI%20Add--ons-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/customizecopilot)
+[![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip)
+
+**Extend your Viva Insights reports with plug-and-play add-on pages — no rebuilding from scratch.**
+
+A growing library of modular Power BI pages that drop directly into the Super Usage Analysis and Superuser Impact templates. Each add-on is pre-configured with its own measures and visuals, compatible with both templates, and maintained alongside the base reports. Pick only what you need and import in minutes.
+
+<details>
+<summary><strong>Current add-ons</strong></summary>
+
+<br>
+
+**Champion ID Pages** — Two person-level analytics pages for identifying your top Copilot champions. Shows individual usage rankings across all M365 apps, Copilot action breakdowns, network influence metrics (strong ties, diverse ties, internal network size), and temporal usage patterns. Ideal for peer training programs, recognition initiatives, and targeted coaching.
+
+*Compatible with Super User Adoption v5+ and Super User Impact v5+. Requires 25 measures — all included automatically in the latest template versions.*
+
+</details>
+
+<details>
+<summary><strong>How to add pages to your report</strong></summary>
+
+<br>
+
+**Option A — Power BI Desktop (easiest):**
+1. Open your base report and a second Power BI Desktop instance with the add-on file
+2. Right-click the page you want → Copy → paste into your base report
+3. Verify visuals load and save
+
+**Option B — Power BI Project files (.pbip):**
+1. Copy the page folder from the add-on into your report's `definition/pages/` directory
+2. Add the page GUID to `pages.json`
+3. Open in Power BI Desktop and verify
+
+</details>
+
+→ **[View Repository](https://github.com/microsoft/customizecopilot)** &nbsp;|&nbsp; **[Download Add-ons](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip)**
 
 ---
 
@@ -398,6 +441,7 @@ If you're setting up multiple Purview-based tools, start with [PAX](https://gith
 |:---:|:---:|:---:|
 | [DecodingSuperUsage](https://github.com/microsoft/DecodingSuperUsage) | Super Usage Analysis | [↓ ZIP](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip) |
 | [superuserimpact](https://github.com/microsoft/superuserimpact) | Superuser Impact Report | [↓ ZIP](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip) |
+| [customizecopilot](https://github.com/microsoft/customizecopilot) | Power BI Add-on Library | [↓ ZIP](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip) |
 | [AI-in-One-Dashboard](https://github.com/microsoft/AI-in-One-Dashboard) | All-up Copilot & Agent Dashboard | — |
 | [CopilotChatAnalytics](https://github.com/microsoft/CopilotChatAnalytics) | Chat & Agent Intelligence | — |
 | [GitHubCopilotImpact](https://github.com/microsoft/GitHubCopilotImpact) | GitHub Copilot Developer Analytics | — |
