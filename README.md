@@ -91,6 +91,7 @@ Understanding how the tools fit together is key. There are **three data source t
 
 [![Data Source](https://img.shields.io/badge/Data-Viva%20Insights-00B294?style=flat-square)](https://analysis.insights.cloud.microsoft/)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/DecodingSuperUsage)
+[![Stars](https://img.shields.io/github/stars/microsoft/DecodingSuperUsage?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/DecodingSuperUsage/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip)
 
 **Who are your Copilot super users — and how do you make more of them?**
@@ -118,7 +119,7 @@ Super usage patterns reveal how experimentation turns into durable habits. This 
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/DecodingSuperUsage)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[Interpretation Guide](https://github.com/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Interpretation%20Guide%20Super%20Usage%20Adoption.pdf)**
+→ **[View Repository](https://github.com/microsoft/DecodingSuperUsage)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[Interpretation Guide](https://github.com/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Interpretation%20Guide%20Super%20Usage%20Adoption.pdf)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/DecodingSuperUsage/stargazers)**
 
 ---
 
@@ -126,6 +127,7 @@ Super usage patterns reveal how experimentation turns into durable habits. This 
 
 [![Data Source](https://img.shields.io/badge/Data-Viva%20Insights-00B294?style=flat-square)](https://analysis.insights.cloud.microsoft/)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/superuserimpact)
+[![Stars](https://img.shields.io/github/stars/microsoft/superuserimpact?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/superuserimpact/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip)
 
 **What is the measurable impact of Copilot on how your super users work?**
@@ -154,7 +156,7 @@ Goes beyond adoption metrics to answer the harder question: *so what?* This temp
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/superuserimpact)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip)**
+→ **[View Repository](https://github.com/microsoft/superuserimpact)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/superuserimpact/stargazers)**
 
 ---
 
@@ -162,6 +164,7 @@ Goes beyond adoption metrics to answer the harder question: *so what?* This temp
 
 [![Data Source](https://img.shields.io/badge/Data-Viva%20Insights-00B294?style=flat-square)](https://analysis.insights.cloud.microsoft/)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Add--ons-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/customizecopilot)
+[![Stars](https://img.shields.io/github/stars/microsoft/customizecopilot?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/customizecopilot/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip)
 
 **Extend your Viva Insights reports with plug-and-play add-on pages — no rebuilding from scratch.**
@@ -196,7 +199,7 @@ A growing library of modular Power BI pages that drop directly into the Super Us
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/customizecopilot)** &nbsp;|&nbsp; **[Download Add-ons](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip)**
+→ **[View Repository](https://github.com/microsoft/customizecopilot)** &nbsp;|&nbsp; **[Download Add-ons](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/customizecopilot/stargazers)**
 
 ---
 
@@ -205,6 +208,7 @@ A growing library of modular Power BI pages that drop directly into the Super Us
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Purview-742774?style=flat-square)](https://security.microsoft.com)
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Entra-0F6CBD?style=flat-square)](https://entra.microsoft.com)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/AI-in-One-Dashboard)
+[![Stars](https://img.shields.io/github/stars/microsoft/AI-in-One-Dashboard?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/AI-in-One-Dashboard/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip)
 
 **Every Copilot and Agent interaction in one place — from licensed M365 Copilot to third-party AI.**
@@ -236,7 +240,7 @@ The most comprehensive Copilot usage dashboard in the toolkit. Pulls from Purvie
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/AI-in-One-Dashboard)** &nbsp;|&nbsp; **[Interpretation Guide](https://github.com/microsoft/AI-in-One-Dashboard/blob/main/AI-in-One%20-%20Interpretation%20Guide.pdf)**
+→ **[View Repository](https://github.com/microsoft/AI-in-One-Dashboard)** &nbsp;|&nbsp; **[Interpretation Guide](https://github.com/microsoft/AI-in-One-Dashboard/blob/main/AI-in-One%20-%20Interpretation%20Guide.pdf)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/AI-in-One-Dashboard/stargazers)**
 
 ---
 
@@ -245,6 +249,7 @@ The most comprehensive Copilot usage dashboard in the toolkit. Pulls from Purvie
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Purview-742774?style=flat-square)](https://security.microsoft.com)
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Entra-0F6CBD?style=flat-square)](https://entra.microsoft.com)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/CopilotChatAnalytics)
+[![Stars](https://img.shields.io/github/stars/microsoft/CopilotChatAnalytics?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/CopilotChatAnalytics/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip)
 
 **Deep-dive analytics on Copilot Chat sessions and Agent adoption — with two purpose-built templates.**
@@ -277,7 +282,7 @@ Where the AI-in-One Dashboard gives you the full picture, this repo goes deep on
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/CopilotChatAnalytics)** &nbsp;|&nbsp; **[Agent Intelligence Guide](https://github.com/microsoft/CopilotChatAnalytics/blob/main/AgentIntelligenceGuide.pdf)** &nbsp;|&nbsp; **[Chat Interpretation Guide](https://github.com/microsoft/CopilotChatAnalytics/blob/main/Copilot%20Chat%20-%20Interpretation%20Guide.pdf)**
+→ **[View Repository](https://github.com/microsoft/CopilotChatAnalytics)** &nbsp;|&nbsp; **[Agent Intelligence Guide](https://github.com/microsoft/CopilotChatAnalytics/blob/main/AgentIntelligenceGuide.pdf)** &nbsp;|&nbsp; **[Chat Interpretation Guide](https://github.com/microsoft/CopilotChatAnalytics/blob/main/Copilot%20Chat%20-%20Interpretation%20Guide.pdf)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/CopilotChatAnalytics/stargazers)**
 
 ---
 
@@ -286,6 +291,7 @@ Where the AI-in-One Dashboard gives you the full picture, this repo goes deep on
 [![Data Source](https://img.shields.io/badge/Data-GitHub%20Enterprise-24292f?style=flat-square&logo=github&logoColor=white)](https://github.com/enterprise)
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Entra-0F6CBD?style=flat-square)](https://entra.microsoft.com)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/GitHubCopilotImpact)
+[![Stars](https://img.shields.io/github/stars/microsoft/GitHubCopilotImpact?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/GitHubCopilotImpact/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip)
 
 **How are developers building habits with GitHub Copilot — and which teams are pulling ahead?**
@@ -315,7 +321,7 @@ Built specifically for engineering orgs, this template connects GitHub Enterpris
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/GitHubCopilotImpact)**
+→ **[View Repository](https://github.com/microsoft/GitHubCopilotImpact)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/GitHubCopilotImpact/stargazers)**
 
 ---
 
@@ -324,6 +330,7 @@ Built specifically for engineering orgs, this template connects GitHub Enterpris
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Purview-742774?style=flat-square)](https://purview.microsoft.com)
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Entra-0F6CBD?style=flat-square)](https://entra.microsoft.com)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/M365UsageAnalytics)
+[![Stars](https://img.shields.io/github/stars/microsoft/M365UsageAnalytics?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/M365UsageAnalytics/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip)
 
 **Don't guess who should get Copilot licenses next. Let the data decide.**
@@ -347,7 +354,7 @@ Turns your M365 Unified Audit Log into a ranked, prioritized view of user readin
 
 </details>
 
-→ **[View Repository](https://github.com/microsoft/M365UsageAnalytics)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip)**
+→ **[View Repository](https://github.com/microsoft/M365UsageAnalytics)** &nbsp;|&nbsp; **[Download Template](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/M365UsageAnalytics/stargazers)**
 
 ---
 
@@ -355,6 +362,7 @@ Turns your M365 Unified Audit Log into a ranked, prioritized view of user readin
 
 [![Type](https://img.shields.io/badge/Type-PowerShell%20Scripts-2563eb?style=flat-square&logo=powershell&logoColor=white)](https://github.com/microsoft/PAX)
 [![API](https://img.shields.io/badge/API-Microsoft%20Graph-0078d4?style=flat-square&logo=microsoft&logoColor=white)](https://developer.microsoft.com/en-us/graph)
+[![Stars](https://img.shields.io/github/stars/microsoft/PAX?style=flat-square&logo=github&label=Stars)](https://github.com/microsoft/PAX/stargazers)
 [![Download](https://img.shields.io/badge/📥%20Download-Latest%20Release-success?style=flat-square)](https://github.com/microsoft/PAX/releases)
 
 **Skip the manual exports. Automate your entire Copilot data pipeline.**
@@ -391,7 +399,7 @@ PAX is the backbone of the Purview-based tools in this hub. Three PowerShell scr
 
 > ⚠️ **Important:** PAX exports may include highly sensitive data including user prompts and AI responses. Review the [compliance and security guidance](https://github.com/microsoft/PAX#readme) before deploying.
 
-→ **[View Repository](https://github.com/microsoft/PAX)** &nbsp;|&nbsp; **[Download Latest Script](https://github.com/microsoft/PAX/releases)**
+→ **[View Repository](https://github.com/microsoft/PAX)** &nbsp;|&nbsp; **[Download Latest Script](https://github.com/microsoft/PAX/releases)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/PAX/stargazers)**
 
 ---
 
@@ -437,16 +445,16 @@ If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec
 
 <div align="center">
 
-| Repository | Description | Download |
-|:---:|:---:|:---:|
-| [DecodingSuperUsage](https://github.com/microsoft/DecodingSuperUsage) | Super Usage Analysis | [↓ ZIP](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip) |
-| [superuserimpact](https://github.com/microsoft/superuserimpact) | Superuser Impact Report | [↓ ZIP](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip) |
-| [customizecopilot](https://github.com/microsoft/customizecopilot) | Power BI Add-on Library | [↓ ZIP](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip) |
-| [AI-in-One-Dashboard](https://github.com/microsoft/AI-in-One-Dashboard) | All-up Copilot & Agent Dashboard | — |
-| [CopilotChatAnalytics](https://github.com/microsoft/CopilotChatAnalytics) | Chat & Agent Intelligence | — |
-| [GitHubCopilotImpact](https://github.com/microsoft/GitHubCopilotImpact) | GitHub Copilot Developer Analytics | — |
-| [M365UsageAnalytics](https://github.com/microsoft/M365UsageAnalytics) | Copilot Readiness & License Strategy | [↓ ZIP](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip) |
-| [PAX](https://github.com/microsoft/PAX) | Audit Log Automation Scripts | [↓ Latest Release](https://github.com/microsoft/PAX/releases) |
+| Repository | Description | Stars | Download |
+|:---:|:---:|:---:|:---:|
+| [DecodingSuperUsage](https://github.com/microsoft/DecodingSuperUsage) | Super Usage Analysis | [![Stars](https://img.shields.io/github/stars/microsoft/DecodingSuperUsage?style=flat-square&logo=github)](https://github.com/microsoft/DecodingSuperUsage/stargazers) | [↓ ZIP](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip) |
+| [superuserimpact](https://github.com/microsoft/superuserimpact) | Superuser Impact Report | [![Stars](https://img.shields.io/github/stars/microsoft/superuserimpact?style=flat-square&logo=github)](https://github.com/microsoft/superuserimpact/stargazers) | [↓ ZIP](https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip) |
+| [customizecopilot](https://github.com/microsoft/customizecopilot) | Power BI Add-on Library | [![Stars](https://img.shields.io/github/stars/microsoft/customizecopilot?style=flat-square&logo=github)](https://github.com/microsoft/customizecopilot/stargazers) | [↓ ZIP](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip) |
+| [AI-in-One-Dashboard](https://github.com/microsoft/AI-in-One-Dashboard) | All-up Copilot & Agent Dashboard | [![Stars](https://img.shields.io/github/stars/microsoft/AI-in-One-Dashboard?style=flat-square&logo=github)](https://github.com/microsoft/AI-in-One-Dashboard/stargazers) | — |
+| [CopilotChatAnalytics](https://github.com/microsoft/CopilotChatAnalytics) | Chat & Agent Intelligence | [![Stars](https://img.shields.io/github/stars/microsoft/CopilotChatAnalytics?style=flat-square&logo=github)](https://github.com/microsoft/CopilotChatAnalytics/stargazers) | — |
+| [GitHubCopilotImpact](https://github.com/microsoft/GitHubCopilotImpact) | GitHub Copilot Developer Analytics | [![Stars](https://img.shields.io/github/stars/microsoft/GitHubCopilotImpact?style=flat-square&logo=github)](https://github.com/microsoft/GitHubCopilotImpact/stargazers) | — |
+| [M365UsageAnalytics](https://github.com/microsoft/M365UsageAnalytics) | Copilot Readiness & License Strategy | [![Stars](https://img.shields.io/github/stars/microsoft/M365UsageAnalytics?style=flat-square&logo=github)](https://github.com/microsoft/M365UsageAnalytics/stargazers) | [↓ ZIP](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip) |
+| [PAX](https://github.com/microsoft/PAX) | Audit Log Automation Scripts | [![Stars](https://img.shields.io/github/stars/microsoft/PAX?style=flat-square&logo=github)](https://github.com/microsoft/PAX/stargazers) | [↓ Latest Release](https://github.com/microsoft/PAX/releases) |
 
 </div>
 
