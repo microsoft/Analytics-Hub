@@ -603,6 +603,6 @@ The toolkit grows as new tools are released. The best way to stay current:
 
 <br>
 
-[![Star this repo](https://img.shields.io/github/stars/microsoft/Analytics-Hub?style=social)](https://github.com/microsoft/Analytics-Hub/stargazers)
+**[⭐ Star this repository](https://github.com/microsoft/Analytics-Hub/stargazers)**
 
 </div>
