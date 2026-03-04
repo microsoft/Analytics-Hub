@@ -41,32 +41,52 @@ Each tool in this hub is a standalone, downloadable resource. Together, they for
 
 ## 🗺 The Ecosystem
 
-Understanding how the tools fit together is key. There are **three data source tracks** — choose the tools that match where your data lives.
+There are three data source tracks and two ways to automate data collection — understanding this upfront will save you a lot of time.
 
 ```
-╔══════════════════════════════════════════════════════════════════════════════════════╗
-║                              YOUR DATA SOURCES                                       ║
-╠═══════════════════════╦══════════════════════════╦═══════════════════════════════════╣
-║   Microsoft Purview   ║    Viva Insights          ║    GitHub Enterprise              ║
-║   (Audit Logs)        ║    (Person Query)         ║    (Usage API + Members)          ║
-╚═══════════╤═══════════╩══════════════╤═══════════╩══════════════════╤════════════════╝
-            │                          │                               │
-            ▼                          │                               │
-  ┌─────────────────┐                  │                               │
-  │   PAX Scripts   │ ← automates ─── ─┤                               │
-  │  (PowerShell)   │  data collection │                               │
-  └────────┬────────┘                  │                               │
-           │                           │                               │
-     ┌─────┴──────────────────────┐    └─────────────────┐            │
-     ▼                            ▼                       ▼            ▼
-┌──────────────┐  ┌─────────────────────┐  ┌──────────────────┐  ┌──────────────────┐
-│ AI-in-One    │  │  Copilot Chat &      │  │  Super Usage     │  │  GitHub Copilot  │
-│  Dashboard   │  │  Agent Intelligence  │  │  Analysis +      │  │  Impact          │
-│              │  │                      │  │  Superuser       │  │                  │
-│ + M365       │  │                      │  │  Impact          │  │                  │
-│  Readiness   │  │                      │  │                  │  │                  │
-└──────────────┘  └─────────────────────┘  └──────────────────┘  └──────────────────┘
+╔══════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                    YOUR DATA SOURCES                                         ║
+╠══════════════════════════╦═══════════════════════════╦════════════════════════════════════════╣
+║   Microsoft Purview      ║   Viva Insights            ║   GitHub Enterprise                    ║
+║   (Audit Logs)           ║   (Person Query)           ║   (Usage API + Members)                ║
+╚═══════════╤══════════════╩═══════════════════════════╩════════════════════════════════════════╝
+            │
+            │   HOW TO GET YOUR PURVIEW DATA OUT
+            │
+  ┌─────────┴──────────────────────────────────────────────┐
+  │                                                          │
+  ▼                                                          ▼
+┌───────────────────────────────────────┐    ┌──────────────────────────────────────────────┐
+│  Per-Report Scripts                   │    │  PAX — Portable Audit eXporter               │
+│  (built into each report)             │    │  (separate, standalone tool)                 │
+│                                       │    │                                              │
+│  Lightweight scripts bundled with     │    │  Enterprise-grade. Compliance-ready.         │
+│  AI-in-One, M365 Readiness, etc.      │    │  No row limits. Schedulable. Feeds anything. │
+│  Designed to pull exactly what        │    │                                              │
+│  that one template needs.             │    │  → Data Lake / Data Warehouse                │
+│                                       │    │  → SIEM / Compliance Pipelines               │
+│  ✅ Quick setup for one report        │    │  → Microsoft Fabric / Synapse                │
+│  ✅ Azure Automation runbooks         │    │  → Power BI templates (also works here)      │
+│     available for scheduling          │    │  → Any analytics tool                        │
+└──────────┬────────────────────────────┘    └──────────────────────────────────────────────┘
+           │                                                  │
+           └───────────────────┬──────────────────────────────┘
+                               │  (both paths produce CSV / Excel output)
+                               ▼
+  ┌───────────────────────────────────────────────────────────────────────────────────┐
+  │                            POWER BI TEMPLATES                                     │
+  ├──────────────────┬──────────────────────┬──────────────────┬──────────────────────┤
+  │  AI-in-One       │  Copilot Chat &       │  M365 Copilot    │  Super Usage +       │
+  │  Dashboard       │  Agent Intelligence   │  Readiness       │  Superuser Impact    │
+  │  (Purview)       │  (Purview)            │  (Purview)       │  (Viva Insights)     │
+  └──────────────────┴──────────────────────┴──────────────────┴──────────────────────┘
+                                                                  ▲
+  ┌──────────────────────────────────────────────────────────────┘
+  │  GitHub Copilot Impact uses GitHub Enterprise data directly — no Purview involved
+  └─────────────────────────────────────────────────────────────────────────────────
 ```
+
+> **PAX is not a prerequisite for the Power BI templates.** Every Purview-based report ships with its own lightweight scripts for template-specific data collection, and manual export from the Purview portal always works too. PAX is the right choice when you need enterprise automation, compliance-grade exports, no row limits, or want to land data in a lake or warehouse for use beyond these templates.
 
 ---
 
@@ -423,9 +443,11 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 
 **Step 4 — Use the interpretation guides.** Several repos include PDF guides and storyboard PPTX templates to help you turn raw dashboard output into an executive-ready narrative.
 
-### Automate everything
+### Automate your data collection
 
-If you're setting up multiple Purview-based tools, start with [PAX](https://github.com/microsoft/PAX). One script run can pull all the data files that AI-in-One, Chat & Agent Intelligence, and M365 Readiness need — on a schedule, with no manual steps.
+**For a single report** — use the built-in scripts that ship with each template. AI-in-One, for example, includes its own PowerShell scripts and Azure Automation runbooks designed to pull exactly what that report needs.
+
+**For enterprise scale** — use [PAX](https://github.com/microsoft/PAX) when you need compliance-grade exports, no row limits, scheduled pipelines, or want to land data in a lake, warehouse, or any tool beyond Power BI. PAX is a standalone tool that works independently of the templates.
 
 ### Turn insights into decks automatically
 
