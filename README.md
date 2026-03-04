@@ -429,7 +429,7 @@ If you're setting up multiple Purview-based tools, start with [PAX](https://gith
 
 ### Turn insights into decks automatically
 
-> 🤓 **Nerd Corner:** If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec-deck](https://github.com/shailendrahegde/pbi-to-exec-deck) — it turns Power BI report outputs into exec-ready presentations with insights pre-baked. Verify, tweak, ship.
+If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec-deck](https://github.com/shailendrahegde/pbi-to-exec-deck) — it turns Power BI report outputs into exec-ready presentations with insights pre-baked. Verify, tweak, ship.
 
 ---
 
@@ -457,6 +457,123 @@ If you're setting up multiple Purview-based tools, start with [PAX](https://gith
 This hub and all linked repositories are maintained by the **Microsoft Copilot ROI Advisory Team** — a team of analysts, engineers, and change management specialists dedicated to helping organizations measure and accelerate the impact of Microsoft AI.
 
 📧 Feedback, questions, or ideas: [copilot-roi-advisory-team-gh@microsoft.com](mailto:copilot-roi-advisory-team-gh@microsoft.com)
+
+---
+
+## 🤓 Nerd Corner
+
+<details>
+<summary><strong>Clone everything, analyze everything, automate everything</strong></summary>
+
+<br>
+
+### Step 1 — Clone all repos in one shot
+
+**PowerShell (Windows — recommended for this toolkit):**
+
+```powershell
+$repos = @(
+    "DecodingSuperUsage",
+    "superuserimpact",
+    "customizecopilot",
+    "AI-in-One-Dashboard",
+    "CopilotChatAnalytics",
+    "GitHubCopilotImpact",
+    "M365UsageAnalytics",
+    "PAX"
+)
+foreach ($repo in $repos) {
+    git clone "https://github.com/microsoft/$repo"
+}
+```
+
+**Bash / macOS / Linux:**
+
+```bash
+for repo in DecodingSuperUsage superuserimpact customizecopilot \
+  AI-in-One-Dashboard CopilotChatAnalytics GitHubCopilotImpact \
+  M365UsageAnalytics PAX; do
+  git clone "https://github.com/microsoft/$repo"
+done
+```
+
+---
+
+### Step 2 — Open in your editor
+
+```bash
+# VS Code
+code .
+
+# Cursor
+cursor .
+
+# Claude Code
+claude
+```
+
+All repos will be visible in the file explorer. Each has its own README, PDF guides, PowerShell scripts, PPTX storyboards, and `.pbit` templates ready to explore.
+
+---
+
+### Step 3 — Drop this prompt into your AI tool
+
+Once cloned and open, paste this into Claude Code, Cursor, Copilot, or your AI tool of choice to get an immediate deep-dive across all repos:
+
+```
+I've cloned the following Microsoft Analytics Hub repositories locally:
+
+- DecodingSuperUsage — Copilot super user adoption analysis (Viva Insights + Power BI)
+- superuserimpact — Super user work pattern impact measurement (Viva Insights + Power BI)
+- customizecopilot — Plug-and-play Power BI add-on pages for the above templates
+- AI-in-One-Dashboard — All-up Copilot + Agent dashboard (Purview audit logs + Power BI)
+- CopilotChatAnalytics — Chat and Agent intelligence reports (Purview + Power BI)
+- GitHubCopilotImpact — GitHub Copilot developer analytics (GitHub API + Power BI)
+- M365UsageAnalytics — Copilot license readiness and M365 usage scoring (Purview + Power BI)
+- PAX — PowerShell scripts for automating Purview and Graph API audit log exports
+
+Please read all README files, PDF interpretation guides, PowerShell scripts, and
+any other documentation across these repositories. Then:
+
+1. Summarize what each tool does and how they connect to each other
+2. Identify which tools I should set up first based on data I have available
+3. Flag all prerequisites, permissions, and dependencies I need to arrange
+4. Suggest a setup sequence to get maximum value with minimum effort
+5. Identify any gaps — questions these tools don't yet answer
+6. Highlight anything in the documentation that could be clearer or improved
+```
+
+---
+
+### Step 4 — Supercharge your editor with MCP servers
+
+**MCP (Model Context Protocol)** servers extend AI tools like Claude Code and Cursor to natively read, write, and reason over specific file types. These are the most valuable ones for working across this repo collection:
+
+| MCP Server | Why it's useful here |
+|---|---|
+| **Filesystem** | Read any local file across all cloned repos without copying paths manually |
+| **GitHub** | Browse issues, PRs, releases, and commit history without leaving your editor |
+| **PDF** | Read interpretation guides and methodology PDFs directly in your AI tool |
+| **DOCX** | Parse Word setup docs and troubleshooting guides |
+| **PPTX** | Extract content from storyboard and exec deck templates |
+| **XLSX** | Inspect Excel exports and data model files |
+| **Doc Co-authoring** | Draft new setup guides, exec summaries, or onboarding docs grounded in repo content |
+| **Power BI** | Interact with published reports, datasets, and workspaces via the Power BI REST API |
+
+**For Claude Code users** — install MCP servers via:
+
+```bash
+# Official filesystem and GitHub servers
+claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem /path/to/your/repos
+claude mcp add github -- npx -y @modelcontextprotocol/server-github
+
+# Document servers (PDF, DOCX, PPTX, XLSX)
+# See: https://github.com/microsoft/markitdown for universal document parsing
+```
+
+**For VS Code / Cursor users** — add MCP servers in your editor's settings or via the MCP extension marketplace. See the [MCP server registry](https://github.com/modelcontextprotocol/servers) for the full list of available servers and install instructions.
+
+</details>
 
 ---
 
