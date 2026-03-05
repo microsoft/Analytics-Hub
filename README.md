@@ -13,7 +13,7 @@
 
 <br>
 
-**[Browse the Toolkit ↓](#-the-toolkit)** &nbsp;·&nbsp; **[Find Your Tool ↓](#-which-tool-do-i-need)** &nbsp;·&nbsp; **[Data Sources ↓](#-data-sources-at-a-glance)** &nbsp;·&nbsp; **[About the Team ↓](#-about-the-team)**
+**[Browse the Toolkit ↓](#-the-toolkit)** &nbsp;·&nbsp; **[Find Your Tool ↓](#-which-tool-do-i-need)** &nbsp;·&nbsp; **[Data Sources ↓](#-data-sources-at-a-glance)** &nbsp;·&nbsp; **[Case Studies ↓](#-client-stories)** &nbsp;·&nbsp; **[About the Team ↓](#-about-the-team)**
 
 <br>
 
@@ -446,6 +446,23 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 > ⭐ **Star** bookmarks the repo and helps others discover it &nbsp;·&nbsp; 👀 **Watch** sends you a notification when new versions are released
 
 </div>
+
+---
+
+## 📋 Client Stories
+
+Our team works directly with organizations to help them measure and understand their AI investments. Below are published case studies from some of those engagements.
+
+| Organization | Summary | Link |
+|:---|:---|:---:|
+| **EPAM** | Deployed Copilot across 2,000+ employees and achieved a 20% reduction in external collaboration hours within six months, combining custom analytics with proactive license optimization. | [Read](https://techcommunity.microsoft.com/blog/microsoft365copilotblog/customer-story-epams-data-driven-copilot-adoption-journey/4483556) |
+| **Wipro** | Microsoft research featuring Wipro's outcome-driven approach to AI agents, showing that teams who align on desired outcomes are 1.9x more likely to become high-frequency agentic AI users. | [Read](https://techcommunity.microsoft.com/blog/microsoftvivablog/research-drop-amplifying-clarity-and-impact-of-ai-agents-by-aligning-on-desired-/4462903) |
+| **NHS** | A Microsoft 365 Copilot pilot across 90 NHS organizations found AI-powered administrative support could save staff approximately 43 minutes per day, with significant system-wide potential if scaled. | [Read](https://ukstories.microsoft.com/features/why-ai-could-be-the-best-medicine-for-the-nhs/) |
+| **Allegis Group** | 18,000+ employees saved 150,000 hours and achieved $1.5M in translation cost savings after deploying Microsoft 365 Copilot and Azure AI Services across the organization. | [Read](https://www.microsoft.com/en/customers/story/25451-allegis-group-azure-ai-services) |
+| **Allegis Group** | A leadership blueprint for how Allegis Group structured their AI rollout, including reducing PTO processing time from 31 hours to 13 hours and building repeatable frameworks for AI-driven innovation. | [Read](https://www.microsoft.com/en-us/industry/microsoft-in-business/customer-experience/2025/10/20/a-blueprint-for-leaders-how-allegis-group-unlocks-sparks-and-drives-ai-innovation/) |
+| **Lloyds Banking Group** | Rolled out 30,000 Microsoft 365 Copilot licenses with 93% daily usage rates, measurable productivity gains across routine tasks, and a 50% improvement in software development cycle times. | [Read](https://ukstories.microsoft.com/features/lloyds-banking-group-using-ai-at-scale-to-transform-operations-and-employee-experience/) |
+
+If you are interested in working with our team on your own Copilot analytics and AI measurement journey, reach out to us at [copilot-roi-advisory-team-gh@microsoft.com](mailto:copilot-roi-advisory-team-gh@microsoft.com).
 
 ---
 
