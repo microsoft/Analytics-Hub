@@ -450,6 +450,7 @@ This hub and all linked repositories are maintained by the **Microsoft Copilot R
 | [Olivier Pecheux](https://www.linkedin.com/in/olivierpecheux/) | AI Transformation Advisory |
 | [Stephanie Smith](https://www.linkedin.com/in/stephanie-brandl-smith-906a6a3/) | Copilot ROI & Org Advisory |
 | [Jennifer Stoll](https://www.linkedin.com/in/jennifer-stoll/) | Principal Business Value Advisor |
+| [Jordan King](https://www.linkedin.com/in/jordan-king-b538631b/) | Solutions Architect |
 
 </div>
 
