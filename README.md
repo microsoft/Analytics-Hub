@@ -8,10 +8,8 @@
 
 <br>
 
-[![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](https://github.com/microsoft)
-[![Power BI](https://img.shields.io/badge/Power%20BI-Templates-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](https://powerbi.microsoft.com)
-[![Repositories](https://img.shields.io/badge/Repositories-8-8661c5?style=for-the-badge&logo=github&logoColor=white)](https://github.com/microsoft)
-[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](#-about-the-team)
+[![Repositories](https://img.shields.io/badge/Repositories-8-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
 
 <br>
 
@@ -24,24 +22,24 @@
 ---
 
 <div align="center">
-<i>Eight production-ready Power BI templates, add-ons, and PowerShell automation tools — built by Microsoft's Copilot ROI Advisory Team to give every organization the analytics firepower to prove, grow, and sustain AI impact.</i>
+<i>Eight production-ready Power BI templates, add-ons, and PowerShell automation tools built by Microsoft's Copilot ROI Advisory Team to give every organization the analytics firepower to prove, grow, and sustain AI impact.</i>
 </div>
 
 ---
 
 ## What Is This?
 
-The **Analytics Hub** is a curated collection of open-source analytics tools from Microsoft designed for one purpose: to help organizations understand how their people are adopting Microsoft Copilot and AI — and to turn that understanding into action.
+The **Analytics Hub** is a curated collection of open-source analytics tools from Microsoft designed for one purpose: to help organizations understand how their people are adopting Microsoft Copilot and AI, turning that understanding into action.
 
-Each tool in this hub is a standalone, downloadable resource. Together, they form a complete analytics ecosystem that spans the full Copilot adoption journey — from **license readiness**, to **active usage**, to **deep behavioral insights**, all the way to **measuring real business impact**.
+Each tool in this hub is a standalone, downloadable resource. Together, they form a complete analytics ecosystem that spans the full Copilot adoption journey, from **license readiness**, to **active usage**, to **deep behavioral insights**, all the way to **measuring real business impact**.
 
-> All tools are free, open-source, and link directly to original Microsoft repositories. No data is ever sent to Microsoft — everything runs in your own environment.
+> All tools are free, open-source, and link directly to original Microsoft repositories. No data is ever sent to Microsoft. Everything runs in your own environment.
 
 ---
 
 ## 🗺 The Ecosystem
 
-There are three data source tracks and two ways to automate data collection — understanding this upfront will save you a lot of time.
+There are three data source tracks and two ways to automate data collection. Understanding this upfront will save you a lot of time.
 
 ![Analytics Hub Ecosystem Diagram](./ecosystem.svg)
 
@@ -59,8 +57,8 @@ There are three data source tracks and two ways to automate data collection — 
 | I want a single dashboard showing all Copilot and Agent activity | [AI-in-One Dashboard](#-ai-in-one-dashboard) | Purview + Entra |
 | How are developers adopting GitHub Copilot? | [GitHub Copilot Impact](#-github-copilot-impact) | GitHub Enterprise |
 | Which users should get Copilot licenses next? | [M365 Copilot Readiness](#-m365-copilot-readiness-report) | Purview + Entra |
-| How do I automate pulling audit logs without manual exports? | [PAX — Portable Audit eXporter](#-pax--portable-audit-exporter) | Microsoft Graph API |
-| I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot--add-on-library) | Viva Insights |
+| How do I automate pulling audit logs without manual exports? | [PAX: Portable Audit eXporter](#-pax--portable-audit-exporter) | Microsoft Graph API |
+| I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot-add-on-library) | Viva Insights |
 
 ---
 
@@ -72,7 +70,7 @@ There are three data source tracks and two ways to automate data collection — 
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/DecodingSuperUsage)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip)
 
-**Who are your Copilot super users — and how do you make more of them?**
+**Who are your Copilot super users, and how do you make more of them?**
 
 Super usage patterns reveal how experimentation turns into durable habits. This template uses Viva Insights organizational data to decode the journey from first-time user to power user: what they use Copilot for, how fast habits form, which teams are leading, and where to focus your enablement energy next.
 
@@ -81,10 +79,10 @@ Super usage patterns reveal how experimentation turns into durable habits. This 
 
 <br>
 
-- **Super usage profile** — What does super usage look like at your org? Which Copilot surfaces are driving the deepest engagement?
-- **The journey** — What did super users do differently in the early days? How fast are you producing them?
-- **Work patterns** — What behavioral signals are associated with super users? Any early signs of productivity shifts?
-- **Change management** — Where are super users concentrated? Which teams need enablement investment most?
+- **Super usage profile:** What does super usage look like at your org? Which Copilot surfaces are driving the deepest engagement?
+- **The journey:** What did super users do differently in the early days? How fast are you producing them?
+- **Work patterns:** What behavioral signals are associated with super users? Any early signs of productivity shifts?
+- **Change management:** Where are super users concentrated? Which teams need enablement investment most?
 
 </details>
 
@@ -109,18 +107,18 @@ Super usage patterns reveal how experimentation turns into durable habits. This 
 
 **What is the measurable impact of Copilot on how your super users work?**
 
-Goes beyond adoption metrics to answer the harder question: *so what?* This template explores the work pattern changes — and where available, sentiment shifts — associated with super users, along with estimated value delivered. Cross-team comparisons and one-click zoom into individual cohorts make it easy to build a compelling ROI story.
+Goes beyond adoption metrics to answer the harder question: *so what?* This template explores the work pattern changes, and where available, sentiment shifts associated with super users, along with estimated value delivered. Cross-team comparisons and one-click zoom into individual cohorts make it easy to build a compelling ROI story.
 
 <details>
 <summary><strong>What you can explore</strong></summary>
 
 <br>
 
-- **Impact measurement** — Work pattern deltas before and after super user status emerges
-- **Sentiment signals** — Sentiment overlay (when available) to contextualize behavioral change
-- **Estimated value** — Quantified value estimates tied to time savings and collaboration shifts
-- **Cross-team comparison** — Benchmark super user cohorts across functions and orgs
-- **Usage tiers** — Static threshold-based tier classification for clearer benchmarking
+- **Impact measurement:** Work pattern deltas before and after super user status emerges
+- **Sentiment signals:** Sentiment overlay (when available) to contextualize behavioral change
+- **Estimated value:** Quantified value estimates tied to time savings and collaboration shifts
+- **Cross-team comparison:** Benchmark super user cohorts across functions and orgs
+- **Usage tiers:** Static threshold-based tier classification for clearer benchmarking
 
 </details>
 
@@ -137,13 +135,13 @@ Goes beyond adoption metrics to answer the harder question: *so what?* This temp
 
 ---
 
-### 🧩 [CustomizeCopilot — Add-on Library](https://github.com/microsoft/customizecopilot)
+### 🧩 [CustomizeCopilot: Add-on Library](https://github.com/microsoft/customizecopilot)
 
 [![Data Source](https://img.shields.io/badge/Data-Viva%20Insights-00B294?style=flat-square)](https://analysis.insights.cloud.microsoft/)
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Add--ons-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/customizecopilot)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip)
 
-**Extend your Viva Insights reports with plug-and-play add-on pages — no rebuilding from scratch.**
+**Extend your Viva Insights reports with plug-and-play add-on pages without starting from scratch.**
 
 A growing library of modular Power BI pages that drop directly into the Super Usage Analysis and Superuser Impact templates. Each add-on is pre-configured with its own measures and visuals, compatible with both templates, and maintained alongside the base reports. Pick only what you need and import in minutes.
 
@@ -152,9 +150,9 @@ A growing library of modular Power BI pages that drop directly into the Super Us
 
 <br>
 
-**Champion ID Pages** — Two person-level analytics pages for identifying your top Copilot champions. Shows individual usage rankings across all M365 apps, Copilot action breakdowns, network influence metrics (strong ties, diverse ties, internal network size), and temporal usage patterns. Ideal for peer training programs, recognition initiatives, and targeted coaching.
+**Champion ID Pages.** Two person-level analytics pages for identifying your top Copilot champions. Shows individual usage rankings across all M365 apps, Copilot action breakdowns, network influence metrics (strong ties, diverse ties, internal network size), and temporal usage patterns. Ideal for peer training programs, recognition initiatives, and targeted coaching.
 
-*Compatible with Super User Adoption v5+ and Super User Impact v5+. Requires 25 measures — all included automatically in the latest template versions.*
+*Compatible with Super User Adoption v5+ and Super User Impact v5+. Requires 25 measures, all included automatically in the latest template versions.*
 
 </details>
 
@@ -163,12 +161,12 @@ A growing library of modular Power BI pages that drop directly into the Super Us
 
 <br>
 
-**Option A — Power BI Desktop (easiest):**
+**Option A: Power BI Desktop (easiest):**
 1. Open your base report and a second Power BI Desktop instance with the add-on file
 2. Right-click the page you want → Copy → paste into your base report
 3. Verify visuals load and save
 
-**Option B — Power BI Project files (.pbip):**
+**Option B: Power BI Project files (.pbip):**
 1. Copy the page folder from the add-on into your report's `definition/pages/` directory
 2. Add the page GUID to `pages.json`
 3. Open in Power BI Desktop and verify
@@ -186,23 +184,23 @@ A growing library of modular Power BI pages that drop directly into the Super Us
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/AI-in-One-Dashboard)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip)
 
-**Every Copilot and Agent interaction in one place — from licensed M365 Copilot to third-party AI.**
+**Every Copilot and Agent interaction in one place, from licensed M365 Copilot to third-party AI.**
 
-The most comprehensive Copilot usage dashboard in the toolkit. Pulls from Purview audit logs to give you a single view of M365 Copilot usage, unlicensed Copilot Chat, and Agent activity across your organization. Track adoption trends, identify champions, optimize license allocation, and measure readiness — all from one template.
+The most comprehensive Copilot usage dashboard in the toolkit. Pulls from Purview audit logs to give you a single view of M365 Copilot usage, unlicensed Copilot Chat, and Agent activity across your organization. Track adoption trends, identify champions, optimize license allocation, and measure readiness, all from one template.
 
-> **New:** The Agent Dashboard feature is now in public preview — providing one-click visibility into agent usage. Work with your IT admin to enable it.
+> **New:** The Agent Dashboard feature is now in public preview, providing one-click visibility into agent usage. Work with your IT admin to enable it.
 
 <details>
 <summary><strong>What you can explore</strong></summary>
 
 <br>
 
-- **Comprehensive coverage** — M365 Copilot, unlicensed Copilot Chat, custom agents, and third-party AI apps (Confluence, Jira, Miro, and more)
-- **User engagement tracking** — Adoption trends over time across all Copilot surfaces
-- **License intelligence** — Licensed vs. unlicensed usage patterns to optimize allocation
-- **Agent inventory** — Full catalog of agents deployed in your tenant via the Agent Registry
-- **Org segmentation** — Slice any view by department, role, or custom attributes
-- **Two setup paths** — Manual portal export or fully automated PowerShell scripts
+- **Comprehensive coverage:** M365 Copilot, unlicensed Copilot Chat, custom agents, and third-party AI apps (Confluence, Jira, Miro, and more)
+- **User engagement tracking:** Adoption trends over time across all Copilot surfaces
+- **License intelligence:** Licensed vs. unlicensed usage patterns to optimize allocation
+- **Agent inventory:** Full catalog of agents deployed in your tenant via the Agent Registry
+- **Org segmentation:** Slice any view by department, role, or custom attributes
+- **Two setup paths:** Manual portal export or fully automated PowerShell scripts
 
 </details>
 
@@ -226,7 +224,7 @@ The most comprehensive Copilot usage dashboard in the toolkit. Pulls from Purvie
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/CopilotChatAnalytics)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip)
 
-**Deep-dive analytics on Copilot Chat sessions and Agent adoption — with two purpose-built templates.**
+**Deep-dive analytics on Copilot Chat sessions and Agent adoption, with two purpose-built templates.**
 
 Where the AI-in-One Dashboard gives you the full picture, this repo goes deep on **Chat** and **Agents** specifically. The Chat Intelligence report breaks down prompt volume, session patterns, and engagement progression from light to habitual use. The Agent Intelligence report shows which agents are being used, by whom, and how adoption is trending.
 
@@ -235,9 +233,9 @@ Where the AI-in-One Dashboard gives you the full picture, this repo goes deep on
 
 <br>
 
-**Chat Intelligence** — Prompts, sessions, surface breakdown, user engagement tiers, and licensing readiness signals across Copilot Chat.
+**Chat Intelligence:** Prompts, sessions, surface breakdown, user engagement tiers, and licensing readiness signals across Copilot Chat.
 
-**Agent Intelligence** — Agent adoption across licensed and free experiences, segmented by org, quartile, and surface. Identify adoption hotspots and quantify agent ROI.
+**Agent Intelligence:** Agent adoption across licensed and free experiences, segmented by org, quartile, and surface. Identify adoption hotspots and quantify agent ROI.
 
 </details>
 
@@ -267,7 +265,7 @@ Where the AI-in-One Dashboard gives you the full picture, this repo goes deep on
 [![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/GitHubCopilotImpact)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip)
 
-**How are developers building habits with GitHub Copilot — and which teams are pulling ahead?**
+**How are developers building habits with GitHub Copilot, and which teams are pulling ahead?**
 
 Built specifically for engineering orgs, this template connects GitHub Enterprise usage data with your Entra org structure so you can segment developer habit data by team. Track the shift to agentic coding, compare acceptance rates by language, monitor model adoption, and set team-level goals with bright-spot / hotspot views.
 
@@ -276,12 +274,12 @@ Built specifically for engineering orgs, this template connects GitHub Enterpris
 
 <br>
 
-- **Adoption & engagement** — Weekly active users, interaction volume, chat vs. agent mode split by team
-- **Code impact** — Acceptance rates, lines suggested and accepted, code generation trends over time
-- **Language insights** — Which languages see the highest acceptance? Which teams get the most value from specific languages?
-- **Feature insights** — How do code completion, agent mode, and inline edits compare in usage and acceptance?
-- **Model insights** — Which models are contributing to the codebase? Which are gaining new users?
-- **Goal tracking** — Set adoption targets per team, track progress, surface leading and lagging cohorts
+- **Adoption & engagement:** Weekly active users, interaction volume, chat vs. agent mode split by team
+- **Code impact:** Acceptance rates, lines suggested and accepted, code generation trends over time
+- **Language insights:** Which languages see the highest acceptance? Which teams get the most value from specific languages?
+- **Feature insights:** How do code completion, agent mode, and inline edits compare in usage and acceptance?
+- **Model insights:** Which models are contributing to the codebase? Which are gaining new users?
+- **Goal tracking:** Set adoption targets per team, track progress, surface leading and lagging cohorts
 
 </details>
 
@@ -307,7 +305,7 @@ Built specifically for engineering orgs, this template connects GitHub Enterpris
 
 **Don't guess who should get Copilot licenses next. Let the data decide.**
 
-Turns your M365 Unified Audit Log into a ranked, prioritized view of user readiness — so Copilot licenses go to people most likely to get value from day one. A composite Licensing Priority (LP) score blends M365 activity across Teams, Outlook, Word, Excel, and PowerPoint, and adjustable weighting sliders let you model different licensing scenarios instantly.
+Turns your M365 Unified Audit Log into a ranked, prioritized view of user readiness, so Copilot licenses go to people most likely to get value from day one. A composite Licensing Priority (LP) score blends M365 activity across Teams, Outlook, Word, Excel, and PowerPoint, and adjustable weighting sliders let you model different licensing scenarios instantly.
 
 <details>
 <summary><strong>7 report pages, one complete story</strong></summary>
@@ -316,13 +314,13 @@ Turns your M365 Unified Audit Log into a ranked, prioritized view of user readin
 
 | Page | What it shows |
 |------|---------------|
-| **M365 Executive Summary** | Tenant-level KPIs — total users, active Copilot users, aggregate M365 activity by workload |
+| **M365 Executive Summary** | Tenant-level KPIs: total users, active Copilot users, aggregate M365 activity by workload |
 | **M365 Usage Trends** | Week-over-week trend lines per app with tier distribution matrix |
 | **Copilot License Recommendations** | Every user ranked by composite LP score with adjustable weighting profiles |
 | **Copilot Enablement Strategy** | 2×2 quadrant: Champions, Enablement Targets, AI-First, Low Engagement |
 | **Copilot Enablement Strategy Tiers** | Priority tiers (Critical → Low) based on M365-to-Copilot engagement gap |
 | **M365 Usage Activity** | Engagement segments (Daily / Frequent / Moderate / Infrequent / Inactive) by department |
-| **Glossary & Metric Definitions** | Every metric, threshold, and scoring method defined — shareable without docs |
+| **Glossary & Metric Definitions** | Every metric, threshold, and scoring method defined. No separate docs needed. |
 
 </details>
 
@@ -330,7 +328,7 @@ Turns your M365 Unified Audit Log into a ranked, prioritized view of user readin
 
 ---
 
-### 🔧 [PAX — Portable Audit eXporter](https://github.com/microsoft/PAX)
+### 🔧 [PAX: Portable Audit eXporter](https://github.com/microsoft/PAX)
 
 [![Type](https://img.shields.io/badge/Type-PowerShell%20Scripts-2563eb?style=flat-square&logo=powershell&logoColor=white)](https://github.com/microsoft/PAX)
 [![API](https://img.shields.io/badge/API-Microsoft%20Graph-0078d4?style=flat-square&logo=microsoft&logoColor=white)](https://developer.microsoft.com/en-us/graph)
@@ -338,18 +336,18 @@ Turns your M365 Unified Audit Log into a ranked, prioritized view of user readin
 
 **Skip the manual exports. Automate your entire Copilot data pipeline.**
 
-PAX is the backbone of the Purview-based tools in this hub. Three PowerShell scripts that pull exactly the audit log data the templates need — with pagination, rate limiting, retry logic, and incremental watermark state management built in. No manual portal work, no row limits, no babysitting.
+PAX is the backbone of the Purview-based tools in this hub. Three PowerShell scripts that pull exactly the audit log data the templates need, with pagination, rate limiting, retry logic, and incremental watermark state management built in. No manual portal work, no row limits, no babysitting.
 
 <details>
 <summary><strong>Three scripts, three use cases</strong></summary>
 
 <br>
 
-**`PAX_Purview_Audit_Log_Processor`** — Retrieves Copilot interaction audit records from Purview via Graph API or Exchange Online Management. Supports `CopilotInteraction`, `AIInteraction`, `ConnectedAIAppInteraction`, `AIAppInteraction`, and the full M365 Usage Bundle (Teams, Exchange, SharePoint, OneDrive). Also includes Copilot license data and AI agent type detection.
+**`PAX_Purview_Audit_Log_Processor`:** Retrieves Copilot interaction audit records from Purview via Graph API or Exchange Online Management. Supports `CopilotInteraction`, `AIInteraction`, `ConnectedAIAppInteraction`, `AIAppInteraction`, and the full M365 Usage Bundle (Teams, Exchange, SharePoint, OneDrive). Also includes Copilot license data and AI agent type detection.
 
-**`PAX_CopilotInteractions_Content_Audit_Log_Processor`** — Retrieves the actual *content* of Copilot interactions: user prompts and AI responses from the Graph API `aiInteraction` resource type. Features incremental exports, parallel processing for enterprise scale, and Entra ID user enrichment.
+**`PAX_CopilotInteractions_Content_Audit_Log_Processor`:** Retrieves the actual *content* of Copilot interactions: user prompts and AI responses from the Graph API `aiInteraction` resource type. Features incremental exports, parallel processing for enterprise scale, and Entra ID user enrichment.
 
-**`PAX_Graph_Audit_Log_Processor`** — Retrieves Copilot usage data and comprehensive audit records directly from Microsoft Graph API with full Entra user and org enrichment.
+**`PAX_Graph_Audit_Log_Processor`:** Retrieves Copilot usage data and comprehensive audit records directly from Microsoft Graph API with full Entra user and org enrichment.
 
 </details>
 
@@ -360,7 +358,7 @@ PAX is the backbone of the Purview-based tools in this hub. Three PowerShell scr
 
 | Manual Export | PAX Script |
 |---|---|
-| 50K–100K row limit per export | No row limits — retrieves everything |
+| 50K–100K row limit per export | No row limits, retrieves everything |
 | Must sit at keyboard and wait | Runs fully unattended |
 | Re-start from scratch if interrupted | Automatically resumes from where it stopped |
 | One-time point-in-time export | Schedulable for automated daily/weekly refresh |
@@ -386,7 +384,7 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 | **[M365 Admin Center](https://admin.microsoft.com)** | Copilot licensed user list, Agent Registry export | AI-in-One, Chat & Agent | Global Admin or Reports Reader |
 | **[GitHub Enterprise](https://github.com/enterprise)** | Copilot usage insights, member list, agent mode stats | GitHub Copilot Impact | Enterprise Owner |
 
-> **💡 Pro tip:** The [PAX scripts](https://github.com/microsoft/PAX) automate the Purview and Entra exports for you — no portal navigation required after initial setup.
+> **💡 Pro tip:** The [PAX scripts](https://github.com/microsoft/PAX) automate the Purview and Entra exports for you with no portal navigation required after initial setup.
 
 ---
 
@@ -394,23 +392,23 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 
 ### New to the toolkit?
 
-**Step 1 — Pick your starting question** using the [Which Tool Do I Need?](#-which-tool-do-i-need) table above.
+**Step 1: Pick your starting question** using the [Which Tool Do I Need?](#-which-tool-do-i-need) table above.
 
-**Step 2 — Check your data access.** Each tool's repository has a detailed prerequisites section. Most require admin-level access to at least one Microsoft portal.
+**Step 2: Check your data access.** Each tool's repository has a detailed prerequisites section. Most require admin-level access to at least one Microsoft portal.
 
-**Step 3 — Download the template.** Every repo has a direct download link for the `.pbit` Power BI template file. Open it in Power BI Desktop, paste in your data file paths, and you're running.
+**Step 3: Download the template.** Every repo has a direct download link for the `.pbit` Power BI template file. Open it in Power BI Desktop, paste in your data file paths, and you're running.
 
-**Step 4 — Use the interpretation guides.** Several repos include PDF guides and storyboard PPTX templates to help you turn raw dashboard output into an executive-ready narrative.
+**Step 4: Use the interpretation guides.** Several repos include PDF guides and storyboard PPTX templates to help you turn raw dashboard output into an executive-ready narrative.
 
 ### Automate your data collection
 
-**For a single report** — use the built-in scripts that ship with each template. AI-in-One, for example, includes its own PowerShell scripts and Azure Automation runbooks designed to pull exactly what that report needs.
+**For a single report:** use the built-in scripts that ship with each template. AI-in-One, for example, includes its own PowerShell scripts and Azure Automation runbooks designed to pull exactly what that report needs.
 
-**For enterprise scale** — use [PAX](https://github.com/microsoft/PAX) when you need compliance-grade exports, no row limits, scheduled pipelines, or want to land data in a lake, warehouse, or any tool beyond Power BI. PAX is a standalone tool that works independently of the templates.
+**For enterprise scale:** use [PAX](https://github.com/microsoft/PAX) when you need compliance-grade exports, no row limits, scheduled pipelines, or want to land data in a lake, warehouse, or any tool beyond Power BI. PAX is a standalone tool that works independently of the templates.
 
 ### Turn insights into decks automatically
 
-If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec-deck](https://github.com/shailendrahegde/pbi-to-exec-deck) — it turns Power BI report outputs into exec-ready presentations with insights pre-baked. Verify, tweak, ship.
+If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec-deck](https://github.com/shailendrahegde/pbi-to-exec-deck). It turns Power BI report outputs into exec-ready presentations with insights pre-baked. Verify, tweak, ship.
 
 ---
 
@@ -429,7 +427,7 @@ If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec
 | [M365UsageAnalytics](https://github.com/microsoft/M365UsageAnalytics) | Copilot Readiness & License Strategy | [↓ ZIP](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/M365UsageAnalytics/stargazers) | [👀](https://github.com/microsoft/M365UsageAnalytics/subscription) |
 | [PAX](https://github.com/microsoft/PAX) | Audit Log Automation Scripts | [↓ Latest Release](https://github.com/microsoft/PAX/releases) | [⭐](https://github.com/microsoft/PAX/stargazers) | [👀](https://github.com/microsoft/PAX/subscription) |
 
-> ⭐ **Star** — bookmarks the repo and helps others discover it &nbsp;·&nbsp; 👀 **Watch** — sends you a notification when new versions are released
+> ⭐ **Star** bookmarks the repo and helps others discover it &nbsp;·&nbsp; 👀 **Watch** sends you a notification when new versions are released
 
 </div>
 
@@ -437,7 +435,7 @@ If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec
 
 ## 👥 About the Team
 
-This hub and all linked repositories are maintained by the **Microsoft Copilot ROI Advisory Team** — a team of analysts, engineers, and change management specialists dedicated to helping organizations measure and accelerate the impact of Microsoft AI.
+This hub and all linked repositories are maintained by the **Microsoft Copilot ROI Advisory Team**, a team of analysts, engineers, and change management specialists dedicated to helping organizations measure and accelerate the impact of Microsoft AI.
 
 📧 Feedback, questions, or ideas: [copilot-roi-advisory-team-gh@microsoft.com](mailto:copilot-roi-advisory-team-gh@microsoft.com)
 
@@ -450,9 +448,9 @@ This hub and all linked repositories are maintained by the **Microsoft Copilot R
 
 <br>
 
-### Step 1 — Clone all repos in one shot
+### Step 1: Clone all repos in one shot
 
-**PowerShell (Windows — recommended for this toolkit):**
+**PowerShell (Windows, recommended for this toolkit):**
 
 ```powershell
 $repos = @(
@@ -482,7 +480,7 @@ done
 
 ---
 
-### Step 2 — Open in your editor
+### Step 2: Open in your editor
 
 ```bash
 # VS Code
@@ -499,21 +497,21 @@ All repos will be visible in the file explorer. Each has its own README, PDF gui
 
 ---
 
-### Step 3 — Drop this prompt into your AI tool
+### Step 3: Drop this prompt into your AI tool
 
 Once cloned and open, paste this into Claude Code, Cursor, Copilot, or your AI tool of choice to get an immediate deep-dive across all repos:
 
 ```
 I've cloned the following Microsoft Analytics Hub repositories locally:
 
-- DecodingSuperUsage — Copilot super user adoption analysis (Viva Insights + Power BI)
-- superuserimpact — Super user work pattern impact measurement (Viva Insights + Power BI)
-- customizecopilot — Plug-and-play Power BI add-on pages for the above templates
-- AI-in-One-Dashboard — All-up Copilot + Agent dashboard (Purview audit logs + Power BI)
-- CopilotChatAnalytics — Chat and Agent intelligence reports (Purview + Power BI)
-- GitHubCopilotImpact — GitHub Copilot developer analytics (GitHub API + Power BI)
-- M365UsageAnalytics — Copilot license readiness and M365 usage scoring (Purview + Power BI)
-- PAX — PowerShell scripts for automating Purview and Graph API audit log exports
+- DecodingSuperUsage: Copilot super user adoption analysis (Viva Insights + Power BI)
+- superuserimpact: Super user work pattern impact measurement (Viva Insights + Power BI)
+- customizecopilot: Plug-and-play Power BI add-on pages for the above templates
+- AI-in-One-Dashboard: All-up Copilot + Agent dashboard (Purview audit logs + Power BI)
+- CopilotChatAnalytics: Chat and Agent intelligence reports (Purview + Power BI)
+- GitHubCopilotImpact: GitHub Copilot developer analytics (GitHub API + Power BI)
+- M365UsageAnalytics: Copilot license readiness and M365 usage scoring (Purview + Power BI)
+- PAX: PowerShell scripts for automating Purview and Graph API audit log exports
 
 Please read all README files, PDF interpretation guides, PowerShell scripts, and
 any other documentation across these repositories. Then:
@@ -522,13 +520,13 @@ any other documentation across these repositories. Then:
 2. Identify which tools I should set up first based on data I have available
 3. Flag all prerequisites, permissions, and dependencies I need to arrange
 4. Suggest a setup sequence to get maximum value with minimum effort
-5. Identify any gaps — questions these tools don't yet answer
+5. Identify any gaps (questions these tools don't yet answer)
 6. Highlight anything in the documentation that could be clearer or improved
 ```
 
 ---
 
-### Step 4 — Supercharge your editor with MCP servers
+### Step 4: Supercharge your editor with MCP servers
 
 **MCP (Model Context Protocol)** servers extend AI tools like Claude Code and Cursor to natively read, write, and reason over specific file types. These are the most valuable ones for working across this repo collection:
 
@@ -543,7 +541,7 @@ any other documentation across these repositories. Then:
 | **Doc Co-authoring** | Draft new setup guides, exec summaries, or onboarding docs grounded in repo content |
 | **Power BI** | Interact with published reports, datasets, and workspaces via the Power BI REST API |
 
-**For Claude Code users** — install MCP servers via:
+**For Claude Code users:** install MCP servers via:
 
 ```bash
 # Official filesystem and GitHub servers
@@ -554,7 +552,7 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 # See: https://github.com/microsoft/markitdown for universal document parsing
 ```
 
-**For VS Code / Cursor users** — add MCP servers in your editor's settings or via the MCP extension marketplace. See the [MCP server registry](https://github.com/modelcontextprotocol/servers) for the full list of available servers and install instructions.
+**For VS Code / Cursor users:** add MCP servers in your editor's settings or via the MCP extension marketplace. See the [MCP server registry](https://github.com/modelcontextprotocol/servers) for the full list of available servers and install instructions.
 
 </details>
 
@@ -564,8 +562,8 @@ claude mcp add github -- npx -y @modelcontextprotocol/server-github
 
 The toolkit grows as new tools are released. The best way to stay current:
 
-- ⭐ **[Star this hub](https://github.com/microsoft/Analytics-Hub/stargazers)** — bookmarks it and helps others discover it
-- 👀 **[Watch this hub](https://github.com/microsoft/Analytics-Hub/subscription)** — get notified when new repos are added
+- ⭐ **[Star this hub](https://github.com/microsoft/Analytics-Hub/stargazers)** to bookmark it and help others discover it
+- 👀 **[Watch this hub](https://github.com/microsoft/Analytics-Hub/subscription)** to get notified when new repos are added
 - Use the **Star** and **Watch** links on each repo card above to follow the tools that matter most to you
 
 ---
