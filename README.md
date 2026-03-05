@@ -43,40 +43,7 @@ Each tool in this hub is a standalone, downloadable resource. Together, they for
 
 There are three data source tracks and two ways to automate data collection — understanding this upfront will save you a lot of time.
 
-```
-  ┌──────────────────────┐     ┌──────────────────────┐     ┌──────────────────────────┐
-  │  Microsoft Purview   │     │    Viva Insights      │     │    GitHub Enterprise      │
-  │  (Audit Logs)        │     │    (Person Query)     │     │    (Usage API + Members)  │
-  └──────────┬───────────┘     └──────────┬────────────┘     └────────────┬─────────────┘
-             │                            │                                │
-     ┌───────┴──────────┐                 │                                │
-     ▼                  ▼                 ▼                                ▼
-┌──────────────┐  ┌─────────────────┐  ┌─────────────────────────┐  ┌───────────────────┐
-│ Per-Report   │  │      PAX        │  │  Super Usage Analysis   │  │  GitHub Copilot   │
-│  Scripts     │  │  (standalone)   │  │  Superuser Impact       │  │  Impact           │
-│              │  │                 │  │  CustomizeCopilot       │  │                   │
-│ Bundled with │  │ Enterprise-grade│  └─────────────────────────┘  └───────────────────┘
-│ each report. │  │ No row limits.  │
-│ Feeds that   │  │ Schedulable.    │
-│ one template.│  │                 │
-│              │  │ → Data Lake     │
-│ Includes     │  │ → Warehouse     │
-│ Azure Auto-  │  │ → Fabric/Synapse│
-│ mation runb- │  │ → SIEM          │
-│ ooks for     │  │ → Any tool      │
-│ scheduling.  │  │ → PBI templates │
-└──────┬───────┘  └────────┬────────┘
-       │                   │
-       └─────────┬─────────┘
-                 │  (CSV / Excel output)
-                 ▼
-  ┌──────────────────────────────────────────────────────────┐
-  │              Purview-Based PBI Templates                 │
-  ├──────────────────┬──────────────────┬────────────────────┤
-  │  AI-in-One       │  Copilot Chat &  │  M365 Copilot      │
-  │  Dashboard       │  Agent Intel.    │  Readiness         │
-  └──────────────────┴──────────────────┴────────────────────┘
-```
+![Analytics Hub Ecosystem Diagram](./ecosystem.svg)
 
 > **PAX is not a prerequisite for the Power BI templates.** Every Purview-based report ships with its own lightweight scripts for template-specific data collection, and manual export from the Purview portal always works too. PAX is the right choice when you need enterprise automation, compliance-grade exports, no row limits, or want to land data in a lake or warehouse for use beyond these templates.
 

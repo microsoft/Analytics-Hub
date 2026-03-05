@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 465" width="960" height="465">
+  <defs>
+    <marker id="arr-purview" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#a855a8"/>
+    </marker>
+    <marker id="arr-viva" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#00B294"/>
+    </marker>
+    <marker id="arr-github" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#4d8ef0"/>
+    </marker>
+    <marker id="arr-perreport" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#0078d4"/>
+    </marker>
+    <marker id="arr-pax" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#8661c5"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- ─── Background ─── -->
+  <rect width="960" height="465" fill="#0d1117" rx="12"/>
+
+  <!-- ─── Title ─── -->
+  <text x="480" y="30" text-anchor="middle" fill="#c9d1d9" font-size="14" font-weight="600" letter-spacing="0.3">Analytics Hub — Data Flow</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ROW 1 — DATA SOURCES  (y=45, h=60)                    -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- Microsoft Purview  (x=20–330, center x=175) -->
+  <rect x="20" y="45" width="310" height="60" rx="8" fill="#742774"/>
+  <text x="175" y="71" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Microsoft Purview</text>
+  <text x="175" y="90" text-anchor="middle" fill="#f5cff5" font-size="10">Audit Logs (Graph API / Portal)</text>
+
+  <!-- Viva Insights  (x=350–600, center x=475) -->
+  <rect x="350" y="45" width="250" height="60" rx="8" fill="#00B294"/>
+  <text x="475" y="71" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">Viva Insights</text>
+  <text x="475" y="90" text-anchor="middle" fill="#cff5ef" font-size="10">Person Query (Behavioral Data)</text>
+
+  <!-- GitHub Enterprise  (x=620–940, center x=780) -->
+  <rect x="620" y="45" width="320" height="60" rx="8" fill="#1f6feb"/>
+  <text x="780" y="71" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="700">GitHub Enterprise</text>
+  <text x="780" y="90" text-anchor="middle" fill="#cae3ff" font-size="10">Usage API + Members</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ARROWS — Row 1 → Row 2 / Row 3                        -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- Purview splits to Per-Report (x=92) and PAX (x=252) -->
+  <path d="M175,105 L175,130 L92,130 L92,163" stroke="#a855a8" stroke-width="2" fill="none" marker-end="url(#arr-purview)"/>
+  <path d="M175,105 L175,130 L252,130 L252,163" stroke="#a855a8" stroke-width="2" fill="none" marker-end="url(#arr-purview)"/>
+
+  <!-- Viva → Viva templates (straight down) -->
+  <path d="M475,105 L475,303" stroke="#00B294" stroke-width="2" fill="none" marker-end="url(#arr-viva)"/>
+
+  <!-- GitHub → GitHub template (straight down) -->
+  <path d="M780,105 L780,303" stroke="#4d8ef0" stroke-width="2" fill="none" marker-end="url(#arr-github)"/>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ROW 2 — COLLECTION LAYER  (y=165, h=110)              -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- Per-Report Scripts  (x=20–165, center=92) -->
+  <rect x="20" y="165" width="145" height="110" rx="8" fill="#071526" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="92" y="184" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="600">Per-Report Scripts</text>
+  <line x1="20" y1="191" x2="165" y2="191" stroke="#0078d4" stroke-width="0.5" opacity="0.5"/>
+  <text x="92" y="207" text-anchor="middle" fill="#7eb8f7" font-size="9">Bundled with each template</text>
+  <text x="92" y="221" text-anchor="middle" fill="#7eb8f7" font-size="9">Feeds that report only</text>
+  <text x="92" y="235" text-anchor="middle" fill="#7eb8f7" font-size="9">Includes Azure Automation</text>
+  <text x="92" y="249" text-anchor="middle" fill="#7eb8f7" font-size="9">runbooks for scheduling</text>
+
+  <!-- PAX  (x=175–330, center=252) -->
+  <rect x="175" y="165" width="155" height="110" rx="8" fill="#0d0821" stroke="#8661c5" stroke-width="1.5"/>
+  <text x="252" y="184" text-anchor="middle" fill="#ffffff" font-size="10.5" font-weight="600">PAX (Standalone)</text>
+  <line x1="175" y1="191" x2="330" y2="191" stroke="#8661c5" stroke-width="0.5" opacity="0.5"/>
+  <text x="252" y="207" text-anchor="middle" fill="#c0a8f5" font-size="9">Enterprise automation</text>
+  <text x="252" y="221" text-anchor="middle" fill="#c0a8f5" font-size="9">No row limits · Schedulable</text>
+  <text x="252" y="235" text-anchor="middle" fill="#c0a8f5" font-size="9">→ Data Lake · Warehouse</text>
+  <text x="252" y="249" text-anchor="middle" fill="#c0a8f5" font-size="9">→ Fabric · SIEM · Any tool</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ARROWS — Row 2 → Row 3                                 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- Per-Report → Purview Templates (solid) -->
+  <path d="M92,275 L92,303" stroke="#0078d4" stroke-width="2" fill="none" marker-end="url(#arr-perreport)"/>
+
+  <!-- PAX → Purview Templates (dashed, optional path) -->
+  <path d="M252,275 L252,288 L175,288 L175,303" stroke="#8661c5" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arr-pax)"/>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ROW 3 — POWER BI TEMPLATES  (y=305, h=115)            -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- Purview-Based Templates (x=20–330) -->
+  <rect x="20" y="305" width="310" height="115" rx="8" fill="#1a1500" stroke="#F2C811" stroke-width="1.5"/>
+  <text x="175" y="323" text-anchor="middle" fill="#F2C811" font-size="10.5" font-weight="600">Purview-Based Power BI Templates</text>
+  <line x1="20" y1="330" x2="330" y2="330" stroke="#F2C811" stroke-width="0.5" opacity="0.4"/>
+  <!-- Dividers at thirds: 20+103=123, 20+207=227 -->
+  <line x1="123" y1="330" x2="123" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
+  <line x1="227" y1="330" x2="227" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
+  <!-- AI-in-One (center=71) -->
+  <text x="71" y="350" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">AI-in-One</text>
+  <text x="71" y="364" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Dashboard</text>
+  <text x="71" y="381" text-anchor="middle" fill="#7a7060" font-size="8">All Copilot surfaces</text>
+  <text x="71" y="393" text-anchor="middle" fill="#7a7060" font-size="8">+ Agents</text>
+  <!-- Copilot Chat (center=175) -->
+  <text x="175" y="350" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Copilot Chat &amp;</text>
+  <text x="175" y="364" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Agent Intel</text>
+  <text x="175" y="381" text-anchor="middle" fill="#7a7060" font-size="8">Chat &amp; agent activity</text>
+  <text x="175" y="393" text-anchor="middle" fill="#7a7060" font-size="8">deep-dive analytics</text>
+  <!-- M365 Readiness (center=278) -->
+  <text x="278" y="350" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">M365 Copilot</text>
+  <text x="278" y="364" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Readiness</text>
+  <text x="278" y="381" text-anchor="middle" fill="#7a7060" font-size="8">License readiness</text>
+  <text x="278" y="393" text-anchor="middle" fill="#7a7060" font-size="8">&amp; adoption gaps</text>
+
+  <!-- Viva Insights Templates (x=350–600) -->
+  <rect x="350" y="305" width="250" height="115" rx="8" fill="#061310" stroke="#00B294" stroke-width="1.5"/>
+  <text x="475" y="323" text-anchor="middle" fill="#00B294" font-size="10.5" font-weight="600">Viva Insights Templates</text>
+  <line x1="350" y1="330" x2="600" y2="330" stroke="#00B294" stroke-width="0.5" opacity="0.4"/>
+  <!-- Dividers at thirds: 350+83=433, 350+167=517 -->
+  <line x1="433" y1="330" x2="433" y2="413" stroke="#00B294" stroke-width="0.5" opacity="0.25"/>
+  <line x1="517" y1="330" x2="517" y2="413" stroke="#00B294" stroke-width="0.5" opacity="0.25"/>
+  <!-- Super Usage Analysis (center=391) -->
+  <text x="391" y="349" text-anchor="middle" fill="#55dcc0" font-size="10" font-weight="600">Super Usage</text>
+  <text x="391" y="363" text-anchor="middle" fill="#55dcc0" font-size="10" font-weight="600">Analysis</text>
+  <text x="391" y="381" text-anchor="middle" fill="#3a6a62" font-size="8">Super user</text>
+  <text x="391" y="393" text-anchor="middle" fill="#3a6a62" font-size="8">identification</text>
+  <!-- Superuser Impact (center=475) -->
+  <text x="475" y="349" text-anchor="middle" fill="#55dcc0" font-size="10" font-weight="600">Superuser</text>
+  <text x="475" y="363" text-anchor="middle" fill="#55dcc0" font-size="10" font-weight="600">Impact</text>
+  <text x="475" y="381" text-anchor="middle" fill="#3a6a62" font-size="8">Work behavior</text>
+  <text x="475" y="393" text-anchor="middle" fill="#3a6a62" font-size="8">impact metrics</text>
+  <!-- CustomizeCopilot (center=558) -->
+  <text x="558" y="349" text-anchor="middle" fill="#55dcc0" font-size="10" font-weight="600">Customize</text>
+  <text x="558" y="363" text-anchor="middle" fill="#55dcc0" font-size="10" font-weight="600">Copilot</text>
+  <text x="558" y="381" text-anchor="middle" fill="#3a6a62" font-size="8">Add-on pages</text>
+  <text x="558" y="393" text-anchor="middle" fill="#3a6a62" font-size="8">&amp; extensions</text>
+
+  <!-- GitHub Templates (x=620–940) -->
+  <rect x="620" y="305" width="320" height="115" rx="8" fill="#060c1a" stroke="#4d8ef0" stroke-width="1.5"/>
+  <text x="780" y="323" text-anchor="middle" fill="#4d8ef0" font-size="10.5" font-weight="600">GitHub Templates</text>
+  <line x1="620" y1="330" x2="940" y2="330" stroke="#4d8ef0" stroke-width="0.5" opacity="0.4"/>
+  <text x="780" y="355" text-anchor="middle" fill="#79aef5" font-size="11" font-weight="600">GitHub Copilot Impact</text>
+  <text x="780" y="375" text-anchor="middle" fill="#3a4f6a" font-size="9">Developer habit &amp; productivity analytics</text>
+  <text x="780" y="390" text-anchor="middle" fill="#3a4f6a" font-size="9">Language &amp; org-level adoption trends</text>
+  <text x="780" y="405" text-anchor="middle" fill="#3a4f6a" font-size="9">GitHub Enterprise data</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- LEGEND  (bottom)                                       -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <text x="480" y="450" text-anchor="middle" fill="#3d444d" font-size="8.5">
+    Dashed line = PAX can optionally feed Purview-based Power BI templates in addition to enterprise data destinations
+  </text>
+
+</svg>
