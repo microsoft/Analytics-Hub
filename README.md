@@ -435,7 +435,23 @@ If you're allergic to building PowerPoint decks manually, check out [pbi-to-exec
 
 ## 👥 About the Team
 
-This hub and all linked repositories are maintained by the **Microsoft Copilot ROI Advisory Team**, a team of analysts, engineers, and change management specialists dedicated to helping organizations measure and accelerate the impact of Microsoft AI.
+This hub and all linked repositories are maintained by the **Microsoft Copilot ROI Advisory Team**, a group of analysts, engineers, and advisors dedicated to helping organizations measure and accelerate the impact of Microsoft AI.
+
+<div align="center">
+
+| Name | Role |
+|:---|:---|
+| [Shailendra Hegde](https://www.linkedin.com/in/shailendrahegde/) | Principal Product Manager |
+| [Fernando Berdugo Manzano](https://www.linkedin.com/in/fernando-berdugo/) | Copilot Incubation & ROI Advisor |
+| [Stephanie Downey, Ph.D.](https://www.linkedin.com/in/stephanie-downey-ph-d-2290134b/) | Principal Copilot Analytics Consultant |
+| [Luz Lorenz](https://www.linkedin.com/in/luz-lorenz-30581894/) | Copilot ROI & Org Advisory |
+| [Keith McGrane](https://www.linkedin.com/in/keith-mcgrane-46184029/) | Copilot & Value Advisory |
+| [Brian Middendorf](https://www.linkedin.com/in/brianmiddendorf/) | AI Business Value Advisor |
+| [Olivier Pecheux](https://www.linkedin.com/in/olivierpecheux/) | AI Transformation Advisory |
+| [Stephanie Smith](https://www.linkedin.com/in/stephanie-brandl-smith-906a6a3/) | Copilot ROI & Org Advisory |
+| [Jennifer Stoll](https://www.linkedin.com/in/jennifer-stoll/) | Principal Business Value Advisor |
+
+</div>
 
 📧 Feedback, questions, or ideas: [copilot-roi-advisory-team-gh@microsoft.com](mailto:copilot-roi-advisory-team-gh@microsoft.com)
 
