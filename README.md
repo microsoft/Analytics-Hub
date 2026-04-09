@@ -9,7 +9,7 @@
 <br>
 
 [![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](#-about-the-team)
-[![Repositories](https://img.shields.io/badge/Repositories-8-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
+[![Repositories](https://img.shields.io/badge/Repositories-9-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
 
 <br>
 
@@ -22,7 +22,7 @@
 ---
 
 <div align="center">
-<i>Eight production-ready Power BI templates, add-ons, and PowerShell automation tools built by Microsoft's Copilot ROI Advisory Team to help organizations understand and demonstrate the impact of Microsoft Copilot and AI.</i>
+<i>Nine production-ready Power BI templates, add-ons, and PowerShell automation tools built by Microsoft's Copilot ROI Advisory Team to help organizations understand and demonstrate the impact of Microsoft Copilot and AI.</i>
 </div>
 
 ---
@@ -57,6 +57,7 @@ There are three data source tracks and two ways to automate data collection. Und
 | I want a single dashboard showing all Copilot and Agent activity | [AI-in-One Dashboard](#-ai-in-one-dashboard) | Purview + Entra |
 | How are developers adopting GitHub Copilot? | [GitHub Copilot Impact](#-github-copilot-impact) | GitHub Enterprise |
 | Which users should get Copilot licenses next? | [M365 Copilot Readiness](#-m365-copilot-readiness-report) | Purview + Entra |
+| How do employees feel about Copilot, and does that match actual usage? | [Adoption & Sentiment Report](#-adoption--sentiment-report) | M365 Admin Center + Survey |
 | How do I automate pulling audit logs without manual exports? | [PAX: Portable Audit eXporter](#-pax-portable-audit-exporter) | Microsoft Graph API |
 | I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot-add-on-library) | Viva Insights |
 
@@ -342,6 +343,44 @@ Uses M365 activity data to produce a ranked, prioritized view of user readiness,
 
 ---
 
+### 💬 [Adoption & Sentiment Report](https://github.com/olivierpecheux/copilot-adoption-sentiment-report)
+
+[![Data Source](https://img.shields.io/badge/Data-M365%20Admin%20Center-0078D4?style=flat-square)](https://admin.microsoft.com)
+[![Data Source](https://img.shields.io/badge/Data-Employee%20Survey-E3008C?style=flat-square)](https://forms.microsoft.com)
+[![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/olivierpecheux/copilot-adoption-sentiment-report)
+[![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip)
+
+**How do adoption levels and employee sentiment correlate across your organization?**
+
+Combines Microsoft 365 Copilot usage data from the Admin Center with employee survey responses to give a complete picture of adoption, satisfaction, and self-reported time savings. Four dedicated report pages surface where perception diverges from reality and help focus enablement efforts on the right teams.
+
+<details>
+<summary><strong>What you can explore</strong></summary>
+
+<br>
+
+- **Adoption Overview:** Licensed users, active users, and month-over-month usage trends broken down by org and usage tier (Bottom 25% through Top 10%)
+- **Sentiment Analysis:** Correlate survey scores with actual Copilot activity — satisfaction, speed, quality, productivity, readiness, and agents — to surface org-level outliers
+- **Comments Analysis:** Free-text survey responses organized by use cases, time repurposing, barriers to adoption, and open-ended feedback — with Copilot in Power BI narrative (PPU required)
+- **Saved Time Analysis:** Self-reported daily time savings alongside actual usage levels, broken down by usage tier to understand where and how Copilot delivers value
+
+</details>
+
+<details>
+<summary><strong>Dashboard preview</strong></summary>
+
+<br>
+
+![Adoption Overview](https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/images/adoption-overview.png)
+
+</details>
+
+*Full setup instructions and prerequisites are available in the repository.*
+
+→ **[View Repository](https://github.com/olivierpecheux/copilot-adoption-sentiment-report)** &nbsp;|&nbsp; **[Download Repository](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/stargazers)** &nbsp;|&nbsp; **[👀 Watch](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/subscription)**
+
+---
+
 ### 🔧 [PAX: Portable Audit eXporter](https://github.com/microsoft/PAX)
 
 [![Type](https://img.shields.io/badge/Type-PowerShell%20Scripts-2563eb?style=flat-square&logo=powershell&logoColor=white)](https://github.com/microsoft/PAX)
@@ -397,7 +436,7 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 | **[Microsoft Purview](https://security.microsoft.com)** | Copilot interaction audit logs, third-party AI logs, M365 workload activity | AI-in-One, Chat & Agent, M365 Readiness, PAX | Audit Reader or Compliance Admin |
 | **[Viva Insights](https://analysis.insights.cloud.microsoft/)** | Person-level behavioral metrics, collaboration patterns, Copilot usage metrics | Super Usage Adoption, Super User Impact | Insights Analyst |
 | **[Microsoft Entra](https://entra.microsoft.com)** | User attributes, department, org hierarchy, Copilot license status | AI-in-One, Chat & Agent, M365 Readiness, GitHub Copilot Impact | User Administrator or Global Reader |
-| **[M365 Admin Center](https://admin.microsoft.com)** | Copilot licensed user list, Agent Registry export | AI-in-One, Chat & Agent | Global Admin or Reports Reader |
+| **[M365 Admin Center](https://admin.microsoft.com)** | Copilot licensed user list, Agent Registry export, Copilot Activity report | AI-in-One, Chat & Agent, Adoption & Sentiment | Global Admin or Reports Reader |
 | **[GitHub Enterprise](https://github.com/enterprise)** | Copilot usage insights, member list, agent mode stats | GitHub Copilot Impact | Enterprise Owner |
 
 > The [PAX scripts](https://github.com/microsoft/PAX) can automate the Purview and Entra exports, removing the need for manual portal navigation after initial setup.
@@ -441,6 +480,7 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 | [CopilotChatAnalytics](https://github.com/microsoft/CopilotChatAnalytics) | Chat & Agent Intelligence | [↓ ZIP](https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/CopilotChatAnalytics/stargazers) | [👀](https://github.com/microsoft/CopilotChatAnalytics/subscription) |
 | [GitHubCopilotImpact](https://github.com/microsoft/GitHubCopilotImpact) | GitHub Copilot Developer Analytics | [↓ ZIP](https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/GitHubCopilotImpact/stargazers) | [👀](https://github.com/microsoft/GitHubCopilotImpact/subscription) |
 | [M365UsageAnalytics](https://github.com/microsoft/M365UsageAnalytics) | Copilot Readiness & License Strategy | [↓ ZIP](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/M365UsageAnalytics/stargazers) | [👀](https://github.com/microsoft/M365UsageAnalytics/subscription) |
+| [copilot-adoption-sentiment-report](https://github.com/olivierpecheux/copilot-adoption-sentiment-report) | Adoption & Sentiment Report | [↓ ZIP](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip) | [⭐](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/stargazers) | [👀](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/subscription) |
 | [PAX](https://github.com/microsoft/PAX) | Audit Log Automation Scripts | [↓ Latest Release](https://github.com/microsoft/PAX/releases) | [⭐](https://github.com/microsoft/PAX/stargazers) | [👀](https://github.com/microsoft/PAX/subscription) |
 
 > ⭐ **Star** bookmarks the repo and helps others discover it &nbsp;·&nbsp; 👀 **Watch** sends you a notification when new versions are released
@@ -516,6 +556,7 @@ $repos = @(
 foreach ($repo in $repos) {
     git clone "https://github.com/microsoft/$repo"
 }
+git clone "https://github.com/olivierpecheux/copilot-adoption-sentiment-report"
 ```
 
 **Bash / macOS / Linux:**
@@ -526,6 +567,7 @@ for repo in DecodingSuperUsage superuserimpact customizecopilot \
   M365UsageAnalytics PAX; do
   git clone "https://github.com/microsoft/$repo"
 done
+git clone "https://github.com/olivierpecheux/copilot-adoption-sentiment-report"
 ```
 
 ---
@@ -561,6 +603,7 @@ I've cloned the following Microsoft Analytics Hub repositories locally:
 - CopilotChatAnalytics: Chat and Agent intelligence reports (Purview + Power BI)
 - GitHubCopilotImpact: GitHub Copilot developer analytics (GitHub API + Power BI)
 - M365UsageAnalytics: Copilot license readiness and M365 usage scoring (Purview + Power BI)
+- copilot-adoption-sentiment-report: M365 Copilot adoption combined with employee survey sentiment (M365 Admin Center + survey CSV + Power BI)
 - PAX: PowerShell scripts for automating Purview and Graph API audit log exports
 
 Please read all README files, PDF interpretation guides, PowerShell scripts, and
