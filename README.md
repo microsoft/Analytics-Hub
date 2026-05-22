@@ -9,7 +9,7 @@
 <br>
 
 [![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](#-about-the-team)
-[![Repositories](https://img.shields.io/badge/Repositories-9-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
+[![Repositories](https://img.shields.io/badge/Repositories-11-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
 
 <br>
 
@@ -22,7 +22,7 @@
 ---
 
 <div align="center">
-<i>Nine production-ready Power BI templates, add-ons, and PowerShell automation tools built by Microsoft's Copilot ROI Advisory Team to help organizations understand and demonstrate the impact of Microsoft Copilot and AI.</i>
+<i>Eleven production-ready Power BI templates, add-ons, PowerShell automation, and browser-based tools built by Microsoft's Copilot ROI Advisory Team to help organizations — and individual practitioners — understand and demonstrate the impact of Microsoft Copilot and AI.</i>
 </div>
 
 ---
@@ -56,9 +56,11 @@ There are three data source tracks and two ways to automate data collection. Und
 | How are people using Copilot Chat and Agents across our org? | [Copilot Chat & Agent Intelligence](#-copilot-chat--agent-intelligence) | Purview + Entra |
 | I want a single dashboard showing all Copilot and Agent activity | [AI-in-One Dashboard](#-ai-in-one-dashboard) | Purview + Entra |
 | How are developers adopting GitHub Copilot? | [GitHub Copilot Impact](#-github-copilot-impact) | GitHub Enterprise |
+| What did I personally build with GitHub Copilot this week — and what's the leverage? | [What I Did: Copilot Impact Report](#-what-i-did--github-copilot-impact-report) | Local Copilot sessions |
 | Which users should get Copilot licenses next? | [M365 Copilot Readiness](#-m365-copilot-readiness-report) | Purview + Entra |
 | How do employees feel about Copilot, and does that match actual usage? | [Adoption & Sentiment Report](#-adoption--sentiment-report) | M365 Admin Center + Survey |
 | How do I automate pulling audit logs without manual exports? | [PAX: Portable Audit eXporter](#-pax-portable-audit-exporter) | Microsoft Graph API |
+| I want to model Copilot ROI scenarios from a CSV — no Power BI, no install | [M365 Copilot Productivity ROI Calculator](#-m365-copilot-productivity-roi-calculator) | CSV export (browser-only) |
 | I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot-add-on-library) | Viva Insights |
 
 ---
@@ -309,6 +311,47 @@ Built specifically for engineering orgs, this template connects GitHub Enterpris
 
 ---
 
+### 📝 [What I Did — GitHub Copilot Impact Report](https://github.com/microsoft/What-I-Did-Copilot)
+
+[![Data Source](https://img.shields.io/badge/Data-Local%20Copilot%20Sessions-24292f?style=flat-square&logo=github&logoColor=white)](https://github.com/microsoft/What-I-Did-Copilot)
+[![Type](https://img.shields.io/badge/Type-CLI%20%2B%20Python-3776AB?style=flat-square&logo=python&logoColor=white)](https://github.com/microsoft/What-I-Did-Copilot)
+[![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip)
+
+**One command. See everything you built with Copilot — and the leverage you're getting from your seat.**
+
+The personal companion to the org-level templates in this hub. Reads your **local** GitHub Copilot session logs and produces a six-dimension impact report — goals, artifacts produced, skills augmented, collaboration style, activity heatmap, and time-saved estimates. Ships as a Copilot CLI agent and a standalone Python script. Optional AI narrative runs under your existing `gh` token via GitHub Models.
+
+<details>
+<summary><strong>What you can explore</strong></summary>
+
+<br>
+
+- **🎯 Goals & leverage:** What you actually worked on, and the lift Copilot gave you
+- **📦 Artifacts produced:** Files created, modified, deleted — grouped by project
+- **🧠 Skills augmented:** Which capabilities Copilot lifted (debug, refactor, doc, test, design)
+- **🤝 Collaboration style:** How you partnered with Copilot — directing, pairing, reviewing
+- **⏰ Activity heatmap:** When you worked, when you peaked, when you context-switched
+- **📐 Estimation evidence:** Time-saved estimates backed by artifact + interaction signals
+
+Ranges: `--7D` / `--14D` / `--30D`, single `--date`, or custom `--from / --to`. Optional `--email` opens an Outlook draft on Windows.
+
+</details>
+
+<details>
+<summary><strong>Sample report</strong></summary>
+
+<br>
+
+![What I Did sample report](https://raw.githubusercontent.com/microsoft/What-I-Did-Copilot/main/docs/images/sample-report.gif)
+
+</details>
+
+*Local-first. No telemetry. Optional AI uses your existing `gh` token. Full setup in the repository.*
+
+→ **[View Repository](https://github.com/microsoft/What-I-Did-Copilot)** &nbsp;|&nbsp; **[Download Repository](https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/What-I-Did-Copilot/stargazers)** &nbsp;|&nbsp; **[👀 Watch](https://github.com/microsoft/What-I-Did-Copilot/subscription)**
+
+---
+
 ### 📊 [M365 Copilot Readiness Report](https://github.com/microsoft/M365UsageAnalytics)
 
 [![Data Source](https://img.shields.io/badge/Data-Microsoft%20Purview-742774?style=flat-square)](https://purview.microsoft.com)
@@ -378,6 +421,49 @@ Combines Microsoft 365 Copilot usage data from the Admin Center with employee su
 *Full setup instructions and prerequisites are available in the repository.*
 
 → **[View Repository](https://github.com/olivierpecheux/copilot-adoption-sentiment-report)** &nbsp;|&nbsp; **[Download Repository](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/stargazers)** &nbsp;|&nbsp; **[👀 Watch](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/subscription)**
+
+---
+
+### 🧮 [M365 Copilot Productivity ROI Calculator](https://github.com/jordankingisalive/CopilotROICalculator)
+
+[![Live Site](https://img.shields.io/badge/🌐%20Live%20Site-Open-2563eb?style=flat-square)](https://jordankingisalive.github.io/CopilotROICalculator/)
+[![Type](https://img.shields.io/badge/Type-Browser%20Web%20App-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://jordankingisalive.github.io/CopilotROICalculator/)
+[![Data Source](https://img.shields.io/badge/Data-CSV%20Export-00B294?style=flat-square)](https://github.com/microsoft/DecodingSuperUsage)
+[![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip)
+
+**Drop in your Copilot usage CSV. See team-level ROI in seconds — all in your browser.**
+
+A three-tool suite that translates Copilot usage data into a defensible ROI conversation — without Power BI Desktop, without a tenant, without uploading data anywhere. Pairs naturally with [Super Usage Adoption](#-super-usage-adoption): export the heatmap as CSV, drop it in, and get per-team breakdowns, scenario modeling, and a phased adoption roadmap.
+
+<details>
+<summary><strong>Three tools, one site</strong></summary>
+
+<br>
+
+- **📊 Full Data Analysis:** Upload a CSV exported from your Copilot Power BI heatmap. Per-team performance, peak tracking, and organization-wide ROI
+- **🧮 ROI Calculator:** Scenario-model projected value with industry-specific hourly rates and adjustable minutes-saved-per-action assumptions
+- **🗜 Adoption Journey:** Month-by-month productivity projections with phase-based rollout roadmaps
+
+Handles both **long-format** (with dates, auto-aggregated to the latest record per team) and **wide-format** (pre-aggregated) CSVs. Sortable tables, PDF export, optional email-draft handoff.
+
+</details>
+
+<details>
+<summary><strong>Open the live site</strong></summary>
+
+<br>
+
+👉 **<https://jordankingisalive.github.io/CopilotROICalculator/>**
+
+No install, no login. Works in Chrome, Edge, Firefox, and Safari. After first load the service worker caches it for offline use.
+
+</details>
+
+> 🔒 **Browser-only and private.** CSV parsing and ROI calculations run entirely client-side via JavaScript. No data is sent to any server. Close the tab and everything is cleared from memory. Safe for sensitive enterprise data.
+
+*Full setup instructions, CSV format reference, and ROI formula are in the repository.*
+
+→ **[Open Live Site](https://jordankingisalive.github.io/CopilotROICalculator/)** &nbsp;|&nbsp; **[View Repository](https://github.com/jordankingisalive/CopilotROICalculator)** &nbsp;|&nbsp; **[Download Repository](https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/jordankingisalive/CopilotROICalculator/stargazers)** &nbsp;|&nbsp; **[👀 Watch](https://github.com/jordankingisalive/CopilotROICalculator/subscription)**
 
 ---
 
@@ -479,8 +565,10 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 | [AI-in-One-Dashboard](https://github.com/microsoft/AI-in-One-Dashboard) | All-up Copilot & Agent Dashboard | [↓ ZIP](https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/AI-in-One-Dashboard/stargazers) | [👀](https://github.com/microsoft/AI-in-One-Dashboard/subscription) |
 | [CopilotChatAnalytics](https://github.com/microsoft/CopilotChatAnalytics) | Chat & Agent Intelligence | [↓ ZIP](https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/CopilotChatAnalytics/stargazers) | [👀](https://github.com/microsoft/CopilotChatAnalytics/subscription) |
 | [GitHubCopilotImpact](https://github.com/microsoft/GitHubCopilotImpact) | GitHub Copilot Developer Analytics | [↓ ZIP](https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/GitHubCopilotImpact/stargazers) | [👀](https://github.com/microsoft/GitHubCopilotImpact/subscription) |
+| [What-I-Did-Copilot](https://github.com/microsoft/What-I-Did-Copilot) | Personal Copilot Impact Report (CLI) | [↓ ZIP](https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/What-I-Did-Copilot/stargazers) | [👀](https://github.com/microsoft/What-I-Did-Copilot/subscription) |
 | [M365UsageAnalytics](https://github.com/microsoft/M365UsageAnalytics) | Copilot Readiness & License Strategy | [↓ ZIP](https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip) | [⭐](https://github.com/microsoft/M365UsageAnalytics/stargazers) | [👀](https://github.com/microsoft/M365UsageAnalytics/subscription) |
 | [copilot-adoption-sentiment-report](https://github.com/olivierpecheux/copilot-adoption-sentiment-report) | Adoption & Sentiment Report | [↓ ZIP](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip) | [⭐](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/stargazers) | [👀](https://github.com/olivierpecheux/copilot-adoption-sentiment-report/subscription) |
+| [CopilotROICalculator](https://github.com/jordankingisalive/CopilotROICalculator) | Browser ROI Calculator ([live site](https://jordankingisalive.github.io/CopilotROICalculator/)) | [↓ ZIP](https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip) | [⭐](https://github.com/jordankingisalive/CopilotROICalculator/stargazers) | [👀](https://github.com/jordankingisalive/CopilotROICalculator/subscription) |
 | [PAX](https://github.com/microsoft/PAX) | Audit Log Automation Scripts | [↓ Latest Release](https://github.com/microsoft/PAX/releases) | [⭐](https://github.com/microsoft/PAX/stargazers) | [👀](https://github.com/microsoft/PAX/subscription) |
 
 > ⭐ **Star** bookmarks the repo and helps others discover it &nbsp;·&nbsp; 👀 **Watch** sends you a notification when new versions are released
@@ -550,6 +638,7 @@ $repos = @(
     "AI-in-One-Dashboard",
     "CopilotChatAnalytics",
     "GitHubCopilotImpact",
+    "What-I-Did-Copilot",
     "M365UsageAnalytics",
     "PAX"
 )
@@ -557,6 +646,7 @@ foreach ($repo in $repos) {
     git clone "https://github.com/microsoft/$repo"
 }
 git clone "https://github.com/olivierpecheux/copilot-adoption-sentiment-report"
+git clone "https://github.com/jordankingisalive/CopilotROICalculator"
 ```
 
 **Bash / macOS / Linux:**
@@ -564,10 +654,11 @@ git clone "https://github.com/olivierpecheux/copilot-adoption-sentiment-report"
 ```bash
 for repo in DecodingSuperUsage superuserimpact customizecopilot \
   AI-in-One-Dashboard CopilotChatAnalytics GitHubCopilotImpact \
-  M365UsageAnalytics PAX; do
+  What-I-Did-Copilot M365UsageAnalytics PAX; do
   git clone "https://github.com/microsoft/$repo"
 done
 git clone "https://github.com/olivierpecheux/copilot-adoption-sentiment-report"
+git clone "https://github.com/jordankingisalive/CopilotROICalculator"
 ```
 
 ---
@@ -602,9 +693,11 @@ I've cloned the following Microsoft Analytics Hub repositories locally:
 - AI-in-One-Dashboard: All-up Copilot + Agent dashboard (Purview audit logs + Power BI)
 - CopilotChatAnalytics: Chat and Agent intelligence reports (Purview + Power BI)
 - GitHubCopilotImpact: GitHub Copilot developer analytics (GitHub API + Power BI)
+- What-I-Did-Copilot: Personal Copilot impact report (CLI + Python; reads local Copilot session logs)
 - M365UsageAnalytics: Copilot license readiness and M365 usage scoring (Purview + Power BI)
 - copilot-adoption-sentiment-report: M365 Copilot adoption combined with employee survey sentiment (M365 Admin Center + survey CSV + Power BI)
 - PAX: PowerShell scripts for automating Purview and Graph API audit log exports
+- CopilotROICalculator: Browser-only ROI calculator and scenario modeler (CSV in; runs at https://jordankingisalive.github.io/CopilotROICalculator/)
 
 Please read all README files, PDF interpretation guides, PowerShell scripts, and
 any other documentation across these repositories. Then:
