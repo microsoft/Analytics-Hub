@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Sources · Analytics Hub</title>
+  <meta name="description" content="Interactive map of every data source the Analytics Hub uses, and which template each one powers. Click a node to see what feeds it and what it produces." />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://github.com" />
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wvfood6j5g");
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../#toolkit">Toolkit</a>
+      <a href="../find-a-tool/">Find a Tool</a>
+      <a href="./" aria-current="page">Data Sources</a>
+      <a href="../team/">Team</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="ds-page">
+
+  <!-- =============================================== HERO -->
+  <section class="ds-hero">
+    <div class="wrap">
+      <p class="eyebrow">🔌 Where does the data come from?</p>
+      <h1>Every byte stays in <span class="grad">your tenant</span></h1>
+      <p class="lede">
+        Click any node to trace what feeds it and what it powers. Every template runs in
+        your environment — no data is ever sent to Microsoft.
+      </p>
+      <div class="ds-legend" aria-label="Legend">
+        <span class="lg lg-src"><i></i> Data source</span>
+        <span class="lg lg-pipe"><i></i> Pipeline / Script</span>
+        <span class="lg lg-rpt"><i></i> Report / Template</span>
+        <span class="lg lg-addon"><i></i> Add-on</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== ECOSYSTEM -->
+  <section class="ds-ecosystem">
+    <div class="wrap">
+      <div class="ds-canvas" id="dsCanvas" aria-label="Interactive ecosystem diagram">
+        <!-- SVG layer for connector lines (drawn under the nodes) -->
+        <svg id="dsLines" class="ds-lines" aria-hidden="true"></svg>
+        <!-- Nodes rendered by JS -->
+        <div class="ds-nodes" id="dsNodes"></div>
+      </div>
+
+      <!-- Detail drawer -->
+      <aside class="ds-drawer" id="dsDrawer" aria-live="polite" hidden>
+        <button class="ds-drawer-close" id="dsDrawerClose" aria-label="Close">✕</button>
+        <div class="ds-drawer-body" id="dsDrawerBody"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- =============================================== SOURCES DETAIL -->
+  <section class="ds-cards">
+    <div class="wrap">
+      <h2 class="section-title">Sources, in plain English</h2>
+      <p class="section-lead">What each one is, who owns it in your org, and what license/role you need.</p>
+      <div class="ds-grid" id="dsGrid"></div>
+    </div>
+  </section>
+
+  <!-- =============================================== FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Open source · Built by Microsoft's Copilot ROI Advisory Team</p>
+      <p><a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">microsoft/Analytics-Hub</a> · <a href="../">Home</a> · <a href="../find-a-tool/">Find a Tool</a> · <a href="../team/">Team</a></p>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../app.js" defer></script>
+<script src="graph.js" defer></script>
+
+</body>
+</html>

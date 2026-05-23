@@ -515,3 +515,7 @@ a:hover { text-decoration: underline; }
   .hero-stats { grid-template-columns: repeat(2,1fr); }
   .picker { padding: 24px; }
 }
+
+/* shared CTA row used at the bottom of bands */
+.section-cta-row { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.section-cta-row .cta-hint { font-size: .88rem; color: var(--text-muted); }
