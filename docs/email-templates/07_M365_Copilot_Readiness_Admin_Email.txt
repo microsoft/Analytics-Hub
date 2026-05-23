@@ -1,0 +1,67 @@
+Subject: Action Required: Data Export Fields Needed for M365 Copilot Readiness Report (Power BI)
+
+To: IT Admin / Global Admin
+Re: M365 Copilot Readiness Report – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The M365 Copilot Readiness Report is a Power BI report that turns your M365 Unified Audit Log into a prioritized, tiered view of which users are ready for Copilot licensing. It scores and ranks unlicensed users by M365 app activity (Teams, Outlook, Word, Excel, PowerPoint), classifies users into enablement strategy quadrants, and shows week-over-week engagement trends by workload. Designed for IT leaders making data-driven Copilot licensing and rollout decisions.
+
+
+DATA SOURCES REQUIRED
+
+1. Microsoft Purview – M365 Unified Audit Log
+   Export: Purview portal (purview.microsoft.com) -> Audit -> Search (all activities, 90-365 day range) -> Export, or PAX PowerShell script with -IncludeM365Usage switch
+   Format: CSV
+
+2. Microsoft Entra ID – User Details
+   Export: entra.microsoft.com -> Identity -> Users -> Download users, or PAX script with -IncludeUserInfo switch
+   Format: CSV
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: This report depends on specific operation types from the M365 Unified Audit Log. If you are using the PAX script, run it with the -IncludeM365Usage flag — this ensures the correct workload activity types are captured. Do not filter out operation types or remove columns from the exported file before loading into Power BI. If running a manual Purview export, do not pre-process or re-save the file. Column order and formatting must be preserved exactly as exported.
+
+Purview Unified Audit Log — Required Columns:
+CreationDate, UserIds, Operations, AuditData.
+
+Purview Audit Log — Required Operation Types (within the export):
+FileAccessed, FileModified (SharePoint/OneDrive), MessageSent (Teams/Exchange), Teams meeting events, Word activity events, Excel activity events, PowerPoint activity events, OneNote activity events.
+
+Microsoft Entra ID – User Export:
+UserPrincipalName, displayName, Department, JobTitle, hasLicense (or assignedLicenses).
+
+Note: The hasLicense column is critical for license-based insights. The PAX script adds this automatically. If exporting manually from Entra, you must populate this column with True/False based on whether each user has a Microsoft 365 Copilot SKU assigned. Without it, the Enablement Strategy quadrant and LP Score ranking will not distinguish licensed from unlicensed users.
+
+
+INSIGHTS YOU WILL GAIN
+
+- Composite Licensing Priority (LP) score ranking every user by their M365 app activity — ready for export and stakeholder review
+- Copilot Enablement Strategy: 2x2 quadrant classifying users as Enablement Targets (high M365 / low Copilot), Champions, AI-First, or Low Engagement
+- 5-tier priority view: Critical, High, Medium, Promoter, Low — based on the gap between M365 engagement and Copilot adoption per app
+- Week-over-week trend lines across Teams, Outlook, Word, Excel, and PowerPoint
+- User engagement segmentation: Daily, Frequent, Moderate, Infrequent, Inactive — cross-referenced with Copilot license status
+- Department-level engagement heatmaps and cold spots
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Export Purview Unified Audit Log: Audit Reader or Compliance Administrator
+Export Entra user details: User Administrator or Global Reader
+Run PAX script (recommended for full coverage): Audit Reader + AuditLog.Read.All, User.Read.All (Microsoft Graph)
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop — required to open the .pbip template file (note: this report uses .pbip format, not .pbit)
+- PowerShell 5.1+ — required only if using the PAX automated export script
+- Access to: purview.microsoft.com (or compliance.microsoft.com), entra.microsoft.com
+
+
+Important Notes on Export Size:
+Manual Purview exports are capped at 50,000 rows (Audit Standard) or 100,000 rows (Audit Premium) per search job. For tenants with high activity or date ranges over 90 days, use the PAX PowerShell script instead — it handles pagination automatically with no row limits and can be scheduled to run unattended on a recurring basis.
+
+Recommended Date Range:
+A minimum of 90 days of audit data is required for meaningful tier ranking. Six to twelve months is recommended to produce accurate Licensing Priority scores. Shorter ranges may classify all users as "Developing" due to insufficient activity history.

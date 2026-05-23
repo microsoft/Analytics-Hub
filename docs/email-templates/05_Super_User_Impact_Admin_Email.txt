@@ -1,0 +1,63 @@
+Subject: Action Required: Viva Insights Query Setup Needed for Super User Impact Report (Power BI)
+
+To: IT Admin / Global Admin / Viva Insights Administrator
+Re: Super User Impact – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The Super User Impact Report is a Power BI report powered by Viva Insights data. Where the Super User Adoption report tracks who super users are, this report measures what changed in their work patterns as a result of Copilot adoption — including collaboration hours, meeting load, focus time, and estimated time saved. Includes cross-team benchmarking and optional sentiment signal analysis. Used to demonstrate ROI and guide change management.
+
+
+DATA SOURCE REQUIRED
+
+Viva Insights – Person Query
+Export: analysis.insights.cloud.microsoft -> Create analysis -> Person query
+Format: CSV or Direct Query (via Partition ID + Query ID)
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: This report uses the same Viva Insights Person Query as the Super User Adoption report. All metric groups must be selected in full. Partial exports or manually edited CSVs with removed columns will cause blank visuals and broken calculations.
+
+Person Query — Required Metric Groups (select "All metrics" for each):
+Microsoft 365 Copilot (all metrics), Collaboration network (all metrics), Working hours collaboration (all metrics), Focus metrics (all metrics).
+
+Specific fields the report depends on:
+Copilot_Active_Use_Days_per_week, Copilot_Total_Actions, Copilot_Total_Chats, Collaboration_hours, Meeting_hours, After_hours_collaboration_hours, Email_hours, Meeting_hours_with_manager_1_on_1, Focus_hours, Uninterrupted_focus_hours, Internal_network_size, Strong_ties, Diverse_ties.
+
+Person Query — Required Attributes (Dimensions):
+PersonId, Organization, FunctionType, TimeZone, IsActive.
+
+Query Configuration — Required Settings:
+- Time period: Last 6 months (rolling)
+- Group by: Week (not Month)
+- Filter: Is Active = True
+
+
+INSIGHTS YOU WILL GAIN
+
+- Work pattern delta analysis: how collaboration hours, meeting time, email time, and focus time differ between super users and their peers
+- After-hours work impact: whether Copilot adoption correlates with better or worse work-life balance signals
+- Time saved estimation: calculated value model based on total Copilot actions
+- Network changes: whether super users have broader or deeper internal collaboration networks
+- Cross-team benchmarking: compare impact signals across organizations, function types, and usage tiers
+- Manager 1:1 time: changes in coaching and alignment meeting patterns
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Create and run Person Query in Viva Insights: Insights Analyst (assigned in Viva Insights Admin)
+Access Viva Insights Analyst Workbench: Insights Analyst or Insights Administrator
+Export query results as CSV: Insights Analyst
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop — required to open the .pbit template file
+- Access to: analysis.insights.cloud.microsoft (Viva Insights Analyst Workbench)
+- Microsoft 365 Viva Insights license — required for the organization to generate Person Query data
+
+
+Note:
+The Super User Impact report uses the same Person Query as the Super User Adoption report. If both reports are being deployed simultaneously, a single query export can feed both templates — no need to run separate queries.

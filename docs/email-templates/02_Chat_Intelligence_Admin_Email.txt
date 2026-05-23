@@ -1,0 +1,72 @@
+Subject: Action Required: Data Export Fields Needed for Chat Intelligence Report (Power BI)
+
+To: IT Admin / Global Admin
+Re: Copilot Chat Intelligence – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The Chat Intelligence Report is a Power BI report that analyzes Microsoft 365 Copilot Chat usage across your organization. It segments users by engagement level (light to habitual), tracks session and prompt volume over time, and identifies adoption hotspots and licensing readiness signals by surface, org unit, and quartile.
+
+
+DATA SOURCES REQUIRED
+
+1. Microsoft Purview – Copilot Audit Logs
+   Export: Purview portal (security.microsoft.com) -> Audit -> Activities: "Interacted with Copilot" -> Export, or PAX PowerShell script
+   Format: CSV
+
+2. Microsoft Entra ID – User/Org Data (includes license data)
+   Export: entra.microsoft.com -> Identity -> Users -> Download users, or PAX script with -IncludeUserInfo
+   Format: CSV
+
+3. (if not using PAX) Microsoft 365 Admin Center – Licensed Users
+   Export: admin.microsoft.com -> Reports -> Usage -> M365 Copilot -> Readiness tab -> Export
+   Format: CSV
+
+Note on license data: The report requires a hasLicense flag to separate licensed from unlicensed Copilot Chat usage. The PAX script automatically adds this column to the Entra user export — no separate file needed. If you are exporting manually from Entra, you will also need the M365 Admin Center licensed users file (source #3) provided as a separate input.
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: If you are running a PAX Purview agent extract or manually exporting from Purview, do not remove or rename any columns from the output. Missing fields cause blank visuals with no error message.
+
+Purview Audit Log (CopilotInteraction – Record Type 61):
+CreationDate, UserId, Operations, AppHost, ThreadId, AgentId, Message_isPrompt.
+
+Microsoft Entra ID – User Export:
+UserPrincipalName, Department, hasLicense (added automatically by PAX; or use the M365 Admin Center licensed users file if exporting manually).
+
+M365 Admin Center – Licensed Users (manual export path only):
+UserPrincipalName, Has Copilot License Assigned.
+
+
+INSIGHTS YOU WILL GAIN
+
+- User engagement segmentation: light, moderate, regular, habitual Copilot Chat users
+- Week-over-week session and prompt volume trends
+- Surface breakdown: where chat usage is concentrated (BizChat, Teams, M365 apps)
+- Licensed vs. unlicensed chat usage patterns
+- Agent-assisted vs. standard chat session split
+- Org-level adoption comparison by department or quartile
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Export Purview audit logs: Audit Reader or Compliance Administrator
+Export Entra user data (includes hasLicense via PAX): User Administrator or Global Reader
+Export M365 Admin Center licensed users (manual path only): Global Administrator or Reports Reader
+Run PAX script (optional automation): Audit Reader + AuditLog.Read.All, User.Read.All (Microsoft Graph)
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop — required to open the .pbit template file
+- PowerShell 5.1+ — required only if using the PAX automated export script
+- Access to: security.microsoft.com, admin.microsoft.com, entra.microsoft.com
+
+
+Note on Usernames:
+Ensure user display names are not concealed in M365 Admin Center reports before exporting. Go to Settings -> Org Settings -> Services -> Reports and uncheck "Display concealed user, group, and site names in all reports."
+
+Note on Hash String:
+When opening the Power BI template, you will be prompted for a hash string. Provide any text string — this is used to de-identify sensitive user identifiers in the report output before sharing.

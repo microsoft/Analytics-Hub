@@ -1,0 +1,66 @@
+Subject: Action Required: Viva Insights Query Setup Needed for Super User Adoption Report (Power BI)
+
+To: IT Admin / Global Admin / Viva Insights Administrator
+Re: Super User Adoption (DecodingSuperUsage) – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The Super User Adoption Report is a Power BI report powered by Viva Insights data. It identifies how Copilot super users emerge in your organization — tracking the journey from activation to habitual use — and helps you understand what work patterns, collaboration behaviors, and surfaces distinguish super users from the rest. Used to replicate adoption paths and focus enablement on the right cohorts.
+
+
+DATA SOURCE REQUIRED
+
+Viva Insights – Person Query
+Export: analysis.insights.cloud.microsoft -> Create analysis -> Person query
+Format: CSV or Direct Query (via Partition ID + Query ID)
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: The Viva Insights Person Query must include ALL metrics listed below. Missing even one metric group will cause blank visuals in Power BI with no error. Do not export a partial query or remove columns from the CSV after export.
+
+Person Query — Required Metric Groups (select "All metrics" for each):
+Microsoft 365 Copilot (all metrics), Collaboration network (all metrics), Working hours collaboration (all metrics), Focus metrics (all metrics).
+
+Specific fields the report depends on:
+Copilot_Active_Use_Days_per_week, Copilot_Total_Actions, Copilot_Total_Chats, Copilot_Total_Emails_with_Copilot, Copilot_Total_Documents_with_Copilot, Copilot_Total_Meeting_Summaries, Copilot_Total_Pages_with_Copilot, Copilot_Total_Teams_Chat_Copilot_Interactions, Copilot_Total_Word_Copilot_Interactions, Copilot_Total_Excel_Copilot_Interactions, Copilot_Total_PowerPoint_Copilot_Interactions, Copilot_Total_Outlook_Copilot_Interactions, Collaboration_hours, Meeting_hours, After_hours_collaboration_hours, Email_hours, Focus_hours, Uninterrupted_focus_hours, Internal_network_size, Strong_ties, Diverse_ties.
+
+Person Query — Required Attributes (Dimensions):
+PersonId, Organization, FunctionType, TimeZone, IsActive.
+
+Query Configuration — Required Settings:
+- Time period: Last 6 months (rolling)
+- Group by: Week (not Month — month grouping breaks trend calculations)
+- Filter: Is Active = True
+
+
+INSIGHTS YOU WILL GAIN
+
+- Super user identification and tier classification (light to super user)
+- Activation-to-habit journey: how fast users become super users and whether the behavior is durable
+- Surface breakdown: which Copilot apps (Word, Excel, Teams, Outlook, Chat) super users engage with most
+- Work pattern comparison: collaboration hours, meeting hours, focus time, and network size for super users vs. peers
+- Team concentration: where super users are clustered, to focus enablement where momentum already exists
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Create and run Person Query in Viva Insights: Insights Analyst (assigned in Viva Insights Admin)
+Access Viva Insights Analyst Workbench: Insights Analyst or Insights Administrator
+Export query results as CSV: Insights Analyst
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop — required to open the .pbit template file
+- Access to: analysis.insights.cloud.microsoft (Viva Insights Analyst Workbench)
+- Microsoft 365 Viva Insights license — required for the organization to generate Person Query data
+
+
+TWO CONNECTION OPTIONS
+
+CSV Import (.pbit): Run query -> export CSV -> point Power BI template to the CSV file path
+Direct Query (.pbit): Copy the Partition ID and Query ID from the completed query and enter them into the Power BI template — no CSV download needed; report refreshes automatically with each weekly Viva Insights update
+
+Query must show Status = Completed before export or Direct Query connection. Do not export mid-processing.

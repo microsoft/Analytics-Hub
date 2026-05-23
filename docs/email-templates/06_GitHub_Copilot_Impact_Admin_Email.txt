@@ -1,0 +1,73 @@
+Subject: Action Required: GitHub Data Exports Needed for GitHub Copilot Impact Report (Power BI)
+
+To: IT Admin / GitHub Enterprise Owner / Global Admin
+Re: GitHub Copilot Impact – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The GitHub Copilot Impact Report is a Power BI report that tracks how developers in your organization are building habits with GitHub Copilot. It measures weekly active users, code acceptance rates, lines of code suggested and accepted, feature adoption (code completion, agent mode, inline edits), model usage, and goal attainment by team. Designed for engineering leaders and DevOps teams to assess developer AI ROI.
+
+
+DATA SOURCES REQUIRED
+
+1. GitHub Copilot Usage Insights
+   Export: GitHub Enterprise -> Insights -> Copilot Usage -> Last 28 days -> Download
+   Format: JSON
+
+2. GitHub Enterprise Members
+   Export: GitHub Enterprise -> People -> Members -> CSV Report
+   Format: CSV
+
+3. Microsoft Entra ID – User/Org Data
+   Export: entra.microsoft.com -> Identity -> Users -> Download users
+   Format: CSV
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: Do not pre-process, filter, or re-save the GitHub JSON or CSV exports before loading them into Power BI. Removing fields from these files will break report calculations.
+
+GitHub Copilot Usage Insights JSON:
+date, total_active_users, total_engaged_users, copilot_ide_code_completions.total_engaged_users, copilot_ide_code_completions.total_code_suggestions, copilot_ide_code_completions.total_code_acceptances, copilot_ide_code_completions.total_code_lines_suggested, copilot_ide_code_completions.total_code_lines_accepted, copilot_dotcom_chat.total_engaged_users, copilot_ide_chat.total_engaged_users, breakdown (language, editor, model arrays).
+
+GitHub Members CSV:
+login, name, email, role, organization, teams (used to link GitHub handles to Entra identity via SSO).
+
+Microsoft Entra ID – User Export:
+UserPrincipalName, Department, JobTitle.
+
+
+INSIGHTS YOU WILL GAIN
+
+- Weekly active GitHub Copilot users and engagement rate by team
+- Code acceptance rate: how often developers accept AI-generated code suggestions
+- Lines of code suggested vs. accepted — quantifies AI's contribution to the codebase
+- Feature adoption breakdown: code completion, agent mode, inline edits
+- Language-specific acceptance rates and code generation volume
+- Model distribution: which AI models are contributing to the codebase
+- Goal tracking: adoption target progress by team, with hotspot and bright-spot identification
+- Role-level insights: whether principal engineers use agent mode at higher rates than junior developers
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Export GitHub Copilot Usage Insights: GitHub Enterprise Owner
+Export GitHub Enterprise Members CSV: GitHub Enterprise Owner
+Export Entra user data: User Administrator or Global Reader (Entra)
+Enable Copilot usage metrics policy: GitHub Enterprise Owner (must opt in under AI Controls settings)
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop — required to open the .pbit template file
+- GitHub Enterprise Cloud account with GitHub Copilot enabled
+- Single Sign-On (SSO) enforcement between GitHub and Entra ID — required to join GitHub handle to M365 identity for org-level segmentation
+- Access to: github.com/settings/enterprises, entra.microsoft.com
+
+
+Prerequisite — SSO Enforcement:
+The report joins GitHub user data to Entra organizational data using the SSO-linked identity. If SSO is not enforced in your GitHub Enterprise, department-level and team-level segmentation will not populate. Confirm with your GitHub Enterprise Owner that "Enforce SAML SSO" is active before exporting.
+
+Prerequisite — Copilot Usage Metrics Policy:
+GitHub Copilot usage data collection must be opted in under your enterprise's AI Controls settings. If not enabled, the usage metrics export will return empty data.

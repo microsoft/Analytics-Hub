@@ -1,0 +1,79 @@
+Subject: Action Required: Data Export Fields Needed for AI-in-One Dashboard (Power BI)
+
+To: IT Admin / Global Admin
+Re: AI-in-One Dashboard – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The AI-in-One Dashboard is a Power BI report that provides a comprehensive view of Microsoft 365 Copilot, unlicensed Copilot Chat, agent usage, and third-party AI adoption across your organization. It consolidates four data sources into a single dashboard for adoption tracking, license optimization, and enablement planning.
+
+
+DATA SOURCES REQUIRED
+
+1. Microsoft Purview – Copilot Audit Logs
+   Export: Purview portal (security.microsoft.com) -> Audit -> Export, or PAX PowerShell script
+   Format: CSV
+
+2. Microsoft Entra ID – User/Org Data (includes license data)
+   Export: entra.microsoft.com -> Identity -> Users -> Download users, or PAX script with -IncludeUserInfo
+   Format: CSV
+
+3. Microsoft 365 Admin Center – Agent 365 Inventory
+   Export: admin.microsoft.com -> Agents -> All Agents -> Export to Excel
+   Format: XLSX
+
+4. (if not using PAX) Microsoft 365 Admin Center – Licensed Users
+   Export: admin.microsoft.com -> Reports -> Usage -> M365 Copilot -> Readiness tab -> Export
+   Format: CSV
+
+Note on license data: The report requires a hasLicense flag to split licensed vs. unlicensed Copilot usage. The PAX script automatically adds this column to the Entra user export — no separate file needed. If you are exporting manually from Entra, you will also need the M365 Admin Center licensed users file (source #4) and provide it as a separate input to the template.
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: If you are running a PAX Purview agent extract or manually exporting from Purview, do not prune or remove columns from the output files. The report will silently break or produce blank visuals if any of the following fields are missing.
+
+Purview Audit Log (CopilotInteraction / ConnectedAIAppInteraction / AIAppInteraction):
+CreationDate, UserId, Operations, AppHost, ThreadId, AgentId, AgentName, AISystemPlugin_Id, AISystemPlugin_Name, Context_Type, Message_isPrompt, ModelTransparencyDetails_ModelName, Workload, OrganizationId, AppIdentity_DisplayName.
+
+Microsoft Entra ID – User Export:
+UserPrincipalName, Department, JobTitle, displayName, hasLicense (added automatically by PAX; or use the M365 Admin Center licensed users file if exporting manually), Manager, Office, City, Country.
+
+M365 Admin Center – Licensed Users (manual export path only):
+UserPrincipalName, Has Copilot License Assigned.
+
+Agent 365 Inventory:
+Name, Host Products, Created Date, Developer User ID, Description, Status, Version.
+
+
+INSIGHTS YOU WILL GAIN
+
+- Active Copilot users and interaction volume by week/month
+- Surface breakdown: which apps (Teams, Word, Outlook, BizChat, etc.) users are engaging with
+- Agent adoption: which agents are used, by how many users, on which surfaces
+- AI model distribution across interactions
+- Licensed vs. unlicensed usage patterns
+- Session depth and prompt volume per user cohort
+- Third-party and custom AI app usage alongside M365 Copilot
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Export Purview audit logs: Audit Reader or Compliance Administrator
+Export Entra user data (includes hasLicense via PAX): User Administrator or Global Reader
+Export Agent 365 inventory: AI Admin or Global Reader
+Export M365 Admin Center licensed users (manual path only): Global Administrator or Reports Reader
+Run PAX PowerShell script (automated export): Audit Reader + Microsoft Graph API permissions (AuditLog.Read.All, User.Read.All, Organization.Read.All)
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop (free download from Microsoft) — required to open the .pbit template
+- PowerShell 5.1+ — required only if using the PAX automated export script
+- Microsoft Graph PowerShell module — required only for PAX script (Install-Module Microsoft.Graph.Beta.Security)
+- Access to: security.microsoft.com, admin.microsoft.com, entra.microsoft.com
+
+
+Note on Usernames in Reports:
+If user names appear concealed in M365 Admin Center exports, go to Settings -> Org Settings -> Services -> Reports and uncheck "Display concealed user, group, and site names in all reports" before exporting.

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find a Tool · Analytics Hub</title>
+  <meta name="description" content="From question to template in one click — pick the question you're trying to answer, preview the tool, grab the repo, download the files, and email your admin." />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://github.com" />
+  <link rel="preconnect" href="https://opengraph.githubassets.com" />
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wvfood6j5g");
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../#toolkit">Toolkit</a>
+      <a href="./" aria-current="page">Find a Tool</a>
+      <a href="../#data-sources">Data Sources</a>
+      <a href="../team/">Team</a>
+      <a href="../pages-analytics/">📊 Analytics</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="picker-page">
+
+  <!-- =============================================== HERO -->
+  <section class="picker-hero">
+    <div class="wrap">
+      <p class="eyebrow">🎯 Which tool do I need?</p>
+      <h1>From question to template <span class="grad">in one click</span></h1>
+      <p class="lede">
+        Find the question you're trying to answer. Get the preview, the repo, the
+        download, and the admin email — all from one screen. No hunting.
+      </p>
+      <div class="picker-controls">
+        <label class="search-wrap" for="qSearch">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input id="qSearch" type="search" placeholder="Search by question, tool name, or data source…" autocomplete="off" />
+        </label>
+        <div class="filter-pills" role="tablist" aria-label="Filter by data source">
+          <button class="pill active" data-src="all">All sources</button>
+          <button class="pill" data-src="Viva Insights">Viva Insights</button>
+          <button class="pill" data-src="Purview">Purview</button>
+          <button class="pill" data-src="GitHub">GitHub</button>
+          <button class="pill" data-src="M365 Admin">M365 Admin</button>
+          <button class="pill" data-src="Graph API">Graph API</button>
+          <button class="pill" data-src="CSV">CSV / Browser</button>
+          <button class="pill" data-src="Local">Local sessions</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== TABLE -->
+  <section class="band picker-table-band">
+    <div class="wrap">
+      <div class="table-wrap">
+        <table class="picker-table" id="pickerTable">
+          <thead>
+            <tr>
+              <th class="col-q">If you're asking…</th>
+              <th class="col-tool">Use this tool</th>
+              <th class="col-src">Data source</th>
+              <th class="col-actions" aria-label="Quick actions"></th>
+            </tr>
+          </thead>
+          <tbody id="pickerBody">
+            <!-- rendered by app.js -->
+          </tbody>
+        </table>
+        <p id="emptyState" class="empty-state" hidden>No matches. Try a different keyword or clear the filter.</p>
+      </div>
+
+      <p class="picker-footnote">
+        💡 Click any row to expand — you'll get a preview, the GitHub repo, a zip download,
+        and a pre-filled email to send your IT or data admin so they can stage prerequisites.
+        Email templates are not sent through us — they open in your default mail client for you to review.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by Microsoft Copilot ROI Analytics Team · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+    <p class="muted">Tools published by Microsoft for customer use · <a href="../team/">Meet the team</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

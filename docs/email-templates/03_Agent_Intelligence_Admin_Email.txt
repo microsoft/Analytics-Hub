@@ -1,0 +1,72 @@
+Subject: Action Required: Data Export Fields Needed for Agent Intelligence Report (Power BI)
+
+To: IT Admin / Global Admin
+Re: Copilot Agent Intelligence – Power BI Report Setup
+
+
+WHAT THIS REPORT DOES
+
+The Agent Intelligence Report is a Power BI report that tracks adoption of Microsoft 365 Copilot agents across your organization. It ranks agents by usage and unique user reach, shows which M365 surfaces agents are deployed on, and distinguishes licensed vs. free-tier agent interactions. Designed for organizations deploying custom or third-party Copilot agents at scale.
+
+
+DATA SOURCES REQUIRED
+
+1. Microsoft Purview – Copilot Audit Logs
+   Export: Purview portal (security.microsoft.com) -> Audit -> Activities: "Interacted with Copilot" -> Export, or PAX PowerShell script
+   Format: CSV
+
+2. Microsoft Entra ID – User/Org Data (includes license data)
+   Export: entra.microsoft.com -> Identity -> Users -> Download users, or PAX script with -IncludeUserInfo
+   Format: CSV
+
+3. (if not using PAX) Microsoft 365 Admin Center – Licensed Users
+   Export: admin.microsoft.com -> Reports -> Usage -> M365 Copilot -> Readiness tab -> Export
+   Format: CSV
+
+Note on license data: The report requires a hasLicense flag to split licensed vs. free-tier agent interactions. The PAX script automatically adds this column to the Entra user export — no separate file needed. If you are exporting manually from Entra, you will also need the M365 Admin Center licensed users file (source #3) provided as a separate input.
+
+
+REQUIRED FIELDS — DO NOT REMOVE
+
+IMPORTANT: Agent-related fields (AgentId, AgentName, AISystemPlugin_Name) are nested inside the AuditData JSON in raw Purview exports and are flattened by the PAX script. If these columns are removed from a PAX output file, all agent analytics visuals will be blank. Do not prune these columns.
+
+Purview Audit Log (CopilotInteraction – Record Type 61):
+CreationDate, UserId, Operations, AppHost, AgentId, AgentName, AISystemPlugin_Id, AISystemPlugin_Name.
+
+Microsoft Entra ID – User Export:
+UserPrincipalName, Department, hasLicense (added automatically by PAX; or use the M365 Admin Center licensed users file if exporting manually).
+
+M365 Admin Center – Licensed Users (manual export path only):
+UserPrincipalName, Has Copilot License Assigned.
+
+
+INSIGHTS YOU WILL GAIN
+
+- Top agents by interaction volume and unique user reach
+- Agent adoption trend over time
+- Deployment surface breakdown: which M365 surfaces (Teams, BizChat, Outlook) agents are invoked on
+- Licensed vs. unlicensed user split for agent interactions
+- Plugin/agent-type categorization and inventory view
+- Department-level agent adoption comparison
+
+
+ROLES & PERMISSIONS REQUIRED
+
+Export Purview audit logs: Audit Reader or Compliance Administrator
+Export Entra user data (includes hasLicense via PAX): User Administrator or Global Reader
+Export M365 Admin Center licensed users (manual path only): Global Administrator or Reports Reader
+Run PAX script (optional automation): Audit Reader + AuditLog.Read.All, User.Read.All (Microsoft Graph)
+
+
+SOFTWARE REQUIREMENTS
+
+- Power BI Desktop — required to open the .pbit template file
+- PowerShell 5.1+ — required only if using the PAX automated export script
+- Access to: security.microsoft.com, admin.microsoft.com, entra.microsoft.com
+
+
+Note on Usernames:
+Ensure user display names are not concealed before exporting from M365 Admin Center. Go to Settings -> Org Settings -> Services -> Reports and uncheck "Display concealed user, group, and site names in all reports."
+
+Note on Hash String:
+The Power BI template prompts for a hash string on open. Provide any text string — this de-identifies user identifiers before the report is shared.
