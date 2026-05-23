@@ -43,8 +43,9 @@
       <h1>Pages Analytics</h1>
       <p class="lede">
         Nightly snapshot of every repo and hosted site in the toolkit. GitHub Traffic API
-        (rolling 14 days) for repos · Microsoft Clarity for hosted sites · history accumulated
-        beyond GitHub's 14-day window so we can spot real trends.
+        (rolling 14 days per call, merged into a year-to-date daily series) for repos ·
+        Microsoft Clarity for hosted sites · long-memory daily data stored beyond GitHub's
+        14-day window so we can spot real trends.
       </p>
       <p class="meta-line" id="last-updated">Loading…</p>
     </div>
@@ -56,8 +57,8 @@
         <div class="kpi"><span class="kpi-label">Total stars</span><span class="kpi-value" data-kpi="stars">—</span></div>
         <div class="kpi"><span class="kpi-label">Total forks</span><span class="kpi-value" data-kpi="forks">—</span></div>
         <div class="kpi"><span class="kpi-label">Total watchers</span><span class="kpi-value" data-kpi="watchers">—</span></div>
-        <div class="kpi"><span class="kpi-label">14-day views</span><span class="kpi-value" data-kpi="views">—</span></div>
-        <div class="kpi"><span class="kpi-label">14-day clones</span><span class="kpi-value" data-kpi="clones">—</span></div>
+        <div class="kpi"><span class="kpi-label">YTD views</span><span class="kpi-value" data-kpi="views">—</span></div>
+        <div class="kpi"><span class="kpi-label">YTD clones</span><span class="kpi-value" data-kpi="clones">—</span></div>
         <div class="kpi"><span class="kpi-label">Repos tracked</span><span class="kpi-value" data-kpi="repos">—</span></div>
       </div>
     </div>
@@ -75,10 +76,10 @@
               <th data-sort="stars" class="num">⭐</th>
               <th data-sort="forks" class="num">🍴</th>
               <th data-sort="watchers" class="num">👁</th>
-              <th data-sort="views" class="num">Views (14d)</th>
-              <th data-sort="uniqueViews" class="num">Unique</th>
-              <th data-sort="clones" class="num">Clones (14d)</th>
-              <th data-sort="uniqueClones" class="num">Unique</th>
+              <th data-sort="views" class="num">Views (YTD)</th>
+              <th data-sort="uniqueViews" class="num" title="Sum of per-day unique visitors. Overcounts if the same visitor returns on different days — GitHub doesn't expose a true year-long unique count.">Unique·days</th>
+              <th data-sort="clones" class="num">Clones (YTD)</th>
+              <th data-sort="uniqueClones" class="num" title="Sum of per-day unique cloners. Overcounts repeat cloners across days.">Unique·days</th>
               <th data-sort="trend" class="num">Trend</th>
             </tr>
           </thead>
@@ -116,9 +117,10 @@
         <summary>How this works</summary>
         <ul>
           <li><strong>Source:</strong> a GitHub Action (<code>.github/workflows/traffic-snapshot.yml</code>) runs nightly at 03:00 UTC.</li>
-          <li><strong>Repos:</strong> queries <code>/repos/{owner}/{repo}/traffic/{views,clones,popular/referrers,popular/paths}</code> for each tool. Requires a PAT with <code>repo</code> scope. Repos the token can't reach fall back to public meta only (stars/forks/watchers).</li>
+          <li><strong>Repos:</strong> queries <code>/repos/{owner}/{repo}/traffic/{views,clones,popular/referrers,popular/paths}</code> for each tool. Daily view/clone buckets (the API returns up to 14 days per call, with overlap between runs) are merged into a year-to-date map keyed by date. Requires a PAT with <code>repo</code> scope, SSO-authorized for the microsoft org. Repos the token can't reach fall back to public meta only.</li>
+          <li><strong>Uniques caveat:</strong> GitHub returns per-day unique counts. Summing them across days overcounts repeat visitors (a person who returns three different days = 3 unique-days, not 1 unique person). True year-long uniques aren't exposed by the API.</li>
           <li><strong>Sites:</strong> calls the Microsoft Clarity Data Export API per project (one token per project, capped at 10 calls/day each).</li>
-          <li><strong>Storage:</strong> appends to <code>docs/data/traffic-history.json</code>, committed back to <code>main</code> by the bot. Idempotent per UTC day.</li>
+          <li><strong>Storage:</strong> appends to <code>docs/data/traffic-history.json</code>, committed back to <code>main</code> by the bot. Idempotent — re-running on the same day overwrites that day's data rather than appending duplicates.</li>
           <li><strong>Why it exists:</strong> GitHub's traffic API only retains 14 days. Clarity sees Pages traffic that GitHub can't. This page is the long-memory layer.</li>
         </ul>
       </details>

@@ -20,34 +20,32 @@ const KNOWN_LABELS = {
 
 const fmt = (n) => (n == null ? "—" : n.toLocaleString());
 
-function sumViews(snapshots, key) {
-  // GitHub /traffic/views returns { count, uniques, views: [{timestamp, count, uniques}, ...] }
-  // Take the most recent snapshot's count (it already represents the 14-day rolling window).
-  const dates = Object.keys(snapshots || {}).sort();
-  if (!dates.length) return null;
-  const latest = snapshots[dates[dates.length - 1]];
-  return latest?.[key]?.count ?? null;
+const startOfYear = () => `${new Date().getUTCFullYear()}-01-01`;
+
+function sumDaily(dailyMap, sinceDate) {
+  // dailyMap: { "YYYY-MM-DD": { count, uniques } }
+  // sinceDate: inclusive lower bound (string compare works for ISO dates).
+  if (!dailyMap) return { count: null, uniques: null, days: 0 };
+  let count = 0;
+  let uniques = 0;
+  let days = 0;
+  let seen = false;
+  for (const [day, v] of Object.entries(dailyMap)) {
+    if (sinceDate && day < sinceDate) continue;
+    seen = true;
+    days += 1;
+    count   += v?.count   || 0;
+    uniques += v?.uniques || 0;
+  }
+  return seen ? { count, uniques, days } : { count: null, uniques: null, days: 0 };
 }
 
-function uniques(snapshots, key) {
-  const dates = Object.keys(snapshots || {}).sort();
-  if (!dates.length) return null;
-  const latest = snapshots[dates[dates.length - 1]];
-  return latest?.[key]?.uniques ?? null;
-}
-
-function latestSnapshot(snapshots) {
-  const dates = Object.keys(snapshots || {}).sort();
-  if (!dates.length) return null;
-  return snapshots[dates[dates.length - 1]];
-}
-
-function viewsTrend(snapshots) {
-  // Array of per-day view counts across all snapshots we've recorded.
-  const dates = Object.keys(snapshots || {}).sort();
-  return dates
-    .map((d) => snapshots[d]?.views?.count ?? null)
-    .filter((v) => v != null);
+function viewsTrend(dailyMap, sinceDate) {
+  if (!dailyMap) return [];
+  return Object.entries(dailyMap)
+    .filter(([day]) => !sinceDate || day >= sinceDate)
+    .sort((a, b) => (a[0] < b[0] ? -1 : 1))
+    .map(([, v]) => v?.count ?? 0);
 }
 
 function sparkline(values, w = 80, h = 24) {
@@ -88,6 +86,7 @@ function renderLastUpdated(lastUpdated) {
 }
 
 function renderHero(repos) {
+  const since = startOfYear();
   let stars = 0, forks = 0, watchers = 0, views = 0, clones = 0, count = 0;
   for (const repo of Object.values(repos)) {
     count += 1;
@@ -95,8 +94,8 @@ function renderHero(repos) {
     stars    += meta.stars    || 0;
     forks    += meta.forks    || 0;
     watchers += meta.watchers || 0;
-    const v = sumViews(repo.snapshots, "views");
-    const c = sumViews(repo.snapshots, "clones");
+    const v = sumDaily(repo.dailyViews,  since).count;
+    const c = sumDaily(repo.dailyClones, since).count;
     if (v != null) views  += v;
     if (c != null) clones += c;
   }
@@ -109,10 +108,13 @@ function renderHero(repos) {
 }
 
 function rowsFromRepos(repos) {
+  const since = startOfYear();
   return Object.entries(repos).map(([fullName, repo]) => {
     const [owner, name] = fullName.split("/");
     const meta = repo.meta || {};
-    const trend = viewsTrend(repo.snapshots);
+    const v = sumDaily(repo.dailyViews,  since);
+    const c = sumDaily(repo.dailyClones, since);
+    const trend = viewsTrend(repo.dailyViews, since);
     return {
       fullName,
       owner,
@@ -120,13 +122,15 @@ function rowsFromRepos(repos) {
       stars:        meta.stars    ?? null,
       forks:        meta.forks    ?? null,
       watchers:     meta.watchers ?? null,
-      views:        sumViews(repo.snapshots, "views"),
-      uniqueViews:  uniques(repo.snapshots, "views"),
-      clones:       sumViews(repo.snapshots, "clones"),
-      uniqueClones: uniques(repo.snapshots, "clones"),
+      views:        v.count,
+      uniqueViews:  v.uniques,
+      clones:       c.count,
+      uniqueClones: c.uniques,
+      daysTracked:  v.days || c.days,
       trend,
-      hasTraffic:   !!latestSnapshot(repo.snapshots),
-      latest:       latestSnapshot(repo.snapshots),
+      hasTraffic:   v.count != null || c.count != null,
+      referrers:    repo.referrers || [],
+      paths:        repo.paths     || [],
     };
   });
 }
@@ -212,8 +216,8 @@ function renderTable() {
 }
 
 function renderRepoDetail(r) {
-  const referrers = r.latest?.referrers ?? [];
-  const paths     = r.latest?.paths     ?? [];
+  const referrers = r.referrers ?? [];
+  const paths     = r.paths     ?? [];
 
   const refList = referrers.length
     ? referrers.slice(0, 10).map(x =>
@@ -256,13 +260,13 @@ function renderRepoCards(rows) {
         <span>👁 <strong>${fmt(r.watchers)}</strong></span>
       </div>
       <div class="meta-row">
-        <span>Views: <strong>${fmt(r.views)}</strong> (${fmt(r.uniqueViews)} unique)</span>
+        <span>Views (YTD): <strong>${fmt(r.views)}</strong> · ${fmt(r.uniqueViews)} unique-days</span>
       </div>
       <div class="meta-row">
-        <span>Clones: <strong>${fmt(r.clones)}</strong> (${fmt(r.uniqueClones)} unique)</span>
+        <span>Clones (YTD): <strong>${fmt(r.clones)}</strong> · ${fmt(r.uniqueClones)} unique-days</span>
       </div>
       <div class="sparkline-wrap">
-        <div class="sparkline-label">Views over recorded snapshots</div>
+        <div class="sparkline-label">Daily views · ${r.daysTracked || 0} days tracked</div>
         ${sparkline(r.trend, 280, 36)}
       </div>
     </div>

@@ -179,13 +179,44 @@ def main() -> int:
     # --- GitHub ---
     for repo in REPOS:
         print(f"github: {repo}")
-        entry = history["repos"].setdefault(repo, {"snapshots": {}})
+        entry = history["repos"].setdefault(repo, {})
+        # Long-memory daily series, keyed by YYYY-MM-DD. Each run's API
+        # response covers up to 14 days; we merge new days in and let
+        # newer values overwrite the same date if seen twice.
+        daily_views  = entry.setdefault("dailyViews", {})
+        daily_clones = entry.setdefault("dailyClones", {})
+
         meta = fetch_repo_meta(repo)
         if meta:
             entry["meta"] = meta
+
         traffic = fetch_traffic(repo)
         if traffic:
-            entry["snapshots"][today_key] = traffic
+            for bucket in (traffic.get("views",  {}) or {}).get("views",  []):
+                day = (bucket.get("timestamp") or "")[:10]
+                if day:
+                    daily_views[day] = {
+                        "count":   bucket.get("count", 0),
+                        "uniques": bucket.get("uniques", 0),
+                    }
+            for bucket in (traffic.get("clones", {}) or {}).get("clones", []):
+                day = (bucket.get("timestamp") or "")[:10]
+                if day:
+                    daily_clones[day] = {
+                        "count":   bucket.get("count", 0),
+                        "uniques": bucket.get("uniques", 0),
+                    }
+            # Referrers and paths are snapshot-in-time, not time series.
+            # Keep only the latest.
+            if "referrers" in traffic:
+                entry["referrers"] = traffic["referrers"]
+            if "paths" in traffic:
+                entry["paths"] = traffic["paths"]
+            entry["lastTrafficSync"] = today_key
+
+        # Drop the legacy `snapshots` key if it's still hanging around
+        # from the prior data shape.
+        entry.pop("snapshots", None)
 
     # --- Clarity ---
     for label, (project_id, env_var) in CLARITY_SITES.items():
@@ -201,7 +232,7 @@ def main() -> int:
             site["projectId"] = project_id
         data = fetch_clarity(token)
         if data is not None:
-            site["snapshots"][today_key] = data
+            site.setdefault("snapshots", {})[today_key] = data
 
     history["lastUpdated"] = now.isoformat().replace("+00:00", "Z")
 
