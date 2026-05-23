@@ -24,20 +24,16 @@ const pad = (n) => String(n).padStart(2, "0");
 const todayUTC = () => new Date();
 
 const startOfYear  = () => `${todayUTC().getUTCFullYear()}-01-01`;
-const startOfMonth = () => {
+const startOfNDaysAgo = (n) => {
   const d = todayUTC();
-  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-01`;
-};
-const startOf14d   = () => {
-  const d = todayUTC();
-  d.setUTCDate(d.getUTCDate() - 13); // inclusive 14 days
+  d.setUTCDate(d.getUTCDate() - (n - 1)); // inclusive N days
   return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
 };
 
 const WINDOWS = {
-  "14d": { label: "Last 14 days", short: "14d",  since: startOf14d   },
-  "mtd": { label: "Current month", short: "MTD", since: startOfMonth },
-  "ytd": { label: "Year to date",  short: "YTD", since: startOfYear  },
+  "14d": { label: "Last 14 days", short: "14d", since: () => startOfNDaysAgo(14) },
+  "30d": { label: "Last 30 days", short: "30d", since: () => startOfNDaysAgo(30) },
+  "ytd": { label: "Year to date", short: "YTD", since: startOfYear },
 };
 const windowState = { key: "14d" };
 const currentSince = () => WINDOWS[windowState.key].since();
