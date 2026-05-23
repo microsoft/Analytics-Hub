@@ -544,6 +544,7 @@ a:hover { text-decoration: underline; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+  align-items: stretch;
 }
 
 .hub-card {
@@ -552,8 +553,8 @@ a:hover { text-decoration: underline; }
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: .75rem;
-  padding: 1.75rem 1.5rem 1.5rem;
+  gap: .5rem;
+  padding: 1.5rem 1.4rem 1.25rem;
   border-radius: 20px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -659,25 +660,40 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
 }
 
-/* ---------- closing CTA ---------- */
-.closing-band { padding: 4rem 0; }
-.closing-card {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 1.5rem;
+/* ---------- merged team + contact band ---------- */
+.team-contact-band { padding: 3.5rem 0 4rem; }
+.team-contact-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2.5rem;
   padding: 2.25rem 2.5rem;
   border-radius: 20px;
-  background:
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--accent) 14%, var(--surface)),
-      color-mix(in srgb, var(--accent-2) 14%, var(--surface)));
+  background: var(--surface);
   border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 18px 40px -28px color-mix(in srgb, var(--accent-2) 55%, transparent);
+  position: relative;
+  overflow: hidden;
 }
-.closing-card h2 { margin: .1rem 0 .5rem; font-size: 1.7rem; letter-spacing: -.01em; }
-.closing-sub { margin: 0; color: var(--text-soft); max-width: 56ch; }
-.closing-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
-@media (max-width: 640px) {
-  .closing-card { padding: 1.75rem; }
-  .closing-card h2 { font-size: 1.4rem; }
+.team-contact-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent), var(--accent-3));
+}
+.tc-left { position: relative; }
+.tc-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-2) 16%, var(--surface)), color-mix(in srgb, var(--accent) 16%, var(--surface)));
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+  margin-bottom: .75rem;
+}
+.tc-left .eyebrow { margin-bottom: .35rem; }
+.tc-left h2 { margin: .1rem 0 .5rem; font-size: 1.55rem; letter-spacing: -.01em; line-height: 1.25; }
+.tc-sub { margin: 0; color: var(--text-soft); max-width: 68ch; line-height: 1.55; }
+.tc-right { display: flex; gap: .75rem; flex-wrap: wrap; }
+@media (max-width: 820px) {
+  .team-contact-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.75rem; }
+  .tc-right { justify-self: start; }
+  .tc-left h2 { font-size: 1.3rem; }
 }
 /* Microsoft 4-color logo (inline SVG, used in brand-by + footer-sub) */
 .ms-logo { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; flex-shrink: 0; }
