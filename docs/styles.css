@@ -679,3 +679,8 @@ a:hover { text-decoration: underline; }
   .closing-card { padding: 1.75rem; }
   .closing-card h2 { font-size: 1.4rem; }
 }
+/* Microsoft 4-color logo (inline SVG, used in brand-by + footer-sub) */
+.ms-logo { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; flex-shrink: 0; }
+.ms-logo-lg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 7px; }
+.brand-by { display: inline-flex; align-items: center; }
+.footer-sub { display: inline-flex; align-items: center; }
