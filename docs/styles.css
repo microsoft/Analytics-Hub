@@ -797,3 +797,6 @@ a:hover { text-decoration: underline; }
 .hdr-text span { font-size: .8rem; color: var(--text-soft); line-height: 1.4; }
 .hdr-arrow { color: var(--text-muted); font-size: .9rem; flex-shrink: 0; }
 .home-drawer-foot { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+/* HOME DRAWER star wrap */
+.home-drawer-report-wrap { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .35rem; }
+.home-drawer-report-wrap .github-button { align-self: flex-start; margin-left: .25rem; }

@@ -300,3 +300,79 @@
 }
 
 .ds-drawer-home { display:inline-block; margin-top:.6rem; margin-left:.5rem; }
+
+/* CATEGORY FILTER BAND */
+.ds-filter-band {
+  padding: 1rem 0 1.25rem;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.ds-filter-label {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin: 0 0 .75rem;
+}
+.ds-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.ds-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem .8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: .85rem;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.ds-filter-chip:hover {
+  border-color: color-mix(in srgb, var(--c, var(--accent)) 50%, var(--border));
+  transform: translateY(-1px);
+}
+.ds-filter-chip.is-active {
+  background: color-mix(in srgb, var(--c, var(--accent)) 18%, var(--surface));
+  border-color: var(--c, var(--accent));
+  color: var(--text);
+  box-shadow: 0 4px 14px -8px color-mix(in srgb, var(--c, var(--accent)) 70%, transparent);
+}
+.ds-filter-count {
+  font-size: .7rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c, var(--accent)) 25%, var(--bg-alt));
+  color: color-mix(in srgb, var(--c, var(--accent)) 80%, var(--text));
+}
+.ds-filter-chip.is-active .ds-filter-count {
+  background: var(--c, var(--accent));
+  color: #fff;
+}
+.ds-filter-clear {
+  border-style: dashed;
+  opacity: .85;
+}
+
+/* highlight reports that match the active topic with a glow */
+.ds-node.is-match {
+  outline: 2px solid var(--c);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 25%, transparent),
+              0 10px 30px -10px color-mix(in srgb, var(--c) 50%, transparent);
+}
+
+/* Star button placement in drawer */
+.ds-drawer-star {
+  display: inline-block;
+  margin-top: .6rem;
+  margin-left: .5rem;
+  vertical-align: middle;
+}

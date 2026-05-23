@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Native Reports · Analytics Hub by Microsoft</title>
+  <meta name="description" content="What Microsoft ships out-of-the-box for Copilot and Agent reporting — Microsoft 365 admin center, Viva Insights Copilot Dashboard, Purview audit logs, Power Platform analytics — and where the Analytics Hub picks up." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E📊%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wvfood6j5g");
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="../">
+      <span class="brand-mark" aria-hidden="true">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../">Home</a>
+      <a href="../find-a-tool/">Find a Report</a>
+      <a href="./" aria-current="page">Native Reports</a>
+      <a href="../data-sources/">Data Sources</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../team/">Team</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="oob-page">
+
+  <!-- =============================================== HERO -->
+  <section class="oob-hero">
+    <div class="wrap">
+      <p class="eyebrow">🏛️ MICROSOFT NATIVE REPORTING</p>
+      <h1>What Microsoft already <span class="grad">ships in the box</span></h1>
+      <p class="lede">
+        Before you stand up a single Power BI template, your tenant already has Copilot
+        and Agent telemetry waiting for you in the <strong>Microsoft 365 admin center</strong>,
+        <strong>Viva Insights Copilot Dashboard</strong>, <strong>Microsoft Purview</strong>,
+        and the <strong>Power Platform admin center</strong>. The Analytics Hub picks up
+        where these stop — but you should know what's free first.
+      </p>
+      <div class="oob-hero-cta">
+        <a class="btn btn-primary" href="#admin-center">See native reports ↓</a>
+        <a class="btn btn-ghost" href="#vs-matrix">Native vs Analytics Hub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== ADMIN CENTER -->
+  <section id="admin-center" class="oob-band" style="--band:#0078d4">
+    <div class="wrap">
+      <div class="oob-band-head">
+        <div class="oob-band-icon" aria-hidden="true">⚙️</div>
+        <div>
+          <p class="oob-band-kind">SOURCE 1</p>
+          <h2>Microsoft 365 admin center</h2>
+          <p class="oob-band-sub">
+            <a href="https://admin.microsoft.com" target="_blank" rel="noopener">admin.microsoft.com</a>
+            → Reports → Usage → Microsoft 365 Copilot. <strong>Role required:</strong> AI Administrator, Reports Reader, or Global Reader.
+            Data latency typically <strong>~72 hours</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="oob-grid">
+        <article class="oob-card" style="--c:#0078d4">
+          <figure class="oob-card-figure">
+            <img loading="lazy" src="https://learn.microsoft.com/microsoft-365/copilot/media/microsoft-365-copilot-reports-for-admins/microsoft-365-admin-center-reports.png" alt="Microsoft 365 admin center Reports navigation showing Usage option" onerror="this.parentElement.classList.add('oob-figure-fallback');this.style.display='none';" />
+          </figure>
+          <h3>Reports landing</h3>
+          <p>The umbrella usage dashboard. Pick <strong>Microsoft 365 Copilot</strong> from the report tile grid to drill into Readiness, Usage, Chat, Agents, and Search.</p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/activity-reports" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+
+        <article class="oob-card" style="--c:#0078d4">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#0078d4">
+            <div class="oob-figure-icon" aria-hidden="true">🎯</div>
+            <div class="oob-figure-cap">Readiness report</div>
+          </figure>
+          <h3>Copilot Readiness</h3>
+          <p><strong>License eligibility</strong> · which users meet the Copilot prerequisites · which M365 apps they actively use (Outlook, Teams, Word, Excel, PowerPoint, OneNote) · technical blockers. Use this to <strong>pick your first cohort</strong>.</p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft-365-copilot-readiness" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+
+        <article class="oob-card" style="--c:#0078d4">
+          <figure class="oob-card-figure">
+            <img loading="lazy" src="https://learn.microsoft.com/microsoft-365/copilot/media/microsoft-365-copilot-reports-for-admins/microsoft-365-admin-center-usage.png" alt="Microsoft 365 admin center Copilot usage report tile selection" onerror="this.parentElement.classList.add('oob-figure-fallback');this.style.display='none';" />
+          </figure>
+          <h3>Copilot Usage</h3>
+          <p><strong>Adoption + retention + engagement</strong>. Enabled users vs active users, active-day trends, per-app integration usage, top agents. Anonymizes user-level data by default — switch to identified mode if your privacy policy allows.</p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft-365-copilot-usage" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+
+        <article class="oob-card" style="--c:#0078d4">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#8661c5">
+            <div class="oob-figure-icon" aria-hidden="true">💬</div>
+            <div class="oob-figure-cap">Copilot Chat usage</div>
+          </figure>
+          <h3>Copilot Chat usage</h3>
+          <p>Specifically for <strong>unlicensed users</strong> interacting with Copilot Chat in Teams, Outlook, m365.cloud.microsoft, Edge, Word, Excel, PowerPoint, OneNote. Total active users, average daily active, prompts submitted, per-user activity.</p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft-copilot-usage" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+
+        <article class="oob-card" style="--c:#0078d4">
+          <figure class="oob-card-figure">
+            <img loading="lazy" src="https://learn.microsoft.com/microsoft-365/media/agent-filters-and-metrics.png" alt="Microsoft 365 admin center Copilot Agents usage report metrics dashboard" onerror="this.parentElement.classList.add('oob-figure-fallback');this.style.display='none';" />
+          </figure>
+          <h3>Copilot Agents usage</h3>
+          <p>Declarative agents, SharePoint agents, Custom engine agents. <strong>Total active users (licensed + unlicensed)</strong>, total active agents, daily time series, active usage per user / per agent / per agent-user pair. Includes agents built by your org, Microsoft, or Microsoft Partners.</p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft-365-copilot-agents-new" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+
+        <article class="oob-card" style="--c:#0078d4">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#00B294">
+            <div class="oob-figure-icon" aria-hidden="true">🔎</div>
+            <div class="oob-figure-cap">Copilot Search · Preview</div>
+          </figure>
+          <h3>Copilot Search usage <span class="oob-pill">PREVIEW</span></h3>
+          <p>Active usage and search-activity trends at org level, plus per-user search behavior. Reflects user behaviors within <strong>1 hour</strong> (much fresher than the 72-hour reports above). Still in public preview.</p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft-365-copilot-search-usage" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== VIVA -->
+  <section id="viva" class="oob-band" style="--band:#00B294">
+    <div class="wrap">
+      <div class="oob-band-head">
+        <div class="oob-band-icon" aria-hidden="true">📊</div>
+        <div>
+          <p class="oob-band-kind">SOURCE 2</p>
+          <h2>Viva Insights · Copilot analytics</h2>
+          <p class="oob-band-sub">
+            Two surfaces: the <strong>Copilot Dashboard</strong> (curated, in Teams) and the
+            <strong>Advanced Insights Analyst workbench</strong> (custom queries, Power BI templates).
+            <strong>License required:</strong> Viva Insights. <strong>Roles:</strong> AI Administrator (to enable) + delegated dashboard access or Analyst role.
+          </p>
+        </div>
+      </div>
+
+      <div class="oob-grid">
+        <article class="oob-card" style="--c:#00B294">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#00B294">
+            <div class="oob-figure-icon" aria-hidden="true">📈</div>
+            <div class="oob-figure-cap">Adoption tab</div>
+          </figure>
+          <h3>Adoption metrics</h3>
+          <p>User adoption rates and growth trends. Tracks the population curve: licensed → enabled → active → habitual.</p>
+        </article>
+
+        <article class="oob-card" style="--c:#00B294">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#0078d4">
+            <div class="oob-figure-icon" aria-hidden="true">🕒</div>
+            <div class="oob-figure-cap">Usage patterns</div>
+          </figure>
+          <h3>Usage patterns</h3>
+          <p>When and how users interact with Copilot — by day of week, by app, by time of day. Surfaces the difference between exploration and ingrained habit.</p>
+        </article>
+
+        <article class="oob-card" style="--c:#00B294">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#e3008c">
+            <div class="oob-figure-icon" aria-hidden="true">⚡</div>
+            <div class="oob-figure-cap">Productivity impact</div>
+          </figure>
+          <h3>Productivity impact</h3>
+          <p>The behavior-change layer. Measures the effect of Copilot on focus time, meeting load, after-hours work, and collaboration patterns. The closest native equivalent to Super User Impact.</p>
+        </article>
+
+        <article class="oob-card" style="--c:#00B294">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#ffaa44">
+            <div class="oob-figure-icon" aria-hidden="true">💰</div>
+            <div class="oob-figure-cap">ROI indicators</div>
+          </figure>
+          <h3>ROI indicators</h3>
+          <p>Data points to help assess return on investment — not a dollarized calc, but the inputs you need to build one.</p>
+        </article>
+
+        <article class="oob-card" style="--c:#00B294">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#8661c5">
+            <div class="oob-figure-icon" aria-hidden="true">🧠</div>
+            <div class="oob-figure-cap">Actionable insights</div>
+          </figure>
+          <h3>Actionable insights</h3>
+          <p>Recommendations engine: which cohorts to nudge, which apps to push, where adoption is stalling. The Dashboard's "what should I do next" panel.</p>
+        </article>
+
+        <article class="oob-card" style="--c:#00B294">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#00B294">
+            <div class="oob-figure-icon" aria-hidden="true">🛠️</div>
+            <div class="oob-figure-cap">Analyst workbench</div>
+          </figure>
+          <h3>Analyst workbench</h3>
+          <p><strong>Custom Copilot queries</strong> · <strong>Power BI templates</strong> · cross-data analysis · detailed executive reporting. This is the surface most of the Analytics Hub's Viva-based reports (Super Usage, Super Impact) plug into.</p>
+        </article>
+      </div>
+
+      <div class="oob-band-foot">
+        <a class="btn btn-primary" href="https://learn.microsoft.com/viva/insights/advanced/admin/manage-settings-copilot-dashboard" target="_blank" rel="noopener">Enable the Copilot Dashboard ↗</a>
+        <a class="btn btn-ghost" href="https://learn.microsoft.com/viva/insights/org-team-insights/delegate-access" target="_blank" rel="noopener">Delegate access ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== PURVIEW -->
+  <section id="purview" class="oob-band" style="--band:#8661c5">
+    <div class="wrap">
+      <div class="oob-band-head">
+        <div class="oob-band-icon" aria-hidden="true">🛡️</div>
+        <div>
+          <p class="oob-band-kind">SOURCE 3</p>
+          <h2>Microsoft Purview · Audit logs</h2>
+          <p class="oob-band-sub">
+            The raw event stream behind every Copilot interaction — chat prompts, agent invocations, file activity. Not a "report" in the visual sense, but the truth-source most Analytics Hub reports build on.
+            <strong>Role required:</strong> Audit Reader or above.
+          </p>
+        </div>
+      </div>
+
+      <div class="oob-grid">
+        <article class="oob-card" style="--c:#8661c5">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#8661c5">
+            <div class="oob-figure-icon" aria-hidden="true">📜</div>
+            <div class="oob-figure-cap">Unified Audit Log</div>
+          </figure>
+          <h3>Unified Audit Log</h3>
+          <p>Searchable in the Purview portal or via PowerShell / Graph API. Every Copilot interaction, every agent invocation, every file the model touched. <strong>Compliance + security teams already have access.</strong></p>
+          <a class="btn btn-ghost btn-sm" href="https://learn.microsoft.com/purview/audit-search" target="_blank" rel="noopener">Docs ↗</a>
+        </article>
+
+        <article class="oob-card" style="--c:#8661c5">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#e3008c">
+            <div class="oob-figure-icon" aria-hidden="true">🚨</div>
+            <div class="oob-figure-cap">Compliance + DLP</div>
+          </figure>
+          <h3>Compliance + DLP signals</h3>
+          <p>Copilot interactions show up in DLP policy matches, sensitivity-label events, and Insider Risk Management. <strong>You don't need a custom report to know if Copilot saw a secret</strong> — Purview already flags it.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== POWER PLATFORM -->
+  <section id="power-platform" class="oob-band" style="--band:#FFB900">
+    <div class="wrap">
+      <div class="oob-band-head">
+        <div class="oob-band-icon" aria-hidden="true">🔌</div>
+        <div>
+          <p class="oob-band-kind">SOURCE 4</p>
+          <h2>Power Platform + Copilot Studio analytics</h2>
+          <p class="oob-band-sub">
+            If your org builds custom agents in Copilot Studio, the Power Platform admin center has consumption + performance metrics per agent. Complements (doesn't duplicate) the admin-center Agents usage report.
+          </p>
+        </div>
+      </div>
+
+      <div class="oob-grid">
+        <article class="oob-card" style="--c:#FFB900">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#FFB900">
+            <div class="oob-figure-icon" aria-hidden="true">📊</div>
+            <div class="oob-figure-cap">Agent consumption</div>
+          </figure>
+          <h3>Agent consumption</h3>
+          <p>Message-pack burn rate per agent, per environment. Tells you which agents are economically viable and which are runaway costs.</p>
+        </article>
+
+        <article class="oob-card" style="--c:#FFB900">
+          <figure class="oob-card-figure oob-figure-placeholder" style="--c:#e3008c">
+            <div class="oob-figure-icon" aria-hidden="true">🎯</div>
+            <div class="oob-figure-cap">Agent performance</div>
+          </figure>
+          <h3>Agent performance</h3>
+          <p>Containment rate, escalation rate, satisfaction scores, abandon points. Built into the Copilot Studio analytics tab per agent.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== VS MATRIX -->
+  <section id="vs-matrix" class="oob-matrix-band">
+    <div class="wrap">
+      <p class="eyebrow">🔁 NATIVE VS ANALYTICS HUB</p>
+      <h2>Where the Hub picks up</h2>
+      <p class="section-lead">Native reports answer "what happened." Analytics Hub answers "<em>so what, now what</em>." Both are designed to coexist — the Hub never duplicates what's already in the admin center.</p>
+
+      <div class="oob-matrix">
+        <table>
+          <thead>
+            <tr>
+              <th>You need to…</th>
+              <th>Start native</th>
+              <th>Layer Analytics Hub</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>See who's eligible &amp; provisioned</strong></td>
+              <td>Admin center · Copilot Readiness</td>
+              <td><a href="../find-a-tool/?q=license">M365 Readiness</a> — adds cohort filters, stranded-seat alerts, executive narrative</td>
+            </tr>
+            <tr>
+              <td><strong>Track adoption + retention</strong></td>
+              <td>Admin center · Copilot Usage</td>
+              <td><a href="../find-a-tool/?q=adoption">AI-in-One</a> + <a href="../find-a-tool/?q=adoption">Super Usage</a> — cross-tabs by department, persona, geo, tenure</td>
+            </tr>
+            <tr>
+              <td><strong>Understand chat usage (licensed &amp; unlicensed)</strong></td>
+              <td>Admin center · Copilot Chat usage</td>
+              <td><a href="../find-a-tool/?q=chat">Chat &amp; Agent Intelligence</a> — prompt topic analysis, app fan-out, repeat-user cohorts</td>
+            </tr>
+            <tr>
+              <td><strong>Audit agent invocations</strong></td>
+              <td>Admin center · Agents usage</td>
+              <td><a href="../find-a-tool/?q=agents">AI-in-One</a> + <a href="../find-a-tool/?q=agents">Chat &amp; Agent Intelligence</a> — who's building vs who's using, agent-to-user fan-out, governance posture</td>
+            </tr>
+            <tr>
+              <td><strong>Quantify productivity lift</strong></td>
+              <td>Viva · Productivity impact</td>
+              <td><a href="../find-a-tool/?q=impact">Super User Impact</a> + <a href="../find-a-tool/?q=impact">What I Did</a> — peer-comparable deltas, dollarized in <a href="../find-a-tool/?q=roi">ROI Calculator</a></td>
+            </tr>
+            <tr>
+              <td><strong>Build an exec ROI story</strong></td>
+              <td>Viva · ROI indicators</td>
+              <td><a href="../find-a-tool/?q=roi">ROI Calculator</a> — scenario sweeps, payback model, defensible assumptions</td>
+            </tr>
+            <tr>
+              <td><strong>Pull tenant-scale audit data on a schedule</strong></td>
+              <td>Purview · Audit search (manual)</td>
+              <td><a href="../find-a-tool/?q=audit">PAX</a> — no row limits, schedulable, pushes to Lake / Warehouse / Fabric / SIEM</td>
+            </tr>
+            <tr>
+              <td><strong>Survey sentiment + qualitative themes</strong></td>
+              <td>Viva · Survey insights</td>
+              <td><a href="../find-a-tool/?q=sentiment">Adoption &amp; Sentiment</a> — NPS layered on usage cohorts</td>
+            </tr>
+            <tr>
+              <td><strong>Identify &amp; recognize champions</strong></td>
+              <td>—</td>
+              <td><a href="../find-a-tool/?q=customization">CustomizeCopilot</a> — Champion-ID, branding, theming</td>
+            </tr>
+            <tr>
+              <td><strong>Measure GitHub Copilot for developers</strong></td>
+              <td>GitHub Enterprise · Copilot metrics API</td>
+              <td><a href="../find-a-tool/?q=developer">GitHub Copilot Impact</a> — chat vs agent, language, model, acceptance rates</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== CLOSING CTA -->
+  <section class="oob-closing">
+    <div class="wrap">
+      <div class="oob-closing-card">
+        <div>
+          <p class="eyebrow">START NATIVE · LAYER THE HUB</p>
+          <h2>The Hub doesn't replace Microsoft's reports — it amplifies them.</h2>
+          <p>Most teams run native + Analytics Hub side-by-side. The admin center gives you the official numbers your CFO trusts. The Hub gives you the slicers, comparisons, and ROI story that get the next budget cycle approved.</p>
+        </div>
+        <div class="oob-closing-ctas">
+          <a class="btn btn-primary" href="../find-a-tool/">Find a Report →</a>
+          <a class="btn btn-ghost" href="../data-sources/">Where the data comes from →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Open source · Built by Microsoft's Copilot ROI Advisory Team</p>
+      <p><a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">microsoft/Analytics-Hub</a> · <a href="../">Home</a> · <a href="../find-a-tool/">Find a Report</a> · <a href="../data-sources/">Data Sources</a> · <a href="../team/">Team</a></p>
+      <p class="oob-attribution">Screenshots and product descriptions © Microsoft Corporation. Sourced from <a href="https://learn.microsoft.com" target="_blank" rel="noopener">learn.microsoft.com</a> for educational reference.</p>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>

@@ -38,27 +38,37 @@ const NODES = [
 
   // ---- column 2 : REPORTS / TEMPLATES ----
   { id: "ai-in-one",        kind: "report", label: "AI-in-One Dashboard",      sub: "All Copilot surfaces + Agents",  icon: "🌐", color: "#FFB900", col: 2, row: 0,
+    topics: ["adoption","chat","agents","license","engagement"],
     repo: "https://github.com/microsoft/AI-in-One-Dashboard" },
   { id: "chat-agent",       kind: "report", label: "Copilot Chat & Agent Intel", sub: "Deep-dive activity analytics", icon: "💬", color: "#FFB900", col: 2, row: 1,
+    topics: ["chat","agents","engagement"],
     repo: "https://github.com/microsoft/CopilotChatAnalytics" },
   { id: "m365-readiness",   kind: "report", label: "M365 Copilot Readiness",   sub: "License readiness · adoption gaps", icon: "✅", color: "#FFB900", col: 2, row: 2,
+    topics: ["license","adoption","unlicensed"],
     repo: "https://github.com/microsoft/M365UsageAnalytics" },
   { id: "super-usage",      kind: "report", label: "Super Usage Analysis",     sub: "Super user identification",      icon: "🦸", color: "#00B294", col: 2, row: 3,
+    topics: ["adoption","productivity","engagement"],
     repo: "https://github.com/microsoft/DecodingSuperUsage" },
   { id: "super-impact",     kind: "report", label: "Super User Impact",        sub: "Work-behavior impact metrics",   icon: "📈", color: "#00B294", col: 2, row: 4,
+    topics: ["impact","productivity","roi"],
     repo: "https://github.com/microsoft/superuserimpact" },
   { id: "ghcp-impact",      kind: "report", label: "GitHub Copilot Impact",    sub: "Dev productivity analytics",     icon: "⚙️", color: "#0078d4", col: 2, row: 5,
+    topics: ["developer","productivity","impact"],
     repo: "https://github.com/microsoft/GitHubCopilotImpact" },
   { id: "adoption-sent",    kind: "report", label: "Adoption & Sentiment",     sub: "Usage trends + survey data",     icon: "💚", color: "#FFB900", col: 2, row: 6,
+    topics: ["adoption","sentiment","engagement"],
     repo: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report" },
 
   // ---- column 3 : ADD-ONS (spawn off reports) ----
   { id: "roi-calc",         kind: "addon",  label: "ROI Calculator",           sub: "Spawns from Super Usage Heatmap", icon: "🧮", color: "#e3008c", col: 3, row: 3,
+    topics: ["roi","impact"],
     detail: "Add-on that turns the Super Usage Heatmap CSV into a dollarised ROI summary for execs." },
   { id: "customize",        kind: "addon",  label: "CustomizeCopilot",         sub: "Champion-ID add-on",              icon: "🎨", color: "#e3008c", col: 3, row: 4,
+    topics: ["customization"],
     detail: "Pages and visuals you can graft onto Super User Impact to identify and recognise champions.",
     repo: "https://github.com/microsoft/customizecopilot" },
   { id: "what-i-did",       kind: "addon",  label: "What I Did (Copilot)",     sub: "Personal VS Code activity digest", icon: "📝", color: "#e3008c", col: 3, row: 5,
+    topics: ["productivity","impact"],
     detail: "Runs locally in VS Code, scans your own Copilot/Claude session files, and produces a daily digest of what you built. Doesn't touch any tenant data.",
     repo: "https://github.com/microsoft/What-I-Did-Copilot" },
 ];
@@ -182,6 +192,8 @@ function drawLines() {
 }
 
 function highlight(id) {
+  // When a category filter is active, hover effects are suppressed
+  if (typeof activeTopic !== "undefined" && activeTopic) return;
   const svg = document.getElementById("dsLines");
   document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded"));
   svg.querySelectorAll(".ds-edge").forEach(p => p.classList.remove("is-active", "is-faded"));
@@ -233,10 +245,12 @@ function openDrawer(id) {
     ${chips(downstream)}
 
     ${n.repo ? `<a class="btn btn-primary ds-drawer-cta" href="${n.repo}" target="_blank" rel="noopener">Open repository ↗</a>` : ""}
+    ${n.repo ? `<a class="github-button ds-drawer-star" href="${n.repo}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ${n.label} on GitHub">Star</a>` : ""}
     <a class="btn btn-ghost ds-drawer-home" href="../">← Home</a>
   `;
   drawer.hidden = false;
   drawer.classList.add("is-open");
+  if (window.GitHubButtons && window.GitHubButtons.render) window.GitHubButtons.render();
   // wire jump chips
   body.querySelectorAll(".ds-chip").forEach(b => {
     b.addEventListener("click", () => openDrawer(b.getAttribute("data-jump")));
@@ -294,9 +308,95 @@ function renderGrid() {
 }
 
 // =====================================================================
+// Category filter — chip row above the canvas highlights matching nodes
+// =====================================================================
+const TOPICS = [
+  { id: "adoption",       label: "Adoption",          icon: "📈", color: "#0078d4" },
+  { id: "engagement",     label: "Engagement",        icon: "⚡", color: "#e3008c" },
+  { id: "agents",         label: "Agents",            icon: "🤖", color: "#e3008c" },
+  { id: "chat",           label: "Chat",              icon: "💬", color: "#00B294" },
+  { id: "license",        label: "Licensed users",    icon: "🎯", color: "#0078d4" },
+  { id: "unlicensed",     label: "Unlicensed users",  icon: "👥", color: "#8661c5" },
+  { id: "impact",         label: "Impact",            icon: "💰", color: "#8661c5" },
+  { id: "roi",            label: "ROI",               icon: "🧮", color: "#00B294" },
+  { id: "productivity",   label: "Productivity",      icon: "⚡", color: "#FFB900" },
+  { id: "developer",      label: "Developer",         icon: "💻", color: "#24292f" },
+  { id: "sentiment",      label: "Sentiment",         icon: "❤️", color: "#ffaa44" },
+  { id: "customization",  label: "Customization",     icon: "🎨", color: "#0078d4" },
+];
+
+let activeTopic = null;
+
+function renderFilterChips() {
+  const host = document.getElementById("dsFilterChips");
+  if (!host) return;
+  host.innerHTML = TOPICS.map(t => {
+    const count = NODES.filter(n => (n.topics || []).includes(t.id)).length;
+    if (count === 0) return "";
+    return `<button class="ds-filter-chip" data-topic="${t.id}" style="--c:${t.color}" type="button">
+      <span class="ds-filter-icon" aria-hidden="true">${t.icon}</span>
+      <span class="ds-filter-text">${t.label}</span>
+      <span class="ds-filter-count">${count}</span>
+    </button>`;
+  }).join("") + `<button class="ds-filter-chip ds-filter-clear" data-topic="" type="button" hidden>
+      <span class="ds-filter-text">✕ Clear filter</span>
+    </button>`;
+  host.querySelectorAll(".ds-filter-chip").forEach(b => {
+    b.addEventListener("click", () => setTopic(b.getAttribute("data-topic") || null));
+  });
+}
+
+function setTopic(topic) {
+  activeTopic = (activeTopic === topic) ? null : topic;
+  const chips = document.querySelectorAll(".ds-filter-chip");
+  chips.forEach(c => {
+    const t = c.getAttribute("data-topic");
+    c.classList.toggle("is-active", t === activeTopic);
+  });
+  const clearBtn = document.querySelector(".ds-filter-clear");
+  if (clearBtn) clearBtn.hidden = !activeTopic;
+  applyTopicHighlight();
+}
+
+function applyTopicHighlight() {
+  const svg = document.getElementById("dsLines");
+  document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded"));
+  svg.querySelectorAll(".ds-edge").forEach(p => p.classList.remove("is-active", "is-faded"));
+  if (!activeTopic) return;
+  // matched reports/addons
+  const matched = new Set(NODES.filter(n => (n.topics || []).includes(activeTopic)).map(n => n.id));
+  if (matched.size === 0) return;
+  // also include their upstream feeders (sources + pipes) so the path is visible
+  const related = new Set(matched);
+  let frontier = [...matched];
+  for (let hop = 0; hop < 3; hop++) {
+    const next = [];
+    for (const id of frontier) {
+      EDGES.filter(e => e.to === id).forEach(e => { if (!related.has(e.from)) { related.add(e.from); next.push(e.from); } });
+    }
+    frontier = next;
+  }
+  document.querySelectorAll(".ds-node").forEach(n => {
+    const nid = n.getAttribute("data-id");
+    if (related.has(nid)) {
+      n.classList.add("is-related");
+      if (matched.has(nid)) n.classList.add("is-match");
+    } else {
+      n.classList.add("is-faded");
+    }
+  });
+  svg.querySelectorAll(".ds-edge").forEach(p => {
+    const f = p.getAttribute("data-from"), t = p.getAttribute("data-to");
+    if (related.has(f) && related.has(t)) p.classList.add("is-active");
+    else p.classList.add("is-faded");
+  });
+}
+
+// =====================================================================
 function init() {
   renderNodes();
   renderGrid();
+  renderFilterChips();
   // wait one frame so layout settles before measuring
   requestAnimationFrame(drawLines);
   window.addEventListener("resize", () => requestAnimationFrame(drawLines));

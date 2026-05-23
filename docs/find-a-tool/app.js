@@ -269,6 +269,7 @@ function rowHtml(t) {
               <a class="btn btn-ghost" href="${t.download}">⬇ Download .zip</a>
               ${t.emailFile ? `<button class="btn btn-soft email-btn" data-email="${t.emailFile}">📧 Email your admin</button>` : ''}
               ${t.secondaryEmailFile ? `<button class="btn btn-soft email-btn" data-email="${t.secondaryEmailFile}">📧 Email (Agent variant)</button>` : ''}
+              <a class="github-button" href="${t.repo}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ${t.title} on GitHub">Star</a>
             </div>
             <p class="data-line"><strong>Data source:</strong> ${t.source}</p>
           </div>
@@ -378,4 +379,11 @@ function wireFilters() {
 document.addEventListener('DOMContentLoaded', () => {
   render();
   wireFilters();
+  // Honor ?q=foo in the URL — deep-link from home measurables drawer + native-vs-hub matrix
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if (q) {
+    const input = document.getElementById('qSearch');
+    if (input) { input.value = q; applyFilters(); input.focus(); }
+  }
 });

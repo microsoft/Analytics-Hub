@@ -7,6 +7,7 @@
   <meta name="description" content="Interactive map of every data source the Analytics Hub uses, and which template each one powers. Click a node to see what feeds it and what it produces." />
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="styles.css" />
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
   <link rel="preconnect" href="https://github.com" />
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -29,6 +30,7 @@
     <nav class="primary-nav">
       <a href="../">Home</a>
       <a href="../find-a-tool/">Find a Report</a>
+      <a href="../out-of-the-box/">Native Reports</a>
       <a href="./" aria-current="page">Data Sources</a>
       <a href="../case-studies/">Case Studies</a>
       <a href="../team/">Team</a>
@@ -54,6 +56,14 @@
         <span class="lg lg-rpt"><i></i> Report / Template</span>
         <span class="lg lg-addon"><i></i> Add-on</span>
       </div>
+    </div>
+  </section>
+
+  <!-- =============================================== CATEGORY FILTER -->
+  <section class="ds-filter-band" aria-label="Filter by category">
+    <div class="wrap">
+      <p class="ds-filter-label"><span aria-hidden="true">🎯</span> Filter reports by what they measure</p>
+      <div class="ds-filter-chips" id="dsFilterChips" role="toolbar" aria-label="Category filters"></div>
     </div>
   </section>
 

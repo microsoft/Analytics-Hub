@@ -6,6 +6,7 @@
   <title>Analytics Hub · Microsoft Copilot & AI Adoption Toolkit</title>
   <meta name="description" content="Nine open-source analytics tools built by Microsoft's Copilot ROI Advisory Team to measure and accelerate Copilot adoption." />
   <link rel="stylesheet" href="styles.css" />
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
   <link rel="preconnect" href="https://github.com" />
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -28,6 +29,7 @@
     </a>
     <nav class="primary-nav">
       <a href="find-a-tool/">Find a Report</a>
+      <a href="out-of-the-box/">Native Reports</a>
       <a href="data-sources/">Data Sources</a>
       <a href="case-studies/">Case Studies</a>
       <a href="team/">Team</a>
@@ -188,6 +190,7 @@
       </div>
       <div>
         <div class="footer-heading">Resources</div>
+        <a href="out-of-the-box/">Native Reports (admin center + Viva)</a>
         <a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">Main repository</a>
         <a href="https://github.com/microsoft/Analytics-Hub/issues" target="_blank" rel="noopener">Issues & support</a>
         <a href="https://opensource.microsoft.com/codeofconduct/" target="_blank" rel="noopener">Code of Conduct</a>
@@ -246,11 +249,14 @@
 
   function reportCard(id) {
     const r = REPORTS[id]; if (!r) return '';
-    return `<a class="home-drawer-report" href="${r.repo}" target="_blank" rel="noopener" style="--c:${r.color}">
+    return `<div class="home-drawer-report-wrap">
+      <a class="home-drawer-report" href="${r.repo}" target="_blank" rel="noopener" style="--c:${r.color}">
       <span class="hdr-icon">${r.icon}</span>
       <span class="hdr-text"><strong>${r.title}</strong><span>${r.blurb}</span></span>
       <span class="hdr-arrow">↗</span>
-    </a>`;
+    </a>
+    <a class="github-button" href="${r.repo}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ${r.title} on GitHub">Star</a>
+    </div>`;
   }
 
   function openMeasure(key) {
@@ -275,6 +281,9 @@
     requestAnimationFrame(() => { drawer.classList.add('is-open'); scrim.classList.add('is-open'); });
     drawer.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
+    if (window.GitHubButtonsRender) window.GitHubButtonsRender();
+    else if (window.GitHubButtons && window.GitHubButtons.render) window.GitHubButtons.render();
+    else { var s = document.createElement('script'); s.src='https://buttons.github.io/buttons.js'; document.body.appendChild(s); }
   }
   function closeMeasure() {
     drawer.classList.remove('is-open'); scrim.classList.remove('is-open');
