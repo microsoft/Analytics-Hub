@@ -27,7 +27,6 @@
       <span class="brand-by">by Microsoft</span>
     </a>
     <nav class="primary-nav">
-      <a href="#toolkit">Toolkit</a>
       <a href="find-a-tool/">Find a Tool</a>
       <a href="data-sources/">Data Sources</a>
       <a href="case-studies/">Case Studies</a>
@@ -55,248 +54,91 @@
       Nine production-ready Power BI templates, add-ons, and PowerShell automation tools that turn your tenant's audit logs and Viva Insights data into a complete picture of Copilot adoption, impact, and readiness.
     </p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#toolkit">Browse the Toolkit →</a>
-      <a class="btn btn-ghost" href="find-a-tool/">Find My Tool</a>
+      <a class="btn btn-primary" href="find-a-tool/">Find My Tool →</a>
+      <a class="btn btn-ghost" href="#explore">Explore the Hub</a>
     </div>
     <div class="hero-stats">
-      <div><strong>9</strong><span>Free tools</span></div>
+      <div><strong>11</strong><span>Free tools</span></div>
       <div><strong>0</strong><span>Data leaves tenant</span></div>
-      <div><strong>5</strong><span>Data sources covered</span></div>
+      <div><strong>6</strong><span>Data sources covered</span></div>
       <div><strong>100%</strong><span>Open source</span></div>
     </div>
   </div>
 </section>
 
-<!-- =========================================================== ECOSYSTEM -->
-<section class="band ecosystem">
+<!-- =========================================================== EXPLORE HUB -->
+<section class="band hub-band" id="explore">
   <div class="wrap">
-    <h2 class="section-title">The Copilot adoption journey</h2>
-    <p class="section-lead">Every tool maps to one stage. Pick the stage you're in, and the right tool finds you.</p>
-    <div class="journey">
-      <div class="journey-step">
-        <div class="step-num">1</div>
-        <div class="step-name">License Readiness</div>
-        <div class="step-desc">Who should get Copilot next based on real M365 activity?</div>
-      </div>
-      <div class="journey-arrow">→</div>
-      <div class="journey-step">
-        <div class="step-num">2</div>
-        <div class="step-name">Active Usage</div>
-        <div class="step-desc">Who is using Copilot Chat, Agents, and apps and how often?</div>
-      </div>
-      <div class="journey-arrow">→</div>
-      <div class="journey-step">
-        <div class="step-num">3</div>
-        <div class="step-name">Deep Behavior</div>
-        <div class="step-desc">Who are the super users, and what patterns make them so?</div>
-      </div>
-      <div class="journey-arrow">→</div>
-      <div class="journey-step">
-        <div class="step-num">4</div>
-        <div class="step-name">Business Impact</div>
-        <div class="step-desc">What changed in work patterns, sentiment, and value delivered?</div>
-      </div>
+    <p class="eyebrow center">Where to next</p>
+    <h2 class="section-title center">Pick your path through the Hub</h2>
+    <p class="section-lead center">Four ways in. Every page is standalone, interactive, and links back here.</p>
+
+    <div class="hub-grid">
+      <a class="hub-card" href="find-a-tool/" style="--c:#0078d4;--c2:#8661c5;">
+        <div class="hub-card-glow" aria-hidden="true"></div>
+        <div class="hub-card-icon">🔍</div>
+        <div class="hub-card-eyebrow">Toolkit · 11 templates</div>
+        <h3 class="hub-card-title">Find a Tool</h3>
+        <p class="hub-card-desc">Searchable matrix of every dashboard, add-on, and exporter. Click a row to expand the preview, jump to the repo, grab the zip, or open a pre-filled admin email.</p>
+        <span class="hub-card-cta">Browse the toolkit <span class="arrow">→</span></span>
+      </a>
+
+      <a class="hub-card" href="data-sources/" style="--c:#00B294;--c2:#0078d4;">
+        <div class="hub-card-glow" aria-hidden="true"></div>
+        <div class="hub-card-icon">🌐</div>
+        <div class="hub-card-eyebrow">6 sources · 11 tools · live edges</div>
+        <h3 class="hub-card-title">Data Sources</h3>
+        <p class="hub-card-desc">Interactive ecosystem map. Click any source — Viva, Purview, Entra, Graph, GitHub, Local Sessions — to trace exactly which tools it feeds and what they produce.</p>
+        <span class="hub-card-cta">Open the diagram <span class="arrow">→</span></span>
+      </a>
+
+      <a class="hub-card" href="case-studies/" style="--c:#8661c5;--c2:#e3008c;">
+        <div class="hub-card-glow" aria-hidden="true"></div>
+        <div class="hub-card-icon">📋</div>
+        <div class="hub-card-eyebrow">6 published stories · $1.5M+ saved</div>
+        <h3 class="hub-card-title">Case Studies</h3>
+        <p class="hub-card-desc">Real outcomes from real deployments. EPAM, Wipro, NHS, Allegis Group, Lloyds Banking Group — filter by industry, see the metrics, read the published source.</p>
+        <span class="hub-card-cta">Read the stories <span class="arrow">→</span></span>
+      </a>
+
+      <a class="hub-card" href="team/" style="--c:#e3008c;--c2:#0078d4;">
+        <div class="hub-card-glow" aria-hidden="true"></div>
+        <div class="hub-card-icon">👥</div>
+        <div class="hub-card-eyebrow">Microsoft Growth &amp; Incubation</div>
+        <h3 class="hub-card-title">Team</h3>
+        <p class="hub-card-desc">Meet the People Scientists, Business Value Advisors, and Solutions Architects behind the Hub. Field signal goes back into the product. Your friction becomes the next feature.</p>
+        <span class="hub-card-cta">Meet the team <span class="arrow">→</span></span>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- =========================================================== PICKER -->
-<section class="band picker-band" id="picker">
+<!-- =========================================================== TRUST STRIP -->
+<section class="band trust-band">
+  <div class="wrap trust-row">
+    <div class="trust-pill"><span class="trust-dot" style="background:var(--accent-3)"></span>Runs entirely in your tenant</div>
+    <div class="trust-pill"><span class="trust-dot" style="background:var(--accent)"></span>MIT licensed, no telemetry</div>
+    <div class="trust-pill"><span class="trust-dot" style="background:var(--accent-2)"></span>Built by Microsoft, used by enterprises</div>
+  </div>
+</section>
+
+<!-- =========================================================== CLOSING CTA -->
+<section class="band closing-band">
   <div class="wrap">
-    <h2 class="section-title">Find your tool in 3 clicks</h2>
-    <p class="section-lead">Pick what you have and what you need. We'll surface the right starting point.</p>
-
-    <div class="picker">
-      <div class="picker-question" data-question="datasource">
-        <label class="picker-label">1. What data source do you have access to?</label>
-        <div class="picker-options">
-          <button class="chip" data-value="viva">Viva Insights</button>
-          <button class="chip" data-value="purview">Purview / Audit Logs</button>
-          <button class="chip" data-value="entra">Entra ID / Admin Center</button>
-          <button class="chip" data-value="github">GitHub Enterprise</button>
-          <button class="chip" data-value="any">Not sure yet</button>
-        </div>
+    <div class="closing-card">
+      <div>
+        <p class="eyebrow">Get in touch</p>
+        <h2>Have a question — or a story to share?</h2>
+        <p class="closing-sub">We read every issue and reply to every email. If a template helped you ship something, we'd love to amplify it.</p>
       </div>
-
-      <div class="picker-question" data-question="audience">
-        <label class="picker-label">2. Who is this for?</label>
-        <div class="picker-options">
-          <button class="chip" data-value="exec">Executives</button>
-          <button class="chip" data-value="it">IT / Admins</button>
-          <button class="chip" data-value="ccm">Change Management</button>
-          <button class="chip" data-value="dev">Developer Leaders</button>
-        </div>
-      </div>
-
-      <div class="picker-question" data-question="goal">
-        <label class="picker-label">3. What do you want to do?</label>
-        <div class="picker-options">
-          <button class="chip" data-value="discover">Discover who's using Copilot</button>
-          <button class="chip" data-value="measure">Measure business impact</button>
-          <button class="chip" data-value="license">Plan license rollout</button>
-          <button class="chip" data-value="automate">Automate data export</button>
-          <button class="chip" data-value="extend">Customize a template</button>
-        </div>
-      </div>
-
-      <div class="picker-result" id="pickerResult" hidden>
-        <div class="picker-result-label">Recommended for you</div>
-        <div class="picker-result-card" id="pickerResultCard"></div>
-        <button class="btn btn-ghost picker-reset" id="pickerReset">Start over</button>
+      <div class="closing-ctas">
+        <a class="btn btn-primary" href="https://github.com/microsoft/Analytics-Hub/issues" target="_blank" rel="noopener">Open an Issue ↗</a>
+        <a class="btn btn-ghost" href="team/">Meet the Team</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- =========================================================== TOOLKIT -->
-<section class="band toolkit-band" id="toolkit">
-  <div class="wrap">
-    <h2 class="section-title">The Toolkit</h2>
-    <p class="section-lead">Nine repositories. Each is standalone. Mix and match.</p>
-
-    <div class="filter-bar">
-      <span class="filter-label">Filter by data source:</span>
-      <button class="filter-pill active" data-filter="all">All</button>
-      <button class="filter-pill" data-filter="viva">Viva Insights</button>
-      <button class="filter-pill" data-filter="purview">Purview</button>
-      <button class="filter-pill" data-filter="github">GitHub</button>
-      <button class="filter-pill" data-filter="addon">Add-on / Automation</button>
-    </div>
-
-    <div class="cards" id="cardGrid">
-      <!-- Cards rendered by app.js for filterability -->
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================== DATA SOURCES -->
-<section class="band data-band" id="data-sources">
-  <div class="wrap">
-    <h2 class="section-title">Data sources at a glance</h2>
-    <p class="section-lead">Every tool runs in your tenant. No data is ever sent to Microsoft.</p>
-    <div class="data-grid">
-      <div class="data-card">
-        <div class="data-icon" style="--ic:#00B294;">📊</div>
-        <h3>Viva Insights</h3>
-        <p>Person-level work-pattern metrics (collaboration, focus, meeting load, Copilot interactions). Requires a Viva Insights license and Insights Analyst role.</p>
-        <div class="data-tools">
-          <span class="tool-tag">Super Usage Adoption</span>
-          <span class="tool-tag">Super User Impact</span>
-          <span class="tool-tag">CustomizeCopilot</span>
-        </div>
-      </div>
-      <div class="data-card">
-        <div class="data-icon" style="--ic:#6264a7;">🛡️</div>
-        <h3>Microsoft Purview</h3>
-        <p>Unified Audit Log records covering Copilot interactions, file activity, Teams events, and Agent invocations. Available to Audit Reader and above.</p>
-        <div class="data-tools">
-          <span class="tool-tag">Chat & Agent Intelligence</span>
-          <span class="tool-tag">AI-in-One Dashboard</span>
-          <span class="tool-tag">M365 Readiness</span>
-        </div>
-      </div>
-      <div class="data-card">
-        <div class="data-icon" style="--ic:#0078d4;">👤</div>
-        <h3>Microsoft Entra ID</h3>
-        <p>User profiles, department, license status. Used to enrich audit data with org context. Available to User Administrator or Global Reader.</p>
-        <div class="data-tools">
-          <span class="tool-tag">Chat & Agent Intelligence</span>
-          <span class="tool-tag">AI-in-One Dashboard</span>
-          <span class="tool-tag">M365 Readiness</span>
-        </div>
-      </div>
-      <div class="data-card">
-        <div class="data-icon" style="--ic:#24292f;">⚡</div>
-        <h3>GitHub Enterprise API</h3>
-        <p>Per-team and per-user GitHub Copilot usage metrics — chat vs agent, language, model, acceptance rates. Requires GitHub Enterprise admin access.</p>
-        <div class="data-tools">
-          <span class="tool-tag">GitHub Copilot Impact</span>
-        </div>
-      </div>
-      <div class="data-card">
-        <div class="data-icon" style="--ic:#FFB900;">📥</div>
-        <h3>M365 Admin Center + Surveys</h3>
-        <p>Public M365 usage exports + employee sentiment data. No special licenses — works for any tenant admin.</p>
-        <div class="data-tools">
-          <span class="tool-tag">Adoption & Sentiment Report</span>
-        </div>
-      </div>
-      <div class="data-card">
-        <div class="data-icon" style="--ic:#8661c5;">🔌</div>
-        <h3>Microsoft Graph API</h3>
-        <p>Programmatic access to audit logs, Copilot interactions, and agent telemetry. Powers the PAX automation script for enterprise-grade exports.</p>
-        <div class="data-tools">
-          <span class="tool-tag">PAX</span>
-        </div>
-      </div>
-    </div>
-    <div class="section-cta-row">
-      <a class="btn btn-primary" href="data-sources/">See the full ecosystem diagram →</a>
-      <span class="cta-hint">Interactive map · click any node to trace what feeds it and what it powers.</span>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================== STORIES -->
-<section class="band stories-band" id="stories">
-  <div class="wrap">
-    <h2 class="section-title">Built with real customers</h2>
-    <p class="section-lead">These tools came out of hands-on work with Microsoft's largest Copilot deployments.</p>
-    <div class="quotes">
-      <blockquote class="quote">
-        <p>"We replaced three vendor dashboards with the AI-in-One template in a week. Saved us six figures and gave us better data."</p>
-        <cite>— Enterprise IT Director</cite>
-      </blockquote>
-      <blockquote class="quote">
-        <p>"The Super User Adoption template told us exactly which 200 people to invest in for our enablement program. Targeted, measurable, defensible."</p>
-        <cite>— Change Management Lead, Financial Services</cite>
-      </blockquote>
-      <blockquote class="quote">
-        <p>"PAX is the only Purview exporter we found that handles tenants with billions of audit events without breaking. Game changer."</p>
-        <cite>— Cloud Security Architect</cite>
-      </blockquote>
-    </div>
-    <div class="section-cta-row">
-      <a class="btn btn-primary" href="case-studies/">See published customer stories →</a>
-      <span class="cta-hint">EPAM · Wipro · NHS · Allegis Group · Lloyds Banking Group · and more.</span>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================== TEAM -->
-<section class="band team-band" id="team">
-  <div class="wrap two-col">
-    <div>
-      <h2 class="section-title">The Copilot ROI Analytics Team</h2>
-      <p class="section-lead">
-        We're <strong>People Scientists, Business Value Advisors, Customer Success
-        Managers, and Solutions Architects</strong> inside Microsoft Growth &amp;
-        Incubation — working hand-in-hand with the world's largest Copilot
-        deployments to turn Viva Insights, Purview, and Graph data into
-        defensible answers about AI adoption, impact, and ROI.
-      </p>
-      <p>
-        Every template here started as a real customer question. When the
-        answer worked, we hardened it, documented it, and open-sourced it so
-        anyone can use it. Field signal flows back into the Microsoft AI
-        product team — your friction becomes the next feature.
-      </p>
-      <div class="team-ctas">
-        <a class="btn btn-primary" href="team/">Meet the team →</a>
-        <a class="btn btn-ghost" href="https://github.com/microsoft/Analytics-Hub/issues" target="_blank" rel="noopener">Report an Issue</a>
-      </div>
-    </div>
-    <div class="team-callout">
-      <h3>How to engage</h3>
-      <ul class="engagement-list">
-        <li><strong>Star a repo</strong> to get notified about updates</li>
-        <li><strong>Open an issue</strong> for bugs or feature requests</li>
-        <li><strong>Submit a pull request</strong> — we welcome contributions</li>
-        <li><strong>Share success stories</strong> — tag us so we can amplify your work</li>
-      </ul>
-    </div>
-  </div>
-</section>
 
 <!-- =========================================================== FOOTER -->
 <footer class="site-footer">

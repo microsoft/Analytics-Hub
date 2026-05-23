@@ -135,6 +135,7 @@ const TOOLS = [
 // ----------------------------------------------------- RENDER: cards
 function renderCards(filter = 'all') {
   const grid = document.getElementById('cardGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   const visible = filter === 'all' ? TOOLS : TOOLS.filter(t => t.filters.includes(filter));
   visible.forEach(t => {
@@ -189,10 +190,12 @@ function updatePickerResult() {
   const { datasource, audience, goal } = pickerState;
   if (!datasource || !audience || !goal) return;
 
+  const card = document.getElementById('pickerResultCard');
+  if (!card) return;
+
   const ranked = [...TOOLS].map(t => ({ tool: t, score: scoreTool(t) })).sort((a,b) => b.score - a.score);
   const best = ranked[0].tool;
 
-  const card = document.getElementById('pickerResultCard');
   card.style.setProperty('--card-accent', best.accent);
   card.style.borderColor = best.accent;
   card.innerHTML = `
@@ -221,10 +224,10 @@ document.querySelectorAll('.picker-question').forEach(q => {
   });
 });
 
-document.getElementById('pickerReset').addEventListener('click', () => {
+document.getElementById('pickerReset')?.addEventListener('click', () => {
   pickerState.datasource = pickerState.audience = pickerState.goal = null;
   document.querySelectorAll('.picker .chip').forEach(c => c.classList.remove('selected'));
-  document.getElementById('pickerResult').hidden = true;
+  const pr = document.getElementById('pickerResult'); if (pr) pr.hidden = true;
 });
 
 // ----------------------------------------------------- THEME

@@ -241,7 +241,9 @@ function rowHtml(t) {
       <td class="col-actions">
         <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="View on GitHub" aria-label="View on GitHub">↗</a>
         <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip">⬇</a>
-        ${t.emailFile ? `<button class="ico-btn email-btn" data-email="${t.emailFile}" title="Email your admin" aria-label="Email your admin">📧</button>` : ''}
+        ${t.emailFile
+          ? `<button class="ico-btn email-btn" data-email="${t.emailFile}" title="Email your admin" aria-label="Email your admin">📧</button>`
+          : `<span class="ico-btn ico-btn-empty" aria-hidden="true" title="No admin email template for this tool">·</span>`}
       </td>
     </tr>
     <tr class="row-detail" id="detail-${t.id}" hidden>

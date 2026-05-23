@@ -519,3 +519,163 @@ a:hover { text-decoration: underline; }
 /* shared CTA row used at the bottom of bands */
 .section-cta-row { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
 .section-cta-row .cta-hint { font-size: .88rem; color: var(--text-muted); }
+
+/* =====================================================
+   Homepage hub (slim landing)
+   ===================================================== */
+.eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 .75rem;
+}
+.eyebrow.center,
+.section-title.center,
+.section-lead.center { text-align: center; }
+.section-lead.center { max-width: 640px; margin-left: auto; margin-right: auto; }
+
+/* ---------- hub band + grid ---------- */
+.hub-band { padding: 4.5rem 0 3rem; }
+.hub-grid {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.hub-card {
+  --c: var(--accent);
+  --c2: var(--accent-2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 14px 32px -20px color-mix(in srgb, var(--c) 50%, transparent);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+}
+.hub-card:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--c) 45%, var(--border));
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 28px 56px -22px color-mix(in srgb, var(--c) 70%, transparent);
+}
+.hub-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--c), var(--c2));
+  border-radius: 20px 20px 0 0;
+  z-index: 2;
+}
+.hub-card-glow {
+  position: absolute;
+  inset: -40% -40% auto auto;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--c) 35%, transparent) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(20px);
+}
+.hub-card:hover .hub-card-glow { opacity: 1; }
+.hub-card > * { position: relative; z-index: 1; }
+
+.hub-card-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--c) 16%, var(--bg-alt)),
+    color-mix(in srgb, var(--c2) 16%, var(--bg-alt)));
+  border: 1px solid color-mix(in srgb, var(--c) 25%, var(--border));
+}
+.hub-card-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.hub-card-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+.hub-card-desc {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: .93rem;
+  line-height: 1.55;
+  flex: 1;
+}
+.hub-card-cta {
+  margin-top: .4rem;
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--c);
+}
+.hub-card-cta .arrow { transition: transform .2s ease; display: inline-block; }
+.hub-card:hover .hub-card-cta .arrow { transform: translateX(4px); }
+
+/* ---------- trust strip ---------- */
+.trust-band {
+  padding: 1.25rem 0;
+  background: color-mix(in srgb, var(--accent) 4%, var(--bg-alt));
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.trust-pill {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .88rem;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+.trust-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+/* ---------- closing CTA ---------- */
+.closing-band { padding: 4rem 0; }
+.closing-card {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1.5rem;
+  padding: 2.25rem 2.5rem;
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--accent) 14%, var(--surface)),
+      color-mix(in srgb, var(--accent-2) 14%, var(--surface)));
+  border: 1px solid var(--border);
+}
+.closing-card h2 { margin: .1rem 0 .5rem; font-size: 1.7rem; letter-spacing: -.01em; }
+.closing-sub { margin: 0; color: var(--text-soft); max-width: 56ch; }
+.closing-ctas { display: flex; gap: .75rem; flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .closing-card { padding: 1.75rem; }
+  .closing-card h2 { font-size: 1.4rem; }
+}

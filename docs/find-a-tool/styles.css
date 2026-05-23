@@ -246,6 +246,19 @@
   color: var(--accent);
   transform: translateY(-1px);
 }
+.ico-btn-empty {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+  opacity: .35;
+  cursor: default;
+  pointer-events: none;
+}
+.ico-btn-empty:hover {
+  border-color: transparent;
+  color: var(--text-muted);
+  transform: none;
+}
 
 /* ---------- DETAIL ROW ---------- */
 .row-detail {
