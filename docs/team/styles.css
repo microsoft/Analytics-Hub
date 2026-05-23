@@ -254,3 +254,11 @@
   font-weight: 600;
 }
 .engage-card strong { color: var(--text); }
+.engage-note {
+  margin: 1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: .82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
