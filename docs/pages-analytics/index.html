@@ -48,6 +48,11 @@
         14-day window so we can spot real trends.
       </p>
       <p class="meta-line" id="last-updated">Loading…</p>
+      <div class="window-switcher" role="tablist" aria-label="Time window">
+        <button type="button" class="window-btn active" data-window="14d">Last 14 days</button>
+        <button type="button" class="window-btn" data-window="mtd">Current month</button>
+        <button type="button" class="window-btn" data-window="ytd">Year to date</button>
+      </div>
     </div>
   </section>
 
@@ -57,8 +62,8 @@
         <div class="kpi"><span class="kpi-label">Total stars</span><span class="kpi-value" data-kpi="stars">—</span></div>
         <div class="kpi"><span class="kpi-label">Total forks</span><span class="kpi-value" data-kpi="forks">—</span></div>
         <div class="kpi"><span class="kpi-label">Total watchers</span><span class="kpi-value" data-kpi="watchers">—</span></div>
-        <div class="kpi"><span class="kpi-label">YTD views</span><span class="kpi-value" data-kpi="views">—</span></div>
-        <div class="kpi"><span class="kpi-label">YTD clones</span><span class="kpi-value" data-kpi="clones">—</span></div>
+        <div class="kpi"><span class="kpi-label">Views (<span data-window-label>14d</span>)</span><span class="kpi-value" data-kpi="views">—</span></div>
+        <div class="kpi"><span class="kpi-label">Clones (<span data-window-label>14d</span>)</span><span class="kpi-value" data-kpi="clones">—</span></div>
         <div class="kpi"><span class="kpi-label">Repos tracked</span><span class="kpi-value" data-kpi="repos">—</span></div>
       </div>
     </div>
@@ -76,9 +81,9 @@
               <th data-sort="stars" class="num">⭐</th>
               <th data-sort="forks" class="num">🍴</th>
               <th data-sort="watchers" class="num">👁</th>
-              <th data-sort="views" class="num">Views (YTD)</th>
-              <th data-sort="uniqueViews" class="num" title="Sum of per-day unique visitors. Overcounts if the same visitor returns on different days — GitHub doesn't expose a true year-long unique count.">Unique·days</th>
-              <th data-sort="clones" class="num">Clones (YTD)</th>
+              <th data-sort="views" class="num">Views (<span data-window-label>14d</span>)</th>
+              <th data-sort="uniqueViews" class="num" title="Sum of per-day unique visitors in the selected window. Overcounts if the same visitor returns on different days — GitHub doesn't expose a true window-wide unique count.">Unique·days</th>
+              <th data-sort="clones" class="num">Clones (<span data-window-label>14d</span>)</th>
               <th data-sort="uniqueClones" class="num" title="Sum of per-day unique cloners. Overcounts repeat cloners across days.">Unique·days</th>
               <th data-sort="trend" class="num">Trend</th>
             </tr>

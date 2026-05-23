@@ -20,7 +20,28 @@ const KNOWN_LABELS = {
 
 const fmt = (n) => (n == null ? "—" : n.toLocaleString());
 
-const startOfYear = () => `${new Date().getUTCFullYear()}-01-01`;
+const pad = (n) => String(n).padStart(2, "0");
+const todayUTC = () => new Date();
+
+const startOfYear  = () => `${todayUTC().getUTCFullYear()}-01-01`;
+const startOfMonth = () => {
+  const d = todayUTC();
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-01`;
+};
+const startOf14d   = () => {
+  const d = todayUTC();
+  d.setUTCDate(d.getUTCDate() - 13); // inclusive 14 days
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
+};
+
+const WINDOWS = {
+  "14d": { label: "Last 14 days", short: "14d",  since: startOf14d   },
+  "mtd": { label: "Current month", short: "MTD", since: startOfMonth },
+  "ytd": { label: "Year to date",  short: "YTD", since: startOfYear  },
+};
+const windowState = { key: "14d" };
+const currentSince = () => WINDOWS[windowState.key].since();
+const currentShort = () => WINDOWS[windowState.key].short;
 
 function sumDaily(dailyMap, sinceDate) {
   // dailyMap: { "YYYY-MM-DD": { count, uniques } }
@@ -86,7 +107,8 @@ function renderLastUpdated(lastUpdated) {
 }
 
 function renderHero(repos) {
-  const since = startOfYear();
+  const since = currentSince();
+  const short = currentShort();
   let stars = 0, forks = 0, watchers = 0, views = 0, clones = 0, count = 0;
   for (const repo of Object.values(repos)) {
     count += 1;
@@ -105,10 +127,11 @@ function renderHero(repos) {
   document.querySelector('[data-kpi="views"]').textContent    = fmt(views);
   document.querySelector('[data-kpi="clones"]').textContent   = fmt(clones);
   document.querySelector('[data-kpi="repos"]').textContent    = fmt(count);
+  document.querySelectorAll('[data-window-label]').forEach((el) => { el.textContent = short; });
 }
 
 function rowsFromRepos(repos) {
-  const since = startOfYear();
+  const since = currentSince();
   return Object.entries(repos).map(([fullName, repo]) => {
     const [owner, name] = fullName.split("/");
     const meta = repo.meta || {};
@@ -249,6 +272,7 @@ function renderRepoCards(rows) {
     wrap.innerHTML = `<p class="empty">No repos in history yet.</p>`;
     return;
   }
+  const short = currentShort();
   wrap.innerHTML = rows.map((r) => `
     <div class="repo-card">
       <h3>
@@ -260,13 +284,13 @@ function renderRepoCards(rows) {
         <span>👁 <strong>${fmt(r.watchers)}</strong></span>
       </div>
       <div class="meta-row">
-        <span>Views (YTD): <strong>${fmt(r.views)}</strong> · ${fmt(r.uniqueViews)} unique-days</span>
+        <span>Views (${short}): <strong>${fmt(r.views)}</strong> · ${fmt(r.uniqueViews)} unique-days</span>
       </div>
       <div class="meta-row">
-        <span>Clones (YTD): <strong>${fmt(r.clones)}</strong> · ${fmt(r.uniqueClones)} unique-days</span>
+        <span>Clones (${short}): <strong>${fmt(r.clones)}</strong> · ${fmt(r.uniqueClones)} unique-days</span>
       </div>
       <div class="sparkline-wrap">
-        <div class="sparkline-label">Daily views · ${r.daysTracked || 0} days tracked</div>
+        <div class="sparkline-label">Daily views · ${r.daysTracked || 0} days in window</div>
         ${sparkline(r.trend, 280, 36)}
       </div>
     </div>
@@ -332,13 +356,30 @@ async function load() {
     return;
   }
 
+  const reposData = history.repos || {};
   renderLastUpdated(history.lastUpdated);
-  renderHero(history.repos || {});
 
-  tableState.rows = rowsFromRepos(history.repos || {});
-  renderTable();
-  renderRepoCards(tableState.rows);
+  const rerenderAll = () => {
+    renderHero(reposData);
+    tableState.rows = rowsFromRepos(reposData);
+    renderTable();
+    renderRepoCards(tableState.rows);
+  };
+  rerenderAll();
   renderSites(history.sites || {});
+
+  // Window switcher
+  document.querySelectorAll("[data-window]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.window;
+      if (!WINDOWS[key] || key === windowState.key) return;
+      windowState.key = key;
+      document.querySelectorAll("[data-window]").forEach((b) => {
+        b.classList.toggle("active", b.dataset.window === key);
+      });
+      rerenderAll();
+    });
+  });
 
   // Sort header clicks
   document.querySelectorAll("#repo-table thead th").forEach((th) => {

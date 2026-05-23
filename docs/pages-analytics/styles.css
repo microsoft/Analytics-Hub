@@ -33,7 +33,37 @@
 .page-hero .meta-line {
   color: var(--text-muted);
   font-size: .9rem;
-  margin: 0;
+  margin: 0 0 1.25rem;
+}
+
+/* ---- Window switcher ---- */
+.window-switcher {
+  display: inline-flex;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.window-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: .5rem 1rem;
+  border-radius: calc(var(--radius) - 4px);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.window-btn:hover { color: var(--text); }
+.window-btn.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
 }
 
 /* ---- Hero KPI strip ---- */
