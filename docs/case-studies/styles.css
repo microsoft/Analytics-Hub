@@ -1,0 +1,317 @@
+/* ==========================================================
+   Case Studies page
+   ========================================================== */
+
+.cs-page { padding-bottom: 4rem; }
+
+/* ---------- HERO ---------- */
+.cs-hero {
+  position: relative;
+  padding: 4rem 0 3rem;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 400px at 8% -10%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
+    radial-gradient(700px 400px at 100% 0%, color-mix(in srgb, var(--accent-2) 24%, transparent), transparent 60%);
+}
+.cs-hero .hero-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.cs-hero .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .35;
+  animation: cs-orb-float 14s ease-in-out infinite;
+}
+.cs-hero .orb-1 { width: 380px; height: 380px; top: -120px; left: -80px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%); animation-delay: 0s; }
+.cs-hero .orb-2 { width: 320px; height: 320px; top: 40px; right: -100px;
+  background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%); animation-delay: -4s; }
+.cs-hero .orb-3 { width: 260px; height: 260px; bottom: -120px; left: 40%;
+  background: radial-gradient(circle, var(--accent-3) 0%, transparent 70%); animation-delay: -8s; }
+@keyframes cs-orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(20px, -30px) scale(1.08); }
+}
+
+.cs-hero .wrap { position: relative; z-index: 1; }
+.cs-hero .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--accent-2);
+  margin: 0 0 .75rem;
+}
+.cs-hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.cs-hero h1 .grad {
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cs-hero .lede {
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  max-width: 760px;
+  margin: 0 0 2rem;
+}
+
+/* ---------- KPI strip ---------- */
+.cs-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 720px) { .cs-kpis { grid-template-columns: repeat(2, 1fr); } }
+.cs-kpi {
+  padding: 1.25rem 1rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+.cs-kpi-value {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cs-kpi-label {
+  font-size: .78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-top: .25rem;
+}
+
+/* ---------- Filters ---------- */
+.cs-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.cs-filters .pill {
+  padding: .5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: .88rem;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s, transform .15s;
+}
+.cs-filters .pill:hover {
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  color: var(--text);
+}
+.cs-filters .pill.active {
+  background: var(--accent-grad);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ---------- STORIES GRID ---------- */
+.cs-stories { padding: 2rem 0; }
+.cs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.cs-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px -16px color-mix(in srgb, var(--accent) 50%, transparent);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+  animation: cs-card-in .5s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes cs-card-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cs-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 24px 48px -20px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* Card header — gradient banner */
+.cs-card-header {
+  position: relative;
+  padding: 1.5rem 1.25rem 1.5rem 1.25rem;
+  color: #fff;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  overflow: hidden;
+}
+.cs-card-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 110% -20%, rgba(255,255,255,.30), transparent 50%),
+    radial-gradient(circle at -10% 110%, rgba(0,0,0,.18), transparent 55%);
+  pointer-events: none;
+}
+.cs-card-mark {
+  position: relative; z-index: 1;
+  flex-shrink: 0;
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.22);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: .02em;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+.cs-card-meta { position: relative; z-index: 1; min-width: 0; flex: 1; }
+.cs-industry {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 700;
+  opacity: .9;
+  margin-bottom: .15rem;
+}
+.cs-org {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  line-height: 1.15;
+}
+.cs-meta-row {
+  display: flex; flex-wrap: wrap; gap: .85rem;
+  margin-top: .4rem;
+  font-size: .8rem;
+  opacity: .92;
+}
+
+/* Card body */
+.cs-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+.cs-pull {
+  margin: 0;
+  padding: 0 0 0 .85rem;
+  border-left: 3px solid var(--accent);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.45;
+}
+.cs-summary {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
+/* Metrics strip */
+.cs-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+  padding: .85rem .5rem;
+  border-radius: 12px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 7%, var(--bg-alt)),
+    var(--bg-alt));
+  border: 1px solid var(--border);
+}
+.cs-metric { text-align: center; padding: 0 .35rem; }
+.cs-metric + .cs-metric { border-left: 1px solid var(--border); }
+.cs-metric-value {
+  font-weight: 800;
+  font-size: clamp(.95rem, 1.4vw, 1.15rem);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+.cs-metric-label {
+  font-size: .68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  margin-top: .25rem;
+  line-height: 1.25;
+}
+
+/* Tags */
+.cs-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+.cs-tag {
+  font-size: .7rem;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+}
+
+/* CTA link */
+.cs-cta-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  align-self: flex-start;
+  padding: .6rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: .9rem;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  text-decoration: none;
+  transition: background .15s, transform .15s, gap .15s;
+}
+.cs-cta-link:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  gap: .65rem;
+}
+
+/* ---------- Bottom CTA ---------- */
+.cs-cta { padding: 3rem 0 1rem; }
+.cs-cta-card {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: space-between;
+  gap: 1.25rem;
+  padding: 2rem;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--accent) 12%, var(--surface)),
+      color-mix(in srgb, var(--accent-2) 12%, var(--surface)));
+  border: 1px solid var(--border);
+}
+.cs-cta-card h2 { margin: 0 0 .35rem; font-size: 1.5rem; }
+.cs-cta-card p  { margin: 0; color: var(--text-soft); max-width: 60ch; }
