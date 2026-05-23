@@ -158,8 +158,13 @@ function renderTable() {
   }
 
   tbody.innerHTML = sorted.map((r, i) => {
-    const note = r.hasTraffic ? "" :
-      `<span class="skip-note" title="No push access — public meta only"> · public meta only</span>`;
+    const hasMeta = r.stars != null || r.forks != null || r.watchers != null;
+    let note = "";
+    if (!hasMeta) {
+      note = `<span class="skip-note" title="GitHub returned 404 — likely SSO not authorized for this org, or repo is private"> · no data (check SSO)</span>`;
+    } else if (!r.hasTraffic) {
+      note = `<span class="skip-note" title="No push access — public meta only"> · public meta only</span>`;
+    }
     return `
       <tr class="repo-row" data-idx="${i}">
         <td class="repo-name">
