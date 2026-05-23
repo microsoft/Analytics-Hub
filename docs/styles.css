@@ -684,3 +684,48 @@ a:hover { text-decoration: underline; }
 .ms-logo-lg { width: 16px; height: 16px; vertical-align: -3px; margin-right: 7px; }
 .brand-by { display: inline-flex; align-items: center; }
 .footer-sub { display: inline-flex; align-items: center; }
+
+/* Clickable hero stat (Core measurables jump-link) */
+.hero-stat-link {
+  text-align: center; text-decoration: none; color: inherit; display: block;
+  padding: .25rem .5rem; border-radius: 10px; transition: transform .2s ease, background .2s ease;
+}
+.hero-stat-link:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.hero-stat-link strong { display: block; font-size: 1.9rem; font-weight: 800; color: var(--text); line-height: 1; }
+.hero-stat-link span { display: block; font-size: .82rem; color: var(--text-soft); margin-top: .35rem; }
+.hero-stat-link:hover span { color: var(--accent); }
+
+/* Measurables band */
+.measurables-band { padding: 4.5rem 0 3.5rem; background: var(--bg); scroll-margin-top: 80px; }
+.measure-grid {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+.measure-card {
+  --c: var(--accent);
+  display: block; padding: 1.25rem 1.1rem; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border);
+  text-decoration: none; color: inherit; position: relative; overflow: hidden;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.measure-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c);
+  opacity: .8;
+}
+.measure-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--c);
+  box-shadow: 0 8px 24px -12px color-mix(in srgb, var(--c) 50%, transparent);
+}
+.measure-icon { font-size: 1.6rem; display: block; margin-bottom: .5rem; }
+.measure-card h3 { margin: 0 0 .35rem; font-size: 1.02rem; font-weight: 700; color: var(--text); }
+.measure-card p { margin: 0; font-size: .85rem; color: var(--text-soft); line-height: 1.45; }
+
+.measure-note {
+  margin-top: 2.5rem; font-size: .95rem; color: var(--text-soft);
+  max-width: 720px; margin-left: auto; margin-right: auto;
+}
+.measure-note a { color: var(--accent); font-weight: 600; }
+@media (max-width: 640px) { .measure-grid { grid-template-columns: repeat(2, 1fr); } }
