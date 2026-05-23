@@ -243,12 +243,14 @@
 
 .detail-preview .preview-link {
   display: block;
+  position: relative;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
   transition: transform .2s, box-shadow .2s;
+  min-height: 160px;
 }
 .detail-preview .preview-link:hover {
   transform: translateY(-2px);
@@ -259,6 +261,39 @@
   height: auto;
   display: block;
 }
+.preview-link .preview-fallback-inner { display: none; }
+.preview-link.preview-fallback .preview-fallback-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: 2rem 1rem;
+  min-height: 180px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c) 18%, transparent), color-mix(in srgb, var(--c) 6%, transparent));
+}
+.preview-fallback-inner .pf-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+.preview-fallback-inner .pf-name {
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+}
+
+/* action column headers */
+.col-actions-heads {
+  display: grid;
+  grid-template-columns: repeat(3, 38px);
+  gap: 4px;
+  justify-content: end;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+}
+.col-actions-heads span { text-align: center; }
 .repo-slug {
   margin: .6rem 0 0;
   font-size: .82rem;

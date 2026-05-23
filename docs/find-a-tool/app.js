@@ -14,7 +14,9 @@ const TOOLS = [
     repo: "https://github.com/microsoft/DecodingSuperUsage",
     download: "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip",
     emailFile: "04_Super_User_Adoption_Admin_Email.txt",
-    blurb: "Decode how Copilot super users emerge in your org — what they use, how habits form, and where to focus enablement to scale them.",
+    preview: "https://raw.githubusercontent.com/microsoft/DecodingSuperUsage/refs/heads/DecodingSuperUsage/images/SuperUser.gif",
+    blurb: "Power BI template on Viva Insights person-query data. Profiles your super users — what they use, how habits form, where they cluster — so you can replicate the pattern.",
+    meta: { audience: "CCMs, enablement leads, execs", license: "Viva Insights", time: "30 min once query is staged" },
   },
   {
     id: 'super-user-impact',
@@ -27,7 +29,9 @@ const TOOLS = [
     repo: "https://github.com/microsoft/superuserimpact",
     download: "https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip",
     emailFile: "05_Super_User_Impact_Admin_Email.txt",
-    blurb: "Quantify the work-pattern shift that Copilot super users produce — collaboration, focus time, meeting load — vs comparable peers.",
+    preview: "https://raw.githubusercontent.com/microsoft/superuserimpact/main/images/report-preview.gif",
+    blurb: "Companion to Super Usage Adoption. Quantifies the work-pattern delta super users produce — collaboration, focus time, meeting load — vs comparable peers. Same Viva query feeds both.",
+    meta: { audience: "Execs, change leads, HR analytics", license: "Viva Insights", time: "Re-uses the Super Usage query" },
   },
   {
     id: 'chat-agent',
@@ -41,7 +45,9 @@ const TOOLS = [
     download: "https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip",
     emailFile: "02_Chat_Intelligence_Admin_Email.txt",
     secondaryEmailFile: "03_Agent_Intelligence_Admin_Email.txt",
-    blurb: "Audit-log-powered Power BI templates that show Copilot Chat and Agent activity by user, app, department — without third-party analytics.",
+    preview: "https://raw.githubusercontent.com/microsoft/CopilotChatAnalytics/refs/heads/main/Images/ChatIntelGIG.gif",
+    blurb: "Two Power BI templates on Purview audit logs + Entra: one for Copilot Chat (licensed + unlicensed), one for Agents. By user, app, department — no third-party analytics, no data leaves the tenant.",
+    meta: { audience: "IT admins, Copilot champions, BVAs", license: "Audit Reader on Purview + Entra read", time: "~1 hour incl. data export" },
   },
   {
     id: 'ai-in-one',
@@ -54,7 +60,9 @@ const TOOLS = [
     repo: "https://github.com/microsoft/AI-in-One-Dashboard",
     download: "https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip",
     emailFile: "01_AI_in_One_Dashboard_Admin_Email.txt",
-    blurb: "One Power BI report unifying Microsoft 365 Copilot, Copilot Chat (licensed + unlicensed), agents, and third-party AI activity.",
+    preview: "https://raw.githubusercontent.com/microsoft/AI-in-One-Dashboard/main/Images/AIO%20v10%20Gif.gif",
+    blurb: "One unified Power BI report covering Microsoft 365 Copilot, Copilot Chat (licensed + unlicensed), Agents, and third-party AI signals. The flagship if you only deploy one template.",
+    meta: { audience: "Execs, IT leadership, program leads", license: "Audit Reader + Entra read + M365 Admin export", time: "~1–2 hours for first build" },
   },
   {
     id: 'ghcp-impact',
@@ -67,7 +75,9 @@ const TOOLS = [
     repo: "https://github.com/microsoft/GitHubCopilotImpact",
     download: "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip",
     emailFile: "06_GitHub_Copilot_Impact_Admin_Email.txt",
-    blurb: "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — straight from the Enterprise API.",
+    preview: "https://raw.githubusercontent.com/microsoft/GitHubCopilotImpact/main/assets/ghcpgif.gif",
+    blurb: "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — pulled straight from the GitHub Enterprise REST API.",
+    meta: { audience: "Developer productivity leads, eng managers, BVAs", license: "GitHub Enterprise admin (Copilot metrics API)", time: "~30 min once token is issued" },
   },
   {
     id: 'what-i-did',
@@ -79,7 +89,9 @@ const TOOLS = [
     sourceKey: "Local",
     repo: "https://github.com/microsoft/What-I-Did-Copilot",
     download: "https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip",
-    blurb: "Personal-leverage report — points your local Copilot session logs at a script to summarize what shipped, where Copilot helped, and at what multiplier.",
+    preview: "https://raw.githubusercontent.com/microsoft/What-I-Did-Copilot/main/docs/images/sample-report.gif",
+    blurb: "Personal-leverage report. Points a script at your local VS Code / Copilot session logs and summarizes what shipped, where Copilot helped, and the multiplier on your week.",
+    meta: { audience: "Individual devs, IC leads, demo storytelling", license: "None — runs locally", time: "~5 minutes" },
   },
   {
     id: 'm365-readiness',
@@ -92,7 +104,8 @@ const TOOLS = [
     repo: "https://github.com/microsoft/M365UsageAnalytics",
     download: "https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip",
     emailFile: "07_M365_Copilot_Readiness_Admin_Email.txt",
-    blurb: "Rank users by Microsoft 365 fluency to surface the strongest next candidates for a Copilot license — defensible, audit-log-based.",
+    blurb: "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can defend your next Copilot license wave with audit data, not gut feel.",
+    meta: { audience: "License owners, IT, finance partners", license: "Audit Reader + Entra read", time: "~45 min for first run" },
   },
   {
     id: 'adoption-sentiment',
@@ -104,7 +117,9 @@ const TOOLS = [
     sourceKey: "M365 Admin",
     repo: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report",
     download: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip",
-    blurb: "Cross M365 Copilot adoption data with employee sentiment survey signals — perception vs reality in one view.",
+    preview: "https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/images/adoption-overview.png",
+    blurb: "Crosses M365 Copilot adoption stats with employee sentiment survey results. Reveals where perception and reality diverge — the gap is where change management lives.",
+    meta: { audience: "Change managers, comms, exec sponsors", license: "M365 Admin report access + survey export", time: "~30 min" },
   },
   {
     id: 'pax',
@@ -116,7 +131,8 @@ const TOOLS = [
     sourceKey: "Graph API",
     repo: "https://github.com/microsoft/PAX",
     download: "https://github.com/microsoft/PAX/archive/refs/heads/main.zip",
-    blurb: "Enterprise-grade PowerShell exporter for Microsoft 365 audit logs. Handles billions of events, no row limits, lands data wherever you need it.",
+    blurb: "Enterprise-grade PowerShell exporter for Microsoft 365 audit logs. Handles billions of events, no row limits, lands data wherever you need it — lake, warehouse, BI. The automation layer behind the Purview templates.",
+    meta: { audience: "IT automation, security ops, data engineering", license: "App registration + Graph API permissions", time: "~1 hour incl. app registration" },
   },
   {
     id: 'roi-calc',
@@ -124,11 +140,12 @@ const TOOLS = [
     title: "M365 Copilot Productivity ROI Calculator",
     icon: "🧮",
     accent: "#0078d4",
-    source: "CSV export (browser-only)",
-    sourceKey: "CSV",
+    source: "Viva Insights (via Super Usage Heatmap CSV)",
+    sourceKey: "Viva Insights",
     repo: "https://github.com/jordankingisalive/CopilotROICalculator",
     download: "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
-    blurb: "Browser-only ROI modeler. Drop in a CSV export, sweep assumptions, generate a defensible value story — no Power BI required.",
+    blurb: "Browser-only ROI modeler. Drop in the heatmap CSV exported from Super Usage Adoption (which itself runs on Viva Insights), sweep assumptions, generate a defensible value story — zero install, no Power BI.",
+    meta: { audience: "BVAs, finance partners, exec sponsors", license: "None for the calc — upstream needs Viva Insights", time: "~10 min once heatmap CSV is in hand" },
   },
   {
     id: 'customize',
@@ -140,21 +157,30 @@ const TOOLS = [
     sourceKey: "Viva Insights",
     repo: "https://github.com/microsoft/customizecopilot",
     download: "https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip",
-    blurb: "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views.",
+    blurb: "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more.",
+    meta: { audience: "BI developers, advanced template owners", license: "Whatever the parent template needs", time: "~15 min per add-on" },
   },
 ];
 
 // ----------------------------------------------------- helpers
-function ghPreview(repoUrl) {
-  // GitHub's auto-generated social preview card
-  const m = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
-  if (!m) return null;
-  return `https://opengraph.githubassets.com/1/${m[1]}/${m[2]}`;
-}
-
 function repoSlug(repoUrl) {
   const m = repoUrl.match(/github\.com\/([^/]+\/[^/]+)/);
   return m ? m[1] : repoUrl;
+}
+
+function previewHtml(t) {
+  if (t.preview) {
+    return `<img loading="lazy" src="${t.preview}" alt="${t.title} preview"
+              onerror="this.parentElement.classList.add('preview-fallback');this.remove();" />
+            <div class="preview-fallback-inner" style="--c:${t.accent}">
+              <div class="pf-icon">${t.icon}</div>
+              <div class="pf-name">${t.title}</div>
+            </div>`;
+  }
+  return `<div class="preview-fallback-inner" style="--c:${t.accent}">
+            <div class="pf-icon">${t.icon}</div>
+            <div class="pf-name">${t.title}</div>
+          </div>`;
 }
 
 // Cache fetched email texts so we don't refetch
@@ -222,8 +248,8 @@ function rowHtml(t) {
       <td colspan="4">
         <div class="detail-grid">
           <div class="detail-preview">
-            <a href="${t.repo}" target="_blank" rel="noopener" class="preview-link">
-              <img loading="lazy" src="${ghPreview(t.repo)}" alt="${t.title} repository preview" />
+            <a href="${t.repo}" target="_blank" rel="noopener" class="preview-link ${t.preview ? '' : 'preview-fallback'}">
+              ${previewHtml(t)}
             </a>
             <p class="repo-slug"><code>${slug}</code></p>
           </div>
