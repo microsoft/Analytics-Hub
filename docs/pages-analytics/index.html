@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pages Analytics · Analytics Hub</title>
+  <meta name="description" content="Live traffic and engagement metrics for every repo and hosted site in the Analytics Hub toolkit." />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://github.com" />
+  <!-- Microsoft Clarity (Analytics Hub project) -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wvfood6j5g");
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../#toolkit">Toolkit</a>
+      <a href="../#picker">Find a Tool</a>
+      <a href="./" aria-current="page">Pages Analytics</a>
+      <a class="cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">⭐ Star on GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="analytics-page">
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">📊 Live Telemetry</p>
+      <h1>Pages Analytics</h1>
+      <p class="lede">
+        Nightly snapshot of every repo and hosted site in the toolkit. GitHub Traffic API
+        (rolling 14 days) for repos · Microsoft Clarity for hosted sites · history accumulated
+        beyond GitHub's 14-day window so we can spot real trends.
+      </p>
+      <p class="meta-line" id="last-updated">Loading…</p>
+    </div>
+  </section>
+
+  <section class="hero-strip">
+    <div class="wrap">
+      <div class="kpi-grid">
+        <div class="kpi"><span class="kpi-label">Total stars</span><span class="kpi-value" data-kpi="stars">—</span></div>
+        <div class="kpi"><span class="kpi-label">Total forks</span><span class="kpi-value" data-kpi="forks">—</span></div>
+        <div class="kpi"><span class="kpi-label">Total watchers</span><span class="kpi-value" data-kpi="watchers">—</span></div>
+        <div class="kpi"><span class="kpi-label">14-day views</span><span class="kpi-value" data-kpi="views">—</span></div>
+        <div class="kpi"><span class="kpi-label">14-day clones</span><span class="kpi-value" data-kpi="clones">—</span></div>
+        <div class="kpi"><span class="kpi-label">Repos tracked</span><span class="kpi-value" data-kpi="repos">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="repo-table-section">
+    <div class="wrap">
+      <h2>Repos · GitHub traffic</h2>
+      <p class="section-sub">Click a header to sort. Click a row to expand referrers and popular paths.</p>
+      <div class="table-wrap">
+        <table class="repo-table" id="repo-table">
+          <thead>
+            <tr>
+              <th data-sort="repo">Repo</th>
+              <th data-sort="stars" class="num">⭐</th>
+              <th data-sort="forks" class="num">🍴</th>
+              <th data-sort="watchers" class="num">👁</th>
+              <th data-sort="views" class="num">Views (14d)</th>
+              <th data-sort="uniqueViews" class="num">Unique</th>
+              <th data-sort="clones" class="num">Clones (14d)</th>
+              <th data-sort="uniqueClones" class="num">Unique</th>
+              <th data-sort="trend" class="num">Trend</th>
+            </tr>
+          </thead>
+          <tbody id="repo-tbody">
+            <tr><td colspan="9" class="empty">Loading repository data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="repo-cards-section">
+    <div class="wrap">
+      <h2>Per-repo detail</h2>
+      <p class="section-sub">Sparklines grow as history accumulates (need a few days of snapshots).</p>
+      <div class="repo-cards" id="repo-cards">
+        <p class="empty">Loading…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sites-section">
+    <div class="wrap">
+      <h2>Hosted sites · Microsoft Clarity</h2>
+      <p class="section-sub">Engagement signals from the live Pages sites. Clarity captures sessions, scroll depth, dead clicks, rage clicks, and JS errors that the GitHub API can't see.</p>
+      <div class="site-grid" id="site-grid">
+        <p class="empty">Loading…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="footnote-section">
+    <div class="wrap">
+      <details>
+        <summary>How this works</summary>
+        <ul>
+          <li><strong>Source:</strong> a GitHub Action (<code>.github/workflows/traffic-snapshot.yml</code>) runs nightly at 03:00 UTC.</li>
+          <li><strong>Repos:</strong> queries <code>/repos/{owner}/{repo}/traffic/{views,clones,popular/referrers,popular/paths}</code> for each tool. Requires a PAT with <code>repo</code> scope. Repos the token can't reach fall back to public meta only (stars/forks/watchers).</li>
+          <li><strong>Sites:</strong> calls the Microsoft Clarity Data Export API per project (one token per project, capped at 10 calls/day each).</li>
+          <li><strong>Storage:</strong> appends to <code>docs/data/traffic-history.json</code>, committed back to <code>main</code> by the bot. Idempotent per UTC day.</li>
+          <li><strong>Why it exists:</strong> GitHub's traffic API only retains 14 days. Clarity sees Pages traffic that GitHub can't. This page is the long-memory layer.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by Microsoft · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
