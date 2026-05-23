@@ -77,7 +77,7 @@
               <th class="col-q">If you're asking…</th>
               <th class="col-tool">Use this tool</th>
               <th class="col-src">Data source</th>
-              <th class="col-actions"><span class="col-actions-heads"><span title="Open repository on GitHub">Repo</span><span title="Download .zip of the repository">Download</span><span title="Email your IT or data admin with prerequisites">Email</span></span></th>
+              <th class="col-actions"><span class="col-actions-heads"><span title="Open repository on GitHub">Repo</span><span title="Download .zip of the repository">Zip</span><span title="Email your IT or data admin">Email</span></span></th>
             </tr>
           </thead>
           <tbody id="pickerBody">
@@ -105,5 +105,14 @@
 </footer>
 
 <script src="app.js"></script>
+
+<!-- Lightbox for enlarged previews -->
+<div class="lightbox" id="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Preview">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close preview">✕</button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" alt="" />
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+</div>
 </body>
 </html>

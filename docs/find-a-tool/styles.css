@@ -177,6 +177,30 @@
   gap: .5rem;
   font-weight: 600;
   color: var(--text);
+  text-decoration: none;
+  padding: .25rem .55rem .25rem .25rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: background .15s, border-color .15s, transform .15s;
+}
+.tool-chip:hover,
+.tool-chip:focus-visible {
+  background: color-mix(in srgb, var(--c, var(--accent)) 8%, transparent);
+  border-color: color-mix(in srgb, var(--c, var(--accent)) 35%, transparent);
+  transform: translateY(-1px);
+  outline: none;
+}
+.tool-chip .chip-arrow {
+  font-size: .85rem;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity .15s, transform .15s;
+}
+.tool-chip:hover .chip-arrow,
+.tool-chip:focus-visible .chip-arrow {
+  opacity: 1;
+  color: var(--c, var(--accent));
+  transform: translate(2px, -2px);
 }
 .tool-chip .tool-icon {
   display: inline-flex;
@@ -244,6 +268,7 @@
 .detail-preview .preview-link {
   display: block;
   position: relative;
+  width: 100%;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
@@ -251,16 +276,46 @@
   box-shadow: var(--shadow-sm);
   transition: transform .2s, box-shadow .2s;
   min-height: 160px;
+  padding: 0;
+  cursor: zoom-in;
+  font: inherit;
+  text-align: left;
 }
 .detail-preview .preview-link:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
 }
+.detail-preview .preview-link.preview-fallback { cursor: pointer; }
 .detail-preview img {
   width: 100%;
   height: auto;
   display: block;
 }
+.preview-zoom-hint {
+  position: absolute;
+  left: 50%; bottom: 10px;
+  transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .72);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s, transform .18s;
+}
+.preview-link:hover .preview-zoom-hint,
+.preview-link:focus-visible .preview-zoom-hint {
+  opacity: 1;
+  transform: translate(-50%, -2px);
+}
+.preview-zoom-hint .zoom-icon { font-size: .9rem; }
+.preview-link.preview-fallback .preview-zoom-hint { display: none; }
+
 .preview-link .preview-fallback-inner { display: none; }
 .preview-link.preview-fallback .preview-fallback-inner {
   display: flex;
@@ -285,15 +340,74 @@
 /* action column headers */
 .col-actions-heads {
   display: grid;
-  grid-template-columns: repeat(3, 38px);
-  gap: 4px;
+  grid-template-columns: repeat(3, 42px);
+  gap: 6px;
   justify-content: end;
-  font-size: .68rem;
+  font-size: .66rem;
   text-transform: uppercase;
-  letter-spacing: .04em;
+  letter-spacing: .03em;
   color: var(--text-muted);
+  font-weight: 700;
 }
 .col-actions-heads span { text-align: center; }
+
+/* ---------- LIGHTBOX ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 10, 16, .82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 3rem 1.5rem;
+  animation: lb-in .18s ease-out;
+}
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+.lightbox[hidden] { display: none; }
+.lightbox-figure {
+  margin: 0;
+  max-width: min(1200px, 95vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .85rem;
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 80vh;
+  display: block;
+  border-radius: 14px;
+  box-shadow: 0 30px 80px -10px rgba(0, 0, 0, .6);
+  background: #111;
+}
+.lightbox figcaption {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .25);
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, transform .15s;
+}
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, .22);
+  transform: scale(1.05);
+}
 .repo-slug {
   margin: .6rem 0 0;
   font-size: .82rem;

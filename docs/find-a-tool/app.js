@@ -236,7 +236,7 @@ function rowHtml(t) {
   return `
     <tr class="row-main" data-id="${t.id}" data-src="${t.sourceKey}" data-search="${(t.question + ' ' + t.title + ' ' + t.source).toLowerCase()}">
       <td class="col-q"><button class="expand-btn" aria-expanded="false" aria-controls="detail-${t.id}"><span class="chev" aria-hidden="true">▸</span> ${t.question}</button></td>
-      <td class="col-tool"><span class="tool-chip" style="--c:${t.accent}"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title}</span></td>
+      <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title} on GitHub"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title} <span class="chip-arrow" aria-hidden="true">↗</span></a></td>
       <td class="col-src"><span class="src-tag">${t.source}</span></td>
       <td class="col-actions">
         <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="View on GitHub" aria-label="View on GitHub">↗</a>
@@ -248,9 +248,16 @@ function rowHtml(t) {
       <td colspan="4">
         <div class="detail-grid">
           <div class="detail-preview">
-            <a href="${t.repo}" target="_blank" rel="noopener" class="preview-link ${t.preview ? '' : 'preview-fallback'}">
-              ${previewHtml(t)}
-            </a>
+            ${t.preview
+              ? `<button class="preview-link" data-preview="${t.preview}" data-title="${t.title}" title="Click to enlarge">
+                  <img loading="lazy" src="${t.preview}" alt="${t.title} preview" onerror="this.parentElement.classList.add('preview-fallback');this.parentElement.removeAttribute('data-preview');this.remove();" />
+                  <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-icon">${t.icon}</div><div class="pf-name">${t.title}</div></div>
+                  <span class="preview-zoom-hint"><span class="zoom-icon" aria-hidden="true">⤢</span> Click to enlarge</span>
+                </button>`
+              : `<a class="preview-link preview-fallback" href="${t.repo}" target="_blank" rel="noopener">
+                  <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-icon">${t.icon}</div><div class="pf-name">${t.title}</div></div>
+                </a>`
+            }
             <p class="repo-slug"><code>${slug}</code></p>
           </div>
           <div class="detail-copy">
@@ -273,6 +280,36 @@ function render() {
   body.innerHTML = TOOLS.map(rowHtml).join('');
   wireExpand();
   wireEmail();
+  wireLightbox();
+}
+
+function wireLightbox() {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const cap = document.getElementById('lightboxCaption');
+  const close = () => {
+    lb.setAttribute('hidden', '');
+    lb.setAttribute('aria-hidden', 'true');
+    img.src = '';
+    document.body.style.overflow = '';
+  };
+  document.querySelectorAll('button.preview-link[data-preview]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const src = btn.dataset.preview;
+      const title = btn.dataset.title || '';
+      if (!src) return;
+      img.src = src;
+      img.alt = `${title} preview (enlarged)`;
+      cap.textContent = title;
+      lb.removeAttribute('hidden');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  document.getElementById('lightboxClose').addEventListener('click', close);
+  lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lb.hasAttribute('hidden')) close(); });
 }
 
 function wireExpand() {
