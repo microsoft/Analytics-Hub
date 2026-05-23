@@ -25,6 +25,9 @@ const NODES = [
   { id: "m365admin",   kind: "source", label: "M365 Admin + Surveys",  sub: "Usage exports · Sentiment",          icon: "📥", color: "#FFB900", col: 0, row: 4,
     detail: "Public M365 usage exports plus employee sentiment data. Works for any tenant admin.",
     role:   "Any tenant admin" },
+  { id: "local-vscode", kind: "source", label: "Local Copilot Sessions", sub: "VS Code · your machine only",       icon: "💻", color: "#e3008c", col: 0, row: 5,
+    detail: "Your own GitHub Copilot and Claude chat-session files on your local machine. Nothing leaves your laptop.",
+    role:   "Just you — no admin needed" },
 
   // ---- column 1 : PIPES / EXTRACTORS ----
   { id: "scripts",     kind: "pipe",   label: "Per-Report Scripts",    sub: "Bundled w/ each template",           icon: "📜", color: "#0078d4", col: 1, row: 0,
@@ -55,7 +58,8 @@ const NODES = [
   { id: "customize",        kind: "addon",  label: "CustomizeCopilot",         sub: "Champion-ID add-on",              icon: "🎨", color: "#e3008c", col: 3, row: 4,
     detail: "Pages and visuals you can graft onto Super User Impact to identify and recognise champions.",
     repo: "https://github.com/microsoft/customizecopilot" },
-  { id: "what-i-did",       kind: "addon",  label: "What I Did (Copilot)",     sub: "Daily activity digest",           icon: "📝", color: "#e3008c", col: 3, row: 5,
+  { id: "what-i-did",       kind: "addon",  label: "What I Did (Copilot)",     sub: "Personal VS Code activity digest", icon: "📝", color: "#e3008c", col: 3, row: 5,
+    detail: "Runs locally in VS Code, scans your own Copilot/Claude session files, and produces a daily digest of what you built. Doesn't touch any tenant data.",
     repo: "https://github.com/microsoft/What-I-Did-Copilot" },
 ];
 
@@ -84,9 +88,11 @@ const EDGES = [
   // M365 admin & surveys into adoption
   { from: "m365admin", to: "adoption-sent" },
   // Add-ons spawn off reports
-  { from: "super-usage",  to: "roi-calc" },
-  { from: "super-impact", to: "customize" },
-  { from: "ghcp-impact",  to: "what-i-did" },
+  { from: "super-usage",   to: "roi-calc" },
+  { from: "super-impact",  to: "customize" },
+  { from: "adoption-sent", to: "customize" },
+  // What I Did is personal/local, not from any tenant report
+  { from: "local-vscode",  to: "what-i-did" },
 ];
 
 // =====================================================================
