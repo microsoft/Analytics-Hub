@@ -233,6 +233,7 @@ function openDrawer(id) {
     ${chips(downstream)}
 
     ${n.repo ? `<a class="btn btn-primary ds-drawer-cta" href="${n.repo}" target="_blank" rel="noopener">Open repository ↗</a>` : ""}
+    <a class="btn btn-ghost ds-drawer-home" href="../">← Home</a>
   `;
   drawer.hidden = false;
   drawer.classList.add("is-open");
