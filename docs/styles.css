@@ -739,7 +739,7 @@ a:hover { text-decoration: underline; }
 .measure-card h3 { margin: 0 0 .35rem; font-size: 1.02rem; font-weight: 700; color: var(--text); }
 .measure-card p { margin: 0; font-size: .85rem; color: var(--text-soft); line-height: 1.45; }
 .measure-card::after {
-  /* C2 dumb-test: explicit "See reports →" affordance so the card reads as
+  /* UX clarity: explicit "See reports →" affordance so the card reads as
      a navigation target, not just decoration. Animates in on hover. */
   content: "See reports \2192";
   display: inline-block;

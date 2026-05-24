@@ -208,7 +208,7 @@
     let list = [];
     try { list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); } catch (e) {}
     if (!list.length) {
-      // C3 dumb-test: explicit empty state so first-time visitors understand
+      // UX clarity: explicit empty state so first-time visitors understand
       // the rail will populate as they explore (instead of just seeing nothing).
       slot.hidden = false;
       slot.classList.add("ah-recent--empty");
@@ -243,7 +243,7 @@
       const c = arr[0];
       const rawMessage = (c.commit.message || "").split("\n")[0];
       // Strip conventional-commit prefix ("feat(scope): ...") for the display
-      // message so dumb-test visitors don't see jargon. The link still goes
+      // message so non-dev visitors don't see jargon. The link still goes
       // to the real commit for power users.
       const message = rawMessage.replace(/^[a-z]+(\([^)]*\))?!?:\s*/i, "");
       const payload = {
