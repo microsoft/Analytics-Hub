@@ -16,6 +16,24 @@ const KNOWN_LABELS = {
   },
 };
 
+// Repos whose actual user-facing site is hosted elsewhere and tracked by a
+// different Clarity project. When the row is expanded we surface the linked
+// site's metrics so visitors see *real* traffic (the GitHub repo row alone
+// would only show repo-page views, which dramatically understates reach).
+const LINKED_SITES = {
+  "jordankingisalive/CopilotROICalculator": {
+    siteKey: "jordan-homepage",
+    siteTitle: "Copilot ROI Calculator (live site)",
+    siteUrl: "https://jordankingisalive.github.io/CopilotROICalculator/",
+    // Optional regex/prefix used to filter page titles + referrers down to
+    // just the ROI Calculator subset of the host site.
+    pageTitleMatch: /ROI Calculator|ROI Projections|Adoption Journey|Changelog/i,
+  },
+};
+
+// Cache for sites snapshots, populated on load.
+let SITES_CACHE = {};
+
 // ------------------------------------------------------------ utilities
 
 const fmt = (n) => (n == null ? "—" : n.toLocaleString());
@@ -150,6 +168,7 @@ function rowsFromRepos(repos) {
       hasTraffic:   v.count != null || c.count != null,
       referrers:    repo.referrers || [],
       paths:        repo.paths     || [],
+      linkedSite:   LINKED_SITES[fullName] || null,
     };
   });
 }
@@ -189,10 +208,12 @@ function renderTable() {
       note = `<span class="skip-note" title="No push access — public meta only"> · public meta only</span>`;
     }
     return `
-      <tr class="repo-row" data-idx="${i}">
+      <tr class="repo-row${r.linkedSite ? ' has-linked-site' : ''}" data-idx="${i}">
         <td class="repo-name">
-          <a href="https://github.com/${r.fullName}" target="_blank" rel="noopener">${r.name}</a>
+          ${r.linkedSite ? '<span class="row-chevron" aria-hidden="true">▸</span>' : ''}
+          <a href="https://github.com/${r.fullName}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.name}</a>
           <span class="repo-owner">${r.owner}</span>${note}
+          ${r.linkedSite ? `<span class="linked-site-pill" title="Live site tracked separately by Microsoft Clarity">+ live site traffic</span>` : ''}
         </td>
         <td class="num">${fmt(r.stars)}</td>
         <td class="num">${fmt(r.forks)}</td>
@@ -220,14 +241,17 @@ function renderTable() {
       const next = row.nextElementSibling;
       if (next && next.classList.contains("detail-row")) {
         next.remove();
+        row.classList.remove("is-open");
         return;
       }
       // Close other open details
       tbody.querySelectorAll(".detail-row").forEach((d) => d.remove());
+      tbody.querySelectorAll(".repo-row.is-open").forEach((d) => d.classList.remove("is-open"));
       const detail = document.createElement("tr");
       detail.className = "detail-row";
       detail.innerHTML = `<td colspan="7">${renderRepoDetail(r)}</td>`;
       row.parentNode.insertBefore(detail, row.nextSibling);
+      row.classList.add("is-open");
     });
   });
 }
@@ -246,15 +270,132 @@ function renderRepoDetail(r) {
         `<li><span>${(x.title || x.path).slice(0, 60)}</span><span>${fmt(x.count)}</span></li>`).join("")
     : `<li><span class="empty" style="padding:0">No path data</span></li>`;
 
+  const linkedHtml = r.linkedSite ? renderLinkedSiteDetail(r.linkedSite) : '';
+
   return `
     <div class="detail-grid">
       <div>
-        <h4>Top referrers (14d)</h4>
+        <h4>Top referrers · GitHub repo (14d)</h4>
         <ul>${refList}</ul>
       </div>
       <div>
-        <h4>Popular paths (14d)</h4>
+        <h4>Popular paths · GitHub repo (14d)</h4>
         <ul>${pathList}</ul>
+      </div>
+    </div>
+    ${linkedHtml}
+  `;
+}
+
+// Render a rich panel of Clarity-based metrics for a repo whose hosted site
+// lives elsewhere (e.g. CopilotROICalculator -> jordan-homepage).
+function renderLinkedSiteDetail(linked) {
+  const site = SITES_CACHE[linked.siteKey];
+  if (!site || !site.snapshots) {
+    return `<div class="linked-site-panel">
+      <div class="linked-site-header">
+        <h3>📊 ${linked.siteTitle} · <span class="linked-site-source">Clarity</span></h3>
+        <a class="linked-site-cta" href="${linked.siteUrl}" target="_blank" rel="noopener">Open live site ↗</a>
+      </div>
+      <p class="empty" style="padding:.5rem 0">No Clarity snapshot yet for the linked site.</p>
+    </div>`;
+  }
+  const dates = Object.keys(site.snapshots).sort();
+  const latestDate = dates[dates.length - 1];
+  const latest = site.snapshots[latestDate] || [];
+
+  const findMetric = (name) => latest.find(m => m.metricName === name);
+  const traffic       = findMetric("Traffic")?.information?.[0] || {};
+  const engagement    = findMetric("EngagementTime")?.information?.[0] || {};
+  const scrollDepth   = findMetric("ScrollDepth")?.information?.[0]?.averageScrollDepth;
+  const deadClicks    = findMetric("DeadClickCount")?.information?.[0] || {};
+  const rageClicks    = findMetric("RageClickCount")?.information?.[0] || {};
+  const scriptErrors  = findMetric("ScriptErrorCount")?.information?.[0] || {};
+  const pageTitles    = findMetric("PageTitle")?.information || [];
+  const referrerUrls  = findMetric("ReferrerUrl")?.information || [];
+  const countries     = findMetric("Country")?.information || [];
+  const browsers      = findMetric("Browser")?.information || [];
+  const devices       = findMetric("Device")?.information || [];
+  const operatingSys  = findMetric("OS")?.information || [];
+
+  // Filter page titles to ROI Calculator subset if a matcher is supplied.
+  const filteredTitles = linked.pageTitleMatch
+    ? pageTitles.filter(p => linked.pageTitleMatch.test(p.name || ""))
+    : pageTitles;
+
+  const focusedSessions = filteredTitles.reduce((sum, p) => sum + (parseInt(p.sessionsCount, 10) || 0), 0);
+
+  const fmtTime = (s) => {
+    const n = parseInt(s, 10);
+    if (!n) return "—";
+    if (n < 60) return `${n}s`;
+    const m = Math.floor(n / 60);
+    const rem = n % 60;
+    return rem ? `${m}m ${rem}s` : `${m}m`;
+  };
+
+  const list = (items, key = "name", valKey = "sessionsCount", limit = 6, transform) =>
+    items.length
+      ? items.slice(0, limit).map(x => {
+          const label = transform ? transform(x[key]) : (x[key] || "—");
+          return `<li><span>${label}</span><span>${fmt(parseInt(x[valKey], 10))}</span></li>`;
+        }).join("")
+      : `<li><span class="empty" style="padding:0">No data</span></li>`;
+
+  const cleanRef = (url) => {
+    if (!url) return "(direct / unknown)";
+    try { return new URL(url).hostname + new URL(url).pathname.replace(/\/$/, ""); }
+    catch { return url; }
+  };
+
+  return `
+    <div class="linked-site-panel">
+      <div class="linked-site-header">
+        <div>
+          <h3>📊 ${linked.siteTitle}</h3>
+          <p class="linked-site-source">Clarity project <code>${site.projectId}</code> · snapshot ${latestDate}</p>
+        </div>
+        <a class="linked-site-cta" href="${linked.siteUrl}" target="_blank" rel="noopener">Open live site ↗</a>
+      </div>
+
+      <div class="linked-kpi-grid">
+        <div class="linked-kpi"><span class="linked-kpi-label">Sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalSessionCount, 10))}</span></div>
+        <div class="linked-kpi"><span class="linked-kpi-label">Distinct users</span><span class="linked-kpi-value">${fmt(parseInt(traffic.distinctUserCount, 10))}</span></div>
+        <div class="linked-kpi"><span class="linked-kpi-label">ROI-page sessions</span><span class="linked-kpi-value">${fmt(focusedSessions)}</span></div>
+        <div class="linked-kpi"><span class="linked-kpi-label">Avg scroll depth</span><span class="linked-kpi-value">${scrollDepth != null ? Math.round(scrollDepth) + "%" : "—"}</span></div>
+        <div class="linked-kpi"><span class="linked-kpi-label">Active time</span><span class="linked-kpi-value">${fmtTime(engagement.activeTime)}</span></div>
+        <div class="linked-kpi"><span class="linked-kpi-label">Bot sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalBotSessionCount, 10))}</span></div>
+      </div>
+
+      <div class="linked-detail-grid">
+        <div>
+          <h4>Pages viewed (ROI Calculator pages)</h4>
+          <ul>${list(filteredTitles.length ? filteredTitles : pageTitles)}</ul>
+        </div>
+        <div>
+          <h4>Top referrers</h4>
+          <ul>${list(referrerUrls.slice(0, 8), "name", "sessionsCount", 8, cleanRef)}</ul>
+        </div>
+        <div>
+          <h4>Country</h4>
+          <ul>${list(countries)}</ul>
+        </div>
+        <div>
+          <h4>Browser</h4>
+          <ul>${list(browsers)}</ul>
+        </div>
+        <div>
+          <h4>Device · OS</h4>
+          <ul>${list(devices)}${list(operatingSys, "name", "sessionsCount", 4)}</ul>
+        </div>
+        <div>
+          <h4>UX health signals</h4>
+          <ul>
+            <li><span>Dead clicks (sessions)</span><span>${fmt(parseInt(deadClicks.pagesViews, 10))}</span></li>
+            <li><span>Rage clicks (sessions)</span><span>${fmt(parseInt(rageClicks.pagesViews, 10))}</span></li>
+            <li><span>Script errors (events)</span><span>${fmt(parseInt(scriptErrors.subTotal, 10))}</span></li>
+          </ul>
+        </div>
       </div>
     </div>
   `;
@@ -351,6 +492,7 @@ async function load() {
   }
 
   const reposData = history.repos || {};
+  SITES_CACHE = history.sites || {};
   renderLastUpdated(history.lastUpdated);
 
   const rerenderAll = () => {
