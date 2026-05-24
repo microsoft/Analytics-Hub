@@ -4,6 +4,21 @@
    Inherits tokens from styles.css (--bg, --text, --accent, etc.)
    ============================================================ */
 
+/* ----------------------------------------------------- C1: sitewide external-link arrow */
+/* Tagged via palette.js (.ah-ext) so we can skip duplicates and decorative
+   chrome cleanly. Adds ↗ via ::after so it never touches the markup. */
+.ah-ext::after {
+  content: " \2197"; /* ↗ */
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--text-muted);
+  font-size: .82em;
+  font-weight: 400;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+a.ah-ext:hover::after { color: var(--accent); }
+
 /* ----------------------------------------------------- skip link */
 .ah-skip {
   position: absolute; top: -100px; left: 12px;

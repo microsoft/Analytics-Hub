@@ -273,9 +273,9 @@ function renderTable() {
     }
 
     return `
-      <tr class="repo-row${r.linkedSite ? ' has-linked-site' : ''}" data-idx="${i}">
+      <tr class="repo-row${r.linkedSite ? ' has-linked-site' : ''}" data-idx="${i}" title="Click to expand traffic detail">
         <td class="repo-name">
-          ${r.linkedSite ? '<span class="row-chevron" aria-hidden="true">▸</span>' : ''}
+          <span class="row-chevron" aria-hidden="true">›</span>
           <a href="https://github.com/${r.fullName}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.name}</a>
           <span class="repo-owner">${r.owner}</span>${note}
           ${pillHtml}

@@ -170,11 +170,14 @@
   display: inline-block;
   width: 1em;
   color: var(--accent);
-  font-size: .85em;
-  margin-right: .25rem;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-right: .35rem;
   transition: transform .15s ease;
+  opacity: .55;
 }
-.repo-row.is-open .row-chevron { transform: rotate(90deg); }
+.repo-row:hover .row-chevron { opacity: 1; }
+.repo-row.is-open .row-chevron { transform: rotate(90deg); opacity: 1; }
 .linked-site-pill {
   display: inline-block;
   margin-left: .5rem;

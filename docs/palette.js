@@ -231,11 +231,16 @@
       if (!r.ok) throw new Error("HTTP " + r.status);
       const arr = await r.json();
       const c = arr[0];
+      const rawMessage = (c.commit.message || "").split("\n")[0];
+      // Strip conventional-commit prefix ("feat(scope): ...") for the display
+      // message so dumb-test visitors don't see jargon. The link still goes
+      // to the real commit for power users.
+      const message = rawMessage.replace(/^[a-z]+(\([^)]*\))?!?:\s*/i, "");
       const payload = {
         cachedAt: Date.now(),
         sha:      c.sha,
         shortSha: c.sha.slice(0, 7),
-        message:  (c.commit.message || "").split("\n")[0],
+        message:  message.charAt(0).toUpperCase() + message.slice(1),
         author:   c.commit.author && c.commit.author.name,
         when:     c.commit.author && c.commit.author.date,
         url:      c.html_url,
@@ -321,6 +326,25 @@
     }
   }
 
+  // ---------------------------------------------------------- C1: external-link arrow tagger
+  // Marks every external (target=_blank) anchor with .ah-ext so palette.css
+  // appends a ↗ glyph via ::after. Skips anchors that already include an
+  // arrow glyph in their text (no duplicates), decorative chrome (nav-cta,
+  // star pill, palette trigger, brand logo), and image-only anchors.
+  function tagExternalLinks() {
+    const ARROW_RE = /[\u2197\u2192\u21AA\u2934\u21D7\u279C]/; // ↗ → ↪ ⤴ ⇗ ➜
+    const SKIP_CLASS = /\b(nav-cta|ah-star|ah-palette-trigger|github-button|brand|ah-skip|footer-brand|ah-recent__chip|ah-ribbon__close)\b/;
+    document.querySelectorAll('a[target="_blank"]').forEach(a => {
+      if (a.dataset.noArrow != null) return;
+      if (a.className && SKIP_CLASS.test(a.className)) return;
+      const text = (a.textContent || "").trim();
+      if (!text) return;                           // icon-only anchor
+      if (ARROW_RE.test(text)) return;             // already decorated
+      if (a.querySelector('img, svg')) return;     // image-bearing anchor
+      a.classList.add('ah-ext');
+    });
+  }
+
   // ---------------------------------------------------------- 6. Live prefers-color-scheme
   function watchSystemTheme() {
     if (!window.matchMedia) return;
@@ -354,6 +378,7 @@
     addStarCta();
     tooltipThemeToggle();
     watchSystemTheme();
+    tagExternalLinks();
     trackCurrentPage();
     renderRecentlyViewed(); // no-op if #ah-recent isn't on the page
     renderRibbon();         // no-op if #ah-ribbon isn't on the page
