@@ -170,8 +170,7 @@ function repoSlug(repoUrl) {
 
 function previewHtml(t) {
   if (t.preview) {
-    return `<img loading="lazy" src="${t.preview}" alt="${t.title} preview"
-              onerror="this.parentElement.classList.add('preview-fallback');this.remove();" />
+    return `<img loading="lazy" src="${t.preview}" alt="${t.title} preview" />
             <div class="preview-fallback-inner" style="--c:${t.accent}">
               <div class="pf-icon">${t.icon}</div>
               <div class="pf-name">${t.title}</div>
@@ -239,7 +238,7 @@ function rowHtml(t) {
       <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title} on GitHub"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title} <span class="chip-arrow" aria-hidden="true">↗</span></a></td>
       <td class="col-src"><span class="src-tag">${t.source}</span></td>
       <td class="col-actions">
-        <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="View on GitHub" aria-label="View on GitHub">↗</a>
+        <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open on GitHub" aria-label="Open on GitHub">↗</a>
         <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip">⬇</a>
         ${t.emailFile
           ? `<button class="ico-btn email-btn" data-email="${t.emailFile}" title="Email your admin" aria-label="Email your admin">📧</button>`
@@ -252,7 +251,7 @@ function rowHtml(t) {
           <div class="detail-preview">
             ${t.preview
               ? `<button class="preview-link" data-preview="${t.preview}" data-title="${t.title}" title="Click to enlarge">
-                  <img loading="lazy" src="${t.preview}" alt="${t.title} preview" onerror="this.parentElement.classList.add('preview-fallback');this.parentElement.removeAttribute('data-preview');this.remove();" />
+                  <img loading="lazy" src="${t.preview}" alt="${t.title} preview" />
                   <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-icon">${t.icon}</div><div class="pf-name">${t.title}</div></div>
                   <span class="preview-zoom-hint"><span class="zoom-icon" aria-hidden="true">⤢</span> Click to enlarge</span>
                 </button>`
@@ -265,11 +264,11 @@ function rowHtml(t) {
           <div class="detail-copy">
             <p class="blurb">${t.blurb}</p>
             <div class="detail-ctas">
-              <a class="btn btn-primary" href="${t.repo}" target="_blank" rel="noopener">View repository →</a>
+              <a class="btn btn-primary" href="${t.repo}" target="_blank" rel="noopener">Open repository ↗</a>
               <a class="btn btn-ghost" href="${t.download}">⬇ Download .zip</a>
               ${t.emailFile ? `<button class="btn btn-soft email-btn" data-email="${t.emailFile}">📧 Email your admin</button>` : ''}
               ${t.secondaryEmailFile ? `<button class="btn btn-soft email-btn" data-email="${t.secondaryEmailFile}">📧 Email (Agent variant)</button>` : ''}
-              <a class="github-button" href="${t.repo}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ${t.title} on GitHub">Star</a>
+              <a class="btn btn-ghost" href="${t.repo}" target="_blank" rel="noopener" aria-label="Star ${t.title} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
             </div>
             <p class="data-line"><strong>Data source:</strong> ${t.source}</p>
           </div>
@@ -281,9 +280,22 @@ function rowHtml(t) {
 function render() {
   const body = document.getElementById('pickerBody');
   body.innerHTML = TOOLS.map(rowHtml).join('');
+  wirePreviewFallback();
   wireExpand();
   wireEmail();
   wireLightbox();
+}
+
+function wirePreviewFallback() {
+  document.querySelectorAll('.detail-preview img[loading="lazy"], .preview img[loading="lazy"]').forEach((img) => {
+    img.addEventListener('error', () => {
+      const parent = img.parentElement;
+      if (!parent) return;
+      parent.classList.add('preview-fallback');
+      parent.removeAttribute('data-preview');
+      img.remove();
+    });
+  });
 }
 
 function wireLightbox() {

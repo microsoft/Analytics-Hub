@@ -155,7 +155,7 @@ function renderCards(filter = 'all') {
         <div><strong>${t.type}</strong><span>Asset type</span></div>
       </div>
       <div class="card-links">
-        <a class="primary" href="${t.repo}" target="_blank" rel="noopener">View Repository →</a>
+        <a class="primary" href="${t.repo}" target="_blank" rel="noopener">Open repository ↗</a>
         <a href="${t.download}" target="_blank" rel="noopener">⬇ Download</a>
       </div>
     `;
@@ -203,7 +203,7 @@ function updatePickerResult() {
     <h3>${best.title}</h3>
     <p>${best.sub}</p>
     <div class="card-links">
-      <a class="primary" href="${best.repo}" target="_blank" rel="noopener">View Repository →</a>
+      <a class="primary" href="${best.repo}" target="_blank" rel="noopener">Open repository ↗</a>
       <a href="${best.download}" target="_blank" rel="noopener">⬇ Download</a>
     </div>
   `;

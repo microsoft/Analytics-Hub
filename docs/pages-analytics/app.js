@@ -276,7 +276,7 @@ function renderTable() {
       <tr class="repo-row${r.linkedSite ? ' has-linked-site' : ''}" data-idx="${i}" title="Click to expand traffic detail">
         <td class="repo-name">
           <span class="row-chevron" aria-hidden="true">›</span>
-          <a href="https://github.com/${r.fullName}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${r.name}</a>
+          <a href="https://github.com/${r.fullName}" target="_blank" rel="noopener" data-stop-row-click="1">${r.name}</a>
           <span class="repo-owner">${r.owner}</span>${note}
           ${pillHtml}
         </td>
@@ -299,6 +299,9 @@ function renderTable() {
   });
 
   // Row expansion
+  tbody.querySelectorAll('a[data-stop-row-click]').forEach((a) => {
+    a.addEventListener('click', (e) => e.stopPropagation());
+  });
   tbody.querySelectorAll(".repo-row").forEach((row) => {
     row.addEventListener("click", () => {
       const idx = parseInt(row.dataset.idx, 10);

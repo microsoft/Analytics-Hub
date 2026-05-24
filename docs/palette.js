@@ -310,7 +310,7 @@
     a.addEventListener("click", () => {
       try { window.clarity && window.clarity("event", "Star CTA clicked"); } catch (e) {}
     });
-    // Insert just before the nav-cta if present (so order is: nav links · Star · View on GitHub)
+    // Insert just before the nav-cta if present (so order is: nav links · Star · Open on GitHub)
     if (navCta) navCta.parentNode.insertBefore(a, navCta);
     else header.appendChild(a);
 
@@ -340,7 +340,7 @@
   // and image-only anchors.
   function tagExternalLinks() {
     const ARROW_RE = /[\u2197\u2192\u21AA\u2934\u21D7\u279C]/; // ↗ → ↪ ⤴ ⇗ ➜
-    const SKIP_CLASS = /\b(nav-cta|ah-star|ah-palette-trigger|github-button|brand|ah-skip|footer-brand|ah-recent__chip|ah-ribbon__close)\b/;
+    const SKIP_CLASS = /\b(nav-cta|ah-star|ah-palette-trigger|brand|ah-skip|footer-brand|ah-recent__chip|ah-ribbon__close)\b/;
     document.querySelectorAll('a[target="_blank"]').forEach(a => {
       if (a.dataset.noArrow != null) return;
       if (a.className && SKIP_CLASS.test(a.className)) return;
