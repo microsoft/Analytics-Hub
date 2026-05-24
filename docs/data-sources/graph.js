@@ -246,13 +246,20 @@ function openDrawer(id) {
     <h4>Powers</h4>
     ${chips(downstream)}
 
-    ${n.repo ? `<a class="btn btn-primary ds-drawer-cta" href="${n.repo}" target="_blank" rel="noopener">Open repository ↗</a>` : ""}
-    ${n.repo ? `<a class="github-button ds-drawer-star" href="${n.repo}" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ${n.label} on GitHub">Star</a>` : ""}
-    <a class="btn btn-ghost ds-drawer-home" href="../">← Home</a>
+    ${n.repo ? `
+      <div class="ds-drawer-actions">
+        <a class="btn btn-primary ds-drawer-cta" href="${n.repo}" target="_blank" rel="noopener">Open repository ↗</a>
+        <a class="btn btn-secondary ds-drawer-star" href="${n.repo}" target="_blank" rel="noopener" aria-label="Star ${n.label} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
+        <a class="btn btn-ghost ds-drawer-home" href="../">← Home</a>
+      </div>
+    ` : `
+      <div class="ds-drawer-actions">
+        <a class="btn btn-ghost ds-drawer-home" href="../">← Home</a>
+      </div>
+    `}
   `;
   drawer.hidden = false;
   drawer.classList.add("is-open");
-  if (window.GitHubButtons && window.GitHubButtons.render) window.GitHubButtons.render();
   // wire jump chips
   body.querySelectorAll(".ds-chip").forEach(b => {
     b.addEventListener("click", () => openDrawer(b.getAttribute("data-jump")));

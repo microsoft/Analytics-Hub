@@ -369,10 +369,21 @@
               0 10px 30px -10px color-mix(in srgb, var(--c) 50%, transparent);
 }
 
-/* Star button placement in drawer */
-.ds-drawer-star {
-  display: inline-block;
-  margin-top: .6rem;
-  margin-left: .5rem;
-  vertical-align: middle;
+/* Drawer action group — each button on its own row */
+.ds-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .55rem;
+  margin-top: 1.25rem;
 }
+.ds-drawer-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+.ds-drawer-cta { margin: 0; }
+.ds-drawer-star { margin: 0; font-weight: 600; }
+.ds-drawer-home { margin: 0; }
