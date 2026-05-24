@@ -1,0 +1,34 @@
+# Analytics Hub — Microsoft Copilot & AI Adoption Toolkit
+
+> Eleven open-source Power BI templates, PowerShell exporters, and add-ons from Microsoft's Copilot ROI Advisory Team that turn your tenant's audit logs and Viva Insights data into a complete picture of Microsoft Copilot adoption, impact, sentiment, and readiness. The canonical source is https://microsoft.github.io/Analytics-Hub/ and https://github.com/microsoft/Analytics-Hub.
+
+## What this site covers
+
+- Eleven open-source reports for Microsoft 365 Copilot, Copilot Chat, Copilot Agents, GitHub Copilot, and Microsoft 365 readiness
+- A "Find a Report" matrix that maps business questions (adoption, ROI, sentiment, license utilization, agent performance, super-user impact) to the right template
+- A "Native Reports" reference of what Microsoft already ships in the Microsoft 365 admin center, Viva Insights Copilot Dashboard, Microsoft Purview audit logs, and Power Platform admin center — and where the Analytics Hub picks up
+- An interactive data-source diagram showing how Microsoft Graph, Viva Insights, M365 admin center, Purview audit logs, GitHub Copilot APIs, and SharePoint feed each report
+- Customer case studies and a public team page
+
+## Primary docs
+
+- Home: https://microsoft.github.io/Analytics-Hub/
+- Find a Report: https://microsoft.github.io/Analytics-Hub/find-a-tool/
+- Native Reports (Microsoft admin center, Viva, Purview, Power Platform): https://microsoft.github.io/Analytics-Hub/out-of-the-box/
+- Data Sources diagram: https://microsoft.github.io/Analytics-Hub/data-sources/
+- Case Studies: https://microsoft.github.io/Analytics-Hub/case-studies/
+- Team: https://microsoft.github.io/Analytics-Hub/team/
+
+## Reports (canonical repositories)
+
+- AI-in-One Dashboard: https://github.com/microsoft/AI-in-One-Dashboard
+- Chat Intelligence Report: https://github.com/microsoft/CopilotChatAnalytics
+- Agent Intelligence Report: https://github.com/microsoft/CopilotChatAnalytics
+- M365 Copilot Readiness: https://github.com/microsoft/M365UsageAnalytics
+- Super User Adoption: https://github.com/microsoft/DecodingSuperUsage
+- Super User Impact: https://github.com/microsoft/superuserimpact
+- GitHub Copilot Impact: https://github.com/microsoft/GitHubCopilotImpact
+- Copilot Adoption & Sentiment: https://github.com/microsoft/copilot-adoption-sentiment-report
+- ROI Calculator: https://github.com/microsoft/Analytics-Hub
+- Customize Copilot Champion ID: https://github.com/microsoft/customizecopilot
+- "What I Did" digest: https://github.com/microsoft/Analytics-Hub
