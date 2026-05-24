@@ -32,8 +32,8 @@ const NODES = [
   // ---- column 1 : PIPES / EXTRACTORS ----
   { id: "scripts",     kind: "pipe",   label: "Per-Report Scripts",    sub: "Bundled w/ each template",           icon: "📜", color: "#0078d4", col: 1, row: 0,
     detail: "PowerShell + Azure Automation runbooks that pull just what one report needs. No infra to stand up." },
-  { id: "pax",         kind: "pipe",   label: "PAX (Standalone)",      sub: "Enterprise audit exporter",          icon: "🔌", color: "#8661c5", col: 1, row: 1,
-    detail: "No row limits · schedulable · pushes to Data Lake, Warehouse, Fabric, SIEM, or any tool. Optional Power BI feed.",
+  { id: "pax",         kind: "pipe",   label: "PAX (Standalone)",      sub: "Purview + Entra exporter",          icon: "🔌", color: "#8661c5", col: 1, row: 1,
+    detail: "Pulls from Purview Audit Logs and/or Microsoft Entra (supports Entra-only mode — no Purview required). No row limits · schedulable · pushes to Data Lake, Warehouse, Fabric, SIEM, or any tool. Optional Power BI feed.",
     repo:   "https://github.com/microsoft/pax" },
 
   // ---- column 2 : REPORTS / TEMPLATES ----
@@ -78,6 +78,8 @@ const EDGES = [
   // Purview → both extractors
   { from: "purview", to: "scripts" },
   { from: "purview", to: "pax" },
+  // Entra also feeds PAX directly (Entra-only mode is supported)
+  { from: "entra",   to: "pax" },
   // Scripts feeds the Purview-based reports
   { from: "scripts", to: "ai-in-one" },
   { from: "scripts", to: "chat-agent" },
