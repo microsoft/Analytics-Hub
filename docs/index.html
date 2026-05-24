@@ -48,8 +48,12 @@
   </script>
   <meta name="clarity-page" content="Home" />
   <script src="./clarity-events.js" defer></script>
+  <link rel="stylesheet" href="./palette.css" />
+  <script src="./palette.js" defer></script>
 </head>
 <body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+<div id="ah-ribbon" hidden></div>
 
 <!-- =========================================================== HEADER -->
 <header class="site-header">
@@ -70,6 +74,9 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
   </div>
 </header>
+
+<!-- Recently viewed rail (populated client-side from localStorage by palette.js) -->
+<div id="ah-recent" class="ah-recent" hidden></div>
 
 <!-- =========================================================== HERO -->
 <section class="hero" id="top">
