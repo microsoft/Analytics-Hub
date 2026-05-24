@@ -442,7 +442,7 @@ function renderLinkedSiteDetail(linked) {
       <div class="linked-kpi-grid">
         <div class="linked-kpi"><span class="linked-kpi-label">Sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalSessionCount, 10))}</span></div>
         <div class="linked-kpi"><span class="linked-kpi-label">Distinct users</span><span class="linked-kpi-value">${fmt(parseInt(traffic.distinctUserCount, 10))}</span></div>
-        <div class="linked-kpi"><span class="linked-kpi-label">ROI-page sessions</span><span class="linked-kpi-value">${fmt(focusedSessions)}</span></div>
+        ${linked.pageTitleMatch ? `<div class="linked-kpi"><span class="linked-kpi-label">${linked.focusedLabel || 'Filtered sessions'}</span><span class="linked-kpi-value">${fmt(focusedSessions)}</span></div>` : ''}
         <div class="linked-kpi"><span class="linked-kpi-label">Avg scroll depth</span><span class="linked-kpi-value">${scrollDepth != null ? Math.round(scrollDepth) + "%" : "—"}</span></div>
         <div class="linked-kpi"><span class="linked-kpi-label">Active time</span><span class="linked-kpi-value">${fmtTime(engagement.activeTime)}</span></div>
         <div class="linked-kpi"><span class="linked-kpi-label">Bot sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalBotSessionCount, 10))}</span></div>
@@ -450,7 +450,7 @@ function renderLinkedSiteDetail(linked) {
 
       <div class="linked-detail-grid">
         <div>
-          <h4>Pages viewed (ROI Calculator pages)</h4>
+          <h4>${linked.pageTitleMatch ? 'Pages viewed (ROI Calculator pages)' : 'Top pages viewed'}</h4>
           <ul>${list(filteredTitles.length ? filteredTitles : pageTitles)}</ul>
         </div>
         <div>
@@ -534,40 +534,18 @@ function renderSites(sites) {
     return;
   }
 
+  // Reuse the same rich linked-site detail panel for every hosted site so
+  // the Analytics Hub home gets the same KPI grid + smart events panel
+  // treatment as the Copilot ROI Calculator (it's our own product after all).
   wrap.innerHTML = entries.map(([label, site]) => {
     const info  = KNOWN_LABELS[label] || { title: label, url: "" };
-    const dates = Object.keys(site.snapshots || {}).sort();
-    const latest = dates.length ? site.snapshots[dates[dates.length - 1]] : null;
-
-    let metricsHtml = `<p class="empty" style="padding:0">No snapshot yet for this site.</p>`;
-    if (latest) {
-      // Clarity Data Export returns an array of {metricName, information: [{value, ...}]}
-      const flat = Array.isArray(latest) ? latest : [];
-      metricsHtml = `<div class="clarity-metrics">` +
-        flat.slice(0, 8).map((m) => {
-          const value = m.information?.[0]?.value
-                      ?? m.information?.[0]?.totalSessionCount
-                      ?? m.information?.[0]?.sessionsCount
-                      ?? "—";
-          return `
-            <div class="clarity-metric">
-              <div class="clarity-metric-label">${m.metricName || "metric"}</div>
-              <div class="clarity-metric-value">${value}</div>
-            </div>`;
-        }).join("") +
-        `</div>`;
-    }
-
-    return `
-      <div class="site-card">
-        <h3>${info.title}</h3>
-        <span class="site-url">
-          ${info.url ? `<a href="${info.url}" target="_blank" rel="noopener">${info.url}</a>` : ""}
-          ${site.projectId ? ` · Clarity project <code>${site.projectId}</code>` : ""}
-        </span>
-        ${metricsHtml}
-      </div>
-    `;
+    const linked = {
+      siteKey:   label,
+      siteTitle: info.title,
+      siteUrl:   info.url,
+      // No pageTitleMatch → panel shows the unfiltered "Top pages viewed" view.
+    };
+    return renderLinkedSiteDetail(linked);
   }).join("");
 }
 
