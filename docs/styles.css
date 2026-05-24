@@ -810,5 +810,18 @@ a:hover { text-decoration: underline; }
 .hdr-arrow { color: var(--text-muted); font-size: .9rem; flex-shrink: 0; }
 .home-drawer-foot { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
 /* HOME DRAWER star wrap */
-.home-drawer-report-wrap { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .35rem; }
-.home-drawer-report-wrap .github-button { align-self: flex-start; margin-left: .25rem; }
+.home-drawer-report-wrap { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .35rem; }
+.home-drawer-star {
+  align-self: flex-start;
+  margin-left: .25rem;
+  padding: .35rem .7rem;
+  font-size: .82rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: background .15s, border-color .15s;
+}
+.home-drawer-star:hover { background: var(--surface-2, var(--surface)); border-color: var(--accent); }
