@@ -19,6 +19,62 @@
 }
 a.ah-ext:hover::after { color: var(--accent); }
 
+/* ----------------------------------------------------- C3: nudges (pulse + toast) */
+/* Muted accent-colored halo that draws the eye to a target ONCE per user.
+   Fires from nudges.js; class is stripped on click or timeout. */
+@keyframes ah-nudge-pulse {
+  0%   { box-shadow: 0 0 0 0   color-mix(in srgb, var(--accent) 55%, transparent); }
+  70%  { box-shadow: 0 0 0 14px color-mix(in srgb, var(--accent)  0%, transparent); }
+  100% { box-shadow: 0 0 0 0   color-mix(in srgb, var(--accent)  0%, transparent); }
+}
+.ah-nudge-pulse {
+  position: relative;
+  border-radius: 8px;
+  animation: ah-nudge-pulse 1.8s ease-out infinite;
+  outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 2px;
+}
+.ah-nudge-pulse--static { animation: none; }
+
+/* Toast (corner chip variant) — used by the data-sources page */
+.ah-nudge-toast {
+  position: fixed;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .65rem .55rem .85rem;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+  border-radius: 999px;
+  box-shadow: 0 6px 20px -8px color-mix(in srgb, var(--accent) 35%, transparent);
+  font-size: .85rem;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: auto;
+}
+.ah-nudge-toast.is-shown { opacity: 1; transform: translateY(0); }
+.ah-nudge-toast--top-right    { top: 84px;     right: 18px; }
+.ah-nudge-toast--bottom-right { bottom: 18px;  right: 18px; }
+.ah-nudge-toast__close {
+  appearance: none; border: 0; background: transparent;
+  font-size: 1.05rem; line-height: 1; color: var(--text-muted);
+  cursor: pointer; padding: 2px 6px; border-radius: 50%;
+}
+.ah-nudge-toast__close:hover { color: var(--text); background: var(--bg-alt); }
+
+/* C3: Recently Viewed empty-state (first visit on home) */
+.ah-recent--empty {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+.ah-recent--empty .ah-recent__label {
+  color: var(--text-soft);
+  font-style: italic;
+}
+
 /* ----------------------------------------------------- skip link */
 .ah-skip {
   position: absolute; top: -100px; left: 12px;

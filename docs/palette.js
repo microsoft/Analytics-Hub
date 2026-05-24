@@ -207,7 +207,17 @@
     if (!slot) return;
     let list = [];
     try { list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); } catch (e) {}
-    if (!list.length) { slot.hidden = true; return; }
+    if (!list.length) {
+      // C3 dumb-test: explicit empty state so first-time visitors understand
+      // the rail will populate as they explore (instead of just seeing nothing).
+      slot.hidden = false;
+      slot.classList.add("ah-recent--empty");
+      slot.innerHTML = `
+        <p class="ah-recent__label">Recently viewed \u2014 visit a few pages and they'll appear here</p>
+      `;
+      return;
+    }
+    slot.classList.remove("ah-recent--empty");
     slot.hidden = false;
     slot.innerHTML = `
       <p class="ah-recent__label">Recently viewed</p>

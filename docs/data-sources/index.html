@@ -49,6 +49,7 @@
   <script src="../clarity-events.js" defer></script>
   <link rel="stylesheet" href="../palette.css" />
   <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
 </head>
 <body>
 <a class="ah-skip" href="#top">Skip to main content</a>
@@ -140,6 +141,21 @@
 
 <script src="../app.js" defer></script>
 <script src="graph.js" defer></script>
+
+<!-- C3: one-time toast nudge so first-time visitors know the canvas is interactive -->
+<script>
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      if (window.ahNudge) {
+        window.ahNudge.toast(
+          "\u{1F446} Click any node to trace its data lineage",
+          "data-sources-canvas",
+          { anchor: "top-right", duration: 6000 }
+        );
+      }
+    }, 1200);
+  });
+</script>
 
 </body>
 </html>

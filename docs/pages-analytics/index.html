@@ -48,6 +48,7 @@
   <script src="../clarity-events.js" defer></script>
   <link rel="stylesheet" href="../palette.css" />
   <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
 </head>
 <body>
 <a class="ah-skip" href="#top">Skip to main content</a>
@@ -172,5 +173,27 @@
 </footer>
 
 <script src="app.js"></script>
+
+<!-- C3: one-time pulse on a clickable row chevron so visitors know rows expand.
+     Polls briefly because app.js auto-expands the first linked-site row on init,
+     so we want to pulse a DIFFERENT collapsed row. Fires at most once per user. -->
+<script>
+  window.addEventListener("load", () => {
+    let tries = 0;
+    const tick = () => {
+      tries++;
+      if (!window.ahNudge) { if (tries < 40) setTimeout(tick, 100); return; }
+      // Prefer a non-open row so the pulse points at something users can click.
+      const target = document.querySelector(".repo-row:not(.is-open) .row-chevron")
+                  || document.querySelector(".repo-row .row-chevron");
+      if (target) {
+        window.ahNudge.pulse(target, "pages-analytics-row-chevron", { duration: 7000 });
+      } else if (tries < 40) {
+        setTimeout(tick, 150);
+      }
+    };
+    setTimeout(tick, 600);
+  });
+</script>
 </body>
 </html>
