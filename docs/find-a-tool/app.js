@@ -130,7 +130,7 @@ const TOOLS = [
     source: "Purview + Entra (Microsoft Graph)",
     sourceKey: "Graph API",
     repo: "https://github.com/microsoft/PAX",
-    download: "https://github.com/microsoft/PAX/archive/refs/heads/main.zip",
+    download: "https://github.com/microsoft/PAX/archive/refs/heads/release.zip",
     blurb: "Enterprise-grade PowerShell exporter for Microsoft 365 audit logs and Entra directory data. Pulls from Purview, Entra, or both — supports Entra-only mode with no Purview dependency. Handles billions of events, no row limits, lands data wherever you need it — lake, warehouse, BI. The automation layer behind the Purview + Entra templates.",
     meta: { audience: "IT automation, security ops, data engineering", license: "App registration + Graph API permissions", time: "~1 hour incl. app registration" },
   },

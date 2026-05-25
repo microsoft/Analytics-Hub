@@ -114,7 +114,7 @@ const TOOLS = [
     audience: ['it'],
     goals: ['automate'],
     repo: 'https://github.com/microsoft/PAX',
-    download: 'https://github.com/microsoft/PAX/archive/refs/heads/main.zip',
+    download: 'https://github.com/microsoft/PAX/archive/refs/heads/release.zip',
   },
   {
     id: 'customize',
