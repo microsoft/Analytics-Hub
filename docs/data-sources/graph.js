@@ -101,8 +101,8 @@ const EDGES = [
   { from: "m365admin", to: "adoption-sent" },
   // Add-ons spawn off reports
   { from: "super-usage",   to: "roi-calc" },
+  { from: "super-usage",   to: "customize" },
   { from: "super-impact",  to: "customize" },
-  { from: "adoption-sent", to: "customize" },
   // What I Did is personal/local, not from any tenant report
   { from: "local-vscode",  to: "what-i-did" },
 ];
