@@ -9,7 +9,7 @@
 (function () {
   "use strict";
 
-  const RECIPIENT = "jordanking@microsoft.com";
+  const RECIPIENT = "copilot-roi-advisory-team-gh@microsoft.com";
 
   const form        = document.getElementById("fb-form");
   const praiseBox   = document.getElementById("fb-praise-fields");
