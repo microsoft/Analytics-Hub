@@ -29,7 +29,7 @@
 
   const PAGES = [
     { kind: "page",   title: "Home",            href: url(""),                  hint: "Landing page" },
-    { kind: "page",   title: "Find a Report",   href: url("find-a-tool/"),      hint: "Picker · search reports by question" },
+    { kind: "page",   title: "Explore Reports",   href: url("find-a-tool/"),      hint: "Picker · search reports by question" },
     { kind: "page",   title: "Native Reports",  href: url("out-of-the-box/"),   hint: "What ships in Microsoft 365 + Viva by default" },
     { kind: "page",   title: "Data Sources",    href: url("data-sources/"),     hint: "Purview, Entra, Viva, GitHub" },
     { kind: "page",   title: "Case Studies",    href: url("case-studies/"),     hint: "Customer stories + measurable wins" },
