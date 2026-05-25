@@ -140,7 +140,7 @@
       </div>
 
       <div class="demo-frame-wrap" id="demo-frame-wrap">
-        <iframe id="demo-iframe" title="Report demo" height="720" frameborder="0" allowfullscreen></iframe>
+        <iframe id="demo-iframe" title="Report demo" height="720" frameborder="0" allowfullscreen allow="clipboard-write; fullscreen" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
 
       <div class="demo-empty" id="demo-empty" hidden>
@@ -218,6 +218,8 @@
       empty.hidden = true;
       fsEl.href = r.embedUrl;
       fsEl.hidden = false;
+      const isPbi = /powerbi\.com/i.test(r.embedUrl);
+      fsEl.textContent = isPbi ? "\u26F6 Open in Power BI \u2197" : "\u26F6 Open in new tab \u2197";
     } else {
       iframe.removeAttribute("src");
       wrap.hidden = true;
