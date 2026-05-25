@@ -169,6 +169,15 @@ a:hover { text-decoration: underline; }
   color: var(--text-muted); margin-top: 2px;
 }
 .nav-dropdown-menu .menu-text { display: flex; flex-direction: column; }
+.nav-dropdown-menu .menu-sep {
+  border: 0; border-top: 1px solid var(--border);
+  margin: 6px 8px;
+}
+.nav-dropdown-menu a.menu-internal { color: var(--accent); }
+.nav-dropdown-menu a.menu-internal .menu-sub { color: color-mix(in srgb, var(--accent) 60%, var(--text-muted)); }
+.nav-dropdown-menu a.menu-internal[aria-current="page"] {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
 
 @media (max-width: 880px) {
   .nav-dropdown-menu { right: auto; left: 0; }

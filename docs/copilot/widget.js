@@ -37,6 +37,22 @@
   }
   const BASE = findBase();
 
+  // -------------------------------------------------- 0a. Load runtime config
+  // /copilot/config.json may set the proxy URL so we don't have to hard-code it
+  // on every page. If present and non-empty, switches the widget to proxy mode
+  // automatically (hides BYO-key UI).
+  async function loadProxyConfig() {
+    if (window.AH_COPILOT_PROXY) return;        // already set by inline script
+    try {
+      const r = await fetch(BASE + "config.json", { cache: "no-store" });
+      if (!r.ok) return;
+      const j = await r.json();
+      if (j && typeof j.proxyUrl === "string" && j.proxyUrl.trim()) {
+        window.AH_COPILOT_PROXY = j.proxyUrl.trim();
+      }
+    } catch (_) { /* ignore — fall back to BYO-key mode */ }
+  }
+
   // -------------------------------------------------- 1. Inject CSS
   if (!document.querySelector('link[data-cp-style]')) {
     const link = document.createElement("link");
@@ -485,10 +501,15 @@ Rules:
     render();
   }
 
-  // Defer to avoid layout shift on slow connections
+  // Defer to avoid layout shift on slow connections.
+  // Resolve runtime config BEFORE building UI so the BYO-key prompt
+  // never flashes on top of a proxy-mode deployment.
+  function boot() {
+    loadProxyConfig().finally(init);
+  }
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
   } else {
-    init();
+    boot();
   }
 })();
