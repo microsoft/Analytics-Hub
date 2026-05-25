@@ -39,12 +39,14 @@
 }
 .team-hero h1 {
   font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  line-height: 1.15;
   margin: 0 0 1.5rem;
   letter-spacing: -.02em;
   background: var(--accent-grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  padding-bottom: .12em;
 }
 .team-hero .lede {
   max-width: 780px;

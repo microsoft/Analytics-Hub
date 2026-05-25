@@ -34,6 +34,9 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  display: inline-block;
+  padding-bottom: .12em;
+  margin-bottom: -.12em;
 }
 .picker-hero .lede {
   font-size: 1.05rem;

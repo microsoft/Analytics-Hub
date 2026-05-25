@@ -200,18 +200,37 @@ function highlight(id) {
   document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded"));
   svg.querySelectorAll(".ds-edge").forEach(p => p.classList.remove("is-active", "is-faded"));
   if (!id) return;
+  // Transitive trace: walk all upstream feeders and all downstream consumers
+  // so hovering a report lights up the full source chain (e.g. AI-in-One →
+  // Per-Report Scripts / PAX → Purview / Entra), not just direct neighbours.
   const related = new Set([id]);
-  EDGES.forEach(e => {
-    if (e.from === id) related.add(e.to);
-    if (e.to === id) related.add(e.from);
-  });
+  const activeEdges = new Set();
+  const key = (f, t) => `${f}|${t}`;
+  const walkUp = (cur) => {
+    EDGES.forEach((e) => {
+      if (e.to === cur && !activeEdges.has(key(e.from, e.to))) {
+        activeEdges.add(key(e.from, e.to));
+        if (!related.has(e.from)) { related.add(e.from); walkUp(e.from); }
+      }
+    });
+  };
+  const walkDown = (cur) => {
+    EDGES.forEach((e) => {
+      if (e.from === cur && !activeEdges.has(key(e.from, e.to))) {
+        activeEdges.add(key(e.from, e.to));
+        if (!related.has(e.to)) { related.add(e.to); walkDown(e.to); }
+      }
+    });
+  };
+  walkUp(id);
+  walkDown(id);
   document.querySelectorAll(".ds-node").forEach(n => {
     const nid = n.getAttribute("data-id");
     if (related.has(nid)) n.classList.add("is-related"); else n.classList.add("is-faded");
   });
   svg.querySelectorAll(".ds-edge").forEach(p => {
     const f = p.getAttribute("data-from"), t = p.getAttribute("data-to");
-    if (f === id || t === id) p.classList.add("is-active"); else p.classList.add("is-faded");
+    if (activeEdges.has(key(f, t))) p.classList.add("is-active"); else p.classList.add("is-faded");
   });
 }
 

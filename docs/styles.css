@@ -252,6 +252,8 @@ a:hover { text-decoration: underline; }
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
   display: inline-block;
+  padding-bottom: .12em;
+  margin-bottom: -.12em;
 }
 .hero-sub {
   font-size: 19px;
@@ -294,6 +296,8 @@ a:hover { text-decoration: underline; }
   display: block; font-size: 32px; font-weight: 700;
   background: var(--accent-grad);
   -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-bottom: .1em;
+  line-height: 1.15;
 }
 .hero-stats span {
   display: block; font-size: 12px; color: var(--text-muted);

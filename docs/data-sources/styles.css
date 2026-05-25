@@ -31,6 +31,9 @@
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-bottom: .12em;
+  margin-bottom: -.12em;
 }
 .ds-hero .lede {
   font-size: 1.1rem;

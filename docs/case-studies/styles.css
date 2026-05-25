@@ -53,6 +53,9 @@
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-bottom: .12em;
+  margin-bottom: -.12em;
 }
 .cs-hero .lede {
   font-size: 1.1rem;
@@ -85,6 +88,8 @@
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
+  padding-bottom: .1em;
+  line-height: 1.2;
 }
 .cs-kpi-label {
   font-size: .78rem;
@@ -256,7 +261,8 @@
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
-  line-height: 1.1;
+  line-height: 1.2;
+  padding-bottom: .1em;
 }
 .cs-metric-label {
   font-size: .68rem;
