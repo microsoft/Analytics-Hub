@@ -148,6 +148,15 @@ a:hover { text-decoration: underline; }
   display: none; flex-direction: column;
   z-index: 200;
 }
+/* Invisible bridge that fills the 8px gap between the trigger and the menu
+   so the mouse can travel from the trigger down into the menu without ever
+   leaving the :hover bounding box (which would close the dropdown). */
+.nav-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -10px; left: 0; right: 0; height: 10px;
+  background: transparent;
+}
 .nav-dropdown:hover .nav-dropdown-menu,
 .nav-dropdown:focus-within .nav-dropdown-menu,
 .nav-dropdown[data-open="true"] .nav-dropdown-menu { display: flex; }
