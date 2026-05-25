@@ -270,7 +270,7 @@ Rules:
           <button class="cp-send" type="submit" disabled aria-label="Send">${ICON_SEND}</button>
         </form>
         <div class="cp-foot-meta">
-          <span class="cp-status">Demo · BYO Azure OpenAI key</span>
+          <span class="cp-status">${window.AH_COPILOT_PROXY ? "Live \u00b7 Azure OpenAI via Function proxy" : "Demo \u00b7 BYO Azure OpenAI key"}</span>
           <button type="button" class="cp-clear">Clear chat</button>
         </div>
       </footer>
