@@ -64,10 +64,15 @@
     </a>
     <nav class="primary-nav">
       <a href="../">Home</a>
-      <a href="../find-a-tool/">Find a Report</a>
-      <a href="../out-of-the-box/">Native Reports</a>
-      <a href="../data-sources/">Data Sources</a>
-      <a href="../case-studies/">Case Studies</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Reports <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../find-a-tool/" role="menuitem"><span class="menu-icon" aria-hidden="true">🎯</span><span class="menu-text">Find a Report<span class="menu-sub">Match a question to the right report</span></span></a>
+          <a href="../out-of-the-box/" role="menuitem"><span class="menu-icon" aria-hidden="true">📊</span><span class="menu-text">Native Reports<span class="menu-sub">Admin center + Viva built-ins</span></span></a>
+          <a href="../data-sources/" role="menuitem"><span class="menu-icon" aria-hidden="true">🔌</span><span class="menu-text">Data Sources<span class="menu-sub">What feeds each report</span></span></a>
+          <a href="../case-studies/" role="menuitem"><span class="menu-icon" aria-hidden="true">📚</span><span class="menu-text">Case Studies<span class="menu-sub">How customers actually deploy</span></span></a>
+        </div>
+      </div>
       <a href="../team/">Team</a>
       <a href="../demos/" class="nav-internal">🔒 Internal Demos</a>
       <div class="nav-dropdown" data-open="false">

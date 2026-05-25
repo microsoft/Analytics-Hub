@@ -83,12 +83,13 @@ a:hover { text-decoration: underline; }
 .brand:hover { text-decoration: none; }
 .brand-mark { font-size: 22px; }
 .brand-by { font-weight: 400; color: var(--text-muted); font-size: 13px; }
-.primary-nav { display: flex; gap: 22px; margin-left: auto; align-items: center; }
+.primary-nav { display: flex; gap: 18px; margin-left: auto; align-items: center; flex-wrap: nowrap; }
 .primary-nav a {
   color: var(--text-soft);
   font-size: 14px; font-weight: 500;
   padding: 6px 2px;
   position: relative;
+  white-space: nowrap;
 }
 .primary-nav a:hover { color: var(--text); text-decoration: none; }
 .primary-nav a:not(.nav-cta)::after {
@@ -105,28 +106,15 @@ a:hover { text-decoration: underline; }
 }
 .nav-cta:hover { background: var(--accent); text-decoration: none; }
 
-/* -- Internal Demos pill (MSFT-only) -------------------------- */
-.nav-internal {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 4px 10px; border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
-  border: 1px dashed color-mix(in srgb, var(--accent) 35%, var(--border));
-  color: var(--accent) !important;
-  font-size: 12.5px; font-weight: 600;
-  text-decoration: none !important;
-}
-.nav-internal:hover {
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
-  border-style: solid;
-}
-.nav-internal::after { display: none !important; }
+/* -- Internal Demos link (MSFT-only; no pill, just a regular nav link with the lock glyph) -------------------------- */
 .nav-internal[aria-current="page"] {
-  background: var(--accent-grad); color: #fff !important; border-color: transparent;
+  color: var(--accent) !important;
 }
 
 /* -- Nav dropdown (Resources) --------------------------------- */
 .nav-dropdown { position: relative; display: inline-flex; align-items: center; }
 .nav-dropdown-trigger {
+  white-space: nowrap;
   background: none; border: 0; padding: 6px 2px;
   color: var(--text-soft); font: 500 14px/1 inherit;
   cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
