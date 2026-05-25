@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="osCxYZt_4rM_dBEUcK15g-bl2Ny5g6I80gJlFZ6eKlY" />
+  <meta property="article:published_time" content="2026-05-18T00:00:00Z" />
+  <title>Find a Microsoft Copilot Report — Power BI Templates for Adoption, ROI &amp; Agent Telemetry · Analytics Hub</title>
+  <meta name="description" content="Pick the business question, get the right Microsoft Copilot reporting Power BI template — adoption, license utilization, ROI, agent telemetry, sentiment, super-user impact. 11 open-source templates from Microsoft." />
+  <!-- SEO:start -->
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/explore-reports/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub by Microsoft" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/explore-reports/" />
+  <meta property="og:title" content="Explore Reports · Analytics Hub" />
+  <meta property="og:description" content="From question to report in one click — pick the question you're trying to answer, preview the report, grab the repo, download the files, and email your admin." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Analytics Hub - Microsoft Copilot and AI adoption toolkit" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://microsoft.github.io/Analytics-Hub/explore-reports/" />
+  <meta name="twitter:title" content="Explore Reports · Analytics Hub" />
+  <meta name="twitter:description" content="From question to report in one click — pick the question you're trying to answer, preview the report, grab the repo, download the files, and email your admin." />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:image:alt" content="Analytics Hub - Microsoft Copilot and AI adoption toolkit" />
+  <meta name="author" content="Microsoft Copilot ROI Advisory Team" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Analytics Hub","item":"https://microsoft.github.io/Analytics-Hub/"},{"@type":"ListItem","position":2,"name":"Explore Reports","item":"https://microsoft.github.io/Analytics-Hub/explore-reports/"}]}</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to set up a Microsoft Copilot reporting Power BI template",
+    "description": "Choose the right Power BI template from the Analytics Hub, configure prerequisites, and refresh the report with your tenant data in under an hour.",
+    "totalTime": "PT45M",
+    "supply": [
+      { "@type": "HowToSupply", "name": "Microsoft 365 tenant with Copilot licenses" },
+      { "@type": "HowToSupply", "name": "Power BI Desktop (free)" },
+      { "@type": "HowToSupply", "name": "Audit Reader and Compliance Administrator rights (for Purview-backed reports)" }
+    ],
+    "tool": [
+      { "@type": "HowToTool", "name": "Power BI Desktop" },
+      { "@type": "HowToTool", "name": "PowerShell 7+ (for PAX-backed reports)" }
+    ],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Pick the question you need to answer",
+        "text": "Use the question filters on the Explore Reports page to narrow from 11 templates to the one that matches your scenario — executive monthly review, license defence, prompt-level analytics, agent telemetry, or sentiment.",
+        "url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#filters"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Download the .pbit template from GitHub",
+        "text": "Each report card links to its GitHub repository. Download the .pbit file directly, or clone the repo to get the README, troubleshooting guide, and admin email templates."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Run the prerequisite exporter (if required)",
+        "text": "Reports that consume Purview audit data require PAX (PowerShell Audit Exporter) to be run first against your tenant. CSV-only reports skip this step."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Open the .pbit in Power BI Desktop and fill in parameters",
+        "text": "Power BI Desktop prompts for tenant ID, date range, and the path to any CSV exports. The template then loads, models, and renders the report."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Publish to Power BI Service and schedule refresh",
+        "text": "Once validated locally, publish the .pbix to a Power BI workspace and configure a scheduled refresh so the report stays current without manual intervention."
+      }
+    ]
+  }
+  </script>
+
+  <!-- SEO:end -->
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://github.com" />
+  <link rel="preconnect" href="https://opengraph.githubassets.com" />
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wvfood6j5g");
+  </script>
+  <meta name="clarity-page" content="Explore Reports" />
+  <script src="../clarity-events.js" defer></script>
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <script src="../copilot/widget.js" defer></script>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="./" aria-current="page">Explore Reports</a>
+      <a href="../out-of-the-box/">Native Reports</a>
+      <a href="../data-sources/">Data Sources</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../team/">Team</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">💬</span><span class="menu-text">Feedback<span class="menu-sub">Problem · suggestion · praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">🔒</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only · live customer walkthroughs</span></span></a>
+        </div>
+      </div>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="picker-page">
+
+  <!-- =============================================== HERO -->
+  <section class="picker-hero">
+    <div class="wrap">
+      <p class="eyebrow">🎯 Which report do I need?</p>
+      <h1>From question to report <span class="grad">in one click</span></h1>
+      <p class="lede">
+        Find the question you're trying to answer. Get the preview, the repo, the
+        download, and the admin email — all from one screen. No hunting.
+      </p>
+      <div class="picker-controls">
+        <label class="search-wrap" for="qSearch">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input id="qSearch" type="search" placeholder="Search by question, report name, or data source…" autocomplete="off" />
+        </label>
+        <div class="filter-pills" role="tablist" aria-label="Filter by data source">
+          <button class="pill active" data-src="all">All sources</button>
+          <button class="pill" data-src="Viva Insights">Viva Insights</button>
+          <button class="pill" data-src="Purview">Purview</button>
+          <button class="pill" data-src="GitHub">GitHub</button>
+          <button class="pill" data-src="M365 Admin">M365 Admin</button>
+          <button class="pill" data-src="Graph API">Graph API</button>
+          <button class="pill" data-src="CSV">CSV / Browser</button>
+          <button class="pill" data-src="Local">Local sessions</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== TABLE -->
+  <section class="band picker-table-band">
+    <div class="wrap">
+      <div class="table-wrap">
+        <table class="picker-table" id="pickerTable">
+          <thead>
+            <tr>
+              <th class="col-q">If you're asking…</th>
+              <th class="col-tool">Use this report</th>
+              <th class="col-src">Data source</th>
+              <th class="col-actions"><span class="col-actions-heads"><span title="Open repository on GitHub">Repo</span><span title="Download .zip of the repository">Zip</span><span title="Email your IT or data admin">Email</span></span></th>
+            </tr>
+          </thead>
+          <tbody id="pickerBody">
+            <!-- rendered by app.js -->
+          </tbody>
+        </table>
+        <p id="emptyState" class="empty-state" hidden>No matches. Try a different keyword or clear the filter.</p>
+      </div>
+
+      <p class="picker-footnote">
+        💡 Click any row to expand — you'll get a preview, the GitHub repo, a zip download,
+        and a pre-filled email to send your IT or data admin so they can stage prerequisites.
+        Email templates are not sent through us — they open in your default mail client for you to review.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by Microsoft Copilot ROI Analytics Team · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+    <p class="muted">Reports published by Microsoft for customer use · <a href="../team/">Meet the team</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+
+<!-- Lightbox for enlarged previews -->
+<div class="lightbox" id="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Preview">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close preview">✕</button>
+  <figure class="lightbox-figure">
+    <img id="lightboxImg" alt="Enlarged report preview" />
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+</div>
+</body>
+</html>

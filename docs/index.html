@@ -34,7 +34,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Analytics Hub","item":"https://microsoft.github.io/Analytics-Hub/"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Microsoft","url":"https://www.microsoft.com","logo":"https://microsoft.github.io/Analytics-Hub/favicon.svg","sameAs":["https://github.com/microsoft","https://www.linkedin.com/company/microsoft"]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Analytics Hub","url":"https://microsoft.github.io/Analytics-Hub/","publisher":{"@type":"Organization","name":"Microsoft"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://microsoft.github.io/Analytics-Hub/find-a-tool/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Analytics Hub","url":"https://microsoft.github.io/Analytics-Hub/","publisher":{"@type":"Organization","name":"Microsoft"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://microsoft.github.io/Analytics-Hub/explore-reports/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Analytics Hub","applicationCategory":"BusinessApplication","operatingSystem":"Web, Power BI Desktop, Power BI Service","url":"https://microsoft.github.io/Analytics-Hub/","author":{"@type":"Organization","name":"Microsoft"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Eleven open-source Power BI templates and exporters to measure Microsoft Copilot adoption, sentiment, ROI, and agent usage."}</script>
   <!-- SEO:end -->
   <link rel="stylesheet" href="styles.css" />
@@ -67,7 +67,7 @@
     </a>
     <nav class="primary-nav">
       <a href="out-of-the-box/">Native Reports</a>
-      <a href="find-a-tool/">Explore Reports</a>
+      <a href="explore-reports/">Explore Reports</a>
       <a href="data-sources/">Data Sources</a>
       <a href="case-studies/">Case Studies</a>
       <a href="team/">Team</a>
@@ -105,11 +105,11 @@
       Eleven production-ready Power BI reports, add-ons, and PowerShell exporters that turn your tenant's audit logs and Viva Insights data into a complete picture of Copilot adoption, impact, and readiness.
     </p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="find-a-tool/">Find My Report →</a>
+      <a class="btn btn-primary" href="explore-reports/">Find My Report →</a>
       <a class="btn btn-ghost" href="#explore">Explore the Hub</a>
     </div>
     <div class="hero-stats">
-      <a class="hero-stat-link" href="find-a-tool/"><strong>11</strong><span>Total reports →</span></a>
+      <a class="hero-stat-link" href="explore-reports/"><strong>11</strong><span>Total reports →</span></a>
       <a class="hero-stat-link" href="#trust"><strong>0</strong><span>Data leaves tenant ↓</span></a>
       <a class="hero-stat-link" href="#measurables"><strong>11</strong><span>Core measurables ↓</span></a>
       <a class="hero-stat-link" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener"><strong>100%</strong><span>Open source</span></a>
@@ -125,23 +125,23 @@
     <p class="section-lead center">Every report in the Hub maps to one of these. Click any card to jump to the reports that surface it.</p>
 
     <div class="measure-grid">
-      <a class="measure-card" data-measure="adoption" href="find-a-tool/?q=adoption" style="--c:#0078d4"><span class="measure-icon">📈</span><h3>Adoption</h3><p>Active users, frequency, depth of use across Copilot surfaces.</p></a>
-      <a class="measure-card" data-measure="impact" href="find-a-tool/?q=impact" style="--c:#8661c5"><span class="measure-icon">💰</span><h3>Impact</h3><p>Hours saved, ROI modeling, super-user productivity lift.</p></a>
-      <a class="measure-card" data-measure="chat" href="find-a-tool/?q=chat" style="--c:#00B294"><span class="measure-icon">💬</span><h3>Chat usage</h3><p>Prompt volume, topics, response quality across BizChat and M365 Chat.</p></a>
-      <a class="measure-card" data-measure="agents" href="find-a-tool/?q=agents" style="--c:#e3008c"><span class="measure-icon">🤖</span><h3>Agents</h3><p>Custom-agent invocation, fan-out, who's building and who's using.</p></a>
-      <a class="measure-card" data-measure="sentiment" href="find-a-tool/?q=sentiment" style="--c:#ffaa44"><span class="measure-icon">❤️</span><h3>Sentiment</h3><p>Survey signal, NPS, qualitative themes from rollout cohorts.</p></a>
-      <a class="measure-card" data-measure="license" href="find-a-tool/?q=license" style="--c:#0078d4"><span class="measure-icon">🎯</span><h3>License readiness</h3><p>Who is provisioned, who is active, where licenses are stranded.</p></a>
-      <a class="measure-card" data-measure="roi" href="find-a-tool/?q=roi" style="--c:#00B294"><span class="measure-icon">🧮</span><h3>ROI modeling</h3><p>Scenario planning: cost, time savings, payback periods.</p></a>
-      <a class="measure-card" data-measure="developer" href="find-a-tool/?q=developer" style="--c:#8661c5"><span class="measure-icon">💻</span><h3>Developer adoption</h3><p>GitHub Copilot pull requests, suggestions accepted, repo coverage.</p></a>
-      <a class="measure-card" data-measure="productivity" href="find-a-tool/?q=productivity" style="--c:#e3008c"><span class="measure-icon">⚡</span><h3>Personal productivity</h3><p>Focus time, meeting load, after-hours work — the human metrics.</p></a>
-      <a class="measure-card" data-measure="audit" href="find-a-tool/?q=audit" style="--c:#ffaa44"><span class="measure-icon">🔍</span><h3>Audit automation</h3><p>PowerShell exporters that pull tenant audit logs on a schedule.</p></a>
-      <a class="measure-card" data-measure="customization" href="find-a-tool/?q=customization" style="--c:#0078d4"><span class="measure-icon">🎨</span><h3>Customization</h3><p>Champion-ID, branding, theming — make the reports your own.</p></a>
+      <a class="measure-card" data-measure="adoption" href="explore-reports/?q=adoption" style="--c:#0078d4"><span class="measure-icon">📈</span><h3>Adoption</h3><p>Active users, frequency, depth of use across Copilot surfaces.</p></a>
+      <a class="measure-card" data-measure="impact" href="explore-reports/?q=impact" style="--c:#8661c5"><span class="measure-icon">💰</span><h3>Impact</h3><p>Hours saved, ROI modeling, super-user productivity lift.</p></a>
+      <a class="measure-card" data-measure="chat" href="explore-reports/?q=chat" style="--c:#00B294"><span class="measure-icon">💬</span><h3>Chat usage</h3><p>Prompt volume, topics, response quality across BizChat and M365 Chat.</p></a>
+      <a class="measure-card" data-measure="agents" href="explore-reports/?q=agents" style="--c:#e3008c"><span class="measure-icon">🤖</span><h3>Agents</h3><p>Custom-agent invocation, fan-out, who's building and who's using.</p></a>
+      <a class="measure-card" data-measure="sentiment" href="explore-reports/?q=sentiment" style="--c:#ffaa44"><span class="measure-icon">❤️</span><h3>Sentiment</h3><p>Survey signal, NPS, qualitative themes from rollout cohorts.</p></a>
+      <a class="measure-card" data-measure="license" href="explore-reports/?q=license" style="--c:#0078d4"><span class="measure-icon">🎯</span><h3>License readiness</h3><p>Who is provisioned, who is active, where licenses are stranded.</p></a>
+      <a class="measure-card" data-measure="roi" href="explore-reports/?q=roi" style="--c:#00B294"><span class="measure-icon">🧮</span><h3>ROI modeling</h3><p>Scenario planning: cost, time savings, payback periods.</p></a>
+      <a class="measure-card" data-measure="developer" href="explore-reports/?q=developer" style="--c:#8661c5"><span class="measure-icon">💻</span><h3>Developer adoption</h3><p>GitHub Copilot pull requests, suggestions accepted, repo coverage.</p></a>
+      <a class="measure-card" data-measure="productivity" href="explore-reports/?q=productivity" style="--c:#e3008c"><span class="measure-icon">⚡</span><h3>Personal productivity</h3><p>Focus time, meeting load, after-hours work — the human metrics.</p></a>
+      <a class="measure-card" data-measure="audit" href="explore-reports/?q=audit" style="--c:#ffaa44"><span class="measure-icon">🔍</span><h3>Audit automation</h3><p>PowerShell exporters that pull tenant audit logs on a schedule.</p></a>
+      <a class="measure-card" data-measure="customization" href="explore-reports/?q=customization" style="--c:#0078d4"><span class="measure-icon">🎨</span><h3>Customization</h3><p>Champion-ID, branding, theming — make the reports your own.</p></a>
     </div>
 
     <p class="measure-note center">
       … and a lot more under the hood. Each report breaks these into dozens of dimensions —
       department, persona, geography, tenure, license type, time-of-day, cohort.
-      <a href="find-a-tool/">See the full report matrix →</a>
+      <a href="explore-reports/">See the full report matrix →</a>
     </p>
   </div>
 </section>
@@ -154,7 +154,7 @@
     <p class="section-lead center">Three ways in. Every page is standalone, interactive, and links back here.</p>
 
     <div class="hub-grid">
-      <a class="hub-card" href="find-a-tool/" style="--c:#0078d4;--c2:#8661c5;">
+      <a class="hub-card" href="explore-reports/" style="--c:#0078d4;--c2:#8661c5;">
         <div class="hub-card-glow" aria-hidden="true"></div>
         <div class="hub-card-icon">🔍</div>
         <div class="hub-card-eyebrow">11 reports · 11 measurables</div>
@@ -322,7 +322,7 @@
       <h4>Reports that surface this</h4>
       <div class="home-drawer-reports">${m.reports.map(reportCard).join('')}</div>
       <div class="home-drawer-foot">
-        <a class="btn btn-primary" href="find-a-tool/?q=${encodeURIComponent(key)}">See in full matrix →</a>
+        <a class="btn btn-primary" href="explore-reports/?q=${encodeURIComponent(key)}">See in full matrix →</a>
         <a class="btn btn-ghost" href="#top">← Home</a>
       </div>
     `;
