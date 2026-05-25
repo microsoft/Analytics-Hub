@@ -112,6 +112,18 @@ const EDGES = [
 // =====================================================================
 const ICON_BY_KIND = { source: "src", pipe: "pipe", report: "rpt", addon: "addon" };
 
+// Tracks which node (if any) has been click-locked. Hovering temporarily
+// overrides the lock for preview, but mouseleave snaps back to the lock.
+let lockedId = null;
+
+function setLocked(id) {
+  lockedId = id;
+  highlight(id);
+  document.querySelectorAll(".ds-node").forEach(n => {
+    n.classList.toggle("is-locked", n.getAttribute("data-id") === id);
+  });
+}
+
 function el(tag, attrs = {}, ...children) {
   const n = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
@@ -140,9 +152,19 @@ function renderNodes() {
       "data-id": n.id,
       "data-kind": n.kind,
       style: `--c:${n.color}; grid-column:${n.col + 1}; grid-row:${n.row + 1};`,
-      onclick: () => openDrawer(n.id),
-      onmouseenter: () => highlight(n.id),
-      onmouseleave: () => highlight(null),
+      onclick: (ev) => {
+        ev.stopPropagation();
+        // Toggle: clicking the locked node again unlocks; otherwise lock to this node.
+        if (lockedId === n.id) {
+          setLocked(null);
+          closeDrawer();
+        } else {
+          setLocked(n.id);
+          openDrawer(n.id);
+        }
+      },
+      onmouseenter: () => { if (!lockedId) highlight(n.id); },
+      onmouseleave: () => { if (!lockedId) highlight(null); },
     });
     node.append(
       el("span", { class: "ds-node-icon", "aria-hidden": "true" }, n.icon),
@@ -290,7 +312,7 @@ function closeDrawer() {
   const drawer = document.getElementById("dsDrawer");
   drawer.classList.remove("is-open");
   setTimeout(() => { drawer.hidden = true; }, 200);
-  highlight(null);
+  setLocked(null);
 }
 
 function renderGrid() {
@@ -429,7 +451,16 @@ function init() {
   requestAnimationFrame(drawLines);
   window.addEventListener("resize", () => requestAnimationFrame(drawLines));
   document.getElementById("dsDrawerClose").addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { setLocked(null); closeDrawer(); } });
+  // Clicking anywhere on the canvas background (not on a node) clears the lock
+  const canvas = document.getElementById("dsCanvas");
+  if (canvas) {
+    canvas.addEventListener("click", (ev) => {
+      if (!ev.target.closest(".ds-node")) {
+        setLocked(null);
+      }
+    });
+  }
 }
 
 if (document.readyState === "loading") {

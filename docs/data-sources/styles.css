@@ -140,6 +140,12 @@
     0 16px 36px -18px color-mix(in srgb, var(--c) 80%, transparent);
 }
 .ds-node.is-faded { opacity: .35; }
+.ds-node.is-locked {
+  border-color: var(--c);
+  box-shadow:
+    0 0 0 3px var(--c),
+    0 20px 44px -16px color-mix(in srgb, var(--c) 90%, transparent);
+}
 
 .ds-node-icon {
   display: inline-flex; align-items: center; justify-content: center;
