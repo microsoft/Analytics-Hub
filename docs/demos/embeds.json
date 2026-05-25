@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "note": "MSFT-internal Power BI embed URLs. autoAuth=true + ctid means the viewer must be signed into the Microsoft corp tenant to see the report. External visitors get a sign-in wall; that is by design. Add new reports by appending to the reports[] array.",
+  "reports": [
+    {
+      "id": "super-user-adoption",
+      "name": "Super User Adoption",
+      "blurb": "Identify super-users, score adoption depth, and quantify org-wide impact. Dummy tenant data.",
+      "repo": "https://github.com/microsoft/DecodingSuperUsage",
+      "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=8e23218f-9f20-4693-9e41-9a7aa889e053&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47",
+      "height": 720
+    },
+    {
+      "id": "super-user-impact",
+      "name": "Super User Impact",
+      "blurb": "Measure the productivity lift super-users create across their teams.",
+      "repo": "https://github.com/microsoft/Analytics-Hub",
+      "embedUrl": "",
+      "height": 720
+    },
+    {
+      "id": "ai-in-one",
+      "name": "AI in One",
+      "blurb": "Executive monthly review — adoption, sentiment, license utilisation, ROI, in one report.",
+      "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
+      "embedUrl": "",
+      "height": 720
+    },
+    {
+      "id": "chat-intelligence",
+      "name": "Chat Intelligence",
+      "blurb": "Prompt-level analytics — surfaces, depth, department breakdown, maturity curve.",
+      "repo": "https://github.com/microsoft/CopilotChatAnalytics",
+      "embedUrl": "",
+      "height": 720
+    },
+    {
+      "id": "agent-intelligence",
+      "name": "Agent Intelligence",
+      "blurb": "Agent-level telemetry — invocations, authors, shipped-but-unused candidates.",
+      "repo": "https://github.com/microsoft/CopilotChatAnalytics",
+      "embedUrl": "",
+      "height": 720
+    },
+    {
+      "id": "copilot-adoption-sentiment",
+      "name": "Adoption & Sentiment",
+      "blurb": "M365 Copilot adoption and end-user sentiment in one view.",
+      "repo": "https://github.com/microsoft/copilot-adoption-sentiment-report",
+      "embedUrl": "",
+      "height": 720
+    },
+    {
+      "id": "ai-solutions-intelligence",
+      "name": "AI Solutions Intelligence",
+      "blurb": "Portfolio view of AI solutions deployed across the org.",
+      "repo": "https://github.com/microsoft/Analytics-Hub",
+      "embedUrl": "",
+      "height": 720
+    }
+  ]
+}

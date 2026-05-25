@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internal Demos — Live Report Walkthroughs · Analytics Hub</title>
+  <meta name="description" content="Microsoft-internal demo gallery. Live Power BI reports with anonymised dummy data, for FastTrack / Solutions Architects / Customer Success Managers to demo to customers." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wvfood6j5g");
+  </script>
+  <meta name="clarity-page" content="InternalDemos" />
+  <script src="../clarity-events.js" defer></script>
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <style>
+    .demo-hero { background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%); padding: 40px 0 24px; border-bottom: 1px solid var(--border); }
+    .demo-hero .crumbs { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+    .demo-hero .crumbs a { color: var(--text-soft); }
+    .demo-hero h1 { font-size: clamp(26px,3vw,36px); margin: 6px 0 10px; }
+    .demo-hero h1 .lock { background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .demo-hero .lede { font-size: 16px; color: var(--text-soft); max-width: 820px; margin: 0; line-height: 1.6; }
+    .demo-hero .audience { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, var(--surface)); color: var(--accent); font-weight: 600; font-size: 12px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
+
+    .demo-subnav { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,.04); }
+    .demo-subnav .wrap { display: flex; align-items: center; gap: 12px; padding: 10px 16px; overflow-x: auto; }
+    .demo-subnav-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; flex-shrink: 0; }
+    .demo-tabs { display: flex; gap: 6px; flex-wrap: nowrap; }
+    .demo-tab { flex-shrink: 0; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .15s ease; position: relative; }
+    .demo-tab:hover { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border-color: var(--accent); }
+    .demo-tab[aria-selected="true"] { background: var(--accent-grad); color: #fff; border-color: transparent; font-weight: 600; }
+    .demo-tab .badge-soon { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--border); color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; }
+    .demo-tab[aria-selected="true"] .badge-soon { background: rgba(255,255,255,.25); color: #fff; }
+
+    .demo-stage { padding: 24px 0 60px; }
+    .demo-stage .wrap { max-width: 1240px; }
+    .demo-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px 12px 0 0; border-bottom: 0; flex-wrap: wrap; }
+    .demo-meta-text strong { font-size: 16px; }
+    .demo-meta-text span { color: var(--text-soft); font-size: 14px; display: block; margin-top: 2px; }
+    .demo-meta-actions { display: flex; gap: 8px; }
+    .demo-meta-actions a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; background: var(--bg-alt); color: var(--text); border: 1px solid var(--border); font-size: 13px; font-weight: 500; text-decoration: none; }
+    .demo-meta-actions a:hover { background: color-mix(in srgb, var(--accent) 10%, var(--surface)); border-color: var(--accent); }
+    .demo-meta-actions a.primary { background: var(--accent-grad); color: #fff; border-color: transparent; }
+
+    .demo-frame-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); border-top: 0; border-radius: 0 0 12px 12px; overflow: hidden; min-height: 720px; }
+    .demo-frame-wrap iframe { display: block; width: 100%; border: 0; }
+
+    .demo-empty { padding: 60px 30px; text-align: center; background: var(--bg-alt); border-radius: 0 0 12px 12px; border: 1px solid var(--border); border-top: 0; }
+    .demo-empty .emoji { font-size: 48px; margin-bottom: 12px; }
+    .demo-empty h3 { font-size: 20px; margin: 0 0 8px; }
+    .demo-empty p { color: var(--text-soft); margin: 0 0 18px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+    .demo-empty a.primary { display: inline-block; padding: 10px 18px; border-radius: 8px; background: var(--accent-grad); color: #fff; font-weight: 600; font-size: 14px; text-decoration: none; }
+
+    .demo-callout { max-width: 900px; margin: 40px auto 0; background: color-mix(in srgb, var(--accent) 4%, var(--surface)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 16px 20px; }
+    .demo-callout h3 { margin: 0 0 6px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+    .demo-callout p { margin: 0; color: var(--text-soft); font-size: 14px; line-height: 1.6; }
+    .demo-callout p + p { margin-top: 8px; }
+
+    @media (max-width: 720px) {
+      .demo-meta { flex-direction: column; align-items: flex-start; }
+      .demo-subnav .wrap { padding: 8px 12px; }
+    }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H12z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../">Home</a>
+      <a href="../find-a-tool/">Find a Report</a>
+      <a href="../out-of-the-box/">Native Reports</a>
+      <a href="../data-sources/">Data Sources</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../team/">Team</a>
+      <a href="./" class="nav-internal" aria-current="page">🔒 Internal Demos</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">💬</span><span class="menu-text">Feedback<span class="menu-sub">Problem · suggestion · praise</span></span></a>
+        </div>
+      </div>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="demo-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="../">Home</a> · Internal Demos</div>
+      <span class="audience">🔒 Microsoft FTE only · MSIT sign-in required</span>
+      <h1>Live Report Demos <span class="lock">for Internal Stakeholders</span></h1>
+      <p class="lede">
+        Live, interactive Power BI reports loaded with anonymised dummy data — for FastTrack engineers,
+        Solutions Architects, Customer Success Managers, and BVAs to demo the Analytics Hub portfolio
+        to customers. Each tab below loads a different report into the canvas. External visitors will
+        hit a sign-in wall — that's intentional.
+      </p>
+    </div>
+  </section>
+
+  <nav class="demo-subnav" aria-label="Demo reports">
+    <div class="wrap">
+      <strong class="demo-subnav-label">Report</strong>
+      <div class="demo-tabs" role="tablist" id="demo-tabs"></div>
+    </div>
+  </nav>
+
+  <section class="demo-stage">
+    <div class="wrap">
+      <div class="demo-meta" id="demo-meta">
+        <div class="demo-meta-text">
+          <strong id="demo-name">Loading…</strong>
+          <span id="demo-blurb"></span>
+        </div>
+        <div class="demo-meta-actions">
+          <a id="demo-repo" href="#" target="_blank" rel="noopener">📦 Repo ↗</a>
+          <a id="demo-fullscreen" href="#" target="_blank" rel="noopener" class="primary">⛶ Open in Power BI ↗</a>
+        </div>
+      </div>
+
+      <div class="demo-frame-wrap" id="demo-frame-wrap">
+        <iframe id="demo-iframe" title="Report demo" height="720" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <div class="demo-empty" id="demo-empty" hidden>
+        <div class="emoji">🚧</div>
+        <h3>Embed URL not yet configured</h3>
+        <p>
+          This report's MSIT embed link hasn't been published into <code>demos/embeds.json</code> yet.
+          If you have a Publish-to-web or "Embed for your organization" link for this report,
+          drop it into the Analytics Hub repo via PR or send it to the team.
+        </p>
+        <a href="../feedback/" class="primary">Request priority →</a>
+      </div>
+
+      <div class="demo-callout">
+        <h3>How tenant gating works</h3>
+        <p>
+          These iframes use <code>autoAuth=true</code> with Microsoft's tenant ID (<code>72f988bf-…</code>).
+          That means: visitors signed into the corp tenant see the report. Anyone else sees the
+          sign-in screen and is denied. This page is also marked <code>noindex,nofollow</code> so
+          it won't appear in Google.
+        </p>
+        <p>
+          Want to send this to a customer? Take a screenshot or screen-record your walkthrough.
+          The Customer-facing summary lives at <a href="../find-a-tool/">Find a Report</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-fine">
+      © Microsoft Corporation · MIT Licensed · <a href="../">Analytics Hub home</a> · <a href="../feedback/">Send feedback</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  const tabsEl  = document.getElementById("demo-tabs");
+  const iframe  = document.getElementById("demo-iframe");
+  const wrap    = document.getElementById("demo-frame-wrap");
+  const empty   = document.getElementById("demo-empty");
+  const meta    = document.getElementById("demo-meta");
+  const nameEl  = document.getElementById("demo-name");
+  const blurbEl = document.getElementById("demo-blurb");
+  const repoEl  = document.getElementById("demo-repo");
+  const fsEl    = document.getElementById("demo-fullscreen");
+
+  let REPORTS = [];
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+  function selectReport(id, push){
+    const r = REPORTS.find(x => x.id === id) || REPORTS[0];
+    if (!r) return;
+
+    // Update tabs aria
+    tabsEl.querySelectorAll(".demo-tab").forEach(t => {
+      t.setAttribute("aria-selected", t.dataset.id === r.id ? "true" : "false");
+    });
+
+    // Meta
+    nameEl.textContent  = r.name;
+    blurbEl.textContent = r.blurb || "";
+    if (r.repo) { repoEl.href = r.repo; repoEl.hidden = false; } else { repoEl.hidden = true; }
+
+    if (r.embedUrl) {
+      iframe.src = r.embedUrl;
+      iframe.height = r.height || 720;
+      wrap.hidden = false;
+      empty.hidden = true;
+      fsEl.href = r.embedUrl;
+      fsEl.hidden = false;
+    } else {
+      iframe.removeAttribute("src");
+      wrap.hidden = true;
+      empty.hidden = false;
+      fsEl.hidden = true;
+    }
+
+    if (push) {
+      try { history.replaceState(null, "", "#" + r.id); } catch(_) {}
+    }
+
+    if (window.clarity) {
+      try { window.clarity("event", "Demo report viewed: " + r.name); } catch(_) {}
+    }
+  }
+
+  function renderTabs(){
+    tabsEl.innerHTML = REPORTS.map(r => {
+      const soon = r.embedUrl ? "" : ' <span class="badge-soon">soon</span>';
+      return `<button class="demo-tab" role="tab" data-id="${escapeHtml(r.id)}" aria-selected="false">${escapeHtml(r.name)}${soon}</button>`;
+    }).join("");
+    tabsEl.addEventListener("click", e => {
+      const btn = e.target.closest(".demo-tab");
+      if (!btn) return;
+      selectReport(btn.dataset.id, true);
+    });
+  }
+
+  fetch("embeds.json", { cache: "no-cache" })
+    .then(r => r.json())
+    .then(j => {
+      REPORTS = Array.isArray(j.reports) ? j.reports : [];
+      if (!REPORTS.length) {
+        tabsEl.innerHTML = '<span style="color:var(--text-muted);font-size:13px">No reports configured.</span>';
+        return;
+      }
+      renderTabs();
+      const initial = (location.hash || "").replace(/^#/, "");
+      const target = REPORTS.find(r => r.id === initial) ? initial : REPORTS[0].id;
+      selectReport(target, false);
+    })
+    .catch(err => {
+      console.error("[demos] failed to load embeds.json", err);
+      tabsEl.innerHTML = '<span style="color:var(--text-muted);font-size:13px">Failed to load demo list.</span>';
+    });
+})();
+</script>
+
+</body>
+</html>

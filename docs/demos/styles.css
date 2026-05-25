@@ -1,0 +1,94 @@
+/* ============================================================
+   Demos · shared wrapper styles
+   Full-bleed Power BI iframe with site chrome + sample-data banner
+   ============================================================ */
+
+.demo-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.demo-banner {
+  background: linear-gradient(90deg, #fff4ce 0%, #ffe5a8 100%);
+  color: #5a3e00;
+  border-bottom: 1px solid #e8c878;
+  padding: .65rem 1.25rem;
+  font-size: .9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+.demo-banner strong { font-weight: 700; }
+
+.demo-banner a {
+  color: #5a3e00;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.demo-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border, #e1e1e1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.demo-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+
+.demo-header .demo-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.demo-header-actions {
+  display: flex;
+  gap: .55rem;
+  flex-wrap: wrap;
+}
+
+.demo-frame-wrap {
+  flex: 1;
+  position: relative;
+  background: #0b0b0b;
+  min-height: 70vh;
+}
+
+.demo-frame-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.demo-foot {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border, #e1e1e1);
+  font-size: .85rem;
+  color: var(--text-muted, #555);
+  text-align: center;
+}
+
+.demo-foot a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+@media (max-width: 720px) {
+  .demo-frame-wrap { min-height: 60vh; }
+  .demo-header h1 { font-size: 1.05rem; }
+}
