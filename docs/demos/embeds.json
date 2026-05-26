@@ -7,28 +7,29 @@
       "name": "Super User Adoption",
       "blurb": "Identify super-users, score adoption depth, and quantify org-wide impact. Dummy tenant data.",
       "repo": "https://github.com/microsoft/DecodingSuperUsage",
+      "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=01024c9c-21a0-4571-b43f-183e6641baa9&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/DecodingSuperUsage#readme", "kind": "doc" },
         { "label": "DirectQuery troubleshooting", "url": "https://github.com/microsoft/DecodingSuperUsage/blob/main/TROUBLESHOOTING_DIRECTQUERY_AUTH.md", "kind": "troubleshoot" },
-        { "label": "Download the .pbit template", "url": "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip", "kind": "download" },
-        { "label": "Related: Super User Impact", "url": "#super-user-impact", "kind": "related" },
-        { "label": "Picker: Adoption reports", "url": "../explore-reports/?measure=adoption", "kind": "picker" }
+        { "label": "Download the .pbit template", "url": "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip", "kind": "download" }
       ]
     },
     {
       "id": "super-user-impact",
       "name": "Super User Impact",
       "blurb": "Measure the productivity lift super-users create across their teams.",
-      "repo": "https://github.com/microsoft/Analytics-Hub",
+      "repo": "https://github.com/microsoft/superuserimpact",
+      "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=00e297dc-9aab-460a-8034-0271a8b7e1e4&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/Analytics-Hub#readme", "kind": "doc" },
-        { "label": "Source: Decoding Super Usage", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" },
-        { "label": "Related: Super User Adoption", "url": "#super-user-adoption", "kind": "related" },
-        { "label": "Picker: Impact reports", "url": "../explore-reports/?measure=impact", "kind": "picker" }
+        { "label": "README & setup guide", "url": "https://github.com/microsoft/superuserimpact#readme", "kind": "doc" },
+        { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Superuser%20Impact%20-%20Storyboard%20v4.pptx", "kind": "download" },
+        { "label": "Download .pbit (CSV)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20CSV%20-v8.pbit", "kind": "download" },
+        { "label": "Download .pbit (DirectQuery)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v8.pbit", "kind": "download" },
+        { "label": "Source: Decoding Super Usage", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" }
       ]
     },
     {
@@ -36,14 +37,14 @@
       "name": "AI in One",
       "blurb": "Executive monthly review \u2014 adoption, sentiment, license utilisation, ROI, in one report.",
       "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
+      "sourceKey": "Purview + Entra",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=60ff9554-a5d4-41bf-b4fe-c06dcabda182&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-in-One-Dashboard#readme", "kind": "doc" },
         { "label": "Download .pbit (SharePoint)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2028%2004%20-%20Sharepoint%20Refresh.pbit", "kind": "download" },
         { "label": "Download .pbit (CSV)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2027%2004%20-%20csv%20only.pbit", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/01_AI_in_One_Dashboard_Admin_Email.md", "kind": "email" },
-        { "label": "Picker: Usage Intelligence", "url": "../explore-reports/?measure=adoption", "kind": "picker" }
+        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/01_AI_in_One_Dashboard_Admin_Email.md", "kind": "email" }
       ]
     },
     {
@@ -51,14 +52,13 @@
       "name": "Chat Intelligence",
       "blurb": "Prompt-level analytics \u2014 surfaces, depth, department breakdown, maturity curve.",
       "repo": "https://github.com/microsoft/CopilotChatAnalytics",
+      "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/CopilotChatAnalytics#readme", "kind": "doc" },
         { "label": "Download .pbit (Chat)", "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20-%20Chat%20Intelligence%20Report.pbit", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/02_Chat_Intelligence_Admin_Email.md", "kind": "email" },
-        { "label": "Related: Agent Intelligence", "url": "#agent-intelligence", "kind": "related" },
-        { "label": "Picker: Chat usage", "url": "../explore-reports/?measure=chat", "kind": "picker" }
+        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/02_Chat_Intelligence_Admin_Email.md", "kind": "email" }
       ]
     },
     {
@@ -66,14 +66,13 @@
       "name": "Agent Intelligence",
       "blurb": "Agent-level telemetry \u2014 invocations, authors, shipped-but-unused candidates.",
       "repo": "https://github.com/microsoft/CopilotChatAnalytics",
+      "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/CopilotChatAnalytics#readme", "kind": "doc" },
         { "label": "Download .pbit (Agent)", "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20Agent%20Intelligence%20v4.pbit", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/03_Agent_Intelligence_Admin_Email.md", "kind": "email" },
-        { "label": "Related: Chat Intelligence", "url": "#chat-intelligence", "kind": "related" },
-        { "label": "Picker: Agents", "url": "../explore-reports/?measure=agents", "kind": "picker" }
+        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/03_Agent_Intelligence_Admin_Email.md", "kind": "email" }
       ]
     },
     {
@@ -81,6 +80,7 @@
       "name": "Adoption & Sentiment",
       "blurb": "Crosses M365 Copilot usage with employee survey sentiment \u2014 adoption trends, satisfaction scores by usage tier, free-text comments, and self-reported time savings. From olivierpecheux/copilot-adoption-sentiment-report.",
       "repo": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report",
+      "sourceKey": "M365 Admin + Survey",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=7cadd19f-6c7d-40c1-8370-6e557c88b59a&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "resources": [
@@ -91,22 +91,19 @@
         { "label": "Screenshot: Sentiment Analysis", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/sentiment-analysis.png", "kind": "doc" },
         { "label": "Screenshot: Comments Analysis", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/comments-analysis.png", "kind": "doc" },
         { "label": "Screenshot: Saved Time Analysis", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/saved-time-analysis.png", "kind": "doc" },
-        { "label": "Contact: opecheux@microsoft.com", "url": "mailto:opecheux@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report", "kind": "email" },
-        { "label": "Related: Super User Adoption", "url": "#super-user-adoption", "kind": "related" },
-        { "label": "Related: AI in One", "url": "#ai-in-one", "kind": "related" },
-        { "label": "Picker: Sentiment reports", "url": "../explore-reports/?measure=sentiment", "kind": "picker" }
+        { "label": "Contact: opecheux@microsoft.com", "url": "mailto:opecheux@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report", "kind": "email" }
       ]
     },
     {
       "id": "ai-solutions-intelligence",
       "name": "AI Solutions Intelligence",
       "blurb": "Portfolio view of AI solutions deployed across the org.",
-      "repo": "https://github.com/microsoft/Analytics-Hub",
+      "repo": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard",
+      "sourceKey": "Various",
       "embedUrl": "",
       "height": 720,
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard#readme", "kind": "doc" },
-        { "label": "Picker: All reports", "url": "../explore-reports/", "kind": "picker" }
+        { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard#readme", "kind": "doc" }
       ]
     },
     {
@@ -114,12 +111,12 @@
       "name": "M365 Copilot Readiness",
       "blurb": "Enablement and champion identification \u2014 surface who's ready to onboard next and who should be groomed as a Copilot champion in each org.",
       "repo": "https://github.com/microsoft/M365UsageAnalytics",
+      "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/M365UsageAnalytics#readme", "kind": "doc" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/07_M365_Copilot_Readiness_Admin_Email.md", "kind": "email" },
-        { "label": "Picker: License readiness", "url": "../explore-reports/?measure=license", "kind": "picker" }
+        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/07_M365_Copilot_Readiness_Admin_Email.md", "kind": "email" }
       ]
     },
     {
@@ -127,12 +124,12 @@
       "name": "Champion ID",
       "blurb": "Identify and rank Copilot champions across the org \u2014 surfaces top advocates, influence reach, and enablement candidates. From the customizecopilot repo.",
       "repo": "https://github.com/microsoft/customizecopilot",
+      "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=710f8f82-b733-45d6-9296-f3ff9f573d21&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/customizecopilot#readme", "kind": "doc" },
-        { "label": "Champion-ID source folder", "url": "https://github.com/microsoft/customizecopilot/tree/main/Champion-ID", "kind": "doc" },
-        { "label": "Picker: Customization", "url": "../explore-reports/?measure=customization", "kind": "picker" }
+        { "label": "Champion-ID source folder", "url": "https://github.com/microsoft/customizecopilot/tree/main/Champion-ID", "kind": "doc" }
       ]
     },
     {
@@ -140,14 +137,13 @@
       "name": "ROI Calculator",
       "blurb": "Pairs with the Super Usage Adoption Power BI report \u2014 export the heatmap visual as CSV, drop it into the calculator, and model payback period, productivity lift, and license-cost recovery live. The calculator UI is public; the heatmap data comes from your Power BI tenant.",
       "repo": "https://jordankingisalive.github.io/CopilotROICalculator/",
+      "sourceKey": "Viva Insights",
       "embedUrl": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html",
       "embedType": "html",
       "height": 2400,
       "resources": [
         { "label": "Open ROI Calculator in new tab", "url": "https://jordankingisalive.github.io/CopilotROICalculator/", "kind": "doc" },
-        { "label": "Upstream: Super Usage (Power BI)", "url": "#super-user-adoption", "kind": "related" },
-        { "label": "Decoding Super Usage repo", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" },
-        { "label": "Picker: ROI modeling", "url": "../explore-reports/?measure=roi", "kind": "picker" }
+        { "label": "Decoding Super Usage repo", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" }
       ]
     }
   ]

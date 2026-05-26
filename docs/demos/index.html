@@ -149,6 +149,14 @@
           <h3 id="demo-rail-title">Loading…</h3>
         </div>
         <ul class="demo-rail-list" id="demo-rail-list"></ul>
+      </aside>
+
+      <aside class="demo-rail" id="demo-rail-related" aria-label="Other reports built on the same data source">
+        <div class="demo-rail-header">
+          <span class="demo-rail-eyebrow">Related reports</span>
+          <h3 id="demo-rail-source">…</h3>
+        </div>
+        <ul class="demo-rail-list" id="demo-rail-related-list"></ul>
         <div class="demo-rail-footer">
           <a href="../explore-reports/" class="demo-rail-cta">Browse all reports →</a>
         </div>
@@ -228,6 +236,8 @@
   const fsEl    = document.getElementById("demo-fullscreen");
   const railTitle = document.getElementById("demo-rail-title");
   const railList  = document.getElementById("demo-rail-list");
+  const railSource = document.getElementById("demo-rail-source");
+  const railRelatedList = document.getElementById("demo-rail-related-list");
 
   const KIND_ICON = {
     doc:         "📖",
@@ -238,13 +248,22 @@
     picker:      "🧭"
   };
 
+  // Curated resource rail filters out 'related' and 'picker' kinds because
+  // those are auto-rendered in the second strip (related reports by data source).
+  const RESOURCE_KINDS = new Set(["doc","troubleshoot","download","email"]);
+
   let REPORTS = [];
 
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
   function renderRail(r) {
     railTitle.textContent = r.name;
-    const items = Array.isArray(r.resources) ? r.resources : [];
+    const items = (Array.isArray(r.resources) ? r.resources : [])
+      .filter(it => RESOURCE_KINDS.has(it.kind));
+    // Always lead with a direct repo link so users have one click to the source.
+    if (r.repo) {
+      items.unshift({ label: "Open repository", url: r.repo, kind: "doc" });
+    }
     if (!items.length) {
       railList.innerHTML = '<li class="demo-rail-empty">No related resources curated yet for this report. <a href="../feedback/">Suggest some →</a></li>';
       return;
@@ -252,14 +271,41 @@
     railList.innerHTML = items.map(it => {
       const icon = KIND_ICON[it.kind] || "🔗";
       const isInternal = it.url.startsWith("#") || it.url.startsWith("../") || it.url.startsWith("./");
+      const isDownload = it.kind === "download";
       const target = isInternal ? "" : ' target="_blank" rel="noopener"';
-      const arrow = isInternal ? '' : ' <span class="ext" aria-hidden="true">↗</span>';
-      // Internal hash links should switch the tab, not navigate
+      const downloadAttr = isDownload ? ' download' : '';
+      const arrow = isInternal ? '' : (isDownload ? '' : ' <span class="ext" aria-hidden="true">↗</span>');
       const dataAttr = it.url.startsWith("#") ? ` data-switch="${escapeHtml(it.url.slice(1))}"` : '';
-      return `<li><a href="${escapeHtml(it.url)}"${target}${dataAttr}><span class="rail-icon" aria-hidden="true">${icon}</span><span class="rail-label">${escapeHtml(it.label)}</span>${arrow}</a></li>`;
+      return `<li><a href="${escapeHtml(it.url)}"${target}${downloadAttr}${dataAttr}><span class="rail-icon" aria-hidden="true">${icon}</span><span class="rail-label">${escapeHtml(it.label)}</span>${arrow}</a></li>`;
     }).join("");
     // Wire hash-link switches to selectReport
     railList.querySelectorAll('a[data-switch]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        selectReport(a.dataset.switch, true);
+        document.getElementById('top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  function renderRelatedReports(r) {
+    const key = r.sourceKey;
+    if (!key) {
+      railSource.textContent = "Other reports";
+      railRelatedList.innerHTML = '<li class="demo-rail-empty">Data source not tagged for this report yet.</li>';
+      return;
+    }
+    railSource.textContent = key;
+    const peers = REPORTS.filter(p => p.id !== r.id && p.sourceKey === key);
+    if (!peers.length) {
+      railRelatedList.innerHTML = `<li class="demo-rail-empty">No other reports share the <strong>${escapeHtml(key)}</strong> data source yet.</li>`;
+      return;
+    }
+    railRelatedList.innerHTML = peers.map(p => {
+      const soon = p.embedUrl ? '' : ' <span class="badge-soon" style="margin-left:.3rem">soon</span>';
+      return `<li><a href="#${escapeHtml(p.id)}" data-switch="${escapeHtml(p.id)}"><span class="rail-icon" aria-hidden="true">📊</span><span class="rail-label">${escapeHtml(p.name)}${soon}</span></a></li>`;
+    }).join("");
+    railRelatedList.querySelectorAll('a[data-switch]').forEach(a => {
       a.addEventListener('click', (e) => {
         e.preventDefault();
         selectReport(a.dataset.switch, true);
@@ -284,6 +330,8 @@
 
     // Related resources rail
     renderRail(r);
+    renderRelatedReports(r);
+    renderRelatedReports(r);
 
     if (r.embedUrl) {
       iframe.src = r.embedUrl;
