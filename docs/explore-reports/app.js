@@ -468,7 +468,7 @@ function wireEmail() {
 function applyFilters() {
   const q = (document.getElementById('qSearch').value || '').toLowerCase().trim();
   const activePill = document.querySelector('.filter-pills .pill.active');
-  const measure = activePill ? activePill.dataset.measure : 'all';
+  const measure = activePill ? (activePill.dataset.measure || 'all') : 'all';
   const tier = activePill ? (activePill.dataset.tier || '') : '';
   let shown = 0;
   // Count visible rows per category
