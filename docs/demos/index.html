@@ -33,10 +33,11 @@
     .demo-hero .audience { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, var(--surface)); color: var(--accent); font-weight: 600; font-size: 12px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
 
     .demo-subnav { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: 0 2px 6px rgba(0,0,0,.04); }
-    .demo-subnav .wrap { display: flex; align-items: center; gap: 12px; padding: 10px 16px; overflow-x: auto; }
-    .demo-subnav-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; flex-shrink: 0; }
-    .demo-tabs { display: flex; gap: 6px; flex-wrap: nowrap; }
-    .demo-tab { flex-shrink: 0; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .15s ease; position: relative; }
+    .demo-subnav .wrap { display: flex; align-items: flex-start; gap: 12px; padding: 10px 16px; flex-wrap: wrap; }
+    .demo-subnav-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; flex-shrink: 0; padding-top: 7px; }
+    .demo-tabs { display: flex; gap: 6px; flex-wrap: wrap; flex: 1 1 auto; }
+    .demo-tab { padding: 7px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text); font-size: 12.5px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .15s ease; position: relative; }
+    .demo-tab.is-soon { opacity: .72; }
     .demo-tab:hover { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border-color: var(--accent); }
     .demo-tab[aria-selected="true"] { background: var(--accent-grad); color: #fff; border-color: transparent; font-weight: 600; }
     .demo-tab .badge-soon { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--border); color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; }
@@ -310,9 +311,17 @@
   }
 
   function renderTabs(){
-    tabsEl.innerHTML = REPORTS.map(r => {
-      const soon = r.embedUrl ? "" : ' <span class="badge-soon">soon</span>';
-      return `<button class="demo-tab" role="tab" data-id="${escapeHtml(r.id)}" aria-selected="false">${escapeHtml(r.name)}${soon}</button>`;
+    // Sort: reports with embedUrl first (in source order), then SOON reports at the end
+    const ordered = REPORTS.slice().sort((a, b) => {
+      const aSoon = a.embedUrl ? 0 : 1;
+      const bSoon = b.embedUrl ? 0 : 1;
+      return aSoon - bSoon;
+    });
+    tabsEl.innerHTML = ordered.map(r => {
+      const isSoon = !r.embedUrl;
+      const soon = isSoon ? ' <span class="badge-soon">soon</span>' : '';
+      const cls = isSoon ? 'demo-tab is-soon' : 'demo-tab';
+      return `<button class="${cls}" role="tab" data-id="${escapeHtml(r.id)}" aria-selected="false">${escapeHtml(r.name)}${soon}</button>`;
     }).join("");
     tabsEl.addEventListener("click", e => {
       const btn = e.target.closest(".demo-tab");
