@@ -10,6 +10,7 @@
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -141,8 +142,21 @@
         </div>
       </div>
 
-      <div class="demo-frame-wrap" id="demo-frame-wrap">
-        <iframe id="demo-iframe" title="Report demo" height="720" frameborder="0" allowfullscreen allow="clipboard-write; fullscreen" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="demo-stage-grid">
+        <div class="demo-frame-wrap" id="demo-frame-wrap">
+          <iframe id="demo-iframe" title="Report demo" height="720" frameborder="0" allowfullscreen allow="clipboard-write; fullscreen" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <aside class="demo-rail" id="demo-rail" aria-label="Related resources for this report">
+          <div class="demo-rail-header">
+            <span class="demo-rail-eyebrow">Related resources</span>
+            <h3 id="demo-rail-title">Loading…</h3>
+          </div>
+          <ul class="demo-rail-list" id="demo-rail-list"></ul>
+          <div class="demo-rail-footer">
+            <a href="../explore-reports/" class="demo-rail-cta">Browse all reports →</a>
+          </div>
+        </aside>
       </div>
 
       <div class="demo-empty" id="demo-empty" hidden>
@@ -211,10 +225,47 @@
   const blurbEl = document.getElementById("demo-blurb");
   const repoEl  = document.getElementById("demo-repo");
   const fsEl    = document.getElementById("demo-fullscreen");
+  const railTitle = document.getElementById("demo-rail-title");
+  const railList  = document.getElementById("demo-rail-list");
+
+  const KIND_ICON = {
+    doc:         "📖",
+    troubleshoot:"🛠️",
+    download:    "⬇️",
+    email:       "📧",
+    related:     "🔗",
+    picker:      "🧭"
+  };
 
   let REPORTS = [];
 
   function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+  function renderRail(r) {
+    railTitle.textContent = r.name;
+    const items = Array.isArray(r.resources) ? r.resources : [];
+    if (!items.length) {
+      railList.innerHTML = '<li class="demo-rail-empty">No related resources curated yet for this report. <a href="../feedback/">Suggest some →</a></li>';
+      return;
+    }
+    railList.innerHTML = items.map(it => {
+      const icon = KIND_ICON[it.kind] || "🔗";
+      const isInternal = it.url.startsWith("#") || it.url.startsWith("../") || it.url.startsWith("./");
+      const target = isInternal ? "" : ' target="_blank" rel="noopener"';
+      const arrow = isInternal ? '' : ' <span class="ext" aria-hidden="true">↗</span>';
+      // Internal hash links should switch the tab, not navigate
+      const dataAttr = it.url.startsWith("#") ? ` data-switch="${escapeHtml(it.url.slice(1))}"` : '';
+      return `<li><a href="${escapeHtml(it.url)}"${target}${dataAttr}><span class="rail-icon" aria-hidden="true">${icon}</span><span class="rail-label">${escapeHtml(it.label)}</span>${arrow}</a></li>`;
+    }).join("");
+    // Wire hash-link switches to selectReport
+    railList.querySelectorAll('a[data-switch]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        selectReport(a.dataset.switch, true);
+        document.getElementById('top')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
 
   function selectReport(id, push){
     const r = REPORTS.find(x => x.id === id) || REPORTS[0];
@@ -229,6 +280,9 @@
     nameEl.textContent  = r.name;
     blurbEl.textContent = r.blurb || "";
     if (r.repo) { repoEl.href = r.repo; repoEl.hidden = false; } else { repoEl.hidden = true; }
+
+    // Related resources rail
+    renderRail(r);
 
     if (r.embedUrl) {
       iframe.src = r.embedUrl;

@@ -153,15 +153,20 @@
           <span class="search-icon" aria-hidden="true">🔍</span>
           <input id="qSearch" type="search" placeholder="Search by question, report name, or data source…" autocomplete="off" />
         </label>
-        <div class="filter-pills" role="tablist" aria-label="Filter by data source">
-          <button class="pill active" data-src="all">All sources</button>
-          <button class="pill" data-src="Viva Insights">Viva Insights</button>
-          <button class="pill" data-src="Purview">Purview</button>
-          <button class="pill" data-src="GitHub">GitHub</button>
-          <button class="pill" data-src="M365 Admin">M365 Admin</button>
-          <button class="pill" data-src="Graph API">Graph API</button>
-          <button class="pill" data-src="CSV">CSV / Browser</button>
-          <button class="pill" data-src="Local">Local sessions</button>
+        <div class="filter-pills" role="tablist" aria-label="Filter by what the report measures">
+          <button class="pill active" data-measure="all">All reports</button>
+          <button class="pill pill-tier" data-tier="core" title="Recommended starting reports">★ Core only</button>
+          <button class="pill" data-measure="adoption" style="--c:#0078d4">Adoption</button>
+          <button class="pill" data-measure="impact" style="--c:#8661c5">Impact</button>
+          <button class="pill" data-measure="chat" style="--c:#00B294">Chat usage</button>
+          <button class="pill" data-measure="agents" style="--c:#e3008c">Agents</button>
+          <button class="pill" data-measure="sentiment" style="--c:#ffaa44">Sentiment</button>
+          <button class="pill" data-measure="license" style="--c:#0078d4">License readiness</button>
+          <button class="pill" data-measure="roi" style="--c:#00B294">ROI modeling</button>
+          <button class="pill" data-measure="developer" style="--c:#8661c5">Developer</button>
+          <button class="pill" data-measure="productivity" style="--c:#e3008c">Productivity</button>
+          <button class="pill" data-measure="audit" style="--c:#ffaa44">Audit automation</button>
+          <button class="pill" data-measure="customization" style="--c:#0078d4">Customization</button>
         </div>
       </div>
     </div>
@@ -176,7 +181,7 @@
             <tr>
               <th class="col-q">If you're asking…</th>
               <th class="col-tool">Use this report</th>
-              <th class="col-src">Data source</th>
+              <th class="col-src">What it measures</th>
               <th class="col-actions"><span class="col-actions-heads"><span title="Open repository on GitHub">Repo</span><span title="Download .zip of the repository">Zip</span><span title="Email your IT or data admin">Email</span></span></th>
             </tr>
           </thead>

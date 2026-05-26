@@ -491,3 +491,103 @@
   .picker-table th, .picker-table td { padding: .7rem .6rem; }
   .ico-btn { width: 30px; height: 30px; }
 }
+
+/* ============================================================
+   Measure chips, category headers, tier badges (added for site polish)
+   ============================================================ */
+
+/* Pills get colored when active and have a --c CSS var */
+.filter-pills .pill[style*="--c"].active {
+  background: var(--c, var(--accent));
+  border-color: var(--c, var(--accent));
+  color: #fff;
+}
+.filter-pills .pill.pill-tier {
+  border-color: #ffaa44;
+  color: #ffaa44;
+  font-weight: 600;
+}
+.filter-pills .pill.pill-tier.active {
+  background: #ffaa44;
+  border-color: #ffaa44;
+  color: #1a1a1a;
+}
+
+/* Measure chips inside the table row */
+.m-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+.m-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: .2rem .55rem;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c, #888) 14%, transparent);
+  color: var(--c, #444);
+  border: 1px solid color-mix(in srgb, var(--c, #888) 32%, transparent);
+  cursor: pointer;
+  transition: all .12s;
+  white-space: nowrap;
+}
+.m-chip:hover {
+  background: color-mix(in srgb, var(--c, #888) 24%, transparent);
+  transform: translateY(-1px);
+}
+
+/* Category section headers inside the table */
+.cat-header td {
+  background: linear-gradient(180deg, var(--bg-alt) 0%, var(--surface) 100%);
+  border-top: 2px solid var(--border-strong);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.25rem .75rem;
+}
+.cat-header:first-child td { border-top: 0; }
+.cat-header-inner {
+  display: flex;
+  align-items: baseline;
+  gap: .65rem;
+  flex-wrap: wrap;
+}
+.cat-icon { font-size: 1.15rem; }
+.cat-label {
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+.cat-blurb {
+  font-size: .82rem;
+  color: var(--text-muted);
+  flex: 1 1 280px;
+}
+.cat-count {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: .15rem .55rem;
+  border-radius: 999px;
+}
+
+/* CORE tier badge on the tool-chip */
+.tier-badge {
+  display: inline-block;
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  padding: .12rem .4rem;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: .35rem;
+}
+.tier-badge.tier-core {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}

@@ -9,6 +9,9 @@ const TOOLS = [
     title: "Super Usage Adoption",
     icon: "⚡",
     accent: "#0078d4",
+    category: "adoption-behavior",
+    tier: "core",
+    measures: ["adoption","productivity"],
     source: "Viva Insights",
     sourceKey: "Viva Insights",
     repo: "https://github.com/microsoft/DecodingSuperUsage",
@@ -24,6 +27,9 @@ const TOOLS = [
     title: "Super User Impact",
     icon: "🏆",
     accent: "#00B294",
+    category: "adoption-behavior",
+    tier: "specialty",
+    measures: ["impact","productivity"],
     source: "Viva Insights",
     sourceKey: "Viva Insights",
     repo: "https://github.com/microsoft/superuserimpact",
@@ -39,6 +45,9 @@ const TOOLS = [
     title: "AI-in-One Dashboard",
     icon: "🤖",
     accent: "#e3008c",
+    category: "usage-intelligence",
+    tier: "core",
+    measures: ["adoption","chat","agents","license"],
     source: "Purview + Entra",
     sourceKey: "Purview",
     repo: "https://github.com/microsoft/AI-in-One-Dashboard",
@@ -54,6 +63,9 @@ const TOOLS = [
     title: "Copilot Chat & Agent Intelligence",
     icon: "💬",
     accent: "#8661c5",
+    category: "usage-intelligence",
+    tier: "specialty",
+    measures: ["chat","agents"],
     source: "Purview + Entra",
     sourceKey: "Purview",
     repo: "https://github.com/microsoft/CopilotChatAnalytics",
@@ -70,6 +82,9 @@ const TOOLS = [
     title: "GitHub Copilot Impact",
     icon: "⚙️",
     accent: "#24292f",
+    category: "developer",
+    tier: "specialty",
+    measures: ["developer","adoption"],
     source: "GitHub Enterprise",
     sourceKey: "GitHub",
     repo: "https://github.com/microsoft/GitHubCopilotImpact",
@@ -85,6 +100,9 @@ const TOOLS = [
     title: "What I Did: Copilot Impact Report",
     icon: "📝",
     accent: "#4cc2ff",
+    category: "developer",
+    tier: "specialty",
+    measures: ["developer","productivity"],
     source: "Local Copilot sessions",
     sourceKey: "Local",
     repo: "https://github.com/microsoft/What-I-Did-Copilot",
@@ -95,17 +113,20 @@ const TOOLS = [
   },
   {
     id: 'm365-readiness',
-    question: "Which users should get Copilot licenses next?",
+    question: "Who's ready to be enabled on Copilot, and who should I groom as a champion?",
     title: "M365 Copilot Readiness Report",
     icon: "🎯",
     accent: "#FFB900",
+    category: "readiness-roi",
+    tier: "specialty",
+    measures: ["adoption","license","customization"],
     source: "Purview + Entra",
     sourceKey: "Purview",
     repo: "https://github.com/microsoft/M365UsageAnalytics",
     download: "https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip",
     emailFile: "07_M365_Copilot_Readiness_Admin_Email.txt",
-    blurb: "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can defend your next Copilot license wave with audit data, not gut feel.",
-    meta: { audience: "License owners, IT, finance partners", license: "Audit Reader + Entra read", time: "~45 min for first run" },
+    blurb: "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can stage enablement waves and surface the natural champion candidates in each org — defended with audit data, not gut feel.",
+    meta: { audience: "Enablement leads, IT, license owners", license: "Audit Reader + Entra read", time: "~45 min for first run" },
   },
   {
     id: 'adoption-sentiment',
@@ -113,12 +134,15 @@ const TOOLS = [
     title: "Adoption & Sentiment Report",
     icon: "💛",
     accent: "#FFB900",
+    category: "adoption-behavior",
+    tier: "specialty",
+    measures: ["sentiment","adoption"],
     source: "M365 Admin + Survey",
     sourceKey: "M365 Admin",
     repo: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report",
     download: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip",
     preview: "https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/images/adoption-overview.png",
-    blurb: "Crosses M365 Copilot adoption stats with employee sentiment survey results. Reveals where perception and reality diverge — the gap is where change management lives.",
+    blurb: "Four-page Power BI template by olivierpecheux/Microsoft: Adoption Overview, Sentiment Analysis, Comments Analysis, and Saved Time Analysis. Ships with a 12-question recommended Copilot survey — drop into Microsoft Forms, match the UPN column to the Copilot Activity export, and the report stitches sentiment to actual usage by tier (Bottom 25% → Top 10%).",
     meta: { audience: "Change managers, comms, exec sponsors", license: "M365 Admin report access + survey export", time: "~30 min" },
   },
   {
@@ -127,6 +151,9 @@ const TOOLS = [
     title: "PAX: Portable Audit eXporter",
     icon: "🛡️",
     accent: "#6264a7",
+    category: "tooling-extension",
+    tier: "specialty",
+    measures: ["audit"],
     source: "Purview + Entra (Microsoft Graph)",
     sourceKey: "Graph API",
     repo: "https://github.com/microsoft/PAX",
@@ -136,16 +163,19 @@ const TOOLS = [
   },
   {
     id: 'roi-calc',
-    question: "I want to model Copilot ROI scenarios from a CSV — no Power BI, no install.",
+    question: "I have the Super Usage heatmap in Power BI — how do I turn it into an ROI story?",
     title: "M365 Copilot Productivity ROI Calculator",
     icon: "🧮",
     accent: "#0078d4",
-    source: "Viva Insights (via Super Usage Heatmap CSV)",
+    category: "readiness-roi",
+    tier: "core",
+    measures: ["roi","impact"],
+    source: "Power BI export (Super Usage Heatmap CSV)",
     sourceKey: "Viva Insights",
     repo: "https://jordankingisalive.github.io/CopilotROICalculator/",
     download: "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
-    blurb: "Browser-only ROI modeler — runs entirely in the browser. Drop in the heatmap CSV exported from Super Usage Adoption (which itself runs on Viva Insights), sweep assumptions, generate a defensible value story — zero install, no Power BI. Open the live site to use it.",
-    meta: { audience: "BVAs, finance partners, exec sponsors", license: "None for the calc — upstream needs Viva Insights", time: "~10 min once heatmap CSV is in hand" },
+    blurb: "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
+    meta: { audience: "BVAs, finance partners, exec sponsors", license: "Calc is browser-only; upstream needs Super Usage in Power BI + Viva Insights", time: "~10 min once heatmap CSV is exported from Power BI" },
   },
   {
     id: 'customize',
@@ -153,6 +183,9 @@ const TOOLS = [
     title: "CustomizeCopilot Add-on Library",
     icon: "🧩",
     accent: "#4cc2ff",
+    category: "tooling-extension",
+    tier: "specialty",
+    measures: ["customization"],
     source: "Viva Insights",
     sourceKey: "Viva Insights",
     repo: "https://github.com/microsoft/customizecopilot",
@@ -162,10 +195,41 @@ const TOOLS = [
   },
 ];
 
+// ----------------------------------------------------- categories & measures
+const CATEGORIES = [
+  { id: 'usage-intelligence',  label: 'Usage Intelligence',      icon: '🤖', blurb: 'Single panes of glass for Copilot + Agent activity across the tenant.' },
+  { id: 'adoption-behavior',   label: 'Adoption & Behavior',     icon: '📈', blurb: 'Who adopts, who champions, who lags — and how the patterns spread.' },
+  { id: 'readiness-roi',       label: 'Readiness & ROI',         icon: '🎯', blurb: 'License placement, productivity lift, payback period.' },
+  { id: 'developer',           label: 'Developer Productivity',  icon: '💻', blurb: 'GitHub Copilot adoption, acceptance rates, personal leverage.' },
+  { id: 'tooling-extension',   label: 'Tooling & Extension',     icon: '🧩', blurb: 'Data plumbing and add-on libraries that power the reports above.' },
+];
+
+const MEASURES = {
+  adoption:      { label: 'Adoption',          color: '#0078d4' },
+  impact:        { label: 'Impact',            color: '#8661c5' },
+  chat:          { label: 'Chat usage',        color: '#00B294' },
+  agents:        { label: 'Agents',            color: '#e3008c' },
+  sentiment:     { label: 'Sentiment',         color: '#ffaa44' },
+  license:       { label: 'License readiness', color: '#0078d4' },
+  roi:           { label: 'ROI modeling',      color: '#00B294' },
+  developer:     { label: 'Developer',         color: '#8661c5' },
+  productivity:  { label: 'Productivity',      color: '#e3008c' },
+  audit:         { label: 'Audit automation',  color: '#ffaa44' },
+  customization: { label: 'Customization',     color: '#0078d4' },
+};
+
 // ----------------------------------------------------- helpers
 function repoSlug(repoUrl) {
   const m = repoUrl.match(/github\.com\/([^/]+\/[^/]+)/);
   return m ? m[1] : repoUrl;
+}
+
+function measureChips(measures) {
+  if (!measures || !measures.length) return '';
+  return measures.map(m => {
+    const meta = MEASURES[m] || { label: m, color: '#888' };
+    return `<span class="m-chip" data-measure="${m}" style="--c:${meta.color}" title="Filter by ${meta.label}">${meta.label}</span>`;
+  }).join('');
 }
 
 function previewHtml(t) {
@@ -232,11 +296,15 @@ async function openMailto(filename) {
 // ----------------------------------------------------- render
 function rowHtml(t) {
   const slug = repoSlug(t.repo);
+  const coreBadge = t.tier === 'core'
+    ? `<span class="tier-badge tier-core" title="Recommended starting report">CORE</span>`
+    : '';
+  const measuresAttr = (t.measures || []).join(' ');
   return `
-    <tr class="row-main" data-id="${t.id}" data-src="${t.sourceKey}" data-search="${(t.question + ' ' + t.title + ' ' + t.source).toLowerCase()}">
+    <tr class="row-main" data-id="${t.id}" data-src="${t.sourceKey}" data-cat="${t.category || ''}" data-tier="${t.tier || ''}" data-measures="${measuresAttr}" data-search="${(t.question + ' ' + t.title + ' ' + t.source + ' ' + measuresAttr).toLowerCase()}">
       <td class="col-q"><button class="expand-btn" aria-expanded="false" aria-controls="detail-${t.id}"><span class="chev" aria-hidden="true">▸</span> ${t.question}</button></td>
-      <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title} on GitHub"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title} <span class="chip-arrow" aria-hidden="true">↗</span></a></td>
-      <td class="col-src"><span class="src-tag">${t.source}</span></td>
+      <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title} on GitHub"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title} ${coreBadge}<span class="chip-arrow" aria-hidden="true">↗</span></a></td>
+      <td class="col-src"><div class="m-chips">${measureChips(t.measures)}</div></td>
       <td class="col-actions">
         <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open on GitHub" aria-label="Open on GitHub">↗</a>
         <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip">⬇</a>
@@ -279,11 +347,49 @@ function rowHtml(t) {
 
 function render() {
   const body = document.getElementById('pickerBody');
-  body.innerHTML = TOOLS.map(rowHtml).join('');
+  // Group tools by category, preserve CATEGORIES order, then within each category put 'core' first
+  const html = CATEGORIES.map(cat => {
+    const tools = TOOLS
+      .filter(t => t.category === cat.id)
+      .sort((a, b) => (a.tier === 'core' ? -1 : 0) - (b.tier === 'core' ? -1 : 0));
+    if (!tools.length) return '';
+    const header = `
+      <tr class="cat-header" data-cat="${cat.id}">
+        <td colspan="4">
+          <div class="cat-header-inner">
+            <span class="cat-icon" aria-hidden="true">${cat.icon}</span>
+            <span class="cat-label">${cat.label}</span>
+            <span class="cat-blurb">${cat.blurb}</span>
+            <span class="cat-count">${tools.length} report${tools.length === 1 ? '' : 's'}</span>
+          </div>
+        </td>
+      </tr>`;
+    return header + tools.map(rowHtml).join('');
+  }).join('');
+  body.innerHTML = html;
   wirePreviewFallback();
   wireExpand();
   wireEmail();
   wireLightbox();
+  wireMeasureChips();
+}
+
+function wireMeasureChips() {
+  document.querySelectorAll('.m-chip[data-measure]').forEach(chip => {
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const m = chip.dataset.measure;
+      // Activate corresponding filter pill if present
+      const pill = document.querySelector(`.filter-pills .pill[data-measure="${m}"]`);
+      if (pill) {
+        document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      }
+      applyFilters();
+      pill?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  });
 }
 
 function wirePreviewFallback() {
@@ -362,16 +468,30 @@ function wireEmail() {
 function applyFilters() {
   const q = (document.getElementById('qSearch').value || '').toLowerCase().trim();
   const activePill = document.querySelector('.filter-pills .pill.active');
-  const src = activePill ? activePill.dataset.src : 'all';
+  const measure = activePill ? activePill.dataset.measure : 'all';
+  const tier = activePill ? (activePill.dataset.tier || '') : '';
   let shown = 0;
+  // Count visible rows per category
+  const catCounts = {};
   document.querySelectorAll('.row-main').forEach(row => {
     const detail = document.getElementById(`detail-${row.dataset.id}`);
-    const matchSrc = src === 'all' || row.dataset.src === src;
+    const rowMeasures = (row.dataset.measures || '').split(/\s+/).filter(Boolean);
+    const matchMeasure = measure === 'all' || rowMeasures.includes(measure);
+    const matchTier = !tier || row.dataset.tier === tier;
     const matchQ = !q || row.dataset.search.includes(q);
-    const visible = matchSrc && matchQ;
+    const visible = matchMeasure && matchTier && matchQ;
     row.style.display = visible ? '' : 'none';
     if (detail) detail.style.display = visible ? '' : 'none';
-    if (visible) shown++;
+    if (visible) {
+      shown++;
+      const c = row.dataset.cat || '';
+      catCounts[c] = (catCounts[c] || 0) + 1;
+    }
+  });
+  // Hide category headers whose children are all hidden
+  document.querySelectorAll('.cat-header').forEach(h => {
+    const c = h.dataset.cat;
+    h.style.display = (catCounts[c] > 0) ? '' : 'none';
   });
   document.getElementById('emptyState').hidden = shown > 0;
 }
@@ -391,11 +511,29 @@ function wireFilters() {
 document.addEventListener('DOMContentLoaded', () => {
   render();
   wireFilters();
-  // Honor ?q=foo in the URL — deep-link from home measurables drawer + native-vs-hub matrix
   const params = new URLSearchParams(window.location.search);
+  const measure = params.get('measure');
+  const tier = params.get('tier');
   const q = params.get('q');
+  // Deep-link to a measure (from home tiles): activate matching pill
+  if (measure) {
+    const pill = document.querySelector(`.filter-pills .pill[data-measure="${measure}"]`);
+    if (pill) {
+      document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active');
+    }
+  }
+  // Deep-link to tier (e.g. "core only")
+  if (tier === 'core') {
+    const pill = document.querySelector('.filter-pills .pill[data-tier="core"]');
+    if (pill) {
+      document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
+      pill.classList.add('active');
+    }
+  }
   if (q) {
     const input = document.getElementById('qSearch');
-    if (input) { input.value = q; applyFilters(); input.focus(); }
+    if (input) { input.value = q; input.focus(); }
   }
+  applyFilters();
 });
