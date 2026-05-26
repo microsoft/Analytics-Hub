@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help me find my report · Analytics Hub</title>
+  <meta name="description" content="A calm, guided walkthrough that picks the right Copilot reporting template for your situation — with the roles you need, the steps to stand it up, and a pre-written email to send your IT admin." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/EasyMode/" />
+  <!-- Hidden page: do not index, do not appear in sitemap -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H12z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../explore-reports/">Explore Reports</a>
+      <a href="../out-of-the-box/">Native Reports</a>
+      <a href="../data-sources/">Data Sources</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../team/">Team</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">💬</span><span class="menu-text">Feedback<span class="menu-sub">Problem · suggestion · praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">🔒</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only · live customer walkthroughs</span></span></a>
+        </div>
+      </div>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="help-page">
+
+  <!-- ============== CALM HERO ============== -->
+  <section class="help-hero">
+    <div class="wrap narrow">
+      <p class="eyebrow">A guided walkthrough · ~2 minutes</p>
+      <h1>Take a breath. <span class="grad">We'll figure this out together.</span></h1>
+      <p class="lede">
+        Eleven reports is a lot. You don't need to learn them all — you need the
+        <em>one</em> that answers the question you actually have. Pick a starting point,
+        answer a couple of questions, and you'll walk away with: the right report, the
+        roles you need to ask for, the steps to stand it up, and a pre-written email to
+        send your IT admin.
+      </p>
+      <p class="lede-sub">
+        You can go back at any point. Nothing here calls home — no signups, no tracking
+        beyond the same anonymous page metrics the rest of the site uses.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============== PROGRESS ============== -->
+  <section class="help-progress" aria-hidden="true">
+    <div class="wrap narrow">
+      <ol class="steps">
+        <li class="step" data-step="1"><span class="dot"></span><span class="lbl">Start</span></li>
+        <li class="step" data-step="2"><span class="dot"></span><span class="lbl">Narrow it down</span></li>
+        <li class="step" data-step="3"><span class="dot"></span><span class="lbl">Your report</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============== STAGE: dynamic content rendered into here ============== -->
+  <section class="help-stage band">
+    <div class="wrap narrow">
+      <div id="stage" class="stage" aria-live="polite"></div>
+
+      <div class="help-nav">
+        <button id="backBtn" type="button" class="btn-ghost" hidden>← Back</button>
+        <button id="restartBtn" type="button" class="btn-ghost" hidden>↻ Start over</button>
+        <a id="escapeBtn" class="btn-ghost escape" href="../explore-reports/">I'd rather browse all 11 reports →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== ALWAYS-AVAILABLE LIFELINE ============== -->
+  <section class="help-lifeline">
+    <div class="wrap narrow">
+      <div class="lifeline-card">
+        <div class="lifeline-icon" aria-hidden="true">🤝</div>
+        <div class="lifeline-body">
+          <h3>Still stuck? Talk to a human.</h3>
+          <p>The Microsoft Copilot ROI Advisory Team reads every message. We'll point you at the right report, the right person at Microsoft, or build you a custom walkthrough.</p>
+          <a class="btn-primary" href="mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Help%20me%20find%20the%20right%20Analytics%20Hub%20report&body=Hi%20team%2C%0A%0AI%27m%20trying%20to%20answer%20this%20question%3A%0A%0A%5Bdescribe%20what%20you%27re%20trying%20to%20figure%20out%5D%0A%0AContext%20about%20my%20org%2Frole%3A%0A%0A%5Btitle%2C%20function%2C%20what%20licenses%20you%20have%5D%0A%0AThanks%21%0A">Email the team →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by Microsoft Copilot ROI Analytics Team · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+    <p class="muted">Reports published by Microsoft for customer use · <a href="../team/">Meet the team</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
