@@ -888,6 +888,7 @@ a:hover { text-decoration: underline; }
   padding: .85rem 1rem; border-radius: 12px;
   background: var(--bg-alt); border: 1px solid var(--border);
   text-decoration: none; color: inherit;
+  box-shadow: -4px 0 0 0 var(--c) inset;
   transition: transform .15s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .home-drawer-report:hover {
@@ -895,11 +896,38 @@ a:hover { text-decoration: underline; }
   border-color: var(--c);
   box-shadow: -6px 0 0 0 var(--c) inset;
 }
-.hdr-icon { font-size: 1.3rem; flex-shrink: 0; }
+.hdr-icon {
+  font-size: 1.3rem; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--c) 14%, var(--bg-alt));
+  border: 1px solid color-mix(in srgb, var(--c) 30%, var(--border));
+}
 .hdr-text { display: flex; flex-direction: column; gap: .15rem; flex: 1; min-width: 0; }
-.hdr-text strong { font-size: .95rem; color: var(--text); }
-.hdr-text span { font-size: .8rem; color: var(--text-soft); line-height: 1.4; }
+.hdr-cat {
+  font-size: .62rem; font-weight: 700; letter-spacing: .08em;
+  color: var(--c); text-transform: uppercase;
+}
+.hdr-text strong { font-size: .95rem; color: var(--text); display: inline-flex; align-items: center; gap: .4rem; }
+.hdr-blurb { font-size: .8rem; color: var(--text-soft); line-height: 1.4; }
 .hdr-arrow { color: var(--text-muted); font-size: .9rem; flex-shrink: 0; }
+
+/* CORE tier badge inside drawer report cards. Mirrors the styling on the
+   tool-chip in explore-reports/styles.css but tinted with the category color. */
+.home-drawer-tier {
+  display: inline-block;
+  font-size: .55rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  padding: .12rem .4rem;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+.home-drawer-tier-core {
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+  color: var(--c);
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+}
 .home-drawer-foot { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
 /* HOME DRAWER star wrap */
 .home-drawer-report-wrap { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .35rem; }

@@ -262,18 +262,30 @@
 
 <script>
 (function() {
+  // Each report is tagged with its category + tier so the drawer mirrors the
+  // 'Explore reports' picker: same category coloring, same CORE badge.
   const REPORTS = {
-    'ai-in-one':     { title: 'AI-in-One Dashboard',         icon: '🤖', repo: 'https://github.com/microsoft/AI-in-One-Dashboard',                        color: '#e3008c', blurb: 'Flagship unified report covering Microsoft 365 Copilot, Chat, Agents, and third-party AI signals.' },
-    'super-usage':   { title: 'Super Usage Adoption',        icon: '⚡', repo: 'https://github.com/microsoft/DecodingSuperUsage',                         color: '#0078d4', blurb: 'Profile your Copilot super users — what they use, how habits form, where they cluster.' },
-    'super-impact':  { title: 'Super User Impact',           icon: '🏆', repo: 'https://github.com/microsoft/superuserimpact',                            color: '#00B294', blurb: 'Quantify the work-pattern delta super users produce vs comparable peers.' },
-    'chat-agent':    { title: 'Chat & Agent Intelligence',   icon: '💬', repo: 'https://github.com/microsoft/CopilotChatAnalytics',                       color: '#8661c5', blurb: 'Deep-dive Power BI templates on Purview audit logs for Copilot Chat and Agents.' },
-    'm365-readiness':{ title: 'M365 Readiness',              icon: '🎯', repo: 'https://github.com/microsoft/M365UsageAnalytics',                         color: '#0078d4', blurb: 'License provisioning, activation, and stranded-seat detection across M365.' },
-    'what-i-did':    { title: 'What I Did',                  icon: '📝', repo: 'https://github.com/microsoft/What-I-Did-Copilot',                         color: '#00B294', blurb: 'Personal Copilot impact report — hours saved, tasks completed, time back.' },
-    'ghcp':          { title: 'GitHub Copilot Impact',       icon: '⚙️', repo: 'https://github.com/microsoft/GitHubCopilotImpact',                        color: '#24292f', blurb: 'Developer adoption metrics — PRs, suggestions accepted, repo coverage.' },
-    'pax':           { title: 'PAX',                         icon: '🔍', repo: 'https://github.com/microsoft/PAX',                                        color: '#ffaa44', blurb: 'Enterprise-grade PowerShell exporter for Microsoft 365 audit logs.' },
-    'custom':        { title: 'CustomizeCopilot',            icon: '🎨', repo: 'https://github.com/microsoft/customizecopilot',                           color: '#0078d4', blurb: 'Champion-ID, branding, and theming — make the reports your own.' },
-    'sentiment':     { title: 'Adoption & Sentiment',        icon: '❤️', repo: 'https://github.com/olivierpecheux/copilot-adoption-sentiment-report',     color: '#ffaa44', blurb: 'NPS, survey signal, and qualitative themes from rollout cohorts.' },
-    'roi-calc':      { title: 'ROI Calculator',              icon: '🧮', repo: 'https://jordankingisalive.github.io/CopilotROICalculator/',                color: '#00B294', blurb: 'Browser-only ROI modeler — sweep assumptions, generate a defensible value story.' }
+    'ai-in-one':     { title: 'AI-in-One Dashboard',         icon: '🤖', repo: 'https://github.com/microsoft/AI-in-One-Dashboard',                        cat: 'usage-intelligence', tier: 'core',      blurb: 'Flagship unified report covering Microsoft 365 Copilot, Chat, Agents, and third-party AI signals.' },
+    'super-usage':   { title: 'Super Usage Adoption',        icon: '⚡', repo: 'https://github.com/microsoft/DecodingSuperUsage',                         cat: 'adoption-behavior',  tier: 'core',      blurb: 'Profile your Copilot super users — what they use, how habits form, where they cluster.' },
+    'super-impact':  { title: 'Super User Impact',           icon: '🏆', repo: 'https://github.com/microsoft/superuserimpact',                            cat: 'adoption-behavior',  tier: 'specialty', blurb: 'Quantify the work-pattern delta super users produce vs comparable peers.' },
+    'chat-agent':    { title: 'Chat & Agent Intelligence',   icon: '💬', repo: 'https://github.com/microsoft/CopilotChatAnalytics',                       cat: 'usage-intelligence', tier: 'specialty', blurb: 'Deep-dive Power BI templates on Purview audit logs for Copilot Chat and Agents.' },
+    'm365-readiness':{ title: 'M365 Readiness',              icon: '🎯', repo: 'https://github.com/microsoft/M365UsageAnalytics',                         cat: 'readiness-roi',      tier: 'specialty', blurb: 'License provisioning, activation, and stranded-seat detection across M365.' },
+    'what-i-did':    { title: 'What I Did',                  icon: '📝', repo: 'https://github.com/microsoft/What-I-Did-Copilot',                         cat: 'developer',          tier: 'specialty', blurb: 'Personal Copilot impact report — hours saved, tasks completed, time back.' },
+    'ghcp':          { title: 'GitHub Copilot Impact',       icon: '⚙️', repo: 'https://github.com/microsoft/GitHubCopilotImpact',                        cat: 'developer',          tier: 'specialty', blurb: 'Developer adoption metrics — PRs, suggestions accepted, repo coverage.' },
+    'pax':           { title: 'PAX',                         icon: '🔍', repo: 'https://github.com/microsoft/PAX',                                        cat: 'tooling-extension',  tier: 'specialty', blurb: 'Enterprise-grade PowerShell exporter for Microsoft 365 audit logs.' },
+    'custom':        { title: 'CustomizeCopilot',            icon: '🎨', repo: 'https://github.com/microsoft/customizecopilot',                           cat: 'tooling-extension',  tier: 'specialty', blurb: 'Champion-ID, branding, and theming — make the reports your own.' },
+    'sentiment':     { title: 'Adoption & Sentiment',        icon: '❤️', repo: 'https://github.com/olivierpecheux/copilot-adoption-sentiment-report',     cat: 'adoption-behavior',  tier: 'specialty', blurb: 'NPS, survey signal, and qualitative themes from rollout cohorts.' },
+    'roi-calc':      { title: 'ROI Calculator',              icon: '🧮', repo: 'https://jordankingisalive.github.io/CopilotROICalculator/',                cat: 'readiness-roi',      tier: 'core',      blurb: 'Browser-only ROI modeler — sweep assumptions, generate a defensible value story.' }
+  };
+
+  // Category meta mirrors docs/explore-reports/app.js + styles.css.
+  // Keep these in sync if either changes.
+  const CATEGORIES = {
+    'usage-intelligence': { label: 'Usage Intelligence',  color: '#8661c5', icon: '🤖' },
+    'adoption-behavior':  { label: 'Adoption & Behavior', color: '#00B294', icon: '📈' },
+    'readiness-roi':      { label: 'Readiness & ROI',     color: '#e3008c', icon: '🎯' },
+    'developer':          { label: 'Developer',           color: '#0078d4', icon: '💻' },
+    'tooling-extension':  { label: 'Tooling & Extension', color: '#ffaa44', icon: '🧩' }
   };
 
   // AI-in-One always listed first whenever it appears
@@ -297,10 +309,18 @@
 
   function reportCard(id) {
     const r = REPORTS[id]; if (!r) return '';
+    const cat = CATEGORIES[r.cat] || { label: '', color: 'var(--accent)' };
+    const tierBadge = r.tier === 'core'
+      ? '<span class="home-drawer-tier home-drawer-tier-core" title="Recommended starting report">CORE</span>'
+      : '';
     return `<div class="home-drawer-report-wrap">
-      <a class="home-drawer-report" href="${r.repo}" target="_blank" rel="noopener" style="--c:${r.color}">
+      <a class="home-drawer-report" href="${r.repo}" target="_blank" rel="noopener" style="--c:${cat.color}">
       <span class="hdr-icon">${r.icon}</span>
-      <span class="hdr-text"><strong>${r.title}</strong><span>${r.blurb}</span></span>
+      <span class="hdr-text">
+        <span class="hdr-cat">${cat.label}</span>
+        <strong>${r.title}${tierBadge}</strong>
+        <span class="hdr-blurb">${r.blurb}</span>
+      </span>
       <span class="hdr-arrow">↗</span>
     </a>
     <a class="home-drawer-star" href="${r.repo}" target="_blank" rel="noopener" aria-label="Star ${r.title} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
