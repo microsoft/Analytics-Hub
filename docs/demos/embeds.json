@@ -12,6 +12,8 @@
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/DecodingSuperUsage#readme", "kind": "doc" },
+        { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Interpretation%20Guide%20Super%20Usage%20Adoption.pdf", "kind": "download" },
+        { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Storyboard%20PPTX%20-%20Super%20User%20Adoption.pptx", "kind": "download" },
         { "label": "DirectQuery troubleshooting", "url": "https://github.com/microsoft/DecodingSuperUsage/blob/main/TROUBLESHOOTING_DIRECTQUERY_AUTH.md", "kind": "troubleshoot" },
         { "label": "Download the .pbit template", "url": "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip", "kind": "download" }
       ]
@@ -26,6 +28,8 @@
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/superuserimpact#readme", "kind": "doc" },
+        { "label": "Interpretation Guide — Copilot Assisted Hours formulas (PDF)", "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Assisted%20Hours%20PBI%20Formulas.pdf", "kind": "download" },
+        { "label": "Interpretation Guide — Copilot Studio agents (PDF)", "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Studio%20agents%20report%20-%20Interpretation%20Guide.pdf", "kind": "download" },
         { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Superuser%20Impact%20-%20Storyboard%20v4.pptx", "kind": "download" },
         { "label": "Download .pbit (CSV)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20CSV%20-v8.pbit", "kind": "download" },
         { "label": "Download .pbit (DirectQuery)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v8.pbit", "kind": "download" },
@@ -42,6 +46,8 @@
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-in-One-Dashboard#readme", "kind": "doc" },
+        { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf", "kind": "download" },
+        { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIinOne_Storyboard_2601.pptx", "kind": "download" },
         { "label": "Download .pbit (SharePoint)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2028%2004%20-%20Sharepoint%20Refresh.pbit", "kind": "download" },
         { "label": "Download .pbit (CSV)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2027%2004%20-%20csv%20only.pbit", "kind": "download" },
         { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/01_AI_in_One_Dashboard_Admin_Email.md", "kind": "email" }
@@ -112,10 +118,11 @@
       "blurb": "Enablement and champion identification \u2014 surface who's ready to onboard next and who should be groomed as a Copilot champion in each org.",
       "repo": "https://github.com/microsoft/M365UsageAnalytics",
       "sourceKey": "Purview + Entra",
-      "embedUrl": "",
+      "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=8edd9efb-64e6-415d-9c00-a4773aa6cf8b&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/M365UsageAnalytics#readme", "kind": "doc" },
+        { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/M365UsageAnalytics/raw/main/M365%20Usage%20Dashboard%20-%20Interpretation%20Guide.pdf", "kind": "download" },
         { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/07_M365_Copilot_Readiness_Admin_Email.md", "kind": "email" }
       ]
     },
