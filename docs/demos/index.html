@@ -364,6 +364,7 @@
 
   function renderRelatedReports(r) {
     const key = r.sourceKey;
+    if (!key) {
       railSource.textContent = "Other reports";
       railRelatedList.innerHTML = '<li class="demo-rail-empty">Data source not tagged for this report yet.</li>';
       return;
