@@ -20,6 +20,16 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/microsoft/DecodingSuperUsage/refs/heads/DecodingSuperUsage/images/SuperUser.gif",
     blurb: "Power BI template on Viva Insights person-query data. Profiles your super users — what they use, how habits form, where they cluster — so you can replicate the pattern.",
     meta: { audience: "CCMs, enablement leads, execs", license: "Viva Insights", time: "30 min once query is staged" },
+    requirements: {
+      roles: [
+        { label: "Viva Insights Analyst", url: "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Viva Insights advanced person query" }
+      ]
+    },
   },
   {
     id: 'super-user-impact',
@@ -38,6 +48,16 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/microsoft/superuserimpact/main/images/report-preview.gif",
     blurb: "Companion to Super Usage Adoption. Quantifies the work-pattern delta super users produce — collaboration, focus time, meeting load — vs comparable peers. Same Viva query feeds both.",
     meta: { audience: "Execs, change leads, HR analytics", license: "Viva Insights", time: "Re-uses the Super Usage query" },
+    requirements: {
+      roles: [
+        { label: "Viva Insights Analyst", url: "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Super Usage Adoption query output" }
+      ]
+    },
   },
   {
     id: 'ai-in-one',
@@ -56,6 +76,17 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/microsoft/AI-in-One-Dashboard/main/Images/AIO%20v10%20Gif.gif",
     blurb: "One unified Power BI report covering Microsoft 365 Copilot, Copilot Chat (licensed + unlicensed), Agents, and third-party AI signals. The flagship if you only deploy one template.",
     meta: { audience: "Execs, IT leadership, program leads", license: "Audit Reader + Entra read + M365 Admin export", time: "~1–2 hours for first build" },
+    requirements: {
+      roles: [
+        { label: "Purview Audit Reader", url: "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log" },
+        { label: "Entra Reports Reader", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "PAX exporter (optional)", url: "https://github.com/microsoft/PAX" }
+      ]
+    },
   },
   {
     id: 'chat-agent',
@@ -75,6 +106,16 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/microsoft/CopilotChatAnalytics/refs/heads/main/Images/ChatIntelGIG.gif",
     blurb: "Two Power BI templates on Purview audit logs + Entra: one for Copilot Chat (licensed + unlicensed), one for Agents. By user, app, department — no third-party analytics, no data leaves the tenant.",
     meta: { audience: "IT admins, Copilot champions, BVAs", license: "Audit Reader on Purview + Entra read", time: "~1 hour incl. data export" },
+    requirements: {
+      roles: [
+        { label: "Purview Audit Reader", url: "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log" },
+        { label: "Entra Reports Reader", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "PAX exporter (optional)", url: "https://github.com/microsoft/PAX" }
+      ]
+    },
   },
   {
     id: 'ghcp-impact',
@@ -93,6 +134,15 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/microsoft/GitHubCopilotImpact/main/assets/ghcpgif.gif",
     blurb: "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — pulled straight from the GitHub Enterprise REST API.",
     meta: { audience: "Developer productivity leads, eng managers, BVAs", license: "GitHub Enterprise admin (Copilot metrics API)", time: "~30 min once token is issued" },
+    requirements: {
+      roles: [
+        { label: "GitHub Enterprise Owner or Billing Manager", url: "https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization" },
+        { label: "PAT with read:enterprise scope", url: "https://docs.github.com/rest/copilot/copilot-metrics" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" }
+      ]
+    },
   },
   {
     id: 'what-i-did',
@@ -110,6 +160,15 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/microsoft/What-I-Did-Copilot/main/docs/images/sample-report.gif",
     blurb: "Personal-leverage report. Points a script at your local VS Code / Copilot session logs and summarizes what shipped, where Copilot helped, and the multiplier on your week.",
     meta: { audience: "Individual devs, IC leads, demo storytelling", license: "None — runs locally", time: "~5 minutes" },
+    requirements: {
+      roles: [
+        { label: "None — runs on your own machine" }
+      ],
+      software: [
+        { label: "VS Code with GitHub Copilot", url: "https://code.visualstudio.com/docs/copilot/overview" },
+        { label: "Python 3.10+", url: "https://www.python.org/downloads/" }
+      ]
+    },
   },
   {
     id: 'm365-readiness',
@@ -127,6 +186,16 @@ const TOOLS = [
     emailFile: "07_M365_Copilot_Readiness_Admin_Email.txt",
     blurb: "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can stage enablement waves and surface the natural champion candidates in each org — defended with audit data, not gut feel.",
     meta: { audience: "Enablement leads, IT, license owners", license: "Audit Reader + Entra read", time: "~45 min for first run" },
+    requirements: {
+      roles: [
+        { label: "Purview Audit Reader", url: "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log" },
+        { label: "Entra Reports Reader", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "PAX exporter (recommended)", url: "https://github.com/microsoft/PAX" }
+      ]
+    },
   },
   {
     id: 'adoption-sentiment',
@@ -144,6 +213,16 @@ const TOOLS = [
     preview: "https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/images/adoption-overview.png",
     blurb: "Four-page Power BI template by olivierpecheux/Microsoft: Adoption Overview, Sentiment Analysis, Comments Analysis, and Saved Time Analysis. Ships with a 12-question recommended Copilot survey — drop into Microsoft Forms, match the UPN column to the Copilot Activity export, and the report stitches sentiment to actual usage by tier (Bottom 25% → Top 10%).",
     meta: { audience: "Change managers, comms, exec sponsors", license: "M365 Admin report access + survey export", time: "~30 min" },
+    requirements: {
+      roles: [
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" },
+        { label: "Forms owner (for the survey)", url: "https://support.microsoft.com/forms" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Microsoft Forms", url: "https://forms.office.com" }
+      ]
+    },
   },
   {
     id: 'pax',
@@ -160,6 +239,17 @@ const TOOLS = [
     download: "https://github.com/microsoft/PAX/archive/refs/heads/release.zip",
     blurb: "Enterprise-grade PowerShell exporter for Microsoft 365 audit logs and Entra directory data. Pulls from Purview, Entra, or both — supports Entra-only mode with no Purview dependency. Handles billions of events, no row limits, lands data wherever you need it — lake, warehouse, BI. The automation layer behind the Purview + Entra templates.",
     meta: { audience: "IT automation, security ops, data engineering", license: "App registration + Graph API permissions", time: "~1 hour incl. app registration" },
+    requirements: {
+      roles: [
+        { label: "Entra Application Administrator (to register app)", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#application-administrator" },
+        { label: "Graph: AuditLog.Read.All", url: "https://learn.microsoft.com/graph/permissions-reference#auditlogreadall" },
+        { label: "Graph: Directory.Read.All", url: "https://learn.microsoft.com/graph/permissions-reference#directoryreadall" }
+      ],
+      software: [
+        { label: "PowerShell 7+", url: "https://learn.microsoft.com/powershell/scripting/install/installing-powershell" },
+        { label: "Microsoft.Graph PowerShell SDK", url: "https://learn.microsoft.com/powershell/microsoftgraph/installation" }
+      ]
+    },
   },
   {
     id: 'roi-calc',
@@ -176,6 +266,16 @@ const TOOLS = [
     download: "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
     blurb: "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
     meta: { audience: "BVAs, finance partners, exec sponsors", license: "Calc is browser-only; upstream needs Super Usage in Power BI + Viva Insights", time: "~10 min once heatmap CSV is exported from Power BI" },
+    requirements: {
+      roles: [
+        { label: "None for the calc itself" },
+        { label: "Upstream: Viva Insights Analyst", url: "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap" }
+      ],
+      software: [
+        { label: "Modern browser (Edge / Chrome / Firefox)" },
+        { label: "Super Usage heatmap CSV export" }
+      ]
+    },
   },
   {
     id: 'customize',
@@ -192,6 +292,16 @@ const TOOLS = [
     download: "https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip",
     blurb: "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more.",
     meta: { audience: "BI developers, advanced template owners", license: "Whatever the parent template needs", time: "~15 min per add-on" },
+    requirements: {
+      roles: [
+        { label: "Whatever the parent template requires" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Parent Viva Insights template installed" }
+      ]
+    },
   },
 ];
 
@@ -230,6 +340,34 @@ function measureChips(measures) {
     const meta = MEASURES[m] || { label: m, color: '#888' };
     return `<span class="m-chip" data-measure="${m}" style="--c:${meta.color}" title="Filter by ${meta.label}">${meta.label}</span>`;
   }).join('');
+}
+
+function escAttr(s) { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escText(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function reqChip(item) {
+  const label = escText(item.label || '');
+  if (item.url) {
+    return `<a class="req-chip req-chip-link" href="${escAttr(item.url)}" target="_blank" rel="noopener" title="${label} \u2014 open docs">${label}<span class="req-chip-arrow" aria-hidden="true">\u2197</span></a>`;
+  }
+  return `<span class="req-chip">${label}</span>`;
+}
+function requirementsHtml(t) {
+  const req = t.requirements;
+  if (!req) return '';
+  const roles = Array.isArray(req.roles) ? req.roles : [];
+  const sw    = Array.isArray(req.software) ? req.software : [];
+  if (!roles.length && !sw.length) return '';
+  return `
+    <div class="detail-reqs" aria-label="Required roles and software">
+      <div class="req-row">
+        <span class="req-label"><span class="req-icon" aria-hidden="true">🔐</span> Roles &amp; permissions</span>
+        <div class="req-chips">${roles.length ? roles.map(reqChip).join('') : '<span class="req-chip req-chip-muted">None specified</span>'}</div>
+      </div>
+      <div class="req-row">
+        <span class="req-label"><span class="req-icon" aria-hidden="true">🛠️</span> Software</span>
+        <div class="req-chips">${sw.length ? sw.map(reqChip).join('') : '<span class="req-chip req-chip-muted">None specified</span>'}</div>
+      </div>
+    </div>`;
 }
 
 function previewHtml(t) {
@@ -339,6 +477,7 @@ function rowHtml(t) {
               <a class="btn btn-ghost" href="${t.repo}" target="_blank" rel="noopener" aria-label="Star ${t.title} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
             </div>
             <p class="data-line"><strong>Data source:</strong> ${t.source}</p>
+            ${requirementsHtml(t)}
           </div>
         </div>
       </td>

@@ -492,6 +492,83 @@
 }
 .data-line strong { color: var(--text-soft); }
 
+/* ---------- REQUIREMENTS (roles + software inside expanded card) ---------- */
+.detail-reqs {
+  margin-top: .85rem;
+  padding-top: .85rem;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.req-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: start;
+  gap: .85rem;
+  min-width: 0;
+}
+.req-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+  padding-top: .3rem;
+  white-space: nowrap;
+}
+.req-icon { font-size: .95rem; line-height: 1; }
+.req-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  min-width: 0;
+}
+.req-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .3rem .65rem;
+  font-size: .8rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text-soft);
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.req-chip-link {
+  border-style: solid;
+  cursor: pointer;
+  transition: all .12s ease;
+}
+.req-chip-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+.req-chip-arrow {
+  font-size: .72rem;
+  opacity: .65;
+}
+.req-chip-muted {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+@media (max-width: 760px) {
+  .req-row {
+    grid-template-columns: 1fr;
+    gap: .35rem;
+  }
+  .req-label { padding-top: 0; }
+}
+
 /* ---------- FOOTNOTE / EMPTY ---------- */
 .picker-footnote {
   margin-top: 1.25rem;
