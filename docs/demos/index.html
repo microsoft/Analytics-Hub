@@ -151,6 +151,23 @@
         <ul class="demo-rail-list" id="demo-rail-list"></ul>
       </aside>
 
+      <aside class="demo-rail demo-rail-reqs" id="demo-rail-reqs" aria-label="Required roles and software for this report" hidden>
+        <div class="demo-rail-header">
+          <span class="demo-rail-eyebrow">Requirements</span>
+          <h3>To run this report</h3>
+        </div>
+        <div class="demo-rail-reqs-groups">
+          <div class="demo-rail-reqs-group">
+            <span class="demo-rail-reqs-label">🔐 Roles &amp; permissions</span>
+            <ul class="demo-rail-list" id="demo-rail-roles"></ul>
+          </div>
+          <div class="demo-rail-reqs-group">
+            <span class="demo-rail-reqs-label">🛠️ Software</span>
+            <ul class="demo-rail-list" id="demo-rail-software"></ul>
+          </div>
+        </div>
+      </aside>
+
       <aside class="demo-rail" id="demo-rail-related" aria-label="Other reports built on the same data source">
         <div class="demo-rail-header">
           <span class="demo-rail-eyebrow">Related reports</span>
@@ -243,6 +260,9 @@
   const railList  = document.getElementById("demo-rail-list");
   const railSource = document.getElementById("demo-rail-source");
   const railRelatedList = document.getElementById("demo-rail-related-list");
+  const reqsRail   = document.getElementById("demo-rail-reqs");
+  const reqsRoles  = document.getElementById("demo-rail-roles");
+  const reqsSoft   = document.getElementById("demo-rail-software");
 
   // Fullscreen toggle for the iframe wrap
   const fsToggle = document.getElementById("demo-fs-toggle");
@@ -316,9 +336,34 @@
     });
   }
 
+  function renderRequirements(r) {
+    const req = r && r.requirements;
+    const roles    = (req && Array.isArray(req.roles))    ? req.roles    : [];
+    const software = (req && Array.isArray(req.software)) ? req.software : [];
+    if (!roles.length && !software.length) {
+      reqsRail.hidden = true;
+      reqsRoles.innerHTML = "";
+      reqsSoft.innerHTML  = "";
+      return;
+    }
+    reqsRail.hidden = false;
+    const chip = (it) => {
+      const lbl = escapeHtml(it.label || "");
+      if (it.url) {
+        return `<li><a href="${escapeHtml(it.url)}" target="_blank" rel="noopener"><span class="rail-label">${lbl}</span> <span class="ext" aria-hidden="true">↗</span></a></li>`;
+      }
+      return `<li><span class="demo-req-chip"><span class="rail-label">${lbl}</span></span></li>`;
+    };
+    reqsRoles.innerHTML = roles.length
+      ? roles.map(chip).join("")
+      : '<li class="demo-rail-empty">None specified.</li>';
+    reqsSoft.innerHTML  = software.length
+      ? software.map(chip).join("")
+      : '<li class="demo-rail-empty">None specified.</li>';
+  }
+
   function renderRelatedReports(r) {
     const key = r.sourceKey;
-    if (!key) {
       railSource.textContent = "Other reports";
       railRelatedList.innerHTML = '<li class="demo-rail-empty">Data source not tagged for this report yet.</li>';
       return;
@@ -358,6 +403,7 @@
 
     // Related resources rail
     renderRail(r);
+    renderRequirements(r);
     renderRelatedReports(r);
     renderRelatedReports(r);
 

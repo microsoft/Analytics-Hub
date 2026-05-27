@@ -10,6 +10,16 @@
       "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=01024c9c-21a0-4571-b43f-183e6641baa9&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Viva Insights Analyst", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" },
+          { "label": "Power BI workspace Member or Viewer" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/DecodingSuperUsage#readme", "kind": "doc" },
         { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Interpretation%20Guide%20Super%20Usage%20Adoption.pdf", "kind": "download" },
@@ -26,6 +36,16 @@
       "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=00e297dc-9aab-460a-8034-0271a8b7e1e4&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Viva Insights Analyst", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" },
+          { "label": "Power BI workspace Member or Viewer" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/superuserimpact#readme", "kind": "doc" },
         { "label": "Interpretation Guide — Copilot Assisted Hours formulas (PDF)", "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Assisted%20Hours%20PBI%20Formulas.pdf", "kind": "download" },
@@ -44,6 +64,17 @@
       "sourceKey": "Purview + Entra",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=60ff9554-a5d4-41bf-b4fe-c06dcabda182&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Microsoft Purview Audit Reader (or Global Reader)", "url": "https://learn.microsoft.com/purview/audit-search" },
+          { "label": "Microsoft Entra Reports Reader", "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
+          { "label": "Power BI workspace Member" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-in-One-Dashboard#readme", "kind": "doc" },
         { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf", "kind": "download" },
@@ -61,6 +92,16 @@
       "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Microsoft Purview Audit Reader", "url": "https://learn.microsoft.com/purview/audit-search" },
+          { "label": "Power BI workspace Member" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/CopilotChatAnalytics#readme", "kind": "doc" },
         { "label": "Download .pbit (Chat)", "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20-%20Chat%20Intelligence%20Report.pbit", "kind": "download" },
@@ -75,6 +116,17 @@
       "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Microsoft Purview Audit Reader", "url": "https://learn.microsoft.com/purview/audit-search" },
+          { "label": "Copilot Studio maker (for agent metadata)", "url": "https://learn.microsoft.com/microsoft-copilot-studio/requirements-licensing-subscriptions" },
+          { "label": "Power BI workspace Member" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/CopilotChatAnalytics#readme", "kind": "doc" },
         { "label": "Download .pbit (Agent)", "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20Agent%20Intelligence%20v4.pbit", "kind": "download" },
@@ -89,6 +141,18 @@
       "sourceKey": "M365 Admin + Survey",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=7cadd19f-6c7d-40c1-8370-6e557c88b59a&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Microsoft 365 Copilot Admin (Reports Reader)", "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft365-apps-usage-ww" },
+          { "label": "Microsoft Forms creator (survey owner)", "url": "https://support.microsoft.com/forms" },
+          { "label": "Power BI workspace Member" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Microsoft Forms", "url": "https://forms.office.com/" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#readme", "kind": "doc" },
         { "label": "Download .pbit template", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/raw/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit", "kind": "download" },
@@ -108,6 +172,15 @@
       "sourceKey": "Various",
       "embedUrl": "",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Varies by solution — see README" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard#readme", "kind": "doc" }
       ]
@@ -120,6 +193,19 @@
       "sourceKey": "Purview + Entra",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=8edd9efb-64e6-415d-9c00-a4773aa6cf8b&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Microsoft Purview Audit Reader (or Global Reader)", "url": "https://learn.microsoft.com/purview/audit-search" },
+          { "label": "Microsoft Entra Reports Reader", "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
+          { "label": "Microsoft 365 Copilot Admin" },
+          { "label": "Power BI workspace Member" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Python 3.10+ (for the bundle explosion processor)", "url": "https://www.python.org/downloads/" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/M365UsageAnalytics#readme", "kind": "doc" },
         { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/M365UsageAnalytics/raw/main/M365%20Usage%20Dashboard%20-%20Interpretation%20Guide.pdf", "kind": "download" },
@@ -134,6 +220,16 @@
       "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=710f8f82-b733-45d6-9296-f3ff9f573d21&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Viva Insights Analyst", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" },
+          { "label": "Power BI workspace Member" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
       "resources": [
         { "label": "README & setup guide", "url": "https://github.com/microsoft/customizecopilot#readme", "kind": "doc" },
         { "label": "Champion-ID source folder", "url": "https://github.com/microsoft/customizecopilot/tree/main/Champion-ID", "kind": "doc" }
@@ -148,6 +244,16 @@
       "embedUrl": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html",
       "embedType": "html",
       "height": 2400,
+      "requirements": {
+        "roles": [
+          { "label": "No special roles — open to anyone" },
+          { "label": "Viva Insights Analyst (only if exporting heatmap CSV from Super Usage)", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" }
+        ],
+        "software": [
+          { "label": "Modern browser (Edge / Chrome)" },
+          { "label": "Power BI Desktop (only to export the heatmap CSV)", "url": "https://aka.ms/pbidesktopstore" }
+        ]
+      },
       "resources": [
         { "label": "Open ROI Calculator in new tab", "url": "https://jordankingisalive.github.io/CopilotROICalculator/", "kind": "doc" },
         { "label": "Decoding Super Usage repo", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" }

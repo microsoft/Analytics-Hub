@@ -97,8 +97,8 @@
    Stage: full-width iframe + horizontal related-resources rail above
    The wrap owns the height; the iframe absolute-fills it.
    (Do NOT use `height: auto` on the iframe — cross-origin iframes
-   cannot size to their content and collapse to ~150px, cropping the
-   report. That was the regression in commit 7fb0cb6 / 84ddf40.)
+   can't size to their content and collapse to ~150px, cropping the
+   report. This was the regression in commit 84ddf40.)
    ============================================================ */
 .demo-stage-grid {
   display: block;
@@ -265,6 +265,54 @@
   white-space: nowrap;
 }
 .demo-rail-cta:hover { background: color-mix(in srgb, var(--accent, #0078d4) 8%, transparent); }
+
+/* Requirements rail: two stacked groups (roles, software) sharing one rail.
+   Uses .demo-rail base styles but switches to a vertical layout on the body
+   so each group gets its own labeled chip row. */
+.demo-rail-reqs { align-items: stretch; }
+.demo-rail-reqs .demo-rail-header { justify-content: center; }
+.demo-rail-reqs-groups {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.demo-rail-reqs-group {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.demo-rail-reqs-label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-muted, #666);
+  flex-shrink: 0;
+  min-width: 168px;
+}
+/* Non-link requirement chips reuse the link-chip look without the hover/click affordance */
+.demo-req-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .38rem .7rem;
+  border-radius: 999px;
+  border: 1px dashed var(--border, #ececec);
+  background: var(--bg-alt, #fafafa);
+  color: var(--text-soft, #444);
+  font-size: .82rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .demo-rail-reqs-group { flex-direction: column; align-items: flex-start; }
+  .demo-rail-reqs-label { min-width: 0; }
+}
 
 @media (max-width: 760px) {
   .demo-rail { flex-direction: column; align-items: stretch; }
