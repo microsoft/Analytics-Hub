@@ -8,12 +8,12 @@
 
 <br>
 
-[![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](#-about-the-team)
-[![Repositories](https://img.shields.io/badge/Repositories-11-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
+[![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](#about-the-team)
+[![Repositories](https://img.shields.io/badge/Repositories-11-8661c5?style=for-the-badge&logo=github&logoColor=white)](#quick-links)
 
 <br>
 
-**[Browse the Toolkit ↓](#-the-toolkit)** &nbsp;·&nbsp; **[Find Your Tool ↓](#-which-tool-do-i-need)** &nbsp;·&nbsp; **[Data Sources ↓](#-data-sources-at-a-glance)** &nbsp;·&nbsp; **[Case Studies ↓](#-client-stories)** &nbsp;·&nbsp; **[About the Team ↓](#-about-the-team)**
+**[Browse the Toolkit ↓](#the-toolkit)** &nbsp;·&nbsp; **[Find Your Tool ↓](#which-tool-do-i-need)** &nbsp;·&nbsp; **[Data Sources ↓](#data-sources-at-a-glance)** &nbsp;·&nbsp; **[Case Studies ↓](#client-stories)** &nbsp;·&nbsp; **[About the Team ↓](#about-the-team)**
 
 <br>
 
@@ -51,17 +51,17 @@ There are three data source tracks and two ways to automate data collection. Und
 
 | If you're asking... | Use this tool | Data source |
 |---|---|---|
-| Who are our Copilot super users, and how did they get there? | [Super Usage Adoption](#-super-usage-adoption) | Viva Insights |
-| What's the measurable impact of super users on work patterns? | [Super User Impact](#-super-user-impact) | Viva Insights |
-| How are people using Copilot Chat and Agents across our org? | [Copilot Chat & Agent Intelligence](#-copilot-chat--agent-intelligence) | Purview + Entra |
-| I want a single dashboard showing all Copilot and Agent activity | [AI-in-One Dashboard](#-ai-in-one-dashboard) | Purview + Entra |
-| How are developers adopting GitHub Copilot? | [GitHub Copilot Impact](#-github-copilot-impact) | GitHub Enterprise |
-| What did I personally build with GitHub Copilot this week — and what's the leverage? | [What I Did: Copilot Impact Report](#-what-i-did--github-copilot-impact-report) | Local Copilot sessions |
-| Which users should get Copilot licenses next? | [M365 Copilot Readiness](#-m365-copilot-readiness-report) | Purview + Entra |
-| How do employees feel about Copilot, and does that match actual usage? | [Adoption & Sentiment Report](#-adoption--sentiment-report) | M365 Admin Center + Survey |
-| How do I automate pulling audit logs without manual exports? | [PAX: Portable Audit eXporter](#-pax-portable-audit-exporter) | Microsoft Graph API |
-| I want to model Copilot ROI scenarios from a CSV — no Power BI, no install | [M365 Copilot Productivity ROI Calculator](#-m365-copilot-productivity-roi-calculator) | CSV export (browser-only) |
-| I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot-add-on-library) | Viva Insights |
+| Who are our Copilot super users, and how did they get there? | [Super Usage Adoption](#super-usage-adoption) | Viva Insights |
+| What's the measurable impact of super users on work patterns? | [Super User Impact](#super-user-impact) | Viva Insights |
+| How are people using Copilot Chat and Agents across our org? | [Copilot Chat & Agent Intelligence](#copilot-chat--agent-intelligence) | Purview + Entra |
+| I want a single dashboard showing all Copilot and Agent activity | [AI-in-One Dashboard](#ai-in-one-dashboard) | Purview + Entra |
+| How are developers adopting GitHub Copilot? | [GitHub Copilot Impact](#github-copilot-impact) | GitHub Enterprise |
+| What did I personally build with GitHub Copilot this week — and what's the leverage? | [What I Did: Copilot Impact Report](#what-i-did--github-copilot-impact-report) | Local Copilot sessions |
+| Which users should get Copilot licenses next? | [M365 Copilot Readiness](#m365-copilot-readiness-report) | Purview + Entra |
+| How do employees feel about Copilot, and does that match actual usage? | [Adoption & Sentiment Report](#adoption--sentiment-report) | M365 Admin Center + Survey |
+| How do I automate pulling audit logs without manual exports? | [PAX: Portable Audit eXporter](#pax-portable-audit-exporter) | Microsoft Graph API |
+| I want to model Copilot ROI scenarios from a CSV — no Power BI, no install | [M365 Copilot Productivity ROI Calculator](#m365-copilot-productivity-roi-calculator) | CSV export (browser-only) |
+| I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#customizecopilot-add-on-library) | Viva Insights |
 
 ---
 
@@ -433,7 +433,7 @@ Combines Microsoft 365 Copilot usage data from the Admin Center with employee su
 
 **Drop in your Copilot usage CSV. See team-level ROI in seconds — all in your browser.**
 
-A three-tool suite that translates Copilot usage data into a defensible ROI conversation — without Power BI Desktop, without a tenant, without uploading data anywhere. Pairs naturally with [Super Usage Adoption](#-super-usage-adoption): export the heatmap as CSV, drop it in, and get per-team breakdowns, scenario modeling, and a phased adoption roadmap.
+A three-tool suite that translates Copilot usage data into a defensible ROI conversation — without Power BI Desktop, without a tenant, without uploading data anywhere. Pairs naturally with [Super Usage Adoption](#super-usage-adoption): export the heatmap as CSV, drop it in, and get per-team breakdowns, scenario modeling, and a phased adoption roadmap.
 
 <details>
 <summary><strong>Three tools, one site</strong></summary>
@@ -533,7 +533,7 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 
 ### New to the toolkit?
 
-**Step 1: Pick your starting question** using the [Which Tool Do I Need?](#-which-tool-do-i-need) table above.
+**Step 1: Pick your starting question** using the [Which Tool Do I Need?](#which-tool-do-i-need) table above.
 
 **Step 2: Check your data access.** Each tool's repository has a detailed prerequisites section. Most require admin-level access to at least one Microsoft portal.
 
