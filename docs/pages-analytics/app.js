@@ -498,6 +498,175 @@ function renderLinkedSiteDetail(linked) {
   `;
 }
 
+// ------------------------------------------------------------ week-over-week
+
+// Find the latest YYYY-MM-DD that appears in any repo's dailyViews/dailyClones.
+// We anchor the rolling windows to this date so the comparison stays meaningful
+// even if today's nightly snapshot hasn't run yet.
+function findLatestDataDate(repos) {
+  let latest = null;
+  for (const repo of Object.values(repos)) {
+    for (const map of [repo.dailyViews, repo.dailyClones]) {
+      if (!map) continue;
+      for (const day of Object.keys(map)) {
+        if (!latest || day > latest) latest = day;
+      }
+    }
+  }
+  return latest;
+}
+
+// Shift an ISO date string YYYY-MM-DD by n days.
+function shiftDay(iso, days) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  dt.setUTCDate(dt.getUTCDate() + days);
+  return `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth() + 1)}-${pad(dt.getUTCDate())}`;
+}
+
+// Sum a daily map across an inclusive [from, to] window.
+function sumWindow(dailyMap, from, to) {
+  if (!dailyMap) return { count: 0, uniques: 0 };
+  let count = 0, uniques = 0;
+  for (const [day, v] of Object.entries(dailyMap)) {
+    if (day < from || day > to) continue;
+    count   += v?.count   || 0;
+    uniques += v?.uniques || 0;
+  }
+  return { count, uniques };
+}
+
+// Formats a friendly "May 23 – May 29" range from two ISO dates.
+function fmtRange(from, to) {
+  const opts = { month: "short", day: "numeric" };
+  const a = new Date(`${from}T00:00:00Z`).toLocaleDateString(undefined, { ...opts, timeZone: "UTC" });
+  const b = new Date(`${to}T00:00:00Z`).toLocaleDateString(undefined, { ...opts, timeZone: "UTC" });
+  return `${a} – ${b}`;
+}
+
+// Render a delta cell with arrow, absolute change, and percent.
+// `prev=0, curr>0` → "new"; `prev=0, curr=0` → "—".
+function deltaCell(curr, prev) {
+  if (!prev && !curr) return `<td class="num delta-flat">—</td>`;
+  if (!prev && curr > 0) {
+    return `<td class="num delta-up delta-new" title="No traffic in prior week">+${fmt(curr)} <span class="delta-tag">new</span></td>`;
+  }
+  const diff = curr - prev;
+  const pct  = (diff / prev) * 100;
+  const sign = diff > 0 ? "+" : diff < 0 ? "−" : "";
+  const cls  = diff > 0 ? "delta-up" : diff < 0 ? "delta-down" : "delta-flat";
+  const arrow = diff > 0 ? "▲" : diff < 0 ? "▼" : "·";
+  const pctStr = isFinite(pct) ? `${sign}${Math.abs(pct).toFixed(0)}%` : "";
+  return `<td class="num ${cls}"><span class="delta-arrow">${arrow}</span> ${sign}${fmt(Math.abs(diff))} <span class="delta-pct">${pctStr}</span></td>`;
+}
+
+const wowState = { sortKey: "deltaViews", dir: "desc", rows: [], curr: null, prev: null };
+
+function wowCompare(a, b, key) {
+  if (key === "repo") return a.fullName.localeCompare(b.fullName);
+  const av = a[key] ?? -Infinity;
+  const bv = b[key] ?? -Infinity;
+  return av - bv;
+}
+
+function renderWoW(repos) {
+  const tbody = document.getElementById("wow-tbody");
+  const tfoot = document.getElementById("wow-tfoot");
+  if (!tbody) return;
+
+  const anchor = findLatestDataDate(repos);
+  if (!anchor) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty">No daily traffic data yet.</td></tr>`;
+    return;
+  }
+  const currTo   = anchor;
+  const currFrom = shiftDay(anchor, -6);
+  const prevTo   = shiftDay(anchor, -7);
+  const prevFrom = shiftDay(anchor, -13);
+  wowState.curr = { from: currFrom, to: currTo };
+  wowState.prev = { from: prevFrom, to: prevTo };
+
+  document.getElementById("wow-curr-label").textContent = `current week (${fmtRange(currFrom, currTo)})`;
+  document.getElementById("wow-prev-label").textContent = `previous week (${fmtRange(prevFrom, prevTo)})`;
+
+  const rows = Object.entries(repos).map(([fullName, repo]) => {
+    const [owner, name] = fullName.split("/");
+    const cv = sumWindow(repo.dailyViews,  currFrom, currTo);
+    const pv = sumWindow(repo.dailyViews,  prevFrom, prevTo);
+    const cc = sumWindow(repo.dailyClones, currFrom, currTo);
+    const pc = sumWindow(repo.dailyClones, prevFrom, prevTo);
+    return {
+      fullName, owner, name,
+      currViews:    cv.count,    prevViews:    pv.count,    deltaViews:    cv.count - pv.count,
+      currUniques:  cv.uniques,  prevUniques:  pv.uniques,  deltaUniques:  cv.uniques - pv.uniques,
+      currClones:   cc.count,    prevClones:   pc.count,    deltaClones:   cc.count - pc.count,
+      hasAny: (cv.count + pv.count + cc.count + pc.count) > 0,
+    };
+  }).filter(r => r.hasAny);
+
+  wowState.rows = rows;
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="empty">No traffic in the last 14 days.</td></tr>`;
+    if (tfoot) tfoot.innerHTML = "";
+    return;
+  }
+
+  const sorted = [...rows].sort((a, b) => {
+    const r = wowCompare(a, b, wowState.sortKey);
+    return wowState.dir === "asc" ? r : -r;
+  });
+
+  tbody.innerHTML = sorted.map(r => `
+    <tr>
+      <td class="repo-name">
+        <a href="https://github.com/${r.fullName}" target="_blank" rel="noopener">${r.name}</a>
+        <span class="repo-owner">${r.owner}</span>
+      </td>
+      <td class="num">${fmt(r.currViews)}</td>
+      <td class="num">${fmt(r.prevViews)}</td>
+      ${deltaCell(r.currViews,   r.prevViews)}
+      <td class="num">${fmt(r.currUniques)}</td>
+      <td class="num">${fmt(r.prevUniques)}</td>
+      ${deltaCell(r.currUniques, r.prevUniques)}
+      <td class="num">${fmt(r.currClones)}</td>
+      <td class="num">${fmt(r.prevClones)}</td>
+      ${deltaCell(r.currClones,  r.prevClones)}
+    </tr>
+  `).join("");
+
+  // Totals footer
+  const tot = rows.reduce((acc, r) => {
+    acc.cv += r.currViews;   acc.pv += r.prevViews;
+    acc.cu += r.currUniques; acc.pu += r.prevUniques;
+    acc.cc += r.currClones;  acc.pc += r.prevClones;
+    return acc;
+  }, { cv:0, pv:0, cu:0, pu:0, cc:0, pc:0 });
+  if (tfoot) {
+    tfoot.innerHTML = `
+      <tr class="wow-totals">
+        <td><strong>Total · ${rows.length} repos</strong></td>
+        <td class="num"><strong>${fmt(tot.cv)}</strong></td>
+        <td class="num"><strong>${fmt(tot.pv)}</strong></td>
+        ${deltaCell(tot.cv, tot.pv)}
+        <td class="num"><strong>${fmt(tot.cu)}</strong></td>
+        <td class="num"><strong>${fmt(tot.pu)}</strong></td>
+        ${deltaCell(tot.cu, tot.pu)}
+        <td class="num"><strong>${fmt(tot.cc)}</strong></td>
+        <td class="num"><strong>${fmt(tot.pc)}</strong></td>
+        ${deltaCell(tot.cc, tot.pc)}
+      </tr>`;
+  }
+
+  // Sort indicators
+  document.querySelectorAll("#wow-table thead th").forEach((th) => {
+    th.classList.remove("sort-asc", "sort-desc");
+    if (th.dataset.wowSort === wowState.sortKey) {
+      th.classList.add(wowState.dir === "asc" ? "sort-asc" : "sort-desc");
+    }
+  });
+}
+
 function renderRepoCards(rows) {
   const wrap = document.getElementById("repo-cards");
   if (!rows.length) {
@@ -577,6 +746,7 @@ async function load() {
     renderRepoCards(tableState.rows);
   };
   rerenderAll();
+  renderWoW(reposData);
   renderSites(history.sites || {});
 
   // Window switcher
@@ -604,6 +774,21 @@ async function load() {
         tableState.dir = key === "repo" ? "asc" : "desc";
       }
       renderTable();
+    });
+  });
+
+  // WoW sort header clicks
+  document.querySelectorAll("#wow-table thead th").forEach((th) => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.wowSort;
+      if (!key) return;
+      if (wowState.sortKey === key) {
+        wowState.dir = wowState.dir === "asc" ? "desc" : "asc";
+      } else {
+        wowState.sortKey = key;
+        wowState.dir = key === "repo" ? "asc" : "desc";
+      }
+      renderWoW(reposData);
     });
   });
 }

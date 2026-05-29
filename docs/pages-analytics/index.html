@@ -140,6 +140,41 @@
     </div>
   </section>
 
+  <section class="wow-section">
+    <div class="wrap">
+      <h2>Week-over-week · traffic only</h2>
+      <p class="section-sub">
+        Rolling 7-day comparison: <strong id="wow-curr-label">current week</strong> vs
+        <strong id="wow-prev-label">previous week</strong>. Anchored to the latest snapshot
+        in <code>traffic-history.json</code>, so the window keeps moving as new data lands.
+        Δ shows absolute change and percent. New repos (no data in the prior week) are
+        flagged as <em>new</em>.
+      </p>
+      <div class="table-wrap">
+        <table class="repo-table wow-table" id="wow-table">
+          <thead>
+            <tr>
+              <th data-wow-sort="repo">Repo</th>
+              <th data-wow-sort="currViews"   class="num">Views · this wk</th>
+              <th data-wow-sort="prevViews"   class="num">Views · prev wk</th>
+              <th data-wow-sort="deltaViews"  class="num">Δ Views</th>
+              <th data-wow-sort="currUniques" class="num">Unique views · this wk</th>
+              <th data-wow-sort="prevUniques" class="num">Unique views · prev wk</th>
+              <th data-wow-sort="deltaUniques" class="num">Δ Unique</th>
+              <th data-wow-sort="currClones"  class="num">Clones · this wk</th>
+              <th data-wow-sort="prevClones"  class="num">Clones · prev wk</th>
+              <th data-wow-sort="deltaClones" class="num">Δ Clones</th>
+            </tr>
+          </thead>
+          <tbody id="wow-tbody">
+            <tr><td colspan="10" class="empty">Loading week-over-week comparison…</td></tr>
+          </tbody>
+          <tfoot id="wow-tfoot"></tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <section class="repo-cards-section">
     <div class="wrap">
       <h2>Per-repo detail</h2>

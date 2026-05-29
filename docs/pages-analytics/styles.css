@@ -105,6 +105,7 @@
 
 /* ---- Section scaffold ---- */
 .repo-table-section,
+.wow-section,
 .repo-cards-section,
 .sites-section,
 .footnote-section {
@@ -112,6 +113,7 @@
   border-bottom: 1px solid var(--border);
 }
 .repo-table-section h2,
+.wow-section h2,
 .repo-cards-section h2,
 .sites-section h2 {
   font-size: 1.5rem;
@@ -473,4 +475,40 @@
   padding: .1em .35em;
   border-radius: 4px;
   font-size: .9em;
+}
+
+/* ---- Week-over-week comparison ---- */
+.wow-table tbody tr { cursor: default; }
+.wow-table tbody tr:hover { background: var(--bg-alt); }
+.wow-table tfoot td {
+  background: var(--surface-2);
+  border-top: 2px solid var(--border);
+  padding: .75rem 1rem;
+  font-variant-numeric: tabular-nums;
+  border-bottom: none;
+}
+.wow-table tfoot td.num { text-align: right; }
+.wow-table .delta-up   { color: #107c10; font-weight: 600; }
+.wow-table .delta-down { color: #c50f1f; font-weight: 600; }
+.wow-table .delta-flat { color: var(--text-muted); }
+.wow-table .delta-arrow { display: inline-block; font-size: .8em; margin-right: .15rem; }
+.wow-table .delta-pct {
+  display: inline-block;
+  margin-left: .35rem;
+  font-size: .82em;
+  opacity: .8;
+  font-variant-numeric: tabular-nums;
+}
+.wow-table .delta-tag {
+  display: inline-block;
+  margin-left: .35rem;
+  padding: .05rem .4rem;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-radius: 999px;
+  background: rgba(16, 124, 16, .12);
+  color: #107c10;
+  vertical-align: middle;
 }
