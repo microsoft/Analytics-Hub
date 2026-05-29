@@ -115,6 +115,15 @@
     </div>
   </section>
 
+  <nav class="page-tabs" role="tablist" aria-label="Page sections">
+    <div class="wrap">
+      <button type="button" class="page-tab active" role="tab" aria-selected="true" data-tab="summary">Summary</button>
+      <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="comparisons">Comparisons</button>
+    </div>
+  </nav>
+
+  <div class="tab-panel" id="tab-summary" role="tabpanel" aria-labelledby="summary">
+
   <section class="repo-table-section">
     <div class="wrap">
       <h2>Repos · GitHub traffic</h2>
@@ -138,7 +147,30 @@
         </table>
       </div>
     </div>
+  </section><section class="repo-cards-section">
+    <div class="wrap">
+      <h2>Per-repo detail</h2>
+      <p class="section-sub">Sparklines grow as history accumulates (need a few days of snapshots).</p>
+      <div class="repo-cards" id="repo-cards">
+        <p class="empty">Loading…</p>
+      </div>
+    </div>
   </section>
+
+  <section class="sites-section">
+    <div class="wrap">
+      <h2>Hosted sites · Microsoft Clarity</h2>
+      <p class="section-sub">Engagement signals from the live Pages sites. Clarity captures sessions, scroll depth, dead clicks, rage clicks, and JS errors that the GitHub API can't see.</p>
+      <div class="site-grid" id="site-grid">
+        <p class="empty">Loading…</p>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /tab-summary -->
+
+  <div class="tab-panel" id="tab-comparisons" role="tabpanel" aria-labelledby="comparisons" hidden>
+
 
   <section class="wow-section">
     <div class="wrap">
@@ -175,25 +207,35 @@
     </div>
   </section>
 
-  <section class="repo-cards-section">
+  <section class="multiline-section">
     <div class="wrap">
-      <h2>Per-repo detail</h2>
-      <p class="section-sub">Sparklines grow as history accumulates (need a few days of snapshots).</p>
-      <div class="repo-cards" id="repo-cards">
-        <p class="empty">Loading…</p>
+      <h2>All repos · daily views over time</h2>
+      <p class="section-sub">
+        One line per repo. X-axis is date, Y-axis is daily views (toggle to clones or unique views).
+        Click a legend item to isolate or hide its line.
+      </p>
+      <div class="multiline-controls">
+        <div class="multiline-metric" role="tablist" aria-label="Metric">
+          <button type="button" class="ml-metric-btn active" data-metric="views">Views</button>
+          <button type="button" class="ml-metric-btn" data-metric="uniques">Unique views</button>
+          <button type="button" class="ml-metric-btn" data-metric="clones">Clones</button>
+        </div>
+        <div class="multiline-window" role="tablist" aria-label="Range">
+          <button type="button" class="ml-window-btn" data-ml-window="14d">14d</button>
+          <button type="button" class="ml-window-btn active" data-ml-window="30d">30d</button>
+          <button type="button" class="ml-window-btn" data-ml-window="90d">90d</button>
+          <button type="button" class="ml-window-btn" data-ml-window="all">All</button>
+        </div>
+      </div>
+      <div class="multiline-wrap" id="multiline-wrap">
+        <div id="multiline-chart" class="multiline-chart"><p class="empty">Loading chart…</p></div>
+        <div id="multiline-legend" class="multiline-legend"></div>
       </div>
     </div>
   </section>
 
-  <section class="sites-section">
-    <div class="wrap">
-      <h2>Hosted sites · Microsoft Clarity</h2>
-      <p class="section-sub">Engagement signals from the live Pages sites. Clarity captures sessions, scroll depth, dead clicks, rage clicks, and JS errors that the GitHub API can't see.</p>
-      <div class="site-grid" id="site-grid">
-        <p class="empty">Loading…</p>
-      </div>
-    </div>
-  </section>
+  
+  </div><!-- /tab-comparisons -->
 
   <section class="footnote-section">
     <div class="wrap">

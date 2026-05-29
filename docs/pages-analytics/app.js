@@ -667,6 +667,246 @@ function renderWoW(repos) {
   });
 }
 
+// ------------------------------------------------------------ multi-line chart
+
+const ML_PALETTE = [
+  "#0078d4", "#e3008c", "#8661c5", "#107c10", "#d83b01",
+  "#00b294", "#ffb900", "#5c2d91", "#038387", "#b4009e",
+  "#498205", "#ca5010", "#0099bc", "#881798", "#797775",
+];
+
+const multilineState = {
+  metric: "views",   // views | uniques | clones
+  window: "30d",     // 14d | 30d | 90d | all
+  hidden: new Set(), // fullNames the user toggled off
+};
+
+function pickDailyMap(repo, metric) {
+  if (metric === "clones") return repo.dailyClones || {};
+  return repo.dailyViews || {};
+}
+function pickDailyVal(entry, metric) {
+  if (!entry) return 0;
+  if (metric === "uniques") return entry.uniques || 0;
+  return entry.count || 0;
+}
+
+function computeMultilineDomain(repos, metric, windowKey) {
+  // Collect union of date strings across repos.
+  const allDates = new Set();
+  for (const repo of Object.values(repos)) {
+    const map = pickDailyMap(repo, metric);
+    for (const d of Object.keys(map)) allDates.add(d);
+  }
+  if (!allDates.size) return { dates: [], from: null, to: null };
+
+  const sorted = Array.from(allDates).sort();
+  const to = sorted[sorted.length - 1];
+  let from;
+  if (windowKey === "all") {
+    from = sorted[0];
+  } else {
+    const days = windowKey === "14d" ? 14 : windowKey === "90d" ? 90 : 30;
+    from = shiftDay(to, -(days - 1));
+  }
+  // Build full continuous date list from `from` to `to`.
+  const dates = [];
+  let cursor = from < sorted[0] ? sorted[0] : from;
+  // Ensure cursor is a real ISO; cap to actual data range.
+  while (cursor <= to) {
+    dates.push(cursor);
+    cursor = shiftDay(cursor, 1);
+  }
+  return { dates, from: dates[0], to };
+}
+
+function buildMultilineSeries(repos, dates, metric) {
+  return Object.entries(repos)
+    .map(([fullName, repo]) => {
+      const map = pickDailyMap(repo, metric);
+      const values = dates.map(d => pickDailyVal(map[d], metric));
+      const total  = values.reduce((a, b) => a + b, 0);
+      const [, name] = fullName.split("/");
+      return { fullName, name, values, total };
+    })
+    .filter(s => s.total > 0)
+    .sort((a, b) => b.total - a.total);
+}
+
+function renderMultiline(repos) {
+  const host = document.getElementById("multiline-chart");
+  const legendHost = document.getElementById("multiline-legend");
+  if (!host || !legendHost) return;
+
+  const { metric, window: windowKey, hidden } = multilineState;
+  const domain = computeMultilineDomain(repos, metric, windowKey);
+  if (!domain.dates.length) {
+    host.innerHTML = `<p class="empty">No data yet.</p>`;
+    legendHost.innerHTML = "";
+    return;
+  }
+
+  const series = buildMultilineSeries(repos, domain.dates, metric);
+  if (!series.length) {
+    host.innerHTML = `<p class="empty">No traffic in this window.</p>`;
+    legendHost.innerHTML = "";
+    return;
+  }
+
+  // Layout
+  const W = Math.max(600, host.clientWidth || 800);
+  const H = 360;
+  const padL = 48, padR = 16, padT = 16, padB = 40;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  // Y max across visible series
+  const visible = series.filter(s => !hidden.has(s.fullName));
+  const yMax = Math.max(1, ...visible.flatMap(s => s.values));
+  const niceMax = niceCeil(yMax);
+
+  const N = domain.dates.length;
+  const xStep = N > 1 ? plotW / (N - 1) : 0;
+  const xAt = (i) => padL + i * xStep;
+  const yAt = (v) => padT + plotH - (v / niceMax) * plotH;
+
+  // Y gridlines (5 ticks)
+  const ticks = 5;
+  let gridLines = "";
+  let yLabels = "";
+  for (let t = 0; t <= ticks; t++) {
+    const v = (niceMax / ticks) * t;
+    const y = yAt(v);
+    gridLines += `<line x1="${padL}" x2="${W - padR}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" class="ml-grid"/>`;
+    yLabels   += `<text x="${padL - 8}" y="${(y + 4).toFixed(1)}" class="ml-axis-label" text-anchor="end">${fmt(Math.round(v))}</text>`;
+  }
+
+  // X labels (~6 across)
+  const labelCount = Math.min(6, N);
+  let xLabels = "";
+  if (labelCount > 1) {
+    for (let k = 0; k < labelCount; k++) {
+      const i = Math.round(k * (N - 1) / (labelCount - 1));
+      const x = xAt(i);
+      const d = domain.dates[i];
+      const dt = new Date(`${d}T00:00:00Z`);
+      const label = dt.toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+      xLabels += `<text x="${x.toFixed(1)}" y="${H - padB + 18}" class="ml-axis-label" text-anchor="middle">${label}</text>`;
+    }
+  }
+
+  // Series paths
+  let paths = "";
+  series.forEach((s, idx) => {
+    const color = ML_PALETTE[idx % ML_PALETTE.length];
+    s.color = color;
+    if (hidden.has(s.fullName)) return;
+    const d = s.values.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(" ");
+    paths += `<path d="${d}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" data-series="${s.fullName}"/>`;
+  });
+
+  // Hover overlay: vertical guide + dots + tooltip
+  const overlay = `
+    <line class="ml-guide" id="ml-guide" x1="0" x2="0" y1="${padT}" y2="${padT + plotH}" style="display:none"/>
+    <g id="ml-hover-dots"></g>
+    <rect class="ml-hit" x="${padL}" y="${padT}" width="${plotW}" height="${plotH}" fill="transparent"/>
+  `;
+
+  host.innerHTML = `
+    <svg id="ml-svg" viewBox="0 0 ${W} ${H}" width="100%" height="${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Daily ${metric} by repo">
+      ${gridLines}
+      ${yLabels}
+      ${xLabels}
+      ${paths}
+      ${overlay}
+    </svg>
+    <div class="ml-tooltip" id="ml-tooltip" style="display:none"></div>
+  `;
+
+  // Legend (clickable to toggle)
+  legendHost.innerHTML = series.map((s) => {
+    const off = hidden.has(s.fullName);
+    return `
+      <button type="button" class="ml-legend-item ${off ? 'is-off' : ''}" data-series="${s.fullName}" title="${s.fullName} — total ${fmt(s.total)}">
+        <span class="ml-legend-swatch" style="background:${s.color}"></span>
+        <span class="ml-legend-name">${s.name}</span>
+        <span class="ml-legend-total">${fmt(s.total)}</span>
+      </button>
+    `;
+  }).join("");
+  legendHost.querySelectorAll(".ml-legend-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const k = btn.dataset.series;
+      if (hidden.has(k)) hidden.delete(k); else hidden.add(k);
+      renderMultiline(repos);
+    });
+  });
+
+  // Hover behavior
+  const svg = document.getElementById("ml-svg");
+  const guide = document.getElementById("ml-guide");
+  const dotsG = document.getElementById("ml-hover-dots");
+  const tip = document.getElementById("ml-tooltip");
+  const wrap = document.getElementById("multiline-wrap");
+
+  const onMove = (evt) => {
+    const rect = svg.getBoundingClientRect();
+    const scale = rect.width / W;
+    const xInSvg = (evt.clientX - rect.left) / scale;
+    if (xInSvg < padL || xInSvg > padL + plotW) {
+      guide.style.display = "none";
+      dotsG.innerHTML = "";
+      tip.style.display = "none";
+      return;
+    }
+    const i = Math.round((xInSvg - padL) / Math.max(xStep, 0.0001));
+    const idx = Math.max(0, Math.min(N - 1, i));
+    const xPx = xAt(idx);
+    guide.setAttribute("x1", xPx);
+    guide.setAttribute("x2", xPx);
+    guide.style.display = "";
+
+    const visibleSeries = series.filter(s => !hidden.has(s.fullName));
+    dotsG.innerHTML = visibleSeries.map(s =>
+      `<circle cx="${xPx.toFixed(1)}" cy="${yAt(s.values[idx]).toFixed(1)}" r="3" fill="${s.color}" stroke="#fff" stroke-width="1"/>`
+    ).join("");
+
+    const date = domain.dates[idx];
+    const dt = new Date(`${date}T00:00:00Z`);
+    const dateLabel = dt.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    const sortedRows = [...visibleSeries].sort((a, b) => b.values[idx] - a.values[idx]).slice(0, 12);
+    tip.innerHTML = `
+      <div class="ml-tip-date">${dateLabel}</div>
+      <ul>
+        ${sortedRows.map(s => `<li><span class="ml-tip-sw" style="background:${s.color}"></span><span class="ml-tip-name">${s.name}</span><span class="ml-tip-val">${fmt(s.values[idx])}</span></li>`).join("")}
+      </ul>
+    `;
+    tip.style.display = "";
+    // Position tooltip inside wrap
+    const wrapRect = wrap.getBoundingClientRect();
+    const tipW = tip.offsetWidth;
+    let left = evt.clientX - wrapRect.left + 14;
+    if (left + tipW > wrap.clientWidth - 8) left = evt.clientX - wrapRect.left - tipW - 14;
+    tip.style.left = `${Math.max(8, left)}px`;
+    tip.style.top  = `${evt.clientY - wrapRect.top + 14}px`;
+  };
+  const onLeave = () => {
+    guide.style.display = "none";
+    dotsG.innerHTML = "";
+    tip.style.display = "none";
+  };
+  svg.addEventListener("mousemove", onMove);
+  svg.addEventListener("mouseleave", onLeave);
+}
+
+function niceCeil(v) {
+  if (v <= 10) return Math.ceil(v / 2) * 2;
+  const pow = Math.pow(10, Math.floor(Math.log10(v)));
+  const n = v / pow;
+  const nice = n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10;
+  return nice * pow;
+}
+
 function renderRepoCards(rows) {
   const wrap = document.getElementById("repo-cards");
   if (!rows.length) {
@@ -747,6 +987,7 @@ async function load() {
   };
   rerenderAll();
   renderWoW(reposData);
+  renderMultiline(reposData);
   renderSites(history.sites || {});
 
   // Window switcher
@@ -791,6 +1032,74 @@ async function load() {
       renderWoW(reposData);
     });
   });
+
+  // Multiline metric + window controls
+  document.querySelectorAll(".ml-metric-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const m = btn.dataset.metric;
+      if (!m || m === multilineState.metric) return;
+      multilineState.metric = m;
+      document.querySelectorAll(".ml-metric-btn").forEach(b => b.classList.toggle("active", b.dataset.metric === m));
+      renderMultiline(reposData);
+    });
+  });
+  document.querySelectorAll(".ml-window-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const w = btn.dataset.mlWindow;
+      if (!w || w === multilineState.window) return;
+      multilineState.window = w;
+      document.querySelectorAll(".ml-window-btn").forEach(b => b.classList.toggle("active", b.dataset.mlWindow === w));
+      renderMultiline(reposData);
+    });
+  });
+  window.addEventListener("resize", () => {
+    clearTimeout(window.__mlResizeT);
+    window.__mlResizeT = setTimeout(() => renderMultiline(reposData), 150);
+  });
+
+  // Page-level tab switcher (Summary / Comparisons)
+  const tabBtns = document.querySelectorAll(".page-tab");
+  const tabPanels = {
+    summary:     document.getElementById("tab-summary"),
+    comparisons: document.getElementById("tab-comparisons"),
+  };
+  const activateTab = (key) => {
+    if (!tabPanels[key]) return;
+    tabBtns.forEach(b => {
+      const on = b.dataset.tab === key;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    Object.entries(tabPanels).forEach(([k, panel]) => {
+      if (!panel) return;
+      if (k === key) panel.removeAttribute("hidden");
+      else panel.setAttribute("hidden", "");
+    });
+    // Persist + sync hash
+    try { localStorage.setItem("pages-analytics-tab", key); } catch (_) {}
+    if (key !== "summary") {
+      history.replaceState(null, "", `#${key}`);
+    } else if (location.hash) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+    // The multiline chart needs a re-render when it becomes visible (clientWidth
+    // is 0 while the tab is hidden).
+    if (key === "comparisons") {
+      requestAnimationFrame(() => renderMultiline(reposData));
+    }
+  };
+  tabBtns.forEach(b => b.addEventListener("click", () => activateTab(b.dataset.tab)));
+
+  // Restore tab from hash > localStorage > default
+  let initialTab = "summary";
+  if (location.hash === "#comparisons") initialTab = "comparisons";
+  else {
+    try {
+      const saved = localStorage.getItem("pages-analytics-tab");
+      if (saved && tabPanels[saved]) initialTab = saved;
+    } catch (_) {}
+  }
+  activateTab(initialTab);
 }
 
 load();
