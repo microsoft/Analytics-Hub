@@ -675,10 +675,18 @@ const ML_PALETTE = [
   "#498205", "#ca5010", "#0099bc", "#881798", "#797775",
 ];
 
+// Earliest date for which we have any GitHub traffic data. GitHub's API only
+// returns the most recent 14 days, so when nightly snapshotting first ran on
+// 2026-05-23 it backfilled to 2026-05-08. Anything earlier than this is
+// impossible to display.
+const ANALYTICS_COVERAGE_START = "2026-05-08";
+
 const multilineState = {
   metric: "views",   // views | uniques | clones
-  window: "30d",     // 14d | 30d | 90d | all
+  window: "30d",     // 14d | 30d | 90d | all | custom
   hidden: new Set(), // fullNames the user toggled off
+  customFrom: null,  // YYYY-MM-DD, only used when window === "custom"
+  customTo: null,
 };
 
 function pickDailyMap(repo, metric) {
@@ -703,6 +711,23 @@ function computeMultilineDomain(repos, metric, windowKey) {
   const sorted = Array.from(allDates).sort();
   const to = sorted[sorted.length - 1];
   let from;
+  if (windowKey === "custom") {
+    // Clamp custom inputs into the available data range. If either bound is
+    // missing or invalid, fall back to the full data range.
+    const cf = multilineState.customFrom;
+    const ct = multilineState.customTo;
+    const lo = sorted[0];
+    const hi = to;
+    const safeFrom = cf && cf >= lo && cf <= hi ? cf : lo;
+    const safeTo   = ct && ct >= lo && ct <= hi && ct >= safeFrom ? ct : hi;
+    const dates = [];
+    let cursor = safeFrom;
+    while (cursor <= safeTo) {
+      dates.push(cursor);
+      cursor = shiftDay(cursor, 1);
+    }
+    return { dates, from: safeFrom, to: safeTo };
+  }
   if (windowKey === "all") {
     from = sorted[0];
   } else {
@@ -1049,9 +1074,62 @@ async function load() {
       if (!w || w === multilineState.window) return;
       multilineState.window = w;
       document.querySelectorAll(".ml-window-btn").forEach(b => b.classList.toggle("active", b.dataset.mlWindow === w));
+      const customPanel = document.getElementById("multiline-custom");
+      if (customPanel) {
+        if (w === "custom") {
+          // Seed inputs from current data range if user hasn't set values yet.
+          const fromEl = document.getElementById("ml-from");
+          const toEl = document.getElementById("ml-to");
+          const latest = findLatestDataDate(reposData) || ANALYTICS_COVERAGE_START;
+          if (fromEl) {
+            fromEl.min = ANALYTICS_COVERAGE_START;
+            fromEl.max = latest;
+            if (!fromEl.value) fromEl.value = multilineState.customFrom || shiftDay(latest, -29);
+            multilineState.customFrom = fromEl.value;
+          }
+          if (toEl) {
+            toEl.min = ANALYTICS_COVERAGE_START;
+            toEl.max = latest;
+            if (!toEl.value) toEl.value = multilineState.customTo || latest;
+            multilineState.customTo = toEl.value;
+          }
+          customPanel.removeAttribute("hidden");
+        } else {
+          customPanel.setAttribute("hidden", "");
+        }
+      }
       renderMultiline(reposData);
     });
   });
+
+  // Custom date-range inputs
+  const fromInput = document.getElementById("ml-from");
+  const toInput = document.getElementById("ml-to");
+  const onCustomChange = () => {
+    if (multilineState.window !== "custom") return;
+    if (fromInput && fromInput.value) multilineState.customFrom = fromInput.value;
+    if (toInput && toInput.value) multilineState.customTo = toInput.value;
+    // Keep the From <= To invariant gently — don't fight the user mid-type.
+    if (fromInput && toInput && fromInput.value && toInput.value && fromInput.value > toInput.value) {
+      toInput.value = fromInput.value;
+      multilineState.customTo = fromInput.value;
+    }
+    renderMultiline(reposData);
+  };
+  if (fromInput) fromInput.addEventListener("change", onCustomChange);
+  if (toInput) toInput.addEventListener("change", onCustomChange);
+  const resetBtn = document.getElementById("ml-reset");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      const latest = findLatestDataDate(reposData) || ANALYTICS_COVERAGE_START;
+      const def = shiftDay(latest, -29);
+      if (fromInput) fromInput.value = def;
+      if (toInput) toInput.value = latest;
+      multilineState.customFrom = def;
+      multilineState.customTo = latest;
+      renderMultiline(reposData);
+    });
+  }
   window.addEventListener("resize", () => {
     clearTimeout(window.__mlResizeT);
     window.__mlResizeT = setTimeout(() => renderMultiline(reposData), 150);

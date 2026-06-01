@@ -225,12 +225,23 @@
           <button type="button" class="ml-window-btn active" data-ml-window="30d">30d</button>
           <button type="button" class="ml-window-btn" data-ml-window="90d">90d</button>
           <button type="button" class="ml-window-btn" data-ml-window="all">All</button>
+          <button type="button" class="ml-window-btn" data-ml-window="custom">Custom…</button>
+        </div>
+        <div class="multiline-custom" id="multiline-custom" hidden>
+          <label for="ml-from">From <input type="date" id="ml-from" class="ml-date-input" /></label>
+          <label for="ml-to">To <input type="date" id="ml-to" class="ml-date-input" /></label>
+          <button type="button" class="ml-reset-btn" id="ml-reset">Reset</button>
         </div>
       </div>
       <div class="multiline-wrap" id="multiline-wrap">
         <div id="multiline-chart" class="multiline-chart"><p class="empty">Loading chart…</p></div>
         <div id="multiline-legend" class="multiline-legend"></div>
       </div>
+      <p class="multiline-coverage" id="multiline-coverage">
+        Analytics collection began <strong>2026-05-23</strong>
+        (GitHub backfilled daily traffic to <strong>2026-05-08</strong>).
+        Custom ranges before 2026-05-08 will return no data.
+      </p>
     </div>
   </section>
 

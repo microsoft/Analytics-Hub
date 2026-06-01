@@ -580,6 +580,44 @@
   color: var(--accent);
   box-shadow: var(--shadow-sm);
 }
+.multiline-custom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin-top: .5rem;
+  width: 100%;
+  font-size: .85rem;
+  color: var(--text-soft);
+}
+.multiline-custom label {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.ml-date-input {
+  font: inherit;
+  padding: .3rem .5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - .25rem);
+  background: var(--surface);
+  color: var(--text);
+}
+.ml-reset-btn {
+  font: inherit;
+  padding: .3rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - .25rem);
+  background: var(--surface-2);
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.ml-reset-btn:hover { color: var(--text); border-color: var(--accent); }
+.multiline-coverage {
+  margin: .75rem 0 0;
+  font-size: .8rem;
+  color: var(--text-muted);
+}
 .multiline-wrap {
   position: relative;
   background: var(--surface);
