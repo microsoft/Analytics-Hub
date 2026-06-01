@@ -685,11 +685,8 @@ const ML_PALETTE = [
   "#498205", "#ca5010", "#0099bc", "#881798", "#797775",
 ];
 
-// Earliest date for which we have any GitHub traffic data. GitHub's API only
-// returns the most recent 14 days, so when nightly snapshotting first ran on
-// 2026-05-23 it backfilled to 2026-05-08. Anything earlier than this is
-// impossible to display.
-const ANALYTICS_COVERAGE_START = "2026-05-08";
+// Note: ANALYTICS_COVERAGE_START is declared once near the top of this file
+// (next to WINDOWS) and reused here by the multi-line chart custom-range UI.
 
 const multilineState = {
   metric: "views",   // views | uniques | clones
@@ -996,6 +993,407 @@ function renderSites(sites) {
   }).join("");
 }
 
+// ------------------------------------------------------------ Portfolio tab
+
+const portfolioStackState = { window: "30d", metric: "views" };
+
+function dayRange(fromIso, toIso) {
+  // inclusive list of YYYY-MM-DD between two ISO dates
+  if (!fromIso || !toIso || fromIso > toIso) return [];
+  const out = [];
+  const d = new Date(fromIso + "T00:00:00Z");
+  const end = new Date(toIso + "T00:00:00Z");
+  while (d <= end) {
+    out.push(d.toISOString().slice(0, 10));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return out;
+}
+
+function priorWindowBounds(since, until) {
+  // Same-length window immediately before [since, until]
+  if (!since) return { since: null, until: null };
+  const hi = until || todayUTC().toISOString().slice(0, 10);
+  const days = dayRange(since, hi).length;
+  if (!days) return { since: null, until: null };
+  const startDate = new Date(since + "T00:00:00Z");
+  const priorUntilDate = new Date(startDate);
+  priorUntilDate.setUTCDate(priorUntilDate.getUTCDate() - 1);
+  const priorSinceDate = new Date(priorUntilDate);
+  priorSinceDate.setUTCDate(priorSinceDate.getUTCDate() - (days - 1));
+  return {
+    since: priorSinceDate.toISOString().slice(0, 10),
+    until: priorUntilDate.toISOString().slice(0, 10),
+  };
+}
+
+function renderPortfolio(repos) {
+  const since = currentSince();
+  const until = currentUntil();
+  let winViews = 0, winClones = 0, winUniques = 0;
+  let cumViews = 0, cumClones = 0;
+  let peakDay = 0, peakDate = null;
+  const portfolioDaily = {}; // date -> total views
+  for (const repo of Object.values(repos)) {
+    const w = sumDaily(repo.dailyViews, since, until);
+    const wc = sumDaily(repo.dailyClones, since, until);
+    if (w.count   != null) winViews   += w.count;
+    if (w.uniques != null) winUniques += w.uniques;
+    if (wc.count  != null) winClones  += wc.count;
+    const allV = sumDaily(repo.dailyViews, ANALYTICS_COVERAGE_START, null);
+    const allC = sumDaily(repo.dailyClones, ANALYTICS_COVERAGE_START, null);
+    if (allV.count != null) cumViews  += allV.count;
+    if (allC.count != null) cumClones += allC.count;
+    for (const [day, v] of Object.entries(repo.dailyViews || {})) {
+      portfolioDaily[day] = (portfolioDaily[day] || 0) + (v?.count || 0);
+    }
+  }
+  for (const [day, cnt] of Object.entries(portfolioDaily)) {
+    if (cnt > peakDay) { peakDay = cnt; peakDate = day; }
+  }
+  const winDays = dayRange(since, until || (findLatestDataDate(repos) || todayUTC().toISOString().slice(0, 10))).length || 1;
+  const setKpi = (key, val, opts = {}) => {
+    const el = document.querySelector(`[data-port-kpi="${key}"]`);
+    if (el) el.textContent = val;
+  };
+  setKpi("winViews", fmt(winViews));
+  setKpi("winClones", fmt(winClones));
+  setKpi("winUniques", fmt(winUniques));
+  setKpi("avgViewsPerDay", fmt(Math.round(winViews / winDays)));
+  setKpi("avgClonesPerDay", fmt(Math.round(winClones / winDays)));
+  setKpi("peakDay", fmt(peakDay));
+  setKpi("peakDate", peakDate ? `on ${peakDate}` : "—");
+  setKpi("cumViews", fmt(cumViews));
+  setKpi("cumClones", fmt(cumClones));
+  setKpi("cumViewsSince", `since ${ANALYTICS_COVERAGE_START}`);
+  setKpi("cumClonesSince", `since ${ANALYTICS_COVERAGE_START}`);
+
+  // Growth cards: current period vs prior equally-sized period
+  const prior = priorWindowBounds(since, until);
+  let prevViews = 0, prevClones = 0, prevUniques = 0;
+  for (const repo of Object.values(repos)) {
+    const pv = sumDaily(repo.dailyViews, prior.since, prior.until);
+    const pc = sumDaily(repo.dailyClones, prior.since, prior.until);
+    if (pv.count   != null) prevViews   += pv.count;
+    if (pv.uniques != null) prevUniques += pv.uniques;
+    if (pc.count   != null) prevClones  += pc.count;
+  }
+  const renderGrowth = (key, curr, prev) => {
+    const card = document.querySelector(`[data-growth="${key}"]`);
+    if (!card) return;
+    const valEl = card.querySelector(".growth-value");
+    const subEl = card.querySelector(".growth-sub");
+    card.classList.remove("is-up", "is-down", "is-flat");
+    if (prev === 0 && curr === 0) {
+      valEl.textContent = "—";
+      subEl.textContent = "No data in either period.";
+      card.classList.add("is-flat");
+      return;
+    }
+    if (prev === 0) {
+      valEl.textContent = "NEW";
+      subEl.textContent = `${fmt(curr)} this period · 0 prior`;
+      card.classList.add("is-up");
+      return;
+    }
+    const delta = curr - prev;
+    const pct = (delta / prev) * 100;
+    const arrow = delta > 0 ? "▲" : delta < 0 ? "▼" : "→";
+    valEl.textContent = `${arrow} ${pct >= 0 ? "+" : ""}${pct.toFixed(1)}%`;
+    subEl.textContent = `${fmt(curr)} this period · ${fmt(prev)} prior · Δ ${delta >= 0 ? "+" : ""}${fmt(delta)}`;
+    if (delta > 0) card.classList.add("is-up");
+    else if (delta < 0) card.classList.add("is-down");
+    else card.classList.add("is-flat");
+  };
+  renderGrowth("views", winViews, prevViews);
+  renderGrowth("clones", winClones, prevClones);
+  renderGrowth("uniques", winUniques, prevUniques);
+
+  renderPortfolioStack(repos);
+}
+
+function renderPortfolioStack(repos) {
+  const host = document.getElementById("portfolio-stack");
+  const legend = document.getElementById("portfolio-stack-legend");
+  if (!host) return;
+
+  const latest = findLatestDataDate(repos) || todayUTC().toISOString().slice(0, 10);
+  let since;
+  switch (portfolioStackState.window) {
+    case "14d": since = shiftDay(latest, -13); break;
+    case "30d": since = shiftDay(latest, -29); break;
+    case "90d": since = shiftDay(latest, -89); break;
+    default:    since = ANALYTICS_COVERAGE_START; break;
+  }
+  if (since < ANALYTICS_COVERAGE_START) since = ANALYTICS_COVERAGE_START;
+  const days = dayRange(since, latest);
+  if (!days.length) { host.innerHTML = `<p class="empty">No data yet.</p>`; legend.innerHTML = ""; return; }
+
+  const metric = portfolioStackState.metric;
+  const repoNames = Object.keys(repos).filter(n => {
+    const map = metric === "views" ? repos[n].dailyViews : repos[n].dailyClones;
+    return map && Object.keys(map).some(d => d >= since && d <= latest);
+  });
+  // sort by total contribution desc so biggest bands draw on bottom
+  repoNames.sort((a, b) => {
+    const ma = metric === "views" ? repos[a].dailyViews : repos[a].dailyClones;
+    const mb = metric === "views" ? repos[b].dailyViews : repos[b].dailyClones;
+    return (sumDaily(mb, since, latest).count || 0) - (sumDaily(ma, since, latest).count || 0);
+  });
+
+  // Build per-repo daily series
+  const series = repoNames.map(name => {
+    const map = metric === "views" ? repos[name].dailyViews : repos[name].dailyClones;
+    return { name, values: days.map(d => (map?.[d]?.count) || 0) };
+  });
+
+  // SVG dims
+  const w = Math.max(host.clientWidth || 800, 320);
+  const h = 320;
+  const padL = 48, padR = 16, padT = 16, padB = 36;
+  const plotW = w - padL - padR;
+  const plotH = h - padT - padB;
+  const stepX = days.length > 1 ? plotW / (days.length - 1) : plotW;
+
+  // Cumulative stack per day
+  const stacked = days.map(() => 0);
+  const dayTotals = days.map((_, i) => series.reduce((s, r) => s + r.values[i], 0));
+  const yMax = Math.max(1, ...dayTotals);
+
+  const yScale = v => padT + plotH - (v / yMax) * plotH;
+  const xAt = i => padL + i * stepX;
+
+  // Build stacked path data per repo
+  const paths = [];
+  const baseline = days.map(() => 0);
+  series.forEach((s, idx) => {
+    const upper = baseline.map((b, i) => b + s.values[i]);
+    const top = upper.map((v, i) => `${xAt(i).toFixed(1)},${yScale(v).toFixed(1)}`);
+    const bot = baseline.map((v, i) => `${xAt(i).toFixed(1)},${yScale(v).toFixed(1)}`).reverse();
+    const d = `M ${top.join(" L ")} L ${bot.join(" L ")} Z`;
+    const color = ML_PALETTE[idx % ML_PALETTE.length];
+    paths.push({ d, color, name: s.name });
+    for (let i = 0; i < baseline.length; i++) baseline[i] = upper[i];
+  });
+
+  // y-axis ticks (4)
+  const ticks = [];
+  for (let t = 0; t <= 4; t++) {
+    const v = Math.round((yMax * t) / 4);
+    ticks.push({ y: yScale(v), label: fmt(v) });
+  }
+  // x-axis: first, middle, last labels
+  const xLabels = [];
+  const xIdxs = days.length <= 4 ? days.map((_, i) => i) : [0, Math.floor(days.length / 3), Math.floor((2 * days.length) / 3), days.length - 1];
+  xIdxs.forEach(i => xLabels.push({ x: xAt(i), label: days[i].slice(5) }));
+
+  const svg = `
+    <svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Portfolio stacked chart">
+      ${ticks.map(t => `<line x1="${padL}" x2="${w - padR}" y1="${t.y.toFixed(1)}" y2="${t.y.toFixed(1)}" stroke="var(--border)" stroke-width="1" />`).join("")}
+      ${ticks.map(t => `<text x="${padL - 6}" y="${t.y + 3}" text-anchor="end" font-size="10" fill="var(--text-muted)">${t.label}</text>`).join("")}
+      ${paths.map(p => `<path d="${p.d}" fill="${p.color}" fill-opacity="0.78" stroke="${p.color}" stroke-width="0.5"><title>${p.name}</title></path>`).join("")}
+      ${xLabels.map(l => `<text x="${l.x}" y="${h - 12}" text-anchor="middle" font-size="10" fill="var(--text-muted)">${l.label}</text>`).join("")}
+    </svg>`;
+  host.innerHTML = svg;
+
+  legend.innerHTML = series.map((s, idx) => {
+    const color = ML_PALETTE[idx % ML_PALETTE.length];
+    const total = s.values.reduce((a, b) => a + b, 0);
+    return `<span class="ml-legend-item" style="--ml-color:${color}">
+      <span class="ml-legend-swatch" style="background:${color}"></span>
+      <span class="ml-legend-name">${s.name}</span>
+      <span class="ml-legend-value">${fmt(total)}</span>
+    </span>`;
+  }).join("");
+}
+
+// ------------------------------------------------------------ Highlights tab
+
+function renderHighlights(repos) {
+  const since = currentSince();
+  const until = currentUntil();
+  const prior = priorWindowBounds(since, until);
+
+  // Top movers
+  const movers = [];
+  for (const [name, repo] of Object.entries(repos)) {
+    const curr = sumDaily(repo.dailyViews, since, until).count || 0;
+    const prev = sumDaily(repo.dailyViews, prior.since, prior.until).count || 0;
+    if (curr === 0 && prev === 0) continue;
+    let kind = "flat", deltaPct = 0;
+    if (prev === 0) { kind = "new"; deltaPct = Infinity; }
+    else {
+      deltaPct = ((curr - prev) / prev) * 100;
+      kind = deltaPct > 5 ? "up" : deltaPct < -5 ? "down" : "flat";
+    }
+    movers.push({ name, curr, prev, deltaPct, kind });
+  }
+  movers.sort((a, b) => {
+    // New first, then biggest absolute % swing
+    if (a.kind === "new" && b.kind !== "new") return -1;
+    if (b.kind === "new" && a.kind !== "new") return 1;
+    return Math.abs(b.deltaPct) - Math.abs(a.deltaPct);
+  });
+  const grid = document.getElementById("movers-grid");
+  if (grid) {
+    if (!movers.length) {
+      grid.innerHTML = `<p class="empty">No movement yet — need more snapshot history.</p>`;
+    } else {
+      grid.innerHTML = movers.slice(0, 12).map(m => {
+        const label = m.kind === "new"
+          ? "NEW"
+          : `${m.deltaPct >= 0 ? "▲ +" : "▼ "}${m.deltaPct.toFixed(0)}%`;
+        const detail = m.kind === "new"
+          ? `${fmt(m.curr)} views · 0 prior`
+          : `${fmt(m.curr)} this period · ${fmt(m.prev)} prior`;
+        return `<div class="mover-card is-${m.kind}">
+          <span class="mover-repo">${m.name}</span>
+          <span class="mover-delta">${label}</span>
+          <span class="mover-detail">${detail}</span>
+        </div>`;
+      }).join("");
+    }
+  }
+
+  // Records table
+  const tbody = document.getElementById("records-tbody");
+  if (tbody) {
+    const rows = Object.entries(repos).map(([name, repo]) => {
+      let pv = 0, pvDate = "—", pc = 0, pcDate = "—";
+      let daysV = 0;
+      for (const [day, v] of Object.entries(repo.dailyViews || {})) {
+        if ((v?.count || 0) > pv) { pv = v.count; pvDate = day; }
+        daysV += 1;
+      }
+      for (const [day, v] of Object.entries(repo.dailyClones || {})) {
+        if ((v?.count || 0) > pc) { pc = v.count; pcDate = day; }
+      }
+      return { name, pv, pvDate, pc, pcDate, daysV };
+    }).sort((a, b) => b.pv - a.pv);
+    tbody.innerHTML = rows.length
+      ? rows.map(r => `<tr>
+          <td>${r.name}</td>
+          <td class="num">${fmt(r.pv)}</td>
+          <td>${r.pvDate}</td>
+          <td class="num">${fmt(r.pc)}</td>
+          <td>${r.pcDate}</td>
+          <td class="num">${fmt(r.daysV)}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="6" class="empty">No data yet.</td></tr>`;
+  }
+
+  // Milestones
+  const milestonesEl = document.getElementById("milestones-grid");
+  if (milestonesEl) {
+    const THRESHOLDS = [100, 250, 500, 1000, 2500, 5000];
+    const totals = Object.entries(repos).map(([name, repo]) => {
+      const v = sumDaily(repo.dailyViews, ANALYTICS_COVERAGE_START, null).count || 0;
+      const c = sumDaily(repo.dailyClones, ANALYTICS_COVERAGE_START, null).count || 0;
+      return { name, v, c };
+    });
+    const renderTier = (title, key) => {
+      const sorted = [...totals].sort((a, b) => b[key] - a[key]);
+      return `<div class="milestone-card">
+        <h3>${title}</h3>
+        ${THRESHOLDS.map(th => {
+          const hit = sorted.find(r => r[key] >= th);
+          const cls = hit ? "is-hit" : "";
+          const tick = hit ? "✓" : "·";
+          const leader = hit ? `${hit.name} · ${fmt(hit[key])}` : "not yet";
+          return `<div class="milestone-row ${cls}">
+            <span class="milestone-tick">${tick}</span>
+            <span class="milestone-threshold">${fmt(th)}</span>
+            <span class="milestone-leader">${leader}</span>
+          </div>`;
+        }).join("")}
+      </div>`;
+    };
+    milestonesEl.innerHTML = renderTier("Views milestones · since launch", "v")
+                           + renderTier("Clones milestones · since launch", "c");
+  }
+}
+
+// ------------------------------------------------------------ Engagement tab
+
+function renderEngagement(repos) {
+  const since = currentSince();
+  const until = currentUntil();
+
+  // Clone-to-view ratio table
+  const tbody = document.getElementById("ratio-tbody");
+  if (tbody) {
+    const rows = Object.entries(repos).map(([name, repo]) => {
+      const v  = sumDaily(repo.dailyViews,  since, until);
+      const c  = sumDaily(repo.dailyClones, since, until);
+      const views = v.count || 0;
+      const uniques = v.uniques || 0;
+      const clones = c.count || 0;
+      return { name, views, uniques, clones };
+    }).filter(r => r.views > 0)
+      .map(r => ({ ...r, ratio: r.clones / r.views, uniqShare: r.uniques / r.views }))
+      .sort((a, b) => b.ratio - a.ratio);
+    tbody.innerHTML = rows.length
+      ? rows.map(r => `<tr>
+          <td>${r.name}</td>
+          <td class="num">${fmt(r.views)}</td>
+          <td class="num">${fmt(r.clones)}</td>
+          <td class="num">${(r.ratio * 100).toFixed(1)}%</td>
+          <td class="num">${(r.uniqShare * 100).toFixed(0)}%</td>
+        </tr>`).join("")
+      : `<tr><td colspan="5" class="empty">No views in this window yet.</td></tr>`;
+  }
+
+  // Aggregated referrers
+  const refTbody = document.getElementById("referrers-rollup-tbody");
+  if (refTbody) {
+    const agg = new Map(); // name -> { count, uniques, repos:Set }
+    for (const [repoName, repo] of Object.entries(repos)) {
+      for (const r of (repo.referrers || [])) {
+        const key = r.referrer || r.name || "(unknown)";
+        const e = agg.get(key) || { count: 0, uniques: 0, repos: new Set() };
+        e.count   += r.count   || 0;
+        e.uniques += r.uniques || 0;
+        e.repos.add(repoName);
+        agg.set(key, e);
+      }
+    }
+    const rows = [...agg.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 15);
+    refTbody.innerHTML = rows.length
+      ? rows.map(([name, e]) => `<tr>
+          <td>${name}</td>
+          <td class="num">${fmt(e.count)}</td>
+          <td class="num">${fmt(e.uniques)}</td>
+          <td class="num">${e.repos.size}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="4" class="empty">No referrer data yet.</td></tr>`;
+  }
+
+  // Aggregated paths
+  const pathTbody = document.getElementById("paths-rollup-tbody");
+  if (pathTbody) {
+    const agg = new Map();
+    for (const [repoName, repo] of Object.entries(repos)) {
+      for (const p of (repo.paths || [])) {
+        const key = p.path || p.name || "(unknown)";
+        const e = agg.get(key) || { count: 0, uniques: 0, repos: new Set() };
+        e.count   += p.count   || 0;
+        e.uniques += p.uniques || 0;
+        e.repos.add(repoName);
+        agg.set(key, e);
+      }
+    }
+    const rows = [...agg.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 15);
+    pathTbody.innerHTML = rows.length
+      ? rows.map(([name, e]) => `<tr>
+          <td><code>${name}</code></td>
+          <td class="num">${fmt(e.count)}</td>
+          <td class="num">${fmt(e.uniques)}</td>
+          <td class="num">${e.repos.size}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="4" class="empty">No path data yet.</td></tr>`;
+  }
+}
+
 // ------------------------------------------------------------ boot
 
 async function load() {
@@ -1019,6 +1417,9 @@ async function load() {
     tableState.rows = rowsFromRepos(reposData);
     renderTable();
     renderRepoCards(tableState.rows);
+    renderPortfolio(reposData);
+    renderHighlights(reposData);
+    renderEngagement(reposData);
   };
   rerenderAll();
   renderWoW(reposData);
@@ -1192,10 +1593,13 @@ async function load() {
     window.__mlResizeT = setTimeout(() => renderMultiline(reposData), 150);
   });
 
-  // Page-level tab switcher (Summary / Comparisons)
+  // Page-level tab switcher (Summary / Portfolio / Highlights / Engagement / Comparisons)
   const tabBtns = document.querySelectorAll(".page-tab");
   const tabPanels = {
     summary:     document.getElementById("tab-summary"),
+    portfolio:   document.getElementById("tab-portfolio"),
+    highlights:  document.getElementById("tab-highlights"),
+    engagement:  document.getElementById("tab-engagement"),
     comparisons: document.getElementById("tab-comparisons"),
   };
   const activateTab = (key) => {
@@ -1217,23 +1621,47 @@ async function load() {
     } else if (location.hash) {
       history.replaceState(null, "", location.pathname + location.search);
     }
-    // The multiline chart needs a re-render when it becomes visible (clientWidth
-    // is 0 while the tab is hidden).
+    // SVG charts need a re-render when they become visible (clientWidth is 0 while hidden).
     if (key === "comparisons") {
       requestAnimationFrame(() => renderMultiline(reposData));
+    } else if (key === "portfolio") {
+      requestAnimationFrame(() => renderPortfolioStack(reposData));
     }
   };
   tabBtns.forEach(b => b.addEventListener("click", () => activateTab(b.dataset.tab)));
 
-  // React to manual hash changes (browser back/forward, or pasting #comparisons)
+  // Portfolio stacked-chart controls
+  document.querySelectorAll(".port-window-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".port-window-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      portfolioStackState.window = btn.dataset.portWindow;
+      renderPortfolioStack(reposData);
+    });
+  });
+  document.querySelectorAll(".port-metric-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".port-metric-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      portfolioStackState.metric = btn.dataset.portMetric;
+      renderPortfolioStack(reposData);
+    });
+  });
+  window.addEventListener("resize", () => {
+    clearTimeout(window.__portResizeT);
+    window.__portResizeT = setTimeout(() => renderPortfolioStack(reposData), 150);
+  });
+
+  // React to manual hash changes (browser back/forward, or pasting #portfolio)
   window.addEventListener("hashchange", () => {
-    const target = location.hash === "#comparisons" ? "comparisons" : "summary";
-    activateTab(target);
+    const h = (location.hash || "").replace("#", "");
+    activateTab(tabPanels[h] ? h : "summary");
   });
 
   // Restore tab from hash > localStorage > default
   let initialTab = "summary";
-  if (location.hash === "#comparisons") initialTab = "comparisons";
+  const hashKey = (location.hash || "").replace("#", "");
+  if (tabPanels[hashKey]) initialTab = hashKey;
   else {
     try {
       const saved = localStorage.getItem("pages-analytics-tab");

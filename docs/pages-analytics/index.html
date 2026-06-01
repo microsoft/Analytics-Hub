@@ -128,6 +128,9 @@
   <nav class="page-tabs" role="tablist" aria-label="Page sections">
     <div class="wrap">
       <button type="button" class="page-tab active" role="tab" aria-selected="true" data-tab="summary">Summary</button>
+      <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="portfolio">Portfolio</button>
+      <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="highlights">Highlights</button>
+      <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="engagement">Engagement</button>
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="comparisons">Comparisons</button>
     </div>
   </nav>
@@ -178,6 +181,191 @@
   </section>
 
   </div><!-- /tab-summary -->
+
+  <div class="tab-panel" id="tab-portfolio" role="tabpanel" aria-labelledby="portfolio" hidden>
+    <section class="portfolio-section">
+      <div class="wrap">
+        <h2>Portfolio roll-up · all repos combined</h2>
+        <p class="section-sub">
+          One program-wide view of every tracked repo. Counters reflect the
+          <strong data-window-label>14d</strong> window selected above; the
+          <em>since launch</em> totals always reach back to 2026-05-08.
+        </p>
+        <div class="portfolio-kpis">
+          <div class="kpi-mega"><span class="kpi-label">Views · <span data-window-label>14d</span></span><span class="kpi-value" data-port-kpi="winViews">—</span></div>
+          <div class="kpi-mega"><span class="kpi-label">Clones · <span data-window-label>14d</span></span><span class="kpi-value" data-port-kpi="winClones">—</span></div>
+          <div class="kpi-mega"><span class="kpi-label">Unique visitors · <span data-window-label>14d</span></span><span class="kpi-value" data-port-kpi="winUniques">—</span></div>
+          <div class="kpi-mega"><span class="kpi-label">Avg views/day</span><span class="kpi-value" data-port-kpi="avgViewsPerDay">—</span></div>
+          <div class="kpi-mega"><span class="kpi-label">Avg clones/day</span><span class="kpi-value" data-port-kpi="avgClonesPerDay">—</span></div>
+          <div class="kpi-mega"><span class="kpi-label">Peak day</span><span class="kpi-value" data-port-kpi="peakDay">—</span><span class="kpi-foot" data-port-kpi="peakDate">—</span></div>
+          <div class="kpi-mega kpi-mega-accent"><span class="kpi-label">Cumulative views since launch</span><span class="kpi-value" data-port-kpi="cumViews">—</span><span class="kpi-foot" data-port-kpi="cumViewsSince">—</span></div>
+          <div class="kpi-mega kpi-mega-accent"><span class="kpi-label">Cumulative clones since launch</span><span class="kpi-value" data-port-kpi="cumClones">—</span><span class="kpi-foot" data-port-kpi="cumClonesSince">—</span></div>
+        </div>
+        <div class="growth-row">
+          <div class="growth-card" data-growth="views">
+            <span class="growth-label">Views growth · current vs prior period</span>
+            <span class="growth-value">—</span>
+            <span class="growth-sub">—</span>
+          </div>
+          <div class="growth-card" data-growth="clones">
+            <span class="growth-label">Clones growth · current vs prior period</span>
+            <span class="growth-value">—</span>
+            <span class="growth-sub">—</span>
+          </div>
+          <div class="growth-card" data-growth="uniques">
+            <span class="growth-label">Unique visitors growth · current vs prior period</span>
+            <span class="growth-value">—</span>
+            <span class="growth-sub">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio-stack-section">
+      <div class="wrap">
+        <h2>Daily views · stacked by repo</h2>
+        <p class="section-sub">Each colored band is one repo's contribution that day. Hover for the full breakdown.</p>
+        <div class="portfolio-stack-controls">
+          <div class="ml-window" role="tablist" aria-label="Stacked range">
+            <button type="button" class="port-window-btn" data-port-window="14d">14d</button>
+            <button type="button" class="port-window-btn active" data-port-window="30d">30d</button>
+            <button type="button" class="port-window-btn" data-port-window="90d">90d</button>
+            <button type="button" class="port-window-btn" data-port-window="all">All</button>
+          </div>
+          <div class="ml-metric" role="tablist" aria-label="Stacked metric">
+            <button type="button" class="port-metric-btn active" data-port-metric="views">Views</button>
+            <button type="button" class="port-metric-btn" data-port-metric="clones">Clones</button>
+          </div>
+        </div>
+        <div id="portfolio-stack" class="portfolio-stack"><p class="empty">Loading…</p></div>
+        <div id="portfolio-stack-legend" class="multiline-legend"></div>
+      </div>
+    </section>
+  </div><!-- /tab-portfolio -->
+
+  <div class="tab-panel" id="tab-highlights" role="tabpanel" aria-labelledby="highlights" hidden>
+    <section class="highlights-section">
+      <div class="wrap">
+        <h2>Top movers · current period vs prior</h2>
+        <p class="section-sub">
+          Biggest period-over-period swings in views. New repos (no prior-period data) are flagged.
+          Uses the <strong data-window-label>14d</strong> window above; the prior period is the
+          equally-sized window immediately before it.
+        </p>
+        <div class="movers-grid" id="movers-grid">
+          <p class="empty">Loading…</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="records-section">
+      <div class="wrap">
+        <h2>Records · all-time peaks per repo</h2>
+        <p class="section-sub">
+          Single-day high-water marks since 2026-05-08. Use these as targets to beat.
+        </p>
+        <div class="table-wrap">
+          <table class="repo-table" id="records-table">
+            <thead>
+              <tr>
+                <th>Repo</th>
+                <th class="num">Peak views (1 day)</th>
+                <th>Date</th>
+                <th class="num">Peak clones (1 day)</th>
+                <th>Date</th>
+                <th class="num">Days tracked</th>
+              </tr>
+            </thead>
+            <tbody id="records-tbody">
+              <tr><td colspan="6" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="milestones-section">
+      <div class="wrap">
+        <h2>Milestones · first to cross each threshold</h2>
+        <p class="section-sub">Cumulative views since launch. Tick boxes light up as repos cross 100, 250, 500, 1 000, 2 500, 5 000.</p>
+        <div id="milestones-grid" class="milestones-grid">
+          <p class="empty">Loading…</p>
+        </div>
+      </div>
+    </section>
+  </div><!-- /tab-highlights -->
+
+  <div class="tab-panel" id="tab-engagement" role="tabpanel" aria-labelledby="engagement" hidden>
+    <section class="engagement-section">
+      <div class="wrap">
+        <h2>Engagement quality · clone-to-view ratio</h2>
+        <p class="section-sub">
+          High ratios mean curious visitors became actual downloaders. Filtered to repos with at least
+          one view in the <strong data-window-label>14d</strong> window.
+        </p>
+        <div class="table-wrap">
+          <table class="repo-table" id="ratio-table">
+            <thead>
+              <tr>
+                <th>Repo</th>
+                <th class="num">Views</th>
+                <th class="num">Clones</th>
+                <th class="num">Clone : View</th>
+                <th class="num">Unique-view share</th>
+              </tr>
+            </thead>
+            <tbody id="ratio-tbody">
+              <tr><td colspan="5" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="referrers-rollup-section">
+      <div class="wrap">
+        <h2>Top referrers · portfolio-wide</h2>
+        <p class="section-sub">Where visitors come from across <em>every</em> tracked repo. Aggregated from each repo's <code>/popular/referrers</code> snapshot.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="referrers-rollup-table">
+            <thead>
+              <tr>
+                <th>Referrer</th>
+                <th class="num">Views</th>
+                <th class="num">Unique visitors</th>
+                <th class="num">Repos touched</th>
+              </tr>
+            </thead>
+            <tbody id="referrers-rollup-tbody">
+              <tr><td colspan="4" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="paths-rollup-section">
+      <div class="wrap">
+        <h2>Top paths · portfolio-wide</h2>
+        <p class="section-sub">What people actually open. Aggregated across all repos.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="paths-rollup-table">
+            <thead>
+              <tr>
+                <th>Path</th>
+                <th class="num">Views</th>
+                <th class="num">Unique visitors</th>
+                <th class="num">Repos</th>
+              </tr>
+            </thead>
+            <tbody id="paths-rollup-tbody">
+              <tr><td colspan="4" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div><!-- /tab-engagement -->
 
   <div class="tab-panel" id="tab-comparisons" role="tabpanel" aria-labelledby="comparisons" hidden>
 

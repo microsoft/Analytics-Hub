@@ -741,3 +741,222 @@
    nav element. Keep the rule here so a future style sheet edit can't
    accidentally re-expose it. */
 .page-tabs[hidden] { display: none !important; }
+/* ============================================================
+   Portfolio / Highlights / Engagement tabs
+   ============================================================ */
+.portfolio-section, .portfolio-stack-section,
+.highlights-section, .records-section, .milestones-section,
+.engagement-section, .referrers-rollup-section, .paths-rollup-section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.portfolio-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.kpi-mega {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.kpi-mega .kpi-label {
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.kpi-mega .kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.kpi-mega .kpi-foot {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.kpi-mega-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, #4f78ff 100%);
+  border-color: transparent;
+}
+.kpi-mega-accent .kpi-label,
+.kpi-mega-accent .kpi-value,
+.kpi-mega-accent .kpi-foot {
+  color: #fff;
+}
+.kpi-mega-accent .kpi-foot { opacity: .85; }
+
+.growth-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.growth-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--text-muted);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.growth-card.is-up    { border-left-color: #16a34a; }
+.growth-card.is-down  { border-left-color: #dc2626; }
+.growth-card.is-flat  { border-left-color: var(--text-muted); }
+.growth-label {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+}
+.growth-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.growth-card.is-up   .growth-value { color: #16a34a; }
+.growth-card.is-down .growth-value { color: #dc2626; }
+.growth-sub {
+  font-size: .82rem;
+  color: var(--text-soft);
+}
+
+.portfolio-stack-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0 1.25rem;
+}
+.portfolio-stack-controls .ml-window,
+.portfolio-stack-controls .ml-metric {
+  display: inline-flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px;
+}
+.port-window-btn, .port-metric-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: .85rem;
+  padding: .4rem .8rem;
+  border-radius: calc(var(--radius) - 4px);
+  cursor: pointer;
+}
+.port-window-btn.active, .port-metric-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.portfolio-stack {
+  width: 100%;
+  min-height: 320px;
+}
+.portfolio-stack svg { width: 100%; height: auto; display: block; }
+
+.movers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.mover-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.mover-card.is-up   { border-top: 3px solid #16a34a; }
+.mover-card.is-down { border-top: 3px solid #dc2626; }
+.mover-card.is-new  { border-top: 3px solid var(--accent); }
+.mover-repo {
+  font-weight: 600;
+  color: var(--text);
+  font-size: .95rem;
+}
+.mover-delta {
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.mover-card.is-up   .mover-delta { color: #16a34a; }
+.mover-card.is-down .mover-delta { color: #dc2626; }
+.mover-card.is-new  .mover-delta { color: var(--accent); }
+.mover-detail {
+  font-size: .8rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.milestones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.milestone-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.milestone-card h3 {
+  margin: 0 0 .5rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+.milestone-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .85rem;
+  padding: .25rem 0;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+.milestone-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  background: var(--surface-2, #f1f5f9);
+  border: 1px solid var(--border);
+  font-size: .75rem;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+.milestone-row.is-hit .milestone-tick {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+.milestone-row.is-hit { color: var(--text); font-weight: 500; }
+.milestone-threshold {
+  min-width: 4.5rem;
+  font-weight: 600;
+}
+.milestone-leader {
+  flex: 1;
+  color: var(--text-muted);
+  font-size: .8rem;
+}
+.milestone-row.is-hit .milestone-leader { color: var(--text-soft); }
