@@ -65,6 +65,43 @@
   color: #fff;
   box-shadow: var(--shadow-sm);
 }
+.window-custom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin-top: .75rem;
+  font-size: .85rem;
+  color: var(--text-soft);
+}
+.window-custom label {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.win-date-input {
+  font: inherit;
+  padding: .35rem .55rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 4px);
+  background: var(--surface);
+  color: var(--text);
+}
+.win-reset-btn {
+  font: inherit;
+  padding: .35rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 4px);
+  background: var(--surface);
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.win-reset-btn:hover { color: var(--text); border-color: var(--accent); }
+.coverage-note {
+  margin: .75rem 0 0;
+  font-size: .8rem;
+  color: var(--text-muted);
+}
 
 /* ---- Hero KPI strip ---- */
 .hero-strip {

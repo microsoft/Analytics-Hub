@@ -98,18 +98,25 @@ const startOfNDaysAgo = (n) => {
   return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
 };
 
+// Earliest date for which we have any GitHub traffic data. Nightly snapshot job
+// first ran 2026-05-23 and GitHub backfilled the 14-day rolling window to
+// 2026-05-08. Earlier dates are physically impossible to display.
+const ANALYTICS_COVERAGE_START = "2026-05-08";
+
 const WINDOWS = {
-  "14d": { label: "Last 14 days", short: "14d", since: () => startOfNDaysAgo(14) },
-  "30d": { label: "Last 30 days", short: "30d", since: () => startOfNDaysAgo(30) },
-  "ytd": { label: "Year to date", short: "YTD", since: startOfYear },
+  "14d":    { label: "Last 14 days", short: "14d",    since: () => startOfNDaysAgo(14) },
+  "30d":    { label: "Last 30 days", short: "30d",    since: () => startOfNDaysAgo(30) },
+  "ytd":    { label: "Year to date", short: "YTD",    since: startOfYear },
+  "custom": { label: "Custom range", short: "Custom", since: () => windowState.customSince || ANALYTICS_COVERAGE_START },
 };
-const windowState = { key: "14d" };
+const windowState = { key: "14d", customSince: null, customUntil: null };
 const currentSince = () => WINDOWS[windowState.key].since();
+const currentUntil = () => (windowState.key === "custom" ? (windowState.customUntil || null) : null);
 const currentShort = () => WINDOWS[windowState.key].short;
 
-function sumDaily(dailyMap, sinceDate) {
+function sumDaily(dailyMap, sinceDate, untilDate) {
   // dailyMap: { "YYYY-MM-DD": { count, uniques } }
-  // sinceDate: inclusive lower bound (string compare works for ISO dates).
+  // sinceDate / untilDate: inclusive bounds (string compare works for ISO dates).
   if (!dailyMap) return { count: null, uniques: null, days: 0 };
   let count = 0;
   let uniques = 0;
@@ -117,6 +124,7 @@ function sumDaily(dailyMap, sinceDate) {
   let seen = false;
   for (const [day, v] of Object.entries(dailyMap)) {
     if (sinceDate && day < sinceDate) continue;
+    if (untilDate && day > untilDate) continue;
     seen = true;
     days += 1;
     count   += v?.count   || 0;
@@ -125,10 +133,10 @@ function sumDaily(dailyMap, sinceDate) {
   return seen ? { count, uniques, days } : { count: null, uniques: null, days: 0 };
 }
 
-function viewsTrend(dailyMap, sinceDate) {
+function viewsTrend(dailyMap, sinceDate, untilDate) {
   if (!dailyMap) return [];
   return Object.entries(dailyMap)
-    .filter(([day]) => !sinceDate || day >= sinceDate)
+    .filter(([day]) => (!sinceDate || day >= sinceDate) && (!untilDate || day <= untilDate))
     .sort((a, b) => (a[0] < b[0] ? -1 : 1))
     .map(([, v]) => v?.count ?? 0);
 }
@@ -172,6 +180,7 @@ function renderLastUpdated(lastUpdated) {
 
 function renderHero(repos) {
   const since = currentSince();
+  const until = currentUntil();
   const short = currentShort();
   let stars = 0, forks = 0, watchers = 0, views = 0, clones = 0, count = 0;
   for (const repo of Object.values(repos)) {
@@ -180,8 +189,8 @@ function renderHero(repos) {
     stars    += meta.stars    || 0;
     forks    += meta.forks    || 0;
     watchers += meta.watchers || 0;
-    const v = sumDaily(repo.dailyViews,  since).count;
-    const c = sumDaily(repo.dailyClones, since).count;
+    const v = sumDaily(repo.dailyViews,  since, until).count;
+    const c = sumDaily(repo.dailyClones, since, until).count;
     if (v != null) views  += v;
     if (c != null) clones += c;
   }
@@ -196,12 +205,13 @@ function renderHero(repos) {
 
 function rowsFromRepos(repos) {
   const since = currentSince();
+  const until = currentUntil();
   return Object.entries(repos).map(([fullName, repo]) => {
     const [owner, name] = fullName.split("/");
     const meta = repo.meta || {};
-    const v = sumDaily(repo.dailyViews,  since);
-    const c = sumDaily(repo.dailyClones, since);
-    const trend = viewsTrend(repo.dailyViews, since);
+    const v = sumDaily(repo.dailyViews,  since, until);
+    const c = sumDaily(repo.dailyClones, since, until);
+    const trend = viewsTrend(repo.dailyViews, since, until);
     return {
       fullName,
       owner,
@@ -1016,6 +1026,27 @@ async function load() {
   renderSites(history.sites || {});
 
   // Window switcher
+  const customPanel = document.getElementById("window-custom");
+  const fromInput = document.getElementById("win-from");
+  const toInput   = document.getElementById("win-to");
+  const resetBtn  = document.getElementById("win-reset");
+  const latestDataDate = () => findLatestDataDate(reposData) || ANALYTICS_COVERAGE_START;
+  const seedCustomInputs = () => {
+    const hi = latestDataDate();
+    const lo = ANALYTICS_COVERAGE_START;
+    if (fromInput) {
+      fromInput.min = lo;
+      fromInput.max = hi;
+      if (!fromInput.value) fromInput.value = windowState.customSince || lo;
+      windowState.customSince = fromInput.value;
+    }
+    if (toInput) {
+      toInput.min = lo;
+      toInput.max = hi;
+      if (!toInput.value) toInput.value = windowState.customUntil || hi;
+      windowState.customUntil = toInput.value;
+    }
+  };
   document.querySelectorAll("[data-window]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const key = btn.dataset.window;
@@ -1024,9 +1055,35 @@ async function load() {
       document.querySelectorAll("[data-window]").forEach((b) => {
         b.classList.toggle("active", b.dataset.window === key);
       });
+      if (customPanel) {
+        if (key === "custom") { seedCustomInputs(); customPanel.removeAttribute("hidden"); }
+        else                  { customPanel.setAttribute("hidden", ""); }
+      }
       rerenderAll();
     });
   });
+  const onCustomChange = () => {
+    if (windowState.key !== "custom") return;
+    if (fromInput && fromInput.value) windowState.customSince = fromInput.value;
+    if (toInput   && toInput.value)   windowState.customUntil = toInput.value;
+    if (fromInput && toInput && fromInput.value && toInput.value && fromInput.value > toInput.value) {
+      toInput.value = fromInput.value;
+      windowState.customUntil = fromInput.value;
+    }
+    rerenderAll();
+  };
+  if (fromInput) fromInput.addEventListener("change", onCustomChange);
+  if (toInput)   toInput.addEventListener("change", onCustomChange);
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      const hi = latestDataDate();
+      if (fromInput) fromInput.value = ANALYTICS_COVERAGE_START;
+      if (toInput)   toInput.value   = hi;
+      windowState.customSince = ANALYTICS_COVERAGE_START;
+      windowState.customUntil = hi;
+      rerenderAll();
+    });
+  }
 
   // Sort header clicks
   document.querySelectorAll("#repo-table thead th").forEach((th) => {

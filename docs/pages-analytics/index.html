@@ -98,7 +98,17 @@
         <button type="button" class="window-btn active" data-window="14d">Last 14 days</button>
         <button type="button" class="window-btn" data-window="30d">Last 30 days</button>
         <button type="button" class="window-btn" data-window="ytd">Year to date</button>
+        <button type="button" class="window-btn" data-window="custom">Custom…</button>
       </div>
+      <div class="window-custom" id="window-custom" hidden>
+        <label for="win-from">From <input type="date" id="win-from" class="win-date-input" /></label>
+        <label for="win-to">To <input type="date" id="win-to" class="win-date-input" /></label>
+        <button type="button" class="win-reset-btn" id="win-reset">Reset</button>
+      </div>
+      <p class="coverage-note">
+        Analytics collection began <strong><time datetime="2026-05-08">May 8, 2026</time></strong>.
+        Earlier dates are unavailable from the GitHub Traffic API.
+      </p>
     </div>
   </section>
 
