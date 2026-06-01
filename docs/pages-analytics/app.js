@@ -1075,8 +1075,8 @@ async function load() {
       if (k === key) panel.removeAttribute("hidden");
       else panel.setAttribute("hidden", "");
     });
-    // Sync hash so the (un-advertised) Comparisons URL stays shareable, and
-    // strip it again when returning to the default Summary view.
+    // Persist + sync hash so the choice survives a reload and is shareable.
+    try { localStorage.setItem("pages-analytics-tab", key); } catch (_) {}
     if (key !== "summary") {
       history.replaceState(null, "", `#${key}`);
     } else if (location.hash) {
@@ -1090,25 +1090,21 @@ async function load() {
   };
   tabBtns.forEach(b => b.addEventListener("click", () => activateTab(b.dataset.tab)));
 
-  // Back-to-Summary link inside the (otherwise un-advertised) Comparisons panel
-  const backLink = document.getElementById("back-to-summary");
-  if (backLink) {
-    backLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      activateTab("summary");
-    });
-  }
-
   // React to manual hash changes (browser back/forward, or pasting #comparisons)
   window.addEventListener("hashchange", () => {
     const target = location.hash === "#comparisons" ? "comparisons" : "summary";
     activateTab(target);
   });
 
-  // Comparisons is intentionally hidden from the UI; only render it when the
-  // visitor explicitly asks for it via #comparisons. Do NOT restore from
-  // localStorage, since the tab nav is hidden and there's no other way back.
-  const initialTab = location.hash === "#comparisons" ? "comparisons" : "summary";
+  // Restore tab from hash > localStorage > default
+  let initialTab = "summary";
+  if (location.hash === "#comparisons") initialTab = "comparisons";
+  else {
+    try {
+      const saved = localStorage.getItem("pages-analytics-tab");
+      if (saved && tabPanels[saved]) initialTab = saved;
+    } catch (_) {}
+  }
   activateTab(initialTab);
 }
 

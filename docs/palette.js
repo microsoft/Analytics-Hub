@@ -34,7 +34,7 @@
     { kind: "page",   title: "Data Sources",    href: url("data-sources/"),     hint: "Purview, Entra, Viva, GitHub" },
     { kind: "page",   title: "Case Studies",    href: url("case-studies/"),     hint: "Customer stories + measurable wins" },
     { kind: "page",   title: "Team",            href: url("team/"),             hint: "Who builds the Hub" },
-    { kind: "page",   title: "Pages Analytics", href: url("pages-analytics/"),  hint: "GitHub + Clarity traffic for the Hub" },
+    // Pages Analytics intentionally omitted — direct-URL-only.
   ];
 
   const REPORTS = [
