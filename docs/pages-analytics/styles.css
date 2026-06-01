@@ -649,3 +649,20 @@
 .ml-tip-sw { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 .ml-tip-name { color: var(--text-soft); }
 .ml-tip-val  { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+/* ---- Comparisons-only back link ---- */
+.comparisons-intro { padding: 1.25rem 0 0; }
+.hidden-link-back {
+  margin: 0;
+  font-size: .9rem;
+}
+.hidden-link-back a {
+  color: var(--text-soft);
+  text-decoration: none;
+  font-weight: 500;
+}
+.hidden-link-back a:hover { color: var(--accent); text-decoration: underline; }
+
+/* Page-tabs nav is intentionally hidden via the [hidden] attribute on the
+   nav element. Keep the rule here so a future style sheet edit can't
+   accidentally re-expose it. */
+.page-tabs[hidden] { display: none !important; }

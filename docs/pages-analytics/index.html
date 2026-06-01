@@ -115,7 +115,10 @@
     </div>
   </section>
 
-  <nav class="page-tabs" role="tablist" aria-label="Page sections">
+  <!-- Tab nav intentionally hidden: Comparisons view is reachable only via
+       deep link (#comparisons) and is not advertised in any UI. The original
+       Summary view is the default for all visitors. -->
+  <nav class="page-tabs" role="tablist" aria-label="Page sections" hidden>
     <div class="wrap">
       <button type="button" class="page-tab active" role="tab" aria-selected="true" data-tab="summary">Summary</button>
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="comparisons">Comparisons</button>
@@ -171,6 +174,13 @@
 
   <div class="tab-panel" id="tab-comparisons" role="tabpanel" aria-labelledby="comparisons" hidden>
 
+  <section class="comparisons-intro">
+    <div class="wrap">
+      <p class="hidden-link-back">
+        <a href="#summary" id="back-to-summary">← Back to Summary</a>
+      </p>
+    </div>
+  </section>
 
   <section class="wow-section">
     <div class="wrap">
