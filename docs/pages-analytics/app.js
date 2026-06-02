@@ -1561,28 +1561,28 @@ async function load() {
   });
 
   // Custom date-range inputs
-  const fromInput = document.getElementById("ml-from");
-  const toInput = document.getElementById("ml-to");
-  const onCustomChange = () => {
+  const mlFromInput = document.getElementById("ml-from");
+  const mlToInput = document.getElementById("ml-to");
+  const onMlCustomChange = () => {
     if (multilineState.window !== "custom") return;
-    if (fromInput && fromInput.value) multilineState.customFrom = fromInput.value;
-    if (toInput && toInput.value) multilineState.customTo = toInput.value;
+    if (mlFromInput && mlFromInput.value) multilineState.customFrom = mlFromInput.value;
+    if (mlToInput && mlToInput.value) multilineState.customTo = mlToInput.value;
     // Keep the From <= To invariant gently — don't fight the user mid-type.
-    if (fromInput && toInput && fromInput.value && toInput.value && fromInput.value > toInput.value) {
-      toInput.value = fromInput.value;
-      multilineState.customTo = fromInput.value;
+    if (mlFromInput && mlToInput && mlFromInput.value && mlToInput.value && mlFromInput.value > mlToInput.value) {
+      mlToInput.value = mlFromInput.value;
+      multilineState.customTo = mlFromInput.value;
     }
     renderMultiline(reposData);
   };
-  if (fromInput) fromInput.addEventListener("change", onCustomChange);
-  if (toInput) toInput.addEventListener("change", onCustomChange);
-  const resetBtn = document.getElementById("ml-reset");
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
+  if (mlFromInput) mlFromInput.addEventListener("change", onMlCustomChange);
+  if (mlToInput) mlToInput.addEventListener("change", onMlCustomChange);
+  const mlResetBtn = document.getElementById("ml-reset");
+  if (mlResetBtn) {
+    mlResetBtn.addEventListener("click", () => {
       const latest = findLatestDataDate(reposData) || ANALYTICS_COVERAGE_START;
       const def = shiftDay(latest, -29);
-      if (fromInput) fromInput.value = def;
-      if (toInput) toInput.value = latest;
+      if (mlFromInput) mlFromInput.value = def;
+      if (mlToInput) mlToInput.value = latest;
       multilineState.customFrom = def;
       multilineState.customTo = latest;
       renderMultiline(reposData);
