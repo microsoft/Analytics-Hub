@@ -42,9 +42,24 @@ REPOS: list[str] = [
     "microsoft/What-I-Did-Copilot",
     "microsoft/M365UsageAnalytics",
     "microsoft/PAX",
+    "microsoft/PAX-Cookbook",
     "olivierpecheux/copilot-adoption-sentiment-report",
     "jordankingisalive/CopilotROICalculator",
 ]
+
+# Repos where the TRAFFIC_PAT is KNOWN to lack push access. The script will
+# log their 403/404 responses but NOT fail the run. Every other repo in REPOS
+# is treated as a hard dependency: any non-200 response from its traffic
+# endpoints causes the script to exit non-zero so GitHub Actions emails a
+# failure notification. This is what catches silent PAT expiry / revocation.
+EXPECTED_FORBIDDEN: frozenset[str] = frozenset({
+    "olivierpecheux/copilot-adoption-sentiment-report",
+})
+
+# Maximum allowed age (in hours) of any required repo's lastTrafficSync at the
+# end of a successful run. Daily cron + 14-day rolling API window means a fresh
+# sync should land every 24h; we allow a 12h safety buffer.
+MAX_SYNC_AGE_HOURS: int = 36
 
 # Clarity Data Export API tokens are scoped per-project: the token alone
 # determines which project's data the call returns. We keep one entry per
@@ -106,9 +121,16 @@ def fetch_repo_meta(repo: str) -> dict | None:
     }
 
 
-def fetch_traffic(repo: str) -> dict:
-    """Fetch all 4 traffic endpoints. Returns partial dict on permission errors."""
+def fetch_traffic(repo: str) -> tuple[dict, list[tuple[str, int]]]:
+    """Fetch all 4 traffic endpoints.
+
+    Returns (data_dict, failures) where failures is a list of
+    (endpoint_key, http_status) tuples for any non-200 response. The caller
+    decides whether the failures are expected (EXPECTED_FORBIDDEN) or hard
+    errors that must abort the run.
+    """
     out: dict = {}
+    failures: list[tuple[str, int]] = []
     headers = gh_headers()
 
     for key, path in (
@@ -121,11 +143,13 @@ def fetch_traffic(repo: str) -> dict:
         status, data = _get_json(url, headers)
         if status == 200 and data is not None:
             out[key] = data
-        elif status in (403, 404):
-            print(f"  - {repo}/{key}: HTTP {status} (no push access — skipping)", file=sys.stderr)
         else:
-            print(f"  ! {repo}/{key}: HTTP {status}", file=sys.stderr)
-    return out
+            failures.append((key, status))
+            if status in (403, 404):
+                print(f"  - {repo}/{key}: HTTP {status} (no push access — skipping)", file=sys.stderr)
+            else:
+                print(f"  ! {repo}/{key}: HTTP {status}", file=sys.stderr)
+    return out, failures
 
 
 # ---------------------------------------------------------------- clarity
@@ -183,6 +207,9 @@ def main() -> int:
     if not GITHUB_TOKEN:
         print("! GITHUB_TOKEN not set — public meta only, no traffic data", file=sys.stderr)
 
+    # Per-repo health: maps repo -> list[(endpoint, http_status)] of non-200s.
+    repo_failures: dict[str, list[tuple[str, int]]] = {}
+
     # --- GitHub ---
     for repo in REPOS:
         print(f"github: {repo}")
@@ -197,7 +224,9 @@ def main() -> int:
         if meta:
             entry["meta"] = meta
 
-        traffic = fetch_traffic(repo)
+        traffic, failures = fetch_traffic(repo)
+        if failures:
+            repo_failures[repo] = failures
         if traffic:
             for bucket in (traffic.get("views",  {}) or {}).get("views",  []):
                 day = (bucket.get("timestamp") or "")[:10]
@@ -246,6 +275,61 @@ def main() -> int:
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
     print(f"\nwrote {OUTPUT}")
+
+    # ---------------- health gates (fail the workflow on regressions) ----
+    # The script ALWAYS writes the file first so partial progress is
+    # preserved, then exits non-zero if any health gate trips. A non-zero
+    # exit fails the GitHub Actions run, which sends the repo's default
+    # failure notification email.
+    hard_errors: list[str] = []
+
+    # Gate 1: any non-200 from a required repo's traffic endpoints.
+    # Catches PAT expiry/revocation, GitHub outages, repo renames, and
+    # accidental loss of push access. Known-forbidden repos are exempt.
+    for repo, fails in repo_failures.items():
+        if repo in EXPECTED_FORBIDDEN:
+            continue
+        codes = ", ".join(f"{k}={s}" for k, s in fails)
+        hard_errors.append(f"{repo} traffic API failures: {codes}")
+
+    # Gate 2: lastTrafficSync staleness. If a required repo hasn't had a
+    # successful traffic sync within MAX_SYNC_AGE_HOURS, fail — even if
+    # today's call ostensibly returned 200. Defends against partial
+    # silent failures where the API responds 200 with empty payloads.
+    today_date = now.date()
+    for repo in REPOS:
+        if repo in EXPECTED_FORBIDDEN:
+            continue
+        sync_str = (history["repos"].get(repo, {}) or {}).get("lastTrafficSync")
+        if not sync_str:
+            hard_errors.append(f"{repo}: lastTrafficSync missing")
+            continue
+        try:
+            sync_date = datetime.strptime(sync_str, "%Y-%m-%d").date()
+        except ValueError:
+            hard_errors.append(f"{repo}: lastTrafficSync unparseable ({sync_str!r})")
+            continue
+        age_hours = (today_date - sync_date).days * 24
+        if age_hours > MAX_SYNC_AGE_HOURS:
+            hard_errors.append(
+                f"{repo}: lastTrafficSync {sync_str} is {age_hours}h old "
+                f"(> {MAX_SYNC_AGE_HOURS}h threshold)"
+            )
+
+    if hard_errors:
+        print("\n" + "=" * 60, file=sys.stderr)
+        print("SNAPSHOT HEALTH FAILED — stakeholders depend on this data:", file=sys.stderr)
+        for err in hard_errors:
+            print(f"  × {err}", file=sys.stderr)
+        print("=" * 60, file=sys.stderr)
+        print(
+            "Common causes: TRAFFIC_PAT expired or revoked; lost push "
+            "access on a repo; GitHub API outage. Rotate the PAT in "
+            "repo Settings → Secrets → Actions → TRAFFIC_PAT.",
+            file=sys.stderr,
+        )
+        return 1
+
     return 0
 
 
