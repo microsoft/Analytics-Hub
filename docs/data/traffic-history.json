@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-23T04:27:01.573548Z",
+  "lastUpdated": "2026-06-24T04:28:36.003212Z",
   "repos": {
     "microsoft/Analytics-Hub": {
       "meta": {
@@ -7,7 +7,7 @@
         "forks": 3,
         "watchers": 0,
         "openIssues": 1,
-        "pushedAt": "2026-06-22T04:36:55Z",
+        "pushedAt": "2026-06-23T04:27:18Z",
         "defaultBranch": "main"
       },
       "dailyViews": {
@@ -190,6 +190,10 @@
         "2026-06-21": {
           "count": 21,
           "uniques": 5
+        },
+        "2026-06-22": {
+          "count": 22,
+          "uniques": 12
         }
       },
       "dailyClones": {
@@ -372,28 +376,32 @@
         "2026-06-21": {
           "count": 41,
           "uniques": 17
+        },
+        "2026-06-22": {
+          "count": 46,
+          "uniques": 13
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 34,
-          "uniques": 16
+          "count": 39,
+          "uniques": 17
         },
         {
           "referrer": "github.com",
-          "count": 33,
-          "uniques": 20
-        },
-        {
-          "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 13,
-          "uniques": 11
+          "count": 26,
+          "uniques": 16
         },
         {
           "referrer": "Google",
           "count": 13,
           "uniques": 9
+        },
+        {
+          "referrer": "teams.public.onecdn.static.microsoft",
+          "count": 11,
+          "uniques": 10
         },
         {
           "referrer": "statics.teams.cdn.office.net",
@@ -407,13 +415,13 @@
         },
         {
           "referrer": "Bing",
-          "count": 2,
-          "uniques": 2
+          "count": 1,
+          "uniques": 1
         },
         {
           "referrer": "dev.azure.com",
-          "count": 2,
-          "uniques": 2
+          "count": 1,
+          "uniques": 1
         },
         {
           "referrer": "ffc-excel.officeapps.live.com",
@@ -430,14 +438,14 @@
         {
           "path": "/microsoft/Analytics-Hub",
           "title": "Overview",
-          "count": 170,
-          "uniques": 99
+          "count": 163,
+          "uniques": 89
         },
         {
           "path": "/microsoft/Analytics-Hub/pulls",
           "title": "/pulls",
           "count": 23,
-          "uniques": 4
+          "uniques": 3
         },
         {
           "path": "/microsoft/Analytics-Hub/tree/main/docs",
@@ -446,28 +454,22 @@
           "uniques": 5
         },
         {
-          "path": "/microsoft/Analytics-Hub/issues",
-          "title": "/issues",
-          "count": 4,
+          "path": "/microsoft/Analytics-Hub/tree/main",
+          "title": "/tree/main",
+          "count": 5,
           "uniques": 3
         },
         {
           "path": "/microsoft/Analytics-Hub/blob/main/ecosystem.svg",
           "title": "/blob/main/ecosystem.svg",
-          "count": 3,
+          "count": 4,
+          "uniques": 4
+        },
+        {
+          "path": "/microsoft/Analytics-Hub/issues",
+          "title": "/issues",
+          "count": 4,
           "uniques": 3
-        },
-        {
-          "path": "/microsoft/Analytics-Hub/actions",
-          "title": "/actions",
-          "count": 2,
-          "uniques": 2
-        },
-        {
-          "path": "/microsoft/Analytics-Hub/tree/main",
-          "title": "/tree/main",
-          "count": 2,
-          "uniques": 2
         },
         {
           "path": "/microsoft/Analytics-Hub/tree/main/docs/explore-reports",
@@ -486,9 +488,15 @@
           "title": "/commit/39f35f882868a750499ee529655f192e14e8e8c2",
           "count": 2,
           "uniques": 1
+        },
+        {
+          "path": "/microsoft/Analytics-Hub/commit/e77d20c919fb48d14c46b6617e369d45b938a4cb",
+          "title": "/commit/e77d20c919fb48d14c46b6617e369d45b938a4cb",
+          "count": 2,
+          "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/DecodingSuperUsage": {
       "meta": {
@@ -679,6 +687,10 @@
         "2026-06-21": {
           "count": 8,
           "uniques": 6
+        },
+        "2026-06-22": {
+          "count": 33,
+          "uniques": 24
         }
       },
       "dailyClones": {
@@ -861,43 +873,47 @@
         "2026-06-21": {
           "count": 12,
           "uniques": 4
+        },
+        "2026-06-22": {
+          "count": 11,
+          "uniques": 3
         }
       },
       "referrers": [
         {
-          "referrer": "github.com",
-          "count": 56,
-          "uniques": 26
+          "referrer": "teams.public.onecdn.static.microsoft",
+          "count": 45,
+          "uniques": 24
         },
         {
-          "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 47,
-          "uniques": 25
+          "referrer": "github.com",
+          "count": 43,
+          "uniques": 23
         },
         {
           "referrer": "statics.teams.cdn.office.net",
-          "count": 34,
+          "count": 32,
           "uniques": 15
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 22,
-          "uniques": 13
+          "count": 26,
+          "uniques": 16
         },
         {
           "referrer": "Bing",
-          "count": 15,
-          "uniques": 6
-        },
-        {
-          "referrer": "Google",
-          "count": 9,
+          "count": 14,
           "uniques": 5
         },
         {
+          "referrer": "Google",
+          "count": 7,
+          "uniques": 4
+        },
+        {
           "referrer": "jordankingisalive.github.io",
-          "count": 2,
-          "uniques": 2
+          "count": 6,
+          "uniques": 3
         },
         {
           "referrer": "actslife.atlassian.net",
@@ -914,65 +930,65 @@
         {
           "path": "/microsoft/DecodingSuperUsage",
           "title": "Overview",
-          "count": 195,
-          "uniques": 109
+          "count": 196,
+          "uniques": 114
         },
         {
           "path": "/microsoft/decodingsuperusage",
           "title": "Overview",
-          "count": 35,
-          "uniques": 19
+          "count": 28,
+          "uniques": 17
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Template - Super User Adoption Direct Query -v9.pbit",
           "title": "/blob/DecodingSuperUsage/Template - Super User Adoption Direct Query -v9.pbit",
-          "count": 29,
-          "uniques": 19
+          "count": 25,
+          "uniques": 15
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Interpretation Guide Super Usage Adoption.pdf",
           "title": "/blob/DecodingSuperUsage/Interpretation Guide Super Usage Adoption.pdf",
-          "count": 20,
-          "uniques": 14
-        },
-        {
-          "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/README.md",
-          "title": "/blob/DecodingSuperUsage/README.md",
-          "count": 14,
-          "uniques": 12
+          "count": 19,
+          "uniques": 13
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Storyboard PPTX - Super User Adoption.pptx",
           "title": "/blob/DecodingSuperUsage/Storyboard PPTX - Super User Adoption.pptx",
-          "count": 14,
-          "uniques": 10
+          "count": 15,
+          "uniques": 11
+        },
+        {
+          "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/README.md",
+          "title": "/blob/DecodingSuperUsage/README.md",
+          "count": 12,
+          "uniques": 11
         },
         {
           "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage",
           "title": "/tree/DecodingSuperUsage",
-          "count": 12,
-          "uniques": 8
+          "count": 9,
+          "uniques": 6
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/PDF Guides/Copilot Assisted Hours PBI Formulas.pdf",
           "title": "/blob/DecodingSuperUsage/PDF Guides/Copilot Assisted Hours PBI Formulas.pdf",
-          "count": 11,
-          "uniques": 8
+          "count": 8,
+          "uniques": 6
         },
         {
           "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage/PDF Guides",
           "title": "/tree/DecodingSuperUsage/PDF Guides",
-          "count": 9,
-          "uniques": 7
+          "count": 6,
+          "uniques": 5
         },
         {
-          "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage/MSFT Files",
-          "title": "/tree/DecodingSuperUsage/MSFT Files",
-          "count": 6,
+          "path": "/microsoft/DecodingSuperUsage/issues",
+          "title": "/issues",
+          "count": 5,
           "uniques": 5
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/superuserimpact": {
       "meta": {
@@ -1163,6 +1179,10 @@
         "2026-06-21": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-06-22": {
+          "count": 5,
+          "uniques": 5
         }
       },
       "dailyClones": {
@@ -1345,18 +1365,22 @@
         "2026-06-21": {
           "count": 36,
           "uniques": 6
+        },
+        "2026-06-22": {
+          "count": 5,
+          "uniques": 2
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 8,
-          "uniques": 6
+          "count": 9,
+          "uniques": 8
         },
         {
           "referrer": "github.com",
-          "count": 7,
-          "uniques": 4
+          "count": 4,
+          "uniques": 2
         },
         {
           "referrer": "Google",
@@ -1383,8 +1407,8 @@
         {
           "path": "/microsoft/superuserimpact",
           "title": "Overview",
-          "count": 67,
-          "uniques": 53
+          "count": 59,
+          "uniques": 48
         },
         {
           "path": "/microsoft/superuserimpact/blob/main/Superuser Impact - Storyboard v4.pptx",
@@ -1411,12 +1435,6 @@
           "uniques": 1
         },
         {
-          "path": "/microsoft/superuserimpact/blob/main/Template - Super User Impact CSV -v9.pbit",
-          "title": "/blob/main/Template - Super User Impact CSV -v9.pbit",
-          "count": 1,
-          "uniques": 1
-        },
-        {
           "path": "/microsoft/superuserimpact/blob/main/report preview gif.gif",
           "title": "/blob/main/report preview gif.gif",
           "count": 1,
@@ -1439,9 +1457,15 @@
           "title": "/tree/main",
           "count": 1,
           "uniques": 1
+        },
+        {
+          "path": "/microsoft/superuserimpact/tree/main/Archived Templates",
+          "title": "/tree/main/Archived Templates",
+          "count": 1,
+          "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/customizecopilot": {
       "meta": {
@@ -1628,6 +1652,10 @@
         "2026-06-21": {
           "count": 1,
           "uniques": 1
+        },
+        "2026-06-22": {
+          "count": 3,
+          "uniques": 2
         }
       },
       "dailyClones": {
@@ -1806,18 +1834,22 @@
         "2026-06-21": {
           "count": 6,
           "uniques": 3
+        },
+        "2026-06-22": {
+          "count": 3,
+          "uniques": 1
         }
       },
       "referrers": [
         {
           "referrer": "github.com",
           "count": 10,
-          "uniques": 8
+          "uniques": 7
         },
         {
           "referrer": "microsoft.github.io",
           "count": 5,
-          "uniques": 5
+          "uniques": 4
         },
         {
           "referrer": "statics.teams.cdn.office.net",
@@ -1844,20 +1876,20 @@
         {
           "path": "/microsoft/customizecopilot",
           "title": "Overview",
-          "count": 8,
-          "uniques": 7
-        },
-        {
-          "path": "/microsoft/CustomizeCopilot/blob/main/Champion-ID/Merge Champion ID.pbix",
-          "title": "/blob/main/Champion-ID/Merge Champion ID.pbix",
           "count": 7,
-          "uniques": 4
+          "uniques": 6
         },
         {
           "path": "/microsoft/CustomizeCopilot",
           "title": "Overview",
           "count": 6,
           "uniques": 5
+        },
+        {
+          "path": "/microsoft/CustomizeCopilot/blob/main/Champion-ID/Merge Champion ID.pbix",
+          "title": "/blob/main/Champion-ID/Merge Champion ID.pbix",
+          "count": 6,
+          "uniques": 3
         },
         {
           "path": "/microsoft/CustomizeCopilot/tree/main",
@@ -1896,7 +1928,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/AI-in-One-Dashboard": {
       "meta": {
@@ -2083,6 +2115,10 @@
         "2026-06-21": {
           "count": 33,
           "uniques": 22
+        },
+        "2026-06-22": {
+          "count": 289,
+          "uniques": 94
         }
       },
       "dailyClones": {
@@ -2261,52 +2297,56 @@
         "2026-06-21": {
           "count": 58,
           "uniques": 15
+        },
+        "2026-06-22": {
+          "count": 68,
+          "uniques": 19
         }
       },
       "referrers": [
         {
           "referrer": "statics.teams.cdn.office.net",
-          "count": 303,
-          "uniques": 82
+          "count": 287,
+          "uniques": 83
         },
         {
           "referrer": "Bing",
-          "count": 222,
-          "uniques": 155
+          "count": 225,
+          "uniques": 159
+        },
+        {
+          "referrer": "teams.public.onecdn.static.microsoft",
+          "count": 211,
+          "uniques": 53
         },
         {
           "referrer": "github.com",
-          "count": 206,
-          "uniques": 72
+          "count": 210,
+          "uniques": 69
         },
         {
           "referrer": "Google",
           "count": 204,
-          "uniques": 109
-        },
-        {
-          "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 201,
-          "uniques": 61
+          "uniques": 110
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 99,
-          "uniques": 43
+          "count": 118,
+          "uniques": 48
         },
         {
           "referrer": "speedboats-gti.atlassian.net",
-          "count": 13,
-          "uniques": 3
+          "count": 11,
+          "uniques": 1
+        },
+        {
+          "referrer": "euc-onenote.officeapps.live.com",
+          "count": 10,
+          "uniques": 2
         },
         {
           "referrer": "chatgpt.com",
           "count": 6,
-          "uniques": 2
-        },
-        {
-          "referrer": "euc-onenote.officeapps.live.com",
-          "count": 4,
           "uniques": 2
         },
         {
@@ -2319,65 +2359,65 @@
         {
           "path": "/microsoft/AI-in-One-Dashboard",
           "title": "Overview",
-          "count": 1129,
+          "count": 1105,
           "uniques": 776
-        },
-        {
-          "path": "/microsoft/AI-in-One-Dashboard/tree/main/4. Rollup Edition (Manual-SharePoint-Fabric)",
-          "title": "/tree/main/4. Rollup Edition (Manual-SharePoint-Fabric)",
-          "count": 137,
-          "uniques": 77
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/tree/main",
           "title": "/tree/main",
-          "count": 124,
-          "uniques": 90
+          "count": 140,
+          "uniques": 95
+        },
+        {
+          "path": "/microsoft/AI-in-One-Dashboard/tree/main/4. Rollup Edition (Manual-SharePoint-Fabric)",
+          "title": "/tree/main/4. Rollup Edition (Manual-SharePoint-Fabric)",
+          "count": 119,
+          "uniques": 65
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/tree/main/1. Manual",
           "title": "/tree/main/1. Manual",
-          "count": 108,
-          "uniques": 68
+          "count": 104,
+          "uniques": 65
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/tree/main/3. Fabric",
           "title": "/tree/main/3. Fabric",
-          "count": 78,
-          "uniques": 44
-        },
-        {
-          "path": "/microsoft/AI-in-One-Dashboard/tree/main/2. SharePoint",
-          "title": "/tree/main/2. SharePoint",
-          "count": 69,
-          "uniques": 38
+          "count": 76,
+          "uniques": 41
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/blob/main/Images/AIO v10 Gif.gif",
           "title": "/blob/main/Images/AIO v10 Gif.gif",
-          "count": 66,
-          "uniques": 53
+          "count": 58,
+          "uniques": 48
+        },
+        {
+          "path": "/microsoft/AI-in-One-Dashboard/blob/main/AI-in-One - Interpretation Guide.pdf",
+          "title": "/blob/main/AI-in-One - Interpretation Guide.pdf",
+          "count": 58,
+          "uniques": 47
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/blob/main/4. Rollup Edition (Manual-SharePoint-Fabric)/README.md",
           "title": "/blob/main/4. Rollup Edition (Manual-SharePoint-Fabric)/README.md",
-          "count": 61,
+          "count": 58,
           "uniques": 34
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/blob/main/README.md",
           "title": "/blob/main/README.md",
-          "count": 54,
+          "count": 56,
           "uniques": 38
         },
         {
-          "path": "/microsoft/AI-in-One-Dashboard/blob/main/4. Rollup Edition (Manual-SharePoint-Fabric)",
-          "title": "/blob/main/4. Rollup Edition (Manual-SharePoint-Fabric)",
-          "count": 53,
-          "uniques": 41
+          "path": "/microsoft/AI-in-One-Dashboard/tree/main/2. SharePoint",
+          "title": "/tree/main/2. SharePoint",
+          "count": 56,
+          "uniques": 33
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/CopilotChatAnalytics": {
       "meta": {
@@ -2568,6 +2608,10 @@
         "2026-06-21": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-06-22": {
+          "count": 7,
+          "uniques": 4
         }
       },
       "dailyClones": {
@@ -2750,23 +2794,27 @@
         "2026-06-21": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-06-22": {
+          "count": 6,
+          "uniques": 3
         }
       },
       "referrers": [
         {
           "referrer": "github.com",
           "count": 13,
-          "uniques": 9
+          "uniques": 8
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 8,
+          "count": 9,
           "uniques": 7
         },
         {
           "referrer": "Google",
-          "count": 2,
-          "uniques": 2
+          "count": 5,
+          "uniques": 3
         },
         {
           "referrer": "foodstuffs-si.atlassian.net",
@@ -2778,32 +2826,32 @@
         {
           "path": "/microsoft/CopilotChatAnalytics",
           "title": "Overview",
-          "count": 32,
-          "uniques": 27
+          "count": 31,
+          "uniques": 25
         },
         {
           "path": "/microsoft/CopilotChatAnalytics/blob/main/README.md",
           "title": "/blob/main/README.md",
-          "count": 7,
-          "uniques": 2
-        },
-        {
-          "path": "/microsoft/CopilotChatAnalytics/blob/main/Template - Chat Intelligence Report.pbit",
-          "title": "/blob/main/Template - Chat Intelligence Report.pbit",
-          "count": 3,
+          "count": 8,
           "uniques": 3
         },
         {
           "path": "/microsoft/CopilotChatAnalytics/blob/main/AgentIntelligenceGuide.pdf",
           "title": "/blob/main/AgentIntelligenceGuide.pdf",
-          "count": 2,
-          "uniques": 2
+          "count": 4,
+          "uniques": 4
+        },
+        {
+          "path": "/microsoft/CopilotChatAnalytics/blob/main/Template - Chat Intelligence Report.pbit",
+          "title": "/blob/main/Template - Chat Intelligence Report.pbit",
+          "count": 4,
+          "uniques": 3
         },
         {
           "path": "/microsoft/CopilotChatAnalytics/blob/main/Copilot Chat - Interpretation Guide.pdf",
           "title": "/blob/main/Copilot Chat - Interpretation Guide.pdf",
-          "count": 1,
-          "uniques": 1
+          "count": 2,
+          "uniques": 2
         },
         {
           "path": "/microsoft/CopilotChatAnalytics/blob/main/SECURITY.md",
@@ -2812,7 +2860,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/GitHubCopilotImpact": {
       "meta": {
@@ -3003,6 +3051,10 @@
         "2026-06-21": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-06-22": {
+          "count": 11,
+          "uniques": 9
         }
       },
       "dailyClones": {
@@ -3185,9 +3237,18 @@
         "2026-06-21": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-06-22": {
+          "count": 6,
+          "uniques": 3
         }
       },
       "referrers": [
+        {
+          "referrer": "microsoft.github.io",
+          "count": 6,
+          "uniques": 5
+        },
         {
           "referrer": "statics.teams.cdn.office.net",
           "count": 5,
@@ -3207,41 +3268,24 @@
           "referrer": "github.com",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "referrer": "microsoft.github.io",
-          "count": 1,
-          "uniques": 1
         }
       ],
       "paths": [
         {
           "path": "/microsoft/GitHubCopilotImpact",
           "title": "Overview",
-          "count": 67,
-          "uniques": 42
+          "count": 71,
+          "uniques": 43
         },
         {
           "path": "/microsoft/GitHubCopilotImpact/blob/main/Template GitHub Copilot Usage Analytics 2-13f3.pbit",
           "title": "/blob/main/Template GitHub Copilot Usage Analytics 2-13f3.pbit",
-          "count": 4,
-          "uniques": 4
-        },
-        {
-          "path": "/microsoft/GitHubCopilotImpact/issues",
-          "title": "/issues",
           "count": 3,
-          "uniques": 1
+          "uniques": 3
         },
         {
           "path": "/microsoft/GitHubCopilotImpact/blob/main/assets/ghcpgif.gif",
           "title": "/blob/main/assets/ghcpgif.gif",
-          "count": 2,
-          "uniques": 2
-        },
-        {
-          "path": "/microsoft/GitHubCopilotImpact/tree/main",
-          "title": "/tree/main",
           "count": 2,
           "uniques": 2
         },
@@ -3270,17 +3314,23 @@
           "uniques": 1
         },
         {
+          "path": "/microsoft/GitHubCopilotImpact/tree/main",
+          "title": "/tree/main",
+          "count": 1,
+          "uniques": 1
+        },
+        {
           "path": "/microsoft/gitHubCopilotImpact",
           "title": "Overview",
           "count": 1,
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/What-I-Did-Copilot": {
       "meta": {
-        "stars": 35,
+        "stars": 36,
         "forks": 8,
         "watchers": 1,
         "openIssues": 0,
@@ -3467,6 +3517,10 @@
         "2026-06-21": {
           "count": 47,
           "uniques": 7
+        },
+        "2026-06-22": {
+          "count": 45,
+          "uniques": 14
         }
       },
       "dailyClones": {
@@ -3649,18 +3703,22 @@
         "2026-06-21": {
           "count": 57,
           "uniques": 53
+        },
+        "2026-06-22": {
+          "count": 99,
+          "uniques": 79
         }
       },
       "referrers": [
         {
           "referrer": "Google",
-          "count": 83,
-          "uniques": 32
+          "count": 110,
+          "uniques": 35
         },
         {
           "referrer": "github.com",
           "count": 51,
-          "uniques": 24
+          "uniques": 25
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
@@ -3669,13 +3727,8 @@
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 10,
-          "uniques": 6
-        },
-        {
-          "referrer": "teamblind.com",
-          "count": 4,
-          "uniques": 1
+          "count": 5,
+          "uniques": 5
         },
         {
           "referrer": "Bing",
@@ -3688,6 +3741,11 @@
           "uniques": 3
         },
         {
+          "referrer": "teamblind.com",
+          "count": 3,
+          "uniques": 1
+        },
+        {
           "referrer": "l.instagram.com",
           "count": 1,
           "uniques": 1
@@ -3697,30 +3755,30 @@
         {
           "path": "/microsoft/What-I-Did-Copilot",
           "title": "Overview",
-          "count": 240,
+          "count": 235,
           "uniques": 111
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/docs/effort-estimation-methodology.md",
           "title": "/blob/main/docs/effort-estimation-methodology.md",
-          "count": 31,
-          "uniques": 22
+          "count": 32,
+          "uniques": 23
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/tree/main/docs",
           "title": "/tree/main/docs",
-          "count": 10,
-          "uniques": 9
-        },
-        {
-          "path": "/microsoft/What-I-Did-Copilot/tree/main",
-          "title": "/tree/main",
-          "count": 9,
-          "uniques": 7
+          "count": 13,
+          "uniques": 11
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/SKILL.md",
           "title": "/blob/main/SKILL.md",
+          "count": 9,
+          "uniques": 7
+        },
+        {
+          "path": "/microsoft/What-I-Did-Copilot/tree/main",
+          "title": "/tree/main",
           "count": 8,
           "uniques": 6
         },
@@ -3737,12 +3795,6 @@
           "uniques": 1
         },
         {
-          "path": "/microsoft/What-I-Did-Copilot/issues",
-          "title": "/issues",
-          "count": 6,
-          "uniques": 3
-        },
-        {
           "path": "/microsoft/What-I-Did-Copilot/pull/44",
           "title": "/pull/44",
           "count": 6,
@@ -3753,9 +3805,15 @@
           "title": "/tree/main/skills/whatidid",
           "count": 5,
           "uniques": 5
+        },
+        {
+          "path": "/microsoft/What-I-Did-Copilot/tree/main/vscode-extension",
+          "title": "/tree/main/vscode-extension",
+          "count": 5,
+          "uniques": 5
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/M365UsageAnalytics": {
       "meta": {
@@ -3946,6 +4004,10 @@
         "2026-06-21": {
           "count": 7,
           "uniques": 6
+        },
+        "2026-06-22": {
+          "count": 20,
+          "uniques": 16
         }
       },
       "dailyClones": {
@@ -4128,28 +4190,32 @@
         "2026-06-21": {
           "count": 4,
           "uniques": 2
+        },
+        "2026-06-22": {
+          "count": 16,
+          "uniques": 5
         }
       },
       "referrers": [
         {
           "referrer": "Google",
-          "count": 93,
-          "uniques": 32
+          "count": 96,
+          "uniques": 36
         },
         {
           "referrer": "Bing",
-          "count": 49,
-          "uniques": 25
+          "count": 51,
+          "uniques": 26
+        },
+        {
+          "referrer": "microsoft.github.io",
+          "count": 15,
+          "uniques": 9
         },
         {
           "referrer": "github.com",
           "count": 14,
-          "uniques": 11
-        },
-        {
-          "referrer": "microsoft.github.io",
-          "count": 14,
-          "uniques": 8
+          "uniques": 10
         },
         {
           "referrer": "claude.ai",
@@ -4157,14 +4223,14 @@
           "uniques": 1
         },
         {
-          "referrer": "statics.teams.cdn.office.net",
+          "referrer": "teams.public.onecdn.static.microsoft",
           "count": 7,
-          "uniques": 6
+          "uniques": 4
         },
         {
-          "referrer": "teams.public.onecdn.static.microsoft",
+          "referrer": "statics.teams.cdn.office.net",
           "count": 6,
-          "uniques": 3
+          "uniques": 5
         },
         {
           "referrer": "teams.df.onecdn.static.microsoft",
@@ -4186,20 +4252,20 @@
         {
           "path": "/microsoft/M365UsageAnalytics",
           "title": "Overview",
-          "count": 162,
-          "uniques": 112
+          "count": 164,
+          "uniques": 115
         },
         {
           "path": "/microsoft/M365UsageAnalytics/blob/main/M365 Usage Dashboard - June 2 2026.pbit",
           "title": "/blob/main/M365 Usage Dashboard - June 2 2026.pbit",
-          "count": 28,
+          "count": 29,
           "uniques": 18
         },
         {
           "path": "/microsoft/M365UsageAnalytics/blob/main/M365 Usage Dashboard - Interpretation Guide.pdf",
           "title": "/blob/main/M365 Usage Dashboard - Interpretation Guide.pdf",
-          "count": 17,
-          "uniques": 15
+          "count": 16,
+          "uniques": 14
         },
         {
           "path": "/microsoft/M365UsageAnalytics/blob/main/README.md",
@@ -4244,11 +4310,11 @@
           "uniques": 6
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/PAX": {
       "meta": {
-        "stars": 12,
+        "stars": 13,
         "forks": 1,
         "watchers": 4,
         "openIssues": 2,
@@ -4435,6 +4501,10 @@
         "2026-06-21": {
           "count": 12,
           "uniques": 8
+        },
+        "2026-06-22": {
+          "count": 44,
+          "uniques": 25
         }
       },
       "dailyClones": {
@@ -4617,13 +4687,17 @@
         "2026-06-21": {
           "count": 8,
           "uniques": 3
+        },
+        "2026-06-22": {
+          "count": 7,
+          "uniques": 2
         }
       },
       "referrers": [
         {
           "referrer": "github.com",
-          "count": 176,
-          "uniques": 68
+          "count": 155,
+          "uniques": 69
         },
         {
           "referrer": "Google",
@@ -4633,21 +4707,21 @@
         {
           "referrer": "statics.teams.cdn.office.net",
           "count": 30,
-          "uniques": 11
+          "uniques": 10
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 20,
-          "uniques": 13
+          "count": 19,
+          "uniques": 12
         },
         {
           "referrer": "Bing",
-          "count": 10,
-          "uniques": 6
+          "count": 15,
+          "uniques": 7
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 5,
+          "count": 4,
           "uniques": 3
         }
       ],
@@ -4655,26 +4729,26 @@
         {
           "path": "/microsoft/PAX",
           "title": "Overview",
-          "count": 179,
-          "uniques": 102
+          "count": 182,
+          "uniques": 107
         },
         {
           "path": "/microsoft/PAX/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.11.x.md",
           "title": "/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.11.x.md",
-          "count": 50,
-          "uniques": 29
+          "count": 51,
+          "uniques": 28
         },
         {
           "path": "/microsoft/pax",
           "title": "Overview",
-          "count": 25,
+          "count": 26,
           "uniques": 14
         },
         {
           "path": "/microsoft/PAX/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.9.0.md",
           "title": "/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.9.0.md",
-          "count": 21,
-          "uniques": 10
+          "count": 20,
+          "uniques": 9
         },
         {
           "path": "/microsoft/PAX/blob/release/release_documentation/Graph_Audit_Log_Processor/PAX_Graph_Audit_Log_Processor_Documentation_v0.1.2.md",
@@ -4683,16 +4757,16 @@
           "uniques": 5
         },
         {
+          "path": "/microsoft/PAX/blob/release/README.md",
+          "title": "/blob/release/README.md",
+          "count": 12,
+          "uniques": 8
+        },
+        {
           "path": "/microsoft/PAX/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.5.ps1",
           "title": "/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.5.ps1",
           "count": 11,
           "uniques": 6
-        },
-        {
-          "path": "/microsoft/PAX/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.4.ps1",
-          "title": "/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.4.ps1",
-          "count": 10,
-          "uniques": 3
         },
         {
           "path": "/microsoft/PAX/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.10.0.md",
@@ -4707,13 +4781,13 @@
           "uniques": 6
         },
         {
-          "path": "/microsoft/PAX/tree/release/script_archive/Purview_Audit_Log_Processor",
-          "title": "/tree/release/script_archive/Purview_Audit_Log_Processor",
-          "count": 8,
-          "uniques": 3
+          "path": "/microsoft/PAX/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.4.ps1",
+          "title": "/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.4.ps1",
+          "count": 7,
+          "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "olivierpecheux/copilot-adoption-sentiment-report": {
       "meta": {
@@ -4916,6 +4990,10 @@
         "2026-06-21": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-06-22": {
+          "count": 0,
+          "uniques": 0
         }
       },
       "dailyClones": {
@@ -5098,6 +5176,10 @@
         "2026-06-21": {
           "count": 36,
           "uniques": 9
+        },
+        "2026-06-22": {
+          "count": 114,
+          "uniques": 30
         }
       },
       "referrers": [],
@@ -5105,7 +5187,7 @@
         {
           "path": "/jordankingisalive/CopilotROICalculator",
           "title": "Overview",
-          "count": 3,
+          "count": 2,
           "uniques": 2
         },
         {
@@ -5115,7 +5197,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     },
     "microsoft/PAX-Cookbook": {
       "dailyViews": {
@@ -5186,6 +5268,10 @@
         "2026-06-21": {
           "count": 7,
           "uniques": 4
+        },
+        "2026-06-22": {
+          "count": 12,
+          "uniques": 8
         }
       },
       "dailyClones": {
@@ -5256,36 +5342,40 @@
         "2026-06-21": {
           "count": 8,
           "uniques": 6
+        },
+        "2026-06-22": {
+          "count": 5,
+          "uniques": 2
         }
       },
       "meta": {
-        "stars": 2,
+        "stars": 3,
         "forks": 1,
         "watchers": 1,
         "openIssues": 0,
-        "pushedAt": "2026-06-20T06:39:32Z",
+        "pushedAt": "2026-06-23T21:59:34Z",
         "defaultBranch": "main"
       },
       "referrers": [
         {
           "referrer": "github.com",
-          "count": 49,
-          "uniques": 14
+          "count": 53,
+          "uniques": 16
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 8,
-          "uniques": 4
+          "count": 11,
+          "uniques": 6
         },
         {
           "referrer": "Google",
-          "count": 5,
-          "uniques": 3
+          "count": 7,
+          "uniques": 4
         },
         {
           "referrer": "statics.teams.cdn.office.net",
-          "count": 3,
-          "uniques": 1
+          "count": 4,
+          "uniques": 2
         },
         {
           "referrer": "Bing",
@@ -5297,14 +5387,14 @@
         {
           "path": "/microsoft/PAX-Cookbook/releases/tag/v1.0.0",
           "title": "/releases/tag/v1.0.0",
-          "count": 89,
-          "uniques": 8
+          "count": 92,
+          "uniques": 10
         },
         {
           "path": "/microsoft/PAX-Cookbook",
           "title": "Overview",
-          "count": 41,
-          "uniques": 21
+          "count": 48,
+          "uniques": 26
         },
         {
           "path": "/microsoft/PAX-Cookbook/deployments",
@@ -5355,7 +5445,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-06-23"
+      "lastTrafficSync": "2026-06-24"
     }
   },
   "sites": {
@@ -15558,6 +15648,351 @@
               }
             ]
           }
+        ],
+        "2026-06-24": [
+          {
+            "metricName": "DeadClickCount",
+            "information": [
+              {
+                "sessionsCount": "202",
+                "sessionsWithMetricPercentage": 6.44,
+                "sessionsWithoutMetricPercentage": 93.56,
+                "pagesViews": "15",
+                "subTotal": "16"
+              }
+            ]
+          },
+          {
+            "metricName": "ExcessiveScroll",
+            "information": [
+              {
+                "sessionsCount": "202",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "RageClickCount",
+            "information": [
+              {
+                "sessionsCount": "202",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "QuickbackClick",
+            "information": [
+              {
+                "sessionsCount": "202",
+                "sessionsWithMetricPercentage": 2.97,
+                "sessionsWithoutMetricPercentage": 97.03,
+                "pagesViews": "10",
+                "subTotal": "10"
+              }
+            ]
+          },
+          {
+            "metricName": "ScriptErrorCount",
+            "information": [
+              {
+                "sessionsCount": "202",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "ErrorClickCount",
+            "information": [
+              {
+                "sessionsCount": "202",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "ScrollDepth",
+            "information": [
+              {
+                "averageScrollDepth": 63.73
+              }
+            ]
+          },
+          {
+            "metricName": "Traffic",
+            "information": [
+              {
+                "totalSessionCount": "202",
+                "totalBotSessionCount": "7",
+                "distinctUserCount": "176",
+                "pagesPerSessionPercentage": 1.6803652968036529
+              }
+            ]
+          },
+          {
+            "metricName": "EngagementTime",
+            "information": [
+              {
+                "totalTime": "366",
+                "activeTime": "121"
+              }
+            ]
+          },
+          {
+            "metricName": "Browser",
+            "information": [
+              {
+                "name": "Edge",
+                "sessionsCount": "161"
+              },
+              {
+                "name": "Chrome",
+                "sessionsCount": "25"
+              },
+              {
+                "name": "EdgeMobile",
+                "sessionsCount": "12"
+              },
+              {
+                "name": "Firefox",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "Other",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "MobileSafari",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "Device",
+            "information": [
+              {
+                "name": "PC",
+                "sessionsCount": "189"
+              },
+              {
+                "name": "Mobile",
+                "sessionsCount": "13"
+              }
+            ]
+          },
+          {
+            "metricName": "OS",
+            "information": [
+              {
+                "name": "Windows",
+                "sessionsCount": "172"
+              },
+              {
+                "name": "MacOSX",
+                "sessionsCount": "16"
+              },
+              {
+                "name": "IOS",
+                "sessionsCount": "13"
+              },
+              {
+                "name": "Linux",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "Country",
+            "information": [
+              {
+                "name": "United States",
+                "sessionsCount": "84"
+              },
+              {
+                "name": "United Kingdom",
+                "sessionsCount": "27"
+              },
+              {
+                "name": "Germany",
+                "sessionsCount": "13"
+              },
+              {
+                "name": "France",
+                "sessionsCount": "10"
+              },
+              {
+                "name": "Spain",
+                "sessionsCount": "8"
+              },
+              {
+                "name": "United Arab Emirates",
+                "sessionsCount": "6"
+              },
+              {
+                "name": "Australia",
+                "sessionsCount": "5"
+              },
+              {
+                "name": "Japan",
+                "sessionsCount": "5"
+              },
+              {
+                "name": "Portugal",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "Romania",
+                "sessionsCount": "4"
+              }
+            ]
+          },
+          {
+            "metricName": "PageTitle",
+            "information": [
+              {
+                "name": "Microsoft Copilot Adoption Dashboards | Analytics Hub by Microsoft",
+                "sessionsCount": "82"
+              },
+              {
+                "name": "Find a Microsoft Copilot Report \u2014 Power BI Templates for Adoption, ROI & Agent Telemetry \u00b7 Analytics Hub",
+                "sessionsCount": "60"
+              },
+              {
+                "name": "Microsoft Copilot Customer Case Studies \u2014 Real ROI & Adoption Outcomes \u00b7 Analytics Hub",
+                "sessionsCount": "34"
+              },
+              {
+                "name": "Internal Demos \u2014 Live Report Walkthroughs \u00b7 Analytics Hub",
+                "sessionsCount": "16"
+              },
+              {
+                "name": "Microsoft Copilot Reporting Data Sources \u2014 Viva, Purview, M365 Admin, PAX \u00b7 Analytics Hub",
+                "sessionsCount": "9"
+              },
+              {
+                "name": "Microsoft Copilot ROI Advisory Team \u2014 People Scientists, BVAs & Solutions Architects \u00b7 Analytics Hub",
+                "sessionsCount": "9"
+              },
+              {
+                "name": "Pages Analytics \u00b7 Analytics Hub",
+                "sessionsCount": "9"
+              },
+              {
+                "name": "Native Microsoft Copilot Reports \u2014 M365 Admin, Viva Insights, Purview \u00b7 Analytics Hub",
+                "sessionsCount": "8"
+              },
+              {
+                "name": "Copilot Reporting FAQ \u2014 How to Measure Microsoft 365 Copilot Adoption \u00b7 Analytics Hub",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "Microsoft Copilot\u9867\u5ba2\u30b1\u30fc\u30b9\u30b9\u30bf\u30c7\u30a3 \u2014 \u5b9f\u969b\u306eROI\u3068\u5c0e\u5165\u6210\u679c \u00b7\u30a2\u30ca\u30ea\u30c6\u30a3\u30af\u30b9\u30cf\u30d6",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "ReferrerUrl",
+            "information": [
+              {
+                "name": null,
+                "sessionsCount": "85"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/",
+                "sessionsCount": "47"
+              },
+              {
+                "name": "https://github.com/microsoft/AI-in-One-Dashboard",
+                "sessionsCount": "15"
+              },
+              {
+                "name": "https://teams.public.onecdn.static.microsoft/",
+                "sessionsCount": "13"
+              },
+              {
+                "name": "https://statics.teams.cdn.office.net/",
+                "sessionsCount": "11"
+              },
+              {
+                "name": "https://www.bing.com/",
+                "sessionsCount": "9"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/",
+                "sessionsCount": "6"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/explore-reports/",
+                "sessionsCount": "6"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/data-sources/",
+                "sessionsCount": "5"
+              },
+              {
+                "name": "https://github.com/microsoft/GitHubCopilotImpact",
+                "sessionsCount": "4"
+              }
+            ]
+          },
+          {
+            "metricName": "PopularPages",
+            "information": [
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/",
+                "visitsCount": "85"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/explore-reports/",
+                "visitsCount": "61"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/case-studies/",
+                "visitsCount": "40"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/demos/",
+                "visitsCount": "17"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/team/",
+                "visitsCount": "11"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/data-sources/",
+                "visitsCount": "9"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/",
+                "visitsCount": "9"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/",
+                "visitsCount": "8"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/faq/",
+                "visitsCount": "2"
+              },
+              {
+                "url": "https://Electron",
+                "visitsCount": "1"
+              }
+            ]
+          }
         ]
       }
     },
@@ -23424,6 +23859,263 @@
               {
                 "url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html",
                 "visitsCount": "1"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html",
+                "visitsCount": "1"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html",
+                "visitsCount": "1"
+              }
+            ]
+          }
+        ],
+        "2026-06-24": [
+          {
+            "metricName": "DeadClickCount",
+            "information": [
+              {
+                "sessionsCount": "18",
+                "sessionsWithMetricPercentage": 5.56,
+                "sessionsWithoutMetricPercentage": 94.44,
+                "pagesViews": "1",
+                "subTotal": "3"
+              }
+            ]
+          },
+          {
+            "metricName": "ExcessiveScroll",
+            "information": [
+              {
+                "sessionsCount": "18",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "RageClickCount",
+            "information": [
+              {
+                "sessionsCount": "18",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "QuickbackClick",
+            "information": [
+              {
+                "sessionsCount": "18",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "ScriptErrorCount",
+            "information": [
+              {
+                "sessionsCount": "18",
+                "sessionsWithMetricPercentage": 44.44,
+                "sessionsWithoutMetricPercentage": 55.56,
+                "pagesViews": "8",
+                "subTotal": "21"
+              }
+            ]
+          },
+          {
+            "metricName": "ErrorClickCount",
+            "information": [
+              {
+                "sessionsCount": "18",
+                "sessionsWithMetricPercentage": 5.56,
+                "sessionsWithoutMetricPercentage": 94.44,
+                "pagesViews": "1",
+                "subTotal": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "ScrollDepth",
+            "information": [
+              {
+                "averageScrollDepth": 62.44
+              }
+            ]
+          },
+          {
+            "metricName": "Traffic",
+            "information": [
+              {
+                "totalSessionCount": "18",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "18",
+                "pagesPerSessionPercentage": 1
+              }
+            ]
+          },
+          {
+            "metricName": "EngagementTime",
+            "information": [
+              {
+                "totalTime": "36",
+                "activeTime": "11"
+              }
+            ]
+          },
+          {
+            "metricName": "Browser",
+            "information": [
+              {
+                "name": "Edge",
+                "sessionsCount": "17"
+              },
+              {
+                "name": "Chrome",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "Device",
+            "information": [
+              {
+                "name": "PC",
+                "sessionsCount": "18"
+              }
+            ]
+          },
+          {
+            "metricName": "OS",
+            "information": [
+              {
+                "name": "Windows",
+                "sessionsCount": "18"
+              }
+            ]
+          },
+          {
+            "metricName": "Country",
+            "information": [
+              {
+                "name": "France",
+                "sessionsCount": "6"
+              },
+              {
+                "name": "United Kingdom",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "United States",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "Australia",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "Japan",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "Netherlands",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "Spain",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "PageTitle",
+            "information": [
+              {
+                "name": "M365 Copilot Productivity ROI Calculator",
+                "sessionsCount": "10"
+              },
+              {
+                "name": "M365 Copilot ROI - Live Demo Report",
+                "sessionsCount": "3"
+              },
+              {
+                "name": "M365 Copilot Productivity ROI Projections",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "Copilot Adoption Journey - Productivity ROI Over Time",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "Changelog - M365 Copilot ROI Calculator",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "ReferrerUrl",
+            "information": [
+              {
+                "name": "https://microsoft.github.io/",
+                "sessionsCount": "9"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/",
+                "sessionsCount": "3"
+              },
+              {
+                "name": null,
+                "sessionsCount": "1"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/demos/",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "https://teams.public.onecdn.static.microsoft/",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "PopularPages",
+            "information": [
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/",
+                "visitsCount": "9"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html",
+                "visitsCount": "3"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html",
+                "visitsCount": "2"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html",
+                "visitsCount": "2"
               },
               {
                 "url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html",
