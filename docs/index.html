@@ -73,6 +73,7 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
         <div class="nav-dropdown-menu" role="menu">
+          <a href="cowork-billing/" role="menuitem" class="menu-new"><span class="menu-icon" aria-hidden="true">🧾</span><span class="menu-text">Cowork Billing<span class="menu-sub">Methodology deck + customer guide</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
           <a href="faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
           <a href="glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
           <a href="compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
@@ -86,6 +87,34 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
   </div>
 </header>
+
+<!-- =========================================================== NEW BANNER -->
+<aside class="ah-new-banner" id="ah-new-banner" role="region" aria-label="What's new in Analytics Hub" hidden>
+  <div class="wrap ah-new-banner-inner">
+    <span class="ah-new-banner-pill" aria-hidden="true">NEW</span>
+    <a class="ah-new-banner-link" href="cowork-billing/">
+      Cowork Billing Page and Resources
+      <span class="ah-new-banner-arrow" aria-hidden="true">→</span>
+    </a>
+    <button type="button" class="ah-new-banner-dismiss" id="ah-new-banner-dismiss" aria-label="Dismiss this announcement">×</button>
+  </div>
+</aside>
+<script>
+  (function () {
+    var KEY = 'ah_new_cowork_dismissed_v1';
+    var el  = document.getElementById('ah-new-banner');
+    var btn = document.getElementById('ah-new-banner-dismiss');
+    if (!el || !btn) return;
+    try {
+      if (localStorage.getItem(KEY) === '1') return; // stay hidden
+    } catch (e) { /* private mode: still show */ }
+    el.hidden = false;
+    btn.addEventListener('click', function () {
+      el.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* ignore */ }
+    });
+  })();
+</script>
 
 <!-- =========================================================== HERO -->
 <section class="hero" id="top">
