@@ -950,7 +950,7 @@ a:hover { text-decoration: underline; }
 .ah-new-banner {
   background: linear-gradient(90deg, rgba(0,120,212,0.10) 0%, rgba(134,97,197,0.12) 55%, rgba(227,0,140,0.10) 100%);
   border-bottom: 1px solid rgba(0,120,212,0.28);
-  font-size: 14px;
+  font-size: 21px;
   line-height: 1.4;
 }
 [data-theme="dark"] .ah-new-banner {
@@ -961,8 +961,10 @@ a:hover { text-decoration: underline; }
 .ah-new-banner-inner {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  padding: 10px 0;
+  padding: 10px 40px;
+  position: relative;
 }
 .ah-new-banner-pill {
   display: inline-block;
@@ -971,7 +973,7 @@ a:hover { text-decoration: underline; }
   background: #8661c5;
   color: #fff;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 16.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   flex-shrink: 0;
@@ -983,7 +985,7 @@ a:hover { text-decoration: underline; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-width: 0;
 }
 .ah-new-banner-link:hover,
@@ -1009,6 +1011,10 @@ a:hover { text-decoration: underline; }
   padding: 2px 8px;
   border-radius: 6px;
   flex-shrink: 0;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .ah-new-banner-dismiss:hover,
 .ah-new-banner-dismiss:focus-visible {
