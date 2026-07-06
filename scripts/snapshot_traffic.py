@@ -43,6 +43,7 @@ REPOS: list[str] = [
     "microsoft/M365UsageAnalytics",
     "microsoft/PAX",
     "microsoft/PAX-Cookbook",
+    "microsoft/CreditUsage",
     "olivierpecheux/copilot-adoption-sentiment-report",
     "jordankingisalive/CopilotROICalculator",
 ]
@@ -73,7 +74,24 @@ CLARITY_SITES: dict[str, tuple[str, str]] = {
 
 OUTPUT = Path(__file__).resolve().parents[1] / "docs" / "data" / "traffic-history.json"
 
+# Default token — the microsoft-org-scoped fine-grained PAT. Rotates weekly
+# because Microsoft's SAML SSO policy caps PAT lifetime at 8 days.
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "").strip()
+
+# Personal token — scoped to jordankingisalive/* repos. Not subject to the
+# microsoft-org 8-day cap, so it can be a long-lived PAT.
+GITHUB_TOKEN_PERSONAL = os.environ.get("GITHUB_TOKEN_PERSONAL", "").strip()
+
+# Owners routed to the personal token. Anything else uses GITHUB_TOKEN.
+_PERSONAL_TOKEN_OWNERS: frozenset[str] = frozenset({"jordankingisalive"})
+
+
+def _token_for_repo(repo: str) -> str:
+    """Return the appropriate PAT for a given owner/repo."""
+    owner = repo.split("/", 1)[0]
+    if owner in _PERSONAL_TOKEN_OWNERS and GITHUB_TOKEN_PERSONAL:
+        return GITHUB_TOKEN_PERSONAL
+    return GITHUB_TOKEN
 
 # ---------------------------------------------------------------- helpers
 
@@ -95,19 +113,20 @@ def _get_json(url: str, headers: dict[str, str]) -> tuple[int, dict | list | Non
 # ---------------------------------------------------------------- github
 
 
-def gh_headers() -> dict[str, str]:
+def gh_headers(repo: str) -> dict[str, str]:
     h = {
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
         "User-Agent": "analytics-hub-snapshot",
     }
-    if GITHUB_TOKEN:
-        h["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+    token = _token_for_repo(repo)
+    if token:
+        h["Authorization"] = f"Bearer {token}"
     return h
 
 
 def fetch_repo_meta(repo: str) -> dict | None:
-    status, data = _get_json(f"https://api.github.com/repos/{repo}", gh_headers())
+    status, data = _get_json(f"https://api.github.com/repos/{repo}", gh_headers(repo))
     if status != 200 or not isinstance(data, dict):
         print(f"  ! meta {repo}: HTTP {status}", file=sys.stderr)
         return None
@@ -131,7 +150,7 @@ def fetch_traffic(repo: str) -> tuple[dict, list[tuple[str, int]]]:
     """
     out: dict = {}
     failures: list[tuple[str, int]] = []
-    headers = gh_headers()
+    headers = gh_headers(repo)
 
     for key, path in (
         ("views", "traffic/views"),
@@ -206,6 +225,12 @@ def main() -> int:
 
     if not GITHUB_TOKEN:
         print("! GITHUB_TOKEN not set — public meta only, no traffic data", file=sys.stderr)
+    if not GITHUB_TOKEN_PERSONAL:
+        print(
+            "! GITHUB_TOKEN_PERSONAL not set — jordankingisalive/* repos "
+            "will fall back to GITHUB_TOKEN (likely 403 without it)",
+            file=sys.stderr,
+        )
 
     # Per-repo health: maps repo -> list[(endpoint, http_status)] of non-200s.
     repo_failures: dict[str, list[tuple[str, int]]] = {}

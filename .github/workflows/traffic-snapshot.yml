@@ -22,6 +22,7 @@ jobs:
       - name: Run snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.TRAFFIC_PAT }}
+          GITHUB_TOKEN_PERSONAL: ${{ secrets.TRAFFIC_PAT_PERSONAL }}
           CLARITY_TOKEN_HUB: ${{ secrets.CLARITY_TOKEN_HUB }}
           CLARITY_TOKEN_PERSONAL: ${{ secrets.CLARITY_TOKEN_PERSONAL }}
         run: python scripts/snapshot_traffic.py
