@@ -258,6 +258,33 @@
         { "label": "Open ROI Calculator in new tab", "url": "https://jordankingisalive.github.io/CopilotROICalculator/", "kind": "doc" },
         { "label": "Decoding Super Usage repo", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" }
       ]
+    },
+    {
+      "id": "cowork-billing",
+      "name": "Cowork Billing",
+      "blurb": "Turn Entra + Copilot Cowork credit exports into a departmental chargeback report \u2014 per-user overage, cost-center rollups, and RLS-ready views. Dummy tenant data.",
+      "repo": "https://github.com/microsoft/CreditUsage",
+      "sourceKey": "Entra + Copilot Credits",
+      "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=488aaa13-87d1-4032-83c5-c740c641945b&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
+      "height": 720,
+      "requirements": {
+        "roles": [
+          { "label": "Microsoft Entra Reports Reader", "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
+          { "label": "Microsoft 365 Copilot Admin (Reports Reader)", "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft365-apps-usage-ww" },
+          { "label": "Power BI workspace Member or Viewer" }
+        ],
+        "software": [
+          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
+          { "label": "Modern browser (Edge / Chrome)" }
+        ]
+      },
+      "resources": [
+        { "label": "README & setup guide", "url": "https://github.com/microsoft/CreditUsage#readme", "kind": "doc" },
+        { "label": "Live web app (client-side)", "url": "https://microsoft.github.io/CreditUsage/CoworkBilling/", "kind": "doc" },
+        { "label": "Methodology deck + customer guide", "url": "../cowork-billing/", "kind": "doc" },
+        { "label": "Download .pbit template", "url": "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Credits.pbit", "kind": "download" },
+        { "label": "Interpretation Guide (.pptx)", "url": "https://github.com/microsoft/CreditUsage/raw/main/Chargebacks%20Interpretation%20Guide.pptx", "kind": "download" }
+      ]
     }
   ]
 }
