@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinOps Cowork &mdash; Copilot Cowork Credit FinOps Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* FinOps-only presentation bits, built on the shared theme variables. */
+        .back-link { display: inline-block; margin-bottom: 1rem; font-weight: 600; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+
+        .finops-hero h1 {
+            font-size: 2.3rem;
+            background: linear-gradient(135deg, var(--copilot-blue) 0%, var(--copilot-purple) 50%, var(--copilot-cyan) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 0.4rem; font-weight: 700;
+        }
+        .finops-hero .subtitle { font-size: 1.1rem; color: var(--text-secondary); }
+
+        /* Badge pills for the standards this report speaks. */
+        .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .focus-badge {
+            display: inline-block; padding: 0.3rem 0.8rem; border-radius: 999px;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3px;
+            background: rgba(74, 158, 247, 0.14); color: var(--copilot-blue);
+            border: 1px solid rgba(74, 158, 247, 0.35);
+        }
+        .focus-badge.alt { background: rgba(168, 85, 247, 0.14); color: var(--copilot-purple); border-color: rgba(168, 85, 247, 0.35); }
+        .focus-badge.warn { background: rgba(245, 158, 11, 0.14); color: var(--amber); border-color: rgba(245, 158, 11, 0.35); }
+
+        /* Scope strip: honest, explicit statement of what is (and is not) modelled. */
+        .scope-strip {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;
+            background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--copilot-cyan);
+            border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+        }
+        .scope-item .scope-k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
+        .scope-item .scope-v { font-size: 0.95rem; color: var(--text-primary); font-weight: 600; margin-top: 0.15rem; }
+        .scope-note { color: var(--text-secondary); font-size: 0.88rem; margin-top: 1rem; grid-column: 1 / -1; line-height: 1.7; }
+        .scope-note strong { color: var(--amber); }
+
+        /* Live rate controls that drive every dollar on the page. */
+        .rate-controls {
+            display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+        }
+        .rate-field { display: flex; flex-direction: column; }
+        .rate-field label { font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; font-size: 0.9rem; }
+        .rate-field input {
+            padding: 0.6rem 0.7rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px;
+            background-color: var(--surface-raised); color: var(--text-primary); width: 170px; font-family: inherit;
+        }
+        .rate-field input:focus { outline: none; border-color: var(--copilot-blue); }
+        .rate-field small { margin-top: 0.3rem; font-size: 0.8rem; color: var(--text-secondary); max-width: 220px; }
+
+        /* Section caption under FOCUS / standards tables. */
+        .section-caption { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.75rem; }
+
+        /* Savings-accented metric card (green, distinct from waste red). */
+        .metric-card.accent-savings { border-top-color: var(--green); }
+        .metric-card.accent-savings .metric-value {
+            background: linear-gradient(135deg, var(--green), var(--copilot-cyan));
+            -webkit-background-clip: text; background-clip: text;
+        }
+
+        /* Dimension toggle for the allocation section. */
+        .dim-toggle { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .dim-btn {
+            padding: 0.5rem 0.9rem; background: var(--surface-raised); border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-family: inherit; font-size: 0.88rem;
+        }
+        .dim-btn:hover { color: var(--text-primary); border-color: rgba(74, 158, 247, 0.4); }
+        .dim-btn.active { background: linear-gradient(135deg, rgba(74,158,247,0.25), rgba(168,85,247,0.25)); color: var(--text-primary); border-color: rgba(74,158,247,0.5); }
+
+        /* FinOps Framework capability-coverage dots. */
+        .cov-dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 0.5rem; vertical-align: middle; }
+        .cov-strong { background: var(--green); box-shadow: 0 0 6px rgba(52, 211, 153, 0.6); }
+        .cov-partial { background: var(--amber); box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
+        .cov-none { background: #64748B; }
+        .cov-label { font-weight: 600; }
+        .cap-domain { color: var(--copilot-cyan); font-weight: 600; }
+
+        /* Rate comparison bars (pure CSS/SVG, no libraries). */
+        .rate-bars { margin: 0.5rem 0 0.25rem; }
+        .rate-bar-row { display: grid; grid-template-columns: 130px 1fr 120px; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+        .rate-bar-row .rb-label { color: var(--text-secondary); font-size: 0.88rem; }
+        .rate-bar-track { background: var(--surface-raised); border-radius: 6px; height: 22px; overflow: hidden; }
+        .rate-bar-fill { height: 100%; border-radius: 6px; }
+        .rb-list { background: linear-gradient(90deg, #64748B, #94A3B8); }
+        .rb-contracted { background: linear-gradient(90deg, var(--copilot-blue), var(--copilot-cyan)); }
+        .rb-effective { background: linear-gradient(90deg, var(--green), var(--copilot-cyan)); }
+        .rate-bar-row .rb-value { text-align: right; color: var(--text-primary); font-weight: 600; font-size: 0.9rem; }
+
+        .esr-headline { font-size: 1.4rem; font-weight: 700; color: var(--green); margin-bottom: 0.75rem; }
+        .glossary-dl dt { color: var(--copilot-cyan); font-weight: 600; margin-top: 0.9rem; }
+        .glossary-dl dd { color: var(--text-secondary); margin: 0.15rem 0 0 0; line-height: 1.7; }
+        .finops-report-actions { margin-bottom: 1.25rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back-link" href="https://microsoft.github.io/CreditUsage/CoworkBilling/" target="_top">&larr; Standard chargeback report</a>
+
+        <!-- ============================ LANDING ============================ -->
+        <section id="finopsLanding">
+            <header class="finops-hero">
+                <h1>Copilot Cowork Credit &mdash; FinOps Cost Report</h1>
+                <p class="subtitle">Load your Entra + Copilot credit exports to generate a FinOps Framework &amp; FOCUS-aligned cost view &mdash; entirely in your browser.</p>
+            </header>
+
+            <div class="info-box privacy-box">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <p><strong>All processing happens locally in your browser.</strong> Your files never leave your device. No uploads, no servers, no telemetry. Every FOCUS figure is computed on this page from the files you choose.</p>
+            </div>
+
+            <div class="instructions-section">
+                <h2>How it works</h2>
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Export your Entra users</h3>
+                        <p>From Microsoft Entra admin center, export the user list as CSV. It supplies the allocation dimensions &mdash; department, cost center, business unit, job family, country, and manager.</p>
+                        <div class="info-box"><p><small>Expected columns (any subset): User Principal Name, Display Name, Department, Job Title, Job Family, Cost Center, Business Unit, Country / Usage Location, Manager.</small></p></div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Export your Copilot credit usage</h3>
+                        <p>From the Copilot admin / Cost Management report, export monthly credit usage as CSV. It supplies the consumed quantity &mdash; credits used, credit limit, license status, last activity, and session count.</p>
+                        <div class="info-box"><p><small>Expected columns: User Principal Name, Monthly credits used, Monthly credit limit, Microsoft 365 Copilot license, Last activity date, Session Count.</small></p></div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Generate the FinOps view</h3>
+                        <p>The two files are joined on user principal name (UPN) and priced into FOCUS cost columns (List / Contracted / Effective / Billed). Tune the list and contracted rates live, and allocate by department, cost center, or business unit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions-section">
+                <h2>Load your data</h2>
+                <div class="upload-grid">
+                    <div>
+                        <label class="dz-label">Entra user export (CSV)</label>
+                        <div class="upload-area" id="dzEntraF">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p><strong>Drop the Entra CSV here</strong> or click to browse</p>
+                            <p class="dz-status" id="statusEntraF">No file selected</p>
+                            <input type="file" id="fileEntraF" accept=".csv,text/csv" hidden>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="dz-label">Copilot credit / Cost Management export (CSV)</label>
+                        <div class="upload-area" id="dzCreditsF">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p><strong>Drop the Copilot credit CSV here</strong> or click to browse</p>
+                            <p class="dz-status" id="statusCreditsF">No file selected</p>
+                            <input type="file" id="fileCreditsF" accept=".csv,text/csv" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label for="fallbackLimitF">Fallback credit limit</label>
+                        <input type="number" id="fallbackLimitF" min="0" step="1" value="400">
+                        <small>Used only when the credit file has no per-user limit column.</small>
+                    </div>
+                </div>
+
+                <div class="landing-actions">
+                    <button class="btn-primary" id="btnGenerateF" disabled>Generate FinOps Report</button>
+                    <button class="btn-secondary btn-gradient" id="btnDemoF">View Demo Report</button>
+                </div>
+                <p id="finopsLandingError" class="landing-error" hidden></p>
+            </div>
+        </section>
+
+        <!-- ============================ REPORT ============================ -->
+        <section id="finopsReport" hidden>
+            <header class="finops-hero">
+                <h1>Copilot Cowork Credit &mdash; FinOps Cost Report</h1>
+                <p class="subtitle">A FinOps Framework &amp; FOCUS-aligned cost view of Microsoft 365 Copilot Cowork credit consumption.</p>
+                <div class="badge-row">
+                    <span class="focus-badge">FOCUS v1.2 columns</span>
+                    <span class="focus-badge alt">FinOps Framework capabilities</span>
+                    <span class="focus-badge warn" id="badgeMode">Synthetic &middot; single-month snapshot</span>
+                </div>
+            </header>
+
+            <div id="finopsDemoBanner" class="demo-banner" hidden>
+                <strong>&#9888; DEMO DATA ACTIVE</strong> &mdash; synthetic figures for illustration only. Do not use for real decisions.
+            </div>
+
+            <div class="finops-report-actions">
+                <button class="btn-secondary" id="btnResetF">&#8617; Load different data</button>
+            </div>
+
+            <!-- Populated by finops.js: currency / provider / scope. -->
+            <div id="scopeStrip"></div>
+
+            <!-- Live rate controls; every dollar on the page recomputes on input. -->
+            <div class="rate-controls">
+                <div class="rate-field">
+                    <label for="rateList">List unit price ($/credit)</label>
+                    <input type="number" id="rateList" min="0" step="0.001" value="0.01">
+                    <small>Published rack rate per credit.</small>
+                </div>
+                <div class="rate-field">
+                    <label for="rateContracted">Contracted unit price ($/credit)</label>
+                    <input type="number" id="rateContracted" min="0" step="0.001" value="0.01">
+                    <small>Set below list to model a negotiated discount.</small>
+                </div>
+            </div>
+
+            <!-- Everything below is rendered by finops.js. -->
+            <div id="finopsBody"></div>
+        </section>
+
+        <footer id="finopsFooter">Synthetic data &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="https://microsoft.github.io/CreditUsage/CoworkBilling/" target="_top">Standard report</a> &middot; v1.1</footer>
+    </div>
+
+    <script src="demo-data.js"></script>
+    <script src="finops.js"></script>
+</body>
+</html>

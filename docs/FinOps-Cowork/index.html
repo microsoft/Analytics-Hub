@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot Cowork FinOps &mdash; FOCUS Cost Report &middot; Analytics Hub</title>
+  <meta name="description" content="A FinOps Framework &amp; FOCUS-aligned cost view of Microsoft 365 Copilot Cowork credit consumption. Load your Entra and credit exports in-browser, or explore the built-in demo." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub by Microsoft" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/" />
+  <meta property="og:title" content="Copilot Cowork FinOps &mdash; FOCUS Cost Report &middot; Analytics Hub" />
+  <meta property="og:description" content="FinOps Framework &amp; FOCUS-aligned cost view of Microsoft 365 Copilot Cowork credit consumption." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="FinOps Cowork" />
+  <script src="../clarity-events.js" defer></script>
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../palette.js" defer></script>
+  <style>
+    .fin-viewer-wrap { margin-top: 1.5rem; }
+    .fin-viewer { border: 1px solid var(--ah-border, rgba(128,128,128,.25)); border-radius: 12px; overflow: hidden; background: #0f1420; }
+    .fin-viewer-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .6rem 1rem; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(128,128,128,.25); }
+    .fin-viewer-title { font-weight: 600; font-size: .95rem; }
+    .fin-frame { width: 100%; min-height: 1600px; border: 0; display: block; background: #0f1420; }
+    .fin-btn { font: inherit; cursor: pointer; border: 1px solid rgba(128,128,128,.4); background: transparent; color: inherit; border-radius: 8px; padding: .4rem .8rem; }
+    .fin-btn:hover { border-color: #0078d4; }
+    .fin-viewer-note { color: var(--ah-muted, #7a8699); font-size: .85rem; margin-top: .75rem; }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">&#129504;</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../out-of-the-box/">Native Reports</a>
+      <a href="../explore-reports/">Explore Reports</a>
+      <a href="../data-sources/">Data Sources</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../team/">Team</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../cowork-billing/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#129534;</span><span class="menu-text">Cowork Billing<span class="menu-sub">Methodology deck + customer guide</span></span></a>
+          <a href="./" role="menuitem" aria-current="page" class="menu-new"><span class="menu-icon" aria-hidden="true">&#128200;</span><span class="menu-text">FinOps Cowork<span class="menu-sub">FOCUS cost report + showback</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#9878;&#65039;</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+        </div>
+      </div>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub &#8599;</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="top" class="cb-page">
+
+  <section class="cb-hero">
+    <div class="wrap">
+      <p class="eyebrow">&#128200; FinOps Cowork &middot; New</p>
+      <h1>Copilot Cowork credits, in FinOps &amp; FOCUS terms.</h1>
+      <p class="lede">
+        A FinOps Framework &amp; FOCUS-aligned cost view of Microsoft 365 Copilot
+        Cowork credit consumption &mdash; List / Contracted / Effective / Billed cost,
+        showback &amp; chargeback allocation, unit economics, rate optimization, and a
+        capability-coverage matrix. Load your own Entra + credit exports right in the
+        browser, or click through the built-in demo. 100% client-side &mdash; nothing
+        leaves your device.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap cb-downloads cb-primary-explore">
+    <h2>Explore the report</h2>
+    <div class="cb-download-grid">
+      <a class="cb-download-card" href="./app/finops.html" target="_blank" rel="noopener">
+        <span class="cb-download-icon" aria-hidden="true">&#128640;</span>
+        <div class="cb-download-body">
+          <h3>Open the FinOps app &#8599;</h3>
+          <p>Full-page FOCUS cost report. Bring your own Entra and Copilot credit exports, or view the built-in demo &mdash; entirely in your browser.</p>
+          <span class="cb-download-meta">Browser app &middot; 100% client-side</span>
+        </div>
+      </a>
+      <a class="cb-download-card" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">
+        <span class="cb-download-icon" aria-hidden="true">&#128202;</span>
+        <div class="cb-download-body">
+          <h3>Power BI report &amp; template &#8599;</h3>
+          <p>The full Copilot Cowork credit chargeback report on GitHub &mdash; RLS-ready model, multi-page report, and a downloadable Power BI template.</p>
+          <span class="cb-download-meta">GitHub &middot; microsoft/CreditUsage</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap fin-viewer-wrap">
+    <div class="fin-viewer" id="finViewer" aria-label="FinOps Cowork FOCUS cost report">
+      <div class="fin-viewer-toolbar">
+        <span class="fin-viewer-title">FinOps Cowork &mdash; FOCUS Cost Report</span>
+        <div>
+          <a class="fin-btn" href="./app/finops.html?demo=1" target="_blank" rel="noopener">View demo &#8599;</a>
+          <button type="button" class="fin-btn" id="finFullscreen" aria-label="Open the report fullscreen">&#9206; Fullscreen</button>
+        </div>
+      </div>
+      <iframe
+        id="finFrame"
+        class="fin-frame"
+        title="FinOps Cowork FOCUS Cost Report"
+        src="./app/finops.html"
+        allowfullscreen
+        allow="fullscreen"
+        referrerpolicy="no-referrer-when-downgrade"
+        loading="lazy"></iframe>
+      <noscript>
+        <p class="cb-noscript">The FinOps report requires JavaScript. Open the app directly with the button above.</p>
+      </noscript>
+    </div>
+    <p class="fin-viewer-note">
+      Runs entirely in your browser. The embedded view starts on the data loader &mdash;
+      drop your Entra and credit CSVs to generate the report, or use <em>View demo</em> for
+      synthetic sample data.
+    </p>
+  </section>
+
+  <section class="wrap cb-feedback">
+    <h2>Questions or feedback on the FinOps view?</h2>
+    <p>
+      Reach the Copilot ROI Advisory team directly at
+      <a href="mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=FinOps%20Cowork%20feedback">copilot-roi-advisory-team-gh@microsoft.com</a>.
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by the Microsoft Copilot ROI Advisory Team &middot;
+      <a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub &#8599;</a> &middot;
+      <a href="../feedback/">Feedback</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('finFullscreen');
+    var target = document.getElementById('finViewer');
+    if (btn && target && (target.requestFullscreen || target.webkitRequestFullscreen)) {
+      btn.addEventListener('click', function () {
+        var doc = document;
+        var isFs = doc.fullscreenElement || doc.webkitFullscreenElement;
+        if (!isFs) {
+          (target.requestFullscreen ? target.requestFullscreen() : target.webkitRequestFullscreen());
+          setTimeout(function () { btn.setAttribute('aria-pressed', 'true'); }, 0);
+        } else {
+          (doc.exitFullscreen ? doc.exitFullscreen() : doc.webkitExitFullscreen());
+          setTimeout(function () { btn.setAttribute('aria-pressed', 'false'); }, 0);
+        }
+      });
+    } else if (btn) {
+      btn.disabled = true;
+      btn.title = 'Fullscreen not supported in this browser';
+    }
+  })();
+</script>
+
+</body>
+</html>
