@@ -274,22 +274,24 @@
     // (B) FinOps KPI band.
     function sectionKPIs(m) {
         var unitCost = m.org.users > 0 ? m.orgCost.effectiveCost / m.org.users : 0;
-        function card(label, value, sub, accent) {
+        function card(label, value, sub, accent, tip) {
+            var info = tip ? '<span class="metric-info" tabindex="0" aria-label="' + esc(tip) +
+                '">?<span class="metric-tip">' + esc(tip) + '</span></span>' : '';
             return '<div class="metric-card' + (accent ? ' ' + accent : '') + '">' +
-                '<div class="metric-label">' + esc(label) + '</div>' +
+                '<div class="metric-label">' + esc(label) + info + '</div>' +
                 '<div class="metric-value">' + esc(value) + '</div>' +
                 '<div class="metric-sublabel">' + esc(sub) + '</div></div>';
         }
         return '<section class="panel"><h3>FinOps KPI band</h3>' +
             '<div class="metrics-grid">' +
-            card('Billed Cost', fmtMoney(m.orgCost.billedCost), 'Effective cost billed this period', '') +
-            card('Effective Cost', fmtMoney(m.orgCost.effectiveCost), 'Contracted rate, no amortization', '') +
-            card('List Cost', fmtMoney(m.orgCost.listCost), 'At published rack rate', '') +
-            card('Effective Savings Rate', fmtPct(m.orgCost.esr), 'vs list price', 'accent-savings') +
-            card('Cost Allocation Coverage', fmtPct(m.allocationCoverage), 'Effective cost with a named department', 'accent-savings') +
-            card('Unit Cost', fmtMoney(unitCost), 'Effective cost per user', '') +
-            card('Utilization', fmtPct(m.org.util), fmtInt(m.org.credits) + ' of ' + fmtInt(m.org.limit) + ' credits', 'accent-amber') +
-            card('Unused Allowance / Waste', fmtMoney(m.unusedWaste), fmtInt(m.org.unused) + ' credits unconsumed', 'accent-red') +
+            card('Billed Cost', fmtMoney(m.orgCost.billedCost), 'Effective cost billed this period', '', 'Amount invoiced this period. Equals Effective Cost here: contracted rate x credits consumed. No amortization or shared-cost splits.') +
+            card('Effective Cost', fmtMoney(m.orgCost.effectiveCost), 'Contracted rate, no amortization', '', 'Cost after your negotiated discount: credits consumed x contracted unit price ($/credit). The true cost of consumption.') +
+            card('List Cost', fmtMoney(m.orgCost.listCost), 'At published rack rate', '', 'Consumption valued at the published rack rate: credits consumed x list unit price ($0.01/credit), before any discount.') +
+            card('Effective Savings Rate', fmtPct(m.orgCost.esr), 'vs list price', 'accent-savings', 'Discount vs list: (List Cost - Effective Cost) / List Cost. 0% means the contracted rate equals list.') +
+            card('Cost Allocation Coverage', fmtPct(m.allocationCoverage), 'Effective cost with a named department', 'accent-savings', 'Share of effective cost mapped to a named department: allocated cost / total effective cost. 100% means every credit is charged back.') +
+            card('Unit Cost', fmtMoney(unitCost), 'Effective cost per user', '', 'Average effective cost per user in scope: Effective Cost / users in scope.') +
+            card('Utilization', fmtPct(m.org.util), fmtInt(m.org.credits) + ' of ' + fmtInt(m.org.limit) + ' credits', 'accent-amber', 'Share of the purchased allowance consumed: credits used / credits allowed. Above 100% means overage.') +
+            card('Unused Allowance / Waste', fmtMoney(m.unusedWaste), fmtInt(m.org.unused) + ' credits unconsumed', 'accent-red', 'Value of purchased credits left unused: (allowed - used) credits x effective unit price. Lower is more efficient.') +
             '</div></section>';
     }
 

@@ -201,11 +201,12 @@ footer a:hover { text-decoration: underline; }
 .panel h3 { color: var(--copilot-blue); margin-bottom: 1rem; font-size: 1.2rem; }
 .panel-note { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.75rem; }
 
-.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; align-items: stretch; }
 .metric-card {
     background: var(--surface); padding: 1.4rem; border-radius: 12px; box-shadow: 0 4px 20px var(--shadow);
     text-align: center; border: 1px solid var(--border); border-top: 3px solid var(--copilot-blue);
     transition: transform 0.25s ease; container-type: inline-size;
+    display: flex; flex-direction: column; position: relative;
 }
 .metric-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(74, 158, 247, 0.15); }
 .metric-card.accent-green { border-top-color: var(--green); }
@@ -219,8 +220,27 @@ footer a:hover { text-decoration: underline; }
 }
 .metric-card.accent-green .metric-value { background: linear-gradient(135deg, var(--green), var(--copilot-cyan)); -webkit-background-clip: text; background-clip: text; }
 .metric-card.accent-red .metric-value { background: linear-gradient(135deg, var(--red), var(--copilot-orange)); -webkit-background-clip: text; background-clip: text; }
-.metric-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-.metric-sublabel { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.4rem; }
+.metric-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; min-height: 2.6em; display: flex; align-items: center; justify-content: center; gap: 0.35rem; flex-wrap: wrap; }
+.metric-sublabel { font-size: 0.8rem; color: var(--text-secondary); margin-top: auto; min-height: 2.4em; display: flex; align-items: center; justify-content: center; }
+
+/* --- metric info tooltips: hover/focus reveals a definition + the math --- */
+.metric-info { display:inline-flex; align-items:center; justify-content:center; width:1.05rem;
+  height:1.05rem; border-radius:50%; border:1px solid var(--border); color:var(--text-secondary);
+  font-size:0.72rem; line-height:1; cursor:help; position:relative; flex:0 0 auto; user-select:none;
+  text-transform:none; letter-spacing:normal; }
+.metric-info:hover, .metric-info:focus { color:var(--copilot-cyan); border-color:var(--copilot-cyan);
+  outline:none; }
+.metric-tip { position:absolute; bottom:calc(100% + 8px); left:50%;
+  transform:translateX(-50%) translateY(4px); width:220px; max-width:62vw; padding:0.6rem 0.7rem;
+  border-radius:10px; background:var(--surface-raised); color:var(--text-primary);
+  border:1px solid var(--border); box-shadow:0 10px 30px rgba(0,0,0,0.45); font-size:0.78rem;
+  line-height:1.35; font-weight:normal; text-transform:none; letter-spacing:normal; text-align:left;
+  opacity:0; visibility:hidden; transition:opacity 0.15s ease, transform 0.15s ease; z-index:40;
+  pointer-events:none; }
+.metric-tip::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:6px solid transparent; border-top-color:var(--surface-raised); }
+.metric-info:hover .metric-tip, .metric-info:focus .metric-tip { opacity:1; visibility:visible;
+  transform:translateX(-50%) translateY(0); }
 
 /* ---------------- Tables ---------------- */
 .table-wrap { overflow-x: auto; }
