@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copilot Billing Policy &amp; RBAC Manager</title>
+    <meta name="description" content="Client-side Copilot billing policy &amp; RBAC manager. Assign users to spend-tier policies and export assignments. All processing happens locally in your browser.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ---- rbac-only styles (shared variables from styles.css) ---- */
+        .rbac-controls {
+            display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem;
+        }
+        .rbac-control { display: flex; flex-direction: column; gap: 0.35rem; }
+        .rbac-control label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
+        .rbac-control input, .rbac-control select {
+            padding: 0.55rem 0.75rem; font-size: 0.9rem; font-family: inherit;
+            border: 1px solid var(--border); border-radius: 8px;
+            background-color: var(--surface-raised); color: var(--text-primary); min-width: 180px;
+        }
+        .rbac-control input:focus, .rbac-control select:focus { outline: none; border-color: var(--copilot-blue); }
+
+        .bulk-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; }
+
+        /* Policy editor grid */
+        .policy-editor-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;
+        }
+        .pol-edit-item {
+            display: flex; flex-direction: column; gap: 0.4rem; padding: 0.85rem;
+            background: var(--surface-raised); border: 1px solid var(--border); border-radius: 10px;
+        }
+        .pol-edit-label { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); }
+        .pol-edit-role {
+            display: inline-block; font-size: 0.68rem; font-weight: 700; margin-left: 0.35rem;
+            padding: 0.05rem 0.45rem; border-radius: 999px; background: rgba(0, 212, 255, 0.15);
+            color: var(--copilot-cyan); letter-spacing: 0.03em; vertical-align: middle;
+        }
+        .tier-pill {
+            display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px;
+            border: 1px solid var(--border); font-size: 0.8rem; font-weight: 700;
+            background: rgba(255, 255, 255, 0.04); white-space: nowrap; letter-spacing: 0.02em;
+        }
+        .btn-danger { border-color: var(--red); color: var(--red); background: rgba(239, 68, 68, 0.10); }
+        .btn-danger:hover { border-color: var(--red); color: var(--red); background: rgba(239, 68, 68, 0.20); }
+        .impact-bar {
+            display: flex; flex-direction: column; align-items: stretch; gap: 0.55rem;
+            padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid var(--border);
+            margin-bottom: 1rem; font-size: 0.9rem; background: var(--surface-raised);
+        }
+        .impact-bar .impact-title { font-weight: 700; color: var(--text-primary); }
+        .impact-bar strong { color: var(--text-primary); font-weight: 700; }
+        .impact-group {
+            display: flex; flex-direction: column; gap: 0.55rem;
+            padding: 0.7rem 0.8rem; border-radius: 10px; border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .impact-stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;
+        }
+        .impact-stat {
+            padding: 0.55rem 0.7rem; border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+        }
+        .impact-stat .k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary); }
+        .impact-stat .v { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin-top: 0.15rem; }
+        .impact-stat .s { font-size: 0.76rem; color: var(--text-secondary); margin-top: 0.1rem; }
+        .impact-stat.stat-warn .v { color: var(--red); }
+        .impact-arrow { text-align: center; color: var(--text-secondary); font-size: 1.15rem; line-height: 1; margin: -0.15rem 0; }
+        .impact-today { border-color: var(--border); }
+        .impact-today .impact-title { color: var(--text-secondary); }
+        .impact-up { background: rgba(245, 158, 11, 0.10); border-color: var(--amber); }
+        .impact-up .impact-title { color: var(--amber); }
+        .impact-down { background: rgba(52, 211, 153, 0.10); border-color: var(--green); }
+        .impact-down .impact-title { color: var(--green); }
+        .impact-neutral { }
+        .impact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.15rem; }
+        .impact-actions-note { font-size: 0.76rem; color: var(--text-secondary); }
+        .btn-apply { border-color: var(--green); color: var(--green); background: rgba(52, 211, 153, 0.10); }
+        .btn-apply:hover { border-color: var(--green); color: var(--green); background: rgba(52, 211, 153, 0.20); }
+        .pol-edit-input {
+            padding: 0.45rem 0.6rem; font-size: 0.9rem; font-family: inherit; text-align: right;
+            border: 1px solid var(--border); border-radius: 8px;
+            background-color: var(--surface); color: var(--text-primary);
+        }
+        .pol-edit-input:focus { outline: none; border-color: var(--copilot-blue); }
+        .pol-edit-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Cohort pill in the roster */
+        .cohort-pill {
+            display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px;
+            border: 1px solid var(--border); font-size: 0.76rem; font-weight: 600;
+            background: rgba(255, 255, 255, 0.03); white-space: nowrap;
+        }
+
+        /* Roster table density + per-row select */
+        #rosterTable table { font-size: 0.9rem; }
+        #rosterTable td { padding: 0.5rem 0.75rem; }
+        #rosterTable th { padding: 0.6rem 0.75rem; }
+        .pol-select {
+            padding: 0.35rem 0.5rem; font-size: 0.85rem; font-family: inherit; min-width: 120px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background-color: var(--surface-raised); color: var(--text-primary);
+        }
+        .pol-select:focus { outline: none; border-color: var(--copilot-blue); }
+        .col-check { width: 1%; text-align: center; }
+        .row-check, #selectAll { cursor: pointer; width: 16px; height: 16px; accent-color: var(--copilot-blue); }
+
+        .rbac-actionbar { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
+        .forecast-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .forecast-head h3 { margin: 0; }
+        .forecast-growth { min-width: 160px; }
+        .info-banner { margin: 1rem 2rem 0; padding: 0.9rem 1.25rem; border-radius: 10px; text-align: center; background: rgba(52, 211, 153, 0.10); border: 1px solid rgba(52, 211, 153, 0.4); color: var(--green); font-size: 0.95rem; }
+        .info-banner strong { color: var(--green); }
+        .dq-ok { margin: 1rem 2rem 0; padding: 0.7rem 1.25rem; border-radius: 10px; background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.35); color: var(--text-secondary); font-size: 0.9rem; }
+        .dq-ok strong { color: var(--green); }
+        .dq-panel { margin: 1rem 2rem 0; padding: 1rem 1.25rem; border-radius: 12px; background: var(--surface-raised); border: 1px solid var(--border); }
+        .dq-panel.dq-has-error { border-color: rgba(239, 68, 68, 0.5); }
+        .dq-panel.dq-has-warn { border-color: rgba(245, 158, 11, 0.5); }
+        .dq-head { font-weight: 600; margin-bottom: 0.75rem; color: var(--text-primary); }
+        .dq-row { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.5rem 0; border-top: 1px solid var(--border); }
+        .dq-count { flex: 0 0 auto; min-width: 3.2rem; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .dq-row.dq-error .dq-count { color: var(--red); }
+        .dq-row.dq-warn .dq-count { color: var(--amber); }
+        .dq-body { display: flex; flex-direction: column; gap: 0.15rem; }
+        .dq-label { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
+        .dq-note { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.35; }
+        .dq-foot { margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-secondary); }
+        .view-switch { display: inline-flex; margin: 0 0 1rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .view-btn { -webkit-appearance: none; appearance: none; background: transparent; color: var(--text-secondary); border: none; border-right: 1px solid var(--border); padding: 0.5rem 1.1rem; font-size: 0.9rem; cursor: pointer; }
+        .view-btn:last-child { border-right: none; }
+        .view-btn:hover { color: var(--text-primary); }
+        .view-btn.active { background: var(--copilot-blue); color: #071019; font-weight: 600; }
+        .agg-name { font-weight: 600; color: var(--text-primary); }
+        .agg-budget { width: 96px; padding: 0.3rem 0.4rem; }
+        .agg-fit { padding: 0.32rem 0.7rem; font-size: 0.82rem; }
+        .agg-vs { font-size: 0.86rem; white-space: nowrap; }
+        .rule-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+        .rule-idx { width: 1.5rem; color: var(--text-secondary); font-size: 0.85rem; }
+        .rule-eq, .rule-arrow { color: var(--text-secondary); font-size: 0.85rem; }
+        .rule-attr, .rule-policy { padding: 0.35rem 0.5rem; }
+        .rule-value { padding: 0.35rem 0.5rem; min-width: 160px; }
+        .rule-count { color: var(--text-secondary); font-size: 0.82rem; margin-left: auto; white-space: nowrap; }
+        .rule-remove { background: none; border: 1px solid var(--border); color: var(--text-secondary); border-radius: 6px; padding: 0.3rem 0.6rem; font-size: 0.8rem; cursor: pointer; }
+        .rule-remove:hover { color: var(--red); border-color: var(--red); }
+        .rule-empty { color: var(--text-secondary); font-size: 0.9rem; padding: 0.5rem 0; }
+        .rules-actions { margin: 0.9rem 0; }
+        .rules-default { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 0; }
+        .rule-default-label { font-weight: 600; color: var(--text-primary); font-size: 0.9rem; }
+        .rules-coverage { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.4; padding: 0.5rem 0.75rem; background: var(--surface-raised); border-radius: 8px; }
+        .exc-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+        .exc-summary { font-size: 0.9rem; color: var(--text-secondary); }
+        .exc-clear { padding: 0.75rem; font-size: 0.9rem; color: var(--green); }
+        .exc-tag { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; }
+        .exc-under { background: rgba(248,113,113,0.16); color: var(--red); }
+        .exc-over { background: rgba(245,158,11,0.16); color: var(--amber); }
+        .exc-detail { display: block; font-size: 0.76rem; color: var(--text-secondary); margin-top: 0.15rem; }
+        .exc-fix, .exc-fix-all { padding: 0.32rem 0.7rem; font-size: 0.82rem; }
+        .tabbar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+        .tab-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-secondary); font-family: inherit; font-size: 0.95rem; font-weight: 600; padding: 0.6rem 1rem; cursor: pointer; }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active { color: var(--copilot-cyan); border-bottom-color: var(--copilot-cyan); }
+        .minmax-box { display: flex; flex-direction: column; gap: 0.75rem; }
+        .minmax-item { padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-raised); font-size: 0.92rem; line-height: 1.5; color: var(--text-secondary); }
+        .minmax-item.warn { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08); }
+        .minmax-item.ok { border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.08); }
+        .minmax-item strong { color: var(--text-primary); }
+        .compare-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        .compare-table th, .compare-table td { text-align: right; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); }
+        .compare-table th:first-child, .compare-table td:first-child { text-align: left; }
+        .compare-table thead th { color: var(--text-secondary); font-weight: 600; }
+    </style>
+</head>
+<body>
+    <!-- ============================ LANDING ============================ -->
+    <section id="landing" class="container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>Copilot Billing Policy &amp; RBAC Manager <span class="version-tag">v1.0</span></h1>
+                    <p class="subtitle">Assign users to spend-tier billing policies &mdash; each with a monthly credit allowance and an access role &mdash; entirely in your browser.</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="info-box privacy-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <p><strong>All processing happens locally in your browser.</strong> Your files never leave your device. No uploads, no servers, no telemetry. Assignments are held in memory only and cleared when you reset.</p>
+        </div>
+
+        <div class="instructions-section">
+            <h2>How it works</h2>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Load your Entra + Copilot exports</h3>
+                    <p>The Entra user export supplies organizational attributes &mdash; department, job title, cost center, business unit. The Copilot credit export supplies monthly credits used and license status. The two are joined on user principal name (UPN).</p>
+                    <div class="info-box"><p><small>Expected columns (any subset): User Principal Name, Display Name, Department, Job Title &middot; Monthly credits used, Microsoft 365 Copilot license.</small></p></div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Review recommended policies</h3>
+                    <p>Each user is placed in a usage cohort by their percentile of credits used, and a billing policy is recommended from that cohort. Every user starts assigned to their recommendation; override any of them from the per-row dropdown.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Tune allowances and export</h3>
+                    <p>Adjust each policy&rsquo;s monthly credit allowance live and watch utilization, fit, and projected cost update. When the roster looks right, export the full set of assignments to CSV.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions-section">
+            <h2>Load your data</h2>
+            <div class="upload-grid">
+                <div>
+                    <label class="dz-label">Entra user export (CSV)</label>
+                    <div class="upload-area" id="dzEntra">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p><strong>Drop the Entra CSV here</strong> or click to browse</p>
+                        <p class="dz-status" id="statusEntra">No file selected</p>
+                        <input type="file" id="fileEntra" accept=".csv,text/csv" hidden>
+                    </div>
+                </div>
+                <div>
+                    <label class="dz-label">Copilot credit / Cost Management export (CSV)</label>
+                    <div class="upload-area" id="dzCredits">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p><strong>Drop the Copilot credit CSV here</strong> or click to browse</p>
+                        <p class="dz-status" id="statusCredits">No file selected</p>
+                        <input type="file" id="fileCredits" accept=".csv,text/csv" hidden>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-grid">
+                <div class="config-item">
+                    <label for="rateInput">Rate per credit ($)</label>
+                    <input type="number" id="rateInput" min="0" step="0.001" value="0.01">
+                    <small>Used for projected monthly cost. Adjust it here or live in the manager.</small>
+                </div>
+                <div class="config-item">
+                    <label for="fallbackLimit">Fallback credit limit</label>
+                    <input type="number" id="fallbackLimit" min="0" step="1" value="400">
+                    <small>Used only when the credit file has no per-user limit column.</small>
+                </div>
+            </div>
+
+            <div class="landing-actions">
+                <button class="btn-primary" id="btnGenerate" disabled>Open Manager</button>
+                <button class="btn-secondary btn-gradient" id="btnDemo">View Demo</button>
+            </div>
+            <p id="landingError" class="landing-error" hidden></p>
+        </div>
+
+        <footer>
+            <p>100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; <a href="finops.html">FinOps view</a> &middot; v1.0</p>
+        </footer>
+    </section>
+
+    <!-- ============================ DASHBOARD ============================ -->
+    <section id="dashboard" hidden>
+        <div class="topbar">
+            <div class="topbar-title">
+                <span class="topbar-emoji">&#128273;</span>
+                <div>
+                    <h1>Billing Policy &amp; RBAC Manager</h1>
+                    <p class="topbar-sub" id="topbarSub">Manager</p>
+                </div>
+            </div>
+            <div class="topbar-actions">
+                <div class="rbac-control">
+                    <label for="rbacRate">Rate ($/credit)</label>
+                    <input type="number" id="rbacRate" min="0" step="0.001" value="0.01">
+                </div>
+                <button class="action-btn" id="btnExport"><span class="action-icon">&#128190;</span><span class="action-text">Export CSV</span></button>
+                <button class="action-btn" id="btnExportDeck"><span class="action-icon">&#128202;</span><span class="action-text">Export deck</span></button>
+                <button class="action-btn" id="btnReset"><span class="action-icon">&#8617;</span><span class="action-text">Start Over</span></button>
+            </div>
+        </div>
+
+        <div class="info-banner">
+            <strong>Tip:</strong> Adjust the <strong>Rate ($/credit)</strong> and use <strong>Export CSV</strong> with the controls in the top-right corner &#8599;
+        </div>
+
+        <div id="demoBanner" class="demo-banner" hidden>
+            <strong>&#9888; DEMO DATA ACTIVE</strong> &mdash; synthetic figures for illustration only. Do not use for real decisions.
+        </div>
+
+        <div class="container">
+            <div class="tabbar" role="tablist">
+                <button class="tab-btn active" id="tabBtnManager" type="button">Policy Manager</button>
+                <button class="tab-btn" id="tabBtnRules" type="button">Policy Rules</button>
+                <button class="tab-btn" id="tabBtnPricing" type="button">Pricing Scenarios</button>
+            </div>
+
+            <div id="tabManager" class="tab-panel">
+            <div id="summaryHead"></div>
+            <div id="dataQuality"></div>
+
+            <div class="panel">
+                <div class="forecast-head">
+                    <h3>Budget forecast (next month)</h3>
+                    <div class="rbac-control forecast-growth">
+                        <label for="growthInput">Expected growth (%)</label>
+                        <input type="number" id="growthInput" step="1" value="0">
+                    </div>
+                </div>
+                <p class="panel-note">Projects next month&rsquo;s credit consumption and the budget provisioned across all tiers. Set an expected month-over-month growth, then use <strong>Auto-adjust to fit</strong> below to right-size every user to their consumption.</p>
+                <div id="forecastCards"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Policy summary</h3>
+                <div id="policyCards"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Billing policy allowances</h3>
+                <p class="panel-note">Edit each policy&rsquo;s monthly credit allowance. Utilization, fit, and projected cost recompute live.</p>
+                <div id="policyEditor" class="policy-editor-grid"></div>
+            </div>
+
+            <div class="panel">
+                <h3>User roster</h3>
+
+                <div class="view-switch" role="tablist" aria-label="Roster grouping">
+                    <button type="button" class="view-btn active" id="viewIndividual">Individual</button>
+                    <button type="button" class="view-btn" id="viewDepartment">Department</button>
+                    <button type="button" class="view-btn" id="viewTeam">Team</button>
+                </div>
+
+                <div class="rbac-controls">
+                    <div class="rbac-control">
+                        <label for="rbacSearch">Search</label>
+                        <input type="text" id="rbacSearch" placeholder="Name or UPN&hellip;">
+                    </div>
+                    <div class="rbac-control">
+                        <label for="deptFilter">Department</label>
+                        <select id="deptFilter"></select>
+                    </div>
+                    <div class="rbac-control">
+                        <label for="cohortFilter">Cohort</label>
+                        <select id="cohortFilter"></select>
+                    </div>
+                </div>
+
+                <div class="rbac-actionbar bulk-actions">
+                    <div class="rbac-control">
+                        <label for="bulkPolicy">Bulk policy</label>
+                        <select id="bulkPolicy"></select>
+                    </div>
+                    <button class="btn-secondary" id="btnBulkAssign">Assign selected</button>
+                    <button class="btn-secondary" id="btnApplyRecs">Auto-adjust to fit</button>
+                    <button class="btn-secondary" id="btnClearSel">Clear selection</button>
+                    <button class="btn-secondary btn-danger" id="btnResetPolicies">Reset changes</button>
+                </div>
+
+                <div id="changeImpact" class="impact-bar impact-neutral"></div>
+
+                <div class="table-wrap" id="rosterTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-check"><input type="checkbox" id="selectAll" aria-label="Select all filtered users"></th>
+                                <th>Display Name</th>
+                                <th>Department</th>
+                                <th>Job Title</th>
+                                <th>Cohort</th>
+                                <th class="num">Credits Used</th>
+                                <th>Recommended</th>
+                                <th>Assigned Policy</th>
+                                <th class="num">Allowance</th>
+                                <th>Role</th>
+                                <th class="num">Utilization</th>
+                                <th>Fit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rosterBody"></tbody>
+                    </table>
+                </div>
+                <div class="table-wrap" id="aggTable" hidden>
+                    <table>
+                        <thead id="aggHead"></thead>
+                        <tbody id="aggBody"></tbody>
+                    </table>
+                </div>
+                <p class="row-note" id="rosterNote"></p>
+            </div>
+            </div>
+
+            <div id="tabRules" class="tab-panel" hidden>
+                <div class="panel">
+                    <h3>Rules-based tiering</h3>
+                    <p class="panel-note">Assign billing policies by attribute instead of one person at a time. Rules run top to bottom and the first match wins; anyone not matched falls to the default policy. This is how you govern a large tenant &mdash; write a handful of rules, apply them to everyone, then work the exception queue for the few users the rules mis-fit.</p>
+                    <div id="rulesList"></div>
+                    <div class="rules-actions">
+                        <button class="btn-secondary" id="btnAddRule" type="button">Add rule</button>
+                    </div>
+                    <div class="rules-default" id="rulesDefaultRow"></div>
+                    <div id="rulesCoverage" class="rules-coverage"></div>
+                    <div class="rules-actions">
+                        <button class="btn-apply" id="btnApplyRules" type="button">Apply rules to all users</button>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h3>Exception queue</h3>
+                    <p class="panel-note">Users whose assigned policy does not fit their actual consumption &mdash; under-provisioned (using more than their allowance, so work may be blocked) or over-provisioned (paying for far more than they use). Right-size moves a user to the smallest policy that covers their usage; changes flow to the Policy Manager change bar for you to commit.</p>
+                    <div id="exceptionQueue"></div>
+                </div>
+            </div>
+
+            <div id="tabPricing" class="tab-panel" hidden>
+                <div class="panel">
+                    <h3>Budget snapshot</h3>
+                    <div class="rbac-controls">
+                        <div class="rbac-control">
+                            <label for="ownedInput">Credits owned this month</label>
+                            <input type="number" id="ownedInput" min="0" step="1">
+                        </div>
+                    </div>
+                    <p class="panel-note">Your actual monthly credit budget. Defaults to the total allowance provisioned across all assigned tiers &mdash; override it with the real figure you have from Microsoft. Everything below reflects this at the current rate.</p>
+                    <div id="budgetCards"></div>
+                </div>
+
+                <div class="panel">
+                    <h3>Buy more credits</h3>
+                    <div class="rbac-controls">
+                        <div class="rbac-control">
+                            <label for="buyInput">Credits to purchase</label>
+                            <input type="number" id="buyInput" min="0" step="1000" value="0">
+                        </div>
+                        <div class="rbac-control">
+                            <label for="packSizeInput">Credits per pack</label>
+                            <input type="number" id="packSizeInput" min="1" step="1000">
+                        </div>
+                        <div class="rbac-control">
+                            <label for="packPriceInput">Price per pack ($)</label>
+                            <input type="number" id="packPriceInput" min="0" step="1">
+                        </div>
+                    </div>
+                    <p class="panel-note">Model buying additional Copilot Credits. Pay-as-you-go bills each credit at the list rate; prepaid packs give a per-credit discount. Adjust pack size and price to match your Microsoft agreement (defaults 25,000 credits / $200 per pack, per <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Microsoft Learn</a>).</p>
+                    <div id="buyCards"></div>
+                    <div id="pricingCompare"></div>
+                </div>
+
+                <div class="panel">
+                    <h3>Min-max guidance</h3>
+                    <div id="minmaxBox" class="minmax-box"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer id="rbacFooter"></footer>
+    </section>
+
+    <!-- Local libraries (offline). Order: JSZip before pptxgen. -->
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/pptxgen.bundle.js"></script>
+    <script src="demo-data.js"></script>
+    <script src="rbac.js"></script>
+</body>
+</html>
