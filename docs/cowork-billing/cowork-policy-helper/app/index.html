@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copilot Billing Policy &amp; RBAC Manager</title>
-    <meta name="description" content="Client-side Copilot billing policy &amp; RBAC manager. Assign users to spend-tier policies and export assignments. All processing happens locally in your browser.">
+    <title>Cowork Policy Helper</title>
+    <meta name="description" content="Client-side Cowork Policy Helper. Assign users to spend-tier policies and export assignments. All processing happens locally in your browser.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* ---- rbac-only styles (shared variables from styles.css) ---- */
+        /* ---- app styles (shared variables from styles.css) ---- */
         .rbac-controls {
             display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1.5rem;
         }
@@ -177,7 +177,7 @@
         <header>
             <div class="header-content">
                 <div>
-                    <h1>Copilot Billing Policy &amp; RBAC Manager <span class="version-tag">v1.0</span></h1>
+                    <h1>Cowork Policy Helper <span class="version-tag">v1.0</span></h1>
                     <p class="subtitle">Assign users to spend-tier billing policies &mdash; each with a monthly credit allowance and an access role &mdash; entirely in your browser.</p>
                 </div>
             </div>
@@ -281,7 +281,7 @@
             <div class="topbar-title">
                 <span class="topbar-emoji">&#128273;</span>
                 <div>
-                    <h1>Billing Policy &amp; RBAC Manager</h1>
+                    <h1>Cowork Policy Helper</h1>
                     <p class="topbar-sub" id="topbarSub">Manager</p>
                 </div>
             </div>
@@ -475,6 +475,6 @@
     <script src="lib/jszip.min.js"></script>
     <script src="lib/pptxgen.bundle.js"></script>
     <script src="demo-data.js"></script>
-    <script src="rbac.js"></script>
+    <script src="policy-helper.js"></script>
 </body>
 </html>

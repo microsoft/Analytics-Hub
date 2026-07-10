@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Copilot Cowork Billing Policy &amp; RBAC &mdash; Governance Manager &middot; Analytics Hub</title>
+  <title>Cowork Policy Helper &mdash; Copilot Cowork Policy Management &middot; Analytics Hub</title>
   <meta name="description" content="Govern Microsoft 365 Copilot Cowork spend by policy: assign users to spend-tier billing policies by attribute, review the exception queue, and export a point-in-time record. 100% client-side in your browser." />
-  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/RBAC/" />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/" />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
@@ -13,8 +13,8 @@
   <link rel="sitemap" type="application/xml" href="../../sitemap.xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Analytics Hub by Microsoft" />
-  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/RBAC/" />
-  <meta property="og:title" content="Copilot Cowork Billing Policy &amp; RBAC &mdash; Governance Manager &middot; Analytics Hub" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/" />
+  <meta property="og:title" content="Cowork Policy Helper &mdash; Copilot Cowork Policy Management &middot; Analytics Hub" />
   <meta property="og:description" content="Govern Copilot Cowork spend by policy &mdash; attribute-based tiering, exception queue, and point-in-time record export. 100% client-side." />
   <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -54,7 +54,7 @@
         <div class="nav-dropdown-menu" role="menu">
           <a href="../" role="menuitem"><span class="menu-icon" aria-hidden="true">&#129534;</span><span class="menu-text">Cowork Billing<span class="menu-sub">Methodology deck + customer guide</span></span></a>
           <a href="../../FinOps-Cowork/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128200;</span><span class="menu-text">FinOps Cowork<span class="menu-sub">FOCUS cost report + showback</span></span></a>
-          <a href="./" role="menuitem" aria-current="page" class="menu-new"><span class="menu-icon" aria-hidden="true">&#128273;</span><span class="menu-text">Billing &amp; RBAC<span class="menu-sub">Policy tiering + exception queue</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
+          <a href="./" role="menuitem" aria-current="page" class="menu-new"><span class="menu-icon" aria-hidden="true">&#128273;</span><span class="menu-text">Cowork Policy Helper<span class="menu-sub">Policy tiering + exception queue</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
           <a href="../../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
           <a href="../../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
           <a href="../../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#9878;&#65039;</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
@@ -71,7 +71,7 @@
 
   <section class="cb-hero">
     <div class="wrap">
-      <p class="eyebrow">&#128273; Billing &amp; RBAC &middot; New</p>
+      <p class="eyebrow">&#128273; Cowork Policy Helper &middot; New</p>
       <h1>Govern Copilot Cowork spend by policy, not by spreadsheet.</h1>
       <p class="lede">
         Assign every user to a spend-tier billing policy &mdash; by department, job
@@ -88,10 +88,10 @@
   <section class="wrap cb-downloads cb-primary-explore">
     <h2>Explore the report</h2>
     <div class="cb-download-grid">
-      <a class="cb-download-card" href="./app/rbac.html" target="_blank" rel="noopener">
+      <a class="cb-download-card" href="./app/index.html" target="_blank" rel="noopener">
         <span class="cb-download-icon" aria-hidden="true">&#128640;</span>
         <div class="cb-download-body">
-          <h3>Open the Billing &amp; RBAC app &#8599;</h3>
+          <h3>Open the Cowork Policy Helper app &#8599;</h3>
           <p>Full-page policy manager. Bring your own Entra and Copilot credit exports, or view the built-in demo &mdash; entirely in your browser.</p>
           <span class="cb-download-meta">Browser app &middot; 100% client-side</span>
         </div>
@@ -116,19 +116,19 @@
   </section>
 
   <section class="wrap fin-viewer-wrap">
-    <div class="fin-viewer" id="finViewer" aria-label="Copilot Cowork Billing Policy and RBAC manager">
+    <div class="fin-viewer" id="finViewer" aria-label="Cowork Policy Helper">
       <div class="fin-viewer-toolbar">
-        <span class="fin-viewer-title">Billing Policy &amp; RBAC Manager</span>
+        <span class="fin-viewer-title">Cowork Policy Helper</span>
         <div>
-          <a class="fin-btn" href="./app/rbac.html?demo=1" target="_blank" rel="noopener">View demo &#8599;</a>
+          <a class="fin-btn" href="./app/index.html?demo=1" target="_blank" rel="noopener">View demo &#8599;</a>
           <button type="button" class="fin-btn" id="finFullscreen" aria-label="Open the manager fullscreen">&#9206; Fullscreen</button>
         </div>
       </div>
       <iframe
         id="finFrame"
         class="fin-frame"
-        title="Copilot Cowork Billing Policy and RBAC Manager"
-        src="./app/rbac.html"
+        title="Cowork Policy Helper"
+        src="./app/index.html"
         allowfullscreen
         allow="fullscreen"
         referrerpolicy="no-referrer-when-downgrade"
@@ -145,10 +145,10 @@
   </section>
 
   <section class="wrap cb-feedback">
-    <h2>Questions or feedback on the RBAC manager?</h2>
+    <h2>Questions or feedback on Cowork Policy Helper?</h2>
     <p>
       Reach the Copilot ROI Advisory team directly at
-      <a href="mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Billing%20Policy%20and%20RBAC%20feedback">copilot-roi-advisory-team-gh@microsoft.com</a>.
+      <a href="mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Cowork%20Policy%20Helper%20feedback">copilot-roi-advisory-team-gh@microsoft.com</a>.
     </p>
   </section>
 

@@ -1,4 +1,4 @@
-/* rbac.js - Copilot Billing Policy & RBAC Manager (100% client-side).
+/* policy-helper.js - Cowork Policy Helper (100% client-side).
    Sibling to app.js / finops.js. Assigns users to spend-tier billing policies
    (monthly credit allowance + access role), recommends a policy from usage,
    and exports assignments to CSV. No frameworks, no network calls. Helpers are
@@ -1161,7 +1161,7 @@
         var exCount = ex.under.length + ex.over.length;
 
         var s1 = pptx.addSlide(); bg(s1);
-        s1.addText('Copilot Billing Policy & RBAC Record', { x: 0.7, y: 2.1, w: 12, h: 1, fontFace: FONT, fontSize: 38, bold: true, color: CYAN });
+        s1.addText('Cowork Policy Helper Record', { x: 0.7, y: 2.1, w: 12, h: 1, fontFace: FONT, fontSize: 38, bold: true, color: CYAN });
         s1.addText(fmtInt(state.users.length) + ' users  |  ' + fmtMoney(totalCost) + ' projected monthly cost  |  ' + fmtMoney(state.rate) + '/credit', { x: 0.7, y: 3.25, w: 12, h: 0.6, fontFace: FONT, fontSize: 20, color: TXT });
         s1.addText('Point-in-time policy assignment record  |  ' + new Date().toLocaleDateString() + demoNote, { x: 0.7, y: 4.05, w: 12, h: 0.5, fontFace: FONT, fontSize: 14, color: SUB });
 
@@ -1665,5 +1665,5 @@
     else init();
 
     // Expose a few internals for testing/console use.
-    window.RbacApp = { parseCSV: parseCSV, buildUsers: buildUsers, recommendPolicy: recommendPolicy, POLICIES: POLICIES, state: state };
+    window.CoworkPolicyApp = { parseCSV: parseCSV, buildUsers: buildUsers, recommendPolicy: recommendPolicy, POLICIES: POLICIES, state: state };
 })();
