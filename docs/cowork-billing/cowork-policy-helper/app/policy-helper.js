@@ -9,6 +9,7 @@
     // ------------------------------------------------------------------ state
     var state = {
         pending: { entra: null, credits: null },
+        entraFileNames: [],
         entraRows: [],
         creditRows: [],
         users: [],
@@ -1911,10 +1912,15 @@ function exportAdjustedOverages() {
         dz.addEventListener('drop', function (e) {
             e.preventDefault(); dz.classList.remove('dragover');
             var files = e.dataTransfer && e.dataTransfer.files;
-            if (files && files[0]) handleFile(files[0], dz, status, which);
+            if (!files || !files.length) return;
+            if (which === 'entra') handleEntraFiles(files, dz, status);
+            else handleFile(files[0], dz, status, which);
         });
         input.addEventListener('change', function () {
-            if (input.files && input.files[0]) handleFile(input.files[0], dz, status, which);
+            if (input.files && input.files.length) {
+                if (which === 'entra') handleEntraFiles(input.files, dz, status);
+                else handleFile(input.files[0], dz, status, which);
+            }
             input.value = '';
         });
     }
@@ -1926,8 +1932,37 @@ function exportAdjustedOverages() {
             state.pending[which] = rows;
             status.textContent = file.name + ' - ' + fmtInt(rows.length) + ' rows';
             dz.classList.add('loaded');
-            $('btnGenerate').disabled = !(state.pending.entra && state.pending.credits);
+            $('btnGenerate').disabled = !(state.pending.entra && state.pending.entra.length && state.pending.credits);
         }).catch(function () { showError('Failed to read ' + file.name); });
+    }
+
+    function readFiles(fileList) {
+        var arr = [];
+        for (var i = 0; i < fileList.length; i++) arr.push(fileList[i]);
+        return Promise.all(arr.map(function (f) {
+            return readFile(f).then(function (text) {
+                return { name: f.name, rows: parseCSV(text) };
+            });
+        }));
+    }
+
+    function handleEntraFiles(fileList, dz, status) {
+        if (!fileList || !fileList.length) return;
+        $('landingError').hidden = true;
+        readFiles(fileList).then(function (results) {
+            if (!state.pending.entra) state.pending.entra = [];
+            var added = 0;
+            results.forEach(function (res) {
+                state.pending.entra = state.pending.entra.concat(res.rows);
+                state.entraFileNames.push(res.name);
+                added += res.rows.length;
+            });
+            var n = state.entraFileNames.length;
+            status.textContent = fmtInt(n) + (n === 1 ? ' file - ' : ' files - ') + fmtInt(state.pending.entra.length) + ' rows';
+            dz.classList.add('loaded');
+            var clr = $('btnClearEntra'); if (clr) clr.hidden = false;
+            $('btnGenerate').disabled = !(state.pending.entra && state.pending.entra.length && state.pending.credits);
+        }).catch(function () { showError('Failed to read one or more Entra files'); });
     }
 
     function loadDemo() {
@@ -1937,6 +1972,7 @@ function exportAdjustedOverages() {
 
     function reset() {
         state.pending = { entra: null, credits: null };
+        state.entraFileNames = [];
         state.users = []; state.demoActive = false;
         state.assignments = {}; state.selected = {}; state.baseline = {}; state.prevBaseline = null;
         state.search = ''; state.deptFilter = 'All'; state.cohortFilter = 'All'; state.growthPct = 0;
@@ -1946,6 +1982,7 @@ function exportAdjustedOverages() {
         $('statusEntra').textContent = 'No file selected';
         $('statusCredits').textContent = 'No file selected';
         $('dzEntra').classList.remove('loaded');
+        if ($('btnClearEntra')) $('btnClearEntra').hidden = true;
         $('dzCredits').classList.remove('loaded');
         $('fileEntra').value = ''; $('fileCredits').value = '';
         $('btnGenerate').disabled = true;
@@ -1957,7 +1994,16 @@ function exportAdjustedOverages() {
         wireDropzone('dzCredits', 'fileCredits', 'statusCredits', 'credits');
 
         $('btnGenerate').addEventListener('click', function () {
-            if (state.pending.entra && state.pending.credits) startFrom(state.pending.entra, state.pending.credits, false);
+            if (state.pending.entra && state.pending.entra.length && state.pending.credits) startFrom(state.pending.entra, state.pending.credits, false);
+        });
+        var clrEntra = $('btnClearEntra');
+        if (clrEntra) clrEntra.addEventListener('click', function (e) {
+            e.stopPropagation();
+            state.pending.entra = null; state.entraFileNames = [];
+            $('statusEntra').textContent = 'No file selected';
+            $('dzEntra').classList.remove('loaded');
+            clrEntra.hidden = true;
+            $('btnGenerate').disabled = true;
         });
         $('btnDemo').addEventListener('click', loadDemo);
 

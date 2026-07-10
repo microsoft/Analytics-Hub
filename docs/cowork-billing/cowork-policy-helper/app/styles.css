@@ -101,6 +101,8 @@ header h1 {
 .upload-area p { margin: 0.35rem 0; color: var(--gray); }
 .dz-status { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary) !important; }
 .upload-area.loaded .dz-status { color: var(--green) !important; }
+.dz-clear { display: inline-block; margin-top: 0.5rem; background: none; border: none; color: var(--copilot-cyan); font-size: 0.8rem; font-weight: 600; cursor: pointer; text-decoration: underline; }
+.dz-clear:hover { color: var(--copilot-blue); }
 .entra-files { list-style: none; margin: 0.6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .entra-file-item {
     display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;

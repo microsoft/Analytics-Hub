@@ -233,16 +233,17 @@
             <h2>Load your data</h2>
             <div class="upload-grid">
                 <div>
-                    <label class="dz-label">Entra user export (CSV)</label>
+                    <label class="dz-label">Entra user exports (CSV) &middot; one or more</label>
                     <div class="upload-area" id="dzEntra">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17 8 12 3 7 8"></polyline>
                             <line x1="12" y1="3" x2="12" y2="15"></line>
                         </svg>
-                        <p><strong>Drop the Entra CSV here</strong> or click to browse</p>
+                        <p><strong>Drop Entra CSV files here</strong> or click to browse (multiple allowed)</p>
                         <p class="dz-status" id="statusEntra">No file selected</p>
-                        <input type="file" id="fileEntra" accept=".csv,text/csv" hidden>
+                        <input type="file" id="fileEntra" accept=".csv,text/csv" multiple hidden>
+                        <button type="button" class="dz-clear" id="btnClearEntra" hidden>Clear files</button>
                     </div>
                 </div>
                 <div>
