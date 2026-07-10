@@ -27,6 +27,7 @@
         packSize: 25000,
         packPrice: 200,
         buyCredits: 0,
+        buyBufferPct: 0,
         activeTab: 'manager',
         baseline: {},
         prevBaseline: null,
@@ -201,6 +202,7 @@
                 businessUnit: get(entraMap, erow, 'businessUnit') || '',
                 country: get(entraMap, erow, 'country') || '',
                 manager: get(entraMap, erow, 'manager') || '',
+                lastActivity: get(creditMap, crow, 'lastActivity') || get(entraMap, erow, 'lastActivity') || '',
                 used: creditMap.creditsUsed ? toNumber(crow[creditMap.creditsUsed]) : 0,
                 limit: limit,
                 licensed: creditMap.license ? toBool(crow[creditMap.license]) : false
@@ -569,6 +571,21 @@
         };
     }
 
+    function scopedBuyNeed() {
+        var f = computeForecast();
+        var b = computeBudget();
+        var shortfall = f.fcUsed - b.owned;
+        if (!(shortfall > 0)) return 0;
+        var buffered = shortfall * (1 + (state.buyBufferPct || 0) / 100);
+        return Math.max(0, Math.ceil(buffered));
+    }
+    function scopeBuyToForecast() {
+        state.buyCredits = scopedBuyNeed();
+        var inp = $('buyInput');
+        if (inp) inp.value = state.buyCredits;
+        renderPricing();
+    }
+
     function renderPricing() {
         if (!$('budgetCards')) return;
         var b = computeBudget();
@@ -746,7 +763,7 @@
         var bval = (budget > 0) ? budget : '';
         var st = budgetStatus(g.cost, (budget > 0) ? budget : 0);
         return '<tr data-key="' + esc(g.key) + '" data-cost="' + g.cost + '">' +
-            '<td class="agg-name">' + esc(teamLabel(g.key)) + '</td>' +
+            '<td class="agg-name"><button type="button" class="agg-drill" data-key="' + esc(g.key) + '" aria-expanded="false">' + esc(teamLabel(g.key)) + '</button></td>' +
             '<td class="num">' + fmtInt(g.users) + '</td>' +
             '<td class="num">' + fmtInt(g.used) + '</td>' +
             '<td class="num">' + fmtInt(g.allowance) + '</td>' +
@@ -778,7 +795,73 @@
         return groups.length;
     }
 
+    function aggDetailHtml(key) {
+        var flagged = [];
+        filteredUsers().forEach(function (u) {
+            if (groupKeyOf(u) !== key) return;
+            var d = derive(u);
+            if (d.fit === 'Over-allowance' || d.fit === 'Over-provisioned') flagged.push({ u: u, d: d });
+        });
+        flagged.sort(function (a, b) {
+            if (a.d.fit !== b.d.fit) return a.d.fit === 'Over-allowance' ? -1 : 1;
+            return b.u.used - a.u.used;
+        });
+        if (!flagged.length) {
+            return '<div class="agg-detail-empty">No users needing review in this group.</div>';
+        }
+        var rows = flagged.map(function (it) {
+            var u = it.u, d = it.d;
+            var over = d.fit === 'Over-allowance';
+            var gap = over ? (u.used - d.allowance) : (d.allowance - u.used);
+            var gapTxt = (over ? '+' : '-') + fmtInt(gap);
+            var fitCls = over ? 'status-over' : 'status-near';
+            return '<tr>' +
+                '<td>' + esc(u.displayName) + '</td>' +
+                '<td>' + esc(u.department || 'Unknown') + '</td>' +
+                '<td class="num">' + fmtInt(u.used) + '</td>' +
+                '<td>' + esc(d.pol.name) + '</td>' +
+                '<td class="num">' + fmtInt(d.allowance) + '</td>' +
+                '<td class="num cell-util ' + utilClass(d.util) + '">' + fmtPct(d.util) + '</td>' +
+                '<td><span class="' + fitCls + '">' + esc(d.fit) + '</span></td>' +
+                '<td class="num">' + gapTxt + '</td>' +
+                '<td>' + esc(policyById(u.recommended).name) + '</td>' +
+                '</tr>';
+        }).join('');
+        return '<table class="agg-detail-table"><thead><tr>' +
+            '<th>Name</th><th>Department</th><th class="num">Credits Used</th><th>Assigned Policy</th>' +
+            '<th class="num">Allowance</th><th class="num">Utilization</th><th>Fit</th><th class="num">Gap</th><th>Recommended</th>' +
+            '</tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+    function toggleAggDetail(btn) {
+        var key = btn.getAttribute('data-key');
+        var tr = btn.parentNode.parentNode;
+        var next = tr.nextSibling;
+        if (next && next.nodeType === 1 && next.className === 'agg-detail' && next.getAttribute('data-key') === key) {
+            next.parentNode.removeChild(next);
+            btn.setAttribute('aria-expanded', 'false');
+            return;
+        }
+        var detail = document.createElement('tr');
+        detail.className = 'agg-detail';
+        detail.setAttribute('data-key', key);
+        detail.innerHTML = '<td colspan="10">' + aggDetailHtml(key) + '</td>';
+        tr.parentNode.insertBefore(detail, tr.nextSibling);
+        btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function setBulkEnabled(on) {
+        ['bulkPolicy', 'btnBulkAssign', 'btnClearSel'].forEach(function (id) {
+            var el = $(id);
+            if (el) el.disabled = !on;
+        });
+        var selAll = $('selectAll');
+        if (selAll) selAll.disabled = !on;
+        var hint = $('bulkHint');
+        if (hint) hint.hidden = on;
+    }
+
     function renderRoster() {
+        setBulkEnabled(state.groupBy === 'individual');
         if (state.groupBy === 'individual') {
             $('rosterTable').hidden = false;
             $('aggTable').hidden = true;
@@ -1022,6 +1105,188 @@
 
     // --------------------------------------------------------------- export
     function q(v) { var s = String(v == null ? '' : v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+
+// ---- XLSX export ----
+// ------------------------------------------------------------- XLSX export
+function downloadBlob(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+}
+
+function xlsxColName(i) {
+    var s = '';
+    i = i + 1;
+    while (i > 0) {
+        var r = (i - 1) % 26;
+        s = String.fromCharCode(65 + r) + s;
+        i = Math.floor((i - 1) / 26);
+    }
+    return s;
+}
+
+function xlsxEsc(s) {
+    s = String(s == null ? '' : s);
+    s = s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ' ');
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
+function xlsxSheetName(name, used) {
+    var s = String(name == null ? '' : name).replace(/[\\\/\?\*\[\]:]/g, ' ').replace(/^'+|'+$/g, '');
+    s = s.replace(/\s+/g, ' ');
+    s = s.replace(/^\s+|\s+$/g, '');
+    if (!s) s = 'Sheet';
+    if (s.length > 31) s = s.slice(0, 31);
+    var base = s, n = 2;
+    while (used[s.toLowerCase()]) {
+        var suf = ' (' + n + ')';
+        s = base.slice(0, 31 - suf.length) + suf;
+        n += 1;
+    }
+    used[s.toLowerCase()] = true;
+    return s;
+}
+
+function xlsxSheetXml(aoa) {
+    var rowsXml = '';
+    for (var r = 0; r < aoa.length; r++) {
+        var cells = aoa[r] || [];
+        var cellsXml = '';
+        for (var c = 0; c < cells.length; c++) {
+            var ref = xlsxColName(c) + (r + 1);
+            var v = cells[c];
+            if (typeof v === 'number' && isFinite(v)) {
+                cellsXml += '<c r="' + ref + '"><v>' + v + '</v></c>';
+            } else {
+                cellsXml += '<c r="' + ref + '" t="inlineStr"><is><t xml:space="preserve">' + xlsxEsc(v) + '</t></is></c>';
+            }
+        }
+        rowsXml += '<row r="' + (r + 1) + '">' + cellsXml + '</row>';
+    }
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        '<sheetData>' + rowsXml + '</sheetData></worksheet>';
+}
+
+function buildAndDownloadXlsx(sheets, filename) {
+    if (!window.JSZip) { alert('XLSX library not loaded.'); return; }
+    var used = {};
+    var norm = sheets.map(function (s) { return { name: xlsxSheetName(s.name, used), aoa: s.aoa }; });
+    var zip = new window.JSZip();
+    var ctOverrides = '', wbSheets = '', wbRels = '';
+    norm.forEach(function (s, i) {
+        var idx = i + 1;
+        ctOverrides += '<Override PartName="/xl/worksheets/sheet' + idx + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';
+        wbSheets += '<sheet name="' + xlsxEsc(s.name) + '" sheetId="' + idx + '" r:id="rId' + idx + '"/>';
+        wbRels += '<Relationship Id="rId' + idx + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet' + idx + '.xml"/>';
+        zip.file('xl/worksheets/sheet' + idx + '.xml', xlsxSheetXml(s.aoa));
+    });
+    var contentTypes = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+        '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+        '<Default Extension="xml" ContentType="application/xml"/>' +
+        '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+        ctOverrides + '</Types>';
+    var rootRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+        '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>' +
+        '</Relationships>';
+    var workbookXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+        '<sheets>' + wbSheets + '</sheets></workbook>';
+    var workbookRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' + wbRels + '</Relationships>';
+    zip.file('[Content_Types].xml', contentTypes);
+    zip.file('_rels/.rels', rootRels);
+    zip.file('xl/workbook.xml', workbookXml);
+    zip.file('xl/_rels/workbook.xml.rels', workbookRels);
+    var mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    if (typeof zip.generateAsync === 'function') {
+        zip.generateAsync({ type: 'blob', mimeType: mime, compression: 'DEFLATE' }).then(function (blob) {
+            downloadBlob(blob, filename);
+        });
+    } else {
+        var blob2 = zip.generate({ type: 'blob', mimeType: mime });
+        downloadBlob(blob2, filename);
+    }
+}
+
+var XLSX_USER_HEADER = ['UPN', 'Display Name', 'Department', 'Job Title', 'Cohort', 'Current Monthly Credits', 'Recommended Policy', 'Assigned Policy', 'Policy Role', 'Policy Allowance', 'Utilization %', 'Projected Monthly Cost', 'Fit Status', 'Forecast Next-Month Credits', 'Forecast Next-Month Cost'];
+
+function xlsxUserRow(u, g) {
+    var d = derive(u);
+    var fcCr = u.used * (1 + g);
+    return [u.upn, u.displayName, u.department || 'Unknown', u.jobTitle || '', u.cohort || '',
+        Math.round(u.used), policyById(u.recommended).name, d.pol.name, d.pol.role,
+        d.allowance, Number((d.util * 100).toFixed(1)), Number((d.allowance * state.rate).toFixed(2)),
+        d.fit, Math.round(fcCr), Number((fcCr * state.rate).toFixed(2))];
+}
+
+function exportByPolicy() {
+    var g = growthFrac();
+    var demo = state.demoActive;
+    var sheets = POLICIES.map(function (p) {
+        var aoa = [];
+        if (demo) aoa.push(['SYNTHETIC DEMO DATA - not for real decisions']);
+        aoa.push(XLSX_USER_HEADER.slice());
+        state.users.forEach(function (u) {
+            if (derive(u).pid === p.id) aoa.push(xlsxUserRow(u, g));
+        });
+        return { name: p.name, aoa: aoa };
+    });
+    buildAndDownloadXlsx(sheets, 'billing-policy-by-policy' + (demo ? '-DEMO' : '') + '.xlsx');
+}
+
+function exportByDepartment() {
+    var g = growthFrac();
+    var demo = state.demoActive;
+    var map = {}, order = [];
+    state.users.forEach(function (u) {
+        var k = u.department || 'Unknown';
+        if (!map[k]) { map[k] = []; order.push(k); }
+        map[k].push(u);
+    });
+    order.sort();
+    if (!order.length) { alert('No users to export.'); return; }
+    var sheets = order.map(function (k) {
+        var aoa = [];
+        if (demo) aoa.push(['SYNTHETIC DEMO DATA - not for real decisions']);
+        aoa.push(XLSX_USER_HEADER.slice());
+        map[k].forEach(function (u) { aoa.push(xlsxUserRow(u, g)); });
+        return { name: k, aoa: aoa };
+    });
+    buildAndDownloadXlsx(sheets, 'billing-policy-by-department' + (demo ? '-DEMO' : '') + '.xlsx');
+}
+
+function exportAdjustedOverages() {
+    var demo = state.demoActive;
+    var header = ['UPN', 'Display Name', 'Department', 'Credits Used', 'Original Policy', 'Original Allowance', 'Overage Gap', 'New Policy', 'New Allowance', 'New Utilization %', 'Cost Delta'];
+    var aoa = [];
+    if (demo) aoa.push(['SYNTHETIC DEMO DATA - not for real decisions']);
+    aoa.push(header);
+    var count = 0;
+    state.users.forEach(function (u) {
+        var bid = state.baseline[u.upn] || 'unassigned';
+        var cid = state.assignments[u.upn] || 'unassigned';
+        var basePol = policyById(bid);
+        if (!(u.used > basePol.allowance) || bid === cid) return;
+        var newPol = policyById(cid);
+        var newUtil = newPol.allowance > 0 ? (u.used / newPol.allowance) * 100 : 0;
+        var costDelta = (newPol.allowance - basePol.allowance) * state.rate;
+        aoa.push([u.upn, u.displayName, u.department || 'Unknown', Math.round(u.used),
+            basePol.name, basePol.allowance, Math.round(u.used - basePol.allowance),
+            newPol.name, newPol.allowance, Number(newUtil.toFixed(1)), Number(costDelta.toFixed(2))]);
+        count += 1;
+    });
+    if (!count) { alert('No adjusted-overage users to export: no user who was over their original allowance has been re-tiered yet.'); return; }
+    buildAndDownloadXlsx([{ name: 'Adjusted Overages', aoa: aoa }], 'billing-policy-adjusted-overages' + (demo ? '-DEMO' : '') + '.xlsx');
+}
 
     function exportCsv() {
         var g = growthFrac();
@@ -1344,11 +1609,44 @@
 
     function refreshAll() { recomputeRecommendations(); renderSummary(); renderDataQuality(); renderPolicyEditor(); renderRoster(); renderForecast(); renderImpact(); renderPricing(); renderExceptions(); updateTopbar(); }
 
+    function parseActivityDate(s) {
+        if (!s) return null;
+        var t = Date.parse(String(s));
+        return isNaN(t) ? null : t;
+    }
+    function fmtIsoDate(t) {
+        var d = new Date(t);
+        function p(n) { return (n < 10 ? '0' : '') + n; }
+        return d.getUTCFullYear() + '-' + p(d.getUTCMonth() + 1) + '-' + p(d.getUTCDate());
+    }
+    function dataDateRange() {
+        var min = null, max = null;
+        state.users.forEach(function (u) {
+            var t = parseActivityDate(u.lastActivity);
+            if (t == null) return;
+            if (min == null || t < min) min = t;
+            if (max == null || t > max) max = t;
+        });
+        if (min == null) return null;
+        return { min: min, max: max };
+    }
+
     function updateTopbar() {
         var needReview = 0;
         state.users.forEach(function (u) { if (derive(u).fit === 'Over-allowance') needReview += 1; });
         $('topbarSub').textContent = fmtInt(state.users.length) + ' users  |  ' + fmtInt(needReview) +
             ' needing review  |  rate ' + fmtMoney(state.rate) + '/credit';
+        var range = dataDateRange();
+        var rangeEl = $('topbarRange');
+        if (rangeEl) {
+            if (range) {
+                var rlabel = range.min === range.max ? fmtIsoDate(range.min) : fmtIsoDate(range.min) + ' to ' + fmtIsoDate(range.max);
+                rangeEl.textContent = 'Data activity range: ' + rlabel;
+                rangeEl.hidden = false;
+            } else {
+                rangeEl.hidden = true;
+            }
+        }
     }
 
     function wireDashboard() {
@@ -1405,6 +1703,7 @@
         });
         aggBody.addEventListener('click', function (e) {
             var t = e.target;
+            if (t.classList.contains('agg-drill')) { toggleAggDetail(t); return; }
             if (!t.classList.contains('agg-fit')) return;
             var key = t.getAttribute('data-key');
             recomputeRecommendations();
@@ -1518,6 +1817,13 @@
             var v = parseFloat(this.value); if (!isFinite(v) || v < 0) v = 0;
             state.buyCredits = v; renderPricing();
         });
+        $('bufferInput').addEventListener('input', function () {
+            var v = parseFloat(this.value);
+            if (!isFinite(v) || v < 0) v = 0;
+            state.buyBufferPct = v;
+            scopeBuyToForecast();
+        });
+        $('btnScopeBuy').addEventListener('click', scopeBuyToForecast);
         $('packSizeInput').addEventListener('input', function () {
             var v = parseFloat(this.value); if (!isFinite(v) || v < 1) v = 1;
             state.packSize = v; renderPricing();
@@ -1528,6 +1834,9 @@
         });
 
         $('btnExport').addEventListener('click', exportCsv);
+        var bexP = $('btnExportPolicy'); if (bexP) bexP.addEventListener('click', exportByPolicy);
+        var bexD = $('btnExportDept'); if (bexD) bexD.addEventListener('click', exportByDepartment);
+        var bexA = $('btnExportAdjusted'); if (bexA) bexA.addEventListener('click', exportAdjustedOverages);
         var deckBtn = $('btnExportDeck'); if (deckBtn) deckBtn.addEventListener('click', exportDeck);
         $('btnReset').addEventListener('click', reset);
     }
@@ -1551,6 +1860,8 @@
         $('ownedInput').value = Math.round(ownedCreditsVal());
         $('packSizeInput').value = state.packSize;
         $('packPriceInput').value = state.packPrice;
+        $('bufferInput').value = state.buyBufferPct;
+        state.buyCredits = scopedBuyNeed();
         $('buyInput').value = state.buyCredits;
         switchTab('manager');
         buildControls();

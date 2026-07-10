@@ -107,6 +107,16 @@
         .row-check, #selectAll { cursor: pointer; width: 16px; height: 16px; accent-color: var(--copilot-blue); }
 
         .rbac-actionbar { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
+        .topbar-range { margin: 0.15rem 0 0; font-size: 0.8rem; color: var(--text-secondary); }
+        .agg-drill { background: none; border: none; padding: 0; font: inherit; color: var(--copilot-blue); cursor: pointer; text-align: left; text-decoration: underline; text-decoration-style: dotted; }
+        .agg-drill:hover { color: var(--copilot-cyan); }
+        .agg-detail > td { background: rgba(15, 23, 42, 0.6); padding: 0.5rem 0.75rem; }
+        .agg-detail-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .agg-detail-table th, .agg-detail-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid var(--border); text-align: left; }
+        .agg-detail-table th.num, .agg-detail-table td.num { text-align: right; }
+        .agg-detail-empty { padding: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; }
+        .bulk-hint { align-self: center; color: var(--text-secondary); font-size: 0.85rem; }
+        button:disabled, select:disabled { opacity: 0.5; cursor: not-allowed; }
         .forecast-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
         .forecast-head h3 { margin: 0; }
         .forecast-growth { min-width: 160px; }
@@ -283,6 +293,7 @@
                 <div>
                     <h1>Cowork Policy Helper</h1>
                     <p class="topbar-sub" id="topbarSub">Manager</p>
+                    <p class="topbar-range" id="topbarRange" hidden></p>
                 </div>
             </div>
             <div class="topbar-actions">
@@ -292,6 +303,9 @@
                 </div>
                 <button class="action-btn" id="btnExport"><span class="action-icon">&#128190;</span><span class="action-text">Export CSV</span></button>
                 <button class="action-btn" id="btnExportDeck"><span class="action-icon">&#128202;</span><span class="action-text">Export deck</span></button>
+                <button class="action-btn" id="btnExportPolicy"><span class="action-icon">&#128203;</span><span class="action-text">By policy</span></button>
+                <button class="action-btn" id="btnExportDept"><span class="action-icon">&#128203;</span><span class="action-text">By dept</span></button>
+                <button class="action-btn" id="btnExportAdjusted"><span class="action-icon">&#128203;</span><span class="action-text">Adjusted</span></button>
                 <button class="action-btn" id="btnReset"><span class="action-icon">&#8617;</span><span class="action-text">Start Over</span></button>
             </div>
         </div>
@@ -371,6 +385,7 @@
                     <button class="btn-secondary" id="btnApplyRecs">Auto-adjust to fit</button>
                     <button class="btn-secondary" id="btnClearSel">Clear selection</button>
                     <button class="btn-secondary btn-danger" id="btnResetPolicies">Reset changes</button>
+                    <span class="bulk-hint" id="bulkHint" hidden>Switch to <strong>Individual</strong> view to select and bulk-assign users.</span>
                 </div>
 
                 <div id="changeImpact" class="impact-bar impact-neutral"></div>
@@ -455,7 +470,12 @@
                             <label for="packPriceInput">Price per pack ($)</label>
                             <input type="number" id="packPriceInput" min="0" step="1">
                         </div>
+                        <div class="rbac-control">
+                            <label for="bufferInput">Headroom buffer (%)</label>
+                            <input type="number" id="bufferInput" min="0" step="1" value="0">
+                        </div>
                     </div>
+                    <div class="rbac-actionbar"><button class="btn-secondary" id="btnScopeBuy" type="button">Scope to forecast need</button></div>
                     <p class="panel-note">Model buying additional Copilot Credits. Pay-as-you-go bills each credit at the list rate; prepaid packs give a per-credit discount. Adjust pack size and price to match your Microsoft agreement (defaults 25,000 credits / $200 per pack, per <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Microsoft Learn</a>).</p>
                     <div id="buyCards"></div>
                     <div id="pricingCompare"></div>
