@@ -307,6 +307,7 @@
                 </div>
                 <button class="action-btn" id="btnExport"><span class="action-icon">&#128190;</span><span class="action-text">Export CSV</span></button>
                 <button class="action-btn" id="btnExportDeck"><span class="action-icon">&#128202;</span><span class="action-text">Export deck</span></button>
+                <button class="action-btn" id="btnExportPdf"><span class="action-icon">&#128196;</span><span class="action-text">PDF</span></button>
                 <button class="action-btn" id="btnExportPolicy"><span class="action-icon">&#128203;</span><span class="action-text">By policy</span></button>
                 <button class="action-btn" id="btnExportDept"><span class="action-icon">&#128203;</span><span class="action-text">By dept</span></button>
                 <button class="action-btn" id="btnExportAdjusted"><span class="action-icon">&#128203;</span><span class="action-text">Adjusted</span></button>
@@ -498,6 +499,8 @@
     <!-- Local libraries (offline). Order: JSZip before pptxgen. -->
     <script src="lib/jszip.min.js"></script>
     <script src="lib/pptxgen.bundle.js"></script>
+    <script src="lib/html2canvas.min.js"></script>
+    <script src="lib/jspdf.umd.min.js"></script>
     <script src="demo-data.js"></script>
     <script src="policy-helper.js"></script>
 </body>

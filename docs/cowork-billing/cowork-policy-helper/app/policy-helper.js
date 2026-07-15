@@ -1576,6 +1576,29 @@ function exportAdjustedOverages() {
         pptx.writeFile({ fileName: 'billing-policy-record.pptx' });
     }
 
+    function exportPdf() {
+        if (!window.jspdf || !window.html2canvas) { alert('PDF library not loaded.'); return; }
+        var el = $('dashboard');
+        if (!el) { alert('Nothing to export yet.'); return; }
+        var demo = state.demoActive;
+        window.html2canvas(el, { backgroundColor: '#0B1120', scale: 2, useCORS: true }).then(function (canvas) {
+            var jsPDF = window.jspdf.jsPDF;
+            var pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+            var pw = pdf.internal.pageSize.getWidth();
+            var ph = pdf.internal.pageSize.getHeight();
+            var imgH = canvas.height * (pw / canvas.width);
+            var img = canvas.toDataURL('image/png');
+            var page = 0, drawn = 0;
+            while (drawn < imgH) {
+                if (page > 0) pdf.addPage();
+                pdf.addImage(img, 'PNG', 0, -(page * ph), pw, imgH);
+                drawn += ph;
+                page += 1;
+            }
+            pdf.save('Cowork_Policy_Helper' + (demo ? '_DEMO' : '') + '.pdf');
+        }).catch(function () { alert('PDF export failed.'); });
+    }
+
     // ------------------------------------------------------- dashboard wiring
     // ------------------------------------------------------ data quality gate
     // Input-integrity scan run on every refresh. Surfaces source-data problems
@@ -1860,6 +1883,7 @@ function exportAdjustedOverages() {
         var bexD = $('btnExportDept'); if (bexD) bexD.addEventListener('click', exportByDepartment);
         var bexA = $('btnExportAdjusted'); if (bexA) bexA.addEventListener('click', exportAdjustedOverages);
         var deckBtn = $('btnExportDeck'); if (deckBtn) deckBtn.addEventListener('click', exportDeck);
+        var pdfBtn = $('btnExportPdf'); if (pdfBtn) pdfBtn.addEventListener('click', exportPdf);
         $('btnReset').addEventListener('click', reset);
     }
 
