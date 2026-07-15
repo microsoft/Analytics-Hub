@@ -728,6 +728,100 @@
         downloadBlob(toCsv(rows), 'cowork-chargeback-by-user' + demoSuffix() + '.csv');
     }
 
+    // ------------------------------------------------------------ deck + PDF export
+    function exportDeck() {
+        if (!window.PptxGenJS) { alert('PPTX library not loaded.'); return; }
+        if (!state.users.length) { alert('Load data first.'); return; }
+        var m = compute();
+        var dim = activeDim(m);
+        var pptx = new window.PptxGenJS();
+        pptx.defineLayout({ name: 'W', width: 13.33, height: 7.5 });
+        pptx.layout = 'W';
+        var BG = '0B1120', SURF = '1E293B', BLUE = '4A9EF7', CYAN = '00D4FF', TXT = 'F1F5F9', SUB = '94A3B8';
+        var demoNote = state.demoActive ? '  |  SYNTHETIC DEMO DATA' : '';
+        function bg(s) { s.background = { color: BG }; }
+
+        var s1 = pptx.addSlide(); bg(s1);
+        s1.addText('Copilot Cowork Credit - FinOps Cost Report', { x: 0.7, y: 2.2, w: 12, h: 1, fontFace: 'Segoe UI', fontSize: 38, bold: true, color: CYAN });
+        s1.addText('Billed cost ' + fmtMoney(m.orgCost.billedCost) + '  |  Chargeback (overage) ' + fmtMoney(m.orgCost.chargeback), { x: 0.7, y: 3.3, w: 12, h: 0.6, fontFace: 'Segoe UI', fontSize: 20, color: TXT });
+        s1.addText(new Date().toLocaleDateString() + demoNote, { x: 0.7, y: 4.1, w: 12, h: 0.5, fontFace: 'Segoe UI', fontSize: 14, color: SUB });
+
+        var s2 = pptx.addSlide(); bg(s2);
+        s2.addText('FOCUS Cost Summary', { x: 0.7, y: 0.4, w: 12, h: 0.7, fontSize: 28, bold: true, color: BLUE, fontFace: 'Segoe UI' });
+        var kpis = [
+            ['List cost', fmtMoney(m.orgCost.listCost)],
+            ['Effective cost', fmtMoney(m.orgCost.effectiveCost)],
+            ['Billed cost', fmtMoney(m.orgCost.billedCost)],
+            ['Effective savings rate', fmtPct(m.orgCost.esr)],
+            ['Allocation coverage', fmtPct(m.allocationCoverage)],
+            ['Users in scope', fmtInt(m.org.users)]
+        ];
+        kpis.forEach(function (k, i) {
+            var x = 0.7 + (i % 3) * 4.2, y = 1.5 + Math.floor(i / 3) * 1.9;
+            s2.addShape(pptx.ShapeType.roundRect, { x: x, y: y, w: 3.9, h: 1.6, fill: { color: SURF }, line: { color: BLUE, width: 0.5 }, rectRadius: 0.1 });
+            s2.addText(k[0], { x: x + 0.2, y: y + 0.15, w: 3.5, h: 0.4, fontSize: 12, color: SUB, fontFace: 'Segoe UI' });
+            s2.addText(k[1], { x: x + 0.2, y: y + 0.6, w: 3.5, h: 0.7, fontSize: 24, bold: true, color: CYAN, fontFace: 'Segoe UI' });
+        });
+
+        var s3 = pptx.addSlide(); bg(s3);
+        s3.addText('Chargeback by ' + dim.label, { x: 0.7, y: 0.4, w: 12, h: 0.7, fontSize: 28, bold: true, color: BLUE, fontFace: 'Segoe UI' });
+        var topN = dim.groups.slice(0, 10);
+        s3.addChart(pptx.ChartType.bar, [{ name: 'Chargeback', labels: topN.map(function (g) { return g.label; }), values: topN.map(function (g) { return Math.round(costFigures(g.credits, g.overage).chargeback * 100) / 100; }) }],
+            { x: 0.7, y: 1.3, w: 12, h: 5.6, barDir: 'bar', showValue: true, chartColors: [CYAN], catAxisLabelColor: TXT, valAxisLabelColor: SUB, dataLabelColor: TXT, showLegend: false, valAxisLabelFormatCode: '$#,##0' });
+
+        var s4 = pptx.addSlide(); bg(s4);
+        s4.addText(dim.label + ' Allocation (top 12)', { x: 0.7, y: 0.4, w: 12, h: 0.7, fontSize: 28, bold: true, color: BLUE, fontFace: 'Segoe UI' });
+        var trows = [[
+            { text: dim.label, options: { bold: true, color: BLUE } }, { text: 'Users', options: { bold: true, color: BLUE } },
+            { text: 'Consumed', options: { bold: true, color: BLUE } }, { text: 'Showback $', options: { bold: true, color: BLUE } },
+            { text: 'Chargeback $', options: { bold: true, color: BLUE } }
+        ]];
+        dim.groups.slice(0, 12).forEach(function (g) {
+            var f = costFigures(g.credits, g.overage);
+            trows.push([g.label, fmtInt(g.users), fmtInt(g.credits), fmtMoney(f.showback), fmtMoney(f.chargeback)]);
+        });
+        s4.addTable(trows, { x: 0.7, y: 1.4, w: 12, color: TXT, fontFace: 'Segoe UI', fontSize: 12, border: { type: 'solid', color: '334155', pt: 0.5 }, fill: { color: SURF } });
+
+        var s5 = pptx.addSlide(); bg(s5);
+        s5.addText('Methodology & Notes', { x: 0.7, y: 0.4, w: 12, h: 0.7, fontSize: 28, bold: true, color: BLUE, fontFace: 'Segoe UI' });
+        var method = [
+            'FOCUS-aligned: List / Contracted / Effective / Billed cost.',
+            'Contracted rate: ' + fmtMoney(state.contractedRate) + ' per credit (adjustable).',
+            'Showback = full effective cost of consumption per unit.',
+            'Chargeback = over-allowance credits x contracted rate.',
+            'Allocation by ' + dim.label + '; coverage = share of effective cost mapped to a named unit.',
+            'Single-month snapshot; no amortization, forecast, or anomaly detection.',
+            (state.demoActive ? 'SYNTHETIC DEMO DATA - not for real decisions.' : 'Computed locally in-browser from your uploaded files.')
+        ];
+        s5.addText(method.map(function (mm) { return { text: mm, options: { bullet: true, color: TXT, fontSize: 16, fontFace: 'Segoe UI', paraSpaceAfter: 8 } }; }), { x: 0.9, y: 1.5, w: 11.5, h: 5 });
+
+        pptx.writeFile({ fileName: 'Cowork_FinOps_Report' + (state.demoActive ? '_DEMO' : '') + '.pptx' });
+    }
+
+    function exportPdf() {
+        if (!window.jspdf || !window.html2canvas) { alert('PDF library not loaded.'); return; }
+        if (!state.users.length) { alert('Load data first.'); return; }
+        var el = $('finopsReport');
+        if (!el) { alert('Nothing to export yet.'); return; }
+        var demo = state.demoActive;
+        window.html2canvas(el, { backgroundColor: '#0B1120', scale: 2, useCORS: true }).then(function (canvas) {
+            var jsPDF = window.jspdf.jsPDF;
+            var pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+            var pw = pdf.internal.pageSize.getWidth();
+            var ph = pdf.internal.pageSize.getHeight();
+            var imgH = canvas.height * (pw / canvas.width);
+            var img = canvas.toDataURL('image/png');
+            var page = 0, drawn = 0;
+            while (drawn < imgH) {
+                if (page > 0) pdf.addPage();
+                pdf.addImage(img, 'PNG', 0, -(page * ph), pw, imgH);
+                drawn += ph;
+                page += 1;
+            }
+            pdf.save('Cowork_FinOps_Report' + (demo ? '_DEMO' : '') + '.pdf');
+        }).catch(function () { alert('PDF export failed.'); });
+    }
+
     // ------------------------------------------------------------ data loading
     function showError(msg) {
         var e = $('finopsLandingError');
@@ -852,6 +946,8 @@
         });
         var exUnit = $('btnExportUnitF'); if (exUnit) exUnit.addEventListener('click', exportUnitCsv);
         var exUser = $('btnExportUserF'); if (exUser) exUser.addEventListener('click', exportUserCsv);
+        var exDeck = $('btnExportDeckF'); if (exDeck) exDeck.addEventListener('click', exportDeck);
+        var exPdf = $('btnExportPdfF'); if (exPdf) exPdf.addEventListener('click', exportPdf);
 
         // Deep-link / embed convenience: ?demo=1 opens straight into the demo report.
         if (/[?&]demo=1\b/.test(location.search)) loadDemo();

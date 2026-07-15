@@ -211,6 +211,8 @@
                 <button class="btn-secondary" id="btnResetF">&#8617; Load different data</button>
                 <button class="btn-secondary" id="btnExportUnitF">&#8615; Export by unit (CSV)</button>
                 <button class="btn-secondary" id="btnExportUserF">&#8615; Export by user (CSV)</button>
+                <button class="btn-secondary" id="btnExportDeckF">&#128202; Export deck</button>
+                <button class="btn-secondary" id="btnExportPdfF">&#128196; PDF</button>
             </div>
 
             <!-- Populated by finops.js: currency / provider / scope. -->
@@ -237,6 +239,10 @@
         <footer id="finopsFooter">Synthetic data &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../cowork-billing/" target="_top">Cowork Billing hub</a> &middot; v1.1</footer>
     </div>
 
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/pptxgen.bundle.js"></script>
+    <script src="lib/html2canvas.min.js"></script>
+    <script src="lib/jspdf.umd.min.js"></script>
     <script src="demo-data.js"></script>
     <script src="finops.js"></script>
 </body>
