@@ -287,3 +287,6 @@ tbody tr:hover { background: rgba(74, 158, 247, 0.06); }
 }
 
 .version-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; vertical-align: middle; margin-left: 0.5rem; padding: 0.1rem 0.5rem; border-radius: 999px; background: rgba(0,212,255,0.15); color: var(--copilot-cyan); letter-spacing: 0.04em; }
+
+.cap-input { width: 92px; padding: 0.25rem 0.4rem; font: inherit; text-align: right; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; }
+.cap-input:focus { outline: none; border-color: var(--copilot-blue); }

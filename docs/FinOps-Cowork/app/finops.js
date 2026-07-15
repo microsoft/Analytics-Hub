@@ -13,6 +13,7 @@
         allocDim: 'department', // Department / Cost Center / Business Unit toggle
         fallbackLimit: 400,     // loader-adjustable; used when no per-user limit column
         demoActive: false,
+        unitCaps: { department: {}, costCenter: {}, businessUnit: {} },
         pending: { entra: null, credits: null }
     };
 
@@ -155,6 +156,34 @@
         return users;
     }
 
+    // Spend-tier billing policies (ported from the Policy Helper) for right-size recommendations.
+    var POLICIES = [
+        { id: 'unassigned', name: 'Unassigned', allowance: 0 },
+        { id: 'light', name: 'Light', allowance: 150 },
+        { id: 'standard', name: 'Standard', allowance: 400 },
+        { id: 'advanced', name: 'Advanced', allowance: 700 },
+        { id: 'power', name: 'Power', allowance: 1200 },
+        { id: 'frontier', name: 'Frontier', allowance: 2000 }
+    ];
+    function policyName(id) {
+        for (var i = 0; i < POLICIES.length; i++) { if (POLICIES[i].id === id) return POLICIES[i].name; }
+        return 'Unassigned';
+    }
+    function recommendPolicy(u) {
+        if (!u.licensed || u.used <= 0) return 'unassigned';
+        var ordered = POLICIES.filter(function (p) { return p.allowance > 0; })
+            .slice().sort(function (a, b) { return a.allowance - b.allowance; });
+        for (var i = 0; i < ordered.length; i++) {
+            if (ordered[i].allowance >= u.used) return ordered[i].id;
+        }
+        return ordered.length ? ordered[ordered.length - 1].id : 'unassigned';
+    }
+    function userFlag(u) {
+        if (u.used > u.limit) return 'Over';
+        if (u.limit > 0 && u.used < u.limit * 0.4) return 'Underused';
+        return 'OK';
+    }
+
     // --------------------------------------------------------- FOCUS cost helpers
     // FOCUS cost semantics: EffectiveCost = ContractedCost (no amortization in scope).
     function costFigures(credits, overageCredits) {
@@ -207,6 +236,8 @@
             u.overage = Math.max(0, u.used - u.limit);
             u.unused = Math.max(0, u.limit - u.used);
             u.util = u.limit > 0 ? u.used / u.limit : 0;
+            u.recommended = recommendPolicy(u);
+            u.flag = userFlag(u);
         });
 
         // Org totals.
@@ -238,6 +269,18 @@
             unusedWaste: costFigures(org.unused, 0).effectiveCost,
             overageCost: org.overage * state.contractedRate
         };
+    }
+
+    // Active allocation dimension (shared with the allocation toggle) + per-unit cap lookup.
+    function activeDim(m) {
+        if (state.allocDim === 'costCenter') return { key: 'costCenter', label: 'Cost Center', groups: m.byCC };
+        if (state.allocDim === 'businessUnit') return { key: 'businessUnit', label: 'Business Unit', groups: m.byBU };
+        return { key: 'department', label: 'Department', groups: m.byDept };
+    }
+    function capFor(dimKey, label, fallbackAllowance) {
+        var caps = state.unitCaps[dimKey] || {};
+        var v = caps[label];
+        return (v == null || v === '') ? fallbackAllowance : v;
     }
 
     // =========================================================== section builders
@@ -381,36 +424,41 @@
             'Allocation coverage: <strong>' + fmtPct(m.allocationCoverage) + '</strong> of effective cost maps to a named department.</p></section>';
     }
 
-    // (E) Budget vs actual (variance) per department.
-    function sectionVariance(m) {
+    // (E) Budget caps & variance - per chargeback unit (active allocation dimension), editable.
+    function sectionBudgetCaps(m) {
+        var dim = activeDim(m);
         function statusOf(util) {
             if (util > 1) return { cls: 'cell-over', txt: 'Over', scls: 'status-over' };
             if (util >= 0.85) return { cls: 'cell-near', txt: 'Near', scls: 'status-near' };
             return { cls: 'cell-under', txt: 'Under', scls: 'status-under' };
         }
         var head = '<thead><tr>' +
-            '<th>Department</th>' +
-            '<th class="num">Allowance (credits)</th>' +
+            '<th>' + esc(dim.label) + '</th>' +
             '<th class="num">Consumed (credits)</th>' +
+            '<th class="num">Budget cap (credits)</th>' +
+            '<th class="num">Cap ($)</th>' +
             '<th class="num">Variance (credits)</th>' +
             '<th class="num">Variance %</th>' +
             '<th>Status</th></tr></thead>';
-        var body = '<tbody>' + m.byDept.map(function (g) {
-            var util = g.limit > 0 ? g.credits / g.limit : 0;
-            var variance = g.credits - g.limit;
+        var body = '<tbody>' + dim.groups.map(function (g) {
+            var cap = toNumber(capFor(dim.key, g.label, g.limit));
+            var variance = g.credits - cap;
+            var util = cap > 0 ? g.credits / cap : 0;
             var s = statusOf(util);
             return '<tr>' +
                 '<td>' + esc(g.label) + '</td>' +
-                '<td class="num">' + fmtInt(g.limit) + '</td>' +
                 '<td class="num">' + fmtInt(g.credits) + '</td>' +
+                '<td class="num"><input type="number" min="0" step="1" class="cap-input" data-dim="' + esc(dim.key) + '" data-label="' + esc(g.label) + '" value="' + esc(String(Math.round(cap))) + '"></td>' +
+                '<td class="num">' + fmtMoney(cap * state.contractedRate) + '</td>' +
                 '<td class="num">' + (variance >= 0 ? '+' : '') + fmtInt(variance) + '</td>' +
-                '<td class="num">' + fmtPct(g.limit > 0 ? variance / g.limit : 0) + '</td>' +
+                '<td class="num">' + fmtPct(cap > 0 ? variance / cap : 0) + '</td>' +
                 '<td class="' + s.cls + '"><span class="' + s.scls + '">' + esc(s.txt) + '</span></td></tr>';
         }).join('') + '</tbody>';
-        return '<section class="panel"><h3>Budget vs actual (variance) &mdash; by Department</h3>' +
+        return '<section class="panel"><h3>Budget caps &amp; variance &mdash; by ' + esc(dim.label) + '</h3>' +
             '<div class="table-wrap"><table>' + head + body + '</table></div>' +
-            '<p class="section-caption">Allowance is the sum of per-user monthly credit limits. ' +
-            'Status: Over (utilization &gt; 100%), Near (&ge; 85%), Under.</p></section>';
+            '<p class="section-caption">Set a monthly <strong>budget cap</strong> (credits) per ' + esc(String(dim.label).toLowerCase()) +
+            '. Caps default to the sum of per-user allowances and drive showback/variance only (the platform does not enforce them). ' +
+            'Status: Over (&gt; 100% of cap), Near (&ge; 85%), Under. Caps live in this session and are written into the CSV export.</p></section>';
     }
 
     // (F) Unit economics per department.
@@ -443,6 +491,41 @@
             '<div class="table-wrap"><table>' + head + body + '</table></div>' +
             '<p class="section-caption">Effective-cost basis. Active user = consumed &gt; 0 credits. ' +
             'Cost per credit equals the contracted unit price.</p></section>';
+    }
+
+    // (F2) Per-user showback & right-size roster (top rows on screen; full set in the export).
+    function sectionRoster(m) {
+        var users = m.users.slice().sort(function (a, b) { return (b.used - b.limit) - (a.used - a.limit); });
+        var LIMIT = 25;
+        var shown = users.slice(0, LIMIT);
+        function flagCell(f) {
+            var cls = f === 'Over' ? 'status-over' : (f === 'Underused' ? 'status-near' : 'status-under');
+            return '<span class="' + cls + '">' + esc(f) + '</span>';
+        }
+        var head = '<thead><tr>' +
+            '<th>User</th><th>Department</th>' +
+            '<th class="num">Used</th><th class="num">Allowance</th><th class="num">Utilization</th>' +
+            '<th>Flag</th><th class="num">Showback $</th><th class="num">Chargeback $</th><th>Right-size to</th></tr></thead>';
+        var body = '<tbody>' + shown.map(function (u) {
+            var f = costFigures(u.used, u.overage);
+            return '<tr>' +
+                '<td>' + esc(u.displayName) + '</td>' +
+                '<td>' + esc(u.department) + '</td>' +
+                '<td class="num">' + fmtInt(u.used) + '</td>' +
+                '<td class="num">' + fmtInt(u.limit) + '</td>' +
+                '<td class="num">' + fmtPct(u.util) + '</td>' +
+                '<td>' + flagCell(u.flag) + '</td>' +
+                '<td class="num">' + fmtMoney(f.showback) + '</td>' +
+                '<td class="num">' + fmtMoney(f.chargeback) + '</td>' +
+                '<td>' + esc(policyName(u.recommended)) + '</td></tr>';
+        }).join('') + '</tbody>';
+        var note = users.length > LIMIT
+            ? 'Showing the top ' + LIMIT + ' users by over-allowance. All ' + fmtInt(users.length) + ' users are in the by-user CSV export.'
+            : 'All ' + fmtInt(users.length) + ' users shown.';
+        return '<section class="panel"><h3>Per-user showback &amp; right-size</h3>' +
+            '<div class="table-wrap"><table>' + head + body + '</table></div>' +
+            '<p class="section-caption">Flag: Over (used &gt; allowance), Underused (&lt; 40% of allowance), OK. ' +
+            'Right-size shows the smallest spend tier that covers the user usage. ' + note + '</p></section>';
     }
 
     // (G) Rate / commitment optimization.
@@ -483,13 +566,13 @@
             ['Understand', 'Cost Allocation', 'strong', 'split by Dept, Cost Center, BU; RLS-ready'],
             ['Understand', 'Reporting & Analytics', 'strong', 'multi-section report, cohorts, per-user'],
             ['Understand', 'Anomaly Management', 'none', 'no time-series in a single-month snapshot'],
-            ['Quantify', 'Budgeting', 'partial', 'allowance vs actual variance; static, no period budget'],
+            ['Quantify', 'Budgeting', 'partial', 'editable per-unit budget caps + variance; session-only, not enforced'],
             ['Quantify', 'Forecasting', 'none', 'snapshot only, by design'],
             ['Quantify', 'Unit Economics', 'partial', 'cost per user/credit; no business-value unit'],
             ['Optimize', 'Rate Optimization', 'partial', 'List/Contracted/Effective + ESR; single rate'],
             ['Optimize', 'Workload Optimization', 'partial', 'unused vs overage reallocation, current month'],
             ['Manage', 'Invoicing & Chargeback', 'strong', 'core purpose; showback->chargeback, RLS'],
-            ['Manage', 'Policy & Governance', 'partial', 'allowance policy + reporting segments']
+            ['Manage', 'Policy & Governance', 'partial', 'allowance policy, right-size recommendations, per-user export'],
         ];
         var dotClass = { strong: 'cov-strong', partial: 'cov-partial', none: 'cov-none' };
         var dotText = { strong: 'Strong', partial: 'Partial', none: 'None' };
@@ -542,7 +625,8 @@
             sectionKPIs(m) +
             sectionFocusSummary(m) +
             sectionAllocation(m) +
-            sectionVariance(m) +
+            sectionBudgetCaps(m) +
+            sectionRoster(m) +
             sectionUnitEconomics(m) +
             sectionRateOptimization(m) +
             sectionCapabilityCoverage() +
@@ -554,6 +638,55 @@
         var l = $('rateList'), c = $('rateContracted');
         if (l) { var lv = parseFloat(l.value); state.listRate = isFinite(lv) && lv >= 0 ? lv : 0; }
         if (c) { var cv = parseFloat(c.value); state.contractedRate = isFinite(cv) && cv >= 0 ? cv : 0; }
+    }
+
+    // ------------------------------------------------------------ export (CSV, dependency-free)
+    function downloadBlob(text, filename) {
+        var blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+    }
+    function csvCell(v) {
+        var s = String(v == null ? '' : v);
+        if (/[",\r\n]/.test(s)) s = '"' + s.replace(/"/g, '""') + '"';
+        return s;
+    }
+    function toCsv(rows) { return rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n'); }
+    function demoSuffix() { return state.demoActive ? '-DEMO' : ''; }
+    function exportUnitCsv() {
+        if (!state.users.length) { alert('Load data first.'); return; }
+        var m = compute();
+        var dim = activeDim(m);
+        var rows = [['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Showback $', 'Chargeback $', 'Budget cap (credits)', 'Cap $', 'Variance (credits)', 'Status']];
+        dim.groups.forEach(function (g) {
+            var cap = toNumber(capFor(dim.key, g.label, g.limit));
+            var f = costFigures(g.credits, g.overage);
+            var variance = g.credits - cap;
+            var util = cap > 0 ? g.credits / cap : 0;
+            var status = util > 1 ? 'Over' : (util >= 0.85 ? 'Near' : 'Under');
+            rows.push([g.label, g.users, Math.round(g.credits), f.showback.toFixed(2), f.chargeback.toFixed(2), Math.round(cap), (cap * state.contractedRate).toFixed(2), Math.round(variance), status]);
+        });
+        if (state.demoActive) rows.unshift(['SYNTHETIC DEMO DATA - not for real decisions']);
+        downloadBlob(toCsv(rows), 'cowork-chargeback-by-' + dim.key + demoSuffix() + '.csv');
+    }
+    function exportUserCsv() {
+        if (!state.users.length) { alert('Load data first.'); return; }
+        var m = compute();
+        var dim = activeDim(m);
+        var rows = [['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $', 'Unit budget cap (credits)']];
+        m.users.forEach(function (u) {
+            var f = costFigures(u.used, u.overage);
+            var unitLabel = (u[dim.key] && String(u[dim.key]).trim()) ? String(u[dim.key]).trim() : 'Unknown';
+            var groupAllow = 0;
+            dim.groups.forEach(function (g) { if (g.label === unitLabel) groupAllow = g.limit; });
+            var cap = toNumber(capFor(dim.key, unitLabel, groupAllow));
+            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, Math.round(u.used), Math.round(u.limit), (u.util * 100).toFixed(1), u.flag, policyName(u.recommended), f.showback.toFixed(2), f.chargeback.toFixed(2), Math.round(cap)]);
+        });
+        if (state.demoActive) rows.unshift(['SYNTHETIC DEMO DATA - not for real decisions']);
+        downloadBlob(toCsv(rows), 'cowork-chargeback-by-user' + demoSuffix() + '.csv');
     }
 
     // ------------------------------------------------------------ data loading
@@ -629,6 +762,7 @@
     function resetToLanding() {
         state.pending = { entra: null, credits: null };
         state.users = []; state.demoActive = false;
+        state.unitCaps = { department: {}, costCenter: {}, businessUnit: {} };
         var report = $('finopsReport'), landing = $('finopsLanding');
         if (report) report.hidden = true;
         if (landing) landing.hidden = false;
@@ -662,6 +796,18 @@
             var btn = ev.target.closest ? ev.target.closest('.dim-btn') : null;
             if (btn && btn.getAttribute('data-dim')) { state.allocDim = btn.getAttribute('data-dim'); render(); }
         });
+        if (body) body.addEventListener('change', function (ev) {
+            var inp = ev.target;
+            if (inp && inp.classList && inp.classList.contains('cap-input')) {
+                var dk = inp.getAttribute('data-dim'), lbl = inp.getAttribute('data-label');
+                var val = parseFloat(inp.value);
+                if (!state.unitCaps[dk]) state.unitCaps[dk] = {};
+                state.unitCaps[dk][lbl] = isFinite(val) && val >= 0 ? val : 0;
+                render();
+            }
+        });
+        var exUnit = $('btnExportUnitF'); if (exUnit) exUnit.addEventListener('click', exportUnitCsv);
+        var exUser = $('btnExportUserF'); if (exUser) exUser.addEventListener('click', exportUserCsv);
 
         // Deep-link / embed convenience: ?demo=1 opens straight into the demo report.
         if (/[?&]demo=1\b/.test(location.search)) loadDemo();
