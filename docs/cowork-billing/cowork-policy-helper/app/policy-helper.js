@@ -69,6 +69,9 @@
         { id: 'frontier', name: 'Frontier', role: 'Admin', allowance: 2000 }
     ];
 
+    // Original tier names, restored if a rename is cleared to empty.
+    var DEFAULT_POLICY_NAMES = { unassigned: 'Unassigned', light: 'Light', standard: 'Standard', advanced: 'Advanced', power: 'Power', frontier: 'Frontier' };
+
     var COLUMN_CANDIDATES = {
         upn: ['user principal name', 'userprincipalname', 'upn', 'email', 'user'],
         displayName: ['display name', 'displayname', 'name'],
@@ -663,10 +666,11 @@
         var html = POLICIES.map(function (p) {
             var disabled = p.id === 'unassigned' ? ' disabled' : '';
             var col = TIER_COLORS[p.id] || '#94A3B8';
-            return '<div class="pol-edit-item"><label class="pol-edit-label">' +
-                '<span class="tier-pill" style="color:' + col + ';border-color:' + col + '">' + esc(p.name) + '</span></label>' +
+            return '<div class="pol-edit-item">' +
+                '<input type="text" class="tier-pill pol-edit-name" id="polName_' + p.id +
+                '" data-policy="' + p.id + '" value="' + esc(p.name) + '" maxlength="28" style="color:' + col + ';border-color:' + col + '"' + disabled + ' aria-label="Policy name">' +
                 '<input type="number" min="0" step="1" class="pol-edit-input" id="polAlw_' + p.id +
-                '" data-policy="' + p.id + '" value="' + p.allowance + '"' + disabled + '></div>';
+                '" data-policy="' + p.id + '" value="' + p.allowance + '"' + disabled + ' aria-label="Monthly credit allowance"></div>';
         }).join('');
         $('policyEditor').innerHTML = html;
         Array.prototype.forEach.call($('policyEditor').querySelectorAll('.pol-edit-input'), function (inp) {
@@ -679,6 +683,22 @@
                 renderSummary();
                 renderRoster();
                 renderForecast();
+            });
+        });
+        Array.prototype.forEach.call($('policyEditor').querySelectorAll('.pol-edit-name'), function (inp) {
+            inp.addEventListener('input', function () {
+                policyById(inp.getAttribute('data-policy')).name = String(inp.value);
+                renderSummary();
+                renderRoster();
+                renderForecast();
+            });
+            inp.addEventListener('change', function () {
+                var id = inp.getAttribute('data-policy');
+                if (!String(inp.value).replace(/\s+/g, '')) {
+                    policyById(id).name = DEFAULT_POLICY_NAMES[id] || 'Policy';
+                    inp.value = policyById(id).name;
+                    renderSummary(); renderRoster(); renderForecast();
+                }
             });
         });
     }
@@ -726,12 +746,13 @@
         filteredUsers().forEach(function (u) {
             var key = groupKeyOf(u);
             var g = map[key];
-            if (!g) { g = map[key] = { key: key, users: 0, used: 0, allowance: 0, cost: 0, review: 0 }; order.push(key); }
+            if (!g) { g = map[key] = { key: key, users: 0, used: 0, allowance: 0, cost: 0, review: 0, overage: 0 }; order.push(key); }
             var d = derive(u);
             g.users += 1;
             g.used += u.used;
             g.allowance += d.allowance;
             g.cost += d.cost;
+            g.overage += Math.max(0, u.used - d.allowance);
             if (d.fit === 'Over-allowance') g.review += 1;
         });
         var arr = order.map(function (k) { return map[k]; });
@@ -760,9 +781,9 @@
         var reviewCell = g.review > 0
             ? '<td class="num cell-over">' + fmtInt(g.review) + '</td>'
             : '<td class="num">0</td>';
-        var budget = state.groupBudgets[budgetKeyFor(g.key)];
-        var bval = (budget > 0) ? budget : '';
-        var st = budgetStatus(g.cost, (budget > 0) ? budget : 0);
+        var overageCell = g.overage > 0
+            ? '<td class="num cell-over">' + fmtInt(g.overage) + '</td>'
+            : '<td class="num">0</td>';
         return '<tr data-key="' + esc(g.key) + '" data-cost="' + g.cost + '">' +
             '<td class="agg-name"><button type="button" class="agg-drill" data-key="' + esc(g.key) + '" aria-expanded="false">' + esc(teamLabel(g.key)) + '</button></td>' +
             '<td class="num">' + fmtInt(g.users) + '</td>' +
@@ -771,8 +792,8 @@
             '<td class="num cell-util ' + utilClass(util) + '">' + fmtPct(util) + '</td>' +
             '<td class="num">' + fmtMoney(g.cost) + '</td>' +
             reviewCell +
-            '<td class="num"><input type="number" class="agg-budget" min="0" step="100" data-key="' + esc(g.key) + '" value="' + bval + '" aria-label="Monthly budget"></td>' +
-            '<td class="agg-vs ' + st.cls + '">' + st.txt + '</td>' +
+            overageCell +
+            '<td class="num">' + fmtMoney(g.overage * state.rate) + '</td>' +
             '<td><button type="button" class="btn-secondary agg-fit" data-key="' + esc(g.key) + '">Auto-fit</button></td>' +
             '</tr>';
     }
@@ -787,8 +808,8 @@
             '<th class="num">Avg Utilization</th>' +
             '<th class="num">Projected Cost</th>' +
             '<th class="num">Needing Review</th>' +
-            '<th class="num">Budget ($/mo)</th>' +
-            '<th>vs Budget</th>' +
+            '<th class="num">Overage (credits)</th>' +
+            '<th class="num">Overage cost ($)</th>' +
             '<th>Action</th>' +
             '</tr>';
         var groups = aggregateGroups();
