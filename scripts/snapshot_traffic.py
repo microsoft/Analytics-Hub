@@ -56,6 +56,9 @@ REPOS: list[str] = [
 # failure notification. This is what catches silent PAT expiry / revocation.
 EXPECTED_FORBIDDEN: frozenset[str] = frozenset({
     "olivierpecheux/copilot-adoption-sentiment-report",
+    # Read-only collaborator on this repo — traffic API needs push access.
+    # Remove this entry once write access is granted.
+    "microsoft/What-I-did-with-Cowork",
 })
 
 # Maximum allowed age (in hours) of any required repo's lastTrafficSync at the
