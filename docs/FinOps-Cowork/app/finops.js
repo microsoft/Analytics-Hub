@@ -786,8 +786,8 @@
         if (badge) badge.innerHTML = state.demoActive ? 'Synthetic &middot; demo data' : 'Your data &middot; single-month snapshot';
         var foot = $('finopsFooter');
         if (foot) foot.innerHTML = state.demoActive
-            ? 'Synthetic data &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="https://microsoft.github.io/CreditUsage/CoworkBilling/" target="_top">Standard report</a> &middot; v1.1'
-            : '100% client-side &middot; your files never leave your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="https://microsoft.github.io/CreditUsage/CoworkBilling/" target="_top">Standard report</a> &middot; v1.1';
+            ? 'Synthetic data &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../cowork-billing/" target="_top">Cowork Billing hub</a> &middot; v1.1'
+            : '100% client-side &middot; your files never leave your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../cowork-billing/" target="_top">Cowork Billing hub</a> &middot; v1.1';
         readRates();
         render();
         window.scrollTo(0, 0);
