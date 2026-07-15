@@ -44,6 +44,7 @@ REPOS: list[str] = [
     "microsoft/PAX",
     "microsoft/PAX-Cookbook",
     "microsoft/CreditUsage",
+    "microsoft/What-I-did-with-Cowork",
     "olivierpecheux/copilot-adoption-sentiment-report",
     "jordankingisalive/CopilotROICalculator",
 ]

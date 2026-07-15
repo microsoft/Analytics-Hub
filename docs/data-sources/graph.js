@@ -28,6 +28,9 @@ const NODES = [
   { id: "local-vscode", kind: "source", label: "Local Copilot Sessions", sub: "VS Code · your machine only",       icon: "💻", color: "#e3008c", col: 0, row: 5,
     detail: "Your own GitHub Copilot and Claude chat-session files on your local machine. Nothing leaves your laptop.",
     role:   "Just you — no admin needed" },
+  { id: "local-cowork", kind: "source", label: "Local Cowork Sessions",  sub: "OneDrive · Documents/Cowork/",       icon: "🎁", color: "#e3008c", col: 0, row: 6,
+    detail: "Your own Microsoft Copilot Cowork session history synced via OneDrive. Nothing leaves your account.",
+    role:   "Just you — no admin needed" },
 
   // ---- column 1 : PIPES / EXTRACTORS ----
   { id: "scripts",     kind: "pipe",   label: "Per-Report Scripts",    sub: "Bundled w/ each template",           icon: "📜", color: "#0078d4", col: 1, row: 0,
@@ -71,6 +74,10 @@ const NODES = [
     topics: ["productivity","impact"],
     detail: "Runs locally in VS Code, scans your own Copilot/Claude session files, and produces a daily digest of what you built. Doesn't touch any tenant data.",
     repo: "https://github.com/microsoft/What-I-Did-Copilot" },
+  { id: "cowork-impact",    kind: "addon",  label: "What Cowork Did For Me",   sub: "Personal Cowork ROI report",       icon: "🎁", color: "#e3008c", col: 3, row: 6,
+    topics: ["roi","productivity","impact"],
+    detail: "Runs as a Cowork skill, scans your OneDrive Cowork session files, and renders a self-contained HTML report with research-anchored Time Saved and professional-services-equivalent value.",
+    repo: "https://github.com/microsoft/What-I-did-with-Cowork" },
 ];
 
 // from → to. style: 'solid' (default) or 'dashed' (optional path)
@@ -105,6 +112,8 @@ const EDGES = [
   { from: "super-impact",  to: "customize" },
   // What I Did is personal/local, not from any tenant report
   { from: "local-vscode",  to: "what-i-did" },
+  // Cowork sessions → Cowork impact skill (personal, local)
+  { from: "local-cowork",  to: "cowork-impact" },
 ];
 
 // =====================================================================

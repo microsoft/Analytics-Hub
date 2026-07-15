@@ -171,6 +171,32 @@ const TOOLS = [
     },
   },
   {
+    id: 'cowork-impact',
+    question: "How much time and value has Microsoft Copilot Cowork given me?",
+    title: "What Cowork Did For Me",
+    icon: "🎁",
+    accent: "#e3008c",
+    category: "readiness-roi",
+    tier: "specialty",
+    measures: ["roi","productivity","impact"],
+    source: "Local Cowork sessions (OneDrive)",
+    sourceKey: "Local",
+    repo: "https://github.com/microsoft/What-I-did-with-Cowork",
+    download: "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v24.zip",
+    preview: "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
+    blurb: "Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categories, and renders a single-file HTML report with Time Saved, professional-services-equivalent value, and a mapping to the four Value Pillars.",
+    meta: { audience: "Cowork users, IC leads, execs quantifying Cowork ROI", license: "None — runs locally", time: "~2 minutes" },
+    requirements: {
+      roles: [
+        { label: "None — runs against your own OneDrive data" }
+      ],
+      software: [
+        { label: "Microsoft Copilot Cowork", url: "https://copilot.cloud.microsoft/cowork" },
+        { label: "OneDrive with Documents/Cowork/ folder" }
+      ]
+    },
+  },
+  {
     id: 'm365-readiness',
     question: "Who's ready to be enabled on Copilot, and who should I groom as a champion?",
     title: "M365 Copilot Readiness Report",
