@@ -13,7 +13,8 @@
         allocDim: 'department', // Department / Cost Center / Business Unit toggle
         fallbackLimit: 400,     // loader-adjustable; used when no per-user limit column
         demoActive: false,
-        unitCaps: { department: {}, costCenter: {}, businessUnit: {} },
+        capBasis: 'credits',
+        unitCaps: { credits: { department: {}, costCenter: {}, businessUnit: {} }, dollars: { department: {}, costCenter: {}, businessUnit: {} } },
         pending: { entra: null, credits: null }
     };
 
@@ -277,10 +278,11 @@
         if (state.allocDim === 'businessUnit') return { key: 'businessUnit', label: 'Business Unit', groups: m.byBU };
         return { key: 'department', label: 'Department', groups: m.byDept };
     }
-    function capFor(dimKey, label, fallbackAllowance) {
-        var caps = state.unitCaps[dimKey] || {};
+    function capFor(basis, dimKey, label, fallbackVal) {
+        var byDim = state.unitCaps[basis] || {};
+        var caps = byDim[dimKey] || {};
         var v = caps[label];
-        return (v == null || v === '') ? fallbackAllowance : v;
+        return (v == null || v === '') ? fallbackVal : v;
     }
 
     // =========================================================== section builders
@@ -424,40 +426,64 @@
             'Allocation coverage: <strong>' + fmtPct(m.allocationCoverage) + '</strong> of effective cost maps to a named department.</p></section>';
     }
 
-    // (E) Budget caps & variance - per chargeback unit (active allocation dimension), editable.
+    // (E) Budget caps & variance - per chargeback unit, in credits OR dollars.
     function sectionBudgetCaps(m) {
         var dim = activeDim(m);
+        var basis = state.capBasis;
+        var rate = state.contractedRate;
         function statusOf(util) {
             if (util > 1) return { cls: 'cell-over', txt: 'Over', scls: 'status-over' };
             if (util >= 0.85) return { cls: 'cell-near', txt: 'Near', scls: 'status-near' };
             return { cls: 'cell-under', txt: 'Under', scls: 'status-under' };
         }
+        var toggle = '<div class="dim-toggle">' +
+            '<button class="dim-btn' + (basis === 'credits' ? ' active' : '') + '" data-basis="credits">Credits</button>' +
+            '<button class="dim-btn' + (basis === 'dollars' ? ' active' : '') + '" data-basis="dollars">Dollars ($)</button>' +
+            '</div>';
+        var isD = basis === 'dollars';
         var head = '<thead><tr>' +
             '<th>' + esc(dim.label) + '</th>' +
-            '<th class="num">Consumed (credits)</th>' +
-            '<th class="num">Budget cap (credits)</th>' +
-            '<th class="num">Cap ($)</th>' +
-            '<th class="num">Variance (credits)</th>' +
+            '<th class="num">' + (isD ? 'Consumed ($)' : 'Consumed (credits)') + '</th>' +
+            '<th class="num">' + (isD ? 'Budget cap ($)' : 'Budget cap (credits)') + '</th>' +
+            '<th class="num">' + (isD ? 'Cap (credits)' : 'Cap ($)') + '</th>' +
+            '<th class="num">' + (isD ? 'Variance ($)' : 'Variance (credits)') + '</th>' +
             '<th class="num">Variance %</th>' +
             '<th>Status</th></tr></thead>';
         var body = '<tbody>' + dim.groups.map(function (g) {
-            var cap = toNumber(capFor(dim.key, g.label, g.limit));
+            var consumedD = costFigures(g.credits, g.overage).effectiveCost;
+            if (isD) {
+                var capD = toNumber(capFor('dollars', dim.key, g.label, g.limit * rate));
+                var varD = consumedD - capD;
+                var utilD = capD > 0 ? consumedD / capD : 0;
+                var sd = statusOf(utilD);
+                var altCredits = rate > 0 ? capD / rate : 0;
+                return '<tr>' +
+                    '<td>' + esc(g.label) + '</td>' +
+                    '<td class="num">' + fmtMoney(consumedD) + '</td>' +
+                    '<td class="num"><input type="number" min="0" step="0.01" class="cap-input" data-basis="dollars" data-dim="' + esc(dim.key) + '" data-label="' + esc(g.label) + '" value="' + esc(capD.toFixed(2)) + '"></td>' +
+                    '<td class="num">' + fmtInt(altCredits) + '</td>' +
+                    '<td class="num">' + (varD >= 0 ? '+' : '') + fmtMoney(varD) + '</td>' +
+                    '<td class="num">' + fmtPct(capD > 0 ? varD / capD : 0) + '</td>' +
+                    '<td class="' + sd.cls + '"><span class="' + sd.scls + '">' + esc(sd.txt) + '</span></td></tr>';
+            }
+            var cap = toNumber(capFor('credits', dim.key, g.label, g.limit));
             var variance = g.credits - cap;
             var util = cap > 0 ? g.credits / cap : 0;
             var s = statusOf(util);
             return '<tr>' +
                 '<td>' + esc(g.label) + '</td>' +
                 '<td class="num">' + fmtInt(g.credits) + '</td>' +
-                '<td class="num"><input type="number" min="0" step="1" class="cap-input" data-dim="' + esc(dim.key) + '" data-label="' + esc(g.label) + '" value="' + esc(String(Math.round(cap))) + '"></td>' +
-                '<td class="num">' + fmtMoney(cap * state.contractedRate) + '</td>' +
+                '<td class="num"><input type="number" min="0" step="1" class="cap-input" data-basis="credits" data-dim="' + esc(dim.key) + '" data-label="' + esc(g.label) + '" value="' + esc(String(Math.round(cap))) + '"></td>' +
+                '<td class="num">' + fmtMoney(cap * rate) + '</td>' +
                 '<td class="num">' + (variance >= 0 ? '+' : '') + fmtInt(variance) + '</td>' +
                 '<td class="num">' + fmtPct(cap > 0 ? variance / cap : 0) + '</td>' +
                 '<td class="' + s.cls + '"><span class="' + s.scls + '">' + esc(s.txt) + '</span></td></tr>';
         }).join('') + '</tbody>';
         return '<section class="panel"><h3>Budget caps &amp; variance &mdash; by ' + esc(dim.label) + '</h3>' +
+            toggle +
             '<div class="table-wrap"><table>' + head + body + '</table></div>' +
-            '<p class="section-caption">Set a monthly <strong>budget cap</strong> (credits) per ' + esc(String(dim.label).toLowerCase()) +
-            '. Caps default to the sum of per-user allowances and drive showback/variance only (the platform does not enforce them). ' +
+            '<p class="section-caption">Set a monthly budget cap per ' + esc(String(dim.label).toLowerCase()) +
+            ' in <strong>credits or dollars</strong> (toggle above). Caps default to the sum of per-user allowances (priced at the contracted rate for dollars) and drive showback/variance only; the platform does not enforce them. ' +
             'Status: Over (&gt; 100% of cap), Near (&ge; 85%), Under. Caps live in this session and are written into the CSV export.</p></section>';
     }
 
@@ -566,7 +592,7 @@
             ['Understand', 'Cost Allocation', 'strong', 'split by Dept, Cost Center, BU; RLS-ready'],
             ['Understand', 'Reporting & Analytics', 'strong', 'multi-section report, cohorts, per-user'],
             ['Understand', 'Anomaly Management', 'none', 'no time-series in a single-month snapshot'],
-            ['Quantify', 'Budgeting', 'partial', 'editable per-unit budget caps + variance; session-only, not enforced'],
+            ['Quantify', 'Budgeting', 'partial', 'per-unit budget caps in credits or dollars + variance; session-only, not enforced'],
             ['Quantify', 'Forecasting', 'none', 'snapshot only, by design'],
             ['Quantify', 'Unit Economics', 'partial', 'cost per user/credit; no business-value unit'],
             ['Optimize', 'Rate Optimization', 'partial', 'List/Contracted/Effective + ESR; single rate'],
@@ -660,14 +686,24 @@
         if (!state.users.length) { alert('Load data first.'); return; }
         var m = compute();
         var dim = activeDim(m);
-        var rows = [['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Showback $', 'Chargeback $', 'Budget cap (credits)', 'Cap $', 'Variance (credits)', 'Status']];
+        var basis = state.capBasis, rate = state.contractedRate, isD = basis === 'dollars';
+        var rows = [['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Consumed $', 'Showback $', 'Chargeback $', (isD ? 'Budget cap ($)' : 'Budget cap (credits)'), (isD ? 'Variance ($)' : 'Variance (credits)'), 'Status']];
         dim.groups.forEach(function (g) {
-            var cap = toNumber(capFor(dim.key, g.label, g.limit));
             var f = costFigures(g.credits, g.overage);
-            var variance = g.credits - cap;
-            var util = cap > 0 ? g.credits / cap : 0;
+            var capVal, variance, util, capOut, varOut;
+            if (isD) {
+                capVal = toNumber(capFor('dollars', dim.key, g.label, g.limit * rate));
+                variance = f.effectiveCost - capVal;
+                util = capVal > 0 ? f.effectiveCost / capVal : 0;
+                capOut = capVal.toFixed(2); varOut = variance.toFixed(2);
+            } else {
+                capVal = toNumber(capFor('credits', dim.key, g.label, g.limit));
+                variance = g.credits - capVal;
+                util = capVal > 0 ? g.credits / capVal : 0;
+                capOut = Math.round(capVal); varOut = Math.round(variance);
+            }
             var status = util > 1 ? 'Over' : (util >= 0.85 ? 'Near' : 'Under');
-            rows.push([g.label, g.users, Math.round(g.credits), f.showback.toFixed(2), f.chargeback.toFixed(2), Math.round(cap), (cap * state.contractedRate).toFixed(2), Math.round(variance), status]);
+            rows.push([g.label, g.users, Math.round(g.credits), f.effectiveCost.toFixed(2), f.showback.toFixed(2), f.chargeback.toFixed(2), capOut, varOut, status]);
         });
         if (state.demoActive) rows.unshift(['SYNTHETIC DEMO DATA - not for real decisions']);
         downloadBlob(toCsv(rows), 'cowork-chargeback-by-' + dim.key + demoSuffix() + '.csv');
@@ -676,14 +712,17 @@
         if (!state.users.length) { alert('Load data first.'); return; }
         var m = compute();
         var dim = activeDim(m);
-        var rows = [['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $', 'Unit budget cap (credits)']];
+        var basis = state.capBasis, rate = state.contractedRate, isD = basis === 'dollars';
+        var rows = [['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $', (isD ? 'Unit budget cap ($)' : 'Unit budget cap (credits)')]];
         m.users.forEach(function (u) {
             var f = costFigures(u.used, u.overage);
             var unitLabel = (u[dim.key] && String(u[dim.key]).trim()) ? String(u[dim.key]).trim() : 'Unknown';
             var groupAllow = 0;
             dim.groups.forEach(function (g) { if (g.label === unitLabel) groupAllow = g.limit; });
-            var cap = toNumber(capFor(dim.key, unitLabel, groupAllow));
-            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, Math.round(u.used), Math.round(u.limit), (u.util * 100).toFixed(1), u.flag, policyName(u.recommended), f.showback.toFixed(2), f.chargeback.toFixed(2), Math.round(cap)]);
+            var capOut;
+            if (isD) { capOut = toNumber(capFor('dollars', dim.key, unitLabel, groupAllow * rate)).toFixed(2); }
+            else { capOut = Math.round(toNumber(capFor('credits', dim.key, unitLabel, groupAllow))); }
+            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, Math.round(u.used), Math.round(u.limit), (u.util * 100).toFixed(1), u.flag, policyName(u.recommended), f.showback.toFixed(2), f.chargeback.toFixed(2), capOut]);
         });
         if (state.demoActive) rows.unshift(['SYNTHETIC DEMO DATA - not for real decisions']);
         downloadBlob(toCsv(rows), 'cowork-chargeback-by-user' + demoSuffix() + '.csv');
@@ -762,7 +801,8 @@
     function resetToLanding() {
         state.pending = { entra: null, credits: null };
         state.users = []; state.demoActive = false;
-        state.unitCaps = { department: {}, costCenter: {}, businessUnit: {} };
+        state.capBasis = 'credits';
+        state.unitCaps = { credits: { department: {}, costCenter: {}, businessUnit: {} }, dollars: { department: {}, costCenter: {}, businessUnit: {} } };
         var report = $('finopsReport'), landing = $('finopsLanding');
         if (report) report.hidden = true;
         if (landing) landing.hidden = false;
@@ -794,15 +834,19 @@
         var body = $('finopsBody');
         if (body) body.addEventListener('click', function (ev) {
             var btn = ev.target.closest ? ev.target.closest('.dim-btn') : null;
-            if (btn && btn.getAttribute('data-dim')) { state.allocDim = btn.getAttribute('data-dim'); render(); }
+            if (!btn) return;
+            if (btn.getAttribute('data-dim')) { state.allocDim = btn.getAttribute('data-dim'); render(); return; }
+            if (btn.getAttribute('data-basis')) { state.capBasis = btn.getAttribute('data-basis'); render(); return; }
         });
         if (body) body.addEventListener('change', function (ev) {
             var inp = ev.target;
             if (inp && inp.classList && inp.classList.contains('cap-input')) {
+                var basis = inp.getAttribute('data-basis') || 'credits';
                 var dk = inp.getAttribute('data-dim'), lbl = inp.getAttribute('data-label');
                 var val = parseFloat(inp.value);
-                if (!state.unitCaps[dk]) state.unitCaps[dk] = {};
-                state.unitCaps[dk][lbl] = isFinite(val) && val >= 0 ? val : 0;
+                if (!state.unitCaps[basis]) state.unitCaps[basis] = {};
+                if (!state.unitCaps[basis][dk]) state.unitCaps[basis][dk] = {};
+                state.unitCaps[basis][dk][lbl] = isFinite(val) && val >= 0 ? val : 0;
                 render();
             }
         });
