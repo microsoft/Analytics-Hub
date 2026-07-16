@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cowork Chargeback</title>
+    <meta name="description" content="Client-side Copilot Cowork chargeback generator. Turns consumption + org exports into a finance-ready, invoice-reconciled chargeback. All processing happens locally in your browser.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cb-controls { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+        .cb-field { display: flex; flex-direction: column; }
+        .cb-field label { font-weight: 600; color: var(--text-primary); margin-bottom: 0.4rem; font-size: 0.9rem; }
+        .cb-field input, .cb-field select { padding: 0.6rem 0.7rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; background-color: var(--surface-raised); color: var(--text-primary); width: 200px; font-family: inherit; }
+        .cb-field input:focus, .cb-field select:focus { outline: none; border-color: var(--copilot-blue); }
+        .cb-field small { margin-top: 0.3rem; font-size: 0.8rem; color: var(--text-secondary); max-width: 220px; }
+        .dim-toggle { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .dim-btn { padding: 0.5rem 0.9rem; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-family: inherit; font-size: 0.88rem; }
+        .dim-btn:hover { color: var(--text-primary); border-color: rgba(74, 158, 247, 0.4); }
+        .dim-btn.active { background: linear-gradient(135deg, rgba(74,158,247,0.25), rgba(168,85,247,0.25)); color: var(--text-primary); border-color: rgba(74,158,247,0.5); }
+        .cb-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1.25rem; }
+        th.sortable { cursor: pointer; user-select: none; }
+        th.sortable:hover { color: var(--copilot-cyan); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back-link" href="../../" target="_top">&larr; Cowork Billing hub</a>
+
+        <section id="cbLanding">
+            <header>
+                <h1>Cowork Chargeback</h1>
+                <p class="subtitle">One job, done well: turn your Copilot Cowork consumption and org exports into a finance-ready, invoice-reconciled chargeback &mdash; per cost center and per person, in dollars. 100% in your browser.</p>
+            </header>
+            <div class="info-box"><p><strong>All processing happens locally.</strong> Your files never leave your device. No uploads, no servers, no telemetry.</p></div>
+            <div class="instructions-section">
+                <h2>How it works</h2>
+                <p>Load your Entra user export(s) and your Copilot credit / Cost Management export. Every credit consumed is charged to its unit at your contracted rate, so the journal totals to 100% of the bill. Enter your Microsoft invoice total to reconcile.</p>
+            </div>
+            <div class="instructions-section">
+                <h2>Load your data</h2>
+                <div class="upload-grid">
+                    <div>
+                        <label class="dz-label">Entra user exports (CSV) &middot; one or more</label>
+                        <div class="upload-area" id="dzEntra">
+                            <p><strong>Drop Entra CSV files here</strong> or click to browse (multiple allowed)</p>
+                            <p class="dz-status" id="statusEntra">No file selected</p>
+                            <input type="file" id="fileEntra" accept=".csv,text/csv" multiple hidden>
+                            <button type="button" class="dz-clear" id="btnClearEntra" hidden>Clear files</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="dz-label">Copilot credit / Cost Management export (CSV)</label>
+                        <div class="upload-area" id="dzCredits">
+                            <p><strong>Drop the Copilot credit CSV here</strong> or click to browse</p>
+                            <p class="dz-status" id="statusCredits">No file selected</p>
+                            <input type="file" id="fileCredits" accept=".csv,text/csv" hidden>
+                        </div>
+                    </div>
+                </div>
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label for="rateInput">Contracted rate ($/credit)</label>
+                        <input type="number" id="rateInput" min="0" step="0.001" value="0.01">
+                        <small>Credits are priced to dollars at this rate. Adjust live in the report too.</small>
+                    </div>
+                    <div class="config-item">
+                        <label for="fallbackLimit">Fallback credit limit</label>
+                        <input type="number" id="fallbackLimit" min="0" step="1" value="400">
+                        <small>Used only for the secondary overage lens when the credit file has no per-user limit.</small>
+                    </div>
+                </div>
+                <div class="landing-actions">
+                    <button class="btn-primary" id="btnGenerate" disabled>Generate chargeback</button>
+                    <button class="btn-secondary btn-gradient" id="btnDemo">View Demo</button>
+                </div>
+                <p id="cbLandingError" class="landing-error" hidden></p>
+            </div>
+        </section>
+
+        <section id="cbReport" hidden>
+            <header>
+                <h1>Cowork Chargeback</h1>
+                <p class="subtitle" id="cbStamp"></p>
+            </header>
+            <div id="cbDemoBanner" class="demo-banner" hidden><strong>&#9888; DEMO DATA ACTIVE</strong> &mdash; synthetic figures for illustration only. Do not use for real decisions.</div>
+
+            <div class="cb-controls">
+                <div class="cb-field">
+                    <label for="cbDimSelect">Cut by (GL key)</label>
+                    <select id="cbDimSelect"></select>
+                    <small>Any org column from your Entra export (Department, Cost Center, Legal Entity, Region...). Unmapped users go to "Unallocated".</small>
+                </div>
+                <div class="cb-field">
+                    <label for="rateReport">Contracted rate ($/credit)</label>
+                    <input type="number" id="rateReport" min="0" step="0.001" value="0.01">
+                    <small>Credits to dollars.</small>
+                </div>
+                <div class="cb-field">
+                    <label for="invoiceInput">Microsoft invoice total ($)</label>
+                    <input type="number" id="invoiceInput" min="0" step="0.01" placeholder="optional">
+                    <small>Enter to reconcile chargeback vs invoice.</small>
+                </div>
+                <div class="cb-field">
+                    <label>Chargeback basis</label>
+                    <div class="dim-toggle" id="cbBasisToggle">
+                        <button class="dim-btn active" data-basis="full">Full consumption</button>
+                        <button class="dim-btn" data-basis="overage">Overage only</button>
+                    </div>
+                    <small>Full = charge every credit (reconciles to invoice). Overage = charge only above allowance.</small>
+                </div>
+                <div class="cb-field">
+                    <label>Line items</label>
+                    <div class="dim-toggle" id="cbFilterToggle">
+                        <button class="dim-btn active" data-filter="all">All</button>
+                        <button class="dim-btn" data-filter="over">Over-allowance</button>
+                        <button class="dim-btn" data-filter="active">Active</button>
+                    </div>
+                    <small>Filter the per-person table (export always includes all).</small>
+                </div>
+            </div>
+
+            <div id="cbSummary"></div>
+
+            <div class="cb-actions">
+                <button class="btn-secondary" id="btnReset">&#8617; Load different data</button>
+                <button class="btn-secondary" id="btnExportJournal">&#8615; Export journal (CSV)</button>
+                <button class="btn-secondary" id="btnExportLines">&#8615; Export line items (CSV)</button>
+            </div>
+
+            <div id="cbBody"></div>
+        </section>
+
+        <footer id="cbFooter">100% client-side &middot; your files never leave your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../" target="_top">Cowork Billing hub</a></footer>
+    </div>
+
+    <script src="demo-data.js"></script>
+    <script src="chargeback.js"></script>
+</body>
+</html>
