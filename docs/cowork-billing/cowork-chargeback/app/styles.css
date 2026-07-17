@@ -158,7 +158,7 @@ footer a:hover { text-decoration: underline; }
 .action-text { font-size: 0.75rem; font-weight: 600; }
 
 .demo-banner {
-    margin: 1rem 2rem 0; padding: 0.9rem 1.25rem; border-radius: 10px; text-align: center;
+    margin: 0 0 1.5rem; padding: 0.9rem 1.25rem; border-radius: 10px; text-align: center;
     background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); color: var(--amber);
     font-size: 0.95rem;
 }
@@ -198,8 +198,26 @@ footer a:hover { text-decoration: underline; }
     background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem;
     box-shadow: 0 4px 24px var(--shadow); margin-bottom: 1.5rem;
 }
-.panel h3 { color: var(--copilot-blue); margin-bottom: 1rem; font-size: 1.2rem; }
+.panel h3 { color: var(--copilot-blue); margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.4rem; }
 .panel-note { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.75rem; }
+
+/* --- panel info tooltips: hover/focus reveals what the visual shows --- */
+.panel-info { display:inline-flex; align-items:center; justify-content:center; width:1.05rem;
+  height:1.05rem; border-radius:50%; border:1px solid var(--border); color:var(--text-secondary);
+  font-size:0.72rem; line-height:1; cursor:help; position:relative; flex:0 0 auto; user-select:none;
+  font-weight:normal; }
+.panel-info:hover, .panel-info:focus { color:var(--copilot-cyan); border-color:var(--copilot-cyan);
+  outline:none; }
+.panel-tip { position:absolute; bottom:calc(100% + 8px); left:0; transform:translateY(4px);
+  width:280px; max-width:72vw; padding:0.6rem 0.7rem; border-radius:10px;
+  background:var(--surface-raised); color:var(--text-primary); border:1px solid var(--border);
+  box-shadow:0 10px 30px rgba(0,0,0,0.45); font-size:0.78rem; line-height:1.35; font-weight:normal;
+  text-align:left; opacity:0; visibility:hidden; transition:opacity 0.15s ease, transform 0.15s ease;
+  z-index:40; pointer-events:none; }
+.panel-tip::after { content:''; position:absolute; top:100%; left:14px;
+  border:6px solid transparent; border-top-color:var(--surface-raised); }
+.panel-info:hover .panel-tip, .panel-info:focus .panel-tip { opacity:1; visibility:visible;
+  transform:translateY(0); }
 
 .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; align-items: stretch; }
 .metric-card {
