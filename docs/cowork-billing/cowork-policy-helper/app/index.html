@@ -287,6 +287,15 @@
             <p id="landingError" class="landing-error" hidden></p>
         </div>
 
+        <div class="instructions-section">
+            <h2>Where do I get these files?</h2>
+            <ol class="cb-source-steps">
+                <li><strong>Entra user export(s)</strong> &mdash; in the <a href="https://entra.microsoft.com" target="_blank" rel="noopener">Microsoft Entra admin center</a>, open <em>Identity &rarr; Users &rarr; All users</em> and choose <strong>Download users</strong>. That CSV carries the org attributes (Department, Cost Center, Job title, etc.) used to group people into cohorts. You can load more than one.</li>
+                <li><strong>Copilot credit / Cost Management export</strong> &mdash; export your Copilot Cowork consumption from <em>Microsoft Cost Management</em> (Azure portal &rarr; <em>Cost Management &rarr; Exports</em>, or <em>Cost analysis &rarr; Download</em>), or use the credit / usage CSV from your Microsoft billing contact. It just needs one row per user with the credits they consumed.</li>
+            </ol>
+            <p class="fb-note">Column names are auto-detected, so most export layouts work as-is &mdash; you can remap the org column inside the manager if needed. Every file is parsed locally in your browser; nothing is uploaded.</p>
+        </div>
+
         <div class="instructions-section cb-changelog">
             <h2>Changelog</h2>
             <div class="cl-entry">
