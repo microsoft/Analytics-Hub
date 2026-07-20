@@ -9,6 +9,7 @@
         entraRows: [], creditRows: [], users: [],
         rate: 0.01,
         prepaidRate: 0.01,
+        prepaidPurchased: null,
         daysInPeriod: 30,
         headroomPct: 15,
         fallbackLimit: 400,
@@ -203,7 +204,14 @@
                 rightSizedCost: totalCredits * pr,
                 wastedPrepaidCost: totalWastedCredits * pr,
                 headroomPack: totalHeadroomPack,
-                headroomCost: totalHeadroomPack * pr
+                headroomCost: totalHeadroomPack * pr,
+                purchased: state.prepaidPurchased,
+                poolCost: state.prepaidPurchased != null ? state.prepaidPurchased * pr : null,
+                consumedPct: state.prepaidPurchased ? totalCredits / state.prepaidPurchased : null,
+                unusedPool: state.prepaidPurchased != null ? Math.max(0, state.prepaidPurchased - totalCredits) : 0,
+                shortfall: state.prepaidPurchased != null ? Math.max(0, totalCredits - state.prepaidPurchased) : 0,
+                unusedPoolValue: state.prepaidPurchased != null ? Math.max(0, state.prepaidPurchased - totalCredits) * pr : 0,
+                shortfallPaygo: state.prepaidPurchased != null ? Math.max(0, totalCredits - state.prepaidPurchased) * rate : 0
             }
         };
     }
@@ -254,7 +262,18 @@
             metricCard('Prepay right-sized', fmtMoney(p.rightSizedCost), 'Buy exactly what was used', 'accent-savings', 'Cost of prepaying only the credits actually used - the leanest prepay scenario.') +
             metricCard('Prepay + headroom ' + state.headroomPct + '%', fmtMoney(p.headroomCost), fmtInt(p.headroomPack) + ' credits (used +' + state.headroomPct + '%)', '', 'Right-sized prepay plus a growth buffer: each user usage rounded up by the headroom percent, priced at the prepaid rate.') +
             '</div>';
-        return '<section class="panel">' + panelHead('Prepay sizing vs Pay-as-you-go', 'Compares paying per credit against three prepaid credit-pack scenarios: full allowance, right-sized to actual usage, and right-sized plus a growth buffer.') + cards +
+        var pool = '';
+        if (p.purchased != null && p.purchased > 0) {
+            var third = p.shortfall > 0
+                ? metricCard(fmtInt(p.shortfall) + ' credits over pool', fmtMoney(p.shortfallPaygo), 'PAYG on overflow (used - purchased) x ' + fmtMoney(state.rate), 'accent-red', 'Consumption beyond your purchased prepaid pool. These credits are not covered by prepaid and would bill at the pay-as-you-go rate.')
+                : metricCard(fmtInt(p.unusedPool) + ' credits remaining', fmtMoney(p.unusedPoolValue), 'Unused prepaid (purchased - used) x ' + fmtMoney(state.prepaidRate), 'accent-savings', 'Prepaid credits still available in your pool, valued at the prepaid rate.');
+            pool = '<h4 style="color:var(--copilot-blue);font-size:1.02rem;font-weight:600;margin:0.4rem 0 0.85rem">Prepaid pool vs actual usage</h4><div class="metrics-grid">' +
+                metricCard('Prepaid pool purchased', fmtInt(p.purchased), 'Worth ' + fmtMoney(p.poolCost) + ' at ' + fmtMoney(state.prepaidRate) + '/credit', '', 'The total prepaid credits you entered as purchased, and their value at the prepaid rate.') +
+                metricCard('Pool consumed', fmtPct(p.consumedPct), fmtInt(m.totalCredits) + ' of ' + fmtInt(p.purchased) + ' used', p.consumedPct > 1 ? 'accent-red' : 'accent-savings', 'Share of your purchased prepaid pool consumed this period. Over 100% means you used more than you bought.') +
+                third +
+                '</div>';
+        }
+        return '<section class="panel">' + panelHead('Prepay sizing vs Pay-as-you-go', 'Compares paying per credit against three prepaid credit-pack scenarios: full allowance, right-sized to actual usage, and right-sized plus a growth buffer.') + cards + pool +
             '<p class="section-caption">Prepaid rate ' + fmtMoney(state.prepaidRate) + '/credit. Full allowance buys every user pack (unused is wasted); right-sized buys only actual usage; headroom adds a ' + state.headroomPct + '% buffer for growth. Per-day usage and daily charge are in the line items below.</p></section>';
     }
     function renderJournal(m) {
@@ -361,6 +380,13 @@
         rows.push(['  wasted prepaid', '', '', '', pp.wastedPrepaidCost.toFixed(2)]);
         rows.push(['Prepay right-sized (actual)', '', '', '', pp.rightSizedCost.toFixed(2)]);
         rows.push(['Prepay + headroom (' + state.headroomPct + '%)', '', '', Math.round(pp.headroomPack), pp.headroomCost.toFixed(2)]);
+        if (pp.purchased != null) {
+            rows.push([]);
+            rows.push(['Prepaid pool purchased (credits)', pp.purchased, 'Pool value $', pp.poolCost.toFixed(2)]);
+            rows.push(['Credits used', Math.round(m.totalCredits), 'Pool consumed %', (pp.consumedPct != null ? (pp.consumedPct * 100).toFixed(1) : '')]);
+            if (pp.shortfall > 0) rows.push(['Over pool (credits)', Math.round(pp.shortfall), 'PAYG on overflow $', pp.shortfallPaygo.toFixed(2)]);
+            else rows.push(['Remaining in pool (credits)', Math.round(pp.unusedPool), 'Unused prepaid value $', pp.unusedPoolValue.toFixed(2)]);
+        }
         downloadBlob(toCsv(rows), 'cowork-chargeback-journal' + demoSuffix() + '.csv');
     }
     function exportLineItemsCsv() {
@@ -434,6 +460,15 @@
         summary.rows.push(['Variance vs invoice (PAYGO - invoice)', m.invoiceTotal != null ? money(m.variance) : txt('n/a')]);
         summary.rows.push(['Allocation coverage', { t: 'n', v: m.coverage, s: 'pct' }]);
         summary.rows.push(['Unallocated', money(m.unallocCharge)]);
+        if (m.prepay.purchased != null) {
+            summary.rows.push([]);
+            summary.rows.push([H('Prepaid pool'), H('')]);
+            summary.rows.push(['Prepaid credits purchased', intc(m.prepay.purchased)]);
+            summary.rows.push(['Prepaid pool value', money(m.prepay.poolCost)]);
+            summary.rows.push(['Pool consumed', { t: 'n', v: m.prepay.consumedPct, s: 'pct' }]);
+            summary.rows.push([m.prepay.shortfall > 0 ? 'Credits over pool (PAYG overflow)' : 'Prepaid credits remaining', intc(m.prepay.shortfall > 0 ? m.prepay.shortfall : m.prepay.unusedPool)]);
+            summary.rows.push([m.prepay.shortfall > 0 ? 'PAYG cost on overflow' : 'Unused prepaid value', money(m.prepay.shortfall > 0 ? m.prepay.shortfallPaygo : m.prepay.unusedPoolValue)]);
+        }
 
         var groups = m.groups;
         var alloc = { name: 'Allocation', cols: [26, 8, 12, 12, 13, 13, 13, 13, 11, 13, 13], rows: [] };
@@ -568,6 +603,7 @@
         var stamp = $('cbStamp'); if (stamp) stamp.textContent = (state.demoActive ? 'Synthetic demo - ' : '') + 'Generated ' + new Date().toISOString().slice(0, 10) + ' - chargeback at ' + fmtMoney(state.rate) + '/credit (PAYGO baseline; Prepaid & Hybrid compared in the journal).';
         var rr = $('rateReport'); if (rr) rr.value = state.rate;
         var pri = $('prepaidRateInput'); if (pri) pri.value = state.prepaidRate;
+        var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = state.prepaidPurchased != null ? state.prepaidPurchased : '';
         var dpi = $('daysInput'); if (dpi) dpi.value = state.daysInPeriod;
         var hri = $('headroomInput'); if (hri) hri.value = state.headroomPct;
         populateDimSelect();
@@ -582,7 +618,7 @@
     function resetToLanding() {
         state.pending = { entra: null, credits: null }; state.users = []; state.demoActive = false; state.entraFileNames = []; state.invoiceTotal = null;
         state.lineModel = 'paygo'; state.lineFilter = 'all'; state.unitDim = null; state.entraRows = [];
-        state.prepaidRate = 0.01; state.daysInPeriod = 30; state.headroomPct = 15;
+        state.prepaidRate = 0.01; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
         state.expandedUnits = {}; state.valueMode = 'total';
         state.sortJournal = { key: 'paygo', dir: 'desc' }; state.sortLines = { key: 'charge', dir: 'desc' };
         $('statusEntra').textContent = 'No file selected'; $('statusCredits').textContent = 'No file selected';
@@ -590,6 +626,7 @@
         $('fileEntra').value = ''; $('fileCredits').value = '';
         var clr = $('btnClearEntra'); if (clr) clr.hidden = true;
         var inv = $('invoiceInput'); if (inv) inv.value = '';
+        var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = '';
         $('btnGenerate').disabled = true;
         var err = $('cbLandingError'); if (err) err.hidden = true;
         window.scrollTo(0, 0);
@@ -611,6 +648,7 @@
         var rr = $('rateReport'); if (rr) rr.addEventListener('input', function () { var v = parseFloat(rr.value); state.rate = isFinite(v) && v >= 0 ? v : 0; render(); });
         var inv = $('invoiceInput'); if (inv) inv.addEventListener('input', function () { var v = parseFloat(inv.value); state.invoiceTotal = (inv.value === '' || !isFinite(v) || v < 0) ? null : v; render(); });
         var pri2 = $('prepaidRateInput'); if (pri2) pri2.addEventListener('input', function () { var v = parseFloat(pri2.value); state.prepaidRate = isFinite(v) && v >= 0 ? v : 0; render(); });
+        var ppi2 = $('prepaidPurchasedInput'); if (ppi2) ppi2.addEventListener('input', function () { var v = parseFloat(ppi2.value); state.prepaidPurchased = (ppi2.value === '' || !isFinite(v) || v < 0) ? null : v; render(); });
         var dpi2 = $('daysInput'); if (dpi2) dpi2.addEventListener('input', function () { var v = parseFloat(dpi2.value); state.daysInPeriod = isFinite(v) && v > 0 ? v : 30; render(); });
         var hri2 = $('headroomInput'); if (hri2) hri2.addEventListener('input', function () { var v = parseFloat(hri2.value); state.headroomPct = isFinite(v) && v >= 0 ? v : 0; render(); });
         var dimSel = $('cbDimSelect');
