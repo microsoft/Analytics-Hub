@@ -30,6 +30,24 @@
         th.sortable:hover { color: var(--copilot-cyan); }
         .cb-linemodel { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap; }
         .cb-linemodel-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
+        .cb-policyrow { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+        .cb-policyname { flex: 1; min-width: 0; font-size: 0.82rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cb-policyinput { width: 84px; flex: 0 0 auto; padding: 0.4rem 0.5rem; font-size: 0.9rem; border: 1px solid var(--border); border-radius: 8px; background-color: var(--surface-raised); color: var(--text-primary); font-family: inherit; box-sizing: border-box; }
+        .cb-changelog h2 { text-align: left; }
+        .cl-entry { margin-bottom: 1.1rem; }
+        .cl-date { font-weight: 700; color: var(--copilot-blue); margin-bottom: 0.4rem; font-size: 0.95rem; }
+        .cl-list { list-style: none; margin: 0; padding: 0; }
+        .cl-list li { margin-bottom: 0.45rem; font-size: 0.9rem; color: var(--text-secondary); display: flex; gap: 0.55rem; align-items: baseline; line-height: 1.4; }
+        .cl-tag { flex: 0 0 auto; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.12rem 0.45rem; border-radius: 6px; }
+        .cl-tag.add { background: rgba(52,211,153,0.15); color: #34D399; }
+        .cl-tag.chg { background: rgba(74,158,247,0.15); color: #4A9EF7; }
+        .cl-tag.rem { background: rgba(248,113,113,0.15); color: #F87171; }
+        .cb-ef-search { margin-bottom: 0.4rem; }
+        .cb-entity { max-height: 150px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.5rem; background: var(--surface-raised); }
+        .cb-ef-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--text-primary); padding: 0.12rem 0; cursor: pointer; }
+        .cb-ef-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cb-ef-empty { font-size: 0.8rem; color: var(--text-secondary); margin: 0.2rem 0; }
+        .cb-ef-clear { background: none; border: none; color: var(--copilot-blue); cursor: pointer; font-size: 0.8rem; padding: 0.35rem 0 0; font-family: inherit; align-self: flex-start; }
         #cbSummary .metrics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         @media (max-width: 640px) { #cbSummary .metrics-grid { grid-template-columns: 1fr 1fr; } }
         .cb-expand { background: none; border: none; color: inherit; font: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0; text-align: left; }
@@ -42,7 +60,10 @@
 </head>
 <body>
     <div class="container">
-        <a class="back-link" href="../../" target="_top">&larr; Cowork Billing hub</a>
+        <div class="top-nav">
+            <a class="back-link" href="../../" target="_top">&larr; Cowork Billing hub</a>
+            <button type="button" class="fb-open" id="btnFeedback">Request a change</button>
+        </div>
 
         <section id="cbLanding">
             <header>
@@ -93,6 +114,29 @@
                 </div>
                 <p id="cbLandingError" class="landing-error" hidden></p>
             </div>
+            <div class="instructions-section cb-changelog">
+                <h2>Changelog</h2>
+                <div class="cl-entry">
+                    <div class="cl-date">2026-07-20</div>
+                    <ul class="cl-list">
+                        <li><span class="cl-tag add">Added</span> Spending-policy-driven credit limits, a "Cut by: Spending policy" view, and a Policy column in the line items and exports.</li>
+                        <li><span class="cl-tag add">Added</span> Prepaid credits purchased &mdash; pool value, % consumed, and remaining balance or PAYG overflow.</li>
+                    </ul>
+                </div>
+                <div class="cl-entry">
+                    <div class="cl-date">2026-07-17</div>
+                    <ul class="cl-list">
+                        <li><span class="cl-tag add">Added</span> Three billing models (PAYGO, Prepaid pack, Hybrid) shown side by side per department, plus a per-person model toggle.</li>
+                        <li><span class="cl-tag add">Added</span> Drill-down &mdash; click a unit to expand the people who make up its charge.</li>
+                        <li><span class="cl-tag add">Added</span> Total vs Daily-average toggle on the journal.</li>
+                        <li><span class="cl-tag add">Added</span> Multi-tab Excel workbook export (Summary, Allocation, Users, Model comparison) with live formulas.</li>
+                        <li><span class="cl-tag add">Added</span> Prepay sizing panel and tooltips on every visual.</li>
+                        <li><span class="cl-tag chg">Changed</span> Sleeker sticky left-rail layout; summary reorganised into 2&times;3 cards.</li>
+                        <li><span class="cl-tag rem">Removed</span> The single global billing-model toggle &mdash; replaced by side-by-side model columns and a per-person toggle.</li>
+                        <li><span class="cl-tag rem">Removed</span> The journal "% of total" column and the "Overage only" basis &mdash; superseded by the three-model comparison.</li>
+                    </ul>
+                </div>
+            </div>
         </section>
 
         <section id="cbReport" hidden>
@@ -141,6 +185,11 @@
                     <input type="number" id="headroomInput" min="0" step="1" value="15">
                     <small>Buffer above actual usage for the recommended prepay pack.</small>
                 </div>
+                <div class="cb-field" id="cbPolicyField" hidden>
+                    <label>Spending-policy limits</label>
+                    <div id="cbPolicyLimits"></div>
+                    <small>Set the credit allowance per detected spending policy. Applies to users without an explicit limit in the file and drives over/under-utilization.</small>
+                </div>
                 <div class="cb-field">
                     <label>Line items</label>
                     <div class="dim-toggle" id="cbFilterToggle">
@@ -149,6 +198,18 @@
                         <button class="dim-btn" data-filter="active">Active</button>
                     </div>
                     <small>Filter the per-person table (export always includes all).</small>
+                </div>
+                <div class="cb-field">
+                    <label for="cbSearch">Find people</label>
+                    <input type="text" id="cbSearch" placeholder="name, UPN, unit, policy...">
+                    <small>Searches the per-person line items.</small>
+                </div>
+                <div class="cb-field">
+                    <label>Filter to values (view as)</label>
+                    <input type="text" id="cbEntitySearch" class="cb-ef-search" placeholder="Search values...">
+                    <div id="cbEntityFilter" class="cb-entity"></div>
+                    <button type="button" class="cb-ef-clear" id="cbEntityClear">Clear filter</button>
+                    <small>Scope the whole report to the selected values (RLS-style view-as). None selected = all.</small>
                 </div>
                     </div>
                     <div class="cb-actions">
@@ -175,11 +236,52 @@
             </div>
         </section>
 
+        <section id="fbView" class="fb-view" hidden data-report="Cowork Chargeback" data-version="2026-07-20" data-email="jordanking@microsoft.com" data-open="btnFeedback" data-back="fbBack" data-sections="cbLanding,cbReport">
+            <div class="top-nav">
+                <a class="back-link" href="#" id="fbBack">&larr; Back to the report</a>
+            </div>
+            <header>
+                <h1>Request a change</h1>
+                <p class="subtitle">Tell us what would make the Cowork Chargeback report more useful.</p>
+            </header>
+            <div class="info-box"><p><strong>Please note:</strong> there is no Cowork data API or live connection today, so requests to build or grant API access are a known platform limitation and cannot be actioned through this form. This report also runs entirely in your browser and does not submit anything automatically &mdash; it composes a request you can email or copy to your Microsoft contact.</p></div>
+            <div class="instructions-section">
+                <h2>Examples we have already implemented</h2>
+                <ul class="fb-shipped">
+                    <li>Three billing models (PAYGO / Prepaid / Hybrid), side by side</li>
+                    <li>Per-unit to per-person drill-down</li>
+                    <li>Prepaid credits purchased vs usage</li>
+                    <li>Spending-policy-driven limits + cut by policy</li>
+                    <li>Search + view-as (RLS) filter</li>
+                    <li>Multi-tab Excel workbook export</li>
+                </ul>
+                <p class="fb-note">These shipped from customer feedback. Tell us what to build next below.</p>
+            </div>
+            <div class="instructions-section">
+                <h2>Your request</h2>
+                <div class="fb-grid">
+                    <div class="fb-field"><label for="fbName">First name *</label><input type="text" id="fbName" required></div>
+                    <div class="fb-field"><label for="fbEmail">Email *</label><input type="email" id="fbEmail" required></div>
+                    <div class="fb-field"><label for="fbOrg">Organisation *</label><input type="text" id="fbOrg" required></div>
+                    <div class="fb-field"><label for="fbCat">Type</label><select id="fbCat"><option>Feature request</option><option>Bug</option><option>Data accuracy</option><option>Other</option></select></div>
+                    <div class="fb-field"><label for="fbPri">Priority</label><select id="fbPri"><option>Nice to have</option><option>Important</option><option>Blocker</option></select></div>
+                </div>
+                <div class="fb-field"><label for="fbDesc">What would you like changed or added? *</label><textarea id="fbDesc" rows="6"></textarea></div>
+                <div class="fb-actions">
+                    <button class="btn-primary" id="fbCopy">Copy request</button>
+                    <button class="btn-secondary" id="fbEmailBtn">Open in email</button>
+                    <span id="fbStatus" class="fb-status"></span>
+                </div>
+                <p class="fb-note">First name, email and organisation are required. No live submission &mdash; copy the request or open it in email to send it.</p>
+            </div>
+        </section>
+
         <footer id="cbFooter">100% client-side &middot; your files never leave your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../" target="_top">Cowork Billing hub</a></footer>
     </div>
 
     <script src="demo-data.js"></script>
     <script src="xlsx-export.js"></script>
+    <script src="feedback.js"></script>
     <script src="chargeback.js"></script>
 </body>
 </html>

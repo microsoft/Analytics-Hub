@@ -13,6 +13,10 @@
         daysInPeriod: 30,
         headroomPct: 15,
         fallbackLimit: 400,
+        policyLimits: {},
+        entityFilter: {},
+        entitySearch: '',
+        lineSearch: '',
         invoiceTotal: null,
         unitDim: 'costCenter',
         lineModel: 'paygo',
@@ -77,7 +81,8 @@
         businessUnit: ['business unit', 'businessunit', 'bu'],
         creditsUsed: ['monthly credits used', 'credits used', 'creditsused', 'cowork credits', 'credits'],
         creditLimit: ['monthly credit limit', 'credit limit', 'creditlimit', 'limit', 'allowance'],
-        license: ['microsoft 365 copilot license', 'copilot license', 'license', 'licensed']
+        license: ['microsoft 365 copilot license', 'copilot license', 'license', 'licensed'],
+        policy: ['billing policy', 'spending policy', 'copilot spending policy', 'credit policy', 'billingpolicy', 'policy']
     };
     function resolveColumns(headers) {
         var lower = {};
@@ -102,8 +107,8 @@
             if (!upn) return;
             var erow = byUpn[upn] || {};
             var get = function (map, row, field) { return map[field] ? String(row[map[field]] || '').trim() : ''; };
-            var limit = creditMap.creditLimit ? toNumber(crow[creditMap.creditLimit]) : state.fallbackLimit;
-            if (!creditMap.creditLimit || (limit <= 0 && !creditMap.creditLimit)) limit = state.fallbackLimit;
+            var explicit = creditMap.creditLimit ? toNumber(crow[creditMap.creditLimit]) : 0;
+            var policyVal = get(creditMap, crow, 'policy') || get(entraMap, erow, 'policy') || '';
             users.push({
                 upn: upn,
                 attrs: erow,
@@ -111,20 +116,39 @@
                 department: get(entraMap, erow, 'department') || 'Unknown',
                 costCenter: get(entraMap, erow, 'costCenter') || 'Unknown',
                 businessUnit: get(entraMap, erow, 'businessUnit') || 'Unknown',
+                policy: policyVal || 'Unassigned',
+                explicitLimit: (creditMap.creditLimit && explicit > 0) ? explicit : null,
                 used: creditMap.creditsUsed ? toNumber(crow[creditMap.creditsUsed]) : 0,
-                limit: limit
+                limit: 0
             });
         });
+        applyLimits(users);
         return users;
+    }
+    function applyLimits(users) {
+        (users || state.users).forEach(function (u) {
+            if (u.explicitLimit != null && u.explicitLimit > 0) { u.limit = u.explicitLimit; u.limitSource = 'file'; return; }
+            var pl = (u.policy && state.policyLimits[u.policy] != null) ? state.policyLimits[u.policy] : null;
+            if (pl != null && pl > 0) { u.limit = pl; u.limitSource = 'policy'; return; }
+            u.limit = state.fallbackLimit; u.limitSource = 'fallback';
+        });
     }
 
     function unitOf(u) {
+        if (state.unitDim === 'Spending policy') { var pv = u.policy; return (!pv || pv === 'Unassigned') ? 'Unallocated' : pv; }
         var raw = (u.attrs && u.attrs[state.unitDim] != null) ? u.attrs[state.unitDim] : '';
         var v = String(raw).trim();
         if (!v || v.toLowerCase() === 'unknown') return 'Unallocated';
         return v;
     }
     function unitLabel() { return state.unitDim ? String(state.unitDim) : 'Unit'; }
+    function entityFilterActive() { for (var k in state.entityFilter) { if (state.entityFilter.hasOwnProperty(k)) return true; } return false; }
+    function inScope(u) { return !entityFilterActive() || state.entityFilter[unitOf(u)] === true; }
+    function matchSearch(u) {
+        var q = (state.lineSearch || '').trim().toLowerCase();
+        if (!q) return true;
+        return (String(u.displayName) + ' ' + String(u.upn) + ' ' + unitOf(u) + ' ' + String(u.policy || '')).toLowerCase().indexOf(q) >= 0;
+    }
     function detectDimensions(entraRows) {
         if (!entraRows.length) return [];
         var headers = Object.keys(entraRows[0]);
@@ -139,12 +163,40 @@
         for (var i = 0; i < pref.length; i++) { for (var j = 0; j < dims.length; j++) { if (String(dims[j]).trim().toLowerCase() === pref[i]) return dims[j]; } }
         return dims.length ? dims[0] : '';
     }
+    function hasPolicies() {
+        for (var i = 0; i < state.users.length; i++) { if (state.users[i].policy && state.users[i].policy !== 'Unassigned') return true; }
+        return false;
+    }
     function populateDimSelect() {
         var sel = $('cbDimSelect'); if (!sel) return;
         var dims = detectDimensions(state.entraRows);
+        if (hasPolicies() && dims.indexOf('Spending policy') < 0) dims = dims.concat(['Spending policy']);
         if (!state.unitDim || dims.indexOf(state.unitDim) < 0) state.unitDim = pickDefaultDim(dims);
         if (!dims.length) { sel.innerHTML = '<option value="">No org columns found</option>'; return; }
         sel.innerHTML = dims.map(function (d) { return '<option value="' + esc(d) + '"' + (d === state.unitDim ? ' selected' : '') + '>' + esc(d) + '</option>'; }).join('');
+    }
+    function populatePolicyLimits() {
+        var field = $('cbPolicyField'), box = $('cbPolicyLimits');
+        if (!field || !box) return;
+        var seen = {}, keys = [];
+        state.users.forEach(function (u) { if (u.explicitLimit == null && u.policy && !seen[u.policy]) { seen[u.policy] = 1; keys.push(u.policy); } });
+        keys.sort();
+        if (!keys.length) { field.hidden = true; box.innerHTML = ''; return; }
+        field.hidden = false;
+        box.innerHTML = keys.map(function (p) {
+            var val = state.policyLimits[p] != null ? state.policyLimits[p] : '';
+            return '<div class="cb-policyrow"><span class="cb-policyname" title="' + esc(p) + '">' + esc(p) + '</span><input type="number" min="0" step="1" class="cb-policyinput" data-policy="' + esc(p) + '" value="' + val + '" placeholder="' + state.fallbackLimit + '"></div>';
+        }).join('');
+    }
+    function populateEntityFilter() {
+        var box = $('cbEntityFilter'); if (!box) return;
+        var vals = {}; state.users.forEach(function (u) { vals[unitOf(u)] = 1; });
+        var keys = Object.keys(vals).sort();
+        var q = (state.entitySearch || '').toLowerCase();
+        var shown = q ? keys.filter(function (k) { return k.toLowerCase().indexOf(q) >= 0; }) : keys;
+        box.innerHTML = shown.length ? shown.map(function (k) {
+            return '<label class="cb-ef-item"><input type="checkbox" data-entity="' + esc(k) + '"' + (state.entityFilter[k] ? ' checked' : '') + '><span>' + esc(k) + '</span></label>';
+        }).join('') : '<p class="cb-ef-empty">No matching values</p>';
     }
     function chargeForModel(used, limit, model) {
         var rt = state.rate, pr = state.prepaidRate, over = Math.max(0, used - limit);
@@ -168,6 +220,7 @@
         var groups = {}, order = [], totalCredits = 0, totalOverage = 0, totalLimit = 0, totalWastedCredits = 0, totalHeadroomPack = 0;
         var hf = 1 + (state.headroomPct / 100);
         state.users.forEach(function (u) {
+            if (!inScope(u)) return;
             var key = unitOf(u);
             var g = groups[key] || (groups[key] = { label: key, users: 0, credits: 0, overage: 0, limit: 0 });
             if (g.users === 0 && order.indexOf(key) < 0) order.push(key);
@@ -319,21 +372,22 @@
         return '<section class="panel">' + panelHead('Per-unit chargeback journal', 'Chargeback rolled up per GL unit, priced under all three billing models side by side (PAYGO, Prepaid, Hybrid). Toggle Total vs Daily average, click a unit name to expand its people, or click a column header to sort.') + valTog + '<div class="table-wrap"><table>' + head + body + '</table></div><p class="section-caption">' + basisNote + ' Click a unit name to expand its members; click a column header to sort.</p></section>';
     }
     function renderLineItems(m) {
-        var rate = state.rate, lm = state.lineModel;
+        var rate = state.rate, lm = state.lineModel, showPol = hasPolicies();
         var rows = state.users.filter(function (u) {
+            if (!inScope(u) || !matchSearch(u)) return false;
             if (state.lineFilter === 'over') return u.used > u.limit;
             if (state.lineFilter === 'active') return u.used > 0;
             return true;
         }).map(function (u) {
             var over = Math.max(0, u.used - u.limit);
             var daily = state.daysInPeriod > 0 ? u.used / state.daysInPeriod : 0;
-            return { upn: u.upn, name: u.displayName, unit: unitOf(u), credits: u.used, dailyUse: daily, dailyCharge: daily * rate, allowance: u.limit, overage: over, charge: chargeForModel(u.used, u.limit, lm) };
+            return { upn: u.upn, name: u.displayName, unit: unitOf(u), policy: u.policy, credits: u.used, dailyUse: daily, dailyCharge: daily * rate, allowance: u.limit, overage: over, charge: chargeForModel(u.used, u.limit, lm) };
         });
         rows = sortRows(rows, state.sortLines.key, state.sortLines.dir);
         var LIMIT = 50, shown = rows.slice(0, LIMIT), sc = state.sortLines;
-        var head = '<thead><tr>' + sortTh('lines', 'upn', 'User (MSID / UPN)', false, sc) + sortTh('lines', 'name', 'Display name', false, sc) + sortTh('lines', 'unit', unitLabel() + ' (GL)', false, sc) + sortTh('lines', 'credits', 'Credits', true, sc) + sortTh('lines', 'dailyUse', 'Daily use', true, sc) + sortTh('lines', 'dailyCharge', 'Daily $', true, sc) + sortTh('lines', 'allowance', 'Prepaid allowance', true, sc) + sortTh('lines', 'overage', 'PAYG (overage)', true, sc) + sortTh('lines', 'charge', 'Chargeback $ (' + modelLabel(lm) + ')', true, sc) + '</tr></thead>';
+        var head = '<thead><tr>' + sortTh('lines', 'upn', 'User (MSID / UPN)', false, sc) + sortTh('lines', 'name', 'Display name', false, sc) + sortTh('lines', 'unit', unitLabel() + ' (GL)', false, sc) + (showPol ? sortTh('lines', 'policy', 'Policy', false, sc) : '') + sortTh('lines', 'credits', 'Credits', true, sc) + sortTh('lines', 'dailyUse', 'Daily use', true, sc) + sortTh('lines', 'dailyCharge', 'Daily $', true, sc) + sortTh('lines', 'allowance', 'Prepaid allowance', true, sc) + sortTh('lines', 'overage', 'PAYG (overage)', true, sc) + sortTh('lines', 'charge', 'Chargeback $ (' + modelLabel(lm) + ')', true, sc) + '</tr></thead>';
         var body = '<tbody>' + shown.map(function (r) {
-            return '<tr><td>' + esc(r.upn) + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.unit) + '</td><td class="num">' + fmtInt(r.credits) + '</td><td class="num">' + r.dailyUse.toFixed(1) + '</td><td class="num">' + fmtMoney(r.dailyCharge) + '</td><td class="num">' + fmtInt(r.allowance) + '</td><td class="num">' + fmtInt(r.overage) + '</td><td class="num">' + fmtMoney(r.charge) + '</td></tr>';
+            return '<tr><td>' + esc(r.upn) + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.unit) + '</td>' + (showPol ? '<td>' + esc(r.policy) + '</td>' : '') + '<td class="num">' + fmtInt(r.credits) + '</td><td class="num">' + r.dailyUse.toFixed(1) + '</td><td class="num">' + fmtMoney(r.dailyCharge) + '</td><td class="num">' + fmtInt(r.allowance) + '</td><td class="num">' + fmtInt(r.overage) + '</td><td class="num">' + fmtMoney(r.charge) + '</td></tr>';
         }).join('') + '</tbody>';
         var note = rows.length > LIMIT ? 'Showing the top ' + LIMIT + ' of ' + fmtInt(rows.length) + ' matching users. The CSV export includes all users and all three models.' : fmtInt(rows.length) + ' users shown.';
         var modelTog = '<div class="cb-linemodel"><span class="cb-linemodel-label">Billing model:</span><div class="dim-toggle" id="cbLineModel">' + ['paygo', 'prepaid', 'hybrid'].map(function (mm) { return '<button class="dim-btn' + (lm === mm ? ' active' : '') + '" data-linemodel="' + mm + '">' + modelLabel(mm) + '</button>'; }).join('') + '</div></div>';
@@ -394,11 +448,11 @@
         var rate = state.rate;
         var rows = stampRows();
         rows.push(['Billing models', 'PAYGO / Prepaid / Hybrid', 'Rate $/credit', rate.toFixed(4), 'Prepaid $/credit', state.prepaidRate.toFixed(4)]);
-        rows.push(['User Principal Name (MSID)', 'Display Name', 'Department', 'Cost Center', 'Business Unit', unitLabel() + ' (GL key)', 'Credits', 'Daily usage', 'Daily charge $', 'Prepaid allowance', 'PAYG (overage) credits', 'PAYGO $', 'Prepaid $', 'Hybrid $']);
+        rows.push(['User Principal Name (MSID)', 'Display Name', 'Department', 'Cost Center', 'Business Unit', unitLabel() + ' (GL key)', 'Credits', 'Daily usage', 'Daily charge $', 'Prepaid allowance', 'PAYG (overage) credits', 'PAYGO $', 'Prepaid $', 'Hybrid $', 'Spending policy', 'Limit source']);
         state.users.slice().sort(function (a, b) { return b.used - a.used; }).forEach(function (u) {
             var over = Math.max(0, u.used - u.limit);
             var daily = state.daysInPeriod > 0 ? u.used / state.daysInPeriod : 0;
-            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, unitOf(u), Math.round(u.used), daily.toFixed(1), (daily * rate).toFixed(2), Math.round(u.limit), Math.round(over), chargeForModel(u.used, u.limit, 'paygo').toFixed(2), chargeForModel(u.used, u.limit, 'prepaid').toFixed(2), chargeForModel(u.used, u.limit, 'hybrid').toFixed(2)]);
+            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, unitOf(u), Math.round(u.used), daily.toFixed(1), (daily * rate).toFixed(2), Math.round(u.limit), Math.round(over), chargeForModel(u.used, u.limit, 'paygo').toFixed(2), chargeForModel(u.used, u.limit, 'prepaid').toFixed(2), chargeForModel(u.used, u.limit, 'hybrid').toFixed(2), u.policy, u.limitSource || 'fallback']);
         });
         downloadBlob(toCsv(rows), 'cowork-chargeback-line-items' + demoSuffix() + '.csv');
     }
@@ -496,11 +550,11 @@
         alloc.freeze = 4;
         alloc.autofilter = 'A4:K' + last;
 
-        var usersS = { name: 'Users', cols: [26, 20, 18, 16, 16, 18, 10, 10, 12, 10, 12, 12, 12, 12], rows: [] };
+        var usersS = { name: 'Users', cols: [26, 20, 18, 16, 16, 18, 10, 10, 12, 10, 12, 12, 12, 12, 16], rows: [] };
         usersS.rows.push([TT('Users - per-person detail')]);
         usersS.rows.push([B('Billing model'), { t: 'f', f: 'Allocation!$B$2', s: 'def' }]);
         usersS.rows.push([txt('Chosen $ follows the model on the Allocation tab. Use the filter row to slice, or pivot this table.')]);
-        usersS.rows.push([H('User (MSID / UPN)'), H('Display name'), H('Department'), H('Cost Center'), H('Business Unit'), H(unit + ' (GL)'), H('Credits'), H('Daily use'), H('Allowance'), H('Overage'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $')]);
+        usersS.rows.push([H('User (MSID / UPN)'), H('Display name'), H('Department'), H('Cost Center'), H('Business Unit'), H(unit + ' (GL)'), H('Credits'), H('Daily use'), H('Allowance'), H('Overage'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $'), H('Spending policy')]);
         var us = state.users.slice().sort(function (a, b) { return b.used - a.used; }), ufirst = 5;
         for (i = 0; i < us.length; i++) {
             u = us[i]; r = ufirst + i;
@@ -510,11 +564,11 @@
                 txt(u.upn), txt(u.displayName), txt(u.department), txt(u.costCenter), txt(u.businessUnit), txt(unitOf(u)),
                 intc(u.used), d1(daily), intc(u.limit), intc(over),
                 money(chargeForModel(u.used, u.limit, 'paygo')), money(chargeForModel(u.used, u.limit, 'prepaid')), money(chargeForModel(u.used, u.limit, 'hybrid')),
-                fCur('IF($B$2="Prepaid",L' + r + ',IF($B$2="Hybrid",M' + r + ',K' + r + '))')
+                fCur('IF($B$2="Prepaid",L' + r + ',IF($B$2="Hybrid",M' + r + ',K' + r + '))'), txt(u.policy)
             ]);
         }
         usersS.freeze = 4;
-        usersS.autofilter = 'A4:N' + (ufirst + us.length - 1);
+        usersS.autofilter = 'A4:O' + (ufirst + us.length - 1);
 
         var cmp = { name: 'Model comparison', cols: [26, 13, 13, 13, 13, 15, 15, 16], rows: [] };
         cmp.rows.push([TT('Billing model comparison by ' + unit)]);
@@ -607,6 +661,9 @@
         var dpi = $('daysInput'); if (dpi) dpi.value = state.daysInPeriod;
         var hri = $('headroomInput'); if (hri) hri.value = state.headroomPct;
         populateDimSelect();
+        populatePolicyLimits();
+        populateEntityFilter();
+        var cbs0 = $('cbSearch'); if (cbs0) cbs0.value = state.lineSearch;
         syncToggle('cbFilterToggle', 'data-filter', state.lineFilter);
         render();
         window.scrollTo(0, 0);
@@ -619,7 +676,7 @@
         state.pending = { entra: null, credits: null }; state.users = []; state.demoActive = false; state.entraFileNames = []; state.invoiceTotal = null;
         state.lineModel = 'paygo'; state.lineFilter = 'all'; state.unitDim = null; state.entraRows = [];
         state.prepaidRate = 0.01; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
-        state.expandedUnits = {}; state.valueMode = 'total';
+        state.expandedUnits = {}; state.valueMode = 'total'; state.policyLimits = {}; state.entityFilter = {}; state.entitySearch = ''; state.lineSearch = '';
         state.sortJournal = { key: 'paygo', dir: 'desc' }; state.sortLines = { key: 'charge', dir: 'desc' };
         $('statusEntra').textContent = 'No file selected'; $('statusCredits').textContent = 'No file selected';
         $('dzEntra').classList.remove('loaded'); $('dzCredits').classList.remove('loaded');
@@ -627,6 +684,8 @@
         var clr = $('btnClearEntra'); if (clr) clr.hidden = true;
         var inv = $('invoiceInput'); if (inv) inv.value = '';
         var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = '';
+        var cbs = $('cbSearch'); if (cbs) cbs.value = '';
+        var ces2 = $('cbEntitySearch'); if (ces2) ces2.value = '';
         $('btnGenerate').disabled = true;
         var err = $('cbLandingError'); if (err) err.hidden = true;
         window.scrollTo(0, 0);
@@ -652,7 +711,24 @@
         var dpi2 = $('daysInput'); if (dpi2) dpi2.addEventListener('input', function () { var v = parseFloat(dpi2.value); state.daysInPeriod = isFinite(v) && v > 0 ? v : 30; render(); });
         var hri2 = $('headroomInput'); if (hri2) hri2.addEventListener('input', function () { var v = parseFloat(hri2.value); state.headroomPct = isFinite(v) && v >= 0 ? v : 0; render(); });
         var dimSel = $('cbDimSelect');
-        if (dimSel) dimSel.addEventListener('change', function () { state.unitDim = dimSel.value; render(); });
+        if (dimSel) dimSel.addEventListener('change', function () { state.unitDim = dimSel.value; state.entityFilter = {}; state.entitySearch = ''; var es0 = $('cbEntitySearch'); if (es0) es0.value = ''; populateEntityFilter(); render(); });
+        var pbox = $('cbPolicyLimits');
+        if (pbox) pbox.addEventListener('input', function (e) {
+            var t = e.target.closest ? e.target.closest('[data-policy]') : null;
+            if (!t) return;
+            var pol = t.getAttribute('data-policy'), v = parseFloat(t.value);
+            if (t.value === '' || !isFinite(v) || v < 0) { delete state.policyLimits[pol]; } else { state.policyLimits[pol] = v; }
+            applyLimits(); render();
+        });
+        var cbSearchEl = $('cbSearch'); if (cbSearchEl) cbSearchEl.addEventListener('input', function () { state.lineSearch = cbSearchEl.value; render(); });
+        var ces = $('cbEntitySearch'); if (ces) ces.addEventListener('input', function () { state.entitySearch = ces.value; populateEntityFilter(); });
+        var efbox = $('cbEntityFilter'); if (efbox) efbox.addEventListener('change', function (e) {
+            var t = e.target.closest ? e.target.closest('[data-entity]') : null; if (!t) return;
+            var k = t.getAttribute('data-entity');
+            if (t.checked) { state.entityFilter[k] = true; } else { delete state.entityFilter[k]; }
+            render();
+        });
+        var efc = $('cbEntityClear'); if (efc) efc.addEventListener('click', function () { state.entityFilter = {}; state.entitySearch = ''; if (ces) ces.value = ''; populateEntityFilter(); render(); });
         var filterTog = $('cbFilterToggle');
         if (filterTog) filterTog.addEventListener('click', function (ev) {
             var b = ev.target.closest ? ev.target.closest('.dim-btn') : null;
@@ -673,7 +749,7 @@
             if (!th) return;
             var tbl = th.getAttribute('data-table'), key = th.getAttribute('data-sort');
             var st = tbl === 'lines' ? state.sortLines : state.sortJournal;
-            var textKeys = { label: 1, upn: 1, name: 1, unit: 1 };
+            var textKeys = { label: 1, upn: 1, name: 1, unit: 1, policy: 1 };
             if (st.key === key) { st.dir = st.dir === 'asc' ? 'desc' : 'asc'; }
             else { st.key = key; st.dir = textKeys[key] ? 'asc' : 'desc'; }
             render();

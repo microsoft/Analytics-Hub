@@ -12,6 +12,8 @@
         contractedRate: 0.01,
         allocDim: 'department', // Department / Cost Center / Business Unit toggle
         fallbackLimit: 400,     // loader-adjustable; used when no per-user limit column
+        entityFilter: {},
+        entitySearch: '',
         demoActive: false,
         capBasis: 'credits',
         unitCaps: { credits: { department: {}, costCenter: {}, businessUnit: {} }, dollars: { department: {}, costCenter: {}, businessUnit: {} } },
@@ -229,8 +231,30 @@
     }
 
     // --------------------------------------------------------- compute the model
+    function scopeLabel(u) { var v = u[state.allocDim]; return (v && String(v).trim()) ? String(v).trim() : 'Unknown'; }
+    function entityFilterActive() { for (var k in state.entityFilter) { if (state.entityFilter.hasOwnProperty(k)) return true; } return false; }
+    function inScope(u) { return !entityFilterActive() || state.entityFilter[scopeLabel(u)] === true; }
+    function injectFoCss() {
+        if ($('fo-style')) return;
+        var css = '.fo-entity{max-height:150px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;padding:0.35rem 0.5rem;background:var(--surface-raised);margin:0.35rem 0;}' +
+            '.fo-ef-item{display:flex;align-items:center;gap:0.45rem;font-size:0.82rem;color:var(--text-primary);padding:0.12rem 0;cursor:pointer;}' +
+            '.fo-ef-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}' +
+            '.fo-ef-empty{font-size:0.8rem;color:var(--text-secondary);margin:0.2rem 0;}' +
+            '.fo-ef-clear{background:none;border:none;color:var(--copilot-blue);cursor:pointer;font-size:0.8rem;padding:0.2rem 0;font-family:inherit;}';
+        var s = document.createElement('style'); s.id = 'fo-style'; s.appendChild(document.createTextNode(css)); (document.head || document.documentElement).appendChild(s);
+    }
+    function populateEntityFilterF() {
+        var box = $('finopsEntity'); if (!box) return;
+        var vals = {}; state.users.forEach(function (u) { vals[scopeLabel(u)] = 1; });
+        var keys = Object.keys(vals).sort();
+        var q = (state.entitySearch || '').toLowerCase();
+        var shown = q ? keys.filter(function (k) { return k.toLowerCase().indexOf(q) >= 0; }) : keys;
+        box.innerHTML = shown.length ? shown.map(function (k) {
+            return '<label class="fo-ef-item"><input type="checkbox" data-entity="' + esc(k) + '"' + (state.entityFilter[k] ? ' checked' : '') + '><span>' + esc(k) + '</span></label>';
+        }).join('') : '<p class="fo-ef-empty">No matching values</p>';
+    }
     function compute() {
-        var users = state.users;
+        var users = state.users.filter(inScope);
 
         // Per-user derived fields (mirror app.js computePerUser core).
         users.forEach(function (u) {
@@ -657,6 +681,7 @@
             sectionRateOptimization(m) +
             sectionCapabilityCoverage() +
             sectionGlossary();
+        populateEntityFilterF();
     }
 
     // =========================================================== wiring
@@ -895,6 +920,7 @@
     function resetToLanding() {
         state.pending = { entra: null, credits: null };
         state.users = []; state.demoActive = false;
+        state.entityFilter = {}; state.entitySearch = '';
         state.capBasis = 'credits';
         state.unitCaps = { credits: { department: {}, costCenter: {}, businessUnit: {} }, dollars: { department: {}, costCenter: {}, businessUnit: {} } };
         var report = $('finopsReport'), landing = $('finopsLanding');
@@ -909,6 +935,7 @@
     }
 
     function init() {
+        injectFoCss();
         wireDropzone('dzEntraF', 'fileEntraF', 'statusEntraF', 'entra');
         wireDropzone('dzCreditsF', 'fileCreditsF', 'statusCreditsF', 'credits');
 
@@ -923,13 +950,21 @@
         var l = $('rateList'), c = $('rateContracted');
         if (l) l.addEventListener('input', function () { readRates(); render(); });
         if (c) c.addEventListener('input', function () { readRates(); render(); });
+        var fes = $('finopsEntitySearch'); if (fes) fes.addEventListener('input', function () { state.entitySearch = fes.value; populateEntityFilterF(); });
+        var febox = $('finopsEntity'); if (febox) febox.addEventListener('change', function (ev) {
+            var t = ev.target && ev.target.closest ? ev.target.closest('[data-entity]') : null; if (!t) return;
+            var k = t.getAttribute('data-entity');
+            if (t.checked) { state.entityFilter[k] = true; } else { delete state.entityFilter[k]; }
+            render();
+        });
+        var fec = $('finopsEntityClear'); if (fec) fec.addEventListener('click', function () { state.entityFilter = {}; state.entitySearch = ''; if (fes) fes.value = ''; render(); });
 
         // Delegate the allocation dimension toggle (buttons re-render on click).
         var body = $('finopsBody');
         if (body) body.addEventListener('click', function (ev) {
             var btn = ev.target.closest ? ev.target.closest('.dim-btn') : null;
             if (!btn) return;
-            if (btn.getAttribute('data-dim')) { state.allocDim = btn.getAttribute('data-dim'); render(); return; }
+            if (btn.getAttribute('data-dim')) { state.allocDim = btn.getAttribute('data-dim'); state.entityFilter = {}; state.entitySearch = ''; var esf = $('finopsEntitySearch'); if (esf) esf.value = ''; render(); return; }
             if (btn.getAttribute('data-basis')) { state.capBasis = btn.getAttribute('data-basis'); render(); return; }
         });
         if (body) body.addEventListener('change', function (ev) {

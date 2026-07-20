@@ -101,7 +101,10 @@
 </head>
 <body>
     <div class="container">
-        <a class="back-link" href="../../cowork-billing/" target="_top">&larr; Cowork Billing hub</a>
+        <div class="top-nav">
+            <a class="back-link" href="../../cowork-billing/" target="_top">&larr; Cowork Billing hub</a>
+            <button type="button" class="fb-open" id="btnFeedback">Request a change</button>
+        </div>
 
         <!-- ============================ LANDING ============================ -->
         <section id="finopsLanding">
@@ -232,8 +235,57 @@
                 </div>
             </div>
 
+            <div class="rate-controls" id="finopsFilterBar">
+                <div class="rate-field" style="flex:1 1 100%; max-width:460px">
+                    <label>Filter to values (view as)</label>
+                    <input type="text" id="finopsEntitySearch" class="fo-ef-search" placeholder="Search values...">
+                    <div id="finopsEntity" class="fo-entity"></div>
+                    <button type="button" class="fo-ef-clear" id="finopsEntityClear">Clear filter</button>
+                    <small>Scope the whole report to selected values (RLS-style view-as). None selected = all. Values follow the Cost allocation dimension.</small>
+                </div>
+            </div>
+
             <!-- Everything below is rendered by finops.js. -->
             <div id="finopsBody"></div>
+        </section>
+
+        <section id="fbView" class="fb-view" hidden data-report="Cowork FinOps Cost Report" data-version="2026-07-20" data-email="jordanking@microsoft.com" data-open="btnFeedback" data-back="fbBack" data-sections="finopsLanding,finopsReport">
+            <div class="top-nav">
+                <a class="back-link" href="#" id="fbBack">&larr; Back to the report</a>
+            </div>
+            <header>
+                <h1>Request a change</h1>
+                <p class="subtitle">Tell us what would make the Cowork FinOps cost report more useful.</p>
+            </header>
+            <div class="info-box"><p><strong>Please note:</strong> there is no Cowork data API or live connection today, so requests to build or grant API access are a known platform limitation and cannot be actioned through this form. This report also runs entirely in your browser and does not submit anything automatically &mdash; it composes a request you can email or copy to your Microsoft contact.</p></div>
+            <div class="instructions-section">
+                <h2>Examples we have already implemented</h2>
+                <ul class="fb-shipped">
+                    <li>FOCUS v1.2-aligned cost summary and KPI band</li>
+                    <li>Cost allocation (showback &amp; chargeback) by Department / Cost Center / Business Unit</li>
+                    <li>Budget vs actual variance and unit economics</li>
+                    <li>Rate &amp; commitment optimization view</li>
+                    <li>Search + view-as (RLS) filter</li>
+                </ul>
+                <p class="fb-note">These shipped from customer feedback. Tell us what to build next below.</p>
+            </div>
+            <div class="instructions-section">
+                <h2>Your request</h2>
+                <div class="fb-grid">
+                    <div class="fb-field"><label for="fbName">First name *</label><input type="text" id="fbName" required></div>
+                    <div class="fb-field"><label for="fbEmail">Email *</label><input type="email" id="fbEmail" required></div>
+                    <div class="fb-field"><label for="fbOrg">Organisation *</label><input type="text" id="fbOrg" required></div>
+                    <div class="fb-field"><label for="fbCat">Type</label><select id="fbCat"><option>Feature request</option><option>Bug</option><option>Data accuracy</option><option>Other</option></select></div>
+                    <div class="fb-field"><label for="fbPri">Priority</label><select id="fbPri"><option>Nice to have</option><option>Important</option><option>Blocker</option></select></div>
+                </div>
+                <div class="fb-field"><label for="fbDesc">What would you like changed or added? *</label><textarea id="fbDesc" rows="6"></textarea></div>
+                <div class="fb-actions">
+                    <button class="btn-primary" id="fbCopy">Copy request</button>
+                    <button class="btn-secondary" id="fbEmailBtn">Open in email</button>
+                    <span id="fbStatus" class="fb-status"></span>
+                </div>
+                <p class="fb-note">First name, email and organisation are required. No live submission &mdash; copy the request or open it in email to send it.</p>
+            </div>
         </section>
 
         <footer id="finopsFooter">Synthetic data &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../cowork-billing/" target="_top">Cowork Billing hub</a> &middot; v1.1</footer>
@@ -244,6 +296,7 @@
     <script src="lib/html2canvas.min.js"></script>
     <script src="lib/jspdf.umd.min.js"></script>
     <script src="demo-data.js"></script>
+    <script src="feedback.js"></script>
     <script src="finops.js"></script>
 </body>
 </html>

@@ -353,3 +353,14 @@ tbody tr:hover { background: rgba(74, 158, 247, 0.06); }
 @media (max-width: 900px) {
     .est-grid { grid-template-columns: 1fr; }
 }
+
+/* --- changelog (added 2026-07-20) --- */
+.cb-changelog h2 { text-align: left; }
+.cl-entry { margin-bottom: 1.1rem; }
+.cl-date { font-weight: 700; color: var(--copilot-blue); margin-bottom: 0.4rem; font-size: 0.95rem; }
+.cl-list { list-style: none; margin: 0; padding: 0; }
+.cl-list li { margin-bottom: 0.45rem; font-size: 0.9rem; color: var(--text-secondary); display: flex; gap: 0.55rem; align-items: baseline; line-height: 1.4; }
+.cl-tag { flex: 0 0 auto; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.12rem 0.45rem; border-radius: 6px; }
+.cl-tag.add { background: rgba(52,211,153,0.15); color: #34D399; }
+.cl-tag.chg { background: rgba(74,158,247,0.15); color: #4A9EF7; }
+.cl-tag.rem { background: rgba(248,113,113,0.15); color: #F87171; }
