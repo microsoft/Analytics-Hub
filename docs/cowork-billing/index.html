@@ -119,6 +119,16 @@
     </div>
   </section>
 
+  <section class="wrap cb-sources">
+    <h2>Where do I get these files?</h2>
+    <p>Each browser app above runs on two CSV exports you already own &mdash; nothing is uploaded, everything is parsed locally in your browser:</p>
+    <ol>
+      <li><strong>Entra user export(s)</strong> &mdash; in the <a href="https://entra.microsoft.com" target="_blank" rel="noopener">Microsoft Entra admin center</a>, open <em>Identity &rarr; Users &rarr; All users</em> and choose <strong>Download users</strong>. This CSV carries the org attributes (Department, Cost Center, Job title, etc.) used to allocate cost and group people.</li>
+      <li><strong>Copilot credit / Cost Management export</strong> &mdash; export your Copilot Cowork consumption from <em>Microsoft Cost Management</em> (Azure portal &rarr; <em>Cost Management &rarr; Exports</em>, or <em>Cost analysis &rarr; Download</em>), or use the credit / usage CSV from your Microsoft billing contact. It just needs one row per user with the credits they consumed.</li>
+    </ol>
+    <p>Column names are auto-detected, so most export layouts work as-is. The Power BI report &amp; template uses the same two sources.</p>
+  </section>
+
   <section class="wrap cb-viewer-wrap">
     <div class="cb-viewer" id="cbViewer" aria-label="Cowork billing methodology deck viewer">
       <div class="cb-viewer-toolbar">
