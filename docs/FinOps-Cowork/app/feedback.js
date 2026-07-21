@@ -103,6 +103,26 @@
             var to = view.getAttribute('data-email') || '';
             window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent('Change request: ' + report) + '&body=' + encodeURIComponent(compose());
         });
+
+        // Microsoft Form (reliable, tracked capture). Injected only when a form URL is configured.
+        var formUrl = trim(view.getAttribute('data-form') || '');
+        if (formUrl) {
+            var actions = cp ? cp.parentNode : (em ? em.parentNode : null);
+            if (actions) {
+                if (cp) cp.className = 'btn-secondary';
+                var ff = document.createElement('button');
+                ff.type = 'button'; ff.id = 'fbFormBtn'; ff.className = 'btn-primary';
+                ff.textContent = 'Submit via Microsoft Form';
+                actions.insertBefore(ff, actions.firstChild);
+                ff.addEventListener('click', function () {
+                    var errs = validate(); if (errs.length) { status('Please add ' + errs.join(', ') + '.', true); return; }
+                    var text = compose();
+                    function go() { window.open(formUrl, '_blank'); status('Copied - paste your request into the form and submit.'); }
+                    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(go, function () { fallbackCopy(text); window.open(formUrl, '_blank'); }); }
+                    else { fallbackCopy(text); window.open(formUrl, '_blank'); }
+                });
+            }
+        }
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
