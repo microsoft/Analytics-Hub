@@ -55,22 +55,25 @@
         standard: '#00D4FF',
         advanced: '#34D399',
         power: '#A855F7',
-        frontier: '#F59E0B'
+        frontier: '#F59E0B',
+        elite: '#F472B6'
     };
 
     // ---------------------------------------------------------- billing policies
-    // Ordered set; allowances are editable live via the policy editor.
+    // Ordered set; allowances are editable live via the policy editor. Allowances
+    // align to the demo credit-limit caps (Customer Example engagement tiers).
     var POLICIES = [
         { id: 'unassigned', name: 'Unassigned', role: 'None', allowance: 0 },
-        { id: 'light', name: 'Light', role: 'Viewer', allowance: 150 },
-        { id: 'standard', name: 'Standard', role: 'Member', allowance: 400 },
-        { id: 'advanced', name: 'Advanced', role: 'Member', allowance: 700 },
-        { id: 'power', name: 'Power', role: 'Power', allowance: 1200 },
-        { id: 'frontier', name: 'Frontier', role: 'Admin', allowance: 2000 }
+        { id: 'light', name: 'Light', role: 'Viewer', allowance: 1000 },
+        { id: 'standard', name: 'Standard', role: 'Member', allowance: 6000 },
+        { id: 'advanced', name: 'Advanced', role: 'Member', allowance: 15000 },
+        { id: 'power', name: 'Power', role: 'Power', allowance: 30000 },
+        { id: 'frontier', name: 'Frontier', role: 'Admin', allowance: 55000 },
+        { id: 'elite', name: 'Elite', role: 'Admin', allowance: 175000 }
     ];
 
     // Original tier names, restored if a rename is cleared to empty.
-    var DEFAULT_POLICY_NAMES = { unassigned: 'Unassigned', light: 'Light', standard: 'Standard', advanced: 'Advanced', power: 'Power', frontier: 'Frontier' };
+    var DEFAULT_POLICY_NAMES = { unassigned: 'Unassigned', light: 'Light', standard: 'Standard', advanced: 'Advanced', power: 'Power', frontier: 'Frontier', elite: 'Elite' };
 
     var COLUMN_CANDIDATES = {
         upn: ['user principal name', 'userprincipalname', 'upn', 'email', 'user'],

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cowork Usage Tracker</title>
+    <meta name="description" content="Client-side Copilot Cowork usage tracker. Turns repeated consumption exports into per-user and per-department usage deltas, trends and forecasts. All processing happens locally in your browser.">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        /* ---- period-type forced choice ---- */
+        .ut-step { position: relative; }
+        .ut-step.locked { opacity: 0.4; pointer-events: none; filter: grayscale(0.4); }
+        .ut-steplabel { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800; color: var(--copilot-blue); margin: 0 0 0.5rem; }
+        .ut-stepnum { display: inline-grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: linear-gradient(135deg, rgba(74,158,247,0.3), rgba(168,85,247,0.3)); color: var(--text-primary); font-size: 0.78rem; }
+        .ut-periods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; }
+        @media (max-width: 720px) { .ut-periods { grid-template-columns: 1fr; } }
+        .ut-period { text-align: left; background: var(--surface-raised); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.1rem 1.15rem; cursor: pointer; font-family: inherit; color: var(--text-primary); transition: border-color .15s, background .15s, transform .1s; }
+        .ut-period:hover { border-color: rgba(74,158,247,0.5); transform: translateY(-2px); }
+        .ut-period.selected { border-color: var(--copilot-blue); background: linear-gradient(135deg, rgba(74,158,247,0.16), rgba(168,85,247,0.16)); box-shadow: 0 0 0 1px rgba(74,158,247,0.4); }
+        .ut-period h3 { margin: 0 0 0.35rem; font-size: 1.02rem; display: flex; align-items: center; gap: 0.5rem; }
+        .ut-period .ut-range { font-size: 0.74rem; color: var(--copilot-cyan); font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; }
+        .ut-period p { margin: 0.45rem 0 0; font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4; }
+        .ut-period .ut-pick { margin-top: 0.7rem; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); display: flex; align-items: center; gap: 0.4rem; }
+        .ut-period.selected .ut-pick { color: var(--copilot-blue); }
+        .ut-dot { width: 0.85rem; height: 0.85rem; border-radius: 50%; border: 2px solid var(--border); flex: 0 0 auto; }
+        .ut-period.selected .ut-dot { border-color: var(--copilot-blue); background: radial-gradient(circle, var(--copilot-blue) 40%, transparent 45%); }
+        .ut-groundnote { margin-top: 0.8rem; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; border-left: 3px solid rgba(74,158,247,0.5); padding-left: 0.7rem; }
+        .ut-chosen-badge { display: none; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 0.85rem; }
+        .ut-chosen-badge.show { display: inline-flex; }
+        .ut-chosen-badge strong { color: var(--copilot-blue); }
+        .ut-chosen-badge button { background: none; border: none; color: var(--copilot-blue); cursor: pointer; font: inherit; font-size: 0.8rem; padding: 0; text-decoration: underline; }
+        /* ---- checkpoints ---- */
+        .ut-cfg { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: 1rem; }
+        @media (max-width: 640px) { .ut-cfg { grid-template-columns: 1fr; } }
+        .ut-cktable { width: 100%; border-collapse: collapse; margin-top: 0.75rem; }
+        .ut-cktable th, .ut-cktable td { text-align: left; padding: 0.55rem 0.7rem; font-size: 0.86rem; border-bottom: 1px solid var(--border); }
+        .ut-cktable th { color: var(--text-secondary); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .ut-cktable td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        .ut-pill { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.12rem 0.5rem; border-radius: 999px; letter-spacing: 0.03em; }
+        .ut-pill.MTD { background: rgba(52,211,153,0.16); color: #34D399; }
+        .ut-pill.LastMonth { background: rgba(74,158,247,0.16); color: #4A9EF7; }
+        .ut-pill.YTD { background: rgba(168,85,247,0.16); color: #C084FC; }
+        .ut-ck-del { background: none; border: none; color: #F87171; cursor: pointer; font: inherit; font-size: 0.85rem; }
+        .ut-ckhead { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; }
+        .ut-ckactions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .ut-ckactions .btn-secondary { padding: 0.45rem 0.8rem; font-size: 0.85rem; }
+        .ut-empty { color: var(--text-secondary); font-size: 0.88rem; padding: 0.8rem 0; }
+        .ut-mismatch { color: #F59E0B; font-size: 0.8rem; margin-top: 0.4rem; }
+        /* ---- trends & forecast (Slice 2) ---- */
+        .ut-trends-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem; }
+        .ut-th-note { color: var(--text-secondary); font-size: 0.82rem; margin-left: 0.4rem; }
+        .ut-rate { font-size: 0.8rem; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.4rem; }
+        .ut-rate input { width: 5.5rem; padding: 0.35rem 0.5rem; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font: inherit; }
+        .ut-fc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin-bottom: 1.2rem; }
+        .ut-fc { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 14px; padding: 0.9rem 1rem; }
+        .ut-fc-k { font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        .ut-fc-v { font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-top: 0.3rem; font-variant-numeric: tabular-nums; }
+        .ut-fc-s { font-size: 0.76rem; color: var(--text-secondary); margin-top: 0.25rem; line-height: 1.35; }
+        .ut-fc.ut-ok { border-color: rgba(52,211,153,0.5); }
+        .ut-fc.ut-ok .ut-fc-v { color: #34D399; }
+        .ut-fc.ut-warn { border-color: rgba(245,158,11,0.55); }
+        .ut-fc.ut-warn .ut-fc-v { color: #F59E0B; }
+        .ut-chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+        .ut-chart { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.1rem; }
+        .ut-chart h3 { margin: 0 0 0.7rem; font-size: 0.92rem; color: var(--text-primary); }
+        .ut-legend { margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .ut-lg { font-size: 0.74rem; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.35rem; }
+        .ut-lg::before { content: ''; width: 0.85rem; height: 0.28rem; border-radius: 2px; display: inline-block; }
+        .ut-lg-used::before { background: #4A9EF7; }
+        .ut-lg-pool::before { background: #F59E0B; }
+        .ut-lg-burn::before { background: #34D399; }
+        .ut-spark { display: block; }
+        .ut-sparkcell { width: 92px; }
+        .ut-depttable td, .ut-depttable th { padding: 0.5rem 0.6rem; }
+        .ut-dstatus { font-size: 0.72rem; font-weight: 700; padding: 0.12rem 0.5rem; border-radius: 999px; }
+        .ut-dstatus.ut-over { background: rgba(248,113,113,0.16); color: #F87171; }
+        .ut-dstatus.ut-under { background: rgba(245,158,11,0.16); color: #F59E0B; }
+        .ut-dstatus.ut-okc { background: rgba(52,211,153,0.16); color: #34D399; }
+        /* ---- interactive trends: controls, axes, chart tooltip (Slice 3) ---- */
+        .ut-controls { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+        .ut-ctl { font-size: 0.8rem; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 0.4rem; }
+        .ut-ctl select { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font: inherit; font-size: 0.82rem; padding: 0.35rem 0.5rem; max-width: 15rem; }
+        .ut-ctl select:hover { border-color: var(--copilot-blue); }
+        .ut-filternote { font-size: 0.8rem; color: var(--copilot-cyan); margin-left: 0.5rem; }
+        .ut-linkbtn { background: none; border: none; color: var(--copilot-blue); cursor: pointer; font: inherit; font-size: 0.8rem; text-decoration: underline; padding: 0; }
+        .ut-grid { stroke: rgba(148,163,184,0.16); stroke-width: 1; }
+        .ut-axl { fill: var(--text-secondary); font-size: 9px; font-family: inherit; }
+        .ut-pt { cursor: pointer; transition: r 0.1s ease; }
+        .ut-pt:hover { r: 6; }
+        .ut-bar { cursor: pointer; transition: opacity 0.1s ease; }
+        .ut-bar:hover { opacity: 0.78; }
+        .ut-grow { cursor: pointer; }
+        .ut-grow:hover { background: rgba(74,158,247,0.08); }
+        .ut-charttip { position: fixed; z-index: 10000; pointer-events: none; max-width: 260px;
+            background: var(--surface-raised); border: 1px solid var(--copilot-cyan); border-radius: 10px;
+            padding: 0.6rem 0.75rem; font-size: 0.78rem; line-height: 1.45; color: var(--text-primary);
+            box-shadow: 0 12px 34px rgba(0,0,0,0.55); }
+        .ut-charttip strong { color: var(--copilot-cyan); }
+        /* ---- signals / "what to act on" panel ---- */
+        .ut-signals { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
+        .ut-signals-head { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.7rem; display: flex; align-items: center; }
+        .ut-signal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.8rem; }
+        .ut-signal { border-radius: 12px; padding: 0.8rem 0.9rem; border-left: 4px solid var(--border); background: rgba(148,163,184,0.06); }
+        .ut-signal.ut-sig-alert { border-left-color: #F87171; background: rgba(248,113,113,0.09); }
+        .ut-signal.ut-sig-warn { border-left-color: #F59E0B; background: rgba(245,158,11,0.09); }
+        .ut-signal.ut-sig-info { border-left-color: #4A9EF7; background: rgba(74,158,247,0.09); }
+        .ut-signal.ut-sig-ok { border-left-color: #34D399; background: rgba(52,211,153,0.09); }
+        .ut-sig-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+        .ut-sig-detail { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45; }
+        .ut-sig-act { margin-top: 0.6rem; background: linear-gradient(135deg, rgba(74,158,247,0.25), rgba(168,85,247,0.25)); border: 1px solid var(--copilot-blue); color: var(--text-primary); border-radius: 8px; padding: 0.35rem 0.7rem; font: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
+        .ut-sig-act:hover { background: linear-gradient(135deg, rgba(74,158,247,0.42), rgba(168,85,247,0.42)); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-nav">
+            <a class="back-link" href="../../" target="_top">&larr; Cowork Billing hub</a>
+            <button type="button" class="fb-open" id="btnFeedback">Request a change</button>
+        </div>
+
+        <section id="utLanding">
+            <header>
+                <h1>Cowork Usage Tracker</h1>
+                <p class="subtitle">Copilot Cowork exports are point-in-time snapshots &mdash; there is no history or trend API. Upload your exports over time and this tool reconstructs the missing time series: per-user and per-department usage <strong>deltas</strong>, trends and a grounded forecast. 100% in your browser.</p>
+            </header>
+            <div class="info-box"><p><strong>All processing happens locally.</strong> Your files never leave your device. No uploads, no servers, no telemetry. Checkpoints are stored in this browser only.</p></div>
+
+            <!-- STEP 1: forced period choice -->
+            <div class="instructions-section ut-step" id="utStep1">
+                <p class="ut-steplabel"><span class="ut-stepnum">1</span> Choose your export period</p>
+                <p style="margin:0 0 0.9rem; color:var(--text-secondary); font-size:0.9rem;">The Cowork export never records the date range it covers, so the same &ldquo;credits used&rdquo; number means different things. Tell us which period your export represents &mdash; this grounds every calculation, table and forecast. <strong>Required.</strong></p>
+                <div class="ut-periods" id="utPeriods">
+                    <button type="button" class="ut-period" data-period="MTD">
+                        <span class="ut-range">1st &rarr; today</span>
+                        <h3>Month to Date</h3>
+                        <p>Cumulative usage since the 1st of the current month. Best for weekly tracking &mdash; deltas between uploads reveal each week&rsquo;s burn.</p>
+                        <span class="ut-pick"><span class="ut-dot"></span> Select</span>
+                    </button>
+                    <button type="button" class="ut-period" data-period="LastMonth">
+                        <span class="ut-range">Full prior month</span>
+                        <h3>Last Month</h3>
+                        <p>One complete, closed calendar month (~4 weeks). Best for clean month-over-month comparison and seasonality.</p>
+                        <span class="ut-pick"><span class="ut-dot"></span> Select</span>
+                    </button>
+                    <button type="button" class="ut-period" data-period="YTD">
+                        <span class="ut-range">Jan 1 &rarr; today</span>
+                        <h3>Year to Date</h3>
+                        <p>Cumulative usage since January 1. Best for annual pacing and forecasting to year-end.</p>
+                        <span class="ut-pick"><span class="ut-dot"></span> Select</span>
+                    </button>
+                </div>
+                <p class="ut-groundnote">Trends only compare checkpoints of the <strong>same</strong> period type. Keep one history per type &mdash; don&rsquo;t mix Month-to-Date with Last-Month numbers, or the projection breaks.</p>
+            </div>
+
+            <!-- STEP 2: load data (locked until a period is chosen) -->
+            <div class="instructions-section ut-step locked" id="utStep2">
+                <p class="ut-steplabel"><span class="ut-stepnum">2</span> Load an export &amp; save a checkpoint
+                    <span class="ut-chosen-badge" id="utChosenBadge">Tracking: <strong id="utChosenText"></strong> <button type="button" id="utChangePeriod">change</button></span>
+                </p>
+                <div class="upload-grid">
+                    <div>
+                        <label class="dz-label">Copilot credit / Cost Management export (CSV)</label>
+                        <div class="upload-area" id="dzCredits">
+                            <p><strong>Drop the Copilot credit CSV here</strong> or click to browse</p>
+                            <p class="dz-status" id="statusCredits">No file selected</p>
+                            <input type="file" id="fileCredits" accept=".csv,text/csv" hidden>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="dz-label">Entra user export(s) (CSV) &middot; org attributes</label>
+                        <div class="upload-area" id="dzEntra">
+                            <p><strong>Drop Entra CSV files here</strong> or click to browse (multiple allowed)</p>
+                            <p class="dz-status" id="statusEntra">No file selected</p>
+                            <input type="file" id="fileEntra" accept=".csv,text/csv" multiple hidden>
+                            <button type="button" class="dz-clear" id="btnClearEntra" hidden>Clear files</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ut-cfg">
+                    <div class="config-item">
+                        <label for="asOfDate">Export &ldquo;as of&rdquo; date</label>
+                        <input type="date" id="asOfDate">
+                        <small>The date this snapshot represents. Defaults to today; set it to the day you pulled the export.</small>
+                    </div>
+                    <div class="config-item">
+                        <label for="ckLabel">Checkpoint label (optional)</label>
+                        <input type="text" id="ckLabel" placeholder="e.g. Week of Jul 21">
+                        <small>A friendly name. Leave blank to auto-name from the as-of date.</small>
+                    </div>
+                </div>
+                <div class="landing-actions">
+                    <button class="btn-primary" id="btnSaveCk" disabled>Save checkpoint</button>
+                    <button class="btn-secondary btn-gradient" id="btnDemo">Load demo checkpoints</button>
+                </div>
+                <p class="ut-demo-hint" style="margin:0.6rem 0 0; color:var(--text-secondary); font-size:0.85rem;">After loading the demo, <strong>scroll down</strong> &darr; to <em>Checkpoint history</em>, then click <em>View trends &amp; forecast</em>.</p>
+                <p id="utError" class="landing-error" hidden></p>
+            </div>
+
+            <!-- Checkpoints -->
+            <div class="instructions-section ut-step locked" id="utStep3">
+                <div class="ut-ckhead">
+                    <h2 style="margin:0;">Checkpoint history</h2>
+                    <div class="ut-ckactions">
+                        <button type="button" class="btn-secondary" id="btnExportBundle">Export bundle</button>
+                        <button type="button" class="btn-secondary" id="btnImportBundle">Import bundle</button>
+                        <input type="file" id="fileBundle" accept=".json,application/json" hidden>
+                        <button type="button" class="btn-secondary" id="btnClearAll">Clear all</button>
+                    </div>
+                </div>
+                <p style="margin:0.3rem 0 0; color:var(--text-secondary); font-size:0.82rem;">Stored in this browser (IndexedDB). Export a bundle to back up or share within your tenant &mdash; it still runs 100% offline on import.</p>
+                <div id="utCkList"></div>
+                <div class="landing-actions" style="margin-top:1rem;">
+                    <button class="btn-primary" id="btnViewTrends" disabled title="Save two or more checkpoints of the same period to unlock">View trends &amp; forecast</button>
+                </div>
+                <p style="margin:0.5rem 0 0; color:var(--text-secondary); font-size:0.8rem;">Two or more checkpoints of the same period type unlock department roll-ups, run-rate forecasting and a pool-exhaustion projection.</p>
+            </div>
+
+            <div class="instructions-section">
+                <h2>Where do I get these files?</h2>
+                <ol class="cb-source-steps">
+                    <li><strong>Copilot credit export</strong> &mdash; in the <a href="https://admin.microsoft.com" target="_blank" rel="noopener">Microsoft 365 admin center</a>, open <em>Copilot &rarr; Cost management &rarr; Consumption</em> and <strong>Export CSV</strong>. Pull this on a regular cadence (e.g. weekly) &mdash; each export becomes a checkpoint.</li>
+                    <li><strong>Entra user export(s)</strong> &mdash; in the <a href="https://entra.microsoft.com" target="_blank" rel="noopener">Microsoft Entra admin center</a>, open <em>Identity &rarr; Users &rarr; All users</em> and choose <strong>Download users</strong>. This carries Department, Cost Center, Job title and more, used to roll usage up by org. It rarely changes, so you can reuse one export across checkpoints.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- trends & forecast view (Slice 2) -->
+        <section id="utTrends" hidden>
+            <div class="top-nav"><button type="button" class="back-link" id="utTrendsBack">&larr; Back to checkpoints</button></div>
+            <header>
+                <h1>Trends &amp; forecast</h1>
+                <p class="subtitle">Reconstructed from your point-in-time checkpoints: usage <strong>deltas</strong>, department roll-ups, run-rate and a grounded forecast to period-end. Computed locally in your browser.</p>
+            </header>
+            <div class="info-box"><p><strong>Forecasts are estimates</strong> derived from your checkpoint run-rate &mdash; planning figures, not a contracted commitment. They sharpen as you add checkpoints.</p></div>
+            <div class="landing-actions" style="margin-bottom:1rem;">
+                <button type="button" class="btn-secondary" id="btnTrendXlsx">Export XLSX</button>
+                <button type="button" class="btn-secondary btn-gradient" id="btnTrendDeck">Export deck</button>
+            </div>
+            <div id="utTrendsBody"></div>
+        </section>
+
+        <!-- feedback view (data-attribute driven, reused) -->
+        <section id="fbView" class="fb-view" hidden data-report="Cowork Usage Tracker" data-version="2026-07-23" data-email="jordanking@microsoft.com" data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR_EBhc3YPapIq4Jvplf8QMhUQllOMDEyMUNKNk1UVFlSOTQ0VVMzMjY3TS4u" data-open="btnFeedback" data-back="fbBack" data-sections="utLanding,utTrends">
+            <div class="top-nav"><button type="button" class="back-link" id="fbBack">&larr; Back</button></div>
+            <header><h1>Request a change</h1><p class="subtitle">Tell us what to build next for the Usage Tracker.</p></header>
+            <div class="instructions-section">
+                <h2>Your request</h2>
+                <div class="fb-grid">
+                    <div class="fb-field"><label for="fbName">First name *</label><input type="text" id="fbName" required></div>
+                    <div class="fb-field"><label for="fbEmail">Email *</label><input type="email" id="fbEmail" required></div>
+                    <div class="fb-field"><label for="fbOrg">Organisation *</label><input type="text" id="fbOrg" required></div>
+                    <div class="fb-field"><label for="fbCat">Type</label><select id="fbCat"><option>Feature request</option><option>Bug</option><option>Data accuracy</option><option>Other</option></select></div>
+                    <div class="fb-field"><label for="fbPri">Priority</label><select id="fbPri"><option>Nice to have</option><option>Important</option><option>Blocker</option></select></div>
+                </div>
+                <div class="fb-field"><label for="fbDesc">What would you like changed or added? *</label><textarea id="fbDesc" rows="6"></textarea></div>
+                <div class="fb-actions">
+                    <button class="btn-primary" id="fbCopy">Copy request</button>
+                    <button class="btn-secondary" id="fbEmailBtn">Open in email</button>
+                    <span id="fbStatus" class="fb-status"></span>
+                </div>
+                <p class="fb-note">First name, email and organisation are required. <strong>Submit via Microsoft Form</strong> for a tracked request (recommended) &mdash; or copy / open in email as a fallback.</p>
+            </div>
+        </section>
+
+        <footer id="utFooter">100% client-side &middot; your files never leave your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../" target="_top">Cowork Billing hub</a></footer>
+    </div>
+
+    <!-- Local libraries (offline). Order: JSZip before pptxgen. -->
+    <script src="lib/jszip.min.js?v=3"></script>
+    <script src="lib/pptxgen.bundle.js?v=3"></script>
+    <script src="xlsx-export.js?v=3"></script>
+    <script src="feedback.js?v=3"></script>
+    <script src="tracker.js?v=3"></script>
+</body>
+</html>

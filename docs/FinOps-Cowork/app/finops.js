@@ -160,13 +160,15 @@
     }
 
     // Spend-tier billing policies (ported from the Policy Helper) for right-size recommendations.
+    // Allowances align to the demo credit-limit caps (Customer Example engagement tiers).
     var POLICIES = [
         { id: 'unassigned', name: 'Unassigned', allowance: 0 },
-        { id: 'light', name: 'Light', allowance: 150 },
-        { id: 'standard', name: 'Standard', allowance: 400 },
-        { id: 'advanced', name: 'Advanced', allowance: 700 },
-        { id: 'power', name: 'Power', allowance: 1200 },
-        { id: 'frontier', name: 'Frontier', allowance: 2000 }
+        { id: 'light', name: 'Light', allowance: 1000 },
+        { id: 'standard', name: 'Standard', allowance: 6000 },
+        { id: 'advanced', name: 'Advanced', allowance: 15000 },
+        { id: 'power', name: 'Power', allowance: 30000 },
+        { id: 'frontier', name: 'Frontier', allowance: 55000 },
+        { id: 'elite', name: 'Elite', allowance: 175000 }
     ];
     function policyName(id) {
         for (var i = 0; i < POLICIES.length; i++) { if (POLICIES[i].id === id) return POLICIES[i].name; }
