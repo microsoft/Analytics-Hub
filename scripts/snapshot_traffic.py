@@ -178,9 +178,8 @@ def fetch_traffic(repo: str) -> tuple[dict, list[tuple[str, int]]]:
 # ---------------------------------------------------------------- clarity
 
 
-def fetch_clarity(token: str) -> dict | None:
-    """Single Clarity Data Export call: last 3 days (max allowed), no
-    dimensions = totals.
+def fetch_clarity(token: str, by_url: bool = False) -> dict | None:
+    """Single Clarity Data Export call: last 3 days (max allowed).
 
     The token is project-scoped — Clarity returns data for whichever
     project generated it. No project ID is sent on the request.
@@ -190,12 +189,19 @@ def fetch_clarity(token: str) -> dict | None:
     dashboard UI. Each daily snapshot therefore covers the trailing 3
     days; consumers should treat the latest snapshot as a 3-day rolling
     summary, not a single-day total.
+
+    When by_url=True, adds ``dimension1=URL`` so metrics are broken out
+    per page URL instead of aggregated site-wide. This is what powers the
+    per-page ranking view (which sub-app is winning, etc.).
     """
     if not token:
         return None
+    params = "numOfDays=3"
+    if by_url:
+        params += "&dimension1=URL"
     url = (
         "https://www.clarity.ms/export-data/api/v1/project-live-insights"
-        "?numOfDays=3"
+        f"?{params}"
     )
     headers = {
         "Authorization": f"Bearer {token}",
@@ -204,7 +210,8 @@ def fetch_clarity(token: str) -> dict | None:
     status, data = _get_json(url, headers)
     if status == 200:
         return data
-    print(f"  ! clarity: HTTP {status}", file=sys.stderr)
+    label = "by-url" if by_url else "aggregate"
+    print(f"  ! clarity ({label}): HTTP {status}", file=sys.stderr)
     return None
 
 
@@ -295,9 +302,16 @@ def main() -> int:
         )
         if project_id:
             site["projectId"] = project_id
+        # Aggregate metrics (existing behaviour — whole-site totals)
         data = fetch_clarity(token)
         if data is not None:
             site.setdefault("snapshots", {})[today_key] = data
+        # Per-URL breakdown (new) — stored under a separate key so any
+        # existing consumers of `snapshots` keep working. Costs one extra
+        # Clarity API call per site per day; the free tier allows 10/day.
+        data_by_url = fetch_clarity(token, by_url=True)
+        if data_by_url is not None:
+            site.setdefault("snapshotsByUrl", {})[today_key] = data_by_url
 
     history["lastUpdated"] = now.isoformat().replace("+00:00", "Z")
 
