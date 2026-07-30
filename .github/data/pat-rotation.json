@@ -1,0 +1,6 @@
+{
+  "_comment": "Tracks the last rotation date of each secret. Consumed by .github/workflows/pat-rotation-reminder.yml. Update the date after rotating a token and pushing to origin.",
+  "traffic_pat_last_rotated": "2026-07-27",
+  "traffic_pat_expiry_days": 8,
+  "warn_days_before_expiry": 2
+}

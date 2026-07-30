@@ -66,6 +66,18 @@ EXPECTED_FORBIDDEN: frozenset[str] = frozenset({
 # sync should land every 24h; we allow a 12h safety buffer.
 MAX_SYNC_AGE_HOURS: int = 36
 
+# Immutability window — daily buckets (dailyViews / dailyClones) older than
+# this are frozen and never overwritten. GitHub's Traffic API finalises
+# counts within ~48h; we allow a small buffer. This protects the audit
+# trail against silent revisions from the API on already-recorded days.
+IMMUTABILITY_WINDOW_DAYS: int = 3
+
+# Minimum URLs expected in the Clarity per-URL snapshot for a healthy site.
+# Below this we assume the URL dimension call returned an empty / degenerate
+# response (Clarity outage, token scope regression, dim rename, etc.) and
+# fail loud so the audit page never renders green-on-empty.
+MIN_URLS_PER_SNAPSHOT: int = 5
+
 # Clarity Data Export API tokens are scoped per-project: the token alone
 # determines which project's data the call returns. We keep one entry per
 # project so we know what to label the snapshot in the output JSON.
@@ -264,20 +276,39 @@ def main() -> int:
         if failures:
             repo_failures[repo] = failures
         if traffic:
+            today_date_iso = now.date()
             for bucket in (traffic.get("views",  {}) or {}).get("views",  []):
                 day = (bucket.get("timestamp") or "")[:10]
-                if day:
-                    daily_views[day] = {
-                        "count":   bucket.get("count", 0),
-                        "uniques": bucket.get("uniques", 0),
-                    }
+                if not day:
+                    continue
+                # Freeze days older than IMMUTABILITY_WINDOW_DAYS to keep
+                # the audit trail stable against late GitHub revisions.
+                if day in daily_views:
+                    try:
+                        day_date = datetime.strptime(day, "%Y-%m-%d").date()
+                        if (today_date_iso - day_date).days > IMMUTABILITY_WINDOW_DAYS:
+                            continue
+                    except ValueError:
+                        pass
+                daily_views[day] = {
+                    "count":   bucket.get("count", 0),
+                    "uniques": bucket.get("uniques", 0),
+                }
             for bucket in (traffic.get("clones", {}) or {}).get("clones", []):
                 day = (bucket.get("timestamp") or "")[:10]
-                if day:
-                    daily_clones[day] = {
-                        "count":   bucket.get("count", 0),
-                        "uniques": bucket.get("uniques", 0),
-                    }
+                if not day:
+                    continue
+                if day in daily_clones:
+                    try:
+                        day_date = datetime.strptime(day, "%Y-%m-%d").date()
+                        if (today_date_iso - day_date).days > IMMUTABILITY_WINDOW_DAYS:
+                            continue
+                    except ValueError:
+                        pass
+                daily_clones[day] = {
+                    "count":   bucket.get("count", 0),
+                    "uniques": bucket.get("uniques", 0),
+                }
             # Referrers and paths are snapshot-in-time, not time series.
             # Keep only the latest.
             if "referrers" in traffic:
@@ -357,6 +388,34 @@ def main() -> int:
             hard_errors.append(
                 f"{repo}: lastTrafficSync {sync_str} is {age_hours}h old "
                 f"(> {MAX_SYNC_AGE_HOURS}h threshold)"
+            )
+
+    # Gate 3: Clarity per-URL canary. When snapshotsByUrl[today] exists
+    # but has fewer than MIN_URLS_PER_SNAPSHOT unique URLs, treat that as
+    # a silent failure (empty payload, dim rename, token scope regression).
+    # Only checks sites where we ran a Clarity call this run — sites
+    # skipped because the token env var was unset are not evaluated.
+    for site_label in CLARITY_SITES:
+        site_data = history["sites"].get(site_label) or {}
+        by_url_map = site_data.get("snapshotsByUrl") or {}
+        today_entry = by_url_map.get(today_key)
+        if today_entry is None:
+            # No per-URL call ran (token missing, or by-url fetch failed).
+            # The Clarity token failure will already have been printed as
+            # a warning above; we don't double-count as a hard error here.
+            continue
+        unique_urls: set[str] = set()
+        for metric_group in today_entry:
+            for row in (metric_group.get("information") or []):
+                u = row.get("Url")
+                if u:
+                    unique_urls.add(u)
+        if len(unique_urls) < MIN_URLS_PER_SNAPSHOT:
+            hard_errors.append(
+                f"clarity[{site_label}].snapshotsByUrl[{today_key}]: only "
+                f"{len(unique_urls)} unique URL(s) — expected ≥ {MIN_URLS_PER_SNAPSHOT}. "
+                f"Possible causes: Clarity token expired, URL dimension renamed, "
+                f"or a Clarity outage."
             )
 
     if hard_errors:

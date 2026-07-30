@@ -294,7 +294,31 @@
         </div>
       </div>
     </section>
-  </div><!-- /tab-highlights -->
+    <section class="subapp-rankings-section">
+      <div class="wrap">
+        <h2>Sub-app rankings · Clarity engagement</h2>
+        <p class="section-sub">
+          Session and page-view counts for grouped app families on the Analytics Hub site.
+          Reads the latest per-URL Clarity snapshot (3-day rolling window). Sub-apps show
+          zero here until they accumulate traffic after being instrumented.
+        </p>
+        <div class="table-wrap">
+          <table class="repo-table" id="subapp-table">
+            <thead>
+              <tr>
+                <th>App family</th>
+                <th class="num">Sessions</th>
+                <th class="num">Page views</th>
+                <th class="num">URLs matched</th>
+              </tr>
+            </thead>
+            <tbody id="subapp-tbody">
+              <tr><td colspan="4" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>  </div><!-- /tab-highlights -->
 
   <div class="tab-panel" id="tab-engagement" role="tabpanel" aria-labelledby="engagement" hidden>
     <section class="engagement-section">

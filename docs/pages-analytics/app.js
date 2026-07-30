@@ -34,6 +34,17 @@ const LINKED_SITES = {
 // Cache for sites snapshots, populated on load.
 let SITES_CACHE = {};
 
+// Sub-app URL family mapping. Substring match against Clarity's Url
+// dimension, case-insensitive. Order matters — the first match wins so
+// list the more-specific patterns before broader ones.
+const SUB_APP_FAMILIES = [
+  { label: "Cowork Chargeback",    needle: "cowork-chargeback" },
+  { label: "Cowork Policy Helper", needle: "cowork-policy-helper" },
+  { label: "Cowork Usage Tracker", needle: "cowork-usage-tracker" },
+  { label: "Cowork FinOps",        needle: "finops-cowork" },
+  { label: "Cowork Billing hub",   needle: "cowork-billing/" },
+];
+
 // Quick preview numbers used by the row-pill teaser. Reads from a manual
 // baseline export when present (wider window, e.g. 14d), otherwise falls
 // back to the latest Clarity snapshot (rolling 3-day window).
@@ -1394,6 +1405,66 @@ function renderEngagement(repos) {
   }
 }
 
+// ------------------------------------------------------------ sub-app rankings
+
+function renderSubAppRankings(sites) {
+  const tbody = document.getElementById("subapp-tbody");
+  if (!tbody) return;
+  const ah = (sites && sites["analytics-hub"]) || null;
+  const byUrlSnaps = (ah && ah.snapshotsByUrl) || null;
+  if (!byUrlSnaps || !Object.keys(byUrlSnaps).length) {
+    tbody.innerHTML =
+      '<tr><td colspan="4" class="empty">No per-URL data yet — the nightly snapshot needs to have run at least once with the URL dimension enabled.</td></tr>';
+    return;
+  }
+  const dates = Object.keys(byUrlSnaps).sort();
+  const latestDate = dates[dates.length - 1];
+  const snapshot = byUrlSnaps[latestDate] || [];
+
+  // Extract sessions and page views per URL. Each metric group repeats
+  // the same sessionsCount per URL, so we max across metric groups.
+  const byUrl = {};
+  for (const metricGroup of snapshot) {
+    for (const row of (metricGroup.information || [])) {
+      const url = row.Url || "";
+      if (!url) continue;
+      const b = byUrl[url] = byUrl[url] || { sessions: 0, pageViews: 0 };
+      const s  = parseInt(row.sessionsCount, 10);
+      const pv = parseInt(row.pagesViews,    10);
+      if (!isNaN(s))  b.sessions  = Math.max(b.sessions,  s);
+      if (!isNaN(pv)) b.pageViews = Math.max(b.pageViews, pv);
+    }
+  }
+
+  // Aggregate into families (first-match wins).
+  const families = SUB_APP_FAMILIES.map(fam => ({
+    ...fam, sessions: 0, pageViews: 0, urls: [],
+  }));
+  for (const [url, m] of Object.entries(byUrl)) {
+    const lower = url.toLowerCase();
+    for (const fam of families) {
+      if (lower.includes(fam.needle)) {
+        fam.sessions  += m.sessions;
+        fam.pageViews += m.pageViews;
+        fam.urls.push(url);
+        break;
+      }
+    }
+  }
+  families.sort((a, b) => (b.sessions - a.sessions) || (b.pageViews - a.pageViews));
+
+  const rows = families.map(fam => `
+    <tr>
+      <td>${fam.label}</td>
+      <td class="num">${fmt(fam.sessions)}</td>
+      <td class="num">${fmt(fam.pageViews)}</td>
+      <td class="num">${fam.urls.length}</td>
+    </tr>
+  `).join("");
+  const footer = `<tr><td colspan="4" class="section-sub">Snapshot from ${latestDate} · 3-day rolling window</td></tr>`;
+  tbody.innerHTML = rows + footer;
+}
+
 // ------------------------------------------------------------ boot
 
 async function load() {
@@ -1425,6 +1496,7 @@ async function load() {
   renderWoW(reposData);
   renderMultiline(reposData);
   renderSites(history.sites || {});
+  renderSubAppRankings(history.sites || {});
 
   // Window switcher
   const customPanel = document.getElementById("window-custom");

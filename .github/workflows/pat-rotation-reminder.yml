@@ -1,0 +1,81 @@
+name: PAT rotation reminder
+
+on:
+  schedule:
+    # 05:00 UTC daily — after the traffic snapshot has finished.
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute PAT age and open issue if approaching expiry
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          LEDGER=".github/data/pat-rotation.json"
+          if [ ! -f "$LEDGER" ]; then
+            echo "! ledger $LEDGER missing — skipping"
+            exit 0
+          fi
+
+          LAST_ROTATED=$(python -c "import json;print(json.load(open('$LEDGER'))['traffic_pat_last_rotated'])")
+          EXPIRY_DAYS=$(python -c "import json;print(json.load(open('$LEDGER'))['traffic_pat_expiry_days'])")
+          WARN_DAYS=$(python -c "import json;print(json.load(open('$LEDGER'))['warn_days_before_expiry'])")
+
+          AGE=$(python -c "
+          from datetime import date
+          last = date.fromisoformat('$LAST_ROTATED')
+          today = date.today()
+          print((today - last).days)
+          ")
+
+          REMAINING=$((EXPIRY_DAYS - AGE))
+          echo "TRAFFIC_PAT last rotated on $LAST_ROTATED — age ${AGE}d, ${REMAINING}d remaining until expiry."
+
+          if [ "$AGE" -lt $((EXPIRY_DAYS - WARN_DAYS)) ]; then
+            echo "Still fresh. No action needed."
+            exit 0
+          fi
+
+          # Check for an existing open reminder issue.
+          EXISTING=$(gh issue list --repo "$GH_REPO" \
+            --state open \
+            --label pat-rotation-due \
+            --json number,title \
+            --jq '.[0].number // empty')
+
+          if [ -n "$EXISTING" ]; then
+            echo "Open reminder issue already exists: #$EXISTING. Skipping."
+            exit 0
+          fi
+
+          # Open a fresh issue.
+          BODY="TRAFFIC_PAT was last rotated on **$LAST_ROTATED** (${AGE} days ago). It is set to expire in **${REMAINING} day(s)**.
+
+          **What to do**
+          1. Go to https://github.com/settings/tokens?type=beta and regenerate the token named \\\`TRAFFIC_PAT (8-day rotating)\\\` (keep all repo access + Administration:Read + Metadata:Read).
+          2. Update the workflow secret:
+             \\\`\\\`\\\`pwsh
+             gh secret set TRAFFIC_PAT --repo $GH_REPO
+             \\\`\\\`\\\`
+          3. Bump the ledger date in [\\\`$LEDGER\\\`]($GH_REPO/blob/main/$LEDGER) to today's date and push.
+
+          Missing this rotation means the nightly \\\`traffic-snapshot\\\` workflow will start failing with HTTP 403 across every microsoft/* repo, and the pages-analytics dashboard will freeze.
+
+          _Auto-opened by \\\`.github/workflows/pat-rotation-reminder.yml\\\`. Close after the ledger has been updated._"
+
+          gh issue create --repo "$GH_REPO" \
+            --title "🔑 Rotate TRAFFIC_PAT — ${REMAINING} day(s) until expiry" \
+            --label pat-rotation-due \
+            --body "$BODY"
