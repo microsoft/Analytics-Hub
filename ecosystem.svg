@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 465" width="960" height="465">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560">
   <defs>
     <marker id="arr-purview" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <polygon points="0 0, 8 3, 0 6" fill="#a855a8"/>
@@ -15,13 +15,22 @@
     <marker id="arr-pax" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <polygon points="0 0, 8 3, 0 6" fill="#8661c5"/>
     </marker>
+    <marker id="arr-entra" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5f95ff"/>
+    </marker>
+    <marker id="arr-local" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#d946ef"/>
+    </marker>
+    <marker id="arr-onedrive" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e879f9"/>
+    </marker>
     <style>
       text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; }
     </style>
   </defs>
 
   <!-- ─── Background ─── -->
-  <rect width="960" height="465" fill="#0d1117" rx="12"/>
+  <rect width="960" height="560" fill="#0d1117" rx="12"/>
 
   <!-- ─── Title ─── -->
   <text x="480" y="30" text-anchor="middle" fill="#c9d1d9" font-size="14" font-weight="600" letter-spacing="0.3">Analytics Hub — Data Flow</text>
@@ -95,28 +104,27 @@
   <!-- ROW 3 — POWER BI TEMPLATES  (y=305, h=115)            -->
   <!-- ══════════════════════════════════════════════════════ -->
 
-  <!-- Purview-Based Templates (x=20–330) -->
+  <!-- Purview + Admin + Entra Power BI Templates (x=20–330) -->
   <rect x="20" y="305" width="310" height="115" rx="8" fill="#1a1500" stroke="#F2C811" stroke-width="1.5"/>
-  <text x="175" y="323" text-anchor="middle" fill="#F2C811" font-size="10.5" font-weight="600">Purview-Based Power BI Templates</text>
+  <text x="175" y="323" text-anchor="middle" fill="#F2C811" font-size="10.5" font-weight="600">Purview + Admin + Entra Templates</text>
   <line x1="20" y1="330" x2="330" y2="330" stroke="#F2C811" stroke-width="0.5" opacity="0.4"/>
-  <!-- Dividers at thirds: 20+103=123, 20+207=227 -->
-  <line x1="123" y1="330" x2="123" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
-  <line x1="227" y1="330" x2="227" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
-  <!-- AI-in-One (center=71) -->
-  <text x="71" y="350" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">AI-in-One</text>
-  <text x="71" y="364" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Dashboard</text>
-  <text x="71" y="381" text-anchor="middle" fill="#7a7060" font-size="8">All Copilot surfaces</text>
-  <text x="71" y="393" text-anchor="middle" fill="#7a7060" font-size="8">+ Agents</text>
-  <!-- Copilot Chat (center=175) -->
-  <text x="175" y="350" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Copilot Chat &amp;</text>
-  <text x="175" y="364" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Agent Intel</text>
-  <text x="175" y="381" text-anchor="middle" fill="#7a7060" font-size="8">Chat &amp; agent activity</text>
-  <text x="175" y="393" text-anchor="middle" fill="#7a7060" font-size="8">deep-dive analytics</text>
-  <!-- M365 Readiness (center=278) -->
-  <text x="278" y="350" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">M365 Copilot</text>
-  <text x="278" y="364" text-anchor="middle" fill="#ffe166" font-size="10" font-weight="600">Readiness</text>
-  <text x="278" y="381" text-anchor="middle" fill="#7a7060" font-size="8">License readiness</text>
-  <text x="278" y="393" text-anchor="middle" fill="#7a7060" font-size="8">&amp; adoption gaps</text>
+  <!-- Dividers at quarters -->
+  <line x1="98" y1="330" x2="98" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
+  <line x1="176" y1="330" x2="176" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
+  <line x1="254" y1="330" x2="254" y2="413" stroke="#F2C811" stroke-width="0.5" opacity="0.25"/>
+  <!-- AI-in-One -->
+  <text x="59" y="350" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">AI-in-One</text>
+  <text x="59" y="363" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">Dashboard</text>
+  <!-- Chat + Agent -->
+  <text x="137" y="350" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">Copilot Chat &amp;</text>
+  <text x="137" y="363" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">Agent Intel</text>
+  <!-- AI Business Value -->
+  <text x="215" y="350" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">AI Business</text>
+  <text x="215" y="363" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">Value</text>
+  <!-- M365 Usage Analytics -->
+  <text x="292" y="350" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">M365 Usage</text>
+  <text x="292" y="363" text-anchor="middle" fill="#ffe166" font-size="9.5" font-weight="600">Analytics</text>
+  <text x="175" y="386" text-anchor="middle" fill="#7a7060" font-size="8">Supported by Purview + M365 Admin Center + Entra</text>
 
   <!-- Viva Insights Templates (x=350–600) -->
   <rect x="350" y="305" width="250" height="115" rx="8" fill="#061310" stroke="#00B294" stroke-width="1.5"/>
@@ -151,9 +159,39 @@
   <text x="780" y="405" text-anchor="middle" fill="#3a4f6a" font-size="9">GitHub Enterprise data</text>
 
   <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ROW 4 — ADDITIONAL SOURCES (y=440, h=48)              -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <rect x="20" y="440" width="290" height="48" rx="8" fill="#123162" stroke="#5f95ff" stroke-width="1.2"/>
+  <text x="165" y="459" text-anchor="middle" fill="#d6e6ff" font-size="11" font-weight="700">Microsoft Entra ID</text>
+  <text x="165" y="475" text-anchor="middle" fill="#9cc0ff" font-size="9">Users · Groups · Licenses</text>
+  <path d="M165,440 L165,420" stroke="#5f95ff" stroke-width="2" fill="none" marker-end="url(#arr-entra)"/>
+
+  <rect x="335" y="440" width="290" height="48" rx="8" fill="#4a114b" stroke="#d946ef" stroke-width="1.2"/>
+  <text x="480" y="459" text-anchor="middle" fill="#f8d8ff" font-size="11" font-weight="700">Local Sessions</text>
+  <text x="480" y="475" text-anchor="middle" fill="#efb0fa" font-size="9">VS Code session history (local only)</text>
+  <path d="M480,440 L480,420" stroke="#d946ef" stroke-width="2" fill="none" marker-end="url(#arr-local)"/>
+
+  <rect x="650" y="440" width="290" height="48" rx="8" fill="#5b1a66" stroke="#e879f9" stroke-width="1.2"/>
+  <text x="795" y="459" text-anchor="middle" fill="#f9ddff" font-size="11" font-weight="700">OneDrive Data</text>
+  <text x="795" y="475" text-anchor="middle" fill="#f2befa" font-size="9">Documents/Cowork session history</text>
+  <path d="M795,440 L795,420" stroke="#e879f9" stroke-width="2" fill="none" marker-end="url(#arr-onedrive)"/>
+
+  <!-- Personal outputs from local sources -->
+  <rect x="335" y="500" width="290" height="44" rx="8" fill="#2b0f38" stroke="#d946ef" stroke-width="1.1"/>
+  <text x="480" y="518" text-anchor="middle" fill="#f1c9ff" font-size="10.5" font-weight="600">What I Did (Copilot)</text>
+  <text x="480" y="532" text-anchor="middle" fill="#cf95e1" font-size="8.5">Personal local activity digest</text>
+  <path d="M480,488 L480,500" stroke="#d946ef" stroke-width="1.8" fill="none" marker-end="url(#arr-local)"/>
+
+  <rect x="650" y="500" width="290" height="44" rx="8" fill="#34103f" stroke="#e879f9" stroke-width="1.1"/>
+  <text x="795" y="518" text-anchor="middle" fill="#f4d3ff" font-size="10.5" font-weight="600">What I Did with Cowork</text>
+  <text x="795" y="532" text-anchor="middle" fill="#d4a7e6" font-size="8.5">Personal Cowork ROI report</text>
+  <path d="M795,488 L795,500" stroke="#e879f9" stroke-width="1.8" fill="none" marker-end="url(#arr-onedrive)"/>
+
+  <!-- ══════════════════════════════════════════════════════ -->
   <!-- LEGEND  (bottom)                                       -->
   <!-- ══════════════════════════════════════════════════════ -->
-  <text x="480" y="450" text-anchor="middle" fill="#3d444d" font-size="8.5">
+  <text x="480" y="555" text-anchor="middle" fill="#3d444d" font-size="8.5">
     Dashed line = PAX can optionally feed Purview-based Power BI templates in addition to enterprise data destinations
   </text>
 

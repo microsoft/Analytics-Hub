@@ -39,7 +39,7 @@ Each tool in this hub is a standalone, downloadable resource. Together, they for
 
 ## 🗺 The Ecosystem
 
-There are three data source tracks and two ways to automate data collection. Understanding this upfront will save you a lot of time.
+The ecosystem combines tenant data sources (Purview, Viva Insights, GitHub Enterprise, M365 Admin Center, Entra ID) plus personal/local sources (VS Code local sessions and OneDrive Cowork data). Understanding this upfront will save you a lot of time.
 
 ![Analytics Hub Ecosystem Diagram](./ecosystem.svg)
 
