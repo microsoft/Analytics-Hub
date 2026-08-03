@@ -9,7 +9,7 @@ const TOOLS = [
     title: "Super Usage Adoption",
     icon: "⚡",
     accent: "#0078d4",
-    category: "impact-roi",
+    category: "adoption-behavior",
     tier: "core",
     measures: ["adoption","productivity"],
     source: "Viva Insights",
@@ -339,7 +339,7 @@ const TOOLS = [
     measures: ["impact","roi"],
     source: "Copilot credit consumption + Entra export",
     sourceKey: "M365 Admin",
-    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-chargeback/app",
+    repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
     preview: "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/report-walkthrough.gif",
     blurb: "Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs.",
@@ -365,7 +365,7 @@ const TOOLS = [
     measures: ["license","impact"],
     source: "Copilot consumption + Entra user attributes",
     sourceKey: "M365 Admin",
-    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-policy-helper/app",
+    repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
     blurb: "Policy assignment and exception management app for governing Cowork spend tiers.",
     meta: { audience: "IT governance, FinOps, platform admins", license: "M365 Admin exports", time: "~10 min" },
@@ -390,7 +390,7 @@ const TOOLS = [
     measures: ["impact","roi"],
     source: "Recurring Cowork CSV exports",
     sourceKey: "M365 Admin",
-    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-usage-tracker/app",
+    repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
     blurb: "Trend reconstruction app for point-in-time Cowork exports with run-rate, depletion, and action signals.",
     meta: { audience: "FinOps, operations, adoption leads", license: "M365 Admin exports", time: "~10 min" },
@@ -414,7 +414,7 @@ const TOOLS = [
     measures: ["impact","roi"],
     source: "Cowork consumption + billing context",
     sourceKey: "M365 Admin",
-    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/FinOps-Cowork/app",
+    repo: "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
     blurb: "Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.",
     meta: { audience: "FinOps practitioners, finance, cloud platform teams", license: "M365 Admin exports", time: "~10 min" },
@@ -438,7 +438,7 @@ const TOOLS = [
     measures: ["impact","roi","productivity"],
     source: "User-entered assumptions + research defaults",
     sourceKey: "Local",
-    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-roi-model/app",
+    repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
     blurb: "Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required).",
     meta: { audience: "BVAs, finance partners, sellers", license: "None", time: "~5 min" },
@@ -481,12 +481,12 @@ const TOOLS = [
 
 // ----------------------------------------------------- categories & measures
 const CATEGORIES = [
-  { id: 'usage-intelligence',  label: 'Usage Intelligence',      icon: '🤖', blurb: 'Single panes of glass for Copilot + Agent activity across the tenant.' },
-  { id: 'adoption-behavior',   label: 'Adoption & Behavior',     icon: '📈', blurb: 'Who adopts, who champions, who lags — and how the patterns spread.' },
-  { id: 'readiness',           label: 'Readiness',               icon: '🎯', blurb: 'License placement, activation sequencing, and champion identification.' },
-  { id: 'impact-roi',          label: 'Impact & ROI',            icon: '💰', blurb: 'Productivity lift, financial value, and cost modeling outcomes.' },
-  { id: 'developer',           label: 'Developer Productivity',  icon: '💻', blurb: 'GitHub Copilot adoption, acceptance rates, personal leverage.' },
-  { id: 'tooling-extension',   label: 'Tooling & Extension',     icon: '🧩', blurb: 'Data plumbing and add-on libraries that power the reports above.' },
+  { id: 'usage-intelligence',  label: 'Usage & Intelligence',    blurb: 'Single panes of glass for Copilot + Agent activity across the tenant.' },
+  { id: 'adoption-behavior',   label: 'Adoption & Behavior',     blurb: 'Who adopts, who champions, who lags — and how the patterns spread.' },
+  { id: 'readiness',           label: 'Readiness',               blurb: 'License placement, activation sequencing, and champion identification.' },
+  { id: 'impact-roi',          label: 'Impact & ROI',            blurb: 'Productivity lift, financial value, and cost modeling outcomes.' },
+  { id: 'developer',           label: 'Developer Productivity',  blurb: 'GitHub Copilot adoption, acceptance rates, personal leverage.' },
+  { id: 'tooling-extension',   label: 'Tooling & Extension',     blurb: 'Data plumbing and add-on libraries that power the reports above.' },
 ];
 
 const MEASURES = {
@@ -504,18 +504,9 @@ const MEASURES = {
 };
 
 // ----------------------------------------------------- helpers
-function repoSlug(repoUrl) {
-  const m = repoUrl.match(/github\.com\/([^/]+\/[^/]+)/);
-  return m ? m[1] : repoUrl;
-}
-
 function measureChips(measures) {
   if (!measures || !measures.length) return '';
-  return measures.map((m, i) => {
-    const meta = MEASURES[m] || { label: m, color: '#888' };
-    const chip = `<span class="m-chip" data-measure="${m}" title="Filter by ${meta.label}">${meta.label}</span>`;
-    return i === 0 ? chip : `<span class="m-sep" aria-hidden="true">·</span>${chip}`;
-  }).join('');
+  return `<span class="m-text">${measures.map(m => (MEASURES[m] || { label: m }).label).join(', ')}</span>`;
 }
 
 function escAttr(s) { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -536,11 +527,11 @@ function requirementsHtml(t) {
   return `
     <div class="detail-reqs" aria-label="Required roles and software">
       <div class="req-row">
-        <span class="req-label"><span class="req-icon" aria-hidden="true">🔐</span> Roles &amp; permissions</span>
+        <span class="req-label">Roles &amp; permissions</span>
         <div class="req-chips">${roles.length ? roles.map(reqChip).join('') : '<span class="req-chip req-chip-muted">None specified</span>'}</div>
       </div>
       <div class="req-row">
-        <span class="req-label"><span class="req-icon" aria-hidden="true">🛠️</span> Software</span>
+        <span class="req-label">Software</span>
         <div class="req-chips">${sw.length ? sw.map(reqChip).join('') : '<span class="req-chip req-chip-muted">None specified</span>'}</div>
       </div>
     </div>`;
@@ -562,7 +553,6 @@ function previewHtml(t) {
 
 // ----------------------------------------------------- render
 function rowHtml(t) {
-  const slug = repoSlug(t.repo);
   const coreBadge = t.tier === 'core'
     ? `<span class="tier-badge tier-core" title="Recommended starting report">CORE</span>`
     : '';
@@ -570,11 +560,11 @@ function rowHtml(t) {
   return `
     <tr class="row-main" data-id="${t.id}" data-src="${t.sourceKey}" data-cat="${t.category || ''}" data-tier="${t.tier || ''}" data-measures="${measuresAttr}" data-search="${(t.question + ' ' + t.title + ' ' + t.source + ' ' + measuresAttr).toLowerCase()}">
       <td class="col-q"><button class="expand-btn" aria-expanded="false" aria-controls="detail-${t.id}"><span class="chev" aria-hidden="true">▸</span> ${t.question}</button></td>
-      <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title} on GitHub"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title} ${coreBadge}<span class="chip-arrow" aria-hidden="true">↗</span></a></td>
+      <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title}">${t.title} ${coreBadge}</a></td>
       <td class="col-src"><div class="m-chips">${measureChips(t.measures)}</div></td>
       <td class="col-actions">
-        <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open on GitHub" aria-label="Open on GitHub"><span class="action-label">Repo</span><span class="action-icon" aria-hidden="true">↗</span></a>
-        <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip"><span class="action-label">Zip</span><span class="action-icon" aria-hidden="true">⬇</span></a>
+        <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open report link" aria-label="Open report link">Open</a>
+        <a class="ico-btn" href="${t.download}" title="Download .zip package" aria-label="Download .zip package">Download</a>
       </td>
     </tr>
     <tr class="row-detail" id="detail-${t.id}" hidden>
@@ -584,22 +574,16 @@ function rowHtml(t) {
             ${t.preview
               ? `<button class="preview-link" data-preview="${t.preview}" data-title="${t.title}" title="Click to enlarge">
                   <img loading="lazy" src="${t.preview}" alt="${t.title} preview" />
-                  <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-icon">${t.icon}</div><div class="pf-name">${t.title}</div></div>
+                  <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-name">${t.title}</div></div>
                   <span class="preview-zoom-hint"><span class="zoom-icon" aria-hidden="true">⤢</span> Click to enlarge</span>
                 </button>`
               : `<a class="preview-link preview-fallback" href="${t.repo}" target="_blank" rel="noopener">
-                  <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-icon">${t.icon}</div><div class="pf-name">${t.title}</div></div>
+                  <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-name">${t.title}</div></div>
                 </a>`
             }
-            <p class="repo-slug"><code>${slug}</code></p>
           </div>
           <div class="detail-copy">
             <p class="blurb">${t.blurb}</p>
-            <div class="detail-ctas">
-              <a class="btn btn-primary" href="${t.repo}" target="_blank" rel="noopener">Open repository ↗</a>
-              <a class="btn btn-ghost" href="${t.download}">⬇ Download .zip</a>
-              <a class="btn btn-ghost" href="${t.repo}" target="_blank" rel="noopener" aria-label="Star ${t.title} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
-            </div>
             <p class="data-line"><strong>Data source:</strong> ${t.source}</p>
             ${requirementsHtml(t)}
           </div>
@@ -620,7 +604,6 @@ function render() {
       <tr class="cat-header" data-cat="${cat.id}">
         <td colspan="4">
           <div class="cat-header-inner">
-            <span class="cat-icon" aria-hidden="true">${cat.icon}</span>
             <span class="cat-label">${cat.label}</span>
             <span class="cat-blurb">${cat.blurb}</span>
             <span class="cat-count">${tools.length} report${tools.length === 1 ? '' : 's'}</span>
@@ -633,25 +616,6 @@ function render() {
   wirePreviewFallback();
   wireExpand();
   wireLightbox();
-  wireMeasureChips();
-}
-
-function wireMeasureChips() {
-  document.querySelectorAll('.m-chip[data-measure]').forEach(chip => {
-    chip.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const m = chip.dataset.measure;
-      // Activate corresponding filter pill if present
-      const pill = document.querySelector(`.filter-pills .pill[data-measure="${m}"]`);
-      if (pill) {
-        document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-      }
-      applyFilters();
-      pill?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    });
-  });
 }
 
 function wirePreviewFallback() {
@@ -719,18 +683,17 @@ function wireExpand() {
 function applyFilters() {
   const q = (document.getElementById('qSearch').value || '').toLowerCase().trim();
   const activePill = document.querySelector('.filter-pills .pill.active');
-  const measure = activePill ? (activePill.dataset.measure || 'all') : 'all';
+  const category = activePill ? (activePill.dataset.cat || 'all') : 'all';
   const tier = activePill ? (activePill.dataset.tier || '') : '';
   let shown = 0;
   // Count visible rows per category
   const catCounts = {};
   document.querySelectorAll('.row-main').forEach(row => {
     const detail = document.getElementById(`detail-${row.dataset.id}`);
-    const rowMeasures = (row.dataset.measures || '').split(/\s+/).filter(Boolean);
-    const matchMeasure = measure === 'all' || rowMeasures.includes(measure);
+    const matchCategory = category === 'all' || row.dataset.cat === category;
     const matchTier = !tier || row.dataset.tier === tier;
     const matchQ = !q || row.dataset.search.includes(q);
-    const visible = matchMeasure && matchTier && matchQ;
+    const visible = matchCategory && matchTier && matchQ;
     row.style.display = visible ? '' : 'none';
     if (detail) detail.style.display = visible ? '' : 'none';
     if (visible) {
@@ -764,14 +727,26 @@ document.addEventListener('DOMContentLoaded', () => {
   wireFilters();
   const params = new URLSearchParams(window.location.search);
   const measure = params.get('measure');
+  const category = params.get('category');
   const tier = params.get('tier');
   const q = params.get('q');
-  // Deep-link to a measure (from home tiles): activate matching pill
-  if (measure) {
-    const pill = document.querySelector(`.filter-pills .pill[data-measure="${measure}"]`);
+  // Deep-link to a category.
+  if (category) {
+    const pill = document.querySelector(`.filter-pills .pill[data-cat="${category}"]`);
     if (pill) {
       document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
       pill.classList.add('active');
+    }
+  }
+  // Backward compatibility: old links with ?measure=...
+  if (measure && !category) {
+    const match = TOOLS.find(t => Array.isArray(t.measures) && t.measures.includes(measure));
+    if (match) {
+      const pill = document.querySelector(`.filter-pills .pill[data-cat="${match.category}"]`);
+      if (pill) {
+        document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
+        pill.classList.add('active');
+      }
     }
   }
   // Deep-link to tier (e.g. "core only")

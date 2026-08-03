@@ -19,7 +19,7 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/explore-reports/" />
   <meta property="og:title" content="Explore Reports · Analytics Hub" />
-  <meta property="og:description" content="From question to report in one click — pick the question you're trying to answer, preview the report, grab the repo, download the files, and email your admin." />
+  <meta property="og:description" content="From question to report in one click — pick the question you're trying to answer, preview the report, open it directly, and download the files." />
   <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -27,7 +27,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://microsoft.github.io/Analytics-Hub/explore-reports/" />
   <meta name="twitter:title" content="Explore Reports · Analytics Hub" />
-  <meta name="twitter:description" content="From question to report in one click — pick the question you're trying to answer, preview the report, grab the repo, download the files, and email your admin." />
+  <meta name="twitter:description" content="From question to report in one click — pick the question you're trying to answer, preview the report, open it directly, and download the files." />
   <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta name="twitter:image:alt" content="Analytics Hub - Microsoft Copilot and AI adoption toolkit" />
   <meta name="author" content="Analytics Hub Advisory Team" />
@@ -145,28 +145,23 @@
       <p class="eyebrow">🎯 Which report do I need?</p>
       <h1>From question to report <span class="grad">in one click</span></h1>
       <p class="lede">
-        Find the question you're trying to answer. Get the preview, the repo, the
-        download, and the admin email — all from one screen. No hunting.
+        Find the question you're trying to answer. Get the preview, direct link, and
+        download in one screen. No hunting.
       </p>
       <div class="picker-controls">
         <label class="search-wrap" for="qSearch">
           <span class="search-icon" aria-hidden="true">🔍</span>
           <input id="qSearch" type="search" placeholder="Search by question, report name, or data source…" autocomplete="off" />
         </label>
-        <div class="filter-pills" role="tablist" aria-label="Filter by what the report measures">
-          <button class="pill active" data-measure="all">All reports</button>
-          <button class="pill pill-tier" data-tier="core" title="Recommended starting reports">★ Core only</button>
-          <button class="pill" data-measure="adoption" style="--c:#0078d4">Adoption</button>
-          <button class="pill" data-measure="impact" style="--c:#8661c5">Impact</button>
-          <button class="pill" data-measure="chat" style="--c:#00B294">Chat usage</button>
-          <button class="pill" data-measure="agents" style="--c:#e3008c">Agents</button>
-          <button class="pill" data-measure="sentiment" style="--c:#ffaa44">Sentiment</button>
-          <button class="pill" data-measure="license" style="--c:#0078d4">License readiness</button>
-          <button class="pill" data-measure="roi" style="--c:#00B294">ROI modeling</button>
-          <button class="pill" data-measure="developer" style="--c:#8661c5">Developer</button>
-          <button class="pill" data-measure="productivity" style="--c:#e3008c">Productivity</button>
-          <button class="pill" data-measure="audit" style="--c:#ffaa44">Data Export Scripts</button>
-          <button class="pill" data-measure="customization" style="--c:#0078d4">Customization</button>
+        <div class="filter-pills" role="tablist" aria-label="Filter by report group">
+          <button class="pill active" data-cat="all">All reports</button>
+          <button class="pill pill-tier" data-tier="core" title="Recommended starting reports">Core only</button>
+          <button class="pill" data-cat="usage-intelligence">Usage &amp; Intelligence</button>
+          <button class="pill" data-cat="adoption-behavior">Adoption &amp; Behavior</button>
+          <button class="pill" data-cat="readiness">Readiness</button>
+          <button class="pill" data-cat="impact-roi">Impact &amp; ROI</button>
+          <button class="pill" data-cat="developer">Developer Productivity</button>
+          <button class="pill" data-cat="tooling-extension">Tooling &amp; Extension</button>
         </div>
       </div>
     </div>
@@ -175,6 +170,7 @@
   <!-- =============================================== TABLE -->
   <section class="band picker-table-band">
     <div class="wrap">
+      <p class="chooser-guide"><strong>How to choose:</strong> Start with <strong>Readiness</strong>, then move to <strong>Impact &amp; ROI</strong> once adoption is stable.</p>
       <div class="table-wrap">
         <table class="picker-table" id="pickerTable">
           <thead>
@@ -182,7 +178,7 @@
               <th class="col-q">If you're asking…</th>
               <th class="col-tool">Use this report</th>
               <th class="col-src">What it measures</th>
-              <th class="col-actions"><span class="col-actions-heads"><span title="Open repository on GitHub">Repo</span><span title="Download .zip of the repository">Zip</span></span></th>
+              <th class="col-actions"><span class="col-actions-heads"><span title="Open report link">Open</span><span title="Download .zip package">Download</span></span></th>
             </tr>
           </thead>
           <tbody id="pickerBody">
@@ -193,7 +189,7 @@
       </div>
 
       <p class="picker-footnote">
-        💡 Click any row to expand — you'll get a preview, the GitHub repo, and a zip download.
+        Click any row to expand for preview, context, and download details.
       </p>
     </div>
   </section>
