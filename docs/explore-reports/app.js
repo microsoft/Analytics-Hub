@@ -471,10 +471,10 @@ function rowHtml(t) {
       <td class="col-tool"><a class="tool-chip" href="${t.repo}" target="_blank" rel="noopener" style="--c:${t.accent}" title="Open ${t.title} on GitHub"><span class="tool-icon" aria-hidden="true">${t.icon}</span> ${t.title} ${coreBadge}<span class="chip-arrow" aria-hidden="true">↗</span></a></td>
       <td class="col-src"><div class="m-chips">${measureChips(t.measures)}</div></td>
       <td class="col-actions">
-        <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open on GitHub" aria-label="Open on GitHub">↗</a>
-        <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip">⬇</a>
+        <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open on GitHub" aria-label="Open on GitHub"><span class="action-label">Repo</span><span class="action-icon" aria-hidden="true">↗</span></a>
+        <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip"><span class="action-label">Zip</span><span class="action-icon" aria-hidden="true">⬇</span></a>
         ${t.emailFile
-          ? `<button class="ico-btn email-btn" data-email="${t.emailFile}" title="Email your admin" aria-label="Email your admin">📧</button>`
+          ? `<button class="ico-btn email-btn" data-email="${t.emailFile}" title="Email your admin" aria-label="Email your admin"><span class="action-label">Email</span><span class="action-icon" aria-hidden="true">📧</span></button>`
           : `<span class="ico-btn ico-btn-empty" aria-hidden="true" title="No admin email template for this tool">·</span>`}
       </td>
     </tr>
