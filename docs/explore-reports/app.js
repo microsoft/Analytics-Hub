@@ -172,7 +172,7 @@ const TOOLS = [
   },
   {
     id: 'cowork-impact',
-    question: "How much time and value has Microsoft Copilot Cowork given me?",
+    question: "I want to see business processes that Cowork helped me with and its impact.",
     title: "What Cowork Did For Me",
     icon: "🎁",
     accent: "#e3008c",
@@ -279,7 +279,7 @@ const TOOLS = [
   },
   {
     id: 'roi-calc',
-    question: "I have the Super Usage heatmap in Power BI — how do I turn it into an ROI story?",
+    question: "I want to tell an ROI story from the Superuser report.",
     title: "M365 Copilot Productivity ROI Calculator",
     icon: "🧮",
     accent: "#0078d4",
@@ -305,7 +305,7 @@ const TOOLS = [
   },
   {
     id: 'cowork-billing-report',
-    question: "I need the core Cowork billing Power BI report and template.",
+    question: "I want to determine the chargeback and department-level cost allocation.",
     title: "Copilot Cowork Billing Report",
     icon: "🧾",
     accent: "#0078d4",
@@ -330,7 +330,7 @@ const TOOLS = [
   },
   {
     id: 'cowork-chargeback-app',
-    question: "I want a browser app for Cowork chargeback by cost center and user.",
+    question: "I want a lightweight web app that lets me do scenario modeling for Cowork credits.",
     title: "Cowork Chargeback (Web App)",
     icon: "🧮",
     accent: "#00B294",
@@ -381,7 +381,7 @@ const TOOLS = [
   },
   {
     id: 'cowork-usage-tracker-app',
-    question: "I want to track Cowork usage trend over time from periodic exports.",
+    question: "I want to track Cowork credits beyond the standard Admin Center time period.",
     title: "Cowork Usage Tracker (Web App)",
     icon: "⏱️",
     accent: "#e3008c",
@@ -405,7 +405,7 @@ const TOOLS = [
   },
   {
     id: 'finops-focus-app',
-    question: "I need Cowork cost views aligned to FinOps and FOCUS definitions.",
+    question: "I need Cowork cost views aligned to FinOps FOCUS definitions.",
     title: "FinOps & FOCUS Cost Report (Web App)",
     icon: "📊",
     accent: "#0078d4",
@@ -429,7 +429,7 @@ const TOOLS = [
   },
   {
     id: 'cowork-roi-model-app',
-    question: "I need a tenant-agnostic Cowork ROI scenario model for custom assumptions.",
+    question: "I want to model Cowork ROI scenarios.",
     title: "Cowork ROI Model (Web App)",
     icon: "📈",
     accent: "#b11f4b",

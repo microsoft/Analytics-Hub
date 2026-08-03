@@ -4,79 +4,105 @@
       text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
     </style>
     <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#9aa4b2"/>
+      <polygon points="0 0, 8 3, 0 6" fill="#aab2c0"/>
     </marker>
   </defs>
 
-  <rect width="1420" height="700" fill="#0d1117" rx="14"/>
-  <text x="710" y="38" text-anchor="middle" fill="#c9d1d9" font-size="30" font-weight="700">Analytics Hub — Data Flow</text>
+  <rect width="1420" height="700" fill="#0f1218" rx="14"/>
+  <text x="710" y="40" text-anchor="middle" fill="#d0d6df" font-size="28" font-weight="700">Analytics Hub — Data Flow</text>
 
-  <!-- Source row -->
+  <!-- SOURCE COLOR -->
+  <!-- fill #213a63 / stroke #6d97cf -->
+  <!-- SCRIPT/UTIL COLOR -->
+  <!-- fill #5f4a18 / stroke #d3b066 -->
+  <!-- REPORT COLOR -->
+  <!-- fill #1d4b3b / stroke #66bfa3 -->
+
+  <!-- Sources -->
   <g>
-    <rect x="20" y="70" width="180" height="80" rx="10" fill="#742774"/><text x="110" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Microsoft Purview</text><text x="110" y="125" text-anchor="middle" fill="#f5cff5" font-size="11">Audit logs</text>
-    <rect x="220" y="70" width="180" height="80" rx="10" fill="#8f6b00"/><text x="310" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Admin Center</text><text x="310" y="125" text-anchor="middle" fill="#fde6a5" font-size="11">Usage exports</text>
-    <rect x="420" y="70" width="180" height="80" rx="10" fill="#1f6feb"/><text x="510" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Microsoft Entra ID</text><text x="510" y="125" text-anchor="middle" fill="#cae3ff" font-size="11">Users · groups · licenses</text>
+    <rect x="40" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="125" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">Microsoft Purview</text>
+    <text x="125" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">Audit logs</text>
 
-    <rect x="620" y="70" width="180" height="80" rx="10" fill="#00B294"/><text x="710" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Viva Insights</text><text x="710" y="125" text-anchor="middle" fill="#cff5ef" font-size="11">Behavioral data</text>
-    <rect x="820" y="70" width="180" height="80" rx="10" fill="#1f6feb"/><text x="910" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">GitHub Enterprise</text><text x="910" y="125" text-anchor="middle" fill="#cae3ff" font-size="11">Usage API + Members</text>
+    <rect x="240" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="325" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">Admin Center</text>
+    <text x="325" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">Usage exports</text>
 
-    <rect x="1020" y="70" width="180" height="80" rx="10" fill="#7b2cbf"/><text x="1110" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Local Sessions</text><text x="1110" y="125" text-anchor="middle" fill="#efb0fa" font-size="11">VS Code local history</text>
-    <rect x="1220" y="70" width="180" height="80" rx="10" fill="#9d4edd"/><text x="1310" y="103" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">OneDrive Data</text><text x="1310" y="125" text-anchor="middle" fill="#f2befa" font-size="11">Cowork session history</text>
+    <rect x="440" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="525" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">Microsoft Entra ID</text>
+    <text x="525" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">Users · groups · licenses</text>
+
+    <rect x="640" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="725" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">Viva Insights</text>
+    <text x="725" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">Behavioral data</text>
+
+    <rect x="840" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="925" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">GitHub Enterprise</text>
+    <text x="925" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">Usage API + Members</text>
+
+    <rect x="1040" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="1125" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">Local Sessions</text>
+    <text x="1125" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">VS Code local history</text>
+
+    <rect x="1240" y="80" width="170" height="82" rx="10" fill="#213a63" stroke="#6d97cf" />
+    <text x="1325" y="114" text-anchor="middle" fill="#ffffff" font-size="12.5" font-weight="700">OneDrive Data</text>
+    <text x="1325" y="137" text-anchor="middle" fill="#c8daf5" font-size="11">Cowork session history</text>
   </g>
 
-  <!-- Report groups -->
+  <!-- Scripts / Export utilities -->
   <g>
-    <rect x="20" y="250" width="580" height="170" rx="10" fill="#1a1500" stroke="#F2C811" stroke-width="1.5"/>
-    <text x="310" y="278" text-anchor="middle" fill="#F2C811" font-size="14" font-weight="700">Reports consuming Purview + Admin Center + Entra</text>
-    <line x1="165" y1="290" x2="165" y2="410" stroke="#F2C811" stroke-width="0.5" opacity="0.35"/>
-    <line x1="310" y1="290" x2="310" y2="410" stroke="#F2C811" stroke-width="0.5" opacity="0.35"/>
-    <line x1="455" y1="290" x2="455" y2="410" stroke="#F2C811" stroke-width="0.5" opacity="0.35"/>
-    <text x="92"  y="328" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">AI-in-One</text>
-    <text x="92"  y="350" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">Dashboard</text>
-    <text x="237" y="328" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">Chat &amp; Agent</text>
-    <text x="237" y="350" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">Intelligence</text>
-    <text x="382" y="328" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">AI Business</text>
-    <text x="382" y="350" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">Value</text>
-    <text x="527" y="328" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">M365 Usage</text>
-    <text x="527" y="350" text-anchor="middle" fill="#ffe166" font-size="14" font-weight="700">Analytics</text>
+    <rect x="120" y="245" width="420" height="90" rx="10" fill="#5f4a18" stroke="#d3b066" />
+    <text x="330" y="278" text-anchor="middle" fill="#fff2cf" font-size="14" font-weight="700">Data Export Scripts &amp; Utilities</text>
+    <text x="330" y="301" text-anchor="middle" fill="#f2deb1" font-size="11">Per-report scripts + PAX automation</text>
   </g>
 
+  <!-- Reports -->
   <g>
-    <rect x="620" y="250" width="280" height="170" rx="10" fill="#061310" stroke="#00B294" stroke-width="1.5"/>
-    <text x="760" y="278" text-anchor="middle" fill="#00B294" font-size="14" font-weight="700">Viva Insights reports</text>
-    <line x1="760" y1="290" x2="760" y2="410" stroke="#00B294" stroke-width="0.5" opacity="0.35"/>
-    <text x="690" y="328" text-anchor="middle" fill="#55dcc0" font-size="14" font-weight="700">Superuser</text>
-    <text x="690" y="350" text-anchor="middle" fill="#55dcc0" font-size="14" font-weight="700">Adoption</text>
-    <text x="830" y="328" text-anchor="middle" fill="#55dcc0" font-size="14" font-weight="700">Superuser</text>
-    <text x="830" y="350" text-anchor="middle" fill="#55dcc0" font-size="14" font-weight="700">Impact</text>
+    <rect x="40" y="390" width="620" height="180" rx="10" fill="#1d4b3b" stroke="#66bfa3" />
+    <text x="350" y="420" text-anchor="middle" fill="#b7ead8" font-size="14" font-weight="700">Reports consuming Purview + Admin Center + Entra</text>
+    <line x1="195" y1="435" x2="195" y2="555" stroke="#66bfa3" stroke-width="0.5" opacity="0.45"/>
+    <line x1="350" y1="435" x2="350" y2="555" stroke="#66bfa3" stroke-width="0.5" opacity="0.45"/>
+    <line x1="505" y1="435" x2="505" y2="555" stroke="#66bfa3" stroke-width="0.5" opacity="0.45"/>
+    <text x="117" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">AI-in-One</text>
+    <text x="117" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Dashboard</text>
+    <text x="273" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Chat &amp; Agent</text>
+    <text x="273" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Intelligence</text>
+    <text x="428" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">AI Business</text>
+    <text x="428" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Value</text>
+    <text x="583" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">M365 Usage</text>
+    <text x="583" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Analytics</text>
+
+    <rect x="690" y="390" width="250" height="180" rx="10" fill="#1d4b3b" stroke="#66bfa3" />
+    <text x="815" y="420" text-anchor="middle" fill="#b7ead8" font-size="14" font-weight="700">Viva Insights reports</text>
+    <line x1="815" y1="435" x2="815" y2="555" stroke="#66bfa3" stroke-width="0.5" opacity="0.45"/>
+    <text x="752" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Superuser</text>
+    <text x="752" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Adoption</text>
+    <text x="878" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Superuser</text>
+    <text x="878" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Impact</text>
+
+    <rect x="970" y="390" width="200" height="180" rx="10" fill="#1d4b3b" stroke="#66bfa3" />
+    <text x="1070" y="420" text-anchor="middle" fill="#b7ead8" font-size="14" font-weight="700">GitHub report</text>
+    <text x="1070" y="476" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">GitHub Copilot</text>
+    <text x="1070" y="499" text-anchor="middle" fill="#e8fff5" font-size="14" font-weight="700">Impact</text>
+
+    <rect x="1040" y="595" width="170" height="70" rx="10" fill="#1d4b3b" stroke="#66bfa3" />
+    <text x="1125" y="625" text-anchor="middle" fill="#e8fff5" font-size="13" font-weight="700">What I Did</text>
+    <text x="1125" y="646" text-anchor="middle" fill="#b7ead8" font-size="11">(Copilot)</text>
+
+    <rect x="1240" y="595" width="170" height="70" rx="10" fill="#1d4b3b" stroke="#66bfa3" />
+    <text x="1325" y="625" text-anchor="middle" fill="#e8fff5" font-size="13" font-weight="700">What I Did with</text>
+    <text x="1325" y="646" text-anchor="middle" fill="#e8fff5" font-size="13" font-weight="700">Cowork</text>
   </g>
 
-  <g>
-    <rect x="920" y="250" width="200" height="170" rx="10" fill="#060c1a" stroke="#4d8ef0" stroke-width="1.5"/>
-    <text x="1020" y="278" text-anchor="middle" fill="#4d8ef0" font-size="14" font-weight="700">GitHub report</text>
-    <text x="1020" y="336" text-anchor="middle" fill="#79aef5" font-size="14" font-weight="700">GitHub Copilot</text>
-    <text x="1020" y="358" text-anchor="middle" fill="#79aef5" font-size="14" font-weight="700">Impact</text>
-  </g>
-
-  <!-- Personal outputs -->
-  <g>
-    <rect x="1030" y="500" width="170" height="80" rx="10" fill="#2b0f38" stroke="#d946ef" stroke-width="1.2"/>
-    <text x="1115" y="533" text-anchor="middle" fill="#f1c9ff" font-size="13" font-weight="700">What I Did</text>
-    <text x="1115" y="555" text-anchor="middle" fill="#cf95e1" font-size="11">(Copilot)</text>
-
-    <rect x="1230" y="500" width="170" height="80" rx="10" fill="#34103f" stroke="#e879f9" stroke-width="1.2"/>
-    <text x="1315" y="533" text-anchor="middle" fill="#f4d3ff" font-size="13" font-weight="700">What I Did with</text>
-    <text x="1315" y="555" text-anchor="middle" fill="#f4d3ff" font-size="13" font-weight="700">Cowork</text>
-  </g>
-
-  <!-- Arrows -->
-  <g stroke="#9aa4b2" stroke-width="2" fill="none" marker-end="url(#arr)">
-    <path d="M110,150 L110,250"/>
-    <path d="M310,150 L310,250"/>
-    <path d="M510,150 L510,250"/>
-    <path d="M710,150 L710,250"/>
-    <path d="M910,150 L910,250"/>
-    <path d="M1110,150 L1110,500"/>
-    <path d="M1310,150 L1310,500"/>
+  <!-- Aligned arrows -->
+  <g stroke="#aab2c0" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M125,162 L125,245"/>
+    <path d="M325,162 L325,245"/>
+    <path d="M525,162 L525,245"/>
+    <path d="M330,335 L330,390"/>
+    <path d="M725,162 L725,390"/>
+    <path d="M925,162 L925,390"/>
+    <path d="M1125,162 L1125,595"/>
+    <path d="M1325,162 L1325,595"/>
   </g>
 </svg>
