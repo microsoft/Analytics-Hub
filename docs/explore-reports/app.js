@@ -362,9 +362,10 @@ function repoSlug(repoUrl) {
 
 function measureChips(measures) {
   if (!measures || !measures.length) return '';
-  return measures.map(m => {
+  return measures.map((m, i) => {
     const meta = MEASURES[m] || { label: m, color: '#888' };
-    return `<span class="m-chip" data-measure="${m}" style="--c:${meta.color}" title="Filter by ${meta.label}">${meta.label}</span>`;
+    const chip = `<span class="m-chip" data-measure="${m}" title="Filter by ${meta.label}">${meta.label}</span>`;
+    return i === 0 ? chip : `<span class="m-sep" aria-hidden="true">·</span>${chip}`;
   }).join('');
 }
 

@@ -615,26 +615,29 @@
 .m-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: .3rem;
+  align-items: center;
+  gap: .15rem .35rem;
 }
 .m-chip {
   display: inline-flex;
   align-items: center;
-  padding: .2rem .55rem;
-  font-size: .72rem;
+  padding: 0;
+  font-size: .92rem;
   font-weight: 600;
-  letter-spacing: .01em;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--c, #888) 14%, transparent);
-  color: var(--c, #444);
-  border: 1px solid color-mix(in srgb, var(--c, #888) 32%, transparent);
+  letter-spacing: 0;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all .12s;
+  transition: color .12s ease;
   white-space: nowrap;
 }
 .m-chip:hover {
-  background: color-mix(in srgb, var(--c, #888) 24%, transparent);
-  transform: translateY(-1px);
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.m-sep {
+  color: var(--text-muted);
+  font-size: .9rem;
 }
 
 /* Category section headers inside the table */
