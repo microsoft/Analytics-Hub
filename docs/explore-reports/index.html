@@ -153,15 +153,32 @@
           <span class="search-icon" aria-hidden="true">🔍</span>
           <input id="qSearch" type="search" placeholder="Search by question, report name, or data source…" autocomplete="off" />
         </label>
-        <div class="filter-pills" role="tablist" aria-label="Filter by report group">
-          <button class="pill active" data-cat="all">All reports</button>
+        <div class="filter-row">
+          <span class="filter-label">Report group</span>
+          <div class="filter-pills" role="tablist" aria-label="Filter by report group">
+            <button class="pill active" data-cat="all">All reports</button>
+            <button class="pill" data-cat="usage-intelligence">Usage &amp; Intelligence</button>
+            <button class="pill" data-cat="adoption-behavior">Adoption &amp; Behavior</button>
+            <button class="pill" data-cat="readiness">Readiness</button>
+            <button class="pill" data-cat="impact-roi">Impact &amp; ROI</button>
+            <button class="pill" data-cat="developer">Developer Productivity</button>
+            <button class="pill" data-cat="tooling-extension">Tooling &amp; Extension</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Focus areas</span>
+          <div class="filter-pills outcome-pills" role="group" aria-label="Optional focus area filters">
+            <button class="pill outcome-pill" data-measure-filter="adoption">Adoption</button>
+            <button class="pill outcome-pill" data-measure-filter="chat">Chat usage</button>
+            <button class="pill outcome-pill" data-measure-filter="agents">Agents</button>
+            <button class="pill outcome-pill" data-measure-filter="license">License readiness</button>
+            <button class="pill outcome-pill" data-measure-filter="impact">Impact</button>
+            <button class="pill outcome-pill" data-measure-filter="roi">ROI</button>
+            <button class="pill outcome-pill" data-measure-filter="sentiment">Sentiment</button>
+            <button class="pill outcome-pill" data-measure-filter="developer">Developer</button>
+            <button class="pill outcome-pill" data-measure-filter="audit">Data Export Scripts</button>
+          </div>
           <button class="pill pill-tier" data-tier="core" title="Recommended starting reports">Core only</button>
-          <button class="pill" data-cat="usage-intelligence">Usage &amp; Intelligence</button>
-          <button class="pill" data-cat="adoption-behavior">Adoption &amp; Behavior</button>
-          <button class="pill" data-cat="readiness">Readiness</button>
-          <button class="pill" data-cat="impact-roi">Impact &amp; ROI</button>
-          <button class="pill" data-cat="developer">Developer Productivity</button>
-          <button class="pill" data-cat="tooling-extension">Tooling &amp; Extension</button>
         </div>
       </div>
     </div>

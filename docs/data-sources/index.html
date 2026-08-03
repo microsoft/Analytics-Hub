@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="../favicon.svg" />
   <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Analytics Hub by Microsoft" />
+  <meta property="og:site_name" content="Analytics Hub" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/data-sources/" />
   <meta property="og:title" content="Data Sources · Analytics Hub" />
@@ -30,7 +30,7 @@
   <meta name="twitter:description" content="Interactive map of every data source the Analytics Hub uses, and which template each one powers. Click a node to see what feeds it and what it produces." />
   <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta name="twitter:image:alt" content="Analytics Hub - Microsoft Copilot and AI adoption toolkit" />
-  <meta name="author" content="Microsoft Copilot ROI Advisory Team" />
+  <meta name="author" content="Analytics Hub Advisory Team" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Analytics Hub","item":"https://microsoft.github.io/Analytics-Hub/"},{"@type":"ListItem","position":2,"name":"Data Sources","item":"https://microsoft.github.io/Analytics-Hub/data-sources/"}]}</script>
 
@@ -60,7 +60,7 @@
     <a class="brand" href="../">
       <span class="brand-mark">🧠</span>
       <span class="brand-name">Analytics Hub</span>
-      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+      <span class="brand-by">Open source toolkit</span>
     </a>
     <nav class="primary-nav">
       <a href="../out-of-the-box/">Native Reports</a>
@@ -93,8 +93,8 @@
       <p class="eyebrow">🔌 Where does the data come from?</p>
       <h1>Every byte stays in <span class="grad">your tenant</span></h1>
       <p class="lede">
-        Click any node to trace what feeds it and what it powers. Every template runs in
-        your environment — no data is ever sent to Microsoft.
+        This map shows which data sources feed which reports. Every template runs in your
+        environment — no data is ever sent to Microsoft.
       </p>
       <div class="ds-legend" aria-label="Legend">
         <span class="lg lg-src"><i></i> Data source</span>
@@ -105,45 +105,19 @@
     </div>
   </section>
 
-  <!-- =============================================== CATEGORY FILTER -->
-  <section class="ds-filter-band" aria-label="Filter by category">
-    <div class="wrap">
-      <p class="ds-filter-label"><span aria-hidden="true">🎯</span> Filter reports by what they measure</p>
-      <div class="ds-filter-chips" id="dsFilterChips" role="toolbar" aria-label="Category filters"></div>
-    </div>
-  </section>
-
   <!-- =============================================== ECOSYSTEM -->
   <section class="ds-ecosystem">
     <div class="wrap">
-      <div class="ds-canvas" id="dsCanvas" aria-label="Interactive ecosystem diagram">
-        <!-- SVG layer for connector lines (drawn under the nodes) -->
-        <svg id="dsLines" class="ds-lines" aria-hidden="true"></svg>
-        <!-- Nodes rendered by JS -->
-        <div class="ds-nodes" id="dsNodes"></div>
-      </div>
-
-      <!-- Detail drawer -->
-      <aside class="ds-drawer" id="dsDrawer" aria-live="polite" hidden>
-        <button class="ds-drawer-close" id="dsDrawerClose" aria-label="Close">✕</button>
-        <div class="ds-drawer-body" id="dsDrawerBody"></div>
-      </aside>
-    </div>
-  </section>
-
-  <!-- =============================================== SOURCES DETAIL -->
-  <section class="ds-cards">
-    <div class="wrap">
-      <h2 class="section-title">Sources, in plain English</h2>
-      <p class="section-lead">What each one is, who owns it in your org, and what license/role you need.</p>
-      <div class="ds-grid" id="dsGrid"></div>
+      <figure class="ds-static-figure">
+        <img src="./ecosystem.svg" alt="Analytics Hub data flow diagram mapping source systems to reports and personal outputs." />
+      </figure>
     </div>
   </section>
 
   <!-- =============================================== FOOTER -->
   <footer class="site-footer">
     <div class="wrap">
-      <p>Open source · Built by Microsoft's Copilot ROI Advisory Team</p>
+      <p>Open source · Built by the Analytics Hub team</p>
       <p><a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">microsoft/Analytics-Hub</a> · <a href="../">Home</a> · <a href="../explore-reports/">Explore Reports</a> · <a href="../team/">Team</a></p>
     </div>
   </footer>
@@ -151,22 +125,6 @@
 </main>
 
 <script src="../app.js" defer></script>
-<script src="graph.js" defer></script>
-
-<!-- Canvas hint toast, fires once per visitor. -->
-<script>
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      if (window.ahNudge) {
-        window.ahNudge.toast(
-          "\u{1F446} Click any node to trace its data lineage",
-          "data-sources-canvas",
-          { anchor: "top-right", duration: 6000 }
-        );
-      }
-    }, 1200);
-  });
-</script>
 
 </body>
 </html>

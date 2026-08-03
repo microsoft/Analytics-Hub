@@ -680,20 +680,37 @@ function wireExpand() {
 }
 
 // ----------------------------------------------------- filter + search
+const filterState = {
+  category: 'all',
+  coreOnly: false,
+  measures: new Set(),
+};
+
+function syncFilterUI() {
+  document.querySelectorAll('.filter-pills .pill[data-cat]').forEach(p => {
+    p.classList.toggle('active', (p.dataset.cat || 'all') === filterState.category);
+  });
+  const coreBtn = document.querySelector('.filter-pills .pill[data-tier="core"], .pill[data-tier="core"]');
+  if (coreBtn) coreBtn.classList.toggle('active', !!filterState.coreOnly);
+  document.querySelectorAll('.outcome-pill[data-measure-filter]').forEach(p => {
+    p.classList.toggle('active', filterState.measures.has(p.dataset.measureFilter));
+  });
+}
+
 function applyFilters() {
   const q = (document.getElementById('qSearch').value || '').toLowerCase().trim();
-  const activePill = document.querySelector('.filter-pills .pill.active');
-  const category = activePill ? (activePill.dataset.cat || 'all') : 'all';
-  const tier = activePill ? (activePill.dataset.tier || '') : '';
+  const selectedMeasures = Array.from(filterState.measures);
   let shown = 0;
   // Count visible rows per category
   const catCounts = {};
   document.querySelectorAll('.row-main').forEach(row => {
     const detail = document.getElementById(`detail-${row.dataset.id}`);
-    const matchCategory = category === 'all' || row.dataset.cat === category;
-    const matchTier = !tier || row.dataset.tier === tier;
+    const rowMeasures = (row.dataset.measures || '').split(/\s+/).filter(Boolean);
+    const matchCategory = filterState.category === 'all' || row.dataset.cat === filterState.category;
+    const matchTier = !filterState.coreOnly || row.dataset.tier === 'core';
+    const matchMeasure = selectedMeasures.length === 0 || selectedMeasures.some(m => rowMeasures.includes(m));
     const matchQ = !q || row.dataset.search.includes(q);
-    const visible = matchCategory && matchTier && matchQ;
+    const visible = matchCategory && matchTier && matchMeasure && matchQ;
     row.style.display = visible ? '' : 'none';
     if (detail) detail.style.display = visible ? '' : 'none';
     if (visible) {
@@ -712,10 +729,31 @@ function applyFilters() {
 
 function wireFilters() {
   document.getElementById('qSearch').addEventListener('input', applyFilters);
-  document.querySelectorAll('.filter-pills .pill').forEach(p => {
+  document.querySelectorAll('.filter-pills .pill[data-cat]').forEach(p => {
     p.addEventListener('click', () => {
-      document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
-      p.classList.add('active');
+      filterState.category = p.dataset.cat || 'all';
+      syncFilterUI();
+      applyFilters();
+    });
+  });
+  const coreBtn = document.querySelector('.pill[data-tier="core"]');
+  if (coreBtn) {
+    coreBtn.addEventListener('click', () => {
+      filterState.coreOnly = !filterState.coreOnly;
+      syncFilterUI();
+      applyFilters();
+    });
+  }
+  document.querySelectorAll('.outcome-pill[data-measure-filter]').forEach(p => {
+    p.addEventListener('click', () => {
+      const measure = p.dataset.measureFilter;
+      if (!measure) return;
+      if (filterState.measures.has(measure)) {
+        filterState.measures.delete(measure);
+      } else {
+        filterState.measures.add(measure);
+      }
+      syncFilterUI();
       applyFilters();
     });
   });
@@ -731,35 +769,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const tier = params.get('tier');
   const q = params.get('q');
   // Deep-link to a category.
-  if (category) {
-    const pill = document.querySelector(`.filter-pills .pill[data-cat="${category}"]`);
-    if (pill) {
-      document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
-      pill.classList.add('active');
-    }
-  }
+  if (category) filterState.category = category;
   // Backward compatibility: old links with ?measure=...
   if (measure && !category) {
     const match = TOOLS.find(t => Array.isArray(t.measures) && t.measures.includes(measure));
-    if (match) {
-      const pill = document.querySelector(`.filter-pills .pill[data-cat="${match.category}"]`);
-      if (pill) {
-        document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
-        pill.classList.add('active');
-      }
-    }
+    if (match) filterState.category = match.category;
+  }
+  // Supports measure=adoption,impact deep links as optional focus filters.
+  if (measure) {
+    measure.split(',').map(m => m.trim()).filter(Boolean).forEach(m => filterState.measures.add(m));
   }
   // Deep-link to tier (e.g. "core only")
-  if (tier === 'core') {
-    const pill = document.querySelector('.filter-pills .pill[data-tier="core"]');
-    if (pill) {
-      document.querySelectorAll('.filter-pills .pill').forEach(x => x.classList.remove('active'));
-      pill.classList.add('active');
-    }
-  }
+  if (tier === 'core') filterState.coreOnly = true;
   if (q) {
     const input = document.getElementById('qSearch');
     if (input) { input.value = q; input.focus(); }
   }
+  syncFilterUI();
   applyFilters();
 });

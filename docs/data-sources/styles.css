@@ -60,6 +60,20 @@
 /* ---------- ECOSYSTEM CANVAS ---------- */
 .ds-ecosystem { padding: 2rem 0 3rem; }
 
+.ds-static-figure {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0d1117;
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, .45);
+}
+.ds-static-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .ds-canvas {
   position: relative;
   border: 1px solid var(--border);

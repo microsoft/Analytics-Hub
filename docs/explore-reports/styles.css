@@ -88,6 +88,19 @@
   flex-wrap: wrap;
   gap: .5rem;
 }
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem .8rem;
+}
+.filter-label {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
 .filter-pills .pill {
   padding: .45rem .9rem;
   border: 1px solid var(--border);
@@ -106,6 +119,15 @@
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+.outcome-pills .pill {
+  font-size: .8rem;
+  padding: .35rem .75rem;
+}
+.outcome-pills .pill.active {
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  color: var(--text);
 }
 
 /* ---------- TABLE ---------- */
@@ -558,6 +580,10 @@
   .picker-table th, .picker-table td { padding: .7rem .6rem; }
   .ico-btn { min-width: 62px; height: 30px; padding: 0 .5rem; font-size: .75rem; }
   .col-actions-heads { grid-template-columns: repeat(2, 62px); }
+  .filter-label {
+    width: 100%;
+    margin-bottom: -.25rem;
+  }
 }
 
 /* ============================================================
@@ -571,14 +597,14 @@
   color: #fff;
 }
 .filter-pills .pill.pill-tier {
-  border-color: #ffaa44;
-  color: #ffaa44;
+  border-color: var(--border-strong);
+  color: var(--text-soft);
   font-weight: 600;
 }
 .filter-pills .pill.pill-tier.active {
-  background: #ffaa44;
-  border-color: #ffaa44;
-  color: #1a1a1a;
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  color: var(--text);
 }
 
 /* Measure chips inside the table row */
