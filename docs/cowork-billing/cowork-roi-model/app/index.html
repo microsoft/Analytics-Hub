@@ -180,6 +180,36 @@ tfoot td:first-child { text-align: left; }
 tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
 .note { padding: 14px 20px 18px; color: var(--cp-text-muted); font-size: 12.5px; }
 .note b { color: var(--cp-text); }
+.disclosure {
+  margin-top: 14px;
+  border-top: 1px solid var(--cp-border);
+  padding: 12px 20px 18px;
+}
+.disclosure details {
+  background: var(--cp-surface-soft);
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  padding: 10px 12px;
+}
+.disclosure summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--cp-text);
+}
+.disclosure summary::marker { color: var(--cp-accent); }
+.disclosure p {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--cp-text-muted);
+}
+.disclosure code {
+  font-family: Consolas, "Courier New", Courier, monospace;
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  padding: 1px 6px;
+  color: var(--cp-text);
+}
 
 @media (max-width: 760px) {
   .summary { grid-template-columns: repeat(2, 1fr); }
@@ -298,6 +328,14 @@ tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
       <b>How it works:</b> Each row shows full estimated savings for that category:
       Assisted hours = Tasks × Min per task ÷ 60; Value = hours × labor rate.
       Productivity Recapture Rate applies to totals to estimate harvestable value.
+    </div>
+    <div class="disclosure">
+      <details>
+        <summary>Privacy note and how to verify network behavior</summary>
+        <p><b>Data handling:</b> This ROI model runs fully in your browser. Inputs and calculations stay local to your session and are not posted to any API by this page.</p>
+        <p><b>Clarity:</b> This page does not include a Microsoft Clarity script, so input data is not sent to Clarity from this app.</p>
+        <p><b>How to verify:</b> Open browser DevTools → <code>Network</code>. Enable <code>Preserve log</code>. Filter by <code>Fetch/XHR</code>, then refresh and edit fields in the model. You should see no new API calls tied to your edits. You can also filter for <code>clarity.ms</code>; this page should show no matching requests.</p>
+      </details>
     </div>
   </div>
 </div>
