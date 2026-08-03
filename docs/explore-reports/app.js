@@ -9,7 +9,7 @@ const TOOLS = [
     title: "Super Usage Adoption",
     icon: "⚡",
     accent: "#0078d4",
-    category: "adoption-behavior",
+    category: "impact-roi",
     tier: "core",
     measures: ["adoption","productivity"],
     source: "Viva Insights",
@@ -176,7 +176,7 @@ const TOOLS = [
     title: "What Cowork Did For Me",
     icon: "🎁",
     accent: "#e3008c",
-    category: "readiness-roi",
+    category: "impact-roi",
     tier: "specialty",
     measures: ["roi","productivity","impact"],
     source: "Local Cowork sessions (OneDrive)",
@@ -202,7 +202,7 @@ const TOOLS = [
     title: "M365 Copilot Readiness Report",
     icon: "🎯",
     accent: "#FFB900",
-    category: "readiness-roi",
+    category: "readiness",
     tier: "specialty",
     measures: ["adoption","license","customization"],
     source: "Purview + Entra",
@@ -283,7 +283,7 @@ const TOOLS = [
     title: "M365 Copilot Productivity ROI Calculator",
     icon: "🧮",
     accent: "#0078d4",
-    category: "readiness-roi",
+    category: "impact-roi",
     tier: "core",
     measures: ["roi","impact"],
     source: "Power BI export (Super Usage Heatmap CSV)",
@@ -300,6 +300,154 @@ const TOOLS = [
       software: [
         { label: "Modern browser (Edge / Chrome / Firefox)" },
         { label: "Super Usage heatmap CSV export" }
+      ]
+    },
+  },
+  {
+    id: 'cowork-billing-report',
+    question: "I need the core Cowork billing Power BI report and template.",
+    title: "Copilot Cowork Billing Report",
+    icon: "🧾",
+    accent: "#0078d4",
+    category: "impact-roi",
+    tier: "core",
+    measures: ["impact","roi"],
+    source: "Copilot credit consumption + Entra export",
+    sourceKey: "M365 Admin",
+    repo: "https://github.com/microsoft/CreditUsage",
+    download: "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
+    blurb: "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis.",
+    meta: { audience: "FinOps, IT admins, platform owners", license: "M365 Admin exports", time: "~45 min" },
+    requirements: {
+      roles: [
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" },
+        { label: "Entra Reports Reader", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" }
+      ]
+    },
+  },
+  {
+    id: 'cowork-chargeback-app',
+    question: "I want a browser app for Cowork chargeback by cost center and user.",
+    title: "Cowork Chargeback (Web App)",
+    icon: "🧮",
+    accent: "#00B294",
+    category: "impact-roi",
+    tier: "specialty",
+    measures: ["impact","roi"],
+    source: "Copilot credit consumption + Entra export",
+    sourceKey: "M365 Admin",
+    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-chargeback/app",
+    download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    preview: "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/report-walkthrough.gif",
+    blurb: "Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs.",
+    meta: { audience: "FinOps, finance partners, IT operations", license: "M365 Admin exports", time: "~10 min" },
+    requirements: {
+      roles: [
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" },
+        { label: "Entra Reports Reader", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" }
+      ],
+      software: [
+        { label: "Modern browser (Edge / Chrome / Firefox)" }
+      ]
+    },
+  },
+  {
+    id: 'cowork-policy-helper-app',
+    question: "I need to assign Cowork spend policies and track exceptions.",
+    title: "Cowork Policy Helper (Web App)",
+    icon: "🔐",
+    accent: "#8661c5",
+    category: "readiness",
+    tier: "specialty",
+    measures: ["license","impact"],
+    source: "Copilot consumption + Entra user attributes",
+    sourceKey: "M365 Admin",
+    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-policy-helper/app",
+    download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    blurb: "Policy assignment and exception management app for governing Cowork spend tiers.",
+    meta: { audience: "IT governance, FinOps, platform admins", license: "M365 Admin exports", time: "~10 min" },
+    requirements: {
+      roles: [
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" },
+        { label: "Entra Reports Reader", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" }
+      ],
+      software: [
+        { label: "Modern browser (Edge / Chrome / Firefox)" }
+      ]
+    },
+  },
+  {
+    id: 'cowork-usage-tracker-app',
+    question: "I want to track Cowork usage trend over time from periodic exports.",
+    title: "Cowork Usage Tracker (Web App)",
+    icon: "⏱️",
+    accent: "#e3008c",
+    category: "impact-roi",
+    tier: "specialty",
+    measures: ["impact","roi"],
+    source: "Recurring Cowork CSV exports",
+    sourceKey: "M365 Admin",
+    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-usage-tracker/app",
+    download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    blurb: "Trend reconstruction app for point-in-time Cowork exports with run-rate, depletion, and action signals.",
+    meta: { audience: "FinOps, operations, adoption leads", license: "M365 Admin exports", time: "~10 min" },
+    requirements: {
+      roles: [
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" }
+      ],
+      software: [
+        { label: "Modern browser (Edge / Chrome / Firefox)" }
+      ]
+    },
+  },
+  {
+    id: 'finops-focus-app',
+    question: "I need Cowork cost views aligned to FinOps and FOCUS definitions.",
+    title: "FinOps & FOCUS Cost Report (Web App)",
+    icon: "📊",
+    accent: "#0078d4",
+    category: "impact-roi",
+    tier: "specialty",
+    measures: ["impact","roi"],
+    source: "Cowork consumption + billing context",
+    sourceKey: "M365 Admin",
+    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/FinOps-Cowork/app",
+    download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    blurb: "Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.",
+    meta: { audience: "FinOps practitioners, finance, cloud platform teams", license: "M365 Admin exports", time: "~10 min" },
+    requirements: {
+      roles: [
+        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" }
+      ],
+      software: [
+        { label: "Modern browser (Edge / Chrome / Firefox)" }
+      ]
+    },
+  },
+  {
+    id: 'cowork-roi-model-app',
+    question: "I need a tenant-agnostic Cowork ROI scenario model for custom assumptions.",
+    title: "Cowork ROI Model (Web App)",
+    icon: "📈",
+    accent: "#b11f4b",
+    category: "impact-roi",
+    tier: "core",
+    measures: ["impact","roi","productivity"],
+    source: "User-entered assumptions + research defaults",
+    sourceKey: "Local",
+    repo: "https://github.com/microsoft/Analytics-Hub/tree/main/docs/cowork-billing/cowork-roi-model/app",
+    download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    blurb: "Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required).",
+    meta: { audience: "BVAs, finance partners, sellers", license: "None", time: "~5 min" },
+    requirements: {
+      roles: [
+        { label: "None — browser only" }
+      ],
+      software: [
+        { label: "Modern browser (Edge / Chrome / Firefox)" }
       ]
     },
   },
@@ -335,7 +483,8 @@ const TOOLS = [
 const CATEGORIES = [
   { id: 'usage-intelligence',  label: 'Usage Intelligence',      icon: '🤖', blurb: 'Single panes of glass for Copilot + Agent activity across the tenant.' },
   { id: 'adoption-behavior',   label: 'Adoption & Behavior',     icon: '📈', blurb: 'Who adopts, who champions, who lags — and how the patterns spread.' },
-  { id: 'readiness-roi',       label: 'Readiness & ROI',         icon: '🎯', blurb: 'License placement, productivity lift, payback period.' },
+  { id: 'readiness',           label: 'Readiness',               icon: '🎯', blurb: 'License placement, activation sequencing, and champion identification.' },
+  { id: 'impact-roi',          label: 'Impact & ROI',            icon: '💰', blurb: 'Productivity lift, financial value, and cost modeling outcomes.' },
   { id: 'developer',           label: 'Developer Productivity',  icon: '💻', blurb: 'GitHub Copilot adoption, acceptance rates, personal leverage.' },
   { id: 'tooling-extension',   label: 'Tooling & Extension',     icon: '🧩', blurb: 'Data plumbing and add-on libraries that power the reports above.' },
 ];
@@ -350,7 +499,7 @@ const MEASURES = {
   roi:           { label: 'ROI modeling',      color: '#00B294' },
   developer:     { label: 'Developer',         color: '#8661c5' },
   productivity:  { label: 'Productivity',      color: '#e3008c' },
-  audit:         { label: 'Audit automation',  color: '#ffaa44' },
+  audit:         { label: 'Data Export Scripts', color: '#ffaa44' },
   customization: { label: 'Customization',     color: '#0078d4' },
 };
 
@@ -411,53 +560,6 @@ function previewHtml(t) {
           </div>`;
 }
 
-// Cache fetched email texts so we don't refetch
-const emailCache = new Map();
-
-async function fetchEmail(filename) {
-  if (emailCache.has(filename)) return emailCache.get(filename);
-  const res = await fetch(`../email-templates/${filename}`);
-  if (!res.ok) throw new Error(`Could not load ${filename}`);
-  const text = await res.text();
-  emailCache.set(filename, text);
-  return text;
-}
-
-function parseEmail(raw) {
-  // First line: "Subject: ..."
-  const lines = raw.split(/\r?\n/);
-  let subject = "Action Required: Data Prerequisites";
-  let bodyStart = 0;
-  for (let i = 0; i < lines.length; i++) {
-    if (/^Subject:\s*/i.test(lines[i])) {
-      subject = lines[i].replace(/^Subject:\s*/i, "").trim();
-      bodyStart = i + 1;
-      break;
-    }
-  }
-  // Skip blank lines after Subject
-  while (bodyStart < lines.length && lines[bodyStart].trim() === "") bodyStart++;
-  const body = lines.slice(bodyStart).join("\n").trim();
-  return { subject, body };
-}
-
-async function openMailto(filename) {
-  try {
-    const raw = await fetchEmail(filename);
-    const { subject, body } = parseEmail(raw);
-    const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    if (url.length > 8000) {
-      // mailto URI length limit — fall back to opening the .txt
-      window.open(`../email-templates/${filename}`, "_blank");
-      return;
-    }
-    window.location.href = url;
-  } catch (err) {
-    console.error(err);
-    window.open(`../email-templates/${filename}`, "_blank");
-  }
-}
-
 // ----------------------------------------------------- render
 function rowHtml(t) {
   const slug = repoSlug(t.repo);
@@ -473,9 +575,6 @@ function rowHtml(t) {
       <td class="col-actions">
         <a class="ico-btn" href="${t.repo}" target="_blank" rel="noopener" title="Open on GitHub" aria-label="Open on GitHub"><span class="action-label">Repo</span><span class="action-icon" aria-hidden="true">↗</span></a>
         <a class="ico-btn" href="${t.download}" title="Download .zip" aria-label="Download zip"><span class="action-label">Zip</span><span class="action-icon" aria-hidden="true">⬇</span></a>
-        ${t.emailFile
-          ? `<button class="ico-btn email-btn" data-email="${t.emailFile}" title="Email your admin" aria-label="Email your admin"><span class="action-label">Email</span><span class="action-icon" aria-hidden="true">📧</span></button>`
-          : `<span class="ico-btn ico-btn-empty" aria-hidden="true" title="No admin email template for this tool">·</span>`}
       </td>
     </tr>
     <tr class="row-detail" id="detail-${t.id}" hidden>
@@ -499,8 +598,6 @@ function rowHtml(t) {
             <div class="detail-ctas">
               <a class="btn btn-primary" href="${t.repo}" target="_blank" rel="noopener">Open repository ↗</a>
               <a class="btn btn-ghost" href="${t.download}">⬇ Download .zip</a>
-              ${t.emailFile ? `<button class="btn btn-soft email-btn" data-email="${t.emailFile}">📧 Email your admin</button>` : ''}
-              ${t.secondaryEmailFile ? `<button class="btn btn-soft email-btn" data-email="${t.secondaryEmailFile}">📧 Email (Agent variant)</button>` : ''}
               <a class="btn btn-ghost" href="${t.repo}" target="_blank" rel="noopener" aria-label="Star ${t.title} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
             </div>
             <p class="data-line"><strong>Data source:</strong> ${t.source}</p>
@@ -535,7 +632,6 @@ function render() {
   body.innerHTML = html;
   wirePreviewFallback();
   wireExpand();
-  wireEmail();
   wireLightbox();
   wireMeasureChips();
 }
@@ -615,17 +711,6 @@ function wireExpand() {
         row.classList.add('expanded');
         btn.setAttribute('aria-expanded', 'true');
       }
-    });
-  });
-}
-
-function wireEmail() {
-  document.querySelectorAll('.email-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const f = btn.dataset.email;
-      if (f) openMailto(f);
     });
   });
 }

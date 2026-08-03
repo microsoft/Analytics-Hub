@@ -137,7 +137,7 @@
   text-transform: uppercase;
   letter-spacing: .03em;
 }
-.col-actions { width: 190px; text-align: right; }
+.col-actions { width: 132px; text-align: right; }
 .col-src { width: 180px; }
 .col-tool { width: 30%; }
 
@@ -381,7 +381,7 @@
 /* action column headers */
 .col-actions-heads {
   display: grid;
-  grid-template-columns: repeat(3, 56px);
+  grid-template-columns: repeat(2, 56px);
   gap: 6px;
   justify-content: end;
   font-size: .66rem;
@@ -594,7 +594,7 @@
   .ico-btn { min-width: 30px; width: 30px; height: 30px; padding: 0; }
   .action-label { display: none; }
   .action-icon { display: inline; }
-  .col-actions-heads { grid-template-columns: repeat(3, 30px); }
+  .col-actions-heads { grid-template-columns: repeat(2, 30px); }
 }
 
 /* ============================================================
@@ -666,7 +666,10 @@
 .cat-header[data-cat="adoption-behavior"] td {
   --cat-c1: #00B294; --cat-c2: #5ee3c8;
 }
-.cat-header[data-cat="readiness-roi"] td {
+.cat-header[data-cat="readiness"] td {
+  --cat-c1: #2b88d8; --cat-c2: #7ab7eb;
+}
+.cat-header[data-cat="impact-roi"] td {
   --cat-c1: #e3008c; --cat-c2: #ff7ab8;
 }
 .cat-header[data-cat="developer"] td {
