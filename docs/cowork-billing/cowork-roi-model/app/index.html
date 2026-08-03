@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cowork ROI Model</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 28px 20px 80px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; }
+h1 { font-size: 34px; margin: 0 0 8px; letter-spacing: -0.01em; }
+p { margin: 0; color: var(--cp-text-muted); }
+
+.card {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+}
+
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 18px 0; }
+.stat { padding: 16px 18px; }
+.stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cp-text-muted); font-weight: 700; }
+.stat .v { font-size: 34px; font-weight: 800; margin-top: 4px; letter-spacing: -0.01em; }
+.stat .v.accent { color: var(--cp-accent); }
+.stat .sub { font-size: 12px; color: var(--cp-text-soft); margin-top: 2px; }
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  align-items: end;
+  gap: 18px 24px;
+  padding: 16px 20px;
+  margin: 18px 0;
+}
+.ctrl { display: flex; flex-direction: column; gap: 6px; }
+.ctrl.wide { grid-column: 1 / -1; }
+.ctrl label { font-size: 12px; font-weight: 700; color: var(--cp-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.hint { font-size: 11px; color: var(--cp-text-soft); text-transform: none; letter-spacing: 0; font-weight: 400; }
+.slider-row { display: flex; align-items: center; gap: 10px; min-width: 280px; }
+
+input[type="text"], input[type="number"] {
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  border: 1px solid var(--cp-border-strong);
+  border-radius: 0.625rem;
+  padding: 7px 9px;
+}
+input[type="number"] { width: 120px; }
+input[type="number"].cell { width: 76px; padding: 5px 7px; text-align: right; }
+input:focus { outline: 2px solid var(--cp-accent); outline-offset: 1px; }
+
+input[type="range"] { accent-color: var(--cp-accent); width: 240px; }
+.slider-val { font-weight: 700; color: var(--cp-accent); min-width: 48px; font-variant-numeric: tabular-nums; }
+
+.band-group {
+  display: inline-flex;
+  border: 1px solid var(--cp-border-strong);
+  border-radius: 0.625rem;
+  overflow: hidden;
+}
+.band-group button {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  background: var(--cp-surface);
+  color: var(--cp-text-muted);
+  padding: 7px 14px;
+  cursor: pointer;
+  border-right: 1px solid var(--cp-border);
+}
+.band-group button:last-child { border-right: none; }
+.band-group button.active { background: var(--cp-accent); color: var(--cp-accent-fg); }
+.band-group button:hover:not(.active) { background: var(--cp-accent-soft); color: var(--cp-text); }
+
+.section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cp-text-muted); padding: 14px 20px 0; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  background: var(--cp-bg-elevated);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cp-text-muted);
+  text-align: right;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--cp-border);
+}
+thead th:first-child { text-align: left; }
+tbody td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--cp-border);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+tbody td:first-child { text-align: left; }
+.bucket-name { font-weight: 600; }
+.bucket-src { font-size: 11px; color: var(--cp-text-soft); }
+td.out { font-weight: 600; }
+td.dollars { color: var(--cp-accent); font-weight: 700; }
+tfoot td {
+  padding: 13px 14px;
+  font-weight: 700;
+  border-top: 2px solid var(--cp-border-strong);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+tfoot td:first-child { text-align: left; }
+tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
+.note { padding: 14px 20px 18px; color: var(--cp-text-muted); font-size: 12.5px; }
+.note b { color: var(--cp-text); }
+
+@media (max-width: 760px) {
+  .summary { grid-template-columns: repeat(2, 1fr); }
+  .controls { grid-template-columns: 1fr; }
+  .bucket-src { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Cowork value model — your assumptions, your numbers</h1>
+    <p>Everything below is editable. Enter your task volumes and assumptions, and the model computes assisted hours, value, and ROI instantly.</p>
+    <div class="ctrl" style="margin-top:12px;max-width:360px">
+      <label>Scenario / customer name <span class="hint">(optional)</span></label>
+      <input type="text" id="scenario" placeholder="e.g. Contoso — Q3 review" />
+    </div>
+  </header>
+
+  <div class="summary">
+    <div class="stat card">
+      <div class="k">Assisted hrs / mo (post Productivity Recapture)</div>
+      <div class="v" id="sumHours">0</div>
+      <div class="sub" id="sumHoursRange">Range 0 – 0 hrs</div>
+    </div>
+    <div class="stat card">
+      <div class="k">Value / mo (post Productivity Recapture)</div>
+      <div class="v accent" id="sumDollars">$0</div>
+      <div class="sub" id="sumDollarsRange">Range $0 – $0</div>
+    </div>
+    <div class="stat card">
+      <div class="k">ROI multiple (post Productivity Recapture)</div>
+      <div class="v accent" id="sumRoi">—</div>
+      <div class="sub" id="sumRoiRange">Enter monthly cost</div>
+    </div>
+    <div class="stat card">
+      <div class="k">Tasks / month</div>
+      <div class="v" id="sumTasks">0</div>
+      <div class="sub">From your inputs below</div>
+    </div>
+  </div>
+
+  <div class="controls card">
+    <div class="ctrl">
+      <label>Monthly Copilot credit cost <span class="hint">(drives ROI)</span></label>
+      <div class="slider-row">
+        <span>$</span>
+        <input type="number" id="cost" value="0" min="0" step="1000" />
+        <span>/ mo</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label>Loaded labor rate</label>
+      <div class="slider-row">
+        <span>$</span>
+        <input type="number" id="rate" value="72" min="0" step="1" />
+        <span>/ hour</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label>Users (MAU) <span class="hint">(for user subscription license cost)</span></label>
+      <div class="slider-row">
+        <input type="number" id="mau" value="0" min="0" step="1" />
+        <span>users</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label>User subscription license (USL) <span class="hint">(optional)</span></label>
+      <div class="slider-row">
+        <span>$</span>
+        <input type="number" id="usl" value="0" min="0" step="1" />
+        <span>/ user / mo</span>
+      </div>
+    </div>
+    <div class="ctrl wide">
+      <label>Productivity Recapture Rate <span class="hint">(% of assisted time redeployed to new productive work)</span></label>
+      <div class="slider-row">
+        <input type="range" id="adj" min="0" max="100" step="5" value="100" />
+        <span class="slider-val" id="adjVal">100%</span>
+      </div>
+    </div>
+    <div class="ctrl wide">
+      <label>Reset minutes to research band</label>
+      <div class="band-group" id="bandGroup">
+        <button data-band="low">Conservative</button>
+        <button data-band="mid" class="active">Mid</button>
+        <button data-band="high">High</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Per-category breakdown</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Tasks / mo</th>
+          <th>Min / task</th>
+          <th>Assisted hrs / mo</th>
+          <th>Value / mo</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+      <tfoot>
+        <tr>
+          <td>Total / month <span class="hint">(full savings)</span></td>
+          <td id="footTasks">0</td>
+          <td>—</td>
+          <td id="footHours">0</td>
+          <td class="dollars" id="footDollars">$0</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="note">
+      <b>How it works:</b> Each row shows full estimated savings for that category:
+      Assisted hours = Tasks × Min per task ÷ 60; Value = hours × labor rate.
+      Productivity Recapture Rate applies to totals to estimate harvestable value.
+    </div>
+  </div>
+</div>
+
+<script>
+const BUCKETS = [
+  { name: "Analysis & Research", tasks: 0, low: 30, mid: 67, high: 92, src: "Stanford–World Bank GenAI Time Use 2025; McKinsey 2023" },
+  { name: "Document & content creation", tasks: 0, low: 12, mid: 24, high: 42, src: "Microsoft Research 2026 (Verma · Suri · Counts · n=72,186); UK GDS M365 Copilot" },
+  { name: "Email workflows", tasks: 0, low: 3, mid: 5, high: 7, src: "Noy & Zhang 2023; NBER w33795" },
+  { name: "Meeting workflows", tasks: 0, low: 12, mid: 24, high: 36, src: "Cambon et al. MSR 2024; Forrester TEI 2024" },
+  { name: "Communication workflows", tasks: 0, low: 2, mid: 4, high: 6, src: "Microsoft WTI 2024; NBER w33795" },
+  { name: "Specialized workflows", tasks: 0, low: 10, mid: 25, high: 40, src: "Forrester TEI Power Automate 2024; UK GDS Cross Government 2025" },
+  { name: "Write or debug code", tasks: 0, low: 30, mid: 56, high: 96, src: "Cui CACM 2024; Peng et al. 2023; Stanford World Bank GenAI Time Use 2025" },
+  { name: "General assistance / Other", tasks: 0, low: 2, mid: 5, high: 8, src: "Brynjolfsson QJE 2025; NBER w31161" }
+];
+
+const BASELINE = BUCKETS.map(b => ({ tasks: b.tasks, minutes: b.mid }));
+let state = BASELINE.map(s => ({ tasks: s.tasks, minutes: s.minutes }));
+
+const $ = id => document.getElementById(id);
+const fmtInt = n => Math.round(n).toLocaleString("en-US");
+const fmtMoneyFull = n => "$" + Math.round(n).toLocaleString("en-US");
+const fmtMoney = n => {
+  const v = Math.round(n);
+  const a = Math.abs(v);
+  if (a >= 9.995e8) return "$" + (v / 1e9).toLocaleString("en-US", { maximumFractionDigits: 1 }) + "B";
+  if (a >= 9.995e5) return "$" + (v / 1e6).toLocaleString("en-US", { maximumFractionDigits: 1 }) + "M";
+  if (a >= 1e3) return "$" + (v / 1e3).toLocaleString("en-US", { maximumFractionDigits: 1 }) + "K";
+  return "$" + v.toLocaleString("en-US");
+};
+
+function buildRows() {
+  const tb = $("tbody");
+  tb.innerHTML = "";
+  BUCKETS.forEach((b, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><div class="bucket-name">${b.name}</div><div class="bucket-src">${b.src}</div></td>
+      <td><input class="cell" type="number" min="0" step="1" data-i="${i}" data-f="tasks" value="${state[i].tasks}"></td>
+      <td><input class="cell" type="number" min="0" step="1" data-i="${i}" data-f="minutes" value="${state[i].minutes}"></td>
+      <td class="out" id="hrs${i}">0</td>
+      <td class="out dollars" id="usd${i}">$0</td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll("input.cell").forEach(inp => {
+    inp.addEventListener("input", e => {
+      const i = +e.target.dataset.i;
+      const f = e.target.dataset.f;
+      state[i][f] = parseFloat(e.target.value) || 0;
+      recompute();
+    });
+  });
+}
+
+function recompute() {
+  const rec = (+$("adj").value) / 100;
+  const rate = +$("rate").value || 0;
+  const pct = Math.round(rec * 100);
+  let totH = 0, totD = 0, totT = 0, totHlow = 0, totHhigh = 0;
+
+  state.forEach((s, i) => {
+    const hrs = s.tasks * s.minutes / 60;
+    const usd = hrs * rate;
+    $("hrs" + i).textContent = fmtInt(hrs);
+    $("usd" + i).textContent = fmtMoneyFull(usd);
+    totH += hrs;
+    totD += usd;
+    totT += s.tasks;
+    totHlow += s.tasks * BUCKETS[i].low / 60;
+    totHhigh += s.tasks * BUCKETS[i].high / 60;
+  });
+
+  $("footTasks").textContent = fmtInt(totT);
+  $("footHours").textContent = fmtInt(totH);
+  $("footDollars").textContent = fmtMoneyFull(totD);
+
+  const postH = totH * rec;
+  const postD = totD * rec;
+  const postHlow = totHlow * rec;
+  const postHhigh = totHhigh * rec;
+
+  $("sumHours").textContent = fmtInt(postH);
+  $("sumHoursRange").textContent = `Pre-recapture ${fmtInt(totH)} hrs | ${pct}% harvested | Range ${fmtInt(postHlow)} – ${fmtInt(postHhigh)} hrs`;
+  $("sumDollars").textContent = fmtMoney(postD);
+  $("sumDollarsRange").textContent = `Pre-recapture ${fmtMoney(totD)} | Range ${fmtMoney(postHlow * rate)} – ${fmtMoney(postHhigh * rate)}`;
+  $("sumTasks").textContent = fmtInt(totT);
+
+  const cost = +$("cost").value || 0;
+  const usl = +$("usl").value || 0;
+  const users = +$("mau").value || 0;
+  const denom = cost + (usl * users);
+  if (denom > 0) {
+    const roi = x => (x / denom).toFixed(1) + "×";
+    $("sumRoi").textContent = roi(postD);
+    $("sumRoiRange").textContent = `Pre-recapture ${roi(totD)} | Range ${roi(postHlow * rate)} – ${roi(postHhigh * rate)}`;
+  } else {
+    $("sumRoi").textContent = "—";
+    $("sumRoiRange").textContent = "Enter monthly cost";
+  }
+}
+
+function applyBand(band) {
+  state = state.map((s, i) => ({ tasks: s.tasks, minutes: BUCKETS[i][band] }));
+  document.querySelectorAll("#bandGroup button").forEach(btn =>
+    btn.classList.toggle("active", btn.dataset.band === band)
+  );
+  buildRows();
+  recompute();
+}
+
+$("adj").addEventListener("input", e => {
+  $("adjVal").textContent = e.target.value + "%";
+  recompute();
+});
+["rate", "cost", "mau", "usl"].forEach(id => $(id).addEventListener("input", recompute));
+document.querySelectorAll("#bandGroup button").forEach(btn =>
+  btn.addEventListener("click", () => applyBand(btn.dataset.band))
+);
+
+buildRows();
+recompute();
+</script>
+</body>
+</html>
