@@ -27,13 +27,7 @@
   letter-spacing: -.02em;
 }
 .ds-hero h1 .grad {
-  background: var(--accent-grad);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  padding-bottom: .12em;
-  margin-bottom: -.12em;
+  color: var(--text);
 }
 .ds-hero .lede {
   font-size: 1.1rem;
@@ -52,10 +46,9 @@
 .ds-legend .lg i {
   display: inline-block; width: 10px; height: 10px; border-radius: 3px;
 }
-.lg-src i   { background: linear-gradient(135deg, #00B294, #0078d4); }
-.lg-pipe i  { background: linear-gradient(135deg, #0078d4, #8661c5); }
-.lg-rpt i   { background: linear-gradient(135deg, #FFB900, #f7630c); }
-.lg-addon i { background: linear-gradient(135deg, #e3008c, #8661c5); }
+.lg-src i   { background: #6d97cf; }
+.lg-pipe i  { background: #d3b066; }
+.lg-rpt i   { background: #66bfa3; }
 
 /* ---------- ECOSYSTEM CANVAS ---------- */
 .ds-ecosystem { padding: 2rem 0 3rem; }

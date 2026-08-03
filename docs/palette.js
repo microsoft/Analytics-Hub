@@ -30,7 +30,7 @@
   const PAGES = [
     { kind: "page",   title: "Home",            href: url(""),                  hint: "Landing page" },
     { kind: "page",   title: "Explore Reports",   href: url("explore-reports/"),      hint: "Picker · search reports by question" },
-    { kind: "page",   title: "Native Reports",  href: url("out-of-the-box/"),   hint: "What ships in Microsoft 365 + Viva by default" },
+    { kind: "page",   title: "Overall Reporting Estate",  href: url("out-of-the-box/"),   hint: "Admin Center, Viva, Studio, and Hub extensions" },
     { kind: "page",   title: "Data Sources",    href: url("data-sources/"),     hint: "Purview, Entra, Viva, GitHub" },
     { kind: "page",   title: "Case Studies",    href: url("case-studies/"),     hint: "Customer stories + measurable wins" },
     { kind: "page",   title: "Team",            href: url("team/"),             hint: "Who builds the Hub" },
