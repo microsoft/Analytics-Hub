@@ -1,15 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1420 700" width="1420" height="700">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 700" width="1500" height="700">
   <defs>
     <style>
       text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
     </style>
     <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#aab2c0"/>
+      <polygon points="0 0, 8 3, 0 6" fill="#8b93a1"/>
     </marker>
   </defs>
 
-  <rect width="1420" height="700" fill="#0f1218" rx="14"/>
-  <text x="710" y="40" text-anchor="middle" fill="#d0d6df" font-size="28" font-weight="700">Analytics Hub — Data Flow</text>
+  <rect width="1500" height="700" fill="#eef1f5" rx="14"/>
+  <text x="750" y="40" text-anchor="middle" fill="#3b4252" font-size="28" font-weight="700">Analytics Hub — Data Flow</text>
 
   <!-- Data sources -->
   <g fill="#213a63" stroke="#6d97cf" stroke-width="1.2">
@@ -18,8 +18,8 @@
     <rect x="440" y="80" width="170" height="82" rx="10"/>
     <rect x="640" y="80" width="170" height="82" rx="10"/>
     <rect x="840" y="80" width="170" height="82" rx="10"/>
-    <rect x="1120" y="80" width="170" height="82" rx="10"/>
-    <rect x="1240" y="80" width="170" height="82" rx="10"/>
+    <rect x="1090" y="80" width="170" height="82" rx="10"/>
+    <rect x="1290" y="80" width="170" height="82" rx="10"/>
   </g>
   <g fill="#ffffff" font-size="12.5" font-weight="700" text-anchor="middle">
     <text x="125" y="114">Microsoft Purview</text>
@@ -27,8 +27,8 @@
     <text x="525" y="114">Microsoft Entra ID</text>
     <text x="725" y="114">Viva Insights</text>
     <text x="925" y="114">GitHub Enterprise</text>
-    <text x="1205" y="114">Local Sessions</text>
-    <text x="1325" y="114">OneDrive Data</text>
+    <text x="1175" y="114">Local Sessions</text>
+    <text x="1375" y="114">OneDrive Data</text>
   </g>
   <g fill="#c8daf5" font-size="11" text-anchor="middle">
     <text x="125" y="137">Audit logs</text>
@@ -36,8 +36,8 @@
     <text x="525" y="137">Users · groups · licenses</text>
     <text x="725" y="137">Behavioral data</text>
     <text x="925" y="137">Usage API + Members</text>
-    <text x="1205" y="137">VS Code local history</text>
-    <text x="1325" y="137">Cowork session history</text>
+    <text x="1175" y="137">VS Code local history</text>
+    <text x="1375" y="137">Cowork session history</text>
   </g>
 
   <!-- Scripts / export utilities -->
@@ -48,44 +48,44 @@
   <!-- Reports / outputs -->
   <g fill="#1d4b3b" stroke="#66bfa3" stroke-width="1.2">
     <rect x="40" y="390" width="620" height="180" rx="10"/>
-    <rect x="690" y="390" width="250" height="180" rx="10"/>
-    <rect x="900" y="390" width="190" height="180" rx="10"/>
-    <rect x="1040" y="595" width="170" height="70" rx="10"/>
-    <rect x="1240" y="595" width="170" height="70" rx="10"/>
+    <rect x="690" y="390" width="230" height="180" rx="10"/>
+    <rect x="950" y="390" width="170" height="180" rx="10"/>
+    <rect x="1090" y="595" width="170" height="70" rx="10"/>
+    <rect x="1290" y="595" width="170" height="70" rx="10"/>
   </g>
 
   <g fill="#b7ead8" font-size="14" font-weight="700" text-anchor="middle">
     <text x="350" y="420">Reports consuming Purview + Admin Center + Entra</text>
-    <text x="815" y="420">Viva Insights reports</text>
-    <text x="995" y="420">GitHub report</text>
+    <text x="805" y="420">Viva Insights reports</text>
+    <text x="1035" y="420">GitHub report</text>
   </g>
   <g stroke="#66bfa3" stroke-width="0.5" opacity="0.45">
     <line x1="195" y1="435" x2="195" y2="555"/>
     <line x1="350" y1="435" x2="350" y2="555"/>
     <line x1="505" y1="435" x2="505" y2="555"/>
-    <line x1="815" y1="435" x2="815" y2="555"/>
+    <line x1="805" y1="435" x2="805" y2="555"/>
   </g>
   <g fill="#e8fff5" font-size="14" font-weight="700" text-anchor="middle">
     <text x="117" y="476">AI-in-One</text><text x="117" y="499">Dashboard</text>
     <text x="273" y="476">Chat &amp; Agent</text><text x="273" y="499">Intelligence</text>
     <text x="428" y="476">AI Business</text><text x="428" y="499">Value</text>
     <text x="583" y="476">M365 Usage</text><text x="583" y="499">Analytics</text>
-    <text x="752" y="476">Superuser</text><text x="752" y="499">Adoption</text>
-    <text x="878" y="476">Superuser</text><text x="878" y="499">Impact</text>
-    <text x="995" y="476">GitHub Copilot</text><text x="995" y="499">Impact</text>
-    <text x="1125" y="625" font-size="13">What I Did</text><text x="1125" y="646" font-size="11" fill="#b7ead8">(Copilot)</text>
-    <text x="1325" y="625" font-size="13">What I Did with</text><text x="1325" y="646" font-size="13">Cowork</text>
+    <text x="750" y="476">Superuser</text><text x="750" y="499">Adoption</text>
+    <text x="860" y="476">Superuser</text><text x="860" y="499">Impact</text>
+    <text x="1035" y="476">GitHub Copilot</text><text x="1035" y="499">Impact</text>
+    <text x="1175" y="625" font-size="13">What I Did</text><text x="1175" y="646" font-size="11" fill="#b7ead8">(Copilot)</text>
+    <text x="1375" y="625" font-size="13">What I Did with</text><text x="1375" y="646" font-size="13">Cowork</text>
   </g>
 
   <!-- Aligned connectors -->
-  <g stroke="#aab2c0" stroke-width="2" fill="none" marker-end="url(#arr)">
+  <g stroke="#8b93a1" stroke-width="2" fill="none" marker-end="url(#arr)">
     <path d="M125,162 L125,245"/>
     <path d="M325,162 L325,245"/>
     <path d="M525,162 L525,245"/>
     <path d="M330,335 L330,390"/>
     <path d="M725,162 L725,390"/>
-    <path d="M925,162 L925,300 L995,300 L995,390"/>
-    <path d="M1205,162 L1205,580 L1125,580 L1125,595"/>
-    <path d="M1325,162 L1325,595"/>
+    <path d="M925,162 L925,300 L1035,300 L1035,390"/>
+    <path d="M1175,162 L1175,595"/>
+    <path d="M1375,162 L1375,595"/>
   </g>
 </svg>
