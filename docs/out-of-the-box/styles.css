@@ -70,13 +70,14 @@
 }
 .oob-journey {
   display: grid;
-  grid-template-columns: repeat(4, minmax(230px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.4rem;
   position: relative;
   align-items: stretch;
 }
 .oob-stage {
   position: relative;
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-top: 3px solid var(--stage, var(--accent));
