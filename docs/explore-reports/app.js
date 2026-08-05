@@ -477,6 +477,113 @@ const TOOLS = [
       ]
     },
   },
+  {
+    id: 'personal-copilot-dashboard',
+    question: "I want a personal dashboard of my own Copilot, agent, and Cowork usage vs my org.",
+    title: "Personal Copilot Dashboard",
+    icon: "📊",
+    accent: "#0078d4",
+    category: "adoption-behavior",
+    tier: "specialty",
+    measures: ["adoption","productivity","agents"],
+    source: "Copilot Dashboard export (Viva Insights)",
+    sourceKey: "Viva Insights",
+    repo: "https://github.com/sbrandl1005/copilot-personal-dashboard",
+    download: "https://github.com/sbrandl1005/copilot-personal-dashboard/archive/refs/heads/main.zip",
+    blurb: "Self-service Power BI template that turns your own Copilot Dashboard export into a personal view of adoption, hours saved, feature-level leverage, agent usage, and Cowork credits — with org benchmarks, a personalized user-category, and next-step learning. Loads Copilot, Agent, and Cowork exports in any combination.",
+    meta: { audience: "Individual users, IC leads, enablement demos", license: "Copilot Dashboard export (Viva Insights)", time: "~15 min" },
+    requirements: {
+      roles: [
+        { label: "Copilot Dashboard access (auto-enabled)", url: "https://learn.microsoft.com/viva/insights/org-team-insights/copilot-dashboard" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Copilot Dashboard export CSVs" }
+      ]
+    },
+  },
+  {
+    id: 'ess-insights',
+    question: "How is my Employee Self-Service (ESS) Copilot Studio agent performing — adoption, deflection, and value?",
+    title: "ESS Insights — Employee Self-Serve Business Value",
+    icon: "🧑‍💼",
+    accent: "#8661c5",
+    category: "impact-roi",
+    tier: "specialty",
+    measures: ["agents","impact","roi"],
+    source: "Copilot Studio transcripts (Dataverse)",
+    sourceKey: "Dataverse",
+    repo: "https://github.com/downeysteph/ESS-Insights",
+    download: "https://github.com/downeysteph/ESS-Insights/archive/refs/heads/main.zip",
+    preview: "https://raw.githubusercontent.com/downeysteph/ESS-Insights/main/images/dashboard-preview.gif",
+    blurb: "Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the ConversationTranscript Dataverse table — adoption, resolution vs escalation, time-to-knowledge, tickets deflected, hours saved and dollar value, plus in-conversation feedback. No custom logging or extra pipelines.",
+    meta: { audience: "HR/IT program owners, ESS sponsors, execs", license: "Power Platform / Dataverse export", time: "~45 min" },
+    requirements: {
+      roles: [
+        { label: "Dataverse read (ConversationTranscript)", url: "https://learn.microsoft.com/microsoft-copilot-studio/" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Copilot Studio agent writing transcripts to Dataverse" }
+      ]
+    },
+  },
+  {
+    id: 'value-lens',
+    question: "I need a defensible ROI narrative for Microsoft Copilot & agent adoption.",
+    title: "ValueLens for Microsoft Copilot",
+    icon: "💠",
+    accent: "#00B294",
+    category: "impact-roi",
+    tier: "specialty",
+    measures: ["impact","roi","adoption"],
+    source: "Purview audit logs",
+    sourceKey: "Purview",
+    repo: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
+    download: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+    preview: "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
+    blurb: "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with SharePoint, Fabric, and Dataverse deployment paths.",
+    meta: { audience: "Business Value Advisory, execs, program leads", license: "Purview Audit Reader", time: "~1 hour for first build" },
+    requirements: {
+      roles: [
+        { label: "Purview Audit Reader", url: "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Python (SharePoint path) or Fabric capacity (Fabric path)" }
+      ]
+    },
+  },
+  {
+    id: 'studio-lens',
+    question: "How do my Copilot Studio agents perform — quality, containment, transcripts, and message-credit cost?",
+    title: "StudioLens for Copilot Studio",
+    icon: "🔬",
+    accent: "#e3008c",
+    category: "usage-intelligence",
+    tier: "specialty",
+    measures: ["agents","impact"],
+    source: "Copilot Studio transcripts (Dataverse) + Power Platform admin center",
+    sourceKey: "Dataverse",
+    repo: "https://github.com/Keithland89/StudioLens-for-Copilot-Studio",
+    download: "https://github.com/Keithland89/StudioLens-for-Copilot-Studio/archive/refs/heads/main.zip",
+    preview: "https://raw.githubusercontent.com/Keithland89/StudioLens-for-Copilot-Studio/main/assets/studiolens-demo.gif",
+    blurb: "Business Value Advisory Power BI template for deep Copilot Studio agent evaluation — sessions, turns, errors, sub-agent calls, quality & performance, topics, knowledge files, user feedback, and Power Platform message-credit consumption. Dataverse Direct and Fabric deployment paths.",
+    meta: { audience: "Agent makers, Studio admins, FinOps", license: "Dataverse read (+ Fabric for credit pages)", time: "~45 min" },
+    requirements: {
+      roles: [
+        { label: "Dataverse read (Copilot Studio transcripts)", url: "https://learn.microsoft.com/microsoft-copilot-studio/" },
+        { label: "Power BI workspace Member" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Dataverse environment (+ Fabric capacity for message-credit pages)" }
+      ]
+    },
+  },
 ];
 
 // ----------------------------------------------------- categories & measures
