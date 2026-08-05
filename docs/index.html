@@ -142,27 +142,92 @@
 <!-- =========================================================== MEASURABLES -->
 <section class="band measurables-band" id="measurables">
   <div class="wrap">
-    <p class="eyebrow center">What we measure</p>
-    <h2 class="section-title center">11 core measurables, end-to-end</h2>
-    <p class="section-lead center">Every report in the Hub maps to one of these. Click any card to jump to the reports that surface it.</p>
+    <p class="eyebrow center">Browse the catalog</p>
+    <h2 class="section-title center">Explore reports by category</h2>
+    <p class="section-lead center">Every report, add-on, and exporter grouped into clear categories. Click a topic to filter the matrix, or open a report directly.</p>
 
-    <div class="measure-grid">
-      <a class="measure-card" data-measure="adoption" href="explore-reports/?measure=adoption" style="--c:#0078d4"><span class="measure-icon">📈</span><h3>Adoption</h3><p>Active users, frequency, depth of use across Copilot surfaces.</p></a>
-      <a class="measure-card" data-measure="impact" href="explore-reports/?measure=impact" style="--c:#8661c5"><span class="measure-icon">💰</span><h3>Impact</h3><p>Hours saved, ROI modeling, super-user productivity lift.</p></a>
-      <a class="measure-card" data-measure="chat" href="explore-reports/?measure=chat" style="--c:#00B294"><span class="measure-icon">💬</span><h3>Chat usage</h3><p>Prompt volume, topics, response quality across BizChat and M365 Chat.</p></a>
-      <a class="measure-card" data-measure="agents" href="explore-reports/?measure=agents" style="--c:#e3008c"><span class="measure-icon">🤖</span><h3>Agents</h3><p>Custom-agent invocation, fan-out, who's building and who's using.</p></a>
-      <a class="measure-card" data-measure="sentiment" href="explore-reports/?measure=sentiment" style="--c:#ffaa44"><span class="measure-icon">❤️</span><h3>Sentiment</h3><p>Survey signal, NPS, qualitative themes from rollout cohorts.</p></a>
-      <a class="measure-card" data-measure="license" href="explore-reports/?measure=license" style="--c:#0078d4"><span class="measure-icon">🎯</span><h3>License readiness</h3><p>Who is provisioned, who is active, where licenses are stranded.</p></a>
-      <a class="measure-card" data-measure="roi" href="explore-reports/?measure=roi" style="--c:#00B294"><span class="measure-icon">🧮</span><h3>ROI modeling</h3><p>Scenario planning: cost, time savings, payback periods.</p></a>
-      <a class="measure-card" data-measure="developer" href="explore-reports/?measure=developer" style="--c:#8661c5"><span class="measure-icon">💻</span><h3>Developer adoption</h3><p>GitHub Copilot pull requests, suggestions accepted, repo coverage.</p></a>
-      <a class="measure-card" data-measure="productivity" href="explore-reports/?measure=productivity" style="--c:#e3008c"><span class="measure-icon">⚡</span><h3>Personal productivity</h3><p>Focus time, meeting load, after-hours work — the human metrics.</p></a>
-      <a class="measure-card" data-measure="audit" href="explore-reports/?measure=audit" style="--c:#ffaa44"><span class="measure-icon">🔍</span><h3>Audit automation</h3><p>PowerShell exporters that pull tenant audit logs on a schedule.</p></a>
-      <a class="measure-card" data-measure="customization" href="explore-reports/?measure=customization" style="--c:#0078d4"><span class="measure-icon">🎨</span><h3>Customization</h3><p>Champion-ID, branding, theming — make the reports your own.</p></a>
+    <div class="cat-grid">
+      <section class="cat-card" style="--c:#0078d4">
+        <div class="cat-head"><span class="cat-icon">📊</span><h3>Usage &amp; Engagement</h3></div>
+        <p class="cat-blurb">Copilot and agent activity across the tenant.</p>
+        <ul class="cat-links">
+          <li><a href="explore-reports/?measure=adoption">Adoption</a></li>
+          <li><a href="explore-reports/?measure=chat">Chat usage</a></li>
+          <li><a href="explore-reports/?measure=agents">Agents</a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#8661c5">
+        <div class="cat-head"><span class="cat-icon">💰</span><h3>Value &amp; Impact</h3></div>
+        <p class="cat-blurb">Productivity lift, financial value, and sentiment.</p>
+        <ul class="cat-links">
+          <li><a href="explore-reports/?measure=impact">Impact</a></li>
+          <li><a href="explore-reports/?measure=roi">ROI modeling</a></li>
+          <li><a href="explore-reports/?measure=sentiment">Sentiment</a></li>
+          <li><a class="cat-ext" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">ValueLens <span aria-hidden="true">↗</span></a></li>
+          <li><a class="cat-ext" href="https://github.com/Keithland89/StudioLens-for-Copilot-Studio" target="_blank" rel="noopener">StudioLens <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#0091ea">
+        <div class="cat-head"><span class="cat-icon">🎯</span><h3>Readiness</h3></div>
+        <p class="cat-blurb">License placement, activation, and champions.</p>
+        <ul class="cat-links">
+          <li><a href="explore-reports/?measure=license">License readiness</a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#e3008c">
+        <div class="cat-head"><span class="cat-icon">⚡</span><h3>Personal productivity</h3></div>
+        <p class="cat-blurb">The human metrics — focus time and personal leverage.</p>
+        <ul class="cat-links">
+          <li><a class="cat-ext" href="https://github.com/sbrandl1005/copilot-personal-dashboard" target="_blank" rel="noopener">Copilot Personal Dashboard <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#4cc2ff">
+        <div class="cat-head"><span class="cat-icon">💻</span><h3>Developer productivity</h3></div>
+        <p class="cat-blurb">GitHub Copilot leverage for engineers.</p>
+        <ul class="cat-links">
+          <li><a class="cat-ext" href="https://github.com/microsoft/GitHubCopilotImpact" target="_blank" rel="noopener">GitHub Copilot Impact <span aria-hidden="true">↗</span></a></li>
+          <li><a class="cat-ext" href="https://github.com/microsoft/What-I-Did-Copilot" target="_blank" rel="noopener">What I Did: Copilot <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#b11f4b">
+        <div class="cat-head"><span class="cat-icon">🎁</span><h3>Cowork</h3></div>
+        <p class="cat-blurb">Microsoft Copilot Cowork outcomes and value.</p>
+        <ul class="cat-links">
+          <li><a class="cat-ext" href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener">What Cowork Did For Me <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#00B294">
+        <div class="cat-head"><span class="cat-icon">🧾</span><h3>Consumption</h3></div>
+        <p class="cat-blurb">Credits, chargeback, and cost modeling for Cowork.</p>
+        <ul class="cat-links">
+          <li><a class="cat-ext" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Cowork Billing Report <span aria-hidden="true">↗</span></a></li>
+          <li><a href="cowork-billing/cowork-chargeback/app/index.html">Cowork Chargeback (Web App)</a></li>
+          <li><a href="cowork-billing/cowork-usage-tracker/app/index.html">Cowork Usage Tracker (Web App)</a></li>
+          <li><a href="cowork-billing/cowork-roi-model/app/">Cowork ROI Model (Web App)</a></li>
+          <li><a href="FinOps-Cowork/app/finops.html">FinOps &amp; FOCUS Cost Report (Web App)</a></li>
+          <li><a href="cowork-billing/cowork-policy-helper/app/index.html">Cowork Policy Helper (Web App)</a></li>
+        </ul>
+      </section>
+
+      <section class="cat-card" style="--c:#ffaa44">
+        <div class="cat-head"><span class="cat-icon">🧩</span><h3>Tooling &amp; Extension</h3></div>
+        <p class="cat-blurb">Data plumbing and add-on libraries that power the reports.</p>
+        <ul class="cat-links">
+          <li><a href="explore-reports/?measure=audit">Audit automation</a></li>
+          <li><a href="explore-reports/?measure=customization">Customization</a></li>
+        </ul>
+      </section>
     </div>
 
     <p class="measure-note center">
-      … and a lot more under the hood. Each report breaks these into dozens of dimensions —
-      department, persona, geography, tenure, license type, time-of-day, cohort.
+      Each report breaks these into dozens of dimensions — department, persona, geography,
+      tenure, license type, time-of-day, cohort.
       <a href="explore-reports/">See the full report matrix →</a>
     </p>
   </div>
@@ -179,7 +244,7 @@
       <a class="hub-card" href="explore-reports/" style="--c:#0078d4;--c2:#8661c5;">
         <div class="hub-card-glow" aria-hidden="true"></div>
         <div class="hub-card-icon">🔍</div>
-        <div class="hub-card-eyebrow">11 reports · 11 measurables</div>
+        <div class="hub-card-eyebrow">Searchable report matrix</div>
         <h3 class="hub-card-title">Explore Reports</h3>
         <p class="hub-card-desc">Searchable matrix of every dashboard, add-on, and exporter. Click a row to expand the preview, jump to the repo, grab the zip, or open a pre-filled admin email.</p>
         <span class="hub-card-cta">Browse all reports <span class="arrow">→</span></span>
@@ -275,121 +340,5 @@
 </footer>
 
 <script src="app.js"></script>
-
-<!-- =========================================================== MEASURABLES DRAWER -->
-<aside id="measureDrawer" class="home-drawer" hidden aria-hidden="true" aria-labelledby="measureDrawerTitle">
-  <button class="home-drawer-close" type="button" aria-label="Close">✕</button>
-  <div id="measureDrawerBody"></div>
-</aside>
-<div id="measureDrawerScrim" class="home-drawer-scrim" hidden></div>
-
-<script>
-(function() {
-  // Each report is tagged with its category + tier so the drawer mirrors the
-  // 'Explore reports' picker: same category coloring, same CORE badge.
-  const REPORTS = {
-    'ai-in-one':     { title: 'AI-in-One Dashboard',         icon: '🤖', repo: 'https://github.com/microsoft/AI-in-One-Dashboard',                        cat: 'usage-intelligence', tier: 'core',      blurb: 'Flagship unified report covering Microsoft 365 Copilot, Chat, Agents, and third-party AI signals.' },
-    'super-usage':   { title: 'Super Usage Adoption',        icon: '⚡', repo: 'https://github.com/microsoft/DecodingSuperUsage',                         cat: 'adoption-behavior',  tier: 'core',      blurb: 'Profile your Copilot super users — what they use, how habits form, where they cluster.' },
-    'super-impact':  { title: 'Super User Impact',           icon: '🏆', repo: 'https://github.com/microsoft/superuserimpact',                            cat: 'adoption-behavior',  tier: 'specialty', blurb: 'Quantify the work-pattern delta super users produce vs comparable peers.' },
-    'chat-agent':    { title: 'Chat & Agent Intelligence',   icon: '💬', repo: 'https://github.com/microsoft/CopilotChatAnalytics',                       cat: 'usage-intelligence', tier: 'specialty', blurb: 'Deep-dive Power BI templates on Purview audit logs for Copilot Chat and Agents.' },
-    'm365-readiness':{ title: 'M365 Readiness',              icon: '🎯', repo: 'https://github.com/microsoft/M365UsageAnalytics',                         cat: 'readiness-roi',      tier: 'specialty', blurb: 'License provisioning, activation, and stranded-seat detection across M365.' },
-    'what-i-did':    { title: 'What I Did',                  icon: '📝', repo: 'https://github.com/microsoft/What-I-Did-Copilot',                         cat: 'developer',          tier: 'specialty', blurb: 'Personal Copilot impact report — hours saved, tasks completed, time back.' },
-    'ghcp':          { title: 'GitHub Copilot Impact',       icon: '⚙️', repo: 'https://github.com/microsoft/GitHubCopilotImpact',                        cat: 'developer',          tier: 'specialty', blurb: 'Developer adoption metrics — PRs, suggestions accepted, repo coverage.' },
-    'pax':           { title: 'PAX',                         icon: '🔍', repo: 'https://github.com/microsoft/PAX',                                        cat: 'tooling-extension',  tier: 'specialty', blurb: 'Enterprise-grade PowerShell exporter for Microsoft 365 audit logs.' },
-    'custom':        { title: 'CustomizeCopilot',            icon: '🎨', repo: 'https://github.com/microsoft/customizecopilot',                           cat: 'tooling-extension',  tier: 'specialty', blurb: 'Champion-ID, branding, and theming — make the reports your own.' },
-    'sentiment':     { title: 'Adoption & Sentiment',        icon: '❤️', repo: 'https://github.com/olivierpecheux/copilot-adoption-sentiment-report',     cat: 'adoption-behavior',  tier: 'specialty', blurb: 'NPS, survey signal, and qualitative themes from rollout cohorts.' },
-    'roi-calc':      { title: 'ROI Calculator',              icon: '🧮', repo: 'https://jordankingisalive.github.io/CopilotROICalculator/',                cat: 'readiness-roi',      tier: 'core',      blurb: 'Browser-only ROI modeler — sweep assumptions, generate a defensible value story.' }
-  };
-
-  // Category meta mirrors docs/explore-reports/app.js + styles.css.
-  // Keep these in sync if either changes.
-  const CATEGORIES = {
-    'usage-intelligence': { label: 'Usage Intelligence',  color: '#8661c5', icon: '🤖' },
-    'adoption-behavior':  { label: 'Adoption & Behavior', color: '#00B294', icon: '📈' },
-    'readiness-roi':      { label: 'Readiness & ROI',     color: '#e3008c', icon: '🎯' },
-    'developer':          { label: 'Developer',           color: '#0078d4', icon: '💻' },
-    'tooling-extension':  { label: 'Tooling & Extension', color: '#ffaa44', icon: '🧩' }
-  };
-
-  // AI-in-One always listed first whenever it appears
-  const MEASUREMAP = {
-    adoption:      { title: 'Adoption',             icon: '📈', color: '#0078d4', desc: 'Active users, frequency, depth of use across Copilot surfaces.',         reports: ['ai-in-one','super-usage','sentiment'] },
-    impact:        { title: 'Impact',               icon: '💰', color: '#8661c5', desc: 'Hours saved, ROI modeling, super-user productivity lift.',              reports: ['super-impact','what-i-did','roi-calc'] },
-    chat:          { title: 'Chat usage',           icon: '💬', color: '#00B294', desc: 'Prompt volume, topics, response quality across BizChat and M365 Chat.', reports: ['ai-in-one','chat-agent'] },
-    agents:        { title: 'Agents',               icon: '🤖', color: '#e3008c', desc: 'Custom-agent invocation, fan-out, who\'s building and who\'s using.',   reports: ['ai-in-one','chat-agent'] },
-    sentiment:     { title: 'Sentiment',            icon: '❤️', color: '#ffaa44', desc: 'Survey signal, NPS, qualitative themes from rollout cohorts.',          reports: ['sentiment'] },
-    license:       { title: 'License readiness',    icon: '🎯', color: '#0078d4', desc: 'Who is provisioned, who is active, where licenses are stranded.',       reports: ['m365-readiness'] },
-    roi:           { title: 'ROI modeling',         icon: '🧮', color: '#00B294', desc: 'Scenario planning: cost, time savings, payback periods.',               reports: ['roi-calc','super-impact'] },
-    developer:     { title: 'Developer adoption',   icon: '💻', color: '#8661c5', desc: 'GitHub Copilot pull requests, suggestions accepted, repo coverage.',    reports: ['ghcp'] },
-    productivity:  { title: 'Personal productivity',icon: '⚡', color: '#e3008c', desc: 'Focus time, meeting load, after-hours work — the human metrics.',       reports: ['what-i-did','super-impact','super-usage'] },
-    audit:         { title: 'Audit automation',     icon: '🔍', color: '#ffaa44', desc: 'PowerShell exporters that pull tenant audit logs on a schedule.',       reports: ['pax'] },
-    customization: { title: 'Customization',        icon: '🎨', color: '#0078d4', desc: 'Champion-ID, branding, theming — make the reports your own.',           reports: ['custom'] }
-  };
-
-  const drawer = document.getElementById('measureDrawer');
-  const body   = document.getElementById('measureDrawerBody');
-  const scrim  = document.getElementById('measureDrawerScrim');
-
-  function reportCard(id) {
-    const r = REPORTS[id]; if (!r) return '';
-    const cat = CATEGORIES[r.cat] || { label: '', color: 'var(--accent)' };
-    const tierBadge = r.tier === 'core'
-      ? '<span class="home-drawer-tier home-drawer-tier-core" title="Recommended starting report">CORE</span>'
-      : '';
-    return `<div class="home-drawer-report-wrap">
-      <a class="home-drawer-report" href="${r.repo}" target="_blank" rel="noopener" style="--c:${cat.color}">
-      <span class="hdr-icon">${r.icon}</span>
-      <span class="hdr-text">
-        <span class="hdr-cat">${cat.label}</span>
-        <strong>${r.title}${tierBadge}</strong>
-        <span class="hdr-blurb">${r.blurb}</span>
-      </span>
-      <span class="hdr-arrow">↗</span>
-    </a>
-    <a class="home-drawer-star" href="${r.repo}" target="_blank" rel="noopener" aria-label="Star ${r.title} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
-    </div>`;
-  }
-
-  function openMeasure(key) {
-    const m = MEASUREMAP[key]; if (!m) return;
-    body.innerHTML = `
-      <div class="home-drawer-head" style="--c:${m.color}">
-        <div class="home-drawer-icon">${m.icon}</div>
-        <div>
-          <div class="home-drawer-kind">CORE MEASURABLE</div>
-          <h3 id="measureDrawerTitle">${m.title}</h3>
-          <p class="home-drawer-sub">${m.desc}</p>
-        </div>
-      </div>
-      <h4>Reports that surface this</h4>
-      <div class="home-drawer-reports">${m.reports.map(reportCard).join('')}</div>
-      <div class="home-drawer-foot">
-        <a class="btn btn-primary" href="explore-reports/?q=${encodeURIComponent(key)}">See in full matrix →</a>
-        <a class="btn btn-ghost" href="#top">← Home</a>
-      </div>
-    `;
-    drawer.hidden = false; scrim.hidden = false;
-    requestAnimationFrame(() => { drawer.classList.add('is-open'); scrim.classList.add('is-open'); });
-    drawer.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMeasure() {
-    drawer.classList.remove('is-open'); scrim.classList.remove('is-open');
-    drawer.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-    setTimeout(() => { drawer.hidden = true; scrim.hidden = true; }, 250);
-  }
-
-  document.querySelectorAll('.measure-card[data-measure]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      openMeasure(a.getAttribute('data-measure'));
-    });
-  });
-  document.querySelector('.home-drawer-close').addEventListener('click', closeMeasure);
-  scrim.addEventListener('click', closeMeasure);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeMeasure(); });
-})();
-</script>
 </body>
 </html>

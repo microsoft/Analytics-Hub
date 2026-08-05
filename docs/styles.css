@@ -849,6 +849,44 @@ a:hover { text-decoration: underline; }
 }
 .measure-note a { color: var(--accent); font-weight: 600; }
 @media (max-width: 640px) { .measure-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- home category catalog ---------- */
+.cat-grid {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.cat-card {
+  --c: var(--accent);
+  padding: 1.25rem 1.2rem 1.3rem;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+.cat-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--c); opacity: .85;
+}
+.cat-head { display: flex; align-items: center; gap: .55rem; margin-bottom: .4rem; }
+.cat-icon { font-size: 1.4rem; line-height: 1; }
+.cat-card h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.cat-blurb { margin: 0 0 .85rem; font-size: .85rem; color: var(--text-soft); line-height: 1.45; }
+.cat-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; }
+.cat-links a {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-size: .9rem; font-weight: 600; text-decoration: none;
+  color: var(--text);
+  border-left: 2px solid transparent; padding-left: .5rem;
+  transition: color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.cat-links a:hover { color: var(--c); border-color: var(--c); transform: translateX(2px); }
+.cat-links .cat-ext span { font-size: .78rem; opacity: .7; }
+@media (max-width: 640px) { .cat-grid { grid-template-columns: 1fr; } }
 /* ---------- home measurable drawer ---------- */
 .home-drawer-scrim {
   position: fixed; inset: 0; background: rgba(15,18,28,.45);
