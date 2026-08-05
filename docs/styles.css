@@ -203,7 +203,7 @@ a:hover { text-decoration: underline; }
 /* ============================================================ HERO */
 .hero {
   position: relative;
-  padding: 96px 0 80px;
+  padding: 52px 0 44px;
   overflow: hidden;
   background: var(--bg);
 }
@@ -236,14 +236,14 @@ a:hover { text-decoration: underline; }
   background: color-mix(in srgb, var(--bg) 70%, transparent);
   backdrop-filter: blur(8px);
   border-radius: 100px;
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 .hero-title {
-  font-size: clamp(36px, 5.5vw, 64px);
+  font-size: clamp(34px, 5vw, 56px);
   line-height: 1.05;
   letter-spacing: -.02em;
   font-weight: 700;
-  margin: 0 auto 24px;
+  margin: 0 auto 16px;
   max-width: 900px;
 }
 .hero-title em { font-style: italic; color: var(--text-soft); font-weight: 500; }
@@ -256,11 +256,11 @@ a:hover { text-decoration: underline; }
   margin-bottom: -.12em;
 }
 .hero-sub {
-  font-size: 19px;
+  font-size: 18px;
   color: var(--text-soft);
-  max-width: 720px; margin: 0 auto 40px;
+  max-width: 720px; margin: 0 auto 26px;
 }
-.hero-ctas { display: flex; gap: 12px; justify-content: center; margin-bottom: 64px; flex-wrap: wrap; }
+.hero-ctas { display: flex; gap: 12px; justify-content: center; margin-bottom: 0; flex-wrap: wrap; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 14px 24px;
