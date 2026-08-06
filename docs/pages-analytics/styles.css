@@ -960,3 +960,70 @@
   font-size: .8rem;
 }
 .milestone-row.is-hit .milestone-leader { color: var(--text-soft); }
+
+/* ---- Cowork billing tab ---- */
+.cowork-section,
+.cowork-table-section {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.cowork-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.cowork-chart-wrap {
+  margin-top: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.cowork-chart-wrap h3 {
+  margin: 0 0 .35rem;
+  font-size: 1.05rem;
+}
+.cowork-chart {
+  margin-top: .6rem;
+  min-height: 320px;
+}
+.cowork-chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cowork-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+  opacity: .7;
+}
+.cowork-axis {
+  fill: var(--text-muted);
+  font-size: 11px;
+}
+.cowork-line {
+  fill: none;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cowork-line.views { stroke: #0ea5e9; }
+.cowork-line.clones { stroke: #f97316; }
+.cowork-chart-legend {
+  display: flex;
+  gap: .9rem;
+  margin-top: .6rem;
+  color: var(--text-soft);
+  font-size: .85rem;
+}
+.cowork-chart-legend .sw {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: .35rem;
+}
+.cowork-chart-legend .sw.views { background: #0ea5e9; }
+.cowork-chart-legend .sw.clones { background: #f97316; }

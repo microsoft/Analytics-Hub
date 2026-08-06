@@ -133,6 +133,7 @@
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="highlights">Highlights</button>
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="engagement">Engagement</button>
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="comparisons">Comparisons</button>
+      <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="cowork-billing">Cowork Billing</button>
     </div>
   </nav>
 
@@ -470,6 +471,99 @@
 
   
   </div><!-- /tab-comparisons -->
+
+  <div class="tab-panel" id="tab-cowork-billing" role="tabpanel" aria-labelledby="cowork-billing" hidden>
+    <section class="cowork-section">
+      <div class="wrap">
+        <h2>Cowork Billing · focused traffic monitor</h2>
+        <p class="section-sub">
+          Dedicated view for cowork-related web apps, pages, and downloadable resources.
+          Excludes <code>microsoft/What-I-did-with-Cowork</code> by design.
+        </p>
+
+        <div class="cowork-kpi-grid">
+          <div class="kpi"><span class="kpi-label">Cowork repos in scope</span><span class="kpi-value" id="cowork-kpi-repos">—</span></div>
+          <div class="kpi"><span class="kpi-label">Views (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-views">—</span></div>
+          <div class="kpi"><span class="kpi-label">Clones (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-clones">—</span></div>
+          <div class="kpi"><span class="kpi-label">Unique visitors (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-uniques">—</span></div>
+          <div class="kpi"><span class="kpi-label">Web app sessions (latest Clarity URL snapshot)</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span></div>
+          <div class="kpi"><span class="kpi-label">PBIT resource hits</span><span class="kpi-value" id="cowork-kpi-pbit-hits">—</span></div>
+        </div>
+
+        <div class="cowork-chart-wrap">
+          <h3>Cowork daily trend</h3>
+          <p class="section-sub">Combined daily repo views and clones for cowork-related scope.</p>
+          <div id="cowork-chart" class="cowork-chart"><p class="empty">Loading chart…</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h2>Cowork repo traffic</h2>
+        <div class="table-wrap">
+          <table class="repo-table" id="cowork-repo-table">
+            <thead>
+              <tr>
+                <th>Repo</th>
+                <th class="num">Views</th>
+                <th class="num">Unique views</th>
+                <th class="num">Clones</th>
+                <th class="num">Unique clones</th>
+              </tr>
+            </thead>
+            <tbody id="cowork-repo-tbody">
+              <tr><td colspan="5" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h2>Cowork web app pages (Clarity URL view)</h2>
+        <p class="section-sub">Latest URL-level web traffic from Clarity snapshots.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="cowork-webapp-table">
+            <thead>
+              <tr>
+                <th>URL</th>
+                <th class="num">Sessions</th>
+                <th class="num">Distinct users</th>
+                <th class="num">Signals</th>
+              </tr>
+            </thead>
+            <tbody id="cowork-webapp-tbody">
+              <tr><td colspan="4" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h2>Cowork PBIT resource traffic</h2>
+        <p class="section-sub">Repo popular paths that point at PBIT resources in cowork scope.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="cowork-pbit-table">
+            <thead>
+              <tr>
+                <th>Path / resource</th>
+                <th class="num">Views</th>
+                <th class="num">Unique visitors</th>
+                <th>Repo</th>
+              </tr>
+            </thead>
+            <tbody id="cowork-pbit-tbody">
+              <tr><td colspan="4" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div><!-- /tab-cowork-billing -->
 
   <section class="footnote-section">
     <div class="wrap">

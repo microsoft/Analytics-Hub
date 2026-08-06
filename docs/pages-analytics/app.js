@@ -45,6 +45,34 @@ const SUB_APP_FAMILIES = [
   { label: "Cowork Billing hub",   needle: "cowork-billing/" },
 ];
 
+const COWORK_EXCLUDED_REPOS = new Set([
+  "microsoft/what-i-did-with-cowork",
+]);
+
+const COWORK_REPO_HINTS = [
+  /cowork/i,
+  /copilotroicalculator/i,
+  /roi[-_ ]?calculator/i,
+  /billing/i,
+];
+
+const COWORK_WEB_HINTS = [
+  /cowork/i,
+  /billing/i,
+  /copilotroicalculator/i,
+  /roi[-_ ]?calculator/i,
+];
+
+function parseIntSafe(v) {
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function matchesAny(text, patterns) {
+  if (!text) return false;
+  return patterns.some((rx) => rx.test(String(text)));
+}
+
 // Quick preview numbers used by the row-pill teaser. Reads from a manual
 // baseline export when present (wider window, e.g. 14d), otherwise falls
 // back to the latest Clarity snapshot (rolling 3-day window).
@@ -1465,6 +1493,204 @@ function renderSubAppRankings(sites) {
   tbody.innerHTML = rows + footer;
 }
 
+// ------------------------------------------------------------ cowork billing tab
+
+function isCoworkRepo(fullName, repo) {
+  if (COWORK_EXCLUDED_REPOS.has((fullName || "").toLowerCase())) return false;
+  if (matchesAny(fullName, COWORK_REPO_HINTS)) return true;
+  return (repo.paths || []).some((p) => {
+    const text = `${p.path || ""} ${p.title || ""}`;
+    return matchesAny(text, COWORK_WEB_HINTS);
+  });
+}
+
+function linePath(values, xAt, yAt) {
+  return values.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(" ");
+}
+
+function renderCoworkBilling(repos, sites) {
+  const since = currentSince();
+  const until = currentUntil();
+  const latest = findLatestDataDate(repos) || todayUTC().toISOString().slice(0, 10);
+  const to = until || latest;
+
+  const coworkRows = [];
+  const dailyViews = {};
+  const dailyClones = {};
+
+  for (const [fullName, repo] of Object.entries(repos || {})) {
+    if (!isCoworkRepo(fullName, repo)) continue;
+    const views = sumDaily(repo.dailyViews, since, until);
+    const clones = sumDaily(repo.dailyClones, since, until);
+    coworkRows.push({
+      fullName,
+      views: views.count || 0,
+      viewUniques: views.uniques || 0,
+      clones: clones.count || 0,
+      cloneUniques: clones.uniques || 0,
+      repo,
+    });
+    for (const [day, bucket] of Object.entries(repo.dailyViews || {})) {
+      if (day < since || day > to) continue;
+      dailyViews[day] = (dailyViews[day] || 0) + (bucket?.count || 0);
+    }
+    for (const [day, bucket] of Object.entries(repo.dailyClones || {})) {
+      if (day < since || day > to) continue;
+      dailyClones[day] = (dailyClones[day] || 0) + (bucket?.count || 0);
+    }
+  }
+
+  coworkRows.sort((a, b) => b.views - a.views);
+
+  const viewsTotal = coworkRows.reduce((s, r) => s + r.views, 0);
+  const clonesTotal = coworkRows.reduce((s, r) => s + r.clones, 0);
+  const uniquesTotal = coworkRows.reduce((s, r) => s + r.viewUniques, 0);
+
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  set("cowork-kpi-repos", fmt(coworkRows.length));
+  set("cowork-kpi-views", fmt(viewsTotal));
+  set("cowork-kpi-clones", fmt(clonesTotal));
+  set("cowork-kpi-uniques", fmt(uniquesTotal));
+
+  const repoTbody = document.getElementById("cowork-repo-tbody");
+  if (repoTbody) {
+    repoTbody.innerHTML = coworkRows.length
+      ? coworkRows.map((r) => `<tr>
+          <td><a href="https://github.com/${r.fullName}" target="_blank" rel="noopener">${r.fullName}</a></td>
+          <td class="num">${fmt(r.views)}</td>
+          <td class="num">${fmt(r.viewUniques)}</td>
+          <td class="num">${fmt(r.clones)}</td>
+          <td class="num">${fmt(r.cloneUniques)}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="5" class="empty">No cowork-related repo traffic found in this window.</td></tr>`;
+  }
+
+  const webAgg = new Map();
+  for (const [siteKey, site] of Object.entries(sites || {})) {
+    const byUrl = site?.snapshotsByUrl || {};
+    const dates = Object.keys(byUrl).sort();
+    const latestDate = dates[dates.length - 1];
+    if (!latestDate) continue;
+    const groups = byUrl[latestDate] || [];
+    for (const g of groups) {
+      for (const row of (g?.information || [])) {
+        const url = row?.Url || row?.url || "";
+        if (!url) continue;
+        const lower = String(url).toLowerCase();
+        if (lower.includes("what-i-did-with-cowork")) continue;
+        if (!matchesAny(url, COWORK_WEB_HINTS)) continue;
+        const entry = webAgg.get(url) || { url, sessions: 0, users: 0, signals: 0, sites: new Set() };
+        entry.sessions += parseIntSafe(row.sessionsCount) + parseIntSafe(row.totalSessionCount);
+        entry.users += parseIntSafe(row.distinctUserCount);
+        entry.signals += parseIntSafe(row.deadClickCount)
+          + parseIntSafe(row.rageClickCount)
+          + parseIntSafe(row.scriptErrorCount)
+          + parseIntSafe(row.subTotal)
+          + parseIntSafe(row.pagesViews);
+        entry.sites.add(siteKey);
+        webAgg.set(url, entry);
+      }
+    }
+  }
+
+  const webRows = [...webAgg.values()].sort((a, b) => b.sessions - a.sessions).slice(0, 40);
+  const webSessionsTotal = webRows.reduce((s, r) => s + r.sessions, 0);
+  set("cowork-kpi-web-sessions", fmt(webSessionsTotal));
+
+  const webTbody = document.getElementById("cowork-webapp-tbody");
+  if (webTbody) {
+    webTbody.innerHTML = webRows.length
+      ? webRows.map((r) => `<tr>
+          <td><a href="${r.url}" target="_blank" rel="noopener">${r.url}</a></td>
+          <td class="num">${fmt(r.sessions)}</td>
+          <td class="num">${fmt(r.users)}</td>
+          <td class="num">${fmt(r.signals)}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="4" class="empty">No cowork web app URL traffic found in Clarity snapshots.</td></tr>`;
+  }
+
+  const pbitRows = [];
+  for (const row of coworkRows) {
+    for (const p of (row.repo.paths || [])) {
+      const text = `${p.path || ""} ${p.title || ""}`;
+      if (!String(text).toLowerCase().includes(".pbit")) continue;
+      pbitRows.push({
+        resource: p.path || p.title || "(unknown)",
+        count: p.count || 0,
+        uniques: p.uniques || 0,
+        repo: row.fullName,
+      });
+    }
+  }
+  pbitRows.sort((a, b) => b.count - a.count);
+  set("cowork-kpi-pbit-hits", fmt(pbitRows.reduce((s, r) => s + r.count, 0)));
+
+  const pbitTbody = document.getElementById("cowork-pbit-tbody");
+  if (pbitTbody) {
+    pbitTbody.innerHTML = pbitRows.length
+      ? pbitRows.map((r) => `<tr>
+          <td><code>${r.resource}</code></td>
+          <td class="num">${fmt(r.count)}</td>
+          <td class="num">${fmt(r.uniques)}</td>
+          <td>${r.repo}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="4" class="empty">No cowork PBIT path traffic found yet.</td></tr>`;
+  }
+
+  const chartHost = document.getElementById("cowork-chart");
+  if (!chartHost) return;
+  const days = dayRange(since, to);
+  if (!days.length) {
+    chartHost.innerHTML = `<p class="empty">No daily cowork series available for this window.</p>`;
+    return;
+  }
+  const viewsSeries = days.map((d) => dailyViews[d] || 0);
+  const clonesSeries = days.map((d) => dailyClones[d] || 0);
+  const maxV = Math.max(1, ...viewsSeries, ...clonesSeries);
+
+  const W = Math.max(640, chartHost.clientWidth || 760);
+  const H = 300;
+  const padL = 44, padR = 16, padT = 16, padB = 36;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const xStep = days.length > 1 ? plotW / (days.length - 1) : plotW;
+  const xAt = (i) => padL + i * xStep;
+  const yAt = (v) => padT + plotH - (v / maxV) * plotH;
+
+  const grid = [0, 0.25, 0.5, 0.75, 1].map((t) => {
+    const y = yAt(maxV * t);
+    const label = Math.round(maxV * t);
+    return `<line x1="${padL}" x2="${W - padR}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" class="cowork-grid" />
+      <text x="${padL - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="cowork-axis">${fmt(label)}</text>`;
+  }).join("");
+
+  const labels = [0, Math.floor((days.length - 1) / 2), days.length - 1]
+    .filter((v, i, arr) => arr.indexOf(v) === i)
+    .map((idx) => {
+      const dt = new Date(`${days[idx]}T00:00:00Z`);
+      const text = dt.toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+      return `<text x="${xAt(idx).toFixed(1)}" y="${H - 12}" text-anchor="middle" class="cowork-axis">${text}</text>`;
+    }).join("");
+
+  const viewPath = linePath(viewsSeries, xAt, yAt);
+  const clonePath = linePath(clonesSeries, xAt, yAt);
+  chartHost.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Cowork billing daily views and clones">
+      ${grid}
+      <path d="${viewPath}" class="cowork-line views" />
+      <path d="${clonePath}" class="cowork-line clones" />
+      ${labels}
+    </svg>
+    <div class="cowork-chart-legend">
+      <span><i class="sw views"></i> Views</span>
+      <span><i class="sw clones"></i> Clones</span>
+    </div>
+  `;
+}
+
 // ------------------------------------------------------------ boot
 
 async function load() {
@@ -1491,6 +1717,7 @@ async function load() {
     renderPortfolio(reposData);
     renderHighlights(reposData);
     renderEngagement(reposData);
+    renderCoworkBilling(reposData, history.sites || {});
   };
   rerenderAll();
   renderWoW(reposData);
@@ -1673,6 +1900,7 @@ async function load() {
     highlights:  document.getElementById("tab-highlights"),
     engagement:  document.getElementById("tab-engagement"),
     comparisons: document.getElementById("tab-comparisons"),
+    "cowork-billing": document.getElementById("tab-cowork-billing"),
   };
   const activateTab = (key) => {
     if (!tabPanels[key]) return;
@@ -1698,6 +1926,8 @@ async function load() {
       requestAnimationFrame(() => renderMultiline(reposData));
     } else if (key === "portfolio") {
       requestAnimationFrame(() => renderPortfolioStack(reposData));
+    } else if (key === "cowork-billing") {
+      requestAnimationFrame(() => renderCoworkBilling(reposData, history.sites || {}));
     }
   };
   tabBtns.forEach(b => b.addEventListener("click", () => activateTab(b.dataset.tab)));
