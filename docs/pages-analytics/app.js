@@ -63,6 +63,13 @@ const COWORK_WEB_HINTS = [
   /roi[-_ ]?calculator/i,
 ];
 
+const COWORK_CORRELATION_SERIES = [
+  { label: "FinOps", needle: "finops-cowork", color: "#7c3aed" },
+  { label: "Chargeback", needle: "cowork-chargeback", color: "#0ea5e9" },
+  { label: "Policy Helper", needle: "cowork-policy-helper", color: "#f97316" },
+  { label: "GitHub PBIT repo views", color: "#16a34a" },
+];
+
 function parseIntSafe(v) {
   const n = parseInt(v, 10);
   return Number.isFinite(n) ? n : 0;
@@ -1508,6 +1515,19 @@ function linePath(values, xAt, yAt) {
   return values.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(" ");
 }
 
+function sparseLinePath(values, xAt, yAt) {
+  let started = false;
+  return values.map((value, index) => {
+    if (value == null) {
+      started = false;
+      return "";
+    }
+    const command = started ? "L" : "M";
+    started = true;
+    return `${command} ${xAt(index).toFixed(1)} ${yAt(value).toFixed(1)}`;
+  }).filter(Boolean).join(" ");
+}
+
 function renderCoworkBilling(repos, sites) {
   const since = currentSince();
   const until = currentUntil();
@@ -1688,6 +1708,89 @@ function renderCoworkBilling(repos, sites) {
       <span><i class="sw views"></i> Views</span>
       <span><i class="sw clones"></i> Clones</span>
     </div>
+  `;
+
+  const correlationHost = document.getElementById("cowork-correlation-chart");
+  if (!correlationHost) return;
+
+  const correlation = COWORK_CORRELATION_SERIES.map((series) => ({ ...series, values: {} }));
+  const pbitRepoNames = new Set(coworkRows
+    .filter((row) => (row.repo.paths || []).some((path) => `${path.path || ""} ${path.title || ""}`.toLowerCase().includes(".pbit")))
+    .map((row) => row.fullName));
+
+  for (const series of correlation) {
+    if (series.needle) continue;
+    for (const repoName of pbitRepoNames) {
+      const repo = repos[repoName] || {};
+      for (const [date, bucket] of Object.entries(repo.dailyViews || {})) {
+        if (date >= since && date <= to) {
+          series.values[date] = (series.values[date] || 0) + (bucket?.count || 0);
+        }
+      }
+    }
+  }
+
+  for (const site of Object.values(sites || {})) {
+    for (const [date, groups] of Object.entries(site?.snapshotsByUrl || {})) {
+      if (date < since || date > to) continue;
+      const perUrlSessions = new Map();
+      for (const group of groups || []) {
+        for (const row of group?.information || []) {
+          const url = row?.Url || row?.url || "";
+          if (!url) continue;
+          const sessions = parseIntSafe(row.sessionsCount) || parseIntSafe(row.totalSessionCount);
+          perUrlSessions.set(url, Math.max(perUrlSessions.get(url) || 0, sessions));
+        }
+      }
+      for (const [url, sessions] of perUrlSessions) {
+        const lower = url.toLowerCase();
+        for (const series of correlation) {
+          if (series.needle && lower.includes(series.needle)) {
+            series.values[date] = (series.values[date] || 0) + sessions;
+          }
+        }
+      }
+    }
+  }
+
+  const correlationDates = [...new Set(correlation.flatMap((series) => Object.keys(series.values)))].sort();
+  if (!correlationDates.length) {
+    correlationHost.innerHTML = `<p class="empty">No web app or PBIT traffic series is available for this window yet.</p>`;
+    return;
+  }
+  const correlationMax = Math.max(1, ...correlation.flatMap((series) => Object.values(series.values)));
+  const correlationWidth = Math.max(640, correlationHost.clientWidth || 760);
+  const correlationHeight = 300;
+  const cPadL = 44, cPadR = 16, cPadT = 16, cPadB = 36;
+  const cPlotW = correlationWidth - cPadL - cPadR;
+  const cPlotH = correlationHeight - cPadT - cPadB;
+  const cX = (index) => cPadL + (correlationDates.length > 1 ? index * cPlotW / (correlationDates.length - 1) : cPlotW / 2);
+  const cY = (value) => cPadT + cPlotH - value / correlationMax * cPlotH;
+  const correlationGrid = [0, 0.25, 0.5, 0.75, 1].map((fraction) => {
+    const y = cY(correlationMax * fraction);
+    return `<line x1="${cPadL}" x2="${correlationWidth - cPadR}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" class="cowork-grid" />
+      <text x="${cPadL - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end" class="cowork-axis">${fmt(Math.round(correlationMax * fraction))}</text>`;
+  }).join("");
+  const correlationLabels = [0, Math.floor((correlationDates.length - 1) / 2), correlationDates.length - 1]
+    .filter((value, index, array) => array.indexOf(value) === index)
+    .map((index) => {
+      const date = new Date(`${correlationDates[index]}T00:00:00Z`);
+      const label = date.toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+      return `<text x="${cX(index).toFixed(1)}" y="${correlationHeight - 12}" text-anchor="middle" class="cowork-axis">${label}</text>`;
+    }).join("");
+  const correlationPaths = correlation.map((series) => {
+    const points = correlationDates.map((date) => series.values[date] ?? null);
+    return `<path d="${sparseLinePath(points, cX, cY)}" class="cowork-line" stroke="${series.color}" />`;
+  }).join("");
+  const correlationLegend = correlation.map((series) =>
+    `<span><i class="sw" style="background:${series.color}"></i>${series.label}</span>`).join("");
+  correlationHost.innerHTML = `
+    <svg viewBox="0 0 ${correlationWidth} ${correlationHeight}" role="img" aria-label="Web app and PBIT traffic correlation">
+      ${correlationGrid}
+      ${correlationPaths}
+      ${correlationLabels}
+    </svg>
+    <div class="cowork-chart-legend">${correlationLegend}</div>
   `;
 }
 
