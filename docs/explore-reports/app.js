@@ -537,8 +537,13 @@ const TOOLS = [
     icon: "💠",
     accent: "#00B294",
     category: "impact-roi",
+    // ValueLens spans most of the catalogue: it covers adoption and maturity,
+    // the value case, licence readiness, and agent governance. Only Developer
+    // and Tooling sit outside it. `categories` is optional - every other entry
+    // still uses the singular `category`.
+    categories: ["impact-roi","usage-intelligence","adoption-behavior","readiness"],
     tier: "specialty",
-    measures: ["impact","roi","adoption"],
+    measures: ["impact","roi","adoption","license","agents"],
     source: "Purview audit logs",
     sourceKey: "Purview",
     repo: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",

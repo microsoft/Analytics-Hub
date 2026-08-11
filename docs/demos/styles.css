@@ -349,6 +349,7 @@
   -webkit-background-clip: initial;
   background-clip: initial;
   color: var(--text);
+  -webkit-text-fill-color: currentColor;
 }
 .cs-hero h1 .grad, .ds-hero h1 .grad, .help-hero h1 .grad,
 .picker-hero h1 .grad, .fb-hero h1 .grad, .oob-hero h1 .grad,
@@ -358,6 +359,9 @@
   -webkit-background-clip: initial;
   background-clip: initial;
   color: var(--accent);
+  /* gradient text also sets -webkit-text-fill-color: transparent; resetting
+     colour alone leaves the text invisible over the removed gradient. */
+  -webkit-text-fill-color: currentColor;
 }
 .cs-hero, .ds-hero, .help-hero, .picker-hero, .fb-hero, .oob-hero,
 .page-hero, .team-hero, .demo-hero, .gloss-hero, .faq-hero, .cmp-hero,

@@ -1767,3 +1767,65 @@ main .overlap-note, main .cs-grid, main .demo-empty {
 /* Centred blocks that should read as left-aligned copy. */
 main .faq-cta-strip, main .next-strip, main .demo-empty { text-align: left; }
 
+
+/* ------------------------------------------------------------------
+   Hero normalisation, specificity-qualified.
+   Glossary, FAQ and Compare declare their hero sizes in a page-level
+   <style> block. Those load after this file, so a plain `.gloss-hero h1`
+   here (0,1,1) loses to theirs (0,1,1) on order. Qualifying with `main`
+   makes it 0,1,2 and it wins on specificity instead - no !important.
+   ------------------------------------------------------------------ */
+main .hero h1, main .cs-hero h1, main .cmp-hero h1, main .cb-hero h1,
+main .ds-hero h1, main .demo-hero h1, main .help-hero h1,
+main .picker-hero h1, main .faq-hero h1, main .fb-hero h1,
+main .gloss-hero h1, main .oob-hero h1, main .page-hero h1,
+main .team-hero h1 {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin: 0 0 12px;
+  max-width: 24ch;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--text);
+  -webkit-text-fill-color: currentColor;
+}
+main .cs-hero h1 .grad, main .cmp-hero h1 .grad, main .ds-hero h1 .grad,
+main .demo-hero h1 .grad, main .help-hero h1 .grad,
+main .picker-hero h1 .grad, main .faq-hero h1 .grad,
+main .fb-hero h1 .grad, main .gloss-hero h1 .grad,
+main .oob-hero h1 .grad, main .page-hero h1 .grad,
+main .team-hero h1 .grad, main h1 .grad {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--accent);
+  -webkit-text-fill-color: currentColor;
+}
+main .cs-hero .lede, main .cmp-hero .lede, main .cb-hero .lede,
+main .ds-hero .lede, main .demo-hero .lede, main .help-hero .lede,
+main .picker-hero .lede, main .faq-hero .lede, main .fb-hero .lede,
+main .gloss-hero .lede, main .oob-hero .lede, main .page-hero .lede,
+main .team-hero .lede {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  max-width: 66ch;
+  margin: 0;
+}
+
+
+/* Multi-category badge. A report that spans several categories shows the
+   primary chip plus a count, rather than silently picking one. */
+.rf-more {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 100px;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+  cursor: help;
+}
+

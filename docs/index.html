@@ -37,7 +37,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Analytics Hub","url":"https://microsoft.github.io/Analytics-Hub/","publisher":{"@type":"Organization","name":"Microsoft"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://microsoft.github.io/Analytics-Hub/explore-reports/?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Analytics Hub","applicationCategory":"BusinessApplication","operatingSystem":"Web, Power BI Desktop, Power BI Service","url":"https://microsoft.github.io/Analytics-Hub/","author":{"@type":"Organization","name":"Microsoft"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Eleven open-source Power BI templates and exporters to measure Microsoft Copilot adoption, sentiment, ROI, and agent usage."}</script>
   <!-- SEO:end -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=7a506cda" />
   <link rel="preconnect" href="https://github.com" />
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -49,7 +49,7 @@
   </script>
   <meta name="clarity-page" content="Home" />
   <script src="./clarity-events.js" defer></script>
-  <link rel="stylesheet" href="./palette.css" />
+  <link rel="stylesheet" href="./palette.css?v=936728fb" />
   <script src="./palette.js" defer></script>
   <script src="./nudges.js" defer></script>
 </head>
@@ -224,10 +224,10 @@
 
         <div class="rf-pills" role="group" aria-label="Filter reports by category">
       <button class="rf-pill is-on" data-cat="all" type="button">All <span class="rf-n">23</span></button>
-      <button class="rf-pill" data-cat="usage-intelligence" type="button">Usage &amp; Intelligence <span class="rf-n">3</span></button>
-      <button class="rf-pill" data-cat="adoption-behavior" type="button">Adoption &amp; Behaviour <span class="rf-n">4</span></button>
+      <button class="rf-pill" data-cat="usage-intelligence" type="button">Usage &amp; Intelligence <span class="rf-n">4</span></button>
+      <button class="rf-pill" data-cat="adoption-behavior" type="button">Adoption &amp; Behaviour <span class="rf-n">5</span></button>
       <button class="rf-pill" data-cat="impact-roi" type="button">Impact &amp; ROI <span class="rf-n">10</span></button>
-      <button class="rf-pill" data-cat="readiness" type="button">Readiness <span class="rf-n">2</span></button>
+      <button class="rf-pill" data-cat="readiness" type="button">Readiness <span class="rf-n">3</span></button>
       <button class="rf-pill" data-cat="developer" type="button">Developer <span class="rf-n">2</span></button>
       <button class="rf-pill" data-cat="tooling-extension" type="button">Tooling <span class="rf-n">2</span></button>
     </div>
@@ -244,9 +244,9 @@
           <a class="rf-cta" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
         </div>
       </article>
-      <article class="rf-card" data-cat="impact-roi" style="--c:#00B294">
+      <article class="rf-card" data-cat="impact-roi usage-intelligence adoption-behavior readiness" style="--c:#00B294">
         <div class="rf-top">
-          <span class="rf-chip">Impact &amp; ROI</span><span class="rf-new">New</span>
+          <span class="rf-chip">Impact &amp; ROI</span><span class="rf-more" title="Usage &amp; Intelligence, Adoption &amp; Behaviour, Readiness">+3</span><span class="rf-new">New</span>
         </div>
         <h3 class="rf-title">ValueLens for Microsoft Copilot</h3>
         <p class="rf-blurb">Business Value Advisory Power BI template that unifies every Copilot &amp; agent adoption signal into hours saved, assisted value, and adoption/readiness </p>
@@ -606,7 +606,7 @@
     function apply(cat) {
       var shown = 0;
       cards.forEach(function (c) {
-        var on = cat === 'all' || c.dataset.cat === cat;
+        var on = cat === 'all' || c.dataset.cat.split(' ').indexOf(cat) !== -1;
         c.hidden = !on;
         if (on) shown++;
       });
