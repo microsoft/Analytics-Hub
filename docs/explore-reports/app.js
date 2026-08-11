@@ -544,6 +544,7 @@ const TOOLS = [
     repo: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
     download: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
     preview: "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
+    demoVideo: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4",
     blurb: "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with SharePoint, Fabric, and Dataverse deployment paths.",
     meta: { audience: "Business Value Advisory, execs, program leads", license: "Purview Audit Reader", time: "~1 hour for first build" },
     requirements: {
@@ -554,6 +555,34 @@ const TOOLS = [
       software: [
         { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
         { label: "Python (SharePoint path) or Fabric capacity (Fabric path)" }
+      ]
+    },
+  },
+  {
+    id: 'consumption-central',
+    question: "What are we spending on Copilot credits across every product, and where is it going?",
+    title: "Consumption Central for Microsoft Copilot",
+    icon: "💳",
+    accent: "#0078d4",
+    category: "impact-roi",
+    tier: "specialty",
+    measures: ["roi","impact"],
+    source: "Viva Insights consumption + PPAC + GitHub Copilot + Azure Cost Management",
+    sourceKey: "M365 Admin",
+    repo: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+    download: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+    demoVideo: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4",
+    blurb: "One Power BI template for Copilot credit consumption and cost across four products — Cowork/Work IQ, Copilot Studio, GitHub Copilot, and Azure AI Foundry. Group spend by your own org attributes, forecast to the end of the billing period, and see overage against prepaid packs. Local CSV, Fabric, and Viva Direct deployment paths, each with a synthetic sample dataset. Reports spend; it does not enforce limits.",
+    meta: { audience: "FinOps, IT admins, platform owners, finance partners", license: "Admin exports (per product)", time: "~10 min for a first look with sample data" },
+    requirements: {
+      roles: [
+        { label: "Viva Insights Analyst (Cowork consumption)", url: "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap" },
+        { label: "Power Platform Administrator (Copilot Studio credits)", url: "https://learn.microsoft.com/power-platform/admin/manage-copilot-studio-messages-capacity" },
+        { label: "Entra Reports Reader (org attributes)", url: "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Fabric capacity (Fabric path only) — optional" }
       ]
     },
   },
@@ -687,6 +716,13 @@ function rowHtml(t) {
               : `<a class="preview-link preview-fallback" href="${t.repo}" target="_blank" rel="noopener">
                   <div class="preview-fallback-inner" style="--c:${t.accent}"><div class="pf-name">${t.title}</div></div>
                 </a>`
+            }
+            ${t.demoVideo
+              ? `<a class="demo-video-link" href="${t.demoVideo}" target="_blank" rel="noopener">
+                  <span class="dv-icon" aria-hidden="true">🎬</span>
+                  <span class="dv-text">Watch the 2-minute demo</span>
+                </a>`
+              : ''
             }
           </div>
           <div class="detail-copy">

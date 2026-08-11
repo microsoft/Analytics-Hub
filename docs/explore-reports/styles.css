@@ -325,6 +325,32 @@
   box-shadow: var(--shadow);
 }
 .detail-preview .preview-link.preview-fallback { cursor: pointer; }
+
+/* Demo video link, sits directly under the preview thumbnail. */
+.demo-video-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: .6rem;
+  padding: .55rem .8rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: var(--text);
+  font-size: .88rem;
+  font-weight: 600;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.demo-video-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent, #0078d4);
+}
+.demo-video-link .dv-icon { font-size: 1rem; line-height: 1; }
+
 .detail-preview img {
   width: 100%;
   height: auto;

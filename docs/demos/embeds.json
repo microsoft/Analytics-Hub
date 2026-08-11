@@ -12,20 +12,50 @@
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Viva Insights Analyst", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" },
-          { "label": "Power BI workspace Member or Viewer" }
+          {
+            "label": "Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+          },
+          {
+            "label": "Power BI workspace Member or Viewer"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/DecodingSuperUsage#readme", "kind": "doc" },
-        { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Interpretation%20Guide%20Super%20Usage%20Adoption.pdf", "kind": "download" },
-        { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Storyboard%20PPTX%20-%20Super%20User%20Adoption.pptx", "kind": "download" },
-        { "label": "DirectQuery troubleshooting", "url": "https://github.com/microsoft/DecodingSuperUsage/blob/main/TROUBLESHOOTING_DIRECTQUERY_AUTH.md", "kind": "troubleshoot" },
-        { "label": "Download the .pbit template", "url": "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip", "kind": "download" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/DecodingSuperUsage#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Interpretation Guide (PDF)",
+          "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Interpretation%20Guide%20Super%20Usage%20Adoption.pdf",
+          "kind": "download"
+        },
+        {
+          "label": "Download Storyboard (.pptx)",
+          "url": "https://github.com/microsoft/DecodingSuperUsage/raw/DecodingSuperUsage/Storyboard%20PPTX%20-%20Super%20User%20Adoption.pptx",
+          "kind": "download"
+        },
+        {
+          "label": "DirectQuery troubleshooting",
+          "url": "https://github.com/microsoft/DecodingSuperUsage/blob/main/TROUBLESHOOTING_DIRECTQUERY_AUTH.md",
+          "kind": "troubleshoot"
+        },
+        {
+          "label": "Download the .pbit template",
+          "url": "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip",
+          "kind": "download"
+        }
       ]
     },
     {
@@ -38,130 +68,300 @@
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Viva Insights Analyst", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" },
-          { "label": "Power BI workspace Member or Viewer" }
+          {
+            "label": "Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+          },
+          {
+            "label": "Power BI workspace Member or Viewer"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/superuserimpact#readme", "kind": "doc" },
-        { "label": "Interpretation Guide — Copilot Assisted Hours formulas (PDF)", "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Assisted%20Hours%20PBI%20Formulas.pdf", "kind": "download" },
-        { "label": "Interpretation Guide — Copilot Studio agents (PDF)", "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Studio%20agents%20report%20-%20Interpretation%20Guide.pdf", "kind": "download" },
-        { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Superuser%20Impact%20-%20Storyboard%20v4.pptx", "kind": "download" },
-        { "label": "Download .pbit (CSV)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20CSV%20-v8.pbit", "kind": "download" },
-        { "label": "Download .pbit (DirectQuery)", "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v8.pbit", "kind": "download" },
-        { "label": "Source: Decoding Super Usage", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/superuserimpact#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Interpretation Guide — Copilot Assisted Hours formulas (PDF)",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Assisted%20Hours%20PBI%20Formulas.pdf",
+          "kind": "download"
+        },
+        {
+          "label": "Interpretation Guide — Copilot Studio agents (PDF)",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/PDF%20Guides/Copilot%20Studio%20agents%20report%20-%20Interpretation%20Guide.pdf",
+          "kind": "download"
+        },
+        {
+          "label": "Download Storyboard (.pptx)",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/Superuser%20Impact%20-%20Storyboard%20v4.pptx",
+          "kind": "download"
+        },
+        {
+          "label": "Download .pbit (CSV)",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20CSV%20-v8.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Download .pbit (DirectQuery)",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v8.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Source: Decoding Super Usage",
+          "url": "https://github.com/microsoft/DecodingSuperUsage",
+          "kind": "doc"
+        }
       ]
     },
     {
       "id": "ai-in-one",
       "name": "AI in One",
-      "blurb": "Executive monthly review \u2014 adoption, sentiment, license utilisation, ROI, in one report.",
+      "blurb": "Executive monthly review — adoption, sentiment, license utilisation, ROI, in one report.",
       "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
       "sourceKey": "Purview + Entra",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=60ff9554-a5d4-41bf-b4fe-c06dcabda182&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Microsoft Purview Audit Reader (or Global Reader)", "url": "https://learn.microsoft.com/purview/audit-search" },
-          { "label": "Microsoft Entra Reports Reader", "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
-          { "label": "Power BI workspace Member" }
+          {
+            "label": "Microsoft Purview Audit Reader (or Global Reader)",
+            "url": "https://learn.microsoft.com/purview/audit-search"
+          },
+          {
+            "label": "Microsoft Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-in-One-Dashboard#readme", "kind": "doc" },
-        { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf", "kind": "download" },
-        { "label": "Download Storyboard (.pptx)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIinOne_Storyboard_2601.pptx", "kind": "download" },
-        { "label": "Download .pbit (SharePoint)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2028%2004%20-%20Sharepoint%20Refresh.pbit", "kind": "download" },
-        { "label": "Download .pbit (CSV)", "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2027%2004%20-%20csv%20only.pbit", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/01_AI_in_One_Dashboard_Admin_Email.md", "kind": "email" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Interpretation Guide (PDF)",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf",
+          "kind": "download"
+        },
+        {
+          "label": "Download Storyboard (.pptx)",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIinOne_Storyboard_2601.pptx",
+          "kind": "download"
+        },
+        {
+          "label": "Download .pbit (SharePoint)",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2028%2004%20-%20Sharepoint%20Refresh.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Download .pbit (CSV)",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2027%2004%20-%20csv%20only.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Admin email template",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/01_AI_in_One_Dashboard_Admin_Email.md",
+          "kind": "email"
+        }
       ]
     },
     {
       "id": "chat-intelligence",
       "name": "Chat Intelligence",
-      "blurb": "Prompt-level analytics \u2014 surfaces, depth, department breakdown, maturity curve.",
+      "blurb": "Prompt-level analytics — surfaces, depth, department breakdown, maturity curve.",
       "repo": "https://github.com/microsoft/CopilotChatAnalytics",
       "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Microsoft Purview Audit Reader", "url": "https://learn.microsoft.com/purview/audit-search" },
-          { "label": "Power BI workspace Member" }
+          {
+            "label": "Microsoft Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/CopilotChatAnalytics#readme", "kind": "doc" },
-        { "label": "Download .pbit (Chat)", "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20-%20Chat%20Intelligence%20Report.pbit", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/02_Chat_Intelligence_Admin_Email.md", "kind": "email" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/CopilotChatAnalytics#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Download .pbit (Chat)",
+          "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20-%20Chat%20Intelligence%20Report.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Admin email template",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/02_Chat_Intelligence_Admin_Email.md",
+          "kind": "email"
+        }
       ]
     },
     {
       "id": "agent-intelligence",
       "name": "Agent Intelligence",
-      "blurb": "Agent-level telemetry \u2014 invocations, authors, shipped-but-unused candidates.",
+      "blurb": "Agent-level telemetry — invocations, authors, shipped-but-unused candidates.",
       "repo": "https://github.com/microsoft/CopilotChatAnalytics",
       "sourceKey": "Purview + Entra",
       "embedUrl": "",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Microsoft Purview Audit Reader", "url": "https://learn.microsoft.com/purview/audit-search" },
-          { "label": "Copilot Studio maker (for agent metadata)", "url": "https://learn.microsoft.com/microsoft-copilot-studio/requirements-licensing-subscriptions" },
-          { "label": "Power BI workspace Member" }
+          {
+            "label": "Microsoft Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search"
+          },
+          {
+            "label": "Copilot Studio maker (for agent metadata)",
+            "url": "https://learn.microsoft.com/microsoft-copilot-studio/requirements-licensing-subscriptions"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/CopilotChatAnalytics#readme", "kind": "doc" },
-        { "label": "Download .pbit (Agent)", "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20Agent%20Intelligence%20v4.pbit", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/03_Agent_Intelligence_Admin_Email.md", "kind": "email" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/CopilotChatAnalytics#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Download .pbit (Agent)",
+          "url": "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20Agent%20Intelligence%20v4.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Admin email template",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/03_Agent_Intelligence_Admin_Email.md",
+          "kind": "email"
+        }
       ]
     },
     {
       "id": "copilot-adoption-sentiment",
       "name": "Adoption & Sentiment",
-      "blurb": "Crosses M365 Copilot usage with employee survey sentiment \u2014 adoption trends, satisfaction scores by usage tier, free-text comments, and self-reported time savings. From olivierpecheux/copilot-adoption-sentiment-report.",
+      "blurb": "Crosses M365 Copilot usage with employee survey sentiment — adoption trends, satisfaction scores by usage tier, free-text comments, and self-reported time savings. From olivierpecheux/copilot-adoption-sentiment-report.",
       "repo": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report",
       "sourceKey": "M365 Admin + Survey",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=7cadd19f-6c7d-40c1-8370-6e557c88b59a&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Microsoft 365 Copilot Admin (Reports Reader)", "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft365-apps-usage-ww" },
-          { "label": "Microsoft Forms creator (survey owner)", "url": "https://support.microsoft.com/forms" },
-          { "label": "Power BI workspace Member" }
+          {
+            "label": "Microsoft 365 Copilot Admin (Reports Reader)",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft365-apps-usage-ww"
+          },
+          {
+            "label": "Microsoft Forms creator (survey owner)",
+            "url": "https://support.microsoft.com/forms"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Microsoft Forms", "url": "https://forms.office.com/" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Microsoft Forms",
+            "url": "https://forms.office.com/"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#readme", "kind": "doc" },
-        { "label": "Download .pbit template", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/raw/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit", "kind": "download" },
-        { "label": "Recommended survey questions (12)", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#-recommended-survey-questions", "kind": "doc" },
-        { "label": "Screenshot: Adoption Overview", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/adoption-overview.png", "kind": "doc" },
-        { "label": "Screenshot: Sentiment Analysis", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/sentiment-analysis.png", "kind": "doc" },
-        { "label": "Screenshot: Comments Analysis", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/comments-analysis.png", "kind": "doc" },
-        { "label": "Screenshot: Saved Time Analysis", "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/saved-time-analysis.png", "kind": "doc" },
-        { "label": "Contact: opecheux@microsoft.com", "url": "mailto:opecheux@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report", "kind": "email" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Download .pbit template",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/raw/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Recommended survey questions (12)",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#-recommended-survey-questions",
+          "kind": "doc"
+        },
+        {
+          "label": "Screenshot: Adoption Overview",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/adoption-overview.png",
+          "kind": "doc"
+        },
+        {
+          "label": "Screenshot: Sentiment Analysis",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/sentiment-analysis.png",
+          "kind": "doc"
+        },
+        {
+          "label": "Screenshot: Comments Analysis",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/comments-analysis.png",
+          "kind": "doc"
+        },
+        {
+          "label": "Screenshot: Saved Time Analysis",
+          "url": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/blob/main/images/saved-time-analysis.png",
+          "kind": "doc"
+        },
+        {
+          "label": "Contact: opecheux@microsoft.com",
+          "url": "mailto:opecheux@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report",
+          "kind": "email"
+        }
       ]
     },
     {
@@ -174,71 +374,130 @@
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Varies by solution — see README" }
+          {
+            "label": "Varies by solution — see README"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard#readme", "kind": "doc" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard#readme",
+          "kind": "doc"
+        }
       ]
     },
     {
       "id": "m365-readiness",
       "name": "M365 Copilot Readiness",
-      "blurb": "Enablement and champion identification \u2014 surface who's ready to onboard next and who should be groomed as a Copilot champion in each org.",
+      "blurb": "Enablement and champion identification — surface who's ready to onboard next and who should be groomed as a Copilot champion in each org.",
       "repo": "https://github.com/microsoft/M365UsageAnalytics",
       "sourceKey": "Purview + Entra",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=8edd9efb-64e6-415d-9c00-a4773aa6cf8b&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Microsoft Purview Audit Reader (or Global Reader)", "url": "https://learn.microsoft.com/purview/audit-search" },
-          { "label": "Microsoft Entra Reports Reader", "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
-          { "label": "Microsoft 365 Copilot Admin" },
-          { "label": "Power BI workspace Member" }
+          {
+            "label": "Microsoft Purview Audit Reader (or Global Reader)",
+            "url": "https://learn.microsoft.com/purview/audit-search"
+          },
+          {
+            "label": "Microsoft Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          },
+          {
+            "label": "Microsoft 365 Copilot Admin"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Python 3.10+ (for the bundle explosion processor)", "url": "https://www.python.org/downloads/" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Python 3.10+ (for the bundle explosion processor)",
+            "url": "https://www.python.org/downloads/"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/M365UsageAnalytics#readme", "kind": "doc" },
-        { "label": "Interpretation Guide (PDF)", "url": "https://github.com/microsoft/M365UsageAnalytics/raw/main/M365%20Usage%20Dashboard%20-%20Interpretation%20Guide.pdf", "kind": "download" },
-        { "label": "Admin email template", "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/07_M365_Copilot_Readiness_Admin_Email.md", "kind": "email" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/M365UsageAnalytics#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Interpretation Guide (PDF)",
+          "url": "https://github.com/microsoft/M365UsageAnalytics/raw/main/M365%20Usage%20Dashboard%20-%20Interpretation%20Guide.pdf",
+          "kind": "download"
+        },
+        {
+          "label": "Admin email template",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/07_M365_Copilot_Readiness_Admin_Email.md",
+          "kind": "email"
+        }
       ]
     },
     {
       "id": "champion-id",
       "name": "Champion ID",
-      "blurb": "Identify and rank Copilot champions across the org \u2014 surfaces top advocates, influence reach, and enablement candidates. From the customizecopilot repo.",
+      "blurb": "Identify and rank Copilot champions across the org — surfaces top advocates, influence reach, and enablement candidates. From the customizecopilot repo.",
       "repo": "https://github.com/microsoft/customizecopilot",
       "sourceKey": "Viva Insights",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=8cb748ff-0206-4735-b8d7-f632c712ec38&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Viva Insights Analyst", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" },
-          { "label": "Power BI workspace Member" }
+          {
+            "label": "Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/customizecopilot#readme", "kind": "doc" },
-        { "label": "Champion-ID source folder", "url": "https://github.com/microsoft/customizecopilot/tree/main/Champion-ID", "kind": "doc" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/customizecopilot#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Champion-ID source folder",
+          "url": "https://github.com/microsoft/customizecopilot/tree/main/Champion-ID",
+          "kind": "doc"
+        }
       ]
     },
     {
       "id": "roi-calculator",
       "name": "ROI Calculator",
-      "blurb": "Pairs with the Super Usage Adoption Power BI report \u2014 export the heatmap visual as CSV, drop it into the calculator, and model payback period, productivity lift, and license-cost recovery live. The calculator UI is public; the heatmap data comes from your Power BI tenant.",
+      "blurb": "Pairs with the Super Usage Adoption Power BI report — export the heatmap visual as CSV, drop it into the calculator, and model payback period, productivity lift, and license-cost recovery live. The calculator UI is public; the heatmap data comes from your Power BI tenant.",
       "repo": "https://jordankingisalive.github.io/CopilotROICalculator/",
       "sourceKey": "Viva Insights",
       "embedUrl": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html",
@@ -246,44 +505,198 @@
       "height": 2400,
       "requirements": {
         "roles": [
-          { "label": "No special roles — open to anyone" },
-          { "label": "Viva Insights Analyst (only if exporting heatmap CSV from Super Usage)", "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst" }
+          {
+            "label": "No special roles — open to anyone"
+          },
+          {
+            "label": "Viva Insights Analyst (only if exporting heatmap CSV from Super Usage)",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+          }
         ],
         "software": [
-          { "label": "Modern browser (Edge / Chrome)" },
-          { "label": "Power BI Desktop (only to export the heatmap CSV)", "url": "https://aka.ms/pbidesktopstore" }
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          },
+          {
+            "label": "Power BI Desktop (only to export the heatmap CSV)",
+            "url": "https://aka.ms/pbidesktopstore"
+          }
         ]
       },
       "resources": [
-        { "label": "Open ROI Calculator in new tab", "url": "https://jordankingisalive.github.io/CopilotROICalculator/", "kind": "doc" },
-        { "label": "Decoding Super Usage repo", "url": "https://github.com/microsoft/DecodingSuperUsage", "kind": "doc" }
+        {
+          "label": "Open ROI Calculator in new tab",
+          "url": "https://jordankingisalive.github.io/CopilotROICalculator/",
+          "kind": "doc"
+        },
+        {
+          "label": "Decoding Super Usage repo",
+          "url": "https://github.com/microsoft/DecodingSuperUsage",
+          "kind": "doc"
+        }
       ]
     },
     {
       "id": "cowork-billing",
       "name": "Cowork Billing",
-      "blurb": "Turn Entra + Copilot Cowork credit exports into a departmental chargeback report \u2014 per-user overage, cost-center rollups, and RLS-ready views. Dummy tenant data.",
+      "blurb": "Turn Entra + Copilot Cowork credit exports into a departmental chargeback report — per-user overage, cost-center rollups, and RLS-ready views. Dummy tenant data.",
       "repo": "https://github.com/microsoft/CreditUsage",
       "sourceKey": "Entra + Copilot Credits",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=4d17d99a-061e-4d06-be91-a94c9039ada5&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
       "height": 720,
       "requirements": {
         "roles": [
-          { "label": "Microsoft Entra Reports Reader", "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader" },
-          { "label": "Microsoft 365 Copilot Admin (Reports Reader)", "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft365-apps-usage-ww" },
-          { "label": "Power BI workspace Member or Viewer" }
+          {
+            "label": "Microsoft Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          },
+          {
+            "label": "Microsoft 365 Copilot Admin (Reports Reader)",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/microsoft365-apps-usage-ww"
+          },
+          {
+            "label": "Power BI workspace Member or Viewer"
+          }
         ],
         "software": [
-          { "label": "Power BI Desktop (May 2024+)", "url": "https://aka.ms/pbidesktopstore" },
-          { "label": "Modern browser (Edge / Chrome)" }
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
         ]
       },
       "resources": [
-        { "label": "README & setup guide", "url": "https://github.com/microsoft/CreditUsage#readme", "kind": "doc" },
-        { "label": "Live web app (client-side)", "url": "https://microsoft.github.io/CreditUsage/CoworkBilling/", "kind": "doc" },
-        { "label": "Methodology deck + customer guide", "url": "../cowork-billing/", "kind": "doc" },
-        { "label": "Download .pbit template", "url": "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit", "kind": "download" },
-        { "label": "Interpretation Guide (.pptx)", "url": "https://github.com/microsoft/CreditUsage/raw/main/Chargebacks%20Interpretation%20Guide.pptx", "kind": "download" }
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/CreditUsage#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Live web app (client-side)",
+          "url": "https://microsoft.github.io/CreditUsage/CoworkBilling/",
+          "kind": "doc"
+        },
+        {
+          "label": "Methodology deck + customer guide",
+          "url": "../cowork-billing/",
+          "kind": "doc"
+        },
+        {
+          "label": "Download .pbit template",
+          "url": "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit",
+          "kind": "download"
+        },
+        {
+          "label": "Interpretation Guide (.pptx)",
+          "url": "https://github.com/microsoft/CreditUsage/raw/main/Chargebacks%20Interpretation%20Guide.pptx",
+          "kind": "download"
+        }
+      ]
+    },
+    {
+      "id": "value-lens",
+      "name": "ValueLens",
+      "blurb": "Unifies every Copilot and agent adoption signal into hours saved, assisted value, and adoption/readiness - a defensible ROI story aligned to the Frontier Firm framework.",
+      "repo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
+      "sourceKey": "Purview",
+      "requirements": {
+        "roles": [
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log"
+          },
+          {
+            "label": "Power BI workspace Member or Viewer"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Python (SharePoint path) or Fabric capacity (Fabric path)"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Watch the 2-minute demo",
+          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4",
+          "kind": "video"
+        },
+        {
+          "label": "Download the templates (.zip)",
+          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+          "kind": "download"
+        }
+      ]
+    },
+    {
+      "id": "consumption-central",
+      "name": "Consumption Central",
+      "blurb": "One template for Copilot credit consumption and cost across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Group spend by your own org attributes and forecast to the end of the billing period.",
+      "repo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+      "sourceKey": "Entra + Copilot Credits",
+      "requirements": {
+        "roles": [
+          {
+            "label": "Viva Insights Analyst (Cowork consumption)",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+          },
+          {
+            "label": "Power Platform Administrator (Copilot Studio credits)",
+            "url": "https://learn.microsoft.com/power-platform/admin/manage-copilot-studio-messages-capacity"
+          },
+          {
+            "label": "Microsoft Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Fabric capacity (Fabric path only) - optional"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Watch the 2-minute demo",
+          "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4",
+          "kind": "video"
+        },
+        {
+          "label": "Where each export comes from",
+          "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/DATA-SOURCES.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Measure reference",
+          "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/MEASURES.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Download the templates (.zip)",
+          "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+          "kind": "download"
+        }
       ]
     }
   ]
