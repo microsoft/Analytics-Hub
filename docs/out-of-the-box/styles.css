@@ -343,3 +343,66 @@
   margin-top: .5rem;
   max-width: 760px;
 }
+
+
+/* ============================================================
+   Design normalisation  ·  2026-08-11
+   This stylesheet loads after the shared styles.css, so anything it
+   declares wins by order. That is how each page drifted into its own
+   hero size, weight and gradient. Re-asserting the shared treatment
+   here keeps the page-specific rules above intact while bringing the
+   chrome back in line.
+   ============================================================ */
+.cs-hero h1, .ds-hero h1, .help-hero h1, .picker-hero h1, .fb-hero h1,
+.oob-hero h1, .page-hero h1, .team-hero h1, .demo-hero h1, .gloss-hero h1,
+.faq-hero h1, .cmp-hero h1, .cb-hero h1 {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin: 0 0 12px;
+  max-width: 24ch;
+  /* single accent, not the three-colour gradient */
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--text);
+}
+.cs-hero h1 .grad, .ds-hero h1 .grad, .help-hero h1 .grad,
+.picker-hero h1 .grad, .fb-hero h1 .grad, .oob-hero h1 .grad,
+.page-hero h1 .grad, .team-hero h1 .grad, .demo-hero h1 .grad,
+.gloss-hero h1 .grad, .faq-hero h1 .grad, .cmp-hero h1 .grad, .grad {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--accent);
+}
+.cs-hero, .ds-hero, .help-hero, .picker-hero, .fb-hero, .oob-hero,
+.page-hero, .team-hero, .demo-hero, .gloss-hero, .faq-hero, .cmp-hero,
+.cb-hero {
+  padding: 52px 0 34px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.cs-hero .lede, .ds-hero .lede, .help-hero .lede, .picker-hero .lede,
+.fb-hero .lede, .oob-hero .lede, .page-hero .lede, .team-hero .lede,
+.demo-hero .lede, .gloss-hero .lede, .faq-hero .lede, .cmp-hero .lede,
+.cb-hero .lede {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  max-width: 66ch;
+  margin: 0;
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+/* Solid accent on primary actions, matching the refreshed buttons. */
+.btn-primary, .cta.primary, a.primary, .primary-btn {
+  background: var(--accent);
+}
