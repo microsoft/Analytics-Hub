@@ -599,7 +599,7 @@
     {
       "id": "value-lens",
       "name": "ValueLens",
-      "blurb": "Unifies every Copilot and agent adoption signal into hours saved, assisted value, and adoption/readiness - a defensible ROI story aligned to the Frontier Firm framework.",
+      "blurb": "Unifies every Copilot and agent adoption signal into hours saved, assisted value, and adoption/readiness - a defensible ROI story aligned to the Frontier Firm framework. No live embed — watch the demo video or run it on the bundled sample data.",
       "repo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
       "sourceKey": "Purview",
       "requirements": {
@@ -634,6 +634,11 @@
           "kind": "video"
         },
         {
+          "label": "Sample data — run it with no tenant setup",
+          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/sample-data",
+          "kind": "download"
+        },
+        {
           "label": "Download the templates (.zip)",
           "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
           "kind": "download"
@@ -643,7 +648,7 @@
     {
       "id": "consumption-central",
       "name": "Consumption Central",
-      "blurb": "One template for Copilot credit consumption and cost across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Group spend by your own org attributes and forecast to the end of the billing period.",
+      "blurb": "One template for Copilot credit consumption and cost across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Group spend by your own org attributes and forecast to the end of the billing period. No live embed — watch the demo video or run it on the bundled sample data.",
       "repo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot",
       "sourceKey": "Entra + Copilot Credits",
       "requirements": {
@@ -681,6 +686,11 @@
           "label": "Watch the 2-minute demo",
           "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4",
           "kind": "video"
+        },
+        {
+          "label": "Sample data — run it with no tenant setup",
+          "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data",
+          "kind": "download"
         },
         {
           "label": "Where each export comes from",

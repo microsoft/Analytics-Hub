@@ -74,11 +74,9 @@
       <p class="eyebrow">💳 Credit consumption &amp; cost</p>
       <h1>What Copilot costs, where it goes, and who to bill.</h1>
       <p class="lede">
-        Everything on one page for tracking Microsoft Copilot credit consumption
-        and cost — the Power BI templates, the browser tools that need no setup,
-        and the billing methodology behind them. Start with Consumption Central
-        for the full picture across products, then use the Cowork tools below for
-        chargeback modelling and policy.
+        Templates, browser tools and methodology for tracking Microsoft Copilot
+        credit consumption and cost — from a single view of spend across
+        products, through to departmental chargeback and spend policy.
       </p>
     </div>
   </section>
@@ -86,7 +84,7 @@
   <section class="wrap cc-feature">
     <article class="cc-feature-card">
       <div class="cc-feature-body">
-        <p class="cc-feature-eyebrow">Start here · Power BI template</p>
+        <p class="cc-feature-eyebrow">New · Power BI template</p>
         <h2>Consumption Central</h2>
         <p class="cc-feature-lede">
           One template for Copilot credit consumption and cost across
@@ -126,36 +124,27 @@
   </section>
 
   <section class="wrap cb-downloads cb-primary-explore">
-    <h2>Which one do I need?</h2>
+    <h2>Two templates on this page</h2>
     <p class="cb-section-lede">
-      Two Power BI templates sit on this page and they answer different
-      questions. This is the short version.
+      They read different exports, so which one fits depends on what you have
+      access to and what you need out the other end.
     </p>
     <div class="cc-decide">
       <div class="cc-decide-col">
-        <p class="cc-decide-q">“What are we spending, in total?”</p>
+        <p class="cc-decide-q">Cowork Chargeback</p>
         <p class="cc-decide-a">
-          <strong>Consumption Central.</strong> Four products in one view —
-          Cowork / Work IQ, Copilot Studio, GitHub Copilot, Azure AI Foundry —
-          with a forecast to end of billing period.
+          Runs on <strong>Microsoft 365 admin center</strong> credit exports plus
+          an Entra user export. Built for departmental chargeback — billing
+          models, prepaid pool allocation, and per-user allowances.
         </p>
       </div>
       <div class="cc-decide-sep" aria-hidden="true"></div>
       <div class="cc-decide-col">
-        <p class="cc-decide-q">“How do we bill it back?”</p>
+        <p class="cc-decide-q">Consumption Central</p>
         <p class="cc-decide-a">
-          <strong>Cowork Chargeback.</strong> Cowork only, but it prices three
-          billing models, splits a prepaid pool across departments, and ships
-          row-level security.
-        </p>
-      </div>
-      <div class="cc-decide-sep" aria-hidden="true"></div>
-      <div class="cc-decide-col">
-        <p class="cc-decide-q">“Both?”</p>
-        <p class="cc-decide-a">
-          Common. Consumption Central for the whole picture, Chargeback when the
-          Cowork bill has to be split by department.
-          <a href="../compare/consumption-central-vs-cowork-chargeback/">Full comparison →</a>
+          Reads the <strong>Viva Insights</strong> consumption export alongside
+          Power Platform, GitHub and Azure, so Copilot Studio, GitHub Copilot and
+          Foundry spend land in the same model as Cowork.
         </p>
       </div>
     </div>
@@ -164,12 +153,11 @@
   <section class="wrap cc-feature">
     <article class="cc-feature-card cc-feature-secondary">
       <div class="cc-feature-body">
-        <p class="cc-feature-eyebrow">For chargeback · Power BI template</p>
+        <p class="cc-feature-eyebrow">Power BI template</p>
         <h2>Cowork Credit Chargeback</h2>
         <p class="cc-feature-lede">
-          Turns Cowork credit consumption into a departmental bill. Where
-          Consumption Central tells you the total, this decides
-          <strong>who pays what</strong>.
+          Turns Cowork credit consumption into a departmental bill, from the
+          Microsoft 365 admin center export plus your Entra user list.
         </p>
         <ul class="cc-feature-points">
           <li><strong>Three billing models priced side by side</strong> — pay-as-you-go, prepaid, hybrid, with the cheapest flagged</li>
@@ -178,13 +166,9 @@
           <li><strong>Row-level security</strong> — department heads see only their own line</li>
           <li><strong>FOCUS cost view</strong> — the chargeback in FinOps Open Cost &amp; Usage Specification columns</li>
         </ul>
-        <p class="cc-feature-caveat">
-          Cowork credits only. For spend across Copilot Studio, GitHub Copilot
-          and Foundry as well, start with Consumption Central above.
-        </p>
         <div class="cc-feature-ctas">
           <a class="cb-btn cb-btn-primary" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Get the template ↗</a>
-          <a class="cb-btn cb-btn-ghost" href="../compare/consumption-central-vs-cowork-chargeback/">Compare the two →</a>
+          <a class="cb-btn cb-btn-ghost" href="#cb-methodology">Billing methodology ↓</a>
         </div>
       </div>
       <div class="cc-feature-video">
@@ -254,7 +238,7 @@
     <p>Column names are auto-detected, so most export layouts work as-is. The Power BI report &amp; template uses the same two sources.</p>
   </section>
 
-  <section class="wrap cb-viewer-wrap">
+  <section class="wrap cb-viewer-wrap" id="cb-methodology">
     <div class="cb-viewer" id="cbViewer" aria-label="Cowork billing methodology deck viewer">
       <div class="cb-viewer-toolbar">
         <span class="cb-viewer-title">Cowork Methodology Walkthrough</span>

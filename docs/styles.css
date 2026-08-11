@@ -1260,8 +1260,8 @@ a:hover { text-decoration: underline; }
 /* Decision aid: which of the two templates do I need. */
 .cc-decide {
   display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1fr;
-  gap: 1.2rem;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.6rem;
   align-items: start;
   padding: 1.3rem 1.5rem;
   border-radius: var(--radius);
