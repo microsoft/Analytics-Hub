@@ -128,6 +128,24 @@
   </div>
 </section>
 
+<!-- =========================================================== VALUE PROPS -->
+<section class="band vp-band" id="trust">
+  <div class="wrap vp-row">
+    <div class="vp">
+      <h2>Runs in your own tenant</h2>
+      <p>Every template reads your data where it already lives. Nothing is uploaded, and no telemetry leaves with it.</p>
+    </div>
+    <div class="vp">
+      <h2>Free and open source</h2>
+      <p>MIT licensed, on GitHub. Fork it, change the measures, ship your own version — no licence to buy.</p>
+    </div>
+    <div class="vp">
+      <h2>Look before you build</h2>
+      <p>Most templates ship a synthetic sample dataset, so you can see the whole report before touching a tenant.</p>
+    </div>
+  </div>
+</section>
+
 <!-- =========================================================== FLAGSHIP -->
 <section class="band flagship-band" id="flagship">
   <div class="wrap">
@@ -204,87 +222,272 @@
     <h2 class="section-title center">Explore reports by category</h2>
     <p class="section-lead center">Every report, add-on, and exporter grouped into clear categories. Click a topic to filter the matrix, or open a report directly.</p>
 
-    <div class="cat-grid">
-      <section class="cat-card" style="--c:#0078d4">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><h3>Usage &amp; Engagement</h3></div>
-        <p class="cat-blurb">Copilot and agent activity across the tenant.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/microsoft/DecodingSuperUsage" target="_blank" rel="noopener">Adoption <span aria-hidden="true">↗</span></a></li>
-          <li><a class="cat-ext" href="https://github.com/microsoft/CopilotChatAnalytics" target="_blank" rel="noopener">Chat usage <span aria-hidden="true">↗</span></a></li>
-          <li><a class="cat-ext" href="https://github.com/microsoft/AI-in-One-Dashboard" target="_blank" rel="noopener">Agents <span aria-hidden="true">↗</span></a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#8661c5">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></span><h3>Value &amp; Impact</h3></div>
-        <p class="cat-blurb">Productivity lift, financial value, and sentiment.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/microsoft/superuserimpact" target="_blank" rel="noopener">Impact <span aria-hidden="true">↗</span></a></li>
-          <li><a href="explore-reports/?measure=roi">ROI modeling</a></li>
-          <li><a class="cat-ext" href="https://github.com/olivierpecheux/copilot-adoption-sentiment-report" target="_blank" rel="noopener">Sentiment <span aria-hidden="true">↗</span></a></li>
-          <li><a class="cat-ext" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">ValueLens <span aria-hidden="true">↗</span></a></li>
-          <li><a class="cat-ext" href="https://github.com/Keithland89/StudioLens-for-Copilot-Studio" target="_blank" rel="noopener">StudioLens <span aria-hidden="true">↗</span></a></li>
-          <li><a class="cat-ext" href="https://github.com/downeysteph/ESS-Insights/tree/main" target="_blank" rel="noopener">Employee Self Serve Business Value <span aria-hidden="true">↗</span></a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#0091ea">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4"/></svg></span><h3>Readiness</h3></div>
-        <p class="cat-blurb">License placement, activation, and champions.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/microsoft/M365UsageAnalytics" target="_blank" rel="noopener">License readiness <span aria-hidden="true">↗</span></a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#e3008c">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H12L13 2z"/></svg></span><h3>Personal productivity</h3></div>
-        <p class="cat-blurb">The human metrics — focus time and personal leverage.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/sbrandl1005/copilot-personal-dashboard" target="_blank" rel="noopener">Copilot Personal Dashboard <span aria-hidden="true">↗</span></a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#4cc2ff">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 9L5 12.5 8.5 16M15.5 9l3.5 3.5-3.5 3.5"/></svg></span><h3>Developer productivity</h3></div>
-        <p class="cat-blurb">GitHub Copilot leverage for engineers.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/microsoft/GitHubCopilotImpact" target="_blank" rel="noopener">GitHub Copilot Impact <span aria-hidden="true">↗</span></a></li>
-          <li><a class="cat-ext" href="https://github.com/microsoft/What-I-Did-Copilot" target="_blank" rel="noopener">What I Did: Copilot <span aria-hidden="true">↗</span></a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#b11f4b">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3V20"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 20v-1.5a3 3 0 0 0-2.3-2.9M15.5 4.7a3 3 0 0 1 0 5.6"/></svg></span><h3>Cowork</h3></div>
-        <p class="cat-blurb">Microsoft Copilot Cowork outcomes and value.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener">What Cowork Did For Me <span aria-hidden="true">↗</span></a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#00B294">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg></span><h3>Consumption &amp; cost</h3></div>
-        <p class="cat-blurb">Credit consumption, chargeback, and cost modelling across Copilot products.</p>
-        <ul class="cat-links">
-          <li><a class="cat-ext" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Consumption Central <span aria-hidden="true">↗</span></a></li>
-          <li><a href="cowork-billing/">All cost resources</a></li>
-          <li><a class="cat-ext" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Cowork Billing Report <span aria-hidden="true">↗</span></a></li>
-          <li><a href="cowork-billing/cowork-chargeback/app/index.html">Cowork Chargeback (Web App)</a></li>
-          <li><a href="cowork-billing/cowork-usage-tracker/app/index.html">Cowork Usage Tracker (Web App)</a></li>
-          <li><a href="cowork-billing/cowork-roi-model/app/">Cowork ROI Model (Web App)</a></li>
-          <li><a href="FinOps-Cowork/app/finops.html">FinOps &amp; FOCUS Cost Report (Web App)</a></li>
-          <li><a href="cowork-billing/cowork-policy-helper/app/index.html">Cowork Policy Helper (Web App)</a></li>
-        </ul>
-      </section>
-
-      <section class="cat-card" style="--c:#ffaa44">
-        <div class="cat-head"><span class="cat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3.5a2 2 0 1 0-4 0V5H7a2 2 0 0 0-2 2v3.2h1.5a2.1 2.1 0 1 1 0 4.2H5V18a2 2 0 0 0 2 2h3.2v-1.4a2.1 2.1 0 1 1 4.2 0V20H18a2 2 0 0 0 2-2v-3.5h-1.4a2.1 2.1 0 1 1 0-4.2H20V7a2 2 0 0 0-2-2h-3.5V3.5z"/></svg></span><h3>Tooling &amp; Extension</h3></div>
-        <p class="cat-blurb">Data plumbing and add-on libraries that power the reports.</p>
-        <ul class="cat-links">
-          <li><a href="explore-reports/?measure=audit">Audit automation</a></li>
-          <li><a href="explore-reports/?measure=customization">Customization</a></li>
-        </ul>
-      </section>
+        <div class="rf-pills" role="group" aria-label="Filter reports by category">
+      <button class="rf-pill is-on" data-cat="all" type="button">All <span class="rf-n">23</span></button>
+      <button class="rf-pill" data-cat="usage-intelligence" type="button">Usage &amp; Intelligence <span class="rf-n">3</span></button>
+      <button class="rf-pill" data-cat="adoption-behavior" type="button">Adoption &amp; Behaviour <span class="rf-n">4</span></button>
+      <button class="rf-pill" data-cat="impact-roi" type="button">Impact &amp; ROI <span class="rf-n">10</span></button>
+      <button class="rf-pill" data-cat="readiness" type="button">Readiness <span class="rf-n">2</span></button>
+      <button class="rf-pill" data-cat="developer" type="button">Developer <span class="rf-n">2</span></button>
+      <button class="rf-pill" data-cat="tooling-extension" type="button">Tooling <span class="rf-n">2</span></button>
     </div>
+
+    <div class="rf-grid" id="rfGrid">
+      <article class="rf-card" data-cat="impact-roi" style="--c:#0078d4">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span><span class="rf-new">New</span>
+        </div>
+        <h3 class="rf-title">Consumption Central for Microsoft Copilot</h3>
+        <p class="rf-blurb">One Power BI template for Copilot credit consumption and cost across four products — Cowork/Work IQ, Copilot Studio, GitHub Copilot, and Azure AI Foun</p>
+        <div class="rf-foot">
+          <span class="rf-src">Viva Insights consumption + PPAC + GitHub Copilot + Azure Cost Management</span>
+          <a class="rf-cta" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#00B294">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span><span class="rf-new">New</span>
+        </div>
+        <h3 class="rf-title">ValueLens for Microsoft Copilot</h3>
+        <p class="rf-blurb">Business Value Advisory Power BI template that unifies every Copilot &amp; agent adoption signal into hours saved, assisted value, and adoption/readiness </p>
+        <div class="rf-foot">
+          <span class="rf-src">Purview audit logs</span>
+          <a class="rf-cta" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="usage-intelligence" style="--c:#e3008c">
+        <div class="rf-top">
+          <span class="rf-chip">Usage &amp; Intelligence</span>
+        </div>
+        <h3 class="rf-title">AI-in-One Dashboard</h3>
+        <p class="rf-blurb">One unified Power BI report covering Microsoft 365 Copilot, Copilot Chat (licensed + unlicensed), Agents, and third-party AI signals. The flagship if </p>
+        <div class="rf-foot">
+          <span class="rf-src">Purview + Entra</span>
+          <a class="rf-cta" href="https://github.com/microsoft/AI-in-One-Dashboard" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#0078d4">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">Copilot Cowork Billing Report</h3>
+        <p class="rf-blurb">RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis.</p>
+        <div class="rf-foot">
+          <span class="rf-src">Copilot credit consumption + Entra export</span>
+          <a class="rf-cta" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#b11f4b">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">Cowork ROI Model (Web App)</h3>
+        <p class="rf-blurb">Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required).</p>
+        <div class="rf-foot">
+          <span class="rf-src">User-entered assumptions + research defaults</span>
+          <a class="rf-cta" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#0078d4">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">M365 Copilot Productivity ROI Calculator</h3>
+        <p class="rf-blurb">Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the </p>
+        <div class="rf-foot">
+          <span class="rf-src">Power BI export (Super Usage Heatmap CSV)</span>
+          <a class="rf-cta" href="https://jordankingisalive.github.io/CopilotROICalculator/" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="adoption-behavior" style="--c:#0078d4">
+        <div class="rf-top">
+          <span class="rf-chip">Adoption &amp; Behaviour</span>
+        </div>
+        <h3 class="rf-title">Super Usage Adoption</h3>
+        <p class="rf-blurb">Power BI template on Viva Insights person-query data. Profiles your super users — what they use, how habits form, where they cluster — so you can repl</p>
+        <div class="rf-foot">
+          <span class="rf-src">Viva Insights</span>
+          <a class="rf-cta" href="https://github.com/microsoft/DecodingSuperUsage" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="adoption-behavior" style="--c:#FFB900">
+        <div class="rf-top">
+          <span class="rf-chip">Adoption &amp; Behaviour</span>
+        </div>
+        <h3 class="rf-title">Adoption &amp; Sentiment Report</h3>
+        <p class="rf-blurb">Four-page Power BI template by olivierpecheux/Microsoft: Adoption Overview, Sentiment Analysis, Comments Analysis, and Saved Time Analysis. Ships with</p>
+        <div class="rf-foot">
+          <span class="rf-src">M365 Admin + Survey</span>
+          <a class="rf-cta" href="https://github.com/olivierpecheux/copilot-adoption-sentiment-report" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="usage-intelligence" style="--c:#8661c5">
+        <div class="rf-top">
+          <span class="rf-chip">Usage &amp; Intelligence</span>
+        </div>
+        <h3 class="rf-title">Copilot Chat &amp; Agent Intelligence</h3>
+        <p class="rf-blurb">Two Power BI templates on Purview audit logs + Entra: one for Copilot Chat (licensed + unlicensed), one for Agents. By user, app, department — no thir</p>
+        <div class="rf-foot">
+          <span class="rf-src">Purview + Entra</span>
+          <a class="rf-cta" href="https://github.com/microsoft/CopilotChatAnalytics" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#00B294">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">Cowork Chargeback (Web App)</h3>
+        <p class="rf-blurb">Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs.</p>
+        <div class="rf-foot">
+          <span class="rf-src">Copilot credit consumption + Entra export</span>
+          <a class="rf-cta" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="readiness" style="--c:#8661c5">
+        <div class="rf-top">
+          <span class="rf-chip">Readiness</span>
+        </div>
+        <h3 class="rf-title">Cowork Policy Helper (Web App)</h3>
+        <p class="rf-blurb">Policy assignment and exception management app for governing Cowork spend tiers.</p>
+        <div class="rf-foot">
+          <span class="rf-src">Copilot consumption + Entra user attributes</span>
+          <a class="rf-cta" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#e3008c">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">Cowork Usage Tracker (Web App)</h3>
+        <p class="rf-blurb">Trend reconstruction app for point-in-time Cowork exports with run-rate, depletion, and action signals.</p>
+        <div class="rf-foot">
+          <span class="rf-src">Recurring Cowork CSV exports</span>
+          <a class="rf-cta" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="tooling-extension" style="--c:#4cc2ff">
+        <div class="rf-top">
+          <span class="rf-chip">Tooling</span>
+        </div>
+        <h3 class="rf-title">CustomizeCopilot Add-on Library</h3>
+        <p class="rf-blurb">Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more</p>
+        <div class="rf-foot">
+          <span class="rf-src">Viva Insights</span>
+          <a class="rf-cta" href="https://github.com/microsoft/customizecopilot" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#8661c5">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">ESS Insights — Employee Self-Serve Business Value</h3>
+        <p class="rf-blurb">Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the Conversatio</p>
+        <div class="rf-foot">
+          <span class="rf-src">Copilot Studio transcripts (Dataverse)</span>
+          <a class="rf-cta" href="https://github.com/downeysteph/ESS-Insights" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#0078d4">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">FinOps &amp; FOCUS Cost Report (Web App)</h3>
+        <p class="rf-blurb">Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.</p>
+        <div class="rf-foot">
+          <span class="rf-src">Cowork consumption + billing context</span>
+          <a class="rf-cta" href="https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="developer" style="--c:#24292f">
+        <div class="rf-top">
+          <span class="rf-chip">Developer</span>
+        </div>
+        <h3 class="rf-title">GitHub Copilot Impact</h3>
+        <p class="rf-blurb">Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — pulled straight from the GitHub Enterprise REST API.</p>
+        <div class="rf-foot">
+          <span class="rf-src">GitHub Enterprise</span>
+          <a class="rf-cta" href="https://github.com/microsoft/GitHubCopilotImpact" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="readiness" style="--c:#FFB900">
+        <div class="rf-top">
+          <span class="rf-chip">Readiness</span>
+        </div>
+        <h3 class="rf-title">M365 Copilot Readiness Report</h3>
+        <p class="rf-blurb">Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can stage enablement waves and surface the natural champion</p>
+        <div class="rf-foot">
+          <span class="rf-src">Purview + Entra</span>
+          <a class="rf-cta" href="https://github.com/microsoft/M365UsageAnalytics" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="tooling-extension" style="--c:#6264a7">
+        <div class="rf-top">
+          <span class="rf-chip">Tooling</span>
+        </div>
+        <h3 class="rf-title">PAX: Portable Audit eXporter</h3>
+        <p class="rf-blurb">Enterprise-grade PowerShell exporter for Microsoft 365 audit logs and Entra directory data. Pulls from Purview, Entra, or both — supports Entra-only m</p>
+        <div class="rf-foot">
+          <span class="rf-src">Purview + Entra (Microsoft Graph)</span>
+          <a class="rf-cta" href="https://github.com/microsoft/PAX" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="adoption-behavior" style="--c:#0078d4">
+        <div class="rf-top">
+          <span class="rf-chip">Adoption &amp; Behaviour</span>
+        </div>
+        <h3 class="rf-title">Personal Copilot Dashboard</h3>
+        <p class="rf-blurb">Self-service Power BI template that turns your own Copilot Dashboard export into a personal view of adoption, hours saved, feature-level leverage, age</p>
+        <div class="rf-foot">
+          <span class="rf-src">Copilot Dashboard export (Viva Insights)</span>
+          <a class="rf-cta" href="https://github.com/sbrandl1005/copilot-personal-dashboard" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="usage-intelligence" style="--c:#e3008c">
+        <div class="rf-top">
+          <span class="rf-chip">Usage &amp; Intelligence</span>
+        </div>
+        <h3 class="rf-title">StudioLens for Copilot Studio</h3>
+        <p class="rf-blurb">Business Value Advisory Power BI template for deep Copilot Studio agent evaluation — sessions, turns, errors, sub-agent calls, quality &amp; performance, </p>
+        <div class="rf-foot">
+          <span class="rf-src">Copilot Studio transcripts (Dataverse) + Power Platform admin center</span>
+          <a class="rf-cta" href="https://github.com/Keithland89/StudioLens-for-Copilot-Studio" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="adoption-behavior" style="--c:#00B294">
+        <div class="rf-top">
+          <span class="rf-chip">Adoption &amp; Behaviour</span>
+        </div>
+        <h3 class="rf-title">Super User Impact</h3>
+        <p class="rf-blurb">Companion to Super Usage Adoption. Quantifies the work-pattern delta super users produce — collaboration, focus time, meeting load — vs comparable pee</p>
+        <div class="rf-foot">
+          <span class="rf-src">Viva Insights</span>
+          <a class="rf-cta" href="https://github.com/microsoft/superuserimpact" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="impact-roi" style="--c:#e3008c">
+        <div class="rf-top">
+          <span class="rf-chip">Impact &amp; ROI</span>
+        </div>
+        <h3 class="rf-title">What Cowork Did For Me</h3>
+        <p class="rf-blurb">Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categorie</p>
+        <div class="rf-foot">
+          <span class="rf-src">Local Cowork sessions (OneDrive)</span>
+          <a class="rf-cta" href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="rf-card" data-cat="developer" style="--c:#4cc2ff">
+        <div class="rf-top">
+          <span class="rf-chip">Developer</span>
+        </div>
+        <h3 class="rf-title">What I Did: Copilot Impact Report</h3>
+        <p class="rf-blurb">Personal-leverage report. Points a script at your local VS Code / Copilot session logs and summarizes what shipped, where Copilot helped, and the mult</p>
+        <div class="rf-foot">
+          <span class="rf-src">Local Copilot sessions</span>
+          <a class="rf-cta" href="https://github.com/microsoft/What-I-Did-Copilot" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+    <p class="rf-empty" id="rfEmpty" hidden>Nothing in that category yet.</p>
 
     <p class="measure-note center">
       Each report breaks these into dozens of dimensions — department, persona, geography,
@@ -329,15 +532,6 @@
         <span class="hub-card-cta">Read the stories <span class="arrow">→</span></span>
       </a>
     </div>
-  </div>
-</section>
-
-<!-- =========================================================== TRUST STRIP -->
-<section class="band trust-band" id="trust">
-  <div class="wrap trust-row">
-    <div class="trust-pill"><span class="trust-dot" style="background:var(--accent-3)"></span>Runs entirely in your tenant</div>
-    <div class="trust-pill"><span class="trust-dot" style="background:var(--accent)"></span>MIT licensed, no telemetry</div>
-    <div class="trust-pill"><span class="trust-dot" style="background:var(--accent-2)"></span>Used by enterprises</div>
   </div>
 </section>
 
@@ -401,6 +595,36 @@
   </div>
 </footer>
 
-<script src="app.js"></script>
+<script src="app.js"></script><script>
+  // Report filter. Progressive enhancement: without JS every card is
+  // already visible, so nothing is lost - the pills just narrow it down.
+  (function () {
+    var pills = document.querySelectorAll('.rf-pill');
+    var cards = document.querySelectorAll('.rf-card');
+    var empty = document.getElementById('rfEmpty');
+    if (!pills.length || !cards.length) return;
+    function apply(cat) {
+      var shown = 0;
+      cards.forEach(function (c) {
+        var on = cat === 'all' || c.dataset.cat === cat;
+        c.hidden = !on;
+        if (on) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    }
+    pills.forEach(function (p) {
+      p.addEventListener('click', function () {
+        pills.forEach(function (x) { x.classList.toggle('is-on', x === p); });
+        apply(p.dataset.cat);
+        try { history.replaceState(null, '', p.dataset.cat === 'all' ? location.pathname : '#cat=' + p.dataset.cat); } catch (e) {}
+      });
+    });
+    var m = /#cat=([a-z-]+)/.exec(location.hash);
+    if (m) {
+      var t = document.querySelector('.rf-pill[data-cat="' + m[1] + '"]');
+      if (t) t.click();
+    }
+  })();
+</script>
 </body>
 </html>

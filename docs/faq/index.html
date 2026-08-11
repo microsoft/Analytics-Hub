@@ -147,9 +147,9 @@
   <style>
     .faq-page { padding: 60px 0 80px; }
     .faq-hero { background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%); padding: 60px 0 40px; border-bottom: 1px solid var(--border); }
-    .faq-hero h1 { font-size: clamp(32px,4vw,46px); margin: 12px 0 14px; background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .faq-hero h1 { font-size: clamp(32px,4vw,46px); margin: 12px 0 14px; color: var(--text); }
     .faq-hero .lede { font-size: 17px; color: var(--text-soft); max-width: 760px; margin: 0; }
-    .faq-list { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .faq-list { max-width: 860px; margin: 0 0; display: flex; flex-direction: column; gap: 14px; }
     .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color .2s ease, box-shadow .2s ease; }
     .faq-item[open] { border-color: var(--accent); box-shadow: 0 6px 20px rgba(0,120,212,.08); }
     .faq-item summary {
@@ -184,7 +184,7 @@
       background: var(--surface); color: var(--text);
     }
     .faq-cta-strip a.primary {
-      background: var(--accent-grad); color: #fff !important; border-color: transparent;
+      background: var(--accent); color: #fff !important; border-color: transparent;
     }
     .faq-cta-strip a:hover { transform: translateY(-1px); }
   </style>
@@ -362,9 +362,9 @@
       <h2>Didn't see your question?</h2>
       <p>The team reads every message. We'll add common questions back here for the next visitor.</p>
       <div class="cta-row">
-        <a href="../feedback/" class="primary">💬 Ask a question</a>
-        <a href="../glossary/">📖 Glossary of terms</a>
-        <a href="../explore-reports/">🔍 Explore Reports</a>
+        <a href="../feedback/" class="primary">Ask a question</a>
+        <a href="../glossary/">Glossary of terms</a>
+        <a href="../explore-reports/">Explore Reports</a>
       </div>
     </div>
   </section>

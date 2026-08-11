@@ -1547,3 +1547,223 @@ a:hover { text-decoration: underline; }
 /* Cost-page card icons, same monoline treatment as the homepage. */
 .cb-download-icon { font-size: 0; display: inline-flex; align-items: center; }
 .cb-download-icon svg { width: 22px; height: 22px; color: var(--accent); }
+
+/* ============================================================
+   Unified page chrome  ·  2026-08-11
+   Fourteen pages had invented fourteen hero classes - .cs-hero,
+   .cmp-hero, .cb-hero, .ds-hero and so on - each styled separately.
+   The markup underneath was already identical: .wrap > .eyebrow + h1
+   + .lede. So this unifies the treatment without touching markup.
+   ============================================================ */
+.hero, .cs-hero, .cmp-hero, .cb-hero, .ds-hero, .demo-hero, .help-hero,
+.picker-hero, .faq-hero, .fb-hero, .gloss-hero, .oob-hero, .page-hero,
+.team-hero {
+  padding: 52px 0 34px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.cs-hero h1, .cmp-hero h1, .cb-hero h1, .ds-hero h1, .demo-hero h1,
+.help-hero h1, .picker-hero h1, .faq-hero h1, .fb-hero h1, .gloss-hero h1,
+.oob-hero h1, .page-hero h1, .team-hero h1 {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin: 0 0 12px;
+  max-width: 24ch;
+}
+.cs-hero .lede, .cmp-hero .lede, .cb-hero .lede, .ds-hero .lede,
+.demo-hero .lede, .help-hero .lede, .picker-hero .lede, .faq-hero .lede,
+.fb-hero .lede, .gloss-hero .lede, .oob-hero .lede, .page-hero .lede,
+.team-hero .lede {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  max-width: 66ch;
+  margin: 0;
+}
+/* The eyebrow is the one consistent element across every page. Make it
+   read the same everywhere: small, accent, letter-spaced. */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+/* Page-level h2 sections, wherever they appear. */
+.cb-downloads h2, .cb-sources h2, .cs-section h2, .body-section h2 {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 600;
+  letter-spacing: -.005em;
+}
+/* Crumbs, used by the compare and demo pages. */
+.crumbs { font-size: 12.5px; color: var(--text-muted); margin-bottom: 8px; }
+
+/* Every card surface in the Hub, one treatment. */
+.cmp-card, .cs-card, .faq-item, .cb-download-card, .demo-tab,
+.gloss-card, .oob-card, .tool-card {
+  border-radius: 14px;
+}
+
+/* Icon slots introduced when emoji were removed site-wide. */
+.search-icon, .lifeline-icon, .fb-type-icon, .rail-icon, .inline-ico,
+.demos .emoji, .emoji {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0;
+}
+.search-icon svg   { width: 17px; height: 17px; color: var(--text-muted); }
+.lifeline-icon svg { width: 26px; height: 26px; color: var(--accent); }
+.fb-type-icon svg  { width: 22px; height: 22px; color: var(--accent); }
+.rail-icon svg     { width: 16px; height: 16px; color: var(--text-soft); }
+.inline-ico svg    { width: 16px; height: 16px; color: var(--accent);
+                     vertical-align: -3px; }
+.emoji svg         { width: 30px; height: 30px; color: var(--text-muted); }
+.brand-mark svg    { width: 20px; height: 20px; color: var(--accent); }
+
+/* ============================================================
+   Report grid (tier 3)  ·  2026-08-11
+   Replaces eight category cards that held between one and eight raw
+   links each - a wall with no hierarchy and wildly uneven heights.
+   Now one uniform card per report, filterable, each with a single
+   action. Cards are generated from the same TOOLS data that drives
+   the Explore Reports matrix, so the two cannot drift apart.
+   ============================================================ */
+.rf-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 18px 0 22px;
+}
+.rf-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-soft);
+  font: inherit; font-size: 13.5px; font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.rf-pill:hover { border-color: var(--accent); color: var(--text); }
+.rf-pill.is-on {
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-weight: 600;
+}
+[data-theme="dark"] .rf-pill.is-on { color: #0b0b12; }
+.rf-n {
+  font-size: 11.5px; font-weight: 600;
+  padding: 1px 6px; border-radius: 100px;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.rf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(276px, 1fr));
+  gap: 14px;
+}
+.rf-card {
+  display: flex; flex-direction: column;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 2px 4px rgba(0,0,0,.055), 0 0 2px rgba(0,0,0,.045);
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.rf-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--c, var(--accent)) 45%, var(--border));
+  box-shadow: 0 6px 16px rgba(0,0,0,.09), 0 0 2px rgba(0,0,0,.05);
+}
+.rf-top { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.rf-chip {
+  font-size: 11px; font-weight: 600; letter-spacing: .02em;
+  padding: 3px 9px; border-radius: 100px;
+  color: var(--c, var(--accent));
+  background: color-mix(in srgb, var(--c, var(--accent)) 11%, transparent);
+}
+.rf-new {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 3px 8px; border-radius: 100px;
+  color: #fff; background: var(--accent);
+}
+[data-theme="dark"] .rf-new { color: #0b0b12; }
+.rf-title {
+  margin: 0 0 7px;
+  font-size: 15.5px; font-weight: 600; line-height: 1.3;
+  color: var(--text);
+}
+.rf-blurb {
+  margin: 0 0 14px;
+  font-size: 13.2px; line-height: 1.5;
+  color: var(--text-soft);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Footer pinned to the bottom so every card ends on the same line,
+   whatever the blurb length. */
+.rf-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-top: auto;
+  padding-top: 12px; border-top: 1px solid var(--border);
+}
+.rf-src {
+  font-size: 11.5px; color: var(--text-muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rf-cta {
+  flex: none;
+  font-size: 13px; font-weight: 600; color: var(--c, var(--accent));
+  text-decoration: none;
+}
+.rf-cta:hover { text-decoration: underline; }
+.rf-empty { color: var(--text-muted); font-size: 14px; padding: 20px 0; }
+.rf-card[hidden] { display: none; }
+
+
+/* Value props under the hero, in the Labs three-column pattern. Uses the
+   width a left-aligned hero leaves empty, and states the terms up front. */
+.vp-band { padding: 26px 0 30px; border-bottom: 1px solid var(--border); }
+.vp-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+@media (max-width: 800px) {
+  .vp-row { grid-template-columns: 1fr; gap: 18px; }
+  .vp { padding-left: 0 !important; border-left: 0 !important; }
+}
+.vp { padding: 0 26px; border-left: 1px solid var(--border); }
+.vp:first-child { padding-left: 0; border-left: 0; }
+.vp h2 {
+  margin: 0 0 5px;
+  font-size: 14px; font-weight: 600; letter-spacing: 0;
+  color: var(--text);
+}
+.vp p {
+  margin: 0;
+  font-size: 13.2px; line-height: 1.55;
+  color: var(--text-soft);
+}
+
+
+/* ------------------------------------------------------------------
+   Left-grid alignment.
+   Several pages ship their own <style> block, and those load after this
+   stylesheet, so a bare class selector here loses to them. Qualifying
+   with `main` raises specificity (0,1,1 over 0,1,0) and wins on merit
+   rather than with !important.
+   ------------------------------------------------------------------ */
+main .gloss-toolbar, main .gloss-az, main .gloss-list,
+main .faq-list, main .faq-cta-strip,
+main .cmp-table-wrap, main .cmp-grid,
+main .tldr, main .body-section, main .when-cards, main .next-strip,
+main .overlap-note, main .cs-grid, main .demo-empty {
+  margin-left: 0;
+  margin-right: 0;
+}
+/* Centred blocks that should read as left-aligned copy. */
+main .faq-cta-strip, main .next-strip, main .demo-empty { text-align: left; }
+

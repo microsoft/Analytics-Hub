@@ -28,7 +28,7 @@
     .demo-hero .crumbs { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
     .demo-hero .crumbs a { color: var(--text-soft); }
     .demo-hero h1 { font-size: clamp(26px,3vw,36px); margin: 6px 0 10px; }
-    .demo-hero h1 .lock { background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .demo-hero h1 .lock { color: var(--text); }
     .demo-hero .lede { font-size: 16px; color: var(--text-soft); max-width: 820px; margin: 0; line-height: 1.6; }
     .demo-hero .audience { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, var(--surface)); color: var(--accent); font-weight: 600; font-size: 12px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
 
@@ -39,7 +39,7 @@
     .demo-tab { padding: 7px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-alt); color: var(--text); font-size: 12.5px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all .15s ease; position: relative; }
     .demo-tab.is-soon { opacity: .72; }
     .demo-tab:hover { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border-color: var(--accent); }
-    .demo-tab[aria-selected="true"] { background: var(--accent-grad); color: #fff; border-color: transparent; font-weight: 600; }
+    .demo-tab[aria-selected="true"] { background: var(--accent); color: #fff; border-color: transparent; font-weight: 600; }
     .demo-tab .badge-soon { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--border); color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; }
     .demo-tab[aria-selected="true"] .badge-soon { background: rgba(255,255,255,.25); color: #fff; }
 
@@ -51,7 +51,7 @@
     .demo-meta-actions { display: flex; gap: 8px; }
     .demo-meta-actions a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; background: var(--bg-alt); color: var(--text); border: 1px solid var(--border); font-size: 13px; font-weight: 500; text-decoration: none; }
     .demo-meta-actions a:hover { background: color-mix(in srgb, var(--accent) 10%, var(--surface)); border-color: var(--accent); }
-    .demo-meta-actions a.primary { background: var(--accent-grad); color: #fff; border-color: transparent; }
+    .demo-meta-actions a.primary { background: var(--accent); color: #fff; border-color: transparent; }
 
     .demo-frame-wrap { position: relative; background: var(--surface); border: 1px solid var(--border); border-top: 0; border-radius: 0 0 12px 12px; overflow: hidden; min-height: 720px; }
     .demo-frame-wrap iframe { display: block; width: 100%; border: 0; }
@@ -60,7 +60,7 @@
     .demo-empty .emoji { font-size: 48px; margin-bottom: 12px; }
     .demo-empty h3 { font-size: 20px; margin: 0 0 8px; }
     .demo-empty p { color: var(--text-soft); margin: 0 0 18px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6; }
-    .demo-empty a.primary { display: inline-block; padding: 10px 18px; border-radius: 8px; background: var(--accent-grad); color: #fff; font-weight: 600; font-size: 14px; text-decoration: none; }
+    .demo-empty a.primary { display: inline-block; padding: 10px 18px; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 600; font-size: 14px; text-decoration: none; }
 
     .demo-callout { max-width: 900px; margin: 40px auto 0; background: color-mix(in srgb, var(--accent) 4%, var(--surface)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 16px 20px; }
     .demo-request-access { border-left-color: #e3008c; background: color-mix(in srgb, #e3008c 6%, var(--surface)); }
@@ -102,7 +102,7 @@
   <section class="demo-hero">
     <div class="wrap">
       <div class="crumbs"><a href="../">Home</a> · Internal Demos</div>
-      <span class="audience">🔒 Microsoft FTE only · MSIT sign-in required</span>
+      <span class="audience">Microsoft FTE only · MSIT sign-in required</span>
       <h1>Live Report Demos <span class="lock">for Internal Stakeholders</span></h1>
       <p class="lede">
         Live, interactive Power BI reports loaded with anonymised dummy data — for FastTrack engineers,
@@ -128,8 +128,8 @@
           <span id="demo-blurb"></span>
         </div>
         <div class="demo-meta-actions">
-          <a id="demo-repo" href="#" target="_blank" rel="noopener">📦 Repo ↗</a>
-          <a id="demo-fullscreen" href="#" target="_blank" rel="noopener" class="primary">⛶ Open in Power BI ↗</a>
+          <a id="demo-repo" href="#" target="_blank" rel="noopener">Repo ↗</a>
+          <a id="demo-fullscreen" href="#" target="_blank" rel="noopener" class="primary">Open in Power BI ↗</a>
         </div>
       </div>
 
@@ -148,11 +148,11 @@
         </div>
         <div class="demo-rail-reqs-groups">
           <div class="demo-rail-reqs-group">
-            <span class="demo-rail-reqs-label">🔐 Roles &amp; permissions</span>
+            <span class="demo-rail-reqs-label">Roles &amp; permissions</span>
             <ul class="demo-rail-list" id="demo-rail-roles"></ul>
           </div>
           <div class="demo-rail-reqs-group">
-            <span class="demo-rail-reqs-label">🛠️ Software</span>
+            <span class="demo-rail-reqs-label">Software</span>
             <ul class="demo-rail-list" id="demo-rail-software"></ul>
           </div>
         </div>
@@ -181,7 +181,7 @@
       </div>
 
       <div class="demo-empty" id="demo-empty" hidden>
-        <div class="emoji">🚧</div>
+        <div class="emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6.5a4 4 0 0 0 5.2 5.2L14 17.4a3 3 0 1 1-4.2-4.2l5.7-5.7a4 4 0 0 0-1-1z"/></svg></div>
         <h3>Embed URL not yet configured</h3>
         <p>
           This report's MSIT embed link hasn't been published into <code>demos/embeds.json</code> yet.
@@ -192,7 +192,7 @@
       </div>
 
       <div class="demo-callout demo-request-access">
-        <h3>🔐 Request access to these demos</h3>
+        <h3>Request access to these demos</h3>
         <p>
           <strong>Microsoft employees and Microsoft partners only.</strong>
           These reports live in our Power BI tenant and contain Microsoft-internal sample data.
@@ -204,7 +204,7 @@
         </p>
         <p>
           <a class="btn btn-primary"
-             href="mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Analytics%20Hub%20%E2%80%94%20Demo%20access%20request&body=Hi%20team%2C%0A%0APlease%20grant%20me%20viewer%20access%20to%20the%20Analytics%20Hub%20demo%20workspace.%0A%0AName%3A%20%0AEmail%20(MSFT%20UPN%20or%20partner)%3A%20%0ARole%2FTeam%3A%20%0AReports%20I%20want%20to%20see%3A%20(all%20%7C%20specific%20list)%0AWhy%3A%20(brief%20context%20on%20how%20you'll%20use%20them)%0A%0AThanks!">📧 Request demo access</a>
+             href="mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Analytics%20Hub%20%E2%80%94%20Demo%20access%20request&body=Hi%20team%2C%0A%0APlease%20grant%20me%20viewer%20access%20to%20the%20Analytics%20Hub%20demo%20workspace.%0A%0AName%3A%20%0AEmail%20(MSFT%20UPN%20or%20partner)%3A%20%0ARole%2FTeam%3A%20%0AReports%20I%20want%20to%20see%3A%20(all%20%7C%20specific%20list)%0AWhy%3A%20(brief%20context%20on%20how%20you'll%20use%20them)%0A%0AThanks!">Request demo access</a>
         </p>
       </div>
 
@@ -279,13 +279,13 @@
   }
 
   const KIND_ICON = {
-    doc:         "📖",
-    troubleshoot:"🛠️",
+    doc:         `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2 2 0 0 1 6 3.5h13v15H6a2 2 0 0 0-2 2v-15z"/><path d="M4 18.5A2 2 0 0 1 6 16.5h13"/></svg>`,
+    troubleshoot:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6.5a4 4 0 0 0 5.2 5.2L14 17.4a3 3 0 1 1-4.2-4.2l5.7-5.7a4 4 0 0 0-1-1z"/></svg>`,
     download:    "⬇️",
-    email:       "📧",
-    video:       "🎬",
-    related:     "🔗",
-    picker:      "🧭"
+    email:       `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 7l9 6 9-6"/></svg>`,
+    video:       `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x='2.5' y='5' width='19' height='14' rx='2.5'/><path d='M10 9.5l5 2.5-5 2.5z'/></svg>`,
+    related:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d='M10 13.5a4 4 0 0 0 5.7 0l2.8-2.8a4 4 0 1 0-5.7-5.7L11.5 6.3'/><path d='M14 10.5a4 4 0 0 0-5.7 0l-2.8 2.8a4 4 0 1 0 5.7 5.7l1.3-1.3'/></svg>`,
+    picker:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4"/></svg>`
   };
 
   // Curated resource rail filters out 'related' and 'picker' kinds because
@@ -309,7 +309,7 @@
       return;
     }
     railList.innerHTML = items.map(it => {
-      const icon = KIND_ICON[it.kind] || "🔗";
+      const icon = KIND_ICON[it.kind] || KIND_ICON.related;
       const isInternal = it.url.startsWith("#") || it.url.startsWith("../") || it.url.startsWith("./");
       const isDownload = it.kind === "download";
       const target = isInternal ? "" : ' target="_blank" rel="noopener"';
@@ -369,7 +369,7 @@
     }
     railRelatedList.innerHTML = peers.map(p => {
       const soon = p.embedUrl ? '' : ' <span class="badge-soon" style="margin-left:.3rem">soon</span>';
-      return `<li><a href="#${escapeHtml(p.id)}" data-switch="${escapeHtml(p.id)}"><span class="rail-icon" aria-hidden="true">📊</span><span class="rail-label">${escapeHtml(p.name)}${soon}</span></a></li>`;
+      return `<li><a href="#${escapeHtml(p.id)}" data-switch="${escapeHtml(p.id)}"><span class="rail-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="rail-label">${escapeHtml(p.name)}${soon}</span></a></li>`;
     }).join("");
     railRelatedList.querySelectorAll('a[data-switch]').forEach(a => {
       a.addEventListener('click', (e) => {
