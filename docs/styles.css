@@ -1447,3 +1447,103 @@ a:hover { text-decoration: underline; }
 .cb-feedback { margin-top: 56px; }
 .cb-feedback h2 { font-size: 20px; margin: 0 0 8px; }
 .cb-feedback p  { font-size: 15px; }
+/* ============================================================
+   Labs-style refresh  ·  2026-08-11
+   Appended as an override layer rather than rewritten in place,
+   so the original rules stay intact and this is easy to revert.
+   Reference: microsoft.github.io/CopilotAnalyticsLabs
+   ============================================================ */
+
+/* --- 1. Calm the hero -------------------------------------------------
+   Was centre-aligned 56px/700 over three animated blur orbs. That reads
+   as a marketing page. Labs is left-aligned 40px/600 on a flat warm
+   ground and reads as a product. */
+.hero { padding: 64px 0 48px; background: var(--bg); }
+.hero-bg { display: none; }
+.hero-wrap { text-align: left; }
+.hero-eyebrow {
+  padding: 0; border: 0; background: none; backdrop-filter: none;
+  border-radius: 0; margin-bottom: 12px;
+  font-size: 12px; letter-spacing: .07em; color: var(--accent);
+}
+.hero-title {
+  font-size: clamp(30px, 3.6vw, 42px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -.01em;
+  margin: 0 0 14px;
+  max-width: 22ch;
+}
+.hero-title em { font-style: normal; color: inherit; font-weight: 600; }
+/* One accent, not three. The tri-colour gradient was the loudest thing
+   on the page. */
+.grad {
+  background: none; -webkit-background-clip: initial; background-clip: initial;
+  color: var(--accent);
+}
+.hero-sub { font-size: 16.5px; max-width: 62ch; margin: 0 0 24px; line-height: 1.6; }
+.hero-ctas { justify-content: flex-start; }
+.btn { padding: 11px 20px; font-size: 14.5px; border-radius: 8px; }
+
+/* --- 2. Monoline icons replace emoji ---------------------------------
+   Emoji render differently on every platform and read as informal.
+   These inherit each card's --c accent. */
+.cat-icon, .hub-card-icon, .tc-icon, .brand-mark, .footer-brand svg {
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.cat-icon svg   { width: 20px; height: 20px; color: var(--c, var(--accent)); }
+.hub-card-icon svg { width: 26px; height: 26px; color: var(--c, var(--accent)); }
+.tc-icon svg    { width: 24px; height: 24px; color: var(--accent); }
+.brand-mark svg { width: 20px; height: 20px; color: var(--accent); }
+.footer-brand   { display: flex; align-items: center; gap: 8px; }
+.footer-brand svg { width: 18px; height: 18px; color: var(--accent); }
+.hub-card-icon  { font-size: 0; }
+.tc-icon        { font-size: 0; }
+
+/* --- 3. Sections: one rhythm, left-aligned --------------------------- */
+.section-title.center, .section-lead.center, .eyebrow.center {
+  text-align: left;
+  margin-inline: 0;
+}
+.section-title { font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -.01em; }
+.section-lead  { max-width: 68ch; margin-left: 0; margin-right: 0; font-size: 15.5px; }
+.eyebrow { font-size: 12px; letter-spacing: .07em; color: var(--accent); font-weight: 600; }
+.measure-note.center { text-align: left; margin-inline: 0; max-width: 68ch; }
+
+/* --- 4. Cards: white on warm, soft shadow, no hard border ------------ */
+.cat-card, .hub-card, .flagship-card {
+  border-radius: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.055), 0 0 2px rgba(0,0,0,.045);
+}
+.cat-card { border-color: transparent; }
+.cat-card:hover, .hub-card:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,.09), 0 0 2px rgba(0,0,0,.05);
+}
+
+/* --- 5. Flat sticky nav ---------------------------------------------
+   The Resources dropdown hid six destinations behind a hover. Those now
+   sit in the footer on every page, and the top row is flat and complete. */
+.site-header { position: sticky; top: 0; z-index: 60; }
+.primary-nav { gap: 22px; }
+.primary-nav a { font-size: 14px; }
+.primary-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
+.primary-nav a[aria-current="page"]::after { width: 100%; }
+.nav-cta { font-size: 13.5px; }
+
+/* --- 6. Secondary links in the footer -------------------------------- */
+.footer-secondary {
+  display: flex; flex-wrap: wrap; gap: 6px 14px;
+  padding-bottom: 10px; margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+.footer-secondary a { color: var(--text-soft); }
+.footer-secondary a:hover { color: var(--accent); }
+
+/* --- 7. Warm ground, matching the Labs surface ----------------------- */
+:root { --bg: #faf9f8; }
+[data-theme="dark"] { --bg: #14141b; }
+
+/* Cost-page card icons, same monoline treatment as the homepage. */
+.cb-download-icon { font-size: 0; display: inline-flex; align-items: center; }
+.cb-download-icon svg { width: 22px; height: 22px; color: var(--accent); }
