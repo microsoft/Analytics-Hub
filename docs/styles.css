@@ -1171,6 +1171,155 @@ a:hover { text-decoration: underline; }
 }
 .cb-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
 
+/* ---------------------------------------------- Consumption Central feature */
+.cb-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.cb-btn-primary:hover, .cb-btn-primary:focus-visible {
+  background: color-mix(in srgb, var(--accent) 85%, #000);
+  border-color: color-mix(in srgb, var(--accent) 85%, #000);
+  color: #fff;
+}
+[data-theme="dark"] .cb-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b0b12;
+}
+
+.cc-feature { margin: 2.2rem auto 2.6rem; }
+.cc-feature-card {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.8rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--accent) 7%, var(--surface)) 0%,
+      var(--surface) 55%);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 860px) {
+  .cc-feature-card { grid-template-columns: 1fr; gap: 1.4rem; padding: 1.2rem; }
+}
+.cc-feature-eyebrow {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 .4rem;
+}
+.cc-feature-body h2 { margin: 0 0 .5rem; font-size: 1.85rem; line-height: 1.15; }
+.cc-feature-lede { margin: 0 0 .9rem; font-size: 1rem; line-height: 1.55; }
+.cc-feature-points {
+  margin: 0 0 .9rem;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: .35rem;
+  font-size: .93rem;
+  line-height: 1.45;
+}
+.cc-feature-caveat {
+  margin: 0 0 1.1rem;
+  padding: .6rem .8rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: 0 8px 8px 0;
+  font-size: .88rem;
+  color: var(--text-muted, inherit);
+}
+.cc-feature-ctas { display: flex; flex-wrap: wrap; gap: .5rem; }
+.cc-feature-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: #000;
+  box-shadow: var(--shadow-sm);
+}
+.cc-feature-videocap {
+  margin: .55rem 0 0;
+  font-size: .82rem;
+  text-align: center;
+  color: var(--text-muted, inherit);
+}
+.cb-section-lede {
+  margin: -.4rem 0 1.1rem;
+  font-size: .95rem;
+  color: var(--text-muted, inherit);
+  max-width: 68ch;
+}
+
+/* ------------------------------------------------------- flagship dashboards */
+.flagship-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 1.6rem;
+  margin-top: 1.8rem;
+}
+@media (max-width: 900px) {
+  .flagship-grid { grid-template-columns: 1fr; }
+}
+.flagship-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.flagship-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: color-mix(in srgb, var(--c, var(--accent)) 45%, var(--border));
+}
+/* Fixed 16:9 media box so both cards line up even while one video is
+   still unpublished and renders as an empty element. */
+.flagship-media {
+  background: #0d1117;
+  line-height: 0;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+.flagship-media video { width: 100%; height: 100%; display: block; object-fit: cover; }
+.flagship-body {
+  padding: 1.25rem 1.35rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.flagship-ctas { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
+.flagship-points { margin-bottom: 1.1rem; }
+.flagship-eyebrow {
+  margin: 0 0 .3rem;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--c, var(--accent));
+}
+.flagship-body h3 { margin: 0 0 .5rem; font-size: 1.5rem; line-height: 1.15; }
+.flagship-desc { margin: 0 0 .8rem; font-size: .95rem; line-height: 1.55; }
+.flagship-points {
+  margin: 0 0 1.1rem;
+  padding-left: 1.05rem;
+  display: grid;
+  gap: .3rem;
+  font-size: .88rem;
+  line-height: 1.4;
+  color: var(--text-muted, inherit);
+}
+.flagship-ctas { display: flex; flex-wrap: wrap; gap: .5rem; }
+
 .cb-viewer-frame {
   position: relative;
   width: 100%;

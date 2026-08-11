@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="osCxYZt_4rM_dBEUcK15g-bl2Ny5g6I80gJlFZ6eKlY" />
-  <title>Copilot Cowork Billing — Methodology Walkthrough &amp; Resources · Analytics Hub</title>
-  <meta name="description" content="Interactive walkthrough of the Microsoft Copilot Cowork billing methodology. Click through the deck live in-browser or download the PPTX and customer guide." />
+  <title>Copilot Credit Consumption &amp; Cost — Templates, Tools &amp; Methodology · Analytics Hub</title>
+  <meta name="description" content="Track Microsoft Copilot credit consumption and cost. Consumption Central Power BI template across Cowork, Copilot Studio, GitHub Copilot and Azure AI Foundry, plus Cowork chargeback tools and the billing methodology deck." />
   <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/cowork-billing/" />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
@@ -15,8 +15,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Analytics Hub" />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/" />
-  <meta property="og:title" content="Copilot Cowork Billing — Methodology Walkthrough · Analytics Hub" />
-  <meta property="og:description" content="Interactive walkthrough of the Microsoft Copilot Cowork billing methodology." />
+  <meta property="og:title" content="Copilot Credit Consumption &amp; Cost · Analytics Hub" />
+  <meta property="og:description" content="Templates and tools for tracking Microsoft Copilot credit consumption and cost across every product." />
   <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -28,7 +28,7 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "wxb0r23ozh");
   </script>
-  <meta name="clarity-page" content="Cowork Billing" />
+  <meta name="clarity-page" content="Credit Consumption and Cost" />
   <script src="../clarity-events.js" defer></script>
   <link rel="stylesheet" href="../palette.css" />
   <script src="../palette.js" defer></script>
@@ -52,7 +52,7 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
         <div class="nav-dropdown-menu" role="menu">
-          <a href="./" role="menuitem" aria-current="page" class="menu-new"><span class="menu-icon" aria-hidden="true">🧾</span><span class="menu-text">Cowork Billing<span class="menu-sub">Methodology deck + customer guide</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
+          <a href="./" role="menuitem" aria-current="page" class="menu-new"><span class="menu-icon" aria-hidden="true">🧾</span><span class="menu-text">Credit Consumption &amp; Cost<span class="menu-sub">Consumption Central, chargeback tools, methodology</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
           <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
           <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
           <a href="../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
@@ -71,18 +71,66 @@
 
   <section class="cb-hero">
     <div class="wrap">
-      <p class="eyebrow">🧾 Cowork Billing · New</p>
-      <h1>Copilot Cowork billing methodology, walkthrough live.</h1>
+      <p class="eyebrow">💳 Credit consumption &amp; cost</p>
+      <h1>What Copilot costs, where it goes, and who to bill.</h1>
       <p class="lede">
-        Click through the full methodology deck below in your browser — no
-        download required. When you want a copy for your own decks or an
-        internal share, grab the PPTX and the customer-facing billing guide.
+        Everything on one page for tracking Microsoft Copilot credit consumption
+        and cost — the Power BI templates, the browser tools that need no setup,
+        and the billing methodology behind them. Start with Consumption Central
+        for the full picture across products, then use the Cowork tools below for
+        chargeback modelling and policy.
       </p>
     </div>
   </section>
 
+  <section class="wrap cc-feature">
+    <article class="cc-feature-card">
+      <div class="cc-feature-body">
+        <p class="cc-feature-eyebrow">Start here · Power BI template</p>
+        <h2>Consumption Central</h2>
+        <p class="cc-feature-lede">
+          One template for Copilot credit consumption and cost across
+          <strong>four products</strong> — Cowork / Work IQ, Copilot Studio,
+          GitHub Copilot and Azure AI Foundry. Today that is four portals and
+          four exports with no single view.
+        </p>
+        <ul class="cc-feature-points">
+          <li><strong>Group spend by your own org data</strong> — department, cost centre, country, manager</li>
+          <li><strong>Forecast to the end of the billing period</strong>, with overage and unused capacity against prepaid packs</li>
+          <li><strong>Three deployment paths</strong> — local CSV, Fabric, or straight from Viva</li>
+          <li><strong>Synthetic sample data ships with it</strong> — see the whole report before touching a tenant</li>
+        </ul>
+        <p class="cc-feature-caveat">
+          It reports; it does not enforce. Limits and policies stay in the admin
+          centre — this tells you what they should be.
+        </p>
+        <div class="cc-feature-ctas">
+          <a class="cb-btn cb-btn-primary" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Get the template ↗</a>
+          <a class="cb-btn cb-btn-ghost" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/DATA-SOURCES.md" target="_blank" rel="noopener">Where the data comes from ↗</a>
+        </div>
+      </div>
+      <div class="cc-feature-video">
+        <video
+          controls
+          preload="metadata"
+          playsinline
+          poster=""
+          aria-label="Consumption Central two-minute demo">
+          <source src="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4" type="video/mp4" />
+          <p>Your browser cannot play this video.
+            <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4">Download it instead</a>.</p>
+        </video>
+        <p class="cc-feature-videocap">🎬 Two-minute walkthrough — what it covers and how it fits together.</p>
+      </div>
+    </article>
+  </section>
+
   <section class="wrap cb-downloads cb-primary-explore">
-    <h2>Explore the report</h2>
+    <h2>Cowork credit tools</h2>
+    <p class="cb-section-lede">
+      Focused on Cowork credits specifically — a Power BI chargeback report, plus
+      browser apps that run entirely on your machine with nothing uploaded.
+    </p>
     <div class="cb-download-grid">
       <a class="cb-download-card" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">
         <span class="cb-download-icon" aria-hidden="true">📊</span>

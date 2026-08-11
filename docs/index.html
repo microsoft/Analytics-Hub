@@ -73,7 +73,7 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
         <div class="nav-dropdown-menu" role="menu">
-          <a href="cowork-billing/" role="menuitem" class="menu-new"><span class="menu-icon" aria-hidden="true">🧾</span><span class="menu-text">Cowork Billing<span class="menu-sub">Methodology deck + customer guide</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
+          <a href="cowork-billing/" role="menuitem" class="menu-new"><span class="menu-icon" aria-hidden="true">🧾</span><span class="menu-text">Credit Consumption &amp; Cost<span class="menu-sub">Consumption Central, chargeback tools, methodology</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
           <a href="faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
           <a href="glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
           <a href="compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
@@ -93,7 +93,7 @@
   <div class="wrap ah-new-banner-inner">
     <span class="ah-new-banner-pill" aria-hidden="true">NEW</span>
     <a class="ah-new-banner-link" href="cowork-billing/">
-      Cowork Billing Page and Resources
+      Consumption Central — track Copilot credits &amp; cost across every product
       <span class="ah-new-banner-arrow" aria-hidden="true">→</span>
     </a>
     <button type="button" class="ah-new-banner-dismiss" id="ah-new-banner-dismiss" aria-label="Dismiss this announcement">×</button>
@@ -135,6 +135,75 @@
     <div class="hero-ctas">
       <a class="btn btn-primary" href="explore-reports/">Find My Report →</a>
       <a class="btn btn-ghost" href="#explore">Explore the Hub</a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== FLAGSHIP -->
+<section class="band flagship-band" id="flagship">
+  <div class="wrap">
+    <p class="eyebrow center">Start here</p>
+    <h2 class="section-title center">The two dashboards most teams start with</h2>
+    <p class="section-lead center">One answers whether Copilot is working. The other answers what it costs. Both ship with sample data, so you can see the whole report before touching your tenant.</p>
+
+    <div class="flagship-grid">
+
+      <article class="flagship-card" style="--c:#00B294;">
+        <div class="flagship-media">
+          <video controls preload="metadata" playsinline aria-label="ValueLens two-minute demo">
+            <source src="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4" type="video/mp4" />
+            <p>Your browser cannot play this video.
+              <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4">Download it instead</a>.</p>
+          </video>
+        </div>
+        <div class="flagship-body">
+          <p class="flagship-eyebrow">💠 Value &amp; impact</p>
+          <h3>ValueLens</h3>
+          <p class="flagship-desc">
+            Turns every Copilot and agent signal into hours saved, assisted value,
+            and adoption maturity — a defensible ROI story rather than a seat count.
+            Covers licence readiness for renewals and agent governance for sprawl.
+          </p>
+          <ul class="flagship-points">
+            <li>Adoption &amp; reach, activity &amp; value, usage maturity</li>
+            <li>Licence readiness — who to reassign, who to keep</li>
+            <li>SharePoint, Fabric and Dataverse paths</li>
+          </ul>
+          <div class="flagship-ctas">
+            <a class="btn btn-primary" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">Get ValueLens ↗</a>
+            <a class="btn btn-ghost" href="explore-reports/#value-lens">See the detail →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="flagship-card" style="--c:#0078d4;">
+        <div class="flagship-media">
+          <video controls preload="metadata" playsinline aria-label="Consumption Central two-minute demo">
+            <source src="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4" type="video/mp4" />
+            <p>Your browser cannot play this video.
+              <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4">Download it instead</a>.</p>
+          </video>
+        </div>
+        <div class="flagship-body">
+          <p class="flagship-eyebrow">💳 Consumption &amp; cost</p>
+          <h3>Consumption Central</h3>
+          <p class="flagship-desc">
+            One template for Copilot credit consumption and cost across four
+            products — Cowork / Work IQ, Copilot Studio, GitHub Copilot and
+            Azure AI Foundry. Four portals become one view.
+          </p>
+          <ul class="flagship-points">
+            <li>Group spend by department, cost centre, country, manager</li>
+            <li>Forecast to end of billing period, overage vs prepaid packs</li>
+            <li>Local CSV, Fabric and Viva Direct paths</li>
+          </ul>
+          <div class="flagship-ctas">
+            <a class="btn btn-primary" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Get Consumption Central ↗</a>
+            <a class="btn btn-ghost" href="cowork-billing/">Cost resources →</a>
+          </div>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
@@ -204,9 +273,11 @@
       </section>
 
       <section class="cat-card" style="--c:#00B294">
-        <div class="cat-head"><span class="cat-icon">🧾</span><h3>Consumption</h3></div>
-        <p class="cat-blurb">Credits, chargeback, and cost modeling for Cowork.</p>
+        <div class="cat-head"><span class="cat-icon">💳</span><h3>Consumption &amp; cost</h3></div>
+        <p class="cat-blurb">Credit consumption, chargeback, and cost modelling across Copilot products.</p>
         <ul class="cat-links">
+          <li><a class="cat-ext" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Consumption Central <span aria-hidden="true">↗</span></a></li>
+          <li><a href="cowork-billing/">All cost resources</a></li>
           <li><a class="cat-ext" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Cowork Billing Report <span aria-hidden="true">↗</span></a></li>
           <li><a href="cowork-billing/cowork-chargeback/app/index.html">Cowork Chargeback (Web App)</a></li>
           <li><a href="cowork-billing/cowork-usage-tracker/app/index.html">Cowork Usage Tracker (Web App)</a></li>
