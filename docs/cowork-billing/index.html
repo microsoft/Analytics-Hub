@@ -126,20 +126,81 @@
   </section>
 
   <section class="wrap cb-downloads cb-primary-explore">
-    <h2>Cowork credit tools</h2>
+    <h2>Which one do I need?</h2>
     <p class="cb-section-lede">
-      Focused on Cowork credits specifically — a Power BI chargeback report, plus
-      browser apps that run entirely on your machine with nothing uploaded.
+      Two Power BI templates sit on this page and they answer different
+      questions. This is the short version.
+    </p>
+    <div class="cc-decide">
+      <div class="cc-decide-col">
+        <p class="cc-decide-q">“What are we spending, in total?”</p>
+        <p class="cc-decide-a">
+          <strong>Consumption Central.</strong> Four products in one view —
+          Cowork / Work IQ, Copilot Studio, GitHub Copilot, Azure AI Foundry —
+          with a forecast to end of billing period.
+        </p>
+      </div>
+      <div class="cc-decide-sep" aria-hidden="true"></div>
+      <div class="cc-decide-col">
+        <p class="cc-decide-q">“How do we bill it back?”</p>
+        <p class="cc-decide-a">
+          <strong>Cowork Chargeback.</strong> Cowork only, but it prices three
+          billing models, splits a prepaid pool across departments, and ships
+          row-level security.
+        </p>
+      </div>
+      <div class="cc-decide-sep" aria-hidden="true"></div>
+      <div class="cc-decide-col">
+        <p class="cc-decide-q">“Both?”</p>
+        <p class="cc-decide-a">
+          Common. Consumption Central for the whole picture, Chargeback when the
+          Cowork bill has to be split by department.
+          <a href="../compare/consumption-central-vs-cowork-chargeback/">Full comparison →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap cc-feature">
+    <article class="cc-feature-card cc-feature-secondary">
+      <div class="cc-feature-body">
+        <p class="cc-feature-eyebrow">For chargeback · Power BI template</p>
+        <h2>Cowork Credit Chargeback</h2>
+        <p class="cc-feature-lede">
+          Turns Cowork credit consumption into a departmental bill. Where
+          Consumption Central tells you the total, this decides
+          <strong>who pays what</strong>.
+        </p>
+        <ul class="cc-feature-points">
+          <li><strong>Three billing models priced side by side</strong> — pay-as-you-go, prepaid, hybrid, with the cheapest flagged</li>
+          <li><strong>Prepaid pool allocation</strong> — split by usage, by headcount, or by budgeted allowance</li>
+          <li><strong>Per-user limits and an over-limit watchlist</strong> — who needs their allowance adjusted</li>
+          <li><strong>Row-level security</strong> — department heads see only their own line</li>
+          <li><strong>FOCUS cost view</strong> — the chargeback in FinOps Open Cost &amp; Usage Specification columns</li>
+        </ul>
+        <p class="cc-feature-caveat">
+          Cowork credits only. For spend across Copilot Studio, GitHub Copilot
+          and Foundry as well, start with Consumption Central above.
+        </p>
+        <div class="cc-feature-ctas">
+          <a class="cb-btn cb-btn-primary" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Get the template ↗</a>
+          <a class="cb-btn cb-btn-ghost" href="../compare/consumption-central-vs-cowork-chargeback/">Compare the two →</a>
+        </div>
+      </div>
+      <div class="cc-feature-video">
+        <img src="assets/report-walkthrough.gif" alt="Animated walkthrough of the Cowork Credit Chargeback Power BI report" loading="lazy" />
+        <p class="cc-feature-videocap">Walkthrough — Consumption, Chargeback, Billing Models, Prepaid Allocation.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="wrap cb-downloads cb-primary-explore">
+    <h2>Cowork browser tools</h2>
+    <p class="cb-section-lede">
+      No install, no setup. Each runs entirely in your browser on exports you
+      already own — nothing is uploaded anywhere.
     </p>
     <div class="cb-download-grid">
-      <a class="cb-download-card" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">
-        <span class="cb-download-icon" aria-hidden="true">📊</span>
-        <div class="cb-download-body">
-          <h3>Power BI report &amp; template ↗</h3>
-          <p>The full Copilot Cowork credit chargeback report on GitHub — RLS-ready model, nine pages, and a downloadable Power BI template.</p>
-          <span class="cb-download-meta">GitHub · microsoft/CreditUsage</span>
-        </div>
-      </a>
       <a class="cb-download-card" href="./cowork-chargeback/app/index.html" target="_blank" rel="noopener">
         <span class="cb-download-icon" aria-hidden="true">&#129534;</span>
         <div class="cb-download-body">
@@ -183,11 +244,6 @@
     </div>
   </section>
 
-  <section class="wrap cb-report-preview" style="text-align:center;">
-    <h2>See the Power BI report</h2>
-    <p style="text-align:left;">An animated walkthrough of the Copilot Cowork credit chargeback report &mdash; Consumption, Chargeback, Optimization &amp; Limits, Forecast, Billing Models, Prepaid Allocation, and the FOCUS cost appendix. <a href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Get the report &amp; template &rarr;</a></p>
-    <img src="assets/report-walkthrough.gif" alt="Animated walkthrough of the Cowork Credit Chargeback Power BI report" loading="lazy" style="width:100%;max-width:1100px;height:auto;border:1px solid #E1DFDD;border-radius:12px;box-shadow:0 4px 20px rgba(11,44,87,.10);" />
-  </section>
   <section class="wrap cb-sources">
     <h2>Where do I get these files?</h2>
     <p>Each browser app above runs on two CSV exports you already own &mdash; nothing is uploaded, everything is parsed locally in your browser:</p>
