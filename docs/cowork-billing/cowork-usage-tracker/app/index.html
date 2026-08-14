@@ -121,6 +121,8 @@
         .ut-sig-detail { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45; }
         .ut-sig-act { margin-top: 0.6rem; background: linear-gradient(135deg, rgba(74,158,247,0.25), rgba(168,85,247,0.25)); border: 1px solid var(--copilot-blue); color: var(--text-primary); border-radius: 8px; padding: 0.35rem 0.7rem; font: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
         .ut-sig-act:hover { background: linear-gradient(135deg, rgba(74,158,247,0.42), rgba(168,85,247,0.42)); }
+        .overage-banner { margin: 1rem 0 0; padding: 0.85rem 1.2rem; border-radius: 10px; background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.45); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+        .overage-banner strong { color: var(--amber, #F59E0B); }
     </style>
 </head>
 <body>
@@ -244,6 +246,7 @@
                 <p class="subtitle">Reconstructed from your point-in-time checkpoints: usage <strong>deltas</strong>, department roll-ups, run-rate and a grounded forecast to period-end. Computed locally in your browser.</p>
             </header>
             <div class="info-box"><p><strong>Forecasts are estimates</strong> derived from your checkpoint run-rate &mdash; planning figures, not a contracted commitment. They sharpen as you add checkpoints.</p></div>
+            <div class="overage-banner" role="note"><strong>Overage notice:</strong> Credits used above a group&rsquo;s allowance are not blocked &mdash; they bill as pay-as-you-go overage at your rate. Everything here is a planning estimate; reconcile against your Microsoft invoice for the actual bill.</div>
             <div class="landing-actions" style="margin-bottom:1rem;">
                 <button type="button" class="btn-secondary" id="btnTrendXlsx">Export XLSX</button>
                 <button type="button" class="btn-secondary btn-gradient" id="btnTrendDeck">Export deck</button>
