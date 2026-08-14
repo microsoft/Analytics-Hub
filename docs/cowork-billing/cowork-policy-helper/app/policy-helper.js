@@ -60,9 +60,11 @@
     };
 
     // ---------------------------------------------------------- billing policies
-    // Ordered set; allowances are editable live via the policy editor. Allowances
-    // align to the demo credit-limit caps (Customer Example engagement tiers).
-    var POLICIES = [
+    // Demo/fallback tier set. Used when running demo mode or when an uploaded
+    // credit export has no monthly-credit-limit column. When a real export DOES
+    // carry limits, the live POLICIES set below is rebuilt from those limits
+    // (see rebuildPolicies) so allowances reflect the customer's actual caps.
+    var DEMO_POLICIES = [
         { id: 'unassigned', name: 'Unassigned', role: 'None', allowance: 0 },
         { id: 'light', name: 'Light', role: 'Viewer', allowance: 1000 },
         { id: 'standard', name: 'Standard', role: 'Member', allowance: 6000 },
@@ -71,6 +73,48 @@
         { id: 'frontier', name: 'Frontier', role: 'Admin', allowance: 55000 },
         { id: 'elite', name: 'Elite', role: 'Admin', allowance: 175000 }
     ];
+
+    // Live tier set the app renders and edits. Starts as a copy of the demo
+    // tiers; replaced by tiers derived from the uploaded credit limits.
+    var POLICIES = DEMO_POLICIES.map(function (p) {
+        return { id: p.id, name: p.name, role: p.role, allowance: p.allowance };
+    });
+
+    function setDemoPolicies() {
+        POLICIES.length = 0;
+        DEMO_POLICIES.forEach(function (p) {
+            POLICIES.push({ id: p.id, name: p.name, role: p.role, allowance: p.allowance });
+        });
+    }
+
+    // Build one billing-policy tier per distinct monthly credit limit found in
+    // the uploaded data, so every user's allowance is their real cap instead of
+    // a demo tier. Demo mode and uploads with no limit column keep the demo
+    // tiers. Each user is then assigned to the tier equal to their own limit
+    // (via currentPolicy, which now finds an exact match).
+    function rebuildPolicies() {
+        if (state.demoActive || state.usedFallbackLimit) { setDemoPolicies(); syncRulesDefault(); return; }
+        var seen = {}, limits = [];
+        state.users.forEach(function (u) {
+            if (u.limit > 0 && !seen[u.limit]) { seen[u.limit] = true; limits.push(u.limit); }
+        });
+        if (!limits.length) { setDemoPolicies(); syncRulesDefault(); return; }
+        limits.sort(function (a, b) { return a - b; });
+        POLICIES.length = 0;
+        POLICIES.push({ id: 'unassigned', name: 'Unassigned', role: 'None', allowance: 0 });
+        limits.forEach(function (lim) {
+            POLICIES.push({ id: 'lim-' + lim, name: fmtInt(lim) + ' cr', role: 'Member', allowance: lim });
+        });
+        syncRulesDefault();
+    }
+
+    // Keep the rules default pointed at a tier that still exists after a rebuild.
+    function syncRulesDefault() {
+        if (policyById(state.rulesDefault).id !== state.rulesDefault) {
+            var firstReal = POLICIES.filter(function (p) { return p.allowance > 0; })[0];
+            state.rulesDefault = firstReal ? firstReal.id : 'unassigned';
+        }
+    }
 
     // Original tier names, restored if a rename is cleared to empty.
     var DEFAULT_POLICY_NAMES = { unassigned: 'Unassigned', light: 'Light', standard: 'Standard', advanced: 'Advanced', power: 'Power', frontier: 'Frontier', elite: 'Elite' };
@@ -301,8 +345,15 @@
 
     // ------------------------------------------------------------- rendering
     function metricCard(label, value, sub, accent, tip) {
-        var info = tip ? '<span class="metric-info" tabindex="0" aria-label="' + esc(tip) +
-            '">?<span class="metric-tip">' + esc(tip) + '</span></span>' : '';
+        var info = '';
+        if (tip) {
+            var parts = (Array.isArray(tip) ? tip : String(tip).split('. '))
+                .map(function (s) { return String(s).replace(/\s+/g, ' ').replace(/\.\s*$/, '').trim(); })
+                .filter(function (s) { return s.length; });
+            var lis = parts.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
+            info = '<span class="metric-info" tabindex="0" aria-label="' + esc(parts.join('; ')) +
+                '">?<ul class="metric-tip">' + lis + '</ul></span>';
+        }
         return '<div class="metric-card ' + (accent || '') + '"><div class="metric-label">' +
             esc(label) + info + '</div><div class="metric-value">' + esc(value) + '</div>' +
             (sub ? '<div class="metric-sublabel">' + esc(sub) + '</div>' : '') + '</div>';
@@ -347,9 +398,9 @@
         var cards = POLICIES.map(function (p) {
             var acc = pol[p.id];
             var u = acc.allowance > 0 ? acc.used / acc.allowance : 0;
-            return metricCard(p.name + ' (' + p.role + ')', fmtInt(acc.users) + ' users',
+            return metricCard(p.name, fmtInt(acc.users) + ' users',
                 fmtInt(acc.allowance) + ' cr - ' + fmtMoney(acc.cost) + ' - ' + fmtPct(u) + ' util', '',
-                'Policy ' + p.name + ': allowance ' + fmtInt(p.allowance) + ' cr/user, role ' + p.role + '. ' +
+                'Policy ' + p.name + ': allowance ' + fmtInt(p.allowance) + ' cr/user. ' +
                 'Total allowance = users x allowance. Projected cost = allowance x rate x users (' + fmtMoney(rate) +
                 '/credit). Avg utilization = sum used / sum allowance among assigned users.');
         }).join('');
@@ -654,15 +705,8 @@
     }
 
     function switchTab(name) {
-        state.activeTab = name;
-        $('tabManager').hidden = name !== 'manager';
-        $('tabRules').hidden = name !== 'rules';
-        $('tabPricing').hidden = name !== 'pricing';
-        $('tabBtnManager').classList.toggle('active', name === 'manager');
-        $('tabBtnRules').classList.toggle('active', name === 'rules');
-        $('tabBtnPricing').classList.toggle('active', name === 'pricing');
-        if (name === 'pricing') renderPricing();
-        if (name === 'rules') { renderRules(); renderExceptions(); }
+        state.activeTab = 'manager';
+        var mgr = $('tabManager'); if (mgr) mgr.hidden = false;
     }
 
     function renderPolicyEditor() {
@@ -723,7 +767,6 @@
             '<td>' + esc(truncate(u.displayName, 40)) + '</td>' +
             '<td>' + esc(u.department || 'Unknown') + '</td>' +
             '<td>' + esc(u.jobTitle || '') + '</td>' +
-            '<td>' + cohortChip(u.cohort) + '</td>' +
             '<td class="num">' + fmtInt(u.used) + '</td>' +
             '<td>' + esc(recName) + '</td>' +
             '<td><select class="pol-select" data-upn="' + esc(u.upn) + '">' + options + '</select></td>' +
@@ -1805,82 +1848,6 @@ function exportAdjustedOverages() {
             renderForecast();
         });
 
-        $('tabBtnManager').addEventListener('click', function () { switchTab('manager'); });
-        $('tabBtnRules').addEventListener('click', function () { switchTab('rules'); });
-        $('tabBtnPricing').addEventListener('click', function () { switchTab('pricing'); });
-
-        var rulesList = $('rulesList');
-        rulesList.addEventListener('change', function (e) {
-            var t = e.target;
-            var idx = parseInt(t.getAttribute('data-idx'), 10);
-            if (t.classList.contains('rule-attr')) { state.rules[idx].attr = t.value; state.rules[idx].value = ''; renderRules(); }
-            else if (t.classList.contains('rule-policy')) { state.rules[idx].policy = t.value; renderRules(); }
-            else if (t.classList.contains('rule-value')) { state.rules[idx].value = t.value; renderRules(); }
-        });
-        rulesList.addEventListener('input', function (e) {
-            var t = e.target;
-            if (!t.classList.contains('rule-value')) return;
-            var idx = parseInt(t.getAttribute('data-idx'), 10);
-            state.rules[idx].value = t.value;
-        });
-        rulesList.addEventListener('click', function (e) {
-            var t = e.target;
-            if (!t.classList.contains('rule-remove')) return;
-            var idx = parseInt(t.getAttribute('data-idx'), 10);
-            state.rules.splice(idx, 1);
-            renderRules();
-        });
-        $('rulesDefaultRow').addEventListener('change', function (e) {
-            if (e.target.id === 'rulesDefault') { state.rulesDefault = e.target.value; renderRules(); }
-        });
-        $('btnAddRule').addEventListener('click', function () {
-            state.rules.push({ attr: 'department', value: '', policy: 'standard' });
-            renderRules();
-        });
-        $('btnApplyRules').addEventListener('click', applyRules);
-
-        $('exceptionQueue').addEventListener('click', function (e) {
-            var t = e.target;
-            if (t.classList.contains('exc-fix')) {
-                var upn = t.getAttribute('data-upn');
-                var u = userByUpn(upn);
-                if (u) { state.assignments[upn] = recommendPolicy(u); refreshAll(); }
-            } else if (t.classList.contains('exc-fix-all')) {
-                recomputeRecommendations();
-                var ex = computeExceptions();
-                ex.under.concat(ex.over).forEach(function (it) {
-                    state.assignments[it.u.upn] = recommendPolicy(it.u);
-                });
-                refreshAll();
-                switchTab('manager');
-            }
-        });
-
-        $('ownedInput').addEventListener('input', function () {
-            var v = parseFloat(this.value);
-            state.ownedCredits = (isFinite(v) && v >= 0) ? v : null;
-            renderPricing();
-        });
-        $('buyInput').addEventListener('input', function () {
-            var v = parseFloat(this.value); if (!isFinite(v) || v < 0) v = 0;
-            state.buyCredits = v; renderPricing();
-        });
-        $('bufferInput').addEventListener('input', function () {
-            var v = parseFloat(this.value);
-            if (!isFinite(v) || v < 0) v = 0;
-            state.buyBufferPct = v;
-            scopeBuyToForecast();
-        });
-        $('btnScopeBuy').addEventListener('click', scopeBuyToForecast);
-        $('packSizeInput').addEventListener('input', function () {
-            var v = parseFloat(this.value); if (!isFinite(v) || v < 1) v = 1;
-            state.packSize = v; renderPricing();
-        });
-        $('packPriceInput').addEventListener('input', function () {
-            var v = parseFloat(this.value); if (!isFinite(v) || v < 0) v = 0;
-            state.packPrice = v; renderPricing();
-        });
-
         $('btnExport').addEventListener('click', exportCsv);
         var bexP = $('btnExportPolicy'); if (bexP) bexP.addEventListener('click', exportByPolicy);
         var bexD = $('btnExportDept'); if (bexD) bexD.addEventListener('click', exportByDepartment);
@@ -1892,6 +1859,7 @@ function exportAdjustedOverages() {
 
     function showDashboard() {
         computePerUser();
+        rebuildPolicies();
         recomputeRecommendations();
         state.users.forEach(function (u) {
             if (state.assignments[u.upn] === undefined) state.assignments[u.upn] = currentPolicy(u);
@@ -1902,16 +1870,10 @@ function exportAdjustedOverages() {
         $('dashboard').hidden = false;
         $('demoBanner').hidden = !state.demoActive;
         $('rbacFooter').innerHTML = state.demoActive
-            ? 'Synthetic demo data - not for real decisions &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.0'
-            : '100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.0';
+            ? 'Synthetic demo data - not for real decisions &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.1'
+            : '100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.1';
         $('rbacRate').value = state.rate;
         $('growthInput').value = state.growthPct;
-        $('ownedInput').value = Math.round(ownedCreditsVal());
-        $('packSizeInput').value = state.packSize;
-        $('packPriceInput').value = state.packPrice;
-        $('bufferInput').value = state.buyBufferPct;
-        state.buyCredits = scopedBuyNeed();
-        $('buyInput').value = state.buyCredits;
         switchTab('manager');
         buildControls();
         switchView('individual');

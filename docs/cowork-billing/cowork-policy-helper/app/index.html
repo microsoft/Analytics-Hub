@@ -202,7 +202,7 @@
         <header>
             <div class="header-content">
                 <div>
-                    <h1>Cowork Policy Helper <span class="version-tag">v1.0</span></h1>
+                    <h1>Cowork Policy Helper <span class="version-tag">v1.1</span></h1>
                     <p class="subtitle">Assign users to spend-tier billing policies &mdash; each with a monthly credit allowance and an access role &mdash; entirely in your browser. All figures are planning estimates to help with policy management, moving users between tiers, and forecasting how many credits fit current usage &mdash; not reflective of contracted agreements.</p>
                 </div>
             </div>
@@ -308,6 +308,16 @@
         <div class="instructions-section cb-changelog">
             <h2>Changelog</h2>
             <div class="cl-entry">
+                <div class="cl-date">2026-08-11 &middot; v1.1</div>
+                <ul class="cl-list">
+                    <li><span class="cl-tag chg">Changed</span> Billing policy allowances now read straight from your uploaded credit limits &mdash; each tier matches a real monthly limit and every user&rsquo;s allowance reflects their actual cap.</li>
+                    <li><span class="cl-tag rem">Removed</span> Policy Rules and Pricing Scenarios tabs &mdash; the app now focuses on the Policy Manager.</li>
+                    <li><span class="cl-tag rem">Removed</span> Cohort column from the user roster.</li>
+                    <li><span class="cl-tag chg">Changed</span> Dropped the Member / Admin / Viewer role labels from the policy tiers to reduce confusion.</li>
+                    <li><span class="cl-tag chg">Changed</span> Tooltips are now concise bullet points instead of paragraphs.</li>
+                </ul>
+            </div>
+            <div class="cl-entry">
                 <div class="cl-date">2026-07-20 &middot; v1.0</div>
                 <ul class="cl-list">
                     <li><span class="cl-tag add">Added</span> Changelog &mdash; we now document features added, changed, and removed here.</li>
@@ -317,7 +327,7 @@
         </div>
 
         <footer>
-            <p>100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../" target="_top">Cowork Billing hub</a> &middot; v1.0</p>
+            <p>100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="../../" target="_top">Cowork Billing hub</a> &middot; v1.1</p>
         </footer>
     </section>
 
@@ -357,11 +367,6 @@
         </div>
 
         <div class="container">
-            <div class="tabbar" role="tablist">
-                <button class="tab-btn active" id="tabBtnManager" type="button">Policy Manager</button>
-                <button class="tab-btn" id="tabBtnRules" type="button">Policy Rules</button>
-                <button class="tab-btn" id="tabBtnPricing" type="button">Pricing Scenarios</button>
-            </div>
 
             <div id="tabManager" class="tab-panel">
             <div id="summaryHead"></div>
@@ -436,7 +441,6 @@
                                 <th>Display Name</th>
                                 <th>Department</th>
                                 <th>Job Title</th>
-                                <th>Cohort</th>
                                 <th class="num">Credits Used</th>
                                 <th>Recommended</th>
                                 <th>Assigned Policy</th>
@@ -458,78 +462,12 @@
                 <p class="row-note" id="rosterNote"></p>
             </div>
             </div>
-
-            <div id="tabRules" class="tab-panel" hidden>
-                <div class="panel">
-                    <h3>Rules-based tiering</h3>
-                    <p class="panel-note">Assign billing policies by attribute instead of one person at a time. Rules run top to bottom and the first match wins; anyone not matched falls to the default policy. This is how you govern a large tenant &mdash; write a handful of rules, apply them to everyone, then work the exception queue for the few users the rules mis-fit.</p>
-                    <div id="rulesList"></div>
-                    <div class="rules-actions">
-                        <button class="btn-secondary" id="btnAddRule" type="button">Add rule</button>
-                    </div>
-                    <div class="rules-default" id="rulesDefaultRow"></div>
-                    <div id="rulesCoverage" class="rules-coverage"></div>
-                    <div class="rules-actions">
-                        <button class="btn-apply" id="btnApplyRules" type="button">Apply rules to all users</button>
-                    </div>
-                </div>
-                <div class="panel">
-                    <h3>Exception queue</h3>
-                    <p class="panel-note">Users whose assigned policy does not fit their actual consumption &mdash; under-provisioned (using more than their allowance, so work may be blocked) or over-provisioned (paying for far more than they use). Right-size moves a user to the smallest policy that covers their usage; changes flow to the Policy Manager change bar for you to commit.</p>
-                    <div id="exceptionQueue"></div>
-                </div>
-            </div>
-
-            <div id="tabPricing" class="tab-panel" hidden>
-                <div class="panel">
-                    <h3>Budget snapshot</h3>
-                    <div class="rbac-controls">
-                        <div class="rbac-control">
-                            <label for="ownedInput">Credits owned this month</label>
-                            <input type="number" id="ownedInput" min="0" step="1">
-                        </div>
-                    </div>
-                    <p class="panel-note">Your actual monthly credit budget. Defaults to the total allowance provisioned across all assigned tiers &mdash; override it with the real figure you have from Microsoft. Everything below reflects this at the current rate. All dollar values shown are planning estimates, not reflective of contracted agreements.</p>
-                    <div id="budgetCards"></div>
-                </div>
-
-                <div class="panel">
-                    <h3>Buy more credits</h3>
-                    <div class="rbac-controls">
-                        <div class="rbac-control">
-                            <label for="buyInput">Credits to purchase</label>
-                            <input type="number" id="buyInput" min="0" step="1000" value="0">
-                        </div>
-                        <div class="rbac-control">
-                            <label for="packSizeInput">Credits per pack</label>
-                            <input type="number" id="packSizeInput" min="1" step="1000">
-                        </div>
-                        <div class="rbac-control">
-                            <label for="packPriceInput">Price per pack ($)</label>
-                            <input type="number" id="packPriceInput" min="0" step="1">
-                        </div>
-                        <div class="rbac-control">
-                            <label for="bufferInput">Headroom buffer (%)</label>
-                            <input type="number" id="bufferInput" min="0" step="1" value="0">
-                        </div>
-                    </div>
-                    <div class="rbac-actionbar"><button class="btn-secondary" id="btnScopeBuy" type="button">Scope to forecast need</button></div>
-                    <p class="panel-note">Model buying additional Copilot Credits. Pay-as-you-go bills each credit at the list rate; prepaid packs give a per-credit discount. Adjust pack size and price to match your Microsoft agreement (defaults 25,000 credits / $200 per pack, per <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Microsoft Learn</a>).</p>
-                    <div id="buyCards"></div>
-                    <div id="pricingCompare"></div>
-                </div>
-
-                <div class="panel">
-                    <h3>Min-max guidance</h3>
-                    <div id="minmaxBox" class="minmax-box"></div>
-                </div>
-            </div>
         </div>
 
         <footer id="rbacFooter"></footer>
     </section>
 
-    <section id="fbView" class="container" hidden data-report="Cowork Policy Helper" data-version="2026-07-20" data-email="jordanking@microsoft.com" data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR_EBhc3YPapIq4Jvplf8QMhUQllOMDEyMUNKNk1UVFlSOTQ0VVMzMjY3TS4u" data-open="btnFeedback,btnFeedback2" data-back="fbBack" data-sections="landing,dashboard">
+    <section id="fbView" class="container" hidden data-report="Cowork Policy Helper" data-version="2026-08-11" data-email="jordanking@microsoft.com" data-form="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR_EBhc3YPapIq4Jvplf8QMhUQllOMDEyMUNKNk1UVFlSOTQ0VVMzMjY3TS4u" data-open="btnFeedback,btnFeedback2" data-back="fbBack" data-sections="landing,dashboard">
         <div class="top-nav">
             <a class="back-link" href="#" id="fbBack">&larr; Back</a>
         </div>

@@ -261,12 +261,16 @@ footer a:hover { text-decoration: underline; }
 .metric-info:hover, .metric-info:focus { color:var(--copilot-cyan); border-color:var(--copilot-cyan);
   outline:none; }
 .metric-tip { position:fixed; right:1.5rem; bottom:1.5rem; left:auto; top:auto;
-  transform:translateY(6px); width:340px; max-width:calc(100vw - 3rem); padding:0.85rem 1rem;
+  transform:translateY(6px); width:340px; max-width:calc(100vw - 3rem); padding:0.85rem 1.1rem;
   border-radius:12px; background:var(--surface-raised); color:var(--text-primary);
   border:1px solid var(--copilot-cyan); box-shadow:0 16px 44px rgba(0,0,0,0.55); font-size:0.82rem;
-  line-height:1.45; font-weight:normal; text-transform:none; letter-spacing:normal; text-align:left;
+  line-height:1.4; font-weight:normal; text-transform:none; letter-spacing:normal; text-align:left;
   opacity:0; visibility:hidden; transition:opacity 0.15s ease, transform 0.15s ease; z-index:9999;
-  pointer-events:none; }
+  pointer-events:none; margin:0; list-style:none; }
+.metric-tip li { position:relative; padding-left:0.95rem; margin:0.3rem 0; }
+.metric-tip li:first-child { margin-top:0; }
+.metric-tip li:last-child { margin-bottom:0; }
+.metric-tip li::before { content:"\2022"; position:absolute; left:0; color:var(--copilot-cyan); font-weight:700; }
 .metric-tip::after { content:none; }
 .metric-info:hover .metric-tip, .metric-info:focus .metric-tip { opacity:1; visibility:visible;
   transform:translateY(0); }

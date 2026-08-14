@@ -13,7 +13,8 @@
         pendingEntra: null,    // { rows, names, map }
         checkpoints: [],
         sliceDim: null,        // active slice-by dimension in the trends view
-        sliceVal: ''           // active value filter within sliceDim ('' = whole tenant)
+        sliceVal: '',          // active value filter within sliceDim ('' = whole tenant)
+        cm: { pool: null, rate: null, prepaidRate: 0.008, model: 'priority' } // credit modeling
     };
 
     // ---------------------------------------------------------------- helpers
@@ -441,6 +442,7 @@
     }
     function fmtDate(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
     function signed(v) { return (v >= 0 ? '+' : '\u2212') + fmtCompact(Math.abs(v)); }
+    function niceRound(v) { if (!(v > 0)) return 0; var mag = Math.pow(10, Math.floor(Math.log(v) / Math.LN10) - 1); return Math.round(v / mag) * mag; }
 
     function dominantType() {
         var byType = {};
@@ -627,6 +629,70 @@
             '</div><div class="ut-signal-grid">' + cards + '</div></div>';
     }
 
+    // ---- credit modeling: allocate a pre-purchased pool across groups ----
+    // Priority = fill heaviest-usage groups first; Within limit = cover each up to its
+    // allowance (bounded by the pool); Even split = equal share per group. Whatever the
+    // pool does not cover is billed pay-as-you-go.
+    function computeCreditModel(t) {
+        var cm = state.cm;
+        var groups = t.groups.map(function (g) { return { name: g.name, used: g.used, limit: g.limit }; });
+        var totalUsed = groups.reduce(function (a, g) { return a + g.used; }, 0);
+        if (cm.pool == null) cm.pool = niceRound(totalUsed * 0.6);
+        if (cm.rate == null) cm.rate = state.rate;
+        var pool = cm.pool, rate = cm.rate, pr = cm.prepaidRate, rows;
+        if (cm.model === 'even') {
+            var share = groups.length ? pool / groups.length : 0;
+            rows = groups.map(function (g) { var cov = Math.min(g.used, share); return { name: g.name, used: g.used, covered: cov, gap: g.used - cov }; });
+        } else if (cm.model === 'within') {
+            var desired = groups.map(function (g) { return Math.min(g.used, g.limit || g.used); });
+            var sumD = desired.reduce(function (a, b) { return a + b; }, 0);
+            var scale = (sumD > pool && sumD > 0) ? pool / sumD : 1;
+            rows = groups.map(function (g, i) { var cov = Math.min(desired[i] * scale, g.used); return { name: g.name, used: g.used, covered: cov, gap: g.used - cov }; });
+        } else {
+            var ordered = groups.slice().sort(function (a, b) { return b.used - a.used; });
+            var rem = pool, map = {};
+            ordered.forEach(function (g) { var cov = Math.max(0, Math.min(g.used, rem)); rem -= cov; map[g.name] = { covered: cov, gap: g.used - cov }; });
+            rows = groups.map(function (g) { return { name: g.name, used: g.used, covered: map[g.name].covered, gap: map[g.name].gap }; });
+        }
+        rows.forEach(function (r) { r.coveredCost = r.covered * pr; r.gapCost = r.gap * rate; r.allocCost = r.coveredCost + r.gapCost; });
+        rows.sort(function (a, b) { return b.used - a.used; });
+        var totCov = rows.reduce(function (a, r) { return a + r.covered; }, 0);
+        var totGap = rows.reduce(function (a, r) { return a + r.gap; }, 0);
+        var totCost = rows.reduce(function (a, r) { return a + r.allocCost; }, 0);
+        return {
+            rows: rows, pool: pool, rate: rate, prepaidRate: pr, model: cm.model,
+            totalUsed: totalUsed, covered: totCov, gap: totGap, coverage: totalUsed ? totCov / totalUsed : 0,
+            totalCost: totCost, paygoAllCost: totalUsed * rate
+        };
+    }
+
+    function renderCreditModel(cm, sliceDim) {
+        var modelOpts = [['priority', 'Priority (fill heaviest first)'], ['within', 'Within limit (cover to allowance)'], ['even', 'Even split (equal per group)']]
+            .map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === cm.model ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('');
+        var cards = '';
+        cards += '<div class="ut-fc"><div class="ut-fc-k">Prepaid pool' + infoDot('Credits you have pre-purchased. The model spreads this pool across your ' + sliceDim.toLowerCase() + 's; usage the pool does not cover is billed pay-as-you-go.') + '</div><div class="ut-fc-v">' + fmtCompact(cm.pool) + ' cr</div><div class="ut-fc-s">' + fmtInt(cm.pool) + ' procured</div></div>';
+        cards += '<div class="ut-fc ' + (cm.coverage >= 0.999 ? 'ut-ok' : '') + '"><div class="ut-fc-k">Coverage' + infoDot('Prepaid-covered credits / total credits used - how much of consumption the pool absorbs.') + '</div><div class="ut-fc-v">' + fmtPct(cm.coverage) + '</div><div class="ut-fc-s">' + fmtCompact(cm.covered) + ' of ' + fmtCompact(cm.totalUsed) + ' cr</div></div>';
+        cards += '<div class="ut-fc ' + (cm.gap > 0 ? 'ut-warn' : 'ut-ok') + '"><div class="ut-fc-k">PAYGO gap' + infoDot('Usage beyond what the pool covers, billed pay-as-you-go at the standard rate.') + '</div><div class="ut-fc-v">' + fmtCompact(cm.gap) + ' cr</div><div class="ut-fc-s">' + fmtMoney(Math.round(cm.gap * cm.rate)) + ' at $' + cm.rate + '</div></div>';
+        var vsAll = cm.paygoAllCost - cm.totalCost;
+        cards += '<div class="ut-fc ' + (vsAll >= 0 ? 'ut-ok' : 'ut-warn') + '"><div class="ut-fc-k">Blended cost' + infoDot('Prepaid-covered credits x prepaid rate, plus PAYGO gap x standard rate. Compared with paying for everything at the standard rate.') + '</div><div class="ut-fc-v">' + fmtMoney(Math.round(cm.totalCost)) + '</div><div class="ut-fc-s">' + (vsAll >= 0 ? 'saves ' : 'costs ') + fmtMoney(Math.round(Math.abs(vsAll))) + ' vs all-PAYGO</div></div>';
+        var rows = cm.rows.map(function (r) {
+            var covPct = r.used ? r.covered / r.used : 0;
+            return '<tr><td>' + esc(r.name) + '</td><td class="num">' + fmtCompact(r.used) + '</td><td class="num">' + fmtCompact(r.covered) + '</td><td class="num">' + fmtCompact(r.gap) + '</td><td class="num">' + fmtPct(covPct) + '</td><td class="num">' + fmtMoney(Math.round(r.coveredCost)) + '</td><td class="num">' + fmtMoney(Math.round(r.gapCost)) + '</td><td class="num">' + fmtMoney(Math.round(r.allocCost)) + '</td></tr>';
+        }).join('');
+        return '<div class="ut-chart"><h3>Credit modeling &mdash; prepaid pool allocation' +
+            infoDot('Model how a pre-purchased credit pool covers consumption across your ' + sliceDim.toLowerCase() + 's. Priority fills the heaviest first; Within limit covers each up to its allowance; Even split shares the pool equally. Whatever the pool does not cover is billed pay-as-you-go.') + '</h3>' +
+            '<div class="ut-controls ut-cm-controls">' +
+            '<label class="ut-ctl">Model <select id="utCmModel">' + modelOpts + '</select></label>' +
+            '<label class="ut-ctl">Prepaid pool (cr) <input type="number" id="utCmPool" min="0" step="1000" value="' + cm.pool + '"></label>' +
+            '<label class="ut-ctl">Prepaid $/cr <input type="number" id="utCmPrate" min="0" step="0.001" value="' + cm.prepaidRate + '"></label>' +
+            '<label class="ut-ctl">PAYGO $/cr <input type="number" id="utCmRate" min="0" step="0.001" value="' + cm.rate + '"></label>' +
+            '</div>' +
+            '<div class="ut-fc-grid" style="margin:0.85rem 0;">' + cards + '</div>' +
+            '<table class="ut-cktable ut-depttable"><thead><tr>' +
+            '<th>' + esc(sliceDim) + '</th><th class="num">Used</th><th class="num">Prepaid covered</th><th class="num">PAYGO gap</th><th class="num">Covered %</th><th class="num">Covered $</th><th class="num">Gap $</th><th class="num">Allocated $</th>' +
+            '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+    }
+
     // ---- inline SVG charts (no libraries) ----
     function svgTrend(pts, w, h) {
         var AXW = 50, BOT = 20, TOP = 8, RGT = 8;
@@ -722,6 +788,7 @@
         var fc = t.fc, latest = t.latest, rate = state.rate;
         var typeLabel = PERIOD_LABEL[t.type];
         var sigs = computeSignals(t);
+        var cm = computeCreditModel(t);
 
         // forecast cards
         var cards = '';
@@ -803,7 +870,8 @@
             '<div class="ut-chart"><h3>' + esc(t.sliceDim) + ' roll-up &amp; forecast' + infoDot('Usage broken down by ' + t.sliceDim + ' across your checkpoints. Change = latest minus first checkpoint. Projected uses the run-rate method. Burn ($) = last-window burn x rate. Click any row to filter the whole view to that group.') + '</h3>' +
             '<table class="ut-cktable ut-depttable"><thead><tr>' +
             '<th>' + esc(t.sliceDim) + '</th><th>Trend</th><th class="num">Used</th><th class="num">&Delta; since 1st' + infoDot('Latest checkpoint used minus first checkpoint used - how much this group grew or shrank.') + '</th><th class="num">Projected' + infoDot('This group at its own run-rate, projected to ' + fc.periodLabel + '.') + '</th><th class="num">Allowance</th><th class="num">Util' + infoDot('Group credits used / group allowance.') + '</th><th class="num">Burn ($)' + infoDot('Credits burned since the prior checkpoint for this group, valued at the current rate.') + '</th><th>Status' + infoDot('On track, Over allowance (used above allowance), or Under-utilised (using under 40% of allowance).') + '</th>' +
-            '</tr></thead><tbody>' + groupRows + '</tbody></table></div>';
+            '</tr></thead><tbody>' + groupRows + '</tbody></table></div>' +
+            renderCreditModel(cm, t.sliceDim);
 
         var ri = $('utRate');
         if (ri) ri.addEventListener('input', function () {
@@ -835,6 +903,10 @@
                 }
             });
         }
+        var cmM = $('utCmModel'); if (cmM) cmM.addEventListener('change', function () { state.cm.model = this.value; renderTrends(); });
+        var cmP = $('utCmPool'); if (cmP) cmP.addEventListener('change', function () { var v = parseFloat(this.value); state.cm.pool = (isFinite(v) && v >= 0) ? v : 0; renderTrends(); });
+        var cmPr = $('utCmPrate'); if (cmPr) cmPr.addEventListener('change', function () { var v = parseFloat(this.value); state.cm.prepaidRate = (isFinite(v) && v >= 0) ? v : 0; renderTrends(); });
+        var cmR = $('utCmRate'); if (cmR) cmR.addEventListener('change', function () { var v = parseFloat(this.value); state.cm.rate = (isFinite(v) && v >= 0) ? v : 0; renderTrends(); });
         wireChartTips(host);
     }
 
