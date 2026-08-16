@@ -1601,10 +1601,21 @@ function renderCoworkBilling(repos, sites) {
         if (!url) continue;
         const lower = String(url).toLowerCase();
         if (lower.includes("what-i-did-with-cowork")) continue;
+        // Exclude local dev and staging hosts from a published metric.
+        if (lower.includes("localhost") || lower.includes("127.0.0.1")
+            || lower.includes("azurewebsites.net")) continue;
         if (!matchesAny(url, COWORK_WEB_HINTS)) continue;
         const entry = webAgg.get(url) || { url, sessions: 0, users: 0, signals: 0, sites: new Set() };
-        entry.sessions += parseIntSafe(row.sessionsCount) + parseIntSafe(row.totalSessionCount);
-        entry.users += parseIntSafe(row.distinctUserCount);
+        // Clarity returns 9 metric rows per URL and repeats the same session
+        // total on most of them (6x in sessionsCount, plus once more as
+        // totalSessionCount on the Traffic row). Take the value once via max
+        // rather than summing — see the identical treatment at ~line 1469.
+        entry.sessions = Math.max(
+          entry.sessions,
+          parseIntSafe(row.sessionsCount),
+          parseIntSafe(row.totalSessionCount)
+        );
+        entry.users = Math.max(entry.users, parseIntSafe(row.distinctUserCount));
         entry.signals += parseIntSafe(row.deadClickCount)
           + parseIntSafe(row.rageClickCount)
           + parseIntSafe(row.scriptErrorCount)
