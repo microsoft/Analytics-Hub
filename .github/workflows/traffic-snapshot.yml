@@ -20,6 +20,8 @@ jobs:
           python-version: "3.x"
 
       - name: Run snapshot
+        id: snapshot
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.TRAFFIC_PAT }}
           GITHUB_TOKEN_PERSONAL: ${{ secrets.TRAFFIC_PAT_PERSONAL }}
@@ -27,7 +29,13 @@ jobs:
           CLARITY_TOKEN_PERSONAL: ${{ secrets.CLARITY_TOKEN_PERSONAL }}
         run: python scripts/snapshot_traffic.py
 
+      # Always commit whatever was captured. The script writes the file before
+      # evaluating its health gates, so a single failing gate must not discard
+      # data that fetched correctly. A TRAFFIC_PAT expiry on 4 Aug 2026 caused
+      # seven consecutive days of Clarity data to be thrown away this way, and
+      # the resulting hole was mistaken for a Clarity outage.
       - name: Commit & push if changed
+        if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -38,3 +46,12 @@ jobs:
             git commit -m "chore: nightly traffic snapshot $(date -u +%Y-%m-%d)"
             git push
           fi
+
+      # Surface the health-gate result after the data is safely committed, so
+      # the run still goes red and sends the failure notification.
+      - name: Fail if snapshot health gates tripped
+        if: always() && steps.snapshot.outcome == 'failure'
+        run: |
+          echo "::error::Snapshot health gates failed — see the 'Run snapshot' step."
+          echo "Data captured before the failure has still been committed."
+          exit 1

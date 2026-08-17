@@ -76,7 +76,16 @@ IMMUTABILITY_WINDOW_DAYS: int = 3
 # Below this we assume the URL dimension call returned an empty / degenerate
 # response (Clarity outage, token scope regression, dim rename, etc.) and
 # fail loud so the audit page never renders green-on-empty.
+#
+# Thresholds are per-site: a busy multi-page hub returning 4 URLs is a real
+# signal, whereas a low-traffic personal homepage can legitimately see only a
+# couple of distinct URLs on a quiet day. A single global value of 5 caused a
+# false-positive failure on 17 Aug 2026 when jordan-homepage returned 4.
 MIN_URLS_PER_SNAPSHOT: int = 5
+MIN_URLS_PER_SITE: dict[str, int] = {
+    "analytics-hub": 5,
+    "jordan-homepage": 2,
+}
 
 # Clarity Data Export API tokens are scoped per-project: the token alone
 # determines which project's data the call returns. We keep one entry per
@@ -410,10 +419,11 @@ def main() -> int:
                 u = row.get("Url")
                 if u:
                     unique_urls.add(u)
-        if len(unique_urls) < MIN_URLS_PER_SNAPSHOT:
+        threshold = MIN_URLS_PER_SITE.get(site_label, MIN_URLS_PER_SNAPSHOT)
+        if len(unique_urls) < threshold:
             hard_errors.append(
                 f"clarity[{site_label}].snapshotsByUrl[{today_key}]: only "
-                f"{len(unique_urls)} unique URL(s) — expected ≥ {MIN_URLS_PER_SNAPSHOT}. "
+                f"{len(unique_urls)} unique URL(s) — expected ≥ {threshold}. "
                 f"Possible causes: Clarity token expired, URL dimension renamed, "
                 f"or a Clarity outage."
             )
