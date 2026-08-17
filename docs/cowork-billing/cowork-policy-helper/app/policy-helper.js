@@ -730,6 +730,8 @@
                 renderSummary();
                 renderRoster();
                 renderForecast();
+                renderImpact();
+                renderExceptions();
             });
         });
         Array.prototype.forEach.call($('policyEditor').querySelectorAll('.pol-edit-name'), function (inp) {
@@ -1838,7 +1840,7 @@ function exportAdjustedOverages() {
 
         $('rbacRate').addEventListener('input', function () {
             var v = parseFloat(this.value);
-            if (isFinite(v) && v >= 0) { state.rate = v; renderSummary(); renderForecast(); renderPricing(); updateTopbar(); }
+            if (isFinite(v) && v >= 0) { state.rate = v; renderSummary(); renderForecast(); renderImpact(); renderRoster(); renderExceptions(); renderPricing(); updateTopbar(); }
         });
 
         $('growthInput').addEventListener('input', function () {

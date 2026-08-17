@@ -8,7 +8,7 @@
     var state = {
         entraRows: [], creditRows: [], users: [],
         rate: 0.01,
-        prepaidRate: 0.01,
+        prepaidRate: 0.008,
         prepaidPurchased: null,
         daysInPeriod: 30,
         headroomPct: 15,
@@ -675,7 +675,7 @@
     function resetToLanding() {
         state.pending = { entra: null, credits: null }; state.users = []; state.demoActive = false; state.entraFileNames = []; state.invoiceTotal = null;
         state.lineModel = 'paygo'; state.lineFilter = 'all'; state.unitDim = null; state.entraRows = [];
-        state.prepaidRate = 0.01; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
+        state.prepaidRate = 0.008; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
         state.expandedUnits = {}; state.valueMode = 'total'; state.policyLimits = {}; state.entityFilter = {}; state.entitySearch = ''; state.lineSearch = '';
         state.sortJournal = { key: 'paygo', dir: 'desc' }; state.sortLines = { key: 'charge', dir: 'desc' };
         $('statusEntra').textContent = 'No file selected'; $('statusCredits').textContent = 'No file selected';

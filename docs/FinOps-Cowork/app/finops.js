@@ -427,7 +427,7 @@
             '<th>' + esc(active.label) + '</th>' +
             '<th class="num">Consumed (credits)</th>' +
             '<th class="num">Showback $</th>' +
-            '<th class="num">Chargeback $</th>' +
+            '<th class="num">Chargeback $ (overage)</th>' +
             '<th class="num">% of total</th></tr></thead>';
         var body = '<tbody>' + active.groups.map(function (g) {
             var f = costFigures(g.credits, g.overage);
@@ -558,7 +558,7 @@
         var head = '<thead><tr>' +
             '<th>User</th><th>Department</th>' +
             '<th class="num">Used</th><th class="num">Allowance</th><th class="num">Utilization</th>' +
-            '<th>Flag</th><th class="num">Showback $</th><th class="num">Chargeback $</th><th>Right-size to</th></tr></thead>';
+            '<th>Flag</th><th class="num">Showback $</th><th class="num">Chargeback $ (overage)</th><th>Right-size to</th></tr></thead>';
         var body = '<tbody>' + shown.map(function (u) {
             var f = costFigures(u.used, u.overage);
             return '<tr>' +
@@ -715,7 +715,7 @@
         var m = compute();
         var dim = activeDim(m);
         var basis = state.capBasis, rate = state.contractedRate, isD = basis === 'dollars';
-        var rows = [['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Consumed $', 'Showback $', 'Chargeback $', (isD ? 'Budget cap ($)' : 'Budget cap (credits)'), (isD ? 'Variance ($)' : 'Variance (credits)'), 'Status']];
+        var rows = [['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Consumed $', 'Showback $', 'Chargeback $ (overage)', (isD ? 'Budget cap ($)' : 'Budget cap (credits)'), (isD ? 'Variance ($)' : 'Variance (credits)'), 'Status']];
         dim.groups.forEach(function (g) {
             var f = costFigures(g.credits, g.overage);
             var capVal, variance, util, capOut, varOut;
@@ -741,7 +741,7 @@
         var m = compute();
         var dim = activeDim(m);
         var basis = state.capBasis, rate = state.contractedRate, isD = basis === 'dollars';
-        var rows = [['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $', (isD ? 'Unit budget cap ($)' : 'Unit budget cap (credits)')]];
+        var rows = [['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $ (overage)', (isD ? 'Unit budget cap ($)' : 'Unit budget cap (credits)')]];
         m.users.forEach(function (u) {
             var f = costFigures(u.used, u.overage);
             var unitLabel = (u[dim.key] && String(u[dim.key]).trim()) ? String(u[dim.key]).trim() : 'Unknown';
@@ -802,7 +802,7 @@
         var trows = [[
             { text: dim.label, options: { bold: true, color: BLUE } }, { text: 'Users', options: { bold: true, color: BLUE } },
             { text: 'Consumed', options: { bold: true, color: BLUE } }, { text: 'Showback $', options: { bold: true, color: BLUE } },
-            { text: 'Chargeback $', options: { bold: true, color: BLUE } }
+            { text: 'Chargeback $ (overage)', options: { bold: true, color: BLUE } }
         ]];
         dim.groups.slice(0, 12).forEach(function (g) {
             var f = costFigures(g.credits, g.overage);
