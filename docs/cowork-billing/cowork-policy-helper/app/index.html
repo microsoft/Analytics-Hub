@@ -310,6 +310,15 @@
         <div class="instructions-section cb-changelog">
             <h2>Changelog</h2>
             <div class="cl-entry">
+                <div class="cl-date">2026-08-17 &middot; v1.2</div>
+                <ul class="cl-list">
+                    <li><span class="cl-tag chg">Changed</span> Policy tiers are now numbered <strong>Tier 1, Tier 2, Tier 3&hellip;</strong> instead of Light / Standard / Advanced / Power / Frontier / Elite. Numbered tiers are easier to read at a glance, avoid implying a judgement about the user, and scale to any number of policies. Tiers derived from your own upload are numbered in ascending allowance order, and every tier can still be renamed.</li>
+                    <li><span class="cl-tag rem">Removed</span> The four-metric KPI strip at the top of the report &mdash; it front-loaded numbers before the page explained itself. The same figures remain in the policy summary and roster below.</li>
+                    <li><span class="cl-tag chg">Changed</span> The <strong>user roster now opens the report</strong>. It is the working surface of the tool, so it leads; forecast, policy summary and allowance editing follow.</li>
+                    <li><span class="cl-tag fix">Fixed</span> Changing the rate, or editing a tier allowance, now refreshes the change-impact bar, roster and exception queue immediately. Previously those panels kept showing figures from before the change until another control was touched.</li>
+                </ul>
+            </div>
+            <div class="cl-entry">
                 <div class="cl-date">2026-08-11 &middot; v1.1</div>
                 <ul class="cl-list">
                     <li><span class="cl-tag chg">Changed</span> Billing policy allowances now read straight from your uploaded credit limits &mdash; each tier matches a real monthly limit and every user&rsquo;s allowance reflects their actual cap.</li>
@@ -375,31 +384,9 @@
         <div class="container">
 
             <div id="tabManager" class="tab-panel">
-            <div id="summaryHead"></div>
             <div id="dataQuality"></div>
 
-            <div class="panel">
-                <div class="forecast-head">
-                    <h3>Budget forecast (next month)</h3>
-                    <div class="rbac-control forecast-growth">
-                        <label for="growthInput">Expected growth (%)</label>
-                        <input type="number" id="growthInput" step="1" value="0">
-                    </div>
-                </div>
-                <p class="panel-note">Projects next month&rsquo;s credit consumption and the budget provisioned across all tiers. Set an expected month-over-month growth, then use <strong>Auto-adjust to fit</strong> below to right-size every user to their consumption. These are planning estimates, not contracted agreements.</p>
-                <div id="forecastCards"></div>
-            </div>
-
-            <div class="panel">
-                <h3>Policy summary</h3>
-                <div id="policyCards"></div>
-            </div>
-
-            <div class="panel">
-                <h3>Billing policy allowances</h3>
-                <p class="panel-note">Edit each policy&rsquo;s monthly credit allowance. Utilization, fit, and projected cost recompute live.</p>
-                <div id="policyEditor" class="policy-editor-grid"></div>
-            </div>
+            <p class="panel-note panel-lead">Start here. Every user, the credits they actually used, the tier they are on now, and the tier that fits their real consumption. Use <strong>Auto-adjust to fit</strong> to right-size everyone at once, then review the impact and export.</p>
 
             <div class="panel">
                 <h3>User roster</h3>
@@ -467,6 +454,31 @@
                 </div>
                 <p class="row-note" id="rosterNote"></p>
             </div>
+
+
+            <div class="panel">
+                <div class="forecast-head">
+                    <h3>Budget forecast (next month)</h3>
+                    <div class="rbac-control forecast-growth">
+                        <label for="growthInput">Expected growth (%)</label>
+                        <input type="number" id="growthInput" step="1" value="0">
+                    </div>
+                </div>
+                <p class="panel-note">Projects next month&rsquo;s credit consumption and the budget provisioned across all tiers. Set an expected month-over-month growth, then use <strong>Auto-adjust to fit</strong> below to right-size every user to their consumption. These are planning estimates, not contracted agreements.</p>
+                <div id="forecastCards"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Policy summary</h3>
+                <div id="policyCards"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Billing policy allowances</h3>
+                <p class="panel-note">Edit each policy&rsquo;s monthly credit allowance. Utilization, fit, and projected cost recompute live.</p>
+                <div id="policyEditor" class="policy-editor-grid"></div>
+            </div>
+
             </div>
         </div>
 

@@ -35,7 +35,7 @@
         groupBy: 'individual',
         groupBudgets: {},
         rules: [],
-        rulesDefault: 'light'
+        rulesDefault: 'tier1'
     };
 
     var COHORT_ORDER = ['Light', 'Regular', 'Engaged', 'Native', 'Power', 'Frontier'];
@@ -49,15 +49,25 @@
         Frontier: '#EF4444'
     };
 
+    // Tier colours. Demo tiers are keyed by id; tiers derived from a real
+    // upload (id `lim-<n>`) fall back to the ordered palette by position, so
+    // customer-derived tiers get distinct colours instead of all-grey.
     var TIER_COLORS = {
         unassigned: '#94A3B8',
-        light: '#4A9EF7',
-        standard: '#00D4FF',
-        advanced: '#34D399',
-        power: '#A855F7',
-        frontier: '#F59E0B',
-        elite: '#F472B6'
+        tier1: '#4A9EF7',
+        tier2: '#00D4FF',
+        tier3: '#34D399',
+        tier4: '#A855F7',
+        tier5: '#F59E0B',
+        tier6: '#F472B6'
     };
+    var TIER_PALETTE = ['#4A9EF7', '#00D4FF', '#34D399', '#A855F7', '#F59E0B', '#F472B6', '#EF4444', '#14B8A6'];
+    function tierColor(id) {
+        if (TIER_COLORS[id]) return TIER_COLORS[id];
+        var real = POLICIES.filter(function (p) { return p.id !== 'unassigned'; });
+        var idx = real.findIndex(function (p) { return p.id === id; });
+        return idx >= 0 ? TIER_PALETTE[idx % TIER_PALETTE.length] : '#94A3B8';
+    }
 
     // ---------------------------------------------------------- billing policies
     // Demo/fallback tier set. Used when running demo mode or when an uploaded
@@ -66,12 +76,12 @@
     // (see rebuildPolicies) so allowances reflect the customer's actual caps.
     var DEMO_POLICIES = [
         { id: 'unassigned', name: 'Unassigned', role: 'None', allowance: 0 },
-        { id: 'light', name: 'Light', role: 'Viewer', allowance: 1000 },
-        { id: 'standard', name: 'Standard', role: 'Member', allowance: 6000 },
-        { id: 'advanced', name: 'Advanced', role: 'Member', allowance: 15000 },
-        { id: 'power', name: 'Power', role: 'Power', allowance: 30000 },
-        { id: 'frontier', name: 'Frontier', role: 'Admin', allowance: 55000 },
-        { id: 'elite', name: 'Elite', role: 'Admin', allowance: 175000 }
+        { id: 'tier1', name: 'Tier 1', role: 'Viewer', allowance: 1000 },
+        { id: 'tier2', name: 'Tier 2', role: 'Member', allowance: 6000 },
+        { id: 'tier3', name: 'Tier 3', role: 'Member', allowance: 15000 },
+        { id: 'tier4', name: 'Tier 4', role: 'Power', allowance: 30000 },
+        { id: 'tier5', name: 'Tier 5', role: 'Admin', allowance: 55000 },
+        { id: 'tier6', name: 'Tier 6', role: 'Admin', allowance: 175000 }
     ];
 
     // Live tier set the app renders and edits. Starts as a copy of the demo
@@ -102,8 +112,8 @@
         limits.sort(function (a, b) { return a - b; });
         POLICIES.length = 0;
         POLICIES.push({ id: 'unassigned', name: 'Unassigned', role: 'None', allowance: 0 });
-        limits.forEach(function (lim) {
-            POLICIES.push({ id: 'lim-' + lim, name: fmtInt(lim) + ' cr', role: 'Member', allowance: lim });
+        limits.forEach(function (lim, i) {
+            POLICIES.push({ id: 'lim-' + lim, name: 'Tier ' + (i + 1), role: 'Member', allowance: lim });
         });
         syncRulesDefault();
     }
@@ -117,7 +127,7 @@
     }
 
     // Original tier names, restored if a rename is cleared to empty.
-    var DEFAULT_POLICY_NAMES = { unassigned: 'Unassigned', light: 'Light', standard: 'Standard', advanced: 'Advanced', power: 'Power', frontier: 'Frontier', elite: 'Elite' };
+    var DEFAULT_POLICY_NAMES = { unassigned: 'Unassigned', tier1: 'Tier 1', tier2: 'Tier 2', tier3: 'Tier 3', tier4: 'Tier 4', tier5: 'Tier 5', tier6: 'Tier 6' };
 
     var COLUMN_CANDIDATES = {
         upn: ['user principal name', 'userprincipalname', 'upn', 'email', 'user'],
@@ -384,16 +394,12 @@
 
         var avgUtil = totalAllowance > 0 ? totalUsed / totalAllowance : 0;
 
-        var head = '<div class="metrics-grid">' +
-            metricCard('Total Users', fmtInt(totalUsers), 'in scope', '',
-                'Distinct users joined from the Entra + credit exports.') +
-            metricCard('Users Needing Review', fmtInt(needReview), 'over their allowance', 'accent-red',
-                'Count of users whose monthly credits used exceed their assigned policy allowance (fit = Over-allowance).') +
-            metricCard('Projected Monthly Cost', fmtMoney(totalCost), 'committed allowance', '',
-                'Sum over users of assigned allowance x rate (' + fmtMoney(rate) + '/credit). Cost of committed allowance, not usage.') +
-            metricCard('Avg Utilization', fmtPct(avgUtil), fmtInt(totalUsed) + ' / ' + fmtInt(totalAllowance), 'accent-amber',
-                'Total credits used / total assigned allowance across all users.') +
-            '</div>';
+        // The four-metric KPI strip that used to sit at the top of the page was
+        // removed — it front-loaded numbers before the reader knew what the tool
+        // does. Total users, users needing review and utilization are all
+        // visible in the roster and policy summary below. `needReview`,
+        // `totalUsers` and `avgUtil` are retained for the roster note.
+        void needReview; void totalUsers; void avgUtil;
 
         var cards = POLICIES.map(function (p) {
             var acc = pol[p.id];
@@ -405,7 +411,6 @@
                 '/credit). Avg utilization = sum used / sum allowance among assigned users.');
         }).join('');
 
-        $('summaryHead').innerHTML = head;
         $('policyCards').innerHTML = '<div class="metrics-grid">' + cards + '</div>';
     }
 
@@ -712,7 +717,7 @@
     function renderPolicyEditor() {
         var html = POLICIES.map(function (p) {
             var disabled = p.id === 'unassigned' ? ' disabled' : '';
-            var col = TIER_COLORS[p.id] || '#94A3B8';
+            var col = tierColor(p.id);
             return '<div class="pol-edit-item">' +
                 '<input type="text" class="tier-pill pol-edit-name" id="polName_' + p.id +
                 '" data-policy="' + p.id + '" value="' + esc(p.name) + '" maxlength="28" style="color:' + col + ';border-color:' + col + '"' + disabled + ' aria-label="Policy name">' +
@@ -1005,7 +1010,7 @@
 
         var bulkSel = $('bulkPolicy');
         bulkSel.innerHTML = POLICIES.map(function (p) {
-            return '<option value="' + p.id + '"' + (p.id === 'standard' ? ' selected' : '') + '>' + esc(p.name) + '</option>';
+            return '<option value="' + p.id + '"' + (p.id === 'tier2' ? ' selected' : '') + '>' + esc(p.name) + '</option>';
         }).join('');
     }
 
@@ -1894,7 +1899,7 @@ function exportAdjustedOverages() {
         state.prevBaseline = null;
         state.groupBudgets = {};
         state.rules = [];
-        state.rulesDefault = 'light';
+        state.rulesDefault = 'tier1';
         state.users = buildUsers(entraRows, creditRows);
         if (!state.users.length) { showError('No users could be built from these files. Check that the credit file has a user principal name column.'); return; }
         showDashboard();
@@ -1988,7 +1993,7 @@ function exportAdjustedOverages() {
         state.users = []; state.demoActive = false;
         state.assignments = {}; state.selected = {}; state.baseline = {}; state.prevBaseline = null;
         state.search = ''; state.deptFilter = 'All'; state.cohortFilter = 'All'; state.growthPct = 0;
-        state.ownedCredits = null; state.packSize = 25000; state.packPrice = 200; state.buyCredits = 0; state.activeTab = 'manager'; state.groupBy = 'individual'; state.groupBudgets = {}; state.rules = []; state.rulesDefault = 'light';
+        state.ownedCredits = null; state.packSize = 25000; state.packPrice = 200; state.buyCredits = 0; state.activeTab = 'manager'; state.groupBy = 'individual'; state.groupBudgets = {}; state.rules = []; state.rulesDefault = 'tier1';
         $('dashboard').hidden = true;
         $('landing').hidden = false;
         $('statusEntra').textContent = 'No file selected';
