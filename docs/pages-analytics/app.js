@@ -1589,13 +1589,23 @@ function renderCoworkBilling(repos, sites) {
   }
 
   const webAgg = new Map();
+  const FRICTION_METRICS = new Set([
+    "DeadClickCount", "RageClickCount", "ScriptErrorCount",
+    "ErrorClickCount", "ExcessiveScroll", "QuickbackClick",
+  ]);
+  let coworkSnapshotDate = null;
+  let coworkSnapshotSite = null;
+  const coverageDates = new Set();
+
   for (const [siteKey, site] of Object.entries(sites || {})) {
     const byUrl = site?.snapshotsByUrl || {};
     const dates = Object.keys(byUrl).sort();
+    dates.forEach((d) => coverageDates.add(d));
     const latestDate = dates[dates.length - 1];
     if (!latestDate) continue;
     const groups = byUrl[latestDate] || [];
     for (const g of groups) {
+      const metricName = g?.metricName || "";
       for (const row of (g?.information || [])) {
         const url = row?.Url || row?.url || "";
         if (!url) continue;
@@ -1616,20 +1626,29 @@ function renderCoworkBilling(repos, sites) {
           parseIntSafe(row.totalSessionCount)
         );
         entry.users = Math.max(entry.users, parseIntSafe(row.distinctUserCount));
-        entry.signals += parseIntSafe(row.deadClickCount)
-          + parseIntSafe(row.rageClickCount)
-          + parseIntSafe(row.scriptErrorCount)
-          + parseIntSafe(row.subTotal)
-          + parseIntSafe(row.pagesViews);
+        // UX friction: subTotal is the occurrence count for whichever metric
+        // group this row belongs to. Only accumulate the friction metrics —
+        // summing every group would fold in scroll depth and engagement time.
+        if (FRICTION_METRICS.has(metricName)) {
+          entry.signals += parseIntSafe(row.subTotal);
+        }
         entry.sites.add(siteKey);
         webAgg.set(url, entry);
+        if (!coworkSnapshotDate) { coworkSnapshotDate = latestDate; coworkSnapshotSite = siteKey; }
       }
     }
   }
 
   const webRows = [...webAgg.values()].sort((a, b) => b.sessions - a.sessions).slice(0, 40);
   const webSessionsTotal = webRows.reduce((s, r) => s + r.sessions, 0);
+  const webUsersTotal = webRows.reduce((s, r) => s + r.users, 0);
   set("cowork-kpi-web-sessions", fmt(webSessionsTotal));
+  const wsFoot = document.getElementById("cowork-kpi-web-sessions-foot");
+  if (wsFoot) {
+    wsFoot.textContent = coworkSnapshotDate
+      ? `Clarity · 3-day rolling to ${coworkSnapshotDate}`
+      : "Clarity · 3-day rolling";
+  }
 
   const webTbody = document.getElementById("cowork-webapp-tbody");
   if (webTbody) {
@@ -1657,7 +1676,109 @@ function renderCoworkBilling(repos, sites) {
     }
   }
   pbitRows.sort((a, b) => b.count - a.count);
-  set("cowork-kpi-pbit-hits", fmt(pbitRows.reduce((s, r) => s + r.count, 0)));
+  const pbitHits = pbitRows.reduce((s, r) => s + r.count, 0);
+  set("cowork-kpi-pbit-hits", fmt(pbitHits));
+
+  // ---- Scope disclosure: exactly what is counted, so the number can be defended.
+  const scopeHint = document.getElementById("cowork-scope-hint");
+  if (scopeHint) {
+    scopeHint.textContent = `${coworkRows.length} repo${coworkRows.length === 1 ? "" : "s"} · ${webRows.length} URL${webRows.length === 1 ? "" : "s"}`;
+  }
+  const scopeBody = document.getElementById("cowork-scope-body");
+  if (scopeBody) {
+    const repoList = coworkRows.length
+      ? coworkRows.map((r) => `<li><a href="https://github.com/${r.fullName}" target="_blank" rel="noopener">${r.fullName}</a> — ${fmt(r.views)} views, ${fmt(r.clones)} clones</li>`).join("")
+      : `<li class="empty">none matched</li>`;
+    const urlList = webRows.length
+      ? webRows.map((r) => `<li><a href="${r.url}" target="_blank" rel="noopener">${r.url.replace(/^https?:\/\//, "")}</a> — ${fmt(r.sessions)} sessions</li>`).join("")
+      : `<li class="empty">none matched</li>`;
+    scopeBody.innerHTML = `
+      <div class="cowork-scope-cols">
+        <div>
+          <h4>GitHub repos counted (${coworkRows.length})</h4>
+          <p class="cowork-scope-rule">Matched on: <code>cowork</code>, <code>billing</code>, <code>copilotroicalculator</code>, <code>roi-calculator</code> in the repo name or its popular paths. <code>What-I-did-with-Cowork</code> is deliberately excluded.</p>
+          <ul class="cowork-scope-list">${repoList}</ul>
+        </div>
+        <div>
+          <h4>Web app URLs counted (${webRows.length})</h4>
+          <p class="cowork-scope-rule">Clarity URL snapshot for <strong>${coworkSnapshotDate || "n/a"}</strong>${coworkSnapshotSite ? ` · project <code>${coworkSnapshotSite}</code>` : ""}. Local and staging hosts excluded.</p>
+          <ul class="cowork-scope-list">${urlList}</ul>
+        </div>
+      </div>
+      <p class="cowork-scope-foot"><strong>These are not the same population.</strong> Repo views and clones are GitHub traffic against source repositories. Web app sessions are Clarity telemetry on the hosted pages. They answer different questions and should not be added together.</p>`;
+  }
+
+  // ---- Snapshot coverage: make outages visible instead of implied.
+  const covStrip = document.getElementById("cowork-coverage-strip");
+  const covNote = document.getElementById("cowork-coverage-note");
+  if (covStrip && covNote) {
+    const sorted = [...coverageDates].sort();
+    if (!sorted.length) {
+      covStrip.innerHTML = "";
+      covNote.textContent = "No Clarity snapshots captured.";
+    } else {
+      const first = new Date(sorted[0] + "T00:00:00Z");
+      const last = new Date(sorted[sorted.length - 1] + "T00:00:00Z");
+      const have = new Set(sorted);
+      const cells = [];
+      let missing = 0;
+      for (let t = first.getTime(); t <= last.getTime(); t += 86400000) {
+        const key = new Date(t).toISOString().slice(0, 10);
+        const ok = have.has(key);
+        if (!ok) missing += 1;
+        cells.push(`<span class="cov-cell ${ok ? "cov-ok" : "cov-gap"}" title="${key}${ok ? "" : " — no snapshot"}"></span>`);
+      }
+      covStrip.innerHTML = cells.join("");
+      covNote.innerHTML = missing
+        ? `${sorted.length} snapshot${sorted.length === 1 ? "" : "s"} from ${sorted[0]} to ${sorted[sorted.length - 1]} · <strong>${missing} day${missing === 1 ? "" : "s"} missing</strong>. Clarity URL snapshots cannot be backfilled, so totals across a gap understate real traffic.`
+        : `${sorted.length} consecutive snapshots from ${sorted[0]} to ${sorted[sorted.length - 1]} · no gaps.`;
+    }
+  }
+
+  // ---- Answer sheet: pre-answers the questions that keep getting asked.
+  const topApps = webRows
+    .filter((r) => /\/app\/|finops\.html/i.test(r.url))
+    .slice(0, 5);
+  const hubRow = webRows.find((r) => /cowork-billing\/?$/i.test(r.url.replace(/[?#].*$/, "")));
+  const answerBody = document.getElementById("cowork-answer-body");
+  const answerLines = [];
+  answerLines.push(`<p><strong>Scope.</strong> These figures cover the Cowork Billing pages and apps only — ${coworkRows.length} GitHub repo${coworkRows.length === 1 ? "" : "s"} and ${webRows.length} hosted URL${webRows.length === 1 ? "" : "s"}. They are not hub-wide, and they exclude <code>What-I-did-with-Cowork</code>.</p>`);
+  if (webSessionsTotal) {
+    answerLines.push(`<p><strong>Web app traffic.</strong> ${fmt(webSessionsTotal)} sessions from ${fmt(webUsersTotal)} distinct users, over the 3-day rolling window ending ${coworkSnapshotDate || "n/a"}. Each Clarity snapshot is a 3-day summary, so this is a current-rate figure — not a lifetime total and not a daily count.</p>`);
+  }
+  if (topApps.length) {
+    const li = topApps.map((r) => {
+      const name = r.url.replace(/^https?:\/\/[^/]+\/Analytics-Hub\//i, "").replace(/\/app\/index\.html$/i, "").replace(/\/app\/finops\.html$/i, "");
+      const s = r.sessions === 1 ? "session" : "sessions";
+      const u = r.users === 1 ? "user" : "users";
+      return `<li>${name} — ${fmt(r.sessions)} ${s}, ${fmt(r.users)} ${u}</li>`;
+    }).join("");
+    answerLines.push(`<p><strong>By app.</strong></p><ul class="cowork-answer-list">${li}</ul>`);
+  }
+  if (hubRow) {
+    answerLines.push(`<p><strong>Hub vs apps.</strong> The Cowork Billing landing page drew ${fmt(hubRow.sessions)} sessions; the apps themselves drew ${fmt(topApps.reduce((s, r) => s + r.sessions, 0))}. Landing-page visits are browsing; app sessions are working sessions.</p>`);
+  }
+  answerLines.push(`<p><strong>GitHub.</strong> ${fmt(viewsTotal)} views and ${fmt(clonesTotal)} clones across the ${coworkRows.length} in-scope repo${coworkRows.length === 1 ? "" : "s"}. Clones are the stronger adoption signal — that is someone pulling the code down to run it.</p>`);
+  if (pbitHits) {
+    answerLines.push(`<p><strong>PBIT.</strong> ${fmt(pbitHits)} hits on Power BI template paths. This is GitHub reporting those paths as popular — it is not a verified download count.</p>`);
+  }
+  if (answerBody) answerBody.innerHTML = answerLines.join("");
+
+  const copyBtn = document.getElementById("cowork-copy-btn");
+  if (copyBtn && !copyBtn.dataset.bound) {
+    copyBtn.dataset.bound = "1";
+    copyBtn.addEventListener("click", () => {
+      const plain = (answerBody ? answerBody.innerText : "").trim();
+      const stamp = `\n\nSource: Analytics Hub pages-analytics, Cowork Billing tab. Clarity snapshot ${coworkSnapshotDate || "n/a"}; GitHub rolling window.`;
+      navigator.clipboard.writeText(plain + stamp).then(() => {
+        copyBtn.textContent = "Copied";
+        setTimeout(() => { copyBtn.textContent = "Copy summary"; }, 1800);
+      }).catch(() => {
+        copyBtn.textContent = "Copy failed";
+        setTimeout(() => { copyBtn.textContent = "Copy summary"; }, 1800);
+      });
+    });
+  }
 
   const pbitTbody = document.getElementById("cowork-pbit-tbody");
   if (pbitTbody) {

@@ -473,13 +473,33 @@
           Excludes <code>microsoft/What-I-did-with-Cowork</code> by design.
         </p>
 
+        <div class="cowork-answer" id="cowork-answer">
+          <div class="cowork-answer-head">
+            <h3>Answer sheet</h3>
+            <button type="button" class="cowork-copy-btn" id="cowork-copy-btn">Copy summary</button>
+          </div>
+          <p class="cowork-answer-sub">Plain-language readout with scope and caveats attached, ready to paste into chat or a deck. Regenerates from the live data on every load.</p>
+          <div class="cowork-answer-body" id="cowork-answer-body"><p class="empty">Loading…</p></div>
+        </div>
+
+        <details class="cowork-scope" id="cowork-scope">
+          <summary><span class="cowork-scope-title">What exactly is counted here?</span><span class="cowork-scope-hint" id="cowork-scope-hint">—</span></summary>
+          <div class="cowork-scope-body" id="cowork-scope-body"><p class="empty">Loading…</p></div>
+        </details>
+
         <div class="cowork-kpi-grid">
-          <div class="kpi"><span class="kpi-label">Cowork repos in scope</span><span class="kpi-value" id="cowork-kpi-repos">—</span></div>
-          <div class="kpi"><span class="kpi-label">Views (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-views">—</span></div>
-          <div class="kpi"><span class="kpi-label">Clones (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-clones">—</span></div>
-          <div class="kpi"><span class="kpi-label">Unique visitors (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-uniques">—</span></div>
-          <div class="kpi"><span class="kpi-label">Web app sessions (latest Clarity URL snapshot)</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span></div>
-          <div class="kpi"><span class="kpi-label">PBIT resource hits</span><span class="kpi-value" id="cowork-kpi-pbit-hits">—</span></div>
+          <div class="kpi"><span class="kpi-label">Cowork repos in scope</span><span class="kpi-value" id="cowork-kpi-repos">—</span><span class="kpi-foot">GitHub repos matching the cowork filter</span></div>
+          <div class="kpi"><span class="kpi-label">Repo views (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-views">—</span><span class="kpi-foot">GitHub · rolling window</span></div>
+          <div class="kpi"><span class="kpi-label">Repo clones (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-clones">—</span><span class="kpi-foot">GitHub · people taking the code</span></div>
+          <div class="kpi"><span class="kpi-label">Repo unique visitors (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-uniques">—</span><span class="kpi-foot">GitHub · rolling window</span></div>
+          <div class="kpi"><span class="kpi-label">Web app sessions</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span><span class="kpi-foot" id="cowork-kpi-web-sessions-foot">Clarity · 3-day rolling</span></div>
+          <div class="kpi"><span class="kpi-label">PBIT resource hits</span><span class="kpi-value" id="cowork-kpi-pbit-hits">—</span><span class="kpi-foot">GitHub popular paths · not downloads</span></div>
+        </div>
+
+        <div class="cowork-coverage" id="cowork-coverage">
+          <span class="cowork-coverage-label">Clarity snapshot coverage</span>
+          <div class="cowork-coverage-strip" id="cowork-coverage-strip"></div>
+          <p class="cowork-coverage-note" id="cowork-coverage-note">—</p>
         </div>
 
         <div class="cowork-chart-wrap">
@@ -521,7 +541,7 @@
     <section class="cowork-table-section">
       <div class="wrap">
         <h2>Cowork web app pages (Clarity URL view)</h2>
-        <p class="section-sub">Latest URL-level web traffic from Clarity snapshots.</p>
+        <p class="section-sub">Per-URL sessions from the most recent Clarity snapshot. Each snapshot is a <strong>3-day rolling window</strong>, so these are current-rate figures, not lifetime totals. Local and staging hosts are excluded.</p>
         <div class="table-wrap">
           <table class="repo-table" id="cowork-webapp-table">
             <thead>
@@ -529,7 +549,7 @@
                 <th>URL</th>
                 <th class="num">Sessions</th>
                 <th class="num">Distinct users</th>
-                <th class="num">Signals</th>
+                <th class="num" title="Sessions showing a UX friction signal: dead clicks, rage clicks, excessive scroll, quickback or script errors.">UX friction</th>
               </tr>
             </thead>
             <tbody id="cowork-webapp-tbody">

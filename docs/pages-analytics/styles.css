@@ -1094,3 +1094,128 @@
 .btn-primary, .cta.primary, a.primary, .primary-btn {
   background: var(--accent);
 }
+
+/* ---- Cowork: answer sheet, scope disclosure, coverage strip ---- */
+.cowork-answer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  margin: 1.25rem 0;
+}
+.cowork-answer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .25rem;
+}
+.cowork-answer-head h3 { margin: 0; font-size: 1.05rem; }
+.cowork-answer-sub {
+  color: var(--text-muted);
+  font-size: .85rem;
+  margin: 0 0 .85rem;
+}
+.cowork-answer-body p { margin: 0 0 .7rem; font-size: .92rem; line-height: 1.55; }
+.cowork-answer-body p:last-child { margin-bottom: 0; }
+.cowork-answer-list {
+  margin: .2rem 0 .7rem;
+  padding-left: 1.15rem;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+.cowork-copy-btn {
+  flex: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: .82rem;
+  padding: .4rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 4px);
+  background: var(--surface);
+  color: var(--text-soft);
+  transition: color .15s, border-color .15s;
+}
+.cowork-copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+.cowork-scope {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .75rem 1.1rem;
+  margin: 0 0 1.25rem;
+}
+.cowork-scope > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
+}
+.cowork-scope > summary::-webkit-details-marker { display: none; }
+.cowork-scope > summary::before {
+  content: "▸";
+  margin-right: .5rem;
+  color: var(--text-muted);
+  transition: transform .15s;
+  display: inline-block;
+}
+.cowork-scope[open] > summary::before { transform: rotate(90deg); }
+.cowork-scope-title { font-weight: 600; font-size: .92rem; flex: 1; }
+.cowork-scope-hint { color: var(--text-muted); font-size: .82rem; white-space: nowrap; }
+.cowork-scope-body { padding-top: .9rem; }
+.cowork-scope-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.cowork-scope-cols h4 { margin: 0 0 .35rem; font-size: .88rem; }
+.cowork-scope-rule {
+  color: var(--text-muted);
+  font-size: .8rem;
+  margin: 0 0 .5rem;
+  line-height: 1.45;
+}
+.cowork-scope-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: .84rem;
+  line-height: 1.6;
+  max-height: 15rem;
+  overflow-y: auto;
+}
+.cowork-scope-foot {
+  margin: 1rem 0 0;
+  padding-top: .75rem;
+  border-top: 1px solid var(--border);
+  font-size: .84rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.cowork-coverage { margin: 0 0 1.5rem; }
+.cowork-coverage-label {
+  display: block;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+  margin-bottom: .4rem;
+}
+.cowork-coverage-strip {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  margin-bottom: .45rem;
+}
+.cov-cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.cov-ok { background: var(--accent); opacity: .75; }
+.cov-gap { background: var(--border); border: 1px dashed var(--text-muted); opacity: .55; }
+.cowork-coverage-note { font-size: .82rem; color: var(--text-soft); margin: 0; line-height: 1.5; }
