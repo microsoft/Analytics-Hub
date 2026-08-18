@@ -1257,6 +1257,15 @@ a:hover { text-decoration: underline; }
   max-width: 68ch;
 }
 
+.cb-tool-picker {
+  margin: 1.25rem 0 0;
+  max-width: 78ch;
+  padding: .85rem 1rem;
+  border-left: 3px solid var(--accent, #6b4fbb);
+  background: var(--surface-muted, rgba(127, 127, 127, .06));
+  border-radius: 0 6px 6px 0;
+}
+
 /* Decision aid: which of the two templates do I need. */
 .cc-decide {
   display: grid;
