@@ -1829,3 +1829,44 @@ main .team-hero .lede {
   cursor: help;
 }
 
+
+/* ---- Retired app card (Cowork Usage Tracker, superseded by Viva Insights) ---- */
+.cb-download-card.cb-download-retired {
+  background: #f7f8fa;
+  border-style: dashed;
+  border-color: rgba(0,0,0,0.16);
+  cursor: default;
+}
+.cb-download-card.cb-download-retired:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(0,0,0,0.16);
+}
+.cb-download-card.cb-download-retired .cb-download-icon { opacity: .45; }
+.cb-download-card.cb-download-retired h3 { color: inherit; }
+.cb-retired-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: .68em;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.07);
+  color: #5a6270;
+  vertical-align: 2px;
+}
+.cb-download-note {
+  font-size: .86em;
+  opacity: .72;
+  margin-top: 6px;
+}
+[data-theme="dark"] .cb-download-card.cb-download-retired {
+  background: #17171c;
+  border-color: rgba(255,255,255,0.14);
+}
+[data-theme="dark"] .cb-retired-tag {
+  background: rgba(255,255,255,0.10);
+  color: #b8bfc9;
+}

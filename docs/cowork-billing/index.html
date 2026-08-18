@@ -206,14 +206,15 @@
           <span class="cb-download-meta">Analytics Hub &middot; FinOps-Cowork</span>
         </div>
       </a>
-      <a class="cb-download-card" href="./cowork-usage-tracker/app/index.html" target="_blank" rel="noopener">
+      <div class="cb-download-card cb-download-retired">
         <span class="cb-download-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 1.6M9.5 2.5h5"/></svg></span>
         <div class="cb-download-body">
-          <h3>Cowork Usage Tracker &#8599;</h3>
-          <p>Cowork exports are point-in-time snapshots &mdash; upload them over time and this tool reconstructs the missing trend: per-department deltas, run-rate forecast, pool-exhaustion date, dynamic slice-by, and a &ldquo;what to act on&rdquo; signals panel. XLSX &amp; deck export.</p>
-          <span class="cb-download-meta">Analytics Hub &middot; cowork-usage-tracker</span>
+          <h3>Cowork Usage Tracker <span class="cb-retired-tag">Retired</span></h3>
+          <p>This app existed because Cowork exports were point-in-time snapshots with no trend. <strong>Microsoft now ships that natively.</strong> The <a href="https://learn.microsoft.com/en-us/viva/insights/org-team-insights/ai-cost-dashboard" target="_blank" rel="noopener">Consumption Dashboard in Viva Insights</a> tracks Copilot Credit usage over time, broken down by group, organization or job function, with active users, usage intensity across user segments, and which spending policies are nearing their limits &mdash; no manual uploads.</p>
+          <p class="cb-download-note">Available to Insights Analysts, Managers (scoped to their group) and Global Administrators. Requires usage-based billing enabled. Credit figures there are for reference &mdash; the Microsoft 365 admin center remains the billing record of truth.</p>
+          <span class="cb-download-meta">Superseded by Viva Insights &middot; <a href="https://learn.microsoft.com/en-us/viva/insights/org-team-insights/ai-cost-dashboard" target="_blank" rel="noopener">Read the docs &#8599;</a></span>
         </div>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -344,6 +345,7 @@
   })();
 </script>
 <script src="share.js"></script>
+<script src="./cwk-events.js"></script>
 
 </body>
 </html>

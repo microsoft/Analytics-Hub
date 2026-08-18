@@ -638,6 +638,8 @@
 
     function readRate() { var r = $('rateInput'); if (r) { var v = parseFloat(r.value); state.rate = isFinite(v) && v >= 0 ? v : 0.01; } }
     function startFrom(entraRows, creditRows, demo) {
+        // Telemetry: distinguish a real customer upload from demo-mode evaluation.
+        try { if (window.cwkTrack) window.cwkTrack(demo ? 'demo_opened' : 'data_loaded', true); } catch (e) {}
         state.demoActive = !!demo;
         var fb = $('fallbackLimit'); if (fb) { var fv = parseFloat(fb.value); state.fallbackLimit = isFinite(fv) && fv > 0 ? fv : 400; }
         readRate();

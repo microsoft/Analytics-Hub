@@ -920,6 +920,8 @@
     }
 
     function startFrom(entraRows, creditRows, demo) {
+        // Telemetry: distinguish a real customer upload from demo-mode evaluation.
+        try { if (window.cwkTrack) window.cwkTrack(demo ? 'demo_opened' : 'data_loaded', true); } catch (e) {}
         state.demoActive = !!demo;
         var fb = $('fallbackLimitF');
         if (fb) { var fbv = parseFloat(fb.value); state.fallbackLimit = isFinite(fbv) && fbv > 0 ? fbv : 400; }

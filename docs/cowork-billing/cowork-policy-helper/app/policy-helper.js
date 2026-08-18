@@ -1889,6 +1889,8 @@ function exportAdjustedOverages() {
     }
 
     function startFrom(entraRows, creditRows, demo) {
+        // Telemetry: distinguish a real customer upload from demo-mode evaluation.
+        try { if (window.cwkTrack) window.cwkTrack(demo ? 'demo_opened' : 'data_loaded', true); } catch (e) {}
         state.entraRows = entraRows;
         state.creditRows = creditRows;
         state.demoActive = !!demo;

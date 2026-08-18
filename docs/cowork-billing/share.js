@@ -85,8 +85,8 @@ window.__CWK_SHARE_DATA__ = {"name": "Cowork Billing", "accent": "#0b5cff", "acc
       + "<span id='cwkMsg' class='ab-msg'></span></div>"
       + "<div class='mailwrap'><div class='body' id='cwkEmailBody'>" + bodyInner + "</div></div>"
       + "<script>var SUBJ=" + JSON.stringify(subject) + ",BODY=" + JSON.stringify(bodyText) + ";"
-      + "document.getElementById('cwkMail').onclick=function(){location.href='mailto:?subject='+encodeURIComponent(SUBJ)+'&body='+encodeURIComponent(BODY);};"
-      + "document.getElementById('cwkCopy').onclick=function(){var h=document.getElementById('cwkEmailBody').outerHTML;var ok=function(){document.getElementById('cwkMsg').textContent='Copied \u2014 paste into your email';};"
+      + "document.getElementById('cwkMail').onclick=function(){try{window.opener&&window.opener.postMessage({cwkShare:'email'},'*');}catch(e){}location.href='mailto:?subject='+encodeURIComponent(SUBJ)+'&body='+encodeURIComponent(BODY);};"
+      + "document.getElementById('cwkCopy').onclick=function(){try{window.opener&&window.opener.postMessage({cwkShare:'copy'},'*');}catch(e){}var h=document.getElementById('cwkEmailBody').outerHTML;var ok=function(){document.getElementById('cwkMsg').textContent='Copied \u2014 paste into your email';};"
       + "try{navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([h],{type:'text/html'}),'text/plain':new Blob([BODY],{type:'text/plain'})})]).then(ok,function(){navigator.clipboard.writeText(BODY).then(ok);});}"
       + "catch(e){navigator.clipboard.writeText(BODY).then(ok);}};"
       + "</" + "script></body></html>";
