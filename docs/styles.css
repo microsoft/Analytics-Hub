@@ -1870,3 +1870,45 @@ main .team-hero .lede {
   background: rgba(255,255,255,0.10);
   color: #b8bfc9;
 }
+
+/* ---- Credit limit behaviour explainer (cowork-billing hub) ---- */
+.cb-limit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin: 20px 0 16px;
+}
+.cb-limit-card {
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 10px;
+  padding: 18px 20px;
+  background: #fff;
+}
+.cb-limit-card.cb-limit-hard { border-left: 5px solid #b3261e; }
+.cb-limit-card.cb-limit-soft { border-left: 5px solid #b58100; }
+.cb-limit-card h3 { margin: 6px 0 8px; font-size: 1.08em; }
+.cb-limit-card p { margin: 0 0 10px; }
+.cb-limit-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: .7em;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.cb-limit-hard .cb-limit-tag { background: rgba(179,38,30,0.10); color: #b3261e; }
+.cb-limit-soft .cb-limit-tag { background: rgba(181,129,0,0.12); color: #8a6200; }
+.cb-limit-card blockquote {
+  margin: 0 0 10px;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.035);
+  border-radius: 6px;
+  font-style: italic;
+  font-size: .94em;
+  line-height: 1.5;
+}
+.cb-limit-note { font-size: .92em; opacity: .8; margin-bottom: 0 !important; }
+.cb-limit-source { font-size: .9em; opacity: .78; line-height: 1.6; }
+[data-theme="dark"] .cb-limit-card { background: #1e1e24; border-color: rgba(255,255,255,0.12); }
+[data-theme="dark"] .cb-limit-card blockquote { background: rgba(255,255,255,0.05); }

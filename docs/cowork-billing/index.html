@@ -218,6 +218,31 @@
     </div>
   </section>
 
+  <section class="wrap cb-limits" id="cb-limits">
+    <h2>How credit limits actually behave</h2>
+    <p>The two limits in a spending policy enforce very differently. This trips up most conversations, so it is worth being precise &mdash; and it explains why a user capped at 20,000 credits can still finish a task at 32,000.</p>
+
+    <div class="cb-limit-grid">
+      <div class="cb-limit-card cb-limit-hard">
+        <span class="cb-limit-tag">Hard cap</span>
+        <h3>Policy-level budget</h3>
+        <p>The overall monthly credit limit on the spending policy. This one really stops.</p>
+        <blockquote>&ldquo;When users hit the limit, they lose access to agents and services for the rest of the month until credits reset on the first of the month.&rdquo;</blockquote>
+        <p class="cb-limit-note">This is the number to manage if you need spend to stop at a figure you can commit to.</p>
+      </div>
+
+      <div class="cb-limit-card cb-limit-soft">
+        <span class="cb-limit-tag">Soft limit</span>
+        <h3>Per-user spending limit</h3>
+        <p>The per-person allowance inside a policy. It does <strong>not</strong> hard-stop a running task.</p>
+        <blockquote>&ldquo;If a running task exceeds the per-user limit, it can complete without interruption. The excess usage doesn&rsquo;t count toward the policy limit, isn&rsquo;t billed (at Microsoft&rsquo;s sole discretion), and doesn&rsquo;t appear as consumed credits in the Cost Management dashboards.&rdquo;</blockquote>
+        <p class="cb-limit-note">So per-user overage is currently absorbed by Microsoft, not billed to you &mdash; and because it never appears as consumed credits, you cannot reconstruct it from the export.</p>
+      </div>
+    </div>
+
+    <p class="cb-limit-source">Both quotations are verbatim from Microsoft&rsquo;s <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a>, last updated 13 August 2026. Note the qualifier <strong>&ldquo;at Microsoft&rsquo;s sole discretion&rdquo;</strong> &mdash; this is current behaviour, not a contractual guarantee, and it can change. Treat any overage figure in these tools as a planning estimate; full-consumption figures are unaffected. Your Microsoft invoice remains the record of truth.</p>
+  </section>
+
   <section class="wrap cb-sources">
     <h2>Where do I get these files?</h2>
     <p>Each browser app above runs on two CSV exports you already own &mdash; nothing is uploaded, everything is parsed locally in your browser:</p>
