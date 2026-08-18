@@ -12,13 +12,25 @@
  *   - Never throws. Every call is wrapped.
  *
  * Signals captured:
- *   data_loaded      — real CSVs uploaded (the moment the tool does real work)
- *   demo_opened      — demo mode (evaluation intent, not real usage)
- *   export_*         — an artifact left the tool. Strongest adoption signal.
- *   share_opened     — share sheet opened from the banner
- *   share_email      — "Open in email" clicked
- *   share_copied     — "Copy for email" clicked
- *   feedback_opened  — feedback form opened
+ *   data_loaded        — real CSVs uploaded (the moment the tool does real work)
+ *   demo_opened        — demo mode (evaluation intent, not real usage)
+ *   report_generated   — the report was actually produced. The middle of the funnel:
+ *                        without it we can see data go in and exports come out, but
+ *                        not whether anyone got a report in between.
+ *   export_*           — an artifact left the tool. Strongest adoption signal.
+ *   view_*             — which grain the user works in (individual / department / team)
+ *   policy_*           — real editing in the Policy Helper, not just browsing
+ *   filter_cleared     — entity filter reset
+ *   session_reset      — user reloaded with different data, i.e. iterating
+ *   share_opened       — share sheet opened from the banner
+ *   share_email        — "Open in email" clicked
+ *   share_copied       — "Copy for email" clicked
+ *   feedback_opened    — feedback form opened
+ *   feedback_submitted — feedback actually sent or copied, which is the one that counts
+ *
+ * `once` semantics are deliberately asymmetric: funnel steps (data_loaded,
+ * report_generated) fire once per page load so they count sessions, while exports
+ * and edits fire every time so they count volume.
  */
 (function () {
   'use strict';
@@ -93,9 +105,36 @@
     onClick('btnDemo',  'demo_opened', true);
     onClick('btnDemoF', 'demo_opened', true);
 
+    // ---- the middle of the funnel: a report was actually produced.
+    // btnGenerate exists in both Chargeback and Policy Helper; the APP prefix
+    // separates them, so one binding covers both.
+    onClick('btnGenerate',  'report_generated', true);
+    onClick('btnGenerateF', 'report_generated', true);
+
+    // ---- working grain: how the customer actually slices the result
+    onClick('viewIndividual', 'view_individual');
+    onClick('viewDepartment', 'view_department');
+    onClick('viewTeam',       'view_team');
+
+    // ---- Policy Helper: real editing, not browsing
+    onClick('btnBulkAssign',    'policy_bulk_assign');
+    onClick('btnApplyRecs',     'policy_auto_adjust');
+    onClick('btnResetPolicies', 'policy_reset');
+
+    // ---- friction and iteration
+    onClick('cbEntityClear',     'filter_cleared');
+    onClick('finopsEntityClear', 'filter_cleared');
+    onClick('btnClearEntra',     'files_cleared');
+    onClick('btnClearEntraF',    'files_cleared');
+    onClick('btnReset',          'session_reset');
+    onClick('btnResetF',         'session_reset');
+
     // ---- feedback
     onClick('btnFeedback',  'feedback_opened', true);
     onClick('btnFeedback2', 'feedback_opened', true);
+    // Opening the form is intent; these two are the actual submission.
+    onClick('fbCopy',       'feedback_submitted');
+    onClick('fbEmailBtn',   'feedback_submitted');
 
     // ---- share bar (injected after load, so watch for it)
     var shareTries = 0;
