@@ -17,10 +17,13 @@
         '<numFmt numFmtId="167" formatCode="#,##0.0"/>' +
         '<numFmt numFmtId="168" formatCode="&quot;$&quot;0.0000"/>' +
         '</numFmts>' +
-        '<fonts count="3">' +
+        '<fonts count="4">' +
         '<font><sz val="11"/><name val="Calibri"/></font>' +
         '<font><b/><sz val="11"/><name val="Calibri"/></font>' +
         '<font><b/><sz val="14"/><color rgb="FF1F4E79"/><name val="Calibri"/></font>' +
+        // fontId 3: header row. Explicit white, because the default theme colour
+        // renders black on the dark blue header fill and is close to unreadable.
+        '<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font>' +
         '</fonts>' +
         '<fills count="3">' +
         '<fill><patternFill patternType="none"/></fill>' +
@@ -38,7 +41,7 @@
         '<xf numFmtId="167" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>' +
         '<xf numFmtId="164" fontId="1" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1"/>' +
         '<xf numFmtId="166" fontId="1" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1"/>' +
-        '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"><alignment vertical="center"/></xf>' +
+        '<xf numFmtId="0" fontId="3" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"><alignment vertical="center"/></xf>' +
         '<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>' +
         '<xf numFmtId="168" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>' +
         '</cellXfs>' +
