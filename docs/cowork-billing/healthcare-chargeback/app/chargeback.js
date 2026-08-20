@@ -33,6 +33,7 @@
         surplusMode: 'redistribute',
         settleMode: 'entitlement', // 'entitlement' | 'flat'
         flatRate: null,            // null = use break-even
+        entMatch: null,            // report of which entitlement names landed
         packSize: 25000,
         howOpen: true              // walkthrough starts open; the mechanic is not obvious
     };
@@ -578,6 +579,142 @@
             '<ol class="cb-how-list">' + steps + '</ol></details>';
     }
 
+    /* ------------------------------------------------- entitlement loading
+       Entitlements live in a spreadsheet the customer maintains by hand, so the
+       names in it drift from the names in the export: different case, stray
+       whitespace, an old label. An unmatched name used to contribute nothing,
+       leaving that unit silently settled on a zero entitlement. That is wrong
+       and invisible, so match loosely and report what did not land. */
+    function normLabel(s) { return String(s == null ? '' : s).trim().toLowerCase().replace(/\s+/g, ' '); }
+
+    function applyEntitlements(map, m) {
+        var known = {}, i, k;
+        for (i = 0; i < m.groups.length; i++) known[normLabel(m.groups[i].label)] = m.groups[i].label;
+        var out = {}, unknown = [], matched = {};
+        for (k in map) {
+            if (!map.hasOwnProperty(k)) continue;
+            var hit = known[normLabel(k)];
+            if (hit) { out[hit] = (out[hit] || 0) + map[k]; matched[hit] = 1; }
+            else unknown.push(k);
+        }
+        var missing = [];
+        for (i = 0; i < m.groups.length; i++) if (!matched[m.groups[i].label]) missing.push(m.groups[i].label);
+        state.entitlements = out;
+        state.entMatch = {
+            matched: keyCount(matched), total: m.groups.length,
+            unknown: unknown, missing: missing
+        };
+    }
+    function keyCount(o) { var n = 0; for (var k in o) { if (o.hasOwnProperty(k)) n++; } return n; }
+
+    /* Splits a pasted or uploaded table into rows of fields. Handles quoted CSV
+       as well as the tab-separated text you get pasting a range out of Excel. */
+    function splitTable(text) {
+        var lines = String(text).replace(/^\uFEFF/, '').split(/\r?\n/);
+        var useTab = lines.length > 1 && lines[0].indexOf('\t') >= 0;
+        var out = [], i;
+        for (i = 0; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            out.push(useTab ? lines[i].split('\t') : splitCsvLine(lines[i]));
+        }
+        return out;
+    }
+    function splitCsvLine(line) {
+        var f = [], cur = '', q = false, i;
+        for (i = 0; i < line.length; i++) {
+            var c = line[i];
+            if (q) { if (c === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+            else if (c === '"') q = true;
+            else if (c === ',') { f.push(cur); cur = ''; }
+            else cur += c;
+        }
+        f.push(cur);
+        // a single field means it was not comma separated; fall back to runs of spaces
+        return f.length > 1 ? f : line.split(/\s{2,}/);
+    }
+
+    /* Label in the first column, value in a column named like an entitlement,
+       otherwise the last column. That makes the downloaded template round-trip
+       unchanged while still accepting a plain two-column list. */
+    function parseEntitlementTable(text) {
+        var rows = splitTable(text);
+        if (!rows.length) return {};
+        var head = rows[0].map(function (h) { return String(h).trim().toLowerCase(); });
+        var vCol = -1, i;
+        for (i = 1; i < head.length; i++) {
+            if (/entitle|funded|share|allocat/.test(head[i])) { vCol = i; break; }
+        }
+        var headerLooksNumeric = isFinite(parseFloat(String(rows[0][vCol < 0 ? rows[0].length - 1 : vCol]).replace(/[^0-9.\-]/g, '')));
+        var start = headerLooksNumeric ? 0 : 1;
+        var out = {};
+        for (i = start; i < rows.length; i++) {
+            var r = rows[i];
+            var label = String(r[0] == null ? '' : r[0]).trim();
+            if (!label) continue;
+            var col = vCol >= 0 ? vCol : r.length - 1;
+            /* Join to the end of the row rather than taking one field. An
+               unquoted thousands separator ("400,000") splits into two fields
+               and would otherwise parse as 400. Rejoining recovers it, and for
+               a well-formed row there is nothing after the value column. */
+            var raw = r.slice(col).join('');
+            var v = parseFloat(raw.replace(/[^0-9.\-]/g, ''));
+            if (!isFinite(v) || v <= 0) continue;
+            if (state.packSize > 0 && /pack/i.test(raw) && v < 1000) v = v * state.packSize;
+            out[label] = (out[label] || 0) + v;
+        }
+        return out;
+    }
+
+    /* Pre-listing every unit is the point: they cannot mistype a name that is
+       already in the file. Seeded with the headcount split when a pool is set,
+       so they edit a starting point rather than a blank column. */
+    function downloadEntitlementTemplate() {
+        var m = computeChargeback();
+        var prop = (state.prepaidPurchased > 0 && window.CBSettle)
+            ? window.CBSettle.proposeSplit(m.groups, state.prepaidPurchased, 'users') : {};
+        var rows = [[unitLabel(), 'Users', 'Credits used', 'Entitlement (credits)']];
+        m.groups.forEach(function (g) {
+            rows.push([g.label, g.users, Math.round(g.credits),
+                       prop[g.label] != null ? Math.round(prop[g.label]) : '']);
+        });
+        // No trailer rows. The template has to round-trip through the loader
+        // unchanged, and anything that is not a unit comes back unrecognised.
+        try { if (window.cwkTrack) window.cwkTrack('entitlement_template'); } catch (e) {}
+        downloadBlob(toCsv(rows), 'entitlement-template' + demoSuffix() + '.csv');
+    }
+
+    function loadEntitlementFile(file) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var m = computeChargeback();
+            applyEntitlements(parseEntitlementTable(reader.result), m);
+            try { if (window.cwkTrack) window.cwkTrack('entitlement_file_loaded'); } catch (e) {}
+            render();
+        };
+        reader.onerror = function () { alert('Could not read that file.'); };
+        reader.readAsText(file);
+    }
+
+    /* Summary of what landed, shown under the entry box. Silence here would
+       mean a mistyped name quietly zeroes a unit's entitlement. */
+    function matchSummary() {
+        var mm = state.entMatch;
+        if (!mm) return '';
+        var bits = [], cls = 'ok';
+        bits.push(mm.matched + ' of ' + mm.total + ' ' + esc(unitWordPl()) + ' matched');
+        if (mm.unknown.length) {
+            cls = 'bad';
+            bits.push('not recognised: ' + mm.unknown.slice(0, 6).map(esc).join(', ') +
+                (mm.unknown.length > 6 ? ' and ' + (mm.unknown.length - 6) + ' more' : ''));
+        }
+        if (mm.missing.length) {
+            if (cls === 'ok') cls = 'warn';
+            bits.push('no entitlement set for: ' + mm.missing.slice(0, 6).map(esc).join(', ') +
+                (mm.missing.length > 6 ? ' and ' + (mm.missing.length - 6) + ' more' : ''));
+        }
+        return '<p class="cb-match ' + cls + '">' + bits.join('. ') + '.</p>';
+    }
+
     function renderSettlement(m) {
         var s = settlementModel(m);
         if (!s) return '';
@@ -607,16 +744,24 @@
         var entryPanel = state.settleMode === 'entitlement'
             ? '<div class="cb-settle-entry">' +
                 '<label for="stEntitle">Entitlement per ' + esc(unitWord()) + '</label>' +
-                '<textarea id="stEntitle" rows="4" placeholder="' + esc(unit) + ', credits\n' + esc(sampleUnit(m)) + ', 300000">' + esc(entitlementText()) + '</textarea>' +
+                '<textarea id="stEntitle" rows="5" placeholder="' + esc(unit) + ', credits\n' + esc(sampleUnit(m)) + ', 300000">' + esc(entitlementText()) + '</textarea>' +
                 '<div class="cb-settle-row">' +
                   '<button type="button" class="btn-secondary" id="stApply">Apply</button>' +
-                  '<span class="cb-settle-split">Or propose a split of the pool: ' +
+                  '<button type="button" class="btn-secondary" id="stLoad">\u2b06 Load CSV</button>' +
+                  '<button type="button" class="btn-secondary" id="stTemplate">\u2b07 Download template</button>' +
+                  '<input type="file" id="stFile" accept=".csv,.txt,.tsv,text/csv,text/plain" hidden>' +
+                '</div>' +
+                '<div class="cb-settle-row"><span class="cb-settle-split">Or propose a split of the pool: ' +
                     '<button type="button" class="cb-linkbtn" data-split="usage">by usage</button> \u00B7 ' +
                     '<button type="button" class="cb-linkbtn" data-split="users">by users</button> \u00B7 ' +
                     '<button type="button" class="cb-linkbtn" data-split="even">evenly</button>' +
-                  '</span>' +
-                '</div>' +
-                '<small>One row per ' + esc(unitWord()) + ', comma or tab separated. Values are credits; write \u201C12 packs\u201D to enter packs at ' + fmtInt(state.packSize) + ' each. Requires a prepaid pool size in the left rail.</small>' +
+                  '</span></div>' +
+                matchSummary() +
+                '<small><b>Download template</b> gives you a CSV with every ' + esc(unitWord()) +
+                  ' already listed, so no name can be mistyped. Fill the entitlement column in Excel and <b>Load CSV</b> it back. ' +
+                  'You can also paste a two-column range straight from Excel into the box above, or type it. ' +
+                  'Values are credits; write \u201C12 packs\u201D to enter packs at ' + fmtInt(state.packSize) + ' each. ' +
+                  'Names are matched ignoring case and spacing. Needs a prepaid pool size in the left rail.</small>' +
               '</div>'
             : '';
 
@@ -721,16 +866,29 @@
         if (apply) apply.addEventListener('click', function () {
             var ta = $('stEntitle');
             if (!ta) return;
-            state.entitlements = window.CBSettle.parseEntitlements(ta.value, state.packSize);
+            applyEntitlements(parseEntitlementTable(ta.value), m);
             try { if (window.cwkTrack) window.cwkTrack('settlement_applied'); } catch (e) {}
             render();
         });
+        var load = $('stLoad'), file = $('stFile');
+        if (load && file) {
+            load.addEventListener('click', function () { file.click(); });
+            file.addEventListener('change', function () {
+                if (file.files && file.files[0]) loadEntitlementFile(file.files[0]);
+                file.value = '';
+            });
+        }
+        var tpl = $('stTemplate');
+        if (tpl) tpl.addEventListener('click', downloadEntitlementTemplate);
         Array.prototype.forEach.call(document.querySelectorAll('[data-split]'), function (btn) {
             btn.addEventListener('click', function () {
                 var pool = state.prepaidPurchased;
                 if (!(pool > 0)) { alert('Enter the prepaid pool size in the left rail first.'); return; }
                 var basis = btn.getAttribute('data-split');
                 state.entitlements = window.CBSettle.proposeSplit(m.groups, pool, basis);
+                // proposed splits are keyed off the group labels themselves, so
+                // every unit matches by construction
+                state.entMatch = { matched: m.groups.length, total: m.groups.length, unknown: [], missing: [] };
                 var ta = $('stEntitle');
                 if (ta) {
                     ta.value = m.groups.map(function (g) {
@@ -1073,6 +1231,7 @@
         var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = String(state.prepaidPurchased);
 
         state.entitlements = window.CBSettle.proposeSplit(m.groups, state.prepaidPurchased, 'users');
+        state.entMatch = { matched: m.groups.length, total: m.groups.length, unknown: [], missing: [] };
         state.surplusMode = 'redistribute';
         state.settleMode = 'entitlement';
     }
@@ -1108,7 +1267,7 @@
         state.prepaidRate = 0.008; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
         state.expandedUnits = {}; state.valueMode = 'total'; state.policyLimits = {}; state.entityFilter = {}; state.entitySearch = ''; state.lineSearch = '';
         state.sortJournal = { key: 'paygo', dir: 'desc' }; state.sortLines = { key: 'charge', dir: 'desc' };
-        state.entitlements = {}; state.settleMode = 'entitlement'; state.surplusMode = 'redistribute'; state.flatRate = null;
+        state.entitlements = {}; state.settleMode = 'entitlement'; state.surplusMode = 'redistribute'; state.flatRate = null; state.entMatch = null;
         $('statusEntra').textContent = 'No file selected'; $('statusCredits').textContent = 'No file selected';
         $('dzEntra').classList.remove('loaded'); $('dzCredits').classList.remove('loaded');
         $('fileEntra').value = ''; $('fileCredits').value = '';
