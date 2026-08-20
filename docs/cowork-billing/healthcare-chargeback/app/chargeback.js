@@ -1,4 +1,4 @@
-/* chargeback.js - Cowork Chargeback (100% client-side).
+/* chargeback.js - Healthcare Chargeback (100% client-side).
    One job: turn Cowork consumption + org data into a finance-ready,
    invoice-reconciled chargeback - per unit and per person, in dollars.
    Full-consumption model: allocates 100% of the bill. No frameworks, no network. */
@@ -34,12 +34,14 @@
         settleMode: 'entitlement', // 'entitlement' | 'flat'
         flatRate: null,            // null = use break-even
         entMatch: null,            // report of which entitlement names landed
+        billingPeriod: null,       // what finance is billing; not the generation date
         packSize: 25000,
         howOpen: true              // walkthrough starts open; the mechanic is not obvious
     };
 
-    function $(id) { return document.getElementById(id); }
-    function esc(s) {
+    var APP_NAME = 'Healthcare Chargeback';
+
+    function $(id) { return document.getElementById(id); }    function esc(s) {
         return String(s == null ? '' : s)
             .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -924,31 +926,122 @@
         if (state.settleMode === 'flat') rows.push(['Internal rate $/credit', s.flatRate.toFixed(6)]);
         else rows.push(['Surplus treatment', state.surplusMode]);
         rows.push([]);
-        var head = [unitLabel(), 'Users', 'Credits used'];
-        if (state.settleMode !== 'flat') head = head.concat(['Entitlement', 'Covered', 'Excess', 'Covered $', 'Excess $', 'Adjustment $']);
-        head.push('Settled bill $');
+        var head = [unitHeader(), 'Users', 'Credits used'];
+        if (state.settleMode !== 'flat') head = head.concat(['Entitlement', 'Covered', 'Excess', 'Unused', 'Covered $', 'Excess $', 'Adjustment $']);
+        head = head.concat(['Settled bill $', 'Effective $/credit', 'Cost at PAYG $', 'Saving vs PAYG $']);
         rows.push(head);
-        s.rows.forEach(function (r) {
+        var billPennies = centsToTotal(s.rows.map(function (r) { return r.finalBill; }), s.finalBilled);
+        s.rows.forEach(function (r, ix) {
+            var bill = billPennies[ix];
             var line = [r.label, r.users, Math.round(r.used)];
             if (state.settleMode !== 'flat') {
                 line = line.concat([Math.round(r.entitlement), Math.round(r.covered), Math.round(r.excess),
+                                    Math.round(r.unused || 0),
                                     r.coveredCost.toFixed(2), r.excessCost.toFixed(2), r.adjustment.toFixed(2)]);
             }
-            line.push(r.finalBill.toFixed(2));
+            var atPayg = r.used * state.rate;
+            line = line.concat([
+                bill.toFixed(2),
+                r.used > 0 ? (bill / r.used).toFixed(6) : '0.000000',
+                atPayg.toFixed(2),
+                (atPayg - bill).toFixed(2)
+            ]);
             rows.push(line);
         });
+        /* Totals go in column B, not the last column. Trailing them off the end
+           of a wide table parks the number under an unrelated heading, which
+           reads as if the total belongs to that column. */
+        function totalRow(label, value) { return [label, value]; }
         rows.push([]);
-        rows.push(['Tenant cost (what Microsoft charges)', '', '', '', '', '', '', '', '', s.actualCost.toFixed(2)]);
-        rows.push(['Settled to units', '', '', '', '', '', '', '', '', s.finalBilled.toFixed(2)]);
-        rows.push(['Residual', '', '', '', '', '', '', '', '', s.residual.toFixed(2)]);
-        if (s.invoiceTotal != null) {
-            rows.push(['Microsoft invoice entered', '', '', '', '', '', '', '', '', s.invoiceTotal.toFixed(2)]);
-            rows.push(['Variance vs tenant cost', '', '', '', '', '', '', '', '', s.invoiceVariance.toFixed(2)]);
+        rows.push(totalRow('Tenant cost (what Microsoft charges)', s.actualCost.toFixed(2)));
+        rows.push(totalRow('Settled to units', s.finalBilled.toFixed(2)));
+        rows.push(totalRow('Residual (settled minus tenant cost)', s.residual.toFixed(2)));
+        if (state.settleMode !== 'flat') {
+            rows.push(totalRow('Unused entitlement (credits)', Math.round(s.totalUnused)));
+            rows.push(totalRow('Over-collection before treatment', s.surplus.toFixed(2)));
+            rows.push(totalRow('Surplus treatment applied', state.surplusMode));
         }
+        if (s.invoiceTotal != null) {
+            rows.push(totalRow('Microsoft invoice entered', s.invoiceTotal.toFixed(2)));
+            rows.push(totalRow('Variance vs tenant cost', s.invoiceVariance.toFixed(2)));
+        }
+        rows = rows.concat(defsBlock([
+            ['Credits used', 'Credits this ' + unitWord() + ' consumed in the period.'],
+            ['Entitlement', 'Share of the prepaid pool this ' + unitWord() + ' funded. A claim on the money, not a reservation of credits.'],
+            ['Covered', 'Credits used up to the entitlement. Charged at the prepaid rate of ' + state.prepaidRate.toFixed(4) + '.'],
+            ['Excess', 'Credits used above the entitlement. Charged at the pay-as-you-go rate of ' + state.rate.toFixed(4) + '.'],
+            ['Unused', 'Entitlement funded but not consumed. Someone else consumed these at the prepaid rate.'],
+            ['Adjustment $', 'Correction applied by the chosen surplus treatment. Negative reduces the bill.'],
+            ['Settled bill $', 'What this ' + unitWord() + ' is charged, after any adjustment.'],
+            ['Effective $/credit', 'Settled bill divided by credits used. Compare across ' + unitWordPl() + '.'],
+            ['Cost at PAYG $', 'What this ' + unitWord() + ' would pay if every credit were billed pay-as-you-go, with no prepaid pool.'],
+            ['Saving vs PAYG $', 'Cost at PAYG minus the settled bill. This is the benefit of the prepaid pool reaching this ' + unitWord() + '.'],
+            ['Residual', 'Total settled minus what Microsoft charges the tenant. Zero means the settlement reconciles to the invoice.']
+        ]));
         try { if (window.cwkTrack) window.cwkTrack('export_settlement_csv'); } catch (e) {}
-        downloadBlob(toCsv(rows), 'healthcare-chargeback-settlement' + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'healthcare-chargeback-settlement-' + periodSlug() + demoSuffix() + '.csv');
     }
 
+    /* Rounding each unit's bill to cents independently leaves the column sum a
+       penny or two off the invoice. On a posted GL file that becomes a variance
+       someone has to chase. Distribute the drift by largest discarded remainder
+       so the rows add up to the total exactly. */
+    function centsToTotal(values, target) {
+        if (!values.length) return [];
+        var cents = values.map(function (v) { return Math.floor(v * 100); });
+        var sum = cents.reduce(function (a, b) { return a + b; }, 0);
+        var drift = Math.round(target * 100) - sum;
+        var order = values.map(function (v, i) { return { i: i, frac: v * 100 - Math.floor(v * 100) }; });
+        order.sort(function (a, b) { return b.frac - a.frac; });
+        var step = drift > 0 ? 1 : -1;
+        for (var k = 0; k < Math.abs(drift); k++) cents[order[k % order.length].i] += step;
+        return cents.map(function (c) { return c / 100; });
+    }
+
+    /* The file you actually post. Strictly tabular: no title rows, no footer
+       notes, no blank lines, period repeated on every row. Anything else has to
+       be stripped by hand before an import will accept it, and that is exactly
+       the friction this is meant to remove. */
+    function exportGlCsv() {
+        if (!state.users.length) { alert('Load data first.'); return; }
+        var m = computeChargeback();
+        var s = settlementModel(m);
+        var settled = !!s && (entitlementCount() > 0 || state.settleMode === 'flat');
+        var basis = !settled ? 'Pay-as-you-go'
+            : (state.settleMode === 'flat'
+                ? 'Flat internal rate ' + s.flatRate.toFixed(4) + '/credit'
+                : 'Entitlement settlement, surplus ' + state.surplusMode);
+
+        var rows = [['Billing period', unitHeader() + ' (GL key)', 'Users', 'Credits',
+                     'Amount USD', 'Effective USD per credit', 'Basis', 'Source']];
+        var src = APP_NAME + (state.demoActive ? ' (DEMO)' : '');
+        var list = settled ? s.rows : m.groups;
+        var raw = list.map(function (r) { return settled ? r.finalBill : r.paygo; });
+        var target = settled ? s.finalBilled : m.totalPaygo;
+        var amounts = centsToTotal(raw, target);
+        list.forEach(function (r, ix) {
+            var amount = amounts[ix];
+            var credits = settled ? r.used : r.credits;
+            rows.push([periodLabel(), r.label, r.users, Math.round(credits),
+                       amount.toFixed(2), credits > 0 ? (amount / credits).toFixed(6) : '0.000000',
+                       basis, src]);
+        });
+        /* No TOTAL row. This file gets imported, and a totals line imported
+           alongside its own components posts the period twice. Totals and
+           reconciliation live in the settlement CSV and the workbook. */
+        try { if (window.cwkTrack) window.cwkTrack('export_gl_csv'); } catch (e) {}
+        downloadBlob(toCsv(rows), 'healthcare-chargeback-post-to-gl-' + periodSlug() + demoSuffix() + '.csv');
+    }
+    function periodSlug() {
+        return String(periodLabel()).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+    /* Column definitions travel with the file. The person who receives this CSV
+       is usually not the person who generated it. */
+    function defsBlock(defs) {
+        var out = [[], ['Column definitions']];
+        defs.forEach(function (d) { out.push([d[0], d[1]]); });
+        return out;
+    }
     function downloadBlob(text, filename) {
         var blob = new Blob([text], { type: 'text/csv;charset=utf-8' });
         var url = URL.createObjectURL(blob);
@@ -959,14 +1052,33 @@
     }
     function csvCell(v) { var s = String(v == null ? '' : v); if (/[",\r\n]/.test(s)) s = '"' + s.replace(/"/g, '""') + '"'; return s; }
     function toCsv(rows) { return rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n'); }
-    function stampRows() { return [['Cowork Chargeback - generated ' + new Date().toISOString().slice(0, 10) + (state.demoActive ? ' - SYNTHETIC DEMO DATA' : '')]]; }
+    /* Finance bills a period, not a generation date. Defaults to the month just
+       gone, because you reconcile a month after it closes. */
+    function defaultPeriod() {
+        var d = new Date();
+        d.setDate(1); d.setMonth(d.getMonth() - 1);
+        return d.toLocaleString('en-US', { month: 'long' }) + ' ' + d.getFullYear();
+    }
+    function periodLabel() { return state.billingPeriod || defaultPeriod(); }
+    /* The cut-by column comes from the customer's export, so it arrives however
+       they named it. Title-case it for anything a human reads. */
+    function unitHeader() {
+        var s = unitLabel();
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+    function stampRows() {
+        return [
+            [APP_NAME + (state.demoActive ? ' - SYNTHETIC DEMO DATA, do not use for real decisions' : '')],
+            ['Billing period', periodLabel(), 'Generated', new Date().toISOString().slice(0, 10)]
+        ];
+    }
     function demoSuffix() { return state.demoActive ? '-DEMO' : ''; }
     function exportJournalCsv() {
         if (!state.users.length) { alert('Load data first.'); return; }
         var m = computeChargeback();
         var rows = stampRows();
         rows.push(['Billing models', 'PAYGO / Prepaid / Hybrid', 'Rate $/credit', state.rate.toFixed(4), 'Prepaid $/credit', state.prepaidRate.toFixed(4)]);
-        rows.push([unitLabel() + ' (GL key)', 'Users', 'Credits', 'Overage credits', 'PAYGO $', 'Prepaid $', 'Hybrid $']);
+        rows.push([unitHeader() + ' (GL key)', 'Users', 'Credits', 'Overage credits', 'PAYGO $', 'Prepaid $', 'Hybrid $']);
         m.groups.forEach(function (g) {
             rows.push([g.label, g.users, Math.round(g.credits), Math.round(g.overage), g.paygo.toFixed(2), g.prepaid.toFixed(2), g.hybrid.toFixed(2)]);
         });
@@ -991,7 +1103,14 @@
             if (pp.shortfall > 0) rows.push(['Over pool (credits)', Math.round(pp.shortfall), 'PAYG on overflow $', pp.shortfallPaygo.toFixed(2)]);
             else rows.push(['Remaining in pool (credits)', Math.round(pp.unusedPool), 'Unused prepaid value $', pp.unusedPoolValue.toFixed(2)]);
         }
-        downloadBlob(toCsv(rows), 'cowork-chargeback-journal' + demoSuffix() + '.csv');
+        rows = rows.concat(defsBlock([
+            ['PAYGO $', 'Every credit at the pay-as-you-go rate of ' + state.rate.toFixed(4) + '. This is the basis that reconciles to the Microsoft invoice.'],
+            ['Prepaid $', 'Each user\u2019s prepaid allowance at the prepaid rate of ' + state.prepaidRate.toFixed(4) + ', whether or not they used it.'],
+            ['Hybrid $', 'Prepaid allowance at the prepaid rate, plus anything above it at the pay-as-you-go rate.'],
+            ['Overage credits', 'Credits consumed above the user\u2019s allowance.'],
+            ['Note', 'This journal compares billing models. It does not include the prepaid settlement. For the settled bill per ' + unitWord() + ', use the settlement export or Post to GL.']
+        ]));
+        downloadBlob(toCsv(rows), 'healthcare-chargeback-journal-' + periodSlug() + demoSuffix() + '.csv');
     }
     function exportLineItemsCsv() {
         if (!state.users.length) { alert('Load data first.'); return; }
@@ -1004,7 +1123,7 @@
             var daily = state.daysInPeriod > 0 ? u.used / state.daysInPeriod : 0;
             rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, unitOf(u), Math.round(u.used), daily.toFixed(1), (daily * rate).toFixed(2), Math.round(u.limit), Math.round(over), chargeForModel(u.used, u.limit, 'paygo').toFixed(2), chargeForModel(u.used, u.limit, 'prepaid').toFixed(2), chargeForModel(u.used, u.limit, 'hybrid').toFixed(2), u.policy, u.limitSource || 'fallback']);
         });
-        downloadBlob(toCsv(rows), 'cowork-chargeback-line-items' + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'healthcare-chargeback-line-items-' + periodSlug() + demoSuffix() + '.csv');
     }
 
     function exportWorkbook() {
@@ -1027,23 +1146,29 @@
         function fIntB(f) { return { t: 'f', f: f, s: 'boldInt' }; }
 
         var readme = { name: 'Read me', cols: [40, 82], rows: [] };
-        readme.rows.push([TT('Cowork Chargeback - allocation workbook')]);
+        readme.rows.push([TT(APP_NAME + ' - allocation and settlement workbook')]);
         readme.rows.push(['Generated', new Date().toISOString().slice(0, 10) + (demo ? '  (SYNTHETIC DEMO DATA - do not use for real decisions)' : '')]);
+        readme.rows.push(['Billing period', periodLabel()]);
         readme.rows.push([]);
         readme.rows.push([B('What this is')]);
-        readme.rows.push(['A working tool to allocate Copilot Cowork credit costs back to your ' + unit + 's and bill them internally.']);
+        readme.rows.push(['A working tool to settle shared prepaid Copilot Cowork credits back to the ' + unit + 's that funded them, and bill them internally.']);
         readme.rows.push([]);
         readme.rows.push([H('Tab'), H('Purpose')]);
-        readme.rows.push(['Summary', 'Org totals under all three billing models, plus assumptions and invoice reconciliation.']);
-        readme.rows.push(['Allocation', 'Chargeback per ' + unit + '. Pick a model in cell B2; Chosen $ and Final $ recompute. Add manual tweaks in Adjustment $.']);
+        readme.rows.push(['Summary', 'Org totals, assumptions and invoice reconciliation.']);
+        readme.rows.push(['Settlement', 'The bill per ' + unit + ', derived from the share of the prepaid pool each one funded. Start here. Override any line in Adjustment $.']);
+        readme.rows.push(['Allocation', 'The same ' + unit + 's priced under PAYGO / Prepaid / Hybrid instead, for comparison. Pick a model in cell B2.']);
         readme.rows.push(['Users', 'Every user with org attributes and per-model charges. Filter or pivot freely.']);
         readme.rows.push(['Model comparison', 'PAYGO vs Prepaid vs Hybrid per ' + unit + ', with deltas and the cheapest model.']);
         readme.rows.push([]);
         readme.rows.push([B('How to use')]);
-        readme.rows.push(['1. On the Allocation tab, set the billing model in cell B2 to PAYGO, Prepaid, or Hybrid.']);
-        readme.rows.push(['2. Review Chosen $ per ' + unit + '. Enter any manual tweak in Adjustment $; Final $ updates automatically.']);
-        readme.rows.push(['3. Send each ' + unit + ' owner their Final $, or pivot the Users tab by Business Unit / Manager.']);
-        readme.rows.push(['4. Models: PAYGO = every credit x rate; Prepaid = allowance x prepaid rate; Hybrid = prepaid allowance + PAYG on overage.']);
+        readme.rows.push(['1. Open the Settlement tab. Check the Residual near the bottom reads zero; that means the bill reconciles to what Microsoft charges.']);
+        readme.rows.push(['2. Review Settled $ per ' + unit + '. To override a line, type into Adjustment $ and Final $ updates.']);
+        readme.rows.push(['3. Send each ' + unit + ' owner their Final $, or post the whole table to your GL.']);
+        readme.rows.push(['4. Use the Allocation and Model comparison tabs only if you want to see what the same period would have cost under a different billing model.']);
+        readme.rows.push([]);
+        readme.rows.push([B('Why the settlement differs from a straight per-credit charge')]);
+        readme.rows.push(['Prepaid credits sit in one shared pool that cannot be reserved per ' + unit + '. Whoever consumes earliest in the month gets the discounted rate.']);
+        readme.rows.push(['Settlement re-derives each bill from the share that ' + unit + ' funded, so the order of consumption stops deciding who gets the discount.']);
 
         var summary = { name: 'Summary', cols: [38, 18], rows: [] };
         summary.rows.push([TT('Summary')]);
@@ -1075,11 +1200,81 @@
         }
 
         var groups = m.groups;
+
+        /* Settlement tab. This is the reason the fork exists, so it sits ahead
+           of the model comparison and carries live Adjustment/Final columns so
+           finance can override a line without leaving Excel. */
+        var settleS = null;
+        var sm = settlementModel(m);
+        if (sm && (entitlementCount() > 0 || state.settleMode === 'flat')) {
+            var flat = state.settleMode === 'flat';
+            settleS = { name: 'Settlement', cols: [26, 8, 13, 13, 13, 12, 12, 13, 13, 13, 13, 13, 13], rows: [] };
+            settleS.rows.push([TT('Prepaid settlement by ' + unit)]);
+            settleS.rows.push([B('Billing period'), txt(periodLabel())]);
+            settleS.rows.push([B('Basis'), txt(flat
+                ? 'Flat internal rate ' + sm.flatRate.toFixed(4) + ' per credit'
+                : 'Entitlement, surplus treatment: ' + state.surplusMode)]);
+            settleS.rows.push([txt('Each ' + unit + ' is billed against the share of the prepaid pool it funded, so drawdown order does not decide who gets the discount. Enter an override in Adjustment $; Final $ recomputes.')]);
+
+            var sh = [H(unitHeader()), H('Users'), H('Credits used')];
+            if (!flat) sh = sh.concat([H('Entitlement'), H('Covered'), H('Excess'), H('Unused'), H('Covered $'), H('Excess $'), H('Treatment $')]);
+            sh = sh.concat([H('Settled $'), H('Adjustment $'), H('Final $')]);
+            settleS.rows.push(sh);
+
+            var sFirst = 6, sLast = sFirst + sm.rows.length - 1;
+            var cSettled = flat ? 'D' : 'K', cAdj = flat ? 'E' : 'L', cFinal = flat ? 'F' : 'M';
+            sm.rows.forEach(function (r, ix) {
+                var rr = sFirst + ix;
+                var line = [txt(r.label), intc(r.users), intc(r.used)];
+                if (!flat) {
+                    line = line.concat([intc(r.entitlement), intc(r.covered), intc(r.excess), intc(r.unused || 0),
+                                        money(r.coveredCost), money(r.excessCost), money(r.adjustment)]);
+                }
+                line = line.concat([money(r.finalBill), money(0), fCur(cSettled + rr + '+' + cAdj + rr)]);
+                settleS.rows.push(line);
+            });
+            var sTot = [B('TOTAL'), fIntB('SUM(B' + sFirst + ':B' + sLast + ')'), fIntB('SUM(C' + sFirst + ':C' + sLast + ')')];
+            if (!flat) {
+                ['D', 'E', 'F', 'G'].forEach(function (c) { sTot.push(fIntB('SUM(' + c + sFirst + ':' + c + sLast + ')')); });
+                ['H', 'I', 'J'].forEach(function (c) { sTot.push(fCurB('SUM(' + c + sFirst + ':' + c + sLast + ')')); });
+            }
+            [cSettled, cAdj, cFinal].forEach(function (c) { sTot.push(fCurB('SUM(' + c + sFirst + ':' + c + sLast + ')')); });
+            settleS.rows.push(sTot);
+            var totRow = sLast + 1;
+
+            settleS.rows.push([]);
+            settleS.rows.push([H('Reconciliation'), H('')]);
+            settleS.rows.push(['Tenant cost (what Microsoft charges)', money(sm.actualCost)]);
+            settleS.rows.push(['Final billed to ' + unit + 's', fCur(cFinal + totRow)]);
+            settleS.rows.push(['Residual (should be zero)', fCur(cFinal + totRow + '-B' + (settleS.rows.length - 1))]);
+            if (!flat) {
+                settleS.rows.push(['Unused entitlement (credits)', intc(sm.totalUnused)]);
+                settleS.rows.push(['Over-collection before treatment', money(sm.surplus)]);
+            }
+            if (sm.invoiceTotal != null) {
+                settleS.rows.push(['Microsoft invoice entered', money(sm.invoiceTotal)]);
+                settleS.rows.push(['Variance vs tenant cost', money(sm.invoiceVariance)]);
+            }
+
+            settleS.rows.push([]);
+            settleS.rows.push([H('Column'), H('What it means')]);
+            [['Entitlement', 'Share of the prepaid pool this ' + unit + ' funded. A claim on the money, not a reservation of credits.'],
+             ['Covered', 'Credits used up to the entitlement, charged at the prepaid rate of ' + state.prepaidRate.toFixed(4) + '.'],
+             ['Excess', 'Credits used above the entitlement, charged at the pay-as-you-go rate of ' + state.rate.toFixed(4) + '.'],
+             ['Unused', 'Entitlement funded but not consumed. Someone else consumed these at the prepaid rate.'],
+             ['Treatment $', 'Correction from the chosen surplus treatment. Negative reduces the bill.'],
+             ['Adjustment $', 'Your own override. Type a value and Final $ recomputes.']
+            ].forEach(function (d) { if (!flat || d[0] === 'Adjustment $') settleS.rows.push([txt(d[0]), txt(d[1])]); });
+
+            settleS.freeze = 5;
+            settleS.autofilter = 'A5:' + cFinal + sLast;
+        }
+
         var alloc = { name: 'Allocation', cols: [26, 8, 12, 12, 13, 13, 13, 13, 11, 13, 13], rows: [] };
         alloc.rows.push([TT('Chargeback allocation by ' + unit)]);
         alloc.rows.push([B('Billing model'), txt(modelName)]);
         alloc.rows.push([txt('Set B2 to PAYGO, Prepaid, or Hybrid - Chosen $ and Final $ recompute.')]);
-        alloc.rows.push([H(unit), H('Users'), H('Credits'), H('Overage cr'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $'), H('% of total'), H('Adjustment $'), H('Final $')]);
+        alloc.rows.push([H(unitHeader()), H('Users'), H('Credits'), H('Overage cr'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $'), H('% of total'), H('Adjustment $'), H('Final $')]);
         var first = 5, totalRow = first + groups.length, last = totalRow - 1;
         for (i = 0; i < groups.length; i++) {
             g = groups[i]; r = first + i;
@@ -1104,7 +1299,7 @@
         usersS.rows.push([TT('Users - per-person detail')]);
         usersS.rows.push([B('Billing model'), { t: 'f', f: 'Allocation!$B$2', s: 'def' }]);
         usersS.rows.push([txt('Chosen $ follows the model on the Allocation tab. Use the filter row to slice, or pivot this table.')]);
-        usersS.rows.push([H('User (MSID / UPN)'), H('Display name'), H('Department'), H('Cost Center'), H('Business Unit'), H(unit + ' (GL)'), H('Credits'), H('Daily use'), H('Allowance'), H('Overage'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $'), H('Spending policy')]);
+        usersS.rows.push([H('User (MSID / UPN)'), H('Display name'), H('Department'), H('Cost Center'), H('Business Unit'), H(unitHeader() + ' (GL)'), H('Credits'), H('Daily use'), H('Allowance'), H('Overage'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $'), H('Spending policy')]);
         var us = state.users.slice().sort(function (a, b) { return b.used - a.used; }), ufirst = 5;
         for (i = 0; i < us.length; i++) {
             u = us[i]; r = ufirst + i;
@@ -1122,7 +1317,7 @@
 
         var cmp = { name: 'Model comparison', cols: [26, 13, 13, 13, 13, 15, 15, 16], rows: [] };
         cmp.rows.push([TT('Billing model comparison by ' + unit)]);
-        cmp.rows.push([H(unit), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Cheapest $'), H('Prepaid - PAYGO'), H('Hybrid - PAYGO'), H('Cheapest model')]);
+        cmp.rows.push([H(unitHeader()), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Cheapest $'), H('Prepaid - PAYGO'), H('Hybrid - PAYGO'), H('Cheapest model')]);
         var cfirst = 3, clast = cfirst + groups.length - 1;
         for (i = 0; i < groups.length; i++) {
             g = groups[i]; r = cfirst + i;
@@ -1136,7 +1331,10 @@
         cmp.freeze = 2;
         cmp.autofilter = 'A2:H' + clast;
 
-        window.CBXLSX.download('cowork-chargeback-workbook' + demoSuffix() + '.xlsx', [readme, summary, alloc, usersS, cmp]);
+        var sheets = [readme, summary];
+        if (settleS) sheets.push(settleS);
+        sheets = sheets.concat([alloc, usersS, cmp]);
+        window.CBXLSX.download('healthcare-chargeback-workbook-' + periodSlug() + demoSuffix() + '.xlsx', sheets);
     }
 
     function showError(msg) { var e = $('cbLandingError'); if (!e) { alert(msg); return; } e.textContent = msg; e.hidden = false; }
@@ -1300,6 +1498,13 @@
         var ppi2 = $('prepaidPurchasedInput'); if (ppi2) ppi2.addEventListener('input', function () { var v = parseFloat(ppi2.value); state.prepaidPurchased = (ppi2.value === '' || !isFinite(v) || v < 0) ? null : v; render(); });
         var dpi2 = $('daysInput'); if (dpi2) dpi2.addEventListener('input', function () { var v = parseFloat(dpi2.value); state.daysInPeriod = isFinite(v) && v > 0 ? v : 30; render(); });
         var hri2 = $('headroomInput'); if (hri2) hri2.addEventListener('input', function () { var v = parseFloat(hri2.value); state.headroomPct = isFinite(v) && v >= 0 ? v : 0; render(); });
+        var per = $('periodInput');
+        if (per) {
+            per.value = periodLabel();
+            per.addEventListener('input', function () {
+                state.billingPeriod = per.value.trim() || null;
+            });
+        }
         var dimSel = $('cbDimSelect');
         if (dimSel) dimSel.addEventListener('change', function () { state.unitDim = dimSel.value; state.entityFilter = {}; state.entitySearch = ''; var es0 = $('cbEntitySearch'); if (es0) es0.value = ''; populateEntityFilter(); render(); });
         var pbox = $('cbPolicyLimits');
@@ -1344,6 +1549,7 @@
             else { st.key = key; st.dir = textKeys[key] ? 'asc' : 'desc'; }
             render();
         });
+        var eg = $('btnExportGl'); if (eg) eg.addEventListener('click', exportGlCsv);
         var ej = $('btnExportJournal'); if (ej) ej.addEventListener('click', exportJournalCsv);
         var el = $('btnExportLines'); if (el) el.addEventListener('click', exportLineItemsCsv);
         var ex2 = $('btnExportXlsx'); if (ex2) ex2.addEventListener('click', exportWorkbook);

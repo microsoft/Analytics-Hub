@@ -89,6 +89,9 @@
         .cb-match.ok   { border-color:#4ADE80; background:rgba(74,222,128,0.08); color: var(--text-secondary); }
         .cb-match.warn { border-color:#D9822B; background:rgba(217,130,43,0.08); color: var(--text-primary); }
         .cb-match.bad  { border-color:#F87171; background:rgba(248,113,113,0.10); color: var(--text-primary); }
+        .cb-export-lede { font-size:0.78rem; line-height:1.45; color: var(--text-secondary); margin:0 0 0.6rem; }
+        .cb-export-primary { border-left:3px solid var(--copilot-cyan); padding-left:0.6rem; }
+        .cb-export-primary button { border-color: var(--copilot-cyan); color: var(--copilot-cyan); }
 
         /* ---- settlement walkthrough ---- */
         .cb-how { border:1px solid var(--border); border-radius:12px; background: var(--surface-raised); margin-bottom:1.2rem; }
@@ -257,6 +260,11 @@
                     <p class="cb-rail-title">Report controls</p>
                     <div class="cb-controls">
                 <div class="cb-field">
+                    <label for="periodInput">Billing period</label>
+                    <input type="text" id="periodInput" placeholder="e.g. August 2026">
+                    <small>The period you are billing. Stamped onto every export so finance knows what the charge covers.</small>
+                </div>
+                <div class="cb-field">
                     <label for="cbDimSelect">Cut by (GL key)</label>
                     <select id="cbDimSelect"></select>
                     <small>Any org column from your Entra export (Department, Cost Center, Legal Entity, Region...). Unmapped users go to "Unallocated".</small>
@@ -321,17 +329,22 @@
                     <div class="cb-actions">
                         <button class="btn-secondary" id="btnReset">&#8617; Load different data</button>
                         <p class="cb-rail-title" style="margin-top:0.4rem">Exports</p>
+                        <p class="cb-export-lede">Post the first one. The others are for reviewing, sharing and audit.</p>
+                        <div class="cb-export cb-export-primary">
+                            <button class="btn-secondary" id="btnExportGl">&#8615; Post to GL (CSV)</button>
+                            <small><strong>The file you send to Apptio or your GL.</strong> One row per unit: billing period, GL key, credits, amount, basis and effective rate. Plain table, no title rows, notes or totals to strip before import. Rows add up to the invoice to the cent.</small>
+                        </div>
                         <div class="cb-export">
                             <button class="btn-secondary" id="btnExportXlsx">&#8615; Workbook (XLSX)</button>
-                            <small>Interactive Excel tool &mdash; pick a billing model, add adjustments, and Final&nbsp;$ recomputes. Tabs: Summary, Allocation, Users, Model comparison. Use this to run and share the allocation.</small>
+                            <small><strong>Review and share.</strong> Start on the Settlement tab, check the residual is zero, override any line in Adjustment&nbsp;$ and Final&nbsp;$ recomputes. Tabs: Read me, Summary, Settlement, Allocation, Users, Model comparison.</small>
                         </div>
                         <div class="cb-export">
                             <button class="btn-secondary" id="btnExportJournal">&#8615; Journal (CSV)</button>
-                            <small>Per-department snapshot: one row per unit with PAYGO / Prepaid / Hybrid $, a TOTAL row, and invoice reconciliation. Static values &mdash; good for the GL or a quick summary.</small>
+                            <small><strong>Model comparison only.</strong> One row per unit priced under PAYGO / Prepaid / Hybrid, plus prepay sizing. Use it to answer "what would this period have cost another way". It does not contain the settlement.</small>
                         </div>
                         <div class="cb-export">
                             <button class="btn-secondary" id="btnExportLines">&#8615; Line items (CSV)</button>
-                            <small>Per-person snapshot: every user with Department / Cost Center / Business Unit and all three model $. Always includes everyone &mdash; ideal for audit or pivots.</small>
+                            <small><strong>Audit trail.</strong> Every user with Department / Cost Center / Business Unit and all three model $. Always includes everyone regardless of the filters above. Use it to answer a query about a single person.</small>
                         </div>
                     </div>
                 </aside>
