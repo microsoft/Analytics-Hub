@@ -890,7 +890,30 @@
         state.entraRows = entraRows;
         state.users = buildUsers(entraRows, creditRows);
         if (!state.users.length) { showError('No users could be built. Check that the credit file has a user principal name column.'); return; }
+        if (demo) seedDemoSettlement();
         showReport();
+    }
+
+    /* Demo mode should land on a populated settlement, not an empty form. The
+       entitlement split is deliberately by headcount rather than by usage: a
+       first-pass allocation is usually per-head, and it produces units that
+       over- and under-consume against their share. That is the situation the
+       settlement exists to correct, so the demo shows the problem and the fix
+       at the same time. A usage-based split would net to zero and demonstrate
+       nothing. */
+    function seedDemoSettlement() {
+        if (!window.CBSettle) return;
+        state.prepaidPurchased = 1250000;   // 50 capacity packs at 25,000
+        var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = '1250000';
+        // computeChargeback groups by state.unitDim, which showReport resolves
+        // later. Resolve it here first or every user lands in Unallocated.
+        var dims = detectDimensions(state.entraRows);
+        if (hasPolicies() && dims.indexOf('Spending policy') < 0) dims = dims.concat(['Spending policy']);
+        if (!state.unitDim || dims.indexOf(state.unitDim) < 0) state.unitDim = pickDefaultDim(dims);
+        var m = computeChargeback();
+        state.entitlements = window.CBSettle.proposeSplit(m.groups, state.prepaidPurchased, 'users');
+        state.surplusMode = 'redistribute';
+        state.settleMode = 'entitlement';
     }
     function syncToggle(id, attr, val) {
         var t = $(id); if (!t) return;
@@ -924,6 +947,7 @@
         state.prepaidRate = 0.008; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
         state.expandedUnits = {}; state.valueMode = 'total'; state.policyLimits = {}; state.entityFilter = {}; state.entitySearch = ''; state.lineSearch = '';
         state.sortJournal = { key: 'paygo', dir: 'desc' }; state.sortLines = { key: 'charge', dir: 'desc' };
+        state.entitlements = {}; state.settleMode = 'entitlement'; state.surplusMode = 'redistribute'; state.flatRate = null;
         $('statusEntra').textContent = 'No file selected'; $('statusCredits').textContent = 'No file selected';
         $('dzEntra').classList.remove('loaded'); $('dzCredits').classList.remove('loaded');
         $('fileEntra').value = ''; $('fileCredits').value = '';
