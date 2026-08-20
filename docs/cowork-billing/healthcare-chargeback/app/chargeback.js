@@ -33,7 +33,8 @@
         surplusMode: 'redistribute',
         settleMode: 'entitlement', // 'entitlement' | 'flat'
         flatRate: null,            // null = use break-even
-        packSize: 25000
+        packSize: 25000,
+        howOpen: true              // walkthrough starts open; the mechanic is not obvious
     };
 
     function $(id) { return document.getElementById(id); }
@@ -45,6 +46,8 @@
     function fmtInt(v) { return (Math.round(v) || 0).toLocaleString('en-US'); }
     function fmtMoney(v) { return '$' + (Number(v) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
     function fmtPct(v) { return ((Number(v) || 0) * 100).toFixed(1) + '%'; }
+    /* Rates are sub-cent, so fmtMoney's 2dp would render $0.0080 as $0.01. */
+    function fmtRate(v) { return '$' + (Number(v) || 0).toFixed(4); }
     function normUpn(s) { return String(s == null ? '' : s).trim().toLowerCase(); }
     function toNumber(s) { if (s == null) return 0; var n = parseFloat(String(s).replace(/[^0-9.\-]/g, '')); return isFinite(n) ? n : 0; }
     function toBool(s) { var v = String(s == null ? '' : s).trim().toLowerCase(); return v === 'yes' || v === 'true' || v === '1' || v === 'licensed' || v === 'y'; }
@@ -148,6 +151,14 @@
         return v;
     }
     function unitLabel() { return state.unitDim ? String(state.unitDim) : 'Unit'; }
+    /* unitLabel() is the raw column name, e.g. "costCenter". Fine as a table
+       header, wrong inside a sentence. Split camelCase and lowercase it. */
+    function unitWord() {
+        var s = unitLabel();
+        if (!s) return 'unit';
+        return String(s).replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_\-]+/g, ' ').trim().toLowerCase();
+    }
+    function unitWordPl() { var w = unitWord(); return /s$/.test(w) ? w : w + 's'; }
     function entityFilterActive() { for (var k in state.entityFilter) { if (state.entityFilter.hasOwnProperty(k)) return true; } return false; }
     function inScope(u) { return !entityFilterActive() || state.entityFilter[unitOf(u)] === true; }
     function matchSearch(u) {
@@ -435,6 +446,138 @@
         return n;
     }
 
+    /* ------------------------------------------------------------- walkthrough
+       Settlement is not self-explanatory: units are billed against a pool that
+       nobody can reserve a share of, so each bill has to be re-derived rather
+       than read off a report. This walks the numbers actually on screen through
+       the five steps, using the customer's own units as the worked example. */
+    function howStep(letter, title, bodyHtml) {
+        return '<li class="cb-how-step"><span class="cb-how-mark">' + letter + '</span>' +
+            '<div class="cb-how-body"><h4>' + title + '</h4>' + bodyHtml + '</div></li>';
+    }
+    function howCalc(lines) {
+        return '<div class="cb-how-calc">' + lines.map(function (l) {
+            return '<div' + (l[2] ? ' class="cb-how-tot"' : '') + '><span>' + esc(l[0]) + '</span><b>' + esc(l[1]) + '</b></div>';
+        }).join('') + '</div>';
+    }
+
+    function renderHow(s, m) {
+        var pr = state.prepaidRate, rt = state.rate;
+        var unit = unitWord(), unitPl = unitWordPl();
+        var hasEnt = entitlementCount() > 0;
+        var steps = '';
+
+        // ---- A: what Microsoft actually charges
+        steps += howStep('A', 'Microsoft bills the tenant, not the ' + esc(unitPl),
+            '<p>Prepaid credits sit in one tenant-wide pool. Consumption draws that pool first, then pay-as-you-go, and the order cannot be changed or reserved against. One invoice comes back for the whole tenant.</p>' +
+            howCalc([
+                ['Pool consumed', fmtInt(s.poolConsumed) + ' \u00D7 ' + fmtRate(pr) + '  =  ' + fmtMoney(s.poolConsumed * pr)],
+                ['Beyond the pool', fmtInt(s.tenantPayg) + ' \u00D7 ' + fmtRate(rt) + '  =  ' + fmtMoney(s.tenantPayg * rt)],
+                ['Tenant cost', fmtMoney(s.actualCost), true]
+            ]) +
+            '<p class="cb-how-note">Nothing in that invoice says which ' + esc(unit) + ' got the discounted credits. Whoever consumed earliest did.</p>');
+
+        if (state.settleMode === 'flat') {
+            var be = window.CBSettle.breakEvenRate(s.totalUsed, s.actualCost);
+            steps += howStep('B', 'Every ' + esc(unit) + ' is charged the same internal rate',
+                '<p>No entitlements, no drawdown order. One blended rate applied to every credit consumed, and the centre carries any difference against the invoice.</p>' +
+                howCalc([
+                    ['Internal rate', fmtRate(s.flatRate) + ' per credit'],
+                    ['Credits consumed', fmtInt(s.totalUsed)],
+                    ['Collected from ' + unitPl, fmtMoney(s.finalBilled), true]
+                ]));
+            steps += howStep('C', 'The centre absorbs whatever is left',
+                howCalc([
+                    ['Collected', fmtMoney(s.finalBilled)],
+                    ['Tenant cost', fmtMoney(s.actualCost)],
+                    [Math.abs(s.residual) < 0.01 ? 'Reconciles' : (s.residual > 0 ? 'Over-collected' : 'Under-collected'), fmtMoney(s.residual), true]
+                ]) +
+                '<p class="cb-how-note">The break-even rate is ' + fmtRate(be) + ' per credit. Anything above it over-collects, anything below leaves the centre funding the gap. Simple to run, but it hides that some ' + esc(unit) + 's paid for credits others consumed.</p>');
+            return wrapHow(steps);
+        }
+
+        // ---- B: what each unit funded
+        var bLines = [['Pool purchased', state.prepaidPurchased > 0 ? fmtInt(state.prepaidPurchased) + ' credits' : 'not entered']];
+        if (hasEnt) {
+            bLines.push(['Allocated across ' + fmtInt(s.rows.length) + ' ' + unitPl, fmtInt(s.totalEntitlement) + ' credits']);
+            if (s.entitlementVsPool != null && Math.abs(s.entitlementVsPool) > 1) {
+                bLines.push([s.entitlementVsPool > 0 ? 'Over-committed' : 'Still unallocated', fmtInt(Math.abs(s.entitlementVsPool)) + ' credits', true]);
+            } else {
+                bLines.push(['Unallocated', '0 credits', true]);
+            }
+        }
+        steps += howStep('B', 'Each ' + esc(unit) + ' states what it funded',
+            '<p>Entitlement is the share of the pool a ' + esc(unit) + ' paid for. It is a claim on the money, not a reservation of credits, because there is no mechanism to ring-fence part of the pool.</p>' +
+            howCalc(bLines) +
+            (hasEnt ? '' : '<p class="cb-how-note">Not set yet. Enter them below, or propose a split of the pool by usage, by users, or evenly.</p>'));
+
+        // ---- C: rebuild each bill from entitlement
+        var ex = null, i;
+        for (i = 0; i < s.rows.length; i++) {
+            if (s.rows[i].excess > 0 && (!ex || s.rows[i].excess > ex.excess)) ex = s.rows[i];
+        }
+        var cWorked = '';
+        if (ex) {
+            cWorked = '<p class="cb-how-worked">Worked on <b>' + esc(ex.label) + '</b>:</p>' +
+                howCalc([
+                    ['Credits used', fmtInt(ex.used)],
+                    ['Entitlement funded', fmtInt(ex.entitlement)],
+                    ['Covered, at prepaid', fmtInt(ex.covered) + ' \u00D7 ' + fmtRate(pr) + '  =  ' + fmtMoney(ex.coveredCost)],
+                    ['Excess, at pay-as-you-go', fmtInt(ex.excess) + ' \u00D7 ' + fmtRate(rt) + '  =  ' + fmtMoney(ex.excessCost)],
+                    ['Bill before adjustment', fmtMoney(ex.bill), true]
+                ]);
+        }
+        steps += howStep('C', 'Each bill is rebuilt from that ' + esc(unit) + '\u2019s own entitlement',
+            '<p class="cb-how-formula">bill&nbsp;=&nbsp;min(used, entitlement) \u00D7 ' + fmtRate(pr) +
+            '&nbsp;&nbsp;+&nbsp;&nbsp;max(0, used \u2212 entitlement) \u00D7 ' + fmtRate(rt) + '</p>' + cWorked +
+            '<p class="cb-how-note">Drawdown order is not an input, so it stops mattering. A ' + esc(unit) +
+            ' gets the prepaid rate on the credits it funded whether it consumed them on the 1st or the 28th.</p>');
+
+        // ---- D: the gap
+        var un = null;
+        for (i = 0; i < s.rows.length; i++) {
+            if (s.rows[i].unused > 0 && (!un || s.rows[i].unused > un.unused)) un = s.rows[i];
+        }
+        var dWhy = un
+            ? '<p class="cb-how-worked"><b>' + esc(un.label) + '</b> funded ' + fmtInt(un.entitlement) + ' and used ' + fmtInt(un.used) +
+              '. The other ' + fmtInt(un.unused) + ' were consumed by someone else at the prepaid rate, but that ' + esc(unit) +
+              ' is billed pay-as-you-go for them. Across every ' + esc(unit) + ' the gap is ' + fmtInt(s.totalUnused) +
+              ' \u00D7 (' + fmtRate(rt) + ' \u2212 ' + fmtRate(pr) + ').</p>'
+            : '';
+        steps += howStep('D', 'The ' + esc(unit) + ' bills will not add up to the invoice',
+            howCalc([
+                ['Sum of ' + unit + ' bills', fmtMoney(s.billedBeforeAdjustment)],
+                ['Tenant cost', fmtMoney(s.actualCost)],
+                [s.surplus >= 0 ? 'Over-collected' : 'Under-collected', fmtMoney(Math.abs(s.surplus)), true]
+            ]) + dWhy);
+
+        // ---- E: close it
+        var chosen = state.surplusMode;
+        var opt = function (key, name, text) {
+            return '<li class="cb-how-opt' + (chosen === key ? ' is-on' : '') + '"><b>' + name + '</b> ' + text + '</li>';
+        };
+        steps += howStep('E', 'Decide where that difference goes',
+            '<ul class="cb-how-opts">' +
+                opt('redistribute', 'Redistribute', 'lends unused entitlement to the ' + esc(unit) + 's that went over, at the prepaid rate. Reconciles to the invoice exactly.') +
+                opt('rebate', 'Rebate', 'returns the over-collection to the ' + esc(unit) + 's that funded credits they did not use.') +
+                opt('hold', 'Hold centrally', 'keeps it, for example to fund the next period. Leaves a deliberate surplus.') +
+            '</ul>' +
+            howCalc([
+                ['Settled to ' + unitPl, fmtMoney(s.finalBilled)],
+                ['Tenant cost', fmtMoney(s.actualCost)],
+                ['Residual', fmtMoney(s.residual) + (Math.abs(s.residual) < 0.01 ? '   \u2713 reconciles' : ''), true]
+            ]) +
+            '<p class="cb-how-note">This is a policy choice, not a technical one. Redistribute and rebate both clear to zero; they differ in who benefits.</p>');
+
+        return wrapHow(steps);
+    }
+
+    function wrapHow(steps) {
+        return '<details class="cb-how" id="cbHow"' + (state.howOpen !== false ? ' open' : '') + '>' +
+            '<summary>How this works, step by step</summary>' +
+            '<ol class="cb-how-list">' + steps + '</ol></details>';
+    }
+
     function renderSettlement(m) {
         var s = settlementModel(m);
         if (!s) return '';
@@ -463,7 +606,7 @@
 
         var entryPanel = state.settleMode === 'entitlement'
             ? '<div class="cb-settle-entry">' +
-                '<label for="stEntitle">Entitlement per ' + esc(unit.toLowerCase()) + '</label>' +
+                '<label for="stEntitle">Entitlement per ' + esc(unitWord()) + '</label>' +
                 '<textarea id="stEntitle" rows="4" placeholder="' + esc(unit) + ', credits\n' + esc(sampleUnit(m)) + ', 300000">' + esc(entitlementText()) + '</textarea>' +
                 '<div class="cb-settle-row">' +
                   '<button type="button" class="btn-secondary" id="stApply">Apply</button>' +
@@ -473,13 +616,13 @@
                     '<button type="button" class="cb-linkbtn" data-split="even">evenly</button>' +
                   '</span>' +
                 '</div>' +
-                '<small>One row per ' + esc(unit.toLowerCase()) + ', comma or tab separated. Values are credits; write \u201C12 packs\u201D to enter packs at ' + fmtInt(state.packSize) + ' each. Requires a prepaid pool size in the left rail.</small>' +
+                '<small>One row per ' + esc(unitWord()) + ', comma or tab separated. Values are credits; write \u201C12 packs\u201D to enter packs at ' + fmtInt(state.packSize) + ' each. Requires a prepaid pool size in the left rail.</small>' +
               '</div>'
             : '';
 
         if (!has) {
-            return head + modeBtns + entryPanel +
-                '<p class="cb-settle-empty">No entitlements set. Until each ' + esc(unit.toLowerCase()) +
+            return head + renderHow(s, m) + modeBtns + entryPanel +
+                '<p class="cb-settle-empty">No entitlements set. Until each ' + esc(unitWord()) +
                 ' has a funded share, every credit bills at the pay-as-you-go rate above.</p></div>';
         }
 
@@ -539,7 +682,7 @@
 
         var exportRow = '<div class="cb-settle-row"><button type="button" class="btn-secondary" id="stExport">\u2b07 Export settlement (CSV)</button></div>';
 
-        return head + modeBtns + entryPanel + surplusBtns + cards + warn + table + exportRow + '</div>';
+        return head + renderHow(s, m) + modeBtns + entryPanel + surplusBtns + cards + warn + table + exportRow + '</div>';
     }
 
     /* Round-trips the entitlement map back into the textarea so a re-render does
@@ -606,6 +749,11 @@
         });
         var ex = $('stExport');
         if (ex) ex.addEventListener('click', exportSettlementCsv);
+        var how = $('cbHow');
+        if (how) how.addEventListener('toggle', function () {
+            state.howOpen = how.open;
+            try { if (window.cwkTrack && how.open) window.cwkTrack('settlement_how_opened'); } catch (e) {}
+        });
     }
 
     function exportSettlementCsv() {
@@ -903,14 +1051,27 @@
        nothing. */
     function seedDemoSettlement() {
         if (!window.CBSettle) return;
-        state.prepaidPurchased = 1250000;   // 50 capacity packs at 25,000
-        var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = '1250000';
         // computeChargeback groups by state.unitDim, which showReport resolves
         // later. Resolve it here first or every user lands in Unallocated.
         var dims = detectDimensions(state.entraRows);
         if (hasPolicies() && dims.indexOf('Spending policy') < 0) dims = dims.concat(['Spending policy']);
-        if (!state.unitDim || dims.indexOf(state.unitDim) < 0) state.unitDim = pickDefaultDim(dims);
+        // Demo only: named departments read far better in a settlement story
+        // than cost-centre codes. Real uploads keep the normal default.
+        var pref = '';
+        for (var i = 0; i < dims.length; i++) { if (String(dims[i]).trim().toLowerCase() === 'department') { pref = dims[i]; break; } }
+        state.unitDim = pref || pickDefaultDim(dims);
         var m = computeChargeback();
+
+        /* Size the pool at ~70% of actual demo usage, rounded to whole packs.
+           A pool far below usage leaves almost every unit over its entitlement,
+           so nothing is left unused and the surplus collapses to a few dollars,
+           which teaches nothing about steps D and E. At 70% the split lands 8
+           units over and 8 under, which is the point of the panel. */
+        var total = 0;
+        for (i = 0; i < m.groups.length; i++) total += m.groups[i].credits || 0;
+        state.prepaidPurchased = Math.max(state.packSize, Math.round(total * 0.7 / state.packSize) * state.packSize);
+        var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = String(state.prepaidPurchased);
+
         state.entitlements = window.CBSettle.proposeSplit(m.groups, state.prepaidPurchased, 'users');
         state.surplusMode = 'redistribute';
         state.settleMode = 'entitlement';

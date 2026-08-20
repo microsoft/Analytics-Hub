@@ -85,6 +85,43 @@
         .cb-settle-field small { display:block; margin-top:0.35rem; font-size:0.75rem; line-height:1.4; color: var(--text-secondary); }
         .cb-settle-warn { margin:0.7rem 0; padding:0.6rem 0.85rem; border-left:3px solid #d9822b; background: rgba(217,130,43,0.08); border-radius:0 8px 8px 0; font-size:0.85rem; color: var(--text-primary); }
         .cb-settle-empty { margin:0.8rem 0 0; font-size:0.88rem; color: var(--text-secondary); }
+
+        /* ---- settlement walkthrough ---- */
+        .cb-how { border:1px solid var(--border); border-radius:12px; background: var(--surface-raised); margin-bottom:1.2rem; }
+        .cb-how > summary { cursor:pointer; padding:0.75rem 1rem; font-weight:600; font-size:0.92rem; color: var(--copilot-cyan); list-style:none; user-select:none; }
+        .cb-how > summary::-webkit-details-marker { display:none; }
+        .cb-how > summary::before { content:'\25B8'; display:inline-block; margin-right:0.55rem; transition: transform 0.2s ease; }
+        .cb-how[open] > summary::before { transform: rotate(90deg); }
+        .cb-how > summary:hover { color: var(--copilot-blue); }
+        .cb-how-list { list-style:none; margin:0; padding:0 1rem 1rem; }
+        .cb-how-static { padding:0; margin-top:1.25rem; }
+        .cb-how-static .cb-how-step:first-child { border-top:none; }
+        .cb-how-step { display:flex; gap:0.9rem; padding:1rem 0; border-top:1px solid var(--border); }
+        .cb-how-mark { flex-shrink:0; width:26px; height:26px; border-radius:50%; background: var(--copilot-blue); color:#fff;
+            display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem; margin-top:0.1rem; }
+        .cb-how-body { flex:1; min-width:0; }
+        .cb-how-body h4 { margin:0 0 0.4rem; font-size:0.95rem; color: var(--text-primary); }
+        .cb-how-body p { margin:0 0 0.55rem; font-size:0.86rem; line-height:1.55; color: var(--text-secondary); }
+        .cb-how-worked { color: var(--text-primary) !important; }
+        .cb-how-note { font-size:0.82rem !important; font-style:italic; }
+        .cb-how-formula { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size:0.82rem !important;
+            background: var(--surface); border:1px solid var(--border); border-radius:8px; padding:0.6rem 0.75rem; color: var(--text-primary) !important; overflow-x:auto; }
+        .cb-how-calc { margin:0.5rem 0 0.7rem; border:1px solid var(--border); border-radius:8px; background: var(--surface); overflow:hidden; }
+        .cb-how-calc > div { display:flex; justify-content:space-between; align-items:baseline; gap:1rem; padding:0.42rem 0.75rem; font-size:0.84rem; }
+        .cb-how-calc > div + div { border-top:1px solid var(--border); }
+        .cb-how-calc span { color: var(--text-secondary); }
+        .cb-how-calc b { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--text-primary); white-space:nowrap; }
+        .cb-how-tot { background: rgba(74,158,247,0.09); }
+        .cb-how-tot span, .cb-how-tot b { color: var(--copilot-blue); font-weight:700; }
+        .cb-how-opts { list-style:none; margin:0 0 0.7rem; padding:0; }
+        .cb-how-opts li { padding:0.45rem 0.7rem; border-left:3px solid var(--border); font-size:0.85rem; line-height:1.5; color: var(--text-secondary); margin-bottom:0.35rem; }
+        .cb-how-opts li b { color: var(--text-primary); }
+        .cb-how-opts .is-on { border-left-color: var(--copilot-cyan); background: rgba(0,212,255,0.07); }
+        .cb-how-opts .is-on b { color: var(--copilot-cyan); }
+        @media (max-width: 640px) {
+            .cb-how-calc > div { flex-direction:column; gap:0.15rem; }
+            .cb-how-calc b { white-space:normal; }
+        }
     </style>
 </head>
 <body>
@@ -103,6 +140,30 @@
             <div class="instructions-section">
                 <h2>How it works</h2>
                 <p>Load your Entra user export(s) and your Copilot credit / Cost Management export, then give each entity the share of the prepaid pool it funded. Prepaid credits sit in one tenant-wide pool with no way to reserve part of it, so whoever consumes earliest in the month gets the discounted rate. Settlement re-bills each entity against its own funded share instead, which takes drawdown order out of the calculation.</p>
+                <ol class="cb-how-list cb-how-static">
+                    <li class="cb-how-step"><span class="cb-how-mark">A</span><div class="cb-how-body">
+                        <h4>Microsoft bills the tenant, not the entities</h4>
+                        <p>One shared pool, consumed first, then pay-as-you-go. The order cannot be changed or reserved against, and the invoice never says which entity got the discounted credits.</p>
+                    </div></li>
+                    <li class="cb-how-step"><span class="cb-how-mark">B</span><div class="cb-how-body">
+                        <h4>Each entity states what it funded</h4>
+                        <p>Its entitlement: the share of the pool it paid for. A claim on the money, not a reservation of credits. Enter them directly, or propose a split of the pool by usage, by headcount, or evenly.</p>
+                    </div></li>
+                    <li class="cb-how-step"><span class="cb-how-mark">C</span><div class="cb-how-body">
+                        <h4>Each bill is rebuilt from that entity&rsquo;s own entitlement</h4>
+                        <p class="cb-how-formula">bill&nbsp;=&nbsp;min(used, entitlement) &times; prepaid rate&nbsp;&nbsp;+&nbsp;&nbsp;max(0, used &minus; entitlement) &times; pay-as-you-go rate</p>
+                        <p>Drawdown order is not an input, so it stops mattering. An entity gets the prepaid rate on the credits it funded whether it consumed them on the 1st or the 28th.</p>
+                    </div></li>
+                    <li class="cb-how-step"><span class="cb-how-mark">D</span><div class="cb-how-body">
+                        <h4>Those bills will not add up to the invoice</h4>
+                        <p>An entity that funded more than it used had the difference consumed by someone else at the prepaid rate, while that someone is billed pay-as-you-go for it. The gap is the unused entitlement multiplied by the difference between the two rates.</p>
+                    </div></li>
+                    <li class="cb-how-step"><span class="cb-how-mark">E</span><div class="cb-how-body">
+                        <h4>Decide where that difference goes</h4>
+                        <p><b>Redistribute</b> lends unused entitlement to the entities that went over, at the prepaid rate. <b>Rebate</b> returns it to the entities that funded credits they did not use. <b>Hold centrally</b> keeps it. Redistribute and rebate both reconcile to the invoice exactly; they differ in who benefits.</p>
+                    </div></li>
+                </ol>
+                <p>The report walks these same five steps against your own numbers. There is also a flat internal rate mode, if you would rather charge every entity one blended rate and reconcile centrally.</p>
             </div>
             <div class="instructions-section">
                 <h2>Load your data</h2>
