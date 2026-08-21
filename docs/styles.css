@@ -1955,6 +1955,9 @@ main .team-hero .lede {
     grid-column: 1 / -1;
     flex-direction: row;
     align-items: stretch;
+    /* The grid gap alone reads as a wrapped row rather than a deliberate
+       second tier. A little extra separates it from the pair above. */
+    margin-top: 1.4rem;
   }
   .flagship-card:nth-child(3) .flagship-media {
     flex: 0 0 50%;
