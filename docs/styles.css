@@ -1931,24 +1931,41 @@ main .team-hero .lede {
   flex: none; margin-left: auto; margin-right: 8px;
 }
 .ah-vote.is-pending { opacity: .55; }
-.ah-vote-btn {
+.ah-vote-up {
   display: inline-flex; align-items: center; gap: 4px;
   padding: 3px 7px; border: none; border-radius: 6px;
   background: transparent; color: var(--text-muted);
   font: inherit; font-size: 12px; font-weight: 600; line-height: 1;
   cursor: pointer; transition: background-color .12s, color .12s;
 }
-.ah-vote-btn:hover { background: var(--surface-2, rgba(127,127,127,.12)); color: var(--text); }
-.ah-vote-btn:focus-visible { outline: 2px solid var(--c, var(--accent)); outline-offset: 1px; }
-.ah-vote-btn svg { display: block; }
+.ah-vote-up:hover { background: var(--surface-2, rgba(127,127,127,.12)); color: var(--text); }
+.ah-vote-up:focus-visible { outline: 2px solid var(--c, var(--accent)); outline-offset: 1px; }
+.ah-vote-up svg { display: block; }
 .ah-vote-up.is-on   { color: var(--c, var(--accent)); }
-.ah-vote-down.is-on { color: #d13438; }
 .ah-vote-n { font-variant-numeric: tabular-nums; }
 @media (max-width: 520px) { .rf-src { display: none; } }
 
-/* Flagship grid now carries three cards. The base rule reserves a 420px
-   minimum, which only fits two in the 1152px wrap, leaving the third stranded
-   on its own row. Allow a narrower track once there is room for three. */
+/* The third flagship card spans the full row, with the video beside the copy
+   rather than above it. Three cards across the 1152px wrap squeezed each track
+   to ~367px, which crowded the text and wrapped the CTA buttons at different
+   points between cards; half width on its own line left it looking stranded.
+   Below 1100px this rule does not apply and the card stacks like the others. */
 @media (min-width: 1100px) {
-  .flagship-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .flagship-card:nth-child(3) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: stretch;
+    /* The grid gap alone reads as a wrapped row rather than a deliberate
+       second tier. A little extra separates it from the pair above. */
+    margin-top: 1.4rem;
+  }
+  .flagship-card:nth-child(3) .flagship-media {
+    flex: 0 0 50%;
+    aspect-ratio: auto;          /* height comes from the body beside it */
+  }
+  .flagship-card:nth-child(3) .flagship-body {
+    flex: 1 1 50%;
+    justify-content: center;
+    padding: 1.6rem 1.8rem;
+  }
 }
