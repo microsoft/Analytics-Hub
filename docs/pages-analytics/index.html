@@ -113,6 +113,7 @@
         <div class="kpi"><span class="kpi-label">Total watchers</span><span class="kpi-value" data-kpi="watchers">—</span></div>
         <div class="kpi"><span class="kpi-label">Views (<span data-window-label>14d</span>)</span><span class="kpi-value" data-kpi="views">—</span></div>
         <div class="kpi"><span class="kpi-label">Clones (<span data-window-label>14d</span>)</span><span class="kpi-value" data-kpi="clones">—</span></div>
+        <div class="kpi"><span class="kpi-label">Release downloads</span><span class="kpi-value" data-kpi="downloads">—</span><span class="kpi-foot" data-kpi="downloads-foot">GitHub · lifetime, all assets</span></div>
         <div class="kpi"><span class="kpi-label">Repos tracked</span><span class="kpi-value" data-kpi="repos">—</span></div>
       </div>
     </div>
@@ -493,6 +494,7 @@
           <div class="kpi"><span class="kpi-label">Repo clones (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-clones">—</span><span class="kpi-foot">GitHub · people taking the code</span></div>
           <div class="kpi"><span class="kpi-label">Repo unique visitors (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-uniques">—</span><span class="kpi-foot">GitHub · rolling window</span></div>
           <div class="kpi"><span class="kpi-label">Web app sessions</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span><span class="kpi-foot" id="cowork-kpi-web-sessions-foot">Clarity · 3-day rolling</span></div>
+          <div class="kpi"><span class="kpi-label">Web app sessions (6d)</span><span class="kpi-value" id="cowork-kpi-web-7d">—</span><span class="kpi-foot" id="cowork-kpi-web-7d-foot">2 non-overlapping windows</span></div>
           <div class="kpi"><span class="kpi-label">Web app users</span><span class="kpi-value" id="cowork-kpi-web-users">—</span><span class="kpi-foot" id="cowork-kpi-web-users-foot">Clarity · distinct users</span></div>
           <div class="kpi"><span class="kpi-label">Active time / session</span><span class="kpi-value" id="cowork-kpi-active-time">—</span><span class="kpi-foot" id="cowork-kpi-active-time-foot">Clarity · hands-on time, not idle</span></div>
           <div class="kpi"><span class="kpi-label">Avg scroll depth</span><span class="kpi-value" id="cowork-kpi-scroll">—</span><span class="kpi-foot">Clarity · session-weighted across apps</span></div>
@@ -504,6 +506,12 @@
           <span class="cowork-coverage-label">Clarity snapshot coverage</span>
           <div class="cowork-coverage-strip" id="cowork-coverage-strip"></div>
           <p class="cowork-coverage-note" id="cowork-coverage-note">—</p>
+        </div>
+
+        <div class="cowork-chart-wrap">
+          <h3>Web app sessions trend</h3>
+          <p class="section-sub">One point per daily Clarity snapshot. Each point is that day's 3-day rolling total for cowork web app URLs, so the line shows direction rather than discrete daily counts.</p>
+          <div id="cowork-web-trend" class="cowork-chart"><p class="empty">Loading trend…</p></div>
         </div>
 
         <div class="cowork-chart-wrap">

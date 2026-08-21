@@ -681,7 +681,6 @@
         });
         // No trailer rows. The template has to round-trip through the loader
         // unchanged, and anything that is not a unit comes back unrecognised.
-        try { if (window.cwkTrack) window.cwkTrack('entitlement_template'); } catch (e) {}
         downloadBlob(toCsv(rows), 'entitlement-template' + demoSuffix() + '.csv');
     }
 
@@ -978,7 +977,6 @@
             ['Saving vs PAYG $', 'Cost at PAYG minus the settled bill. This is the benefit of the prepaid pool reaching this ' + unitWord() + '.'],
             ['Residual', 'Total settled minus what Microsoft charges the tenant. Zero means the settlement reconciles to the invoice.']
         ]));
-        try { if (window.cwkTrack) window.cwkTrack('export_settlement_csv'); } catch (e) {}
         downloadBlob(toCsv(rows), 'multi-budget-chargeback-settlement-' + periodSlug() + demoSuffix() + '.csv');
     }
 
@@ -1029,7 +1027,6 @@
         /* No TOTAL row. This file gets imported, and a totals line imported
            alongside its own components posts the period twice. Totals and
            reconciliation live in the settlement CSV and the workbook. */
-        try { if (window.cwkTrack) window.cwkTrack('export_gl_csv'); } catch (e) {}
         downloadBlob(toCsv(rows), 'multi-budget-chargeback-post-to-gl-' + periodSlug() + demoSuffix() + '.csv');
     }
     function periodSlug() {

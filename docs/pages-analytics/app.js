@@ -229,6 +229,7 @@ function renderHero(repos) {
   const until = currentUntil();
   const short = currentShort();
   let stars = 0, forks = 0, watchers = 0, views = 0, clones = 0, count = 0;
+  let downloads = 0, reposWithReleases = 0;
   for (const repo of Object.values(repos)) {
     count += 1;
     const meta = repo.meta || {};
@@ -239,6 +240,10 @@ function renderHero(repos) {
     const c = sumDaily(repo.dailyClones, since, until).count;
     if (v != null) views  += v;
     if (c != null) clones += c;
+    if (repo.releases && repo.releases.totalDownloads) {
+      downloads += repo.releases.totalDownloads;
+      reposWithReleases += 1;
+    }
   }
   document.querySelector('[data-kpi="stars"]').textContent    = fmt(stars);
   document.querySelector('[data-kpi="forks"]').textContent    = fmt(forks);
@@ -246,6 +251,18 @@ function renderHero(repos) {
   document.querySelector('[data-kpi="views"]').textContent    = fmt(views);
   document.querySelector('[data-kpi="clones"]').textContent   = fmt(clones);
   document.querySelector('[data-kpi="repos"]').textContent    = fmt(count);
+
+  /* Release downloads are a lifetime cumulative count from GitHub, not a
+     windowed figure, so the card is labelled as such rather than inheriting
+     the 14d window label the views and clones cards carry. */
+  const dlEl = document.querySelector('[data-kpi="downloads"]');
+  if (dlEl) dlEl.textContent = downloads ? fmt(downloads) : "—";
+  const dlFoot = document.querySelector('[data-kpi="downloads-foot"]');
+  if (dlFoot) {
+    dlFoot.textContent = reposWithReleases
+      ? `GitHub · lifetime, ${reposWithReleases} repo${reposWithReleases === 1 ? "" : "s"} with releases`
+      : "GitHub · no releases published";
+  }
   document.querySelectorAll('[data-window-label]').forEach((el) => { el.textContent = short; });
 }
 
@@ -1528,6 +1545,36 @@ function sparseLinePath(values, xAt, yAt) {
   }).filter(Boolean).join(" ");
 }
 
+/* Sparkline of the daily 3-day-rolling session value. Inline SVG to match the
+   rest of the page, which uses no charting library. */
+function renderWebTrend(points) {
+  const host = document.getElementById("cowork-web-trend");
+  if (!host) return;
+  if (!points || points.length < 2) {
+    host.innerHTML = `<p class="empty">Not enough snapshots yet for a trend.</p>`;
+    return;
+  }
+  const W = 720, H = 130, padL = 8, padR = 8, padT = 12, padB = 22;
+  const max = Math.max(...points.map((p) => p.sessions), 1);
+  const stepX = (W - padL - padR) / (points.length - 1);
+  const y = (v) => padT + (H - padT - padB) * (1 - v / max);
+  const pts = points.map((p, i) => [padL + i * stepX, y(p.sessions)]);
+  const line = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
+  const area = `${line} L${pts[pts.length - 1][0].toFixed(1)},${H - padB} L${pts[0][0].toFixed(1)},${H - padB} Z`;
+  const dots = pts.map((p, i) =>
+    `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${i === pts.length - 1 ? 4 : 2.5}" class="${i === pts.length - 1 ? "spark-dot-last" : "spark-dot"}"><title>${points[i].day}: ${points[i].sessions} sessions</title></circle>`
+  ).join("");
+  const first = points[0], last = points[points.length - 1];
+  host.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" class="spark-svg" preserveAspectRatio="none" role="img"
+         aria-label="Cowork web app sessions per daily snapshot, ${first.day} to ${last.day}">
+      <path d="${area}" class="spark-area"></path>
+      <path d="${line}" class="spark-line"></path>
+      ${dots}
+    </svg>
+    <div class="spark-axis"><span>${first.day}</span><span>peak ${max}</span><span>${last.day}</span></div>`;
+}
+
 function renderCoworkBilling(repos, sites) {
   const since = currentSince();
   const until = currentUntil();
@@ -1706,6 +1753,58 @@ function renderCoworkBilling(repos, sites) {
   }
 
   set("cowork-kpi-web-sessions", fmt(webSessionsTotal));
+
+  /* Seven-day view.
+     Each Clarity snapshot is a 3-day rolling window captured daily, so
+     consecutive snapshots overlap by two days and summing seven of them would
+     count most days three times. Two snapshots three days apart do not overlap,
+     so D and D-3 give a clean six-day total, which is the closest honest
+     approximation of a week this feed supports. The sparkline shows the raw
+     daily rolling value so direction is visible without implying precision the
+     window cannot carry. */
+  const perDay = new Map();
+  for (const site of Object.values(sites || {})) {
+    const byUrl = site?.snapshotsByUrl || {};
+    for (const day of Object.keys(byUrl)) {
+      // Clarity repeats the session total across metric rows, so take the max
+      // per URL before summing, exactly as the single-snapshot path does.
+      const perUrl = new Map();
+      for (const g of (byUrl[day] || [])) {
+        for (const row of (g?.information || [])) {
+          const url = row?.Url || row?.url || "";
+          if (!url) continue;
+          const lower = String(url).toLowerCase();
+          if (lower.includes("what-i-did-with-cowork")) continue;
+          if (lower.includes("localhost") || lower.includes("127.0.0.1")
+              || lower.includes("azurewebsites.net")) continue;
+          if (!matchesAny(url, COWORK_WEB_HINTS)) continue;
+          const n = Math.max(parseIntSafe(row.sessionsCount), parseIntSafe(row.totalSessionCount));
+          perUrl.set(url, Math.max(perUrl.get(url) || 0, n));
+        }
+      }
+      let dayTotal = 0;
+      for (const n of perUrl.values()) dayTotal += n;
+      perDay.set(day, (perDay.get(day) || 0) + dayTotal);
+    }
+  }
+
+  const trendDays = [...perDay.keys()].sort();
+  const trend = trendDays.slice(-14).map((d) => ({ day: d, sessions: perDay.get(d) }));
+
+  const newestDay = trendDays[trendDays.length - 1];
+  const priorDay = trendDays[trendDays.length - 4];
+  const sixDay = (newestDay && priorDay)
+    ? (perDay.get(newestDay) || 0) + (perDay.get(priorDay) || 0)
+    : null;
+
+  set("cowork-kpi-web-7d", sixDay == null ? "—" : fmt(sixDay));
+  const d7foot = document.getElementById("cowork-kpi-web-7d-foot");
+  if (d7foot) {
+    d7foot.textContent = (newestDay && priorDay)
+      ? `2 non-overlapping windows · ${priorDay} + ${newestDay}`
+      : "Needs 4+ days of snapshots";
+  }
+  renderWebTrend(trend);
   const wsFoot = document.getElementById("cowork-kpi-web-sessions-foot");
   if (wsFoot) {
     wsFoot.textContent = coworkSnapshotDate

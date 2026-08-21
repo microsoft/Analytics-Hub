@@ -36,8 +36,14 @@
   'use strict';
 
   // App identity, so events can be split per tool in Clarity.
+  // Order matters: the more specific paths must be tested before the
+  // cowork-billing catch-all, since every app lives underneath it. The
+  // multi-budget app was previously reporting as 'hub' for exactly that
+  // reason, so every one of its events was attributed to the wrong tool.
   function appName() {
     var p = (location.pathname || '').toLowerCase();
+    if (p.indexOf('multi-budget-chargeback') > -1) return 'multi-budget';
+    if (p.indexOf('healthcare-chargeback') > -1) return 'multi-budget';
     if (p.indexOf('cowork-chargeback') > -1) return 'chargeback';
     if (p.indexOf('cowork-policy-helper') > -1) return 'policy-helper';
     if (p.indexOf('finops-cowork') > -1) return 'finops';
@@ -46,6 +52,29 @@
     if (p.indexOf('cowork-billing') > -1) return 'hub';
     return 'unknown';
   }
+
+  /* Demo or real data.
+   *
+   * An export taken from the sample dataset is an evaluation; the same export
+   * taken from a customer's own upload is adoption. Counting them together
+   * makes the strongest signal we have unreadable, so every export carries the
+   * mode it was produced in.
+   *
+   * Read from the DOM rather than app state so this stays a single shared file
+   * with no per-app wiring: each tool shows a demo banner while sample data is
+   * loaded. Apps can override by setting window.__cwkMode. */
+  function mode() {
+    try {
+      if (window.__cwkMode === 'demo' || window.__cwkMode === 'real') return window.__cwkMode;
+      var ids = ['cbDemoBanner', 'demoBanner', 'fnDemoBanner', 'phDemoBanner'];
+      for (var i = 0; i < ids.length; i++) {
+        var el = document.getElementById(ids[i]);
+        if (el && !el.hidden && el.offsetParent !== null) return 'demo';
+      }
+      return 'real';
+    } catch (e) { return 'real'; }
+  }
+  window.cwkMode = mode;
 
   var APP = appName();
   var fired = {};
@@ -68,6 +97,13 @@
 
   window.cwkTrack = cwkTrack;
 
+  /* Same as cwkTrack, but stamps the data mode onto the name so demo and real
+   * usage can be told apart. Used for exports and for report generation. */
+  function cwkTrackMode(action, once) {
+    cwkTrack(action + ':' + mode(), once);
+  }
+  window.cwkTrackMode = cwkTrackMode;
+
   /* Bind a click handler by element id, tolerating elements that do not exist
    * in a given app. Safe to call with ids that are absent. */
   function onClick(id, action, once) {
@@ -78,28 +114,45 @@
   }
   window.cwkOnClick = onClick;
 
+  /* Mode-stamped variant. The mode is read at click time, not bind time,
+   * because a user can load the demo and then load real data in one session. */
+  function onClickMode(id, action, once) {
+    try {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('click', function () { cwkTrackMode(action, once); });
+    } catch (e) {}
+  }
+
   function bind() {
-    // ---- exports: the strongest signal that the tool produced something usable
-    // Chargeback
-    onClick('btnExportJournal',  'export_journal_csv');
-    onClick('btnExportLines',    'export_line_items_csv');
-    onClick('btnExportXlsx',     'export_xlsx');
+    // ---- exports: the strongest signal that the tool produced something usable.
+    // Every export is mode-stamped, because an export off the sample data is an
+    // evaluation and an export off a customer upload is adoption.
+    // Chargeback / Multi-Budget
+    onClickMode('btnExportGl',      'export_post_to_gl');
+    onClickMode('btnExportJournal', 'export_journal_csv');
+    onClickMode('btnExportLines',   'export_line_items_csv');
+    onClickMode('btnExportXlsx',    'export_xlsx');
+    onClickMode('stExport',         'export_settlement_csv');
+    onClickMode('stTemplate',       'export_entitlement_template');
     // Policy Helper
-    onClick('btnExport',         'export_csv');
-    onClick('btnExportPolicy',   'export_by_policy');
-    onClick('btnExportDept',     'export_by_department');
-    onClick('btnExportAdjusted', 'export_adjusted_overages');
-    onClick('btnExportDeck',     'export_deck');
-    onClick('btnExportPdf',      'export_pdf');
+    onClickMode('btnExport',         'export_csv');
+    onClickMode('btnExportPolicy',   'export_by_policy');
+    onClickMode('btnExportDept',     'export_by_department');
+    onClickMode('btnExportAdjusted', 'export_adjusted_overages');
+    onClickMode('btnExportDeck',     'export_deck');
+    onClickMode('btnExportPdf',      'export_pdf');
     // FinOps
-    onClick('btnExportUnitF',    'export_unit_csv');
-    onClick('btnExportUserF',    'export_user_csv');
-    onClick('btnExportDeckF',    'export_deck');
-    onClick('btnExportPdfF',     'export_pdf');
+    onClickMode('btnExportUnitF',    'export_unit_csv');
+    onClickMode('btnExportUserF',    'export_user_csv');
+    onClickMode('btnExportDeckF',    'export_deck');
+    onClickMode('btnExportPdfF',     'export_pdf');
     // Usage Tracker (retired, retained for continuity)
-    onClick('btnExportBundle',   'export_bundle');
-    onClick('btnTrendXlsx',      'export_trend_xlsx');
-    onClick('btnTrendDeck',      'export_trend_deck');
+    onClickMode('btnExportBundle',   'export_bundle');
+    onClickMode('btnTrendXlsx',      'export_trend_xlsx');
+    onClickMode('btnTrendDeck',      'export_trend_deck');
+
+    // ---- entitlements: the one manual input in the settlement flow
+    onClick('stLoad', 'entitlement_loaded');
 
     // ---- evaluation vs real use
     onClick('btnDemo',  'demo_opened', true);
@@ -108,8 +161,8 @@
     // ---- the middle of the funnel: a report was actually produced.
     // btnGenerate exists in both Chargeback and Policy Helper; the APP prefix
     // separates them, so one binding covers both.
-    onClick('btnGenerate',  'report_generated', true);
-    onClick('btnGenerateF', 'report_generated', true);
+    onClickMode('btnGenerate',  'report_generated', true);
+    onClickMode('btnGenerateF', 'report_generated', true);
 
     // ---- working grain: how the customer actually slices the result
     onClick('viewIndividual', 'view_individual');
@@ -131,6 +184,7 @@
 
     // ---- feedback
     onClick('btnFeedback',  'feedback_opened', true);
+    onClick('fbBack',       'feedback_abandoned');
     onClick('btnFeedback2', 'feedback_opened', true);
     // Opening the form is intent; these two are the actual submission.
     onClick('fbCopy',       'feedback_submitted');

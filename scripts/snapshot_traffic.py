@@ -165,6 +165,50 @@ def fetch_repo_meta(repo: str) -> dict | None:
     }
 
 
+def fetch_releases(repo: str) -> dict | None:
+    """Release asset download counts.
+
+    Unlike the traffic endpoints this needs only read access, so it works for
+    every repo including ones we cannot pull traffic for. GitHub reports a
+    cumulative lifetime count per asset rather than a time series, so the daily
+    snapshot is what turns it into a trend: storing today's total lets the
+    dashboard difference consecutive days into "downloads since yesterday".
+
+    Returns None when the repo has no releases, so the caller can leave the key
+    absent rather than writing a misleading zero.
+    """
+    status, data = _get_json(
+        f"https://api.github.com/repos/{repo}/releases?per_page=100", gh_headers(repo)
+    )
+    if status != 200 or not isinstance(data, list) or not data:
+        if status not in (200, 404):
+            print(f"  ! releases {repo}: HTTP {status}", file=sys.stderr)
+        return None
+
+    assets: list[dict] = []
+    total = 0
+    for rel in data:
+        for a in (rel.get("assets") or []):
+            count = a.get("download_count") or 0
+            total += count
+            assets.append({
+                "name": a.get("name"),
+                "downloads": count,
+                "release": rel.get("tag_name"),
+                "publishedAt": rel.get("published_at"),
+                "size": a.get("size"),
+            })
+    if not assets:
+        return None
+    assets.sort(key=lambda x: x["downloads"], reverse=True)
+    return {
+        "totalDownloads": total,
+        "assetCount": len(assets),
+        "releaseCount": len(data),
+        "assets": assets[:25],
+    }
+
+
 def fetch_traffic(repo: str) -> tuple[dict, list[tuple[str, int]]]:
     """Fetch all 4 traffic endpoints.
 
@@ -280,6 +324,17 @@ def main() -> int:
         meta = fetch_repo_meta(repo)
         if meta:
             entry["meta"] = meta
+
+        # Release downloads. Deliberately outside the traffic block: it needs
+        # only read access, so it still works for repos where traffic 403s.
+        releases = fetch_releases(repo)
+        if releases:
+            entry["releases"] = releases
+            # Cumulative totals are useless as a trend on their own, so keep a
+            # daily series of the running total. Differencing consecutive days
+            # is what turns it into "downloads on this day".
+            dl_daily = entry.setdefault("dailyDownloads", {})
+            dl_daily[today_key] = releases["totalDownloads"]
 
         traffic, failures = fetch_traffic(repo)
         if failures:

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-21T06:40:55.856257Z",
+  "lastUpdated": "2026-08-21T07:34:24.697596Z",
   "repos": {
     "microsoft/Analytics-Hub": {
       "meta": {
@@ -7,7 +7,7 @@
         "forks": 8,
         "watchers": 1,
         "openIssues": 4,
-        "pushedAt": "2026-08-21T05:43:00Z",
+        "pushedAt": "2026-08-21T07:20:40Z",
         "defaultBranch": "main"
       },
       "dailyViews": {
@@ -4727,7 +4727,45 @@
           "uniques": 42
         }
       ],
-      "lastTrafficSync": "2026-08-21"
+      "lastTrafficSync": "2026-08-21",
+      "releases": {
+        "totalDownloads": 37,
+        "assetCount": 4,
+        "releaseCount": 1,
+        "assets": [
+          {
+            "name": "AIO.Dashboard.-.Interpretation.Guide.pdf",
+            "downloads": 10,
+            "release": "2026-06-25",
+            "publishedAt": "2026-06-26T19:33:06Z",
+            "size": 2795997
+          },
+          {
+            "name": "AIO.Dashboard.-.Rollup.Edition.-.2026-06-25.pbit",
+            "downloads": 10,
+            "release": "2026-06-25",
+            "publishedAt": "2026-06-26T19:33:06Z",
+            "size": 18084682
+          },
+          {
+            "name": "AIO.Dashboard.-.Storyboard.pptx",
+            "downloads": 10,
+            "release": "2026-06-25",
+            "publishedAt": "2026-06-26T19:33:06Z",
+            "size": 24911184
+          },
+          {
+            "name": "AIO.Dashboard.-.Rollup.Edition.-.PBI-SharePoint.-.2026-06-25.pbit",
+            "downloads": 7,
+            "release": "2026-06-25",
+            "publishedAt": "2026-06-26T19:33:06Z",
+            "size": 18080194
+          }
+        ]
+      },
+      "dailyDownloads": {
+        "2026-08-21": 37
+      }
     },
     "microsoft/CopilotChatAnalytics": {
       "meta": {
@@ -7029,6 +7067,10 @@
         "2026-08-19": {
           "count": 72,
           "uniques": 34
+        },
+        "2026-08-20": {
+          "count": 43,
+          "uniques": 28
         }
       },
       "dailyClones": {
@@ -7447,33 +7489,37 @@
         "2026-08-19": {
           "count": 54,
           "uniques": 49
+        },
+        "2026-08-20": {
+          "count": 52,
+          "uniques": 46
         }
       },
       "referrers": [
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 104,
-          "uniques": 65
+          "count": 108,
+          "uniques": 69
         },
         {
           "referrer": "github.com",
-          "count": 73,
-          "uniques": 47
+          "count": 76,
+          "uniques": 49
         },
         {
           "referrer": "Google",
-          "count": 59,
-          "uniques": 37
+          "count": 58,
+          "uniques": 34
         },
         {
           "referrer": "Bing",
-          "count": 38,
-          "uniques": 8
+          "count": 36,
+          "uniques": 7
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 28,
-          "uniques": 24
+          "count": 33,
+          "uniques": 28
         },
         {
           "referrer": "chatgpt.com",
@@ -7492,7 +7538,7 @@
         },
         {
           "referrer": "teamblind.com",
-          "count": 9,
+          "count": 10,
           "uniques": 1
         },
         {
@@ -7505,14 +7551,14 @@
         {
           "path": "/microsoft/What-I-Did-Copilot",
           "title": "Overview",
-          "count": 491,
-          "uniques": 272
+          "count": 488,
+          "uniques": 275
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/docs/effort-estimation-methodology.md",
           "title": "/blob/main/docs/effort-estimation-methodology.md",
-          "count": 51,
-          "uniques": 33
+          "count": 45,
+          "uniques": 28
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/tree/main",
@@ -7523,8 +7569,8 @@
         {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/SKILL.md",
           "title": "/blob/main/SKILL.md",
-          "count": 13,
-          "uniques": 11
+          "count": 11,
+          "uniques": 9
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/skills/whatidid/SKILL.md",
@@ -7535,7 +7581,7 @@
         {
           "path": "/microsoft/What-I-Did-Copilot/stargazers",
           "title": "/stargazers",
-          "count": 9,
+          "count": 10,
           "uniques": 1
         },
         {
@@ -7543,6 +7589,12 @@
           "title": "/blob/main/README.md",
           "count": 8,
           "uniques": 8
+        },
+        {
+          "path": "/microsoft/what-i-did-copilot",
+          "title": "Overview",
+          "count": 7,
+          "uniques": 6
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/commits/main",
@@ -7555,12 +7607,6 @@
           "title": "/tree/main/docs",
           "count": 6,
           "uniques": 5
-        },
-        {
-          "path": "/microsoft/What-I-Did-Copilot/blob/main/docs/credit-optimization.md",
-          "title": "/blob/main/docs/credit-optimization.md",
-          "count": 6,
-          "uniques": 4
         }
       ],
       "lastTrafficSync": "2026-08-21"
@@ -8532,7 +8578,45 @@
           "uniques": 7
         }
       ],
-      "lastTrafficSync": "2026-08-21"
+      "lastTrafficSync": "2026-08-21",
+      "releases": {
+        "totalDownloads": 62,
+        "assetCount": 4,
+        "releaseCount": 1,
+        "assets": [
+          {
+            "name": "M365.Usage.Dashboard.-.Power.BI.Template.-.09.March.2026.pbit",
+            "downloads": 21,
+            "release": "M365_Usage_Analytics",
+            "publishedAt": "2026-03-09T12:43:22Z",
+            "size": 732514
+          },
+          {
+            "name": "M365.Usage.Dashboard.-.Interpretation.Guide.-.09.March.2026.pdf",
+            "downloads": 18,
+            "release": "M365_Usage_Analytics",
+            "publishedAt": "2026-03-09T12:43:22Z",
+            "size": 2058541
+          },
+          {
+            "name": "Purview_M365_Usage_Bundle_Explosion_Processor_v1.0.0.ps1",
+            "downloads": 12,
+            "release": "M365_Usage_Analytics",
+            "publishedAt": "2026-03-09T12:43:22Z",
+            "size": 4117
+          },
+          {
+            "name": "Purview_M365_Usage_Bundle_Explosion_Processor_v1.0.0.py",
+            "downloads": 11,
+            "release": "M365_Usage_Analytics",
+            "publishedAt": "2026-03-09T12:43:22Z",
+            "size": 51775
+          }
+        ]
+      },
+      "dailyDownloads": {
+        "2026-08-21": 62
+      }
     },
     "microsoft/PAX": {
       "meta": {
@@ -9493,7 +9577,192 @@
           "uniques": 11
         }
       ],
-      "lastTrafficSync": "2026-08-21"
+      "lastTrafficSync": "2026-08-21",
+      "releases": {
+        "totalDownloads": 1335,
+        "assetCount": 80,
+        "releaseCount": 52,
+        "assets": [
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.14.ps1",
+            "downloads": 340,
+            "release": "purview-v1.11.14",
+            "publishedAt": "2026-07-06T15:54:22Z",
+            "size": 1748910
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.15.ps1",
+            "downloads": 150,
+            "release": "purview-v1.11.15",
+            "publishedAt": "2026-07-31T15:55:01Z",
+            "size": 2590436
+          },
+          {
+            "name": "PAX_Graph_Audit_Log_Processor_v1.0.1.ps1",
+            "downloads": 80,
+            "release": "graph-v1.0.1",
+            "publishedAt": "2025-10-30T16:49:48Z",
+            "size": 145992
+          },
+          {
+            "name": "PAX_CopilotInteractions_Content_Audit_Log_Processor_v2.0.0.ps1",
+            "downloads": 72,
+            "release": "copilotinteractions-v2.0.0",
+            "publishedAt": "2026-04-08T13:02:19Z",
+            "size": 237331
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.2.ps1",
+            "downloads": 54,
+            "release": "purview-v1.11.2",
+            "publishedAt": "2026-05-18T03:34:49Z",
+            "size": 1496315
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.4.ps1",
+            "downloads": 51,
+            "release": "purview-v1.11.4",
+            "publishedAt": "2026-06-04T21:45:14Z",
+            "size": 1583863
+          },
+          {
+            "name": "PAX_CopilotInteractions_Content_Audit_Log_Processor_v1.2.0.ps1",
+            "downloads": 49,
+            "release": "copilotinteractions-v1.2.0",
+            "publishedAt": "2025-12-09T18:05:47Z",
+            "size": 209748
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.8.ps1",
+            "downloads": 46,
+            "release": "purview-v1.10.8",
+            "publishedAt": "2026-03-09T22:31:00Z",
+            "size": 873022
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.9.0.ps1",
+            "downloads": 41,
+            "release": "purview-v1.9.0",
+            "publishedAt": "2025-12-10T23:31:41Z",
+            "size": 421050
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.9.ps1",
+            "downloads": 33,
+            "release": "purview-v1.10.9",
+            "publishedAt": "2026-04-25T14:08:43Z",
+            "size": 890406
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.8.ps1",
+            "downloads": 28,
+            "release": "purview-v1.11.8",
+            "publishedAt": "2026-06-24T11:51:18Z",
+            "size": 1703348
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.3.ps1",
+            "downloads": 24,
+            "release": "purview-v1.10.3",
+            "publishedAt": "2026-01-27T22:07:59Z",
+            "size": 747257
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.7.ps1",
+            "downloads": 22,
+            "release": "purview-v1.11.7",
+            "publishedAt": "2026-06-19T11:01:51Z",
+            "size": 1645374
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.9.ps1",
+            "downloads": 21,
+            "release": "purview-v1.11.9",
+            "publishedAt": "2026-06-25T15:29:40Z",
+            "size": 1707455
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.1.ps1",
+            "downloads": 21,
+            "release": "purview-v1.11.1",
+            "publishedAt": "2026-05-12T03:12:53Z",
+            "size": 1234333
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.10.ps1",
+            "downloads": 20,
+            "release": "purview-v1.11.10",
+            "publishedAt": "2026-06-29T09:46:37Z",
+            "size": 1714036
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.5.ps1",
+            "downloads": 20,
+            "release": "purview-v1.11.5",
+            "publishedAt": "2026-06-12T11:21:49Z",
+            "size": 1638035
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.6.ps1",
+            "downloads": 17,
+            "release": "purview-v1.10.6",
+            "publishedAt": "2026-02-10T16:58:05Z",
+            "size": 814548
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.6.ps1",
+            "downloads": 16,
+            "release": "purview-v1.11.6",
+            "publishedAt": "2026-06-16T11:07:49Z",
+            "size": 1645349
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.12.ps1",
+            "downloads": 14,
+            "release": "purview-v1.11.12",
+            "publishedAt": "2026-07-03T13:23:43Z",
+            "size": 1728543
+          },
+          {
+            "name": "PAX_Documentation_v1.7.0.pdf",
+            "downloads": 14,
+            "release": "v1.7.0",
+            "publishedAt": "2025-10-13T22:39:43Z",
+            "size": 4310779
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.3.ps1",
+            "downloads": 13,
+            "release": "purview-v1.11.3",
+            "publishedAt": "2026-06-01T15:59:18Z",
+            "size": 1582173
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.0.ps1",
+            "downloads": 13,
+            "release": "purview-v1.10.0",
+            "publishedAt": "2026-01-23T06:42:36Z",
+            "size": 741348
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.5.ps1",
+            "downloads": 12,
+            "release": "purview-v1.10.5",
+            "publishedAt": "2026-01-30T16:04:02Z",
+            "size": 783702
+          },
+          {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.10.4.ps1",
+            "downloads": 12,
+            "release": "purview-v1.10.4",
+            "publishedAt": "2026-01-30T12:33:26Z",
+            "size": 783755
+          }
+        ]
+      },
+      "dailyDownloads": {
+        "2026-08-21": 1335
+      }
     },
     "olivierpecheux/copilot-adoption-sentiment-report": {
       "meta": {
@@ -11097,7 +11366,185 @@
           "uniques": 2
         }
       ],
-      "lastTrafficSync": "2026-08-21"
+      "lastTrafficSync": "2026-08-21",
+      "releases": {
+        "totalDownloads": 155,
+        "assetCount": 24,
+        "releaseCount": 10,
+        "assets": [
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 38,
+            "release": "v1.3.2",
+            "publishedAt": "2026-07-06T18:18:10Z",
+            "size": 20423269
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 27,
+            "release": "v1.3.2",
+            "publishedAt": "2026-07-06T18:18:10Z",
+            "size": 72156146
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 12,
+            "release": "v1.0.0",
+            "publishedAt": "2026-06-16T15:58:46Z",
+            "size": 72155102
+          },
+          {
+            "name": "versions.json",
+            "downloads": 9,
+            "release": "v2.0.0-exp.1",
+            "publishedAt": "2026-07-07T06:33:56Z",
+            "size": 684
+          },
+          {
+            "name": "versions.json",
+            "downloads": 8,
+            "release": "v2.0.0-exp.4",
+            "publishedAt": "2026-07-07T19:21:43Z",
+            "size": 684
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 8,
+            "release": "v1.2.0",
+            "publishedAt": "2026-06-24T13:44:34Z",
+            "size": 20393363
+          },
+          {
+            "name": "versions.json",
+            "downloads": 6,
+            "release": "v2.0.0-exp.3",
+            "publishedAt": "2026-07-07T17:03:17Z",
+            "size": 684
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 5,
+            "release": "v1.3.1",
+            "publishedAt": "2026-07-06T11:11:11Z",
+            "size": 72156143
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 5,
+            "release": "v1.0.0",
+            "publishedAt": "2026-06-16T15:58:46Z",
+            "size": 20361838
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 4,
+            "release": "v2.0.0-exp.4",
+            "publishedAt": "2026-07-07T19:21:43Z",
+            "size": 20443104
+          },
+          {
+            "name": "versions.json",
+            "downloads": 4,
+            "release": "v2.0.0-exp.2",
+            "publishedAt": "2026-07-07T15:48:32Z",
+            "size": 684
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 4,
+            "release": "v1.3.0",
+            "publishedAt": "2026-07-03T13:39:10Z",
+            "size": 20417778
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 4,
+            "release": "v1.2.0",
+            "publishedAt": "2026-06-24T13:44:34Z",
+            "size": 72156186
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 3,
+            "release": "v1.3.1",
+            "publishedAt": "2026-07-06T11:11:11Z",
+            "size": 20418768
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 3,
+            "release": "v1.1.0",
+            "publishedAt": "2026-06-23T15:08:37Z",
+            "size": 20370614
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 2,
+            "release": "v2.0.0-exp.4",
+            "publishedAt": "2026-07-07T19:21:43Z",
+            "size": 72159141
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 2,
+            "release": "v2.0.0-exp.3",
+            "publishedAt": "2026-07-07T17:03:17Z",
+            "size": 20442810
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 2,
+            "release": "v2.0.0-exp.3",
+            "publishedAt": "2026-07-07T17:03:17Z",
+            "size": 72158950
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 2,
+            "release": "v2.0.0-exp.2",
+            "publishedAt": "2026-07-07T15:48:32Z",
+            "size": 20441828
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 2,
+            "release": "v2.0.0-exp.2",
+            "publishedAt": "2026-07-07T15:48:32Z",
+            "size": 72158983
+          },
+          {
+            "name": "PAX_Cookbook_Payload.zip",
+            "downloads": 2,
+            "release": "v2.0.0-exp.1",
+            "publishedAt": "2026-07-07T06:33:56Z",
+            "size": 20435934
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 2,
+            "release": "v2.0.0-exp.1",
+            "publishedAt": "2026-07-07T06:33:56Z",
+            "size": 72158997
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 1,
+            "release": "v1.3.0",
+            "publishedAt": "2026-07-03T13:39:10Z",
+            "size": 72156164
+          },
+          {
+            "name": "PAX_Cookbook_Setup.exe",
+            "downloads": 0,
+            "release": "v1.1.0",
+            "publishedAt": "2026-06-23T15:08:37Z",
+            "size": 72155113
+          }
+        ]
+      },
+      "dailyDownloads": {
+        "2026-08-21": 155
+      }
     },
     "microsoft/CreditUsage": {
       "dailyViews": {

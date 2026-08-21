@@ -1235,3 +1235,11 @@
 .cowork-events-note h4 { margin: 0 0 0.5rem; font-size: 0.95rem; }
 .cowork-events-note p { margin: 0 0 0.55rem; font-size: 0.88rem; line-height: 1.6; opacity: 0.85; }
 .cowork-events-note p:last-child { margin-bottom: 0; }
+
+/* --- sessions sparkline --- */
+.spark-svg { width: 100%; height: 130px; display: block; overflow: visible; }
+.spark-line { fill: none; stroke: #4A9EF7; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.spark-area { fill: rgba(74,158,247,0.12); stroke: none; }
+.spark-dot { fill: #4A9EF7; opacity: 0.55; }
+.spark-dot-last { fill: #00A3CC; stroke: #fff; stroke-width: 1.5; }
+.spark-axis { display: flex; justify-content: space-between; margin-top: 0.4rem; font-size: 0.75rem; opacity: 0.7; }
