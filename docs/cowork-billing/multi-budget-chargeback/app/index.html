@@ -51,6 +51,7 @@
         .cl-tag.add { background: rgba(52,211,153,0.15); color: #34D399; }
         .cl-tag.chg { background: rgba(74,158,247,0.15); color: #4A9EF7; }
         .cl-tag.rem { background: rgba(248,113,113,0.15); color: #F87171; }
+        .cl-tag.fix { background: rgba(245,158,11,0.15); color: #F59E0B; }
         .cb-ef-search { margin-bottom: 0.4rem; }
         .cb-entity { max-height: 150px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.5rem; background: var(--surface-raised); }
         .cb-ef-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--text-primary); padding: 0.12rem 0; cursor: pointer; }
@@ -330,6 +331,31 @@
             </div>
             <div class="instructions-section cb-changelog">
                 <h2>Changelog</h2>
+                <div class="cl-entry">
+                    <div class="cl-date">2026-08-21</div>
+                    <ul class="cl-list">
+                        <li><span class="cl-tag chg">Renamed</span> Now the <strong>Multi-Budget Chargeback Report</strong>. It was briefly published as Healthcare Chargeback; the settlement applies to any tenant shared by separately budgeted organisations, not only health systems. The old link redirects.</li>
+                        <li><span class="cl-tag add">Added</span> Walkthrough video and a plain-language definition of what &ldquo;multi-budget&rdquo; means.</li>
+                        <li><span class="cl-tag add">Added</span> What you configure in the admin centre versus what this settles, because spending policies do not reserve credits and it matters that nobody assumes they do.</li>
+                    </ul>
+                </div>
+                <div class="cl-entry">
+                    <div class="cl-date">2026-08-20</div>
+                    <ul class="cl-list">
+                        <li><span class="cl-tag add">Added</span> <strong>Prepaid settlement.</strong> Re-bills each organisation against the share of the prepaid pool it funded, so consumption order no longer decides who gets the discounted rate.</li>
+                        <li><span class="cl-tag add">Added</span> A five-step walkthrough that runs the arithmetic on your own figures, rather than describing it.</li>
+                        <li><span class="cl-tag add">Added</span> Entitlement template &mdash; downloads with every unit already listed, so no name is typed by hand. Load it back and the report reports exactly what matched and what it did not recognise.</li>
+                        <li><span class="cl-tag add">Added</span> Surplus treatments: redistribute, rebate, or hold centrally. Plus a flat internal rate mode with a break-even rate.</li>
+                        <li><span class="cl-tag add">Added</span> <strong>Post to GL export</strong> &mdash; one row per unit, header on row one, no totals row, ready to import into Apptio or any finance system.</li>
+                        <li><span class="cl-tag add">Added</span> Billing period field, stamped onto every export and filename.</li>
+                        <li><span class="cl-tag add">Added</span> Settlement tab in the workbook, with live adjustment and final columns.</li>
+                        <li><span class="cl-tag add">Added</span> Column definitions travel with the CSV exports, since the person who receives the file is rarely the person who generated it.</li>
+                        <li><span class="cl-tag fix">Fixed</span> Per-unit amounts are now allocated so they add up to the invoice to the cent, rather than each rounding independently and leaving a variance to chase.</li>
+                        <li><span class="cl-tag fix">Fixed</span> Workbook export failed outright on large tenants. Rewritten; 200,000 users now exports in about eight seconds.</li>
+                        <li><span class="cl-tag fix">Fixed</span> Workbook is compressed, taking it from 48&nbsp;MB to under 4&nbsp;MB.</li>
+                        <li><span class="cl-tag add">Added</span> Measured scale and limits on this page. There is no cap on the number of organisations.</li>
+                    </ul>
+                </div>
                 <div class="cl-entry">
                     <div class="cl-date">2026-07-20</div>
                     <ul class="cl-list">
