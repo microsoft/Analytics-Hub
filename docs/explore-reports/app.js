@@ -592,21 +592,23 @@ const TOOLS = [
     },
   },
   {
-    id: 'studio-lens',
-    question: "How do my Copilot Studio agents perform — quality, containment, transcripts, and message-credit cost?",
-    title: "StudioLens for Copilot Studio",
-    icon: "🔬",
+    id: 'agent-evaluator',
+    question: "How well are my Copilot Studio agents performing — what do they resolve, what do people ask for, and what does it cost?",
+    title: "Agent Evaluator for Copilot Studio",
+    icon: "🔎",
     accent: "#e3008c",
     category: "usage-intelligence",
     tier: "specialty",
+    isNew: true,
     measures: ["agents","impact"],
     source: "Copilot Studio transcripts (Dataverse) + Power Platform admin center",
     sourceKey: "Dataverse",
-    repo: "https://github.com/Keithland89/StudioLens-for-Copilot-Studio",
-    download: "https://github.com/Keithland89/StudioLens-for-Copilot-Studio/archive/refs/heads/main.zip",
-    preview: "https://raw.githubusercontent.com/Keithland89/StudioLens-for-Copilot-Studio/main/assets/studiolens-demo.gif",
-    blurb: "Business Value Advisory Power BI template for deep Copilot Studio agent evaluation — sessions, turns, errors, sub-agent calls, quality & performance, topics, knowledge files, user feedback, and Power Platform message-credit consumption. Dataverse Direct and Fabric deployment paths.",
-    meta: { audience: "Agent makers, Studio admins, FinOps", license: "Dataverse read (+ Fabric for credit pages)", time: "~45 min" },
+    repo: "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio",
+    download: "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/archive/refs/heads/main.zip",
+    preview: "https://raw.githubusercontent.com/microsoft/AgentEvaluator-for-Copilot-Studio/main/assets/agent-evaluator-demo.gif",
+    demoVideo: "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/media/AgentEvaluator-Demo.mp4",
+    blurb: "One Power BI template for deep Copilot Studio agent evaluation — sessions, turns, errors, sub-agent calls, quality & performance, topics, knowledge grounding, CSAT and message-credit consumption. Reads the conversation transcripts themselves, so every number has a real conversation behind it. Local CSV, Dataverse and Fabric paths, chosen by one parameter; sample data included.",
+    meta: { audience: "Agent makers, Studio admins, FinOps", license: "Dataverse read (+ Fabric for credit pages)", time: "~2 min on sample data, ~45 min on your own" },
     requirements: {
       roles: [
         { label: "Dataverse read (Copilot Studio transcripts)", url: "https://learn.microsoft.com/microsoft-copilot-studio/" },
@@ -614,7 +616,7 @@ const TOOLS = [
       ],
       software: [
         { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
-        { label: "Dataverse environment (+ Fabric capacity for message-credit pages)" }
+        { label: "Nothing at all for the sample-data path; Dataverse environment or Fabric capacity for your own data" }
       ]
     },
   },
