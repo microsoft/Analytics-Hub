@@ -88,6 +88,8 @@
       </p>
       <p class="meta-line" id="last-updated">Loading…</p>
       <div class="window-switcher" role="tablist" aria-label="Time window">
+        <button type="button" class="window-btn" data-window="3d">Last 3 days</button>
+        <button type="button" class="window-btn" data-window="7d">Last 7 days</button>
         <button type="button" class="window-btn active" data-window="14d">Last 14 days</button>
         <button type="button" class="window-btn" data-window="30d">Last 30 days</button>
         <button type="button" class="window-btn" data-window="ytd">Year to date</button>
@@ -493,8 +495,7 @@
           <div class="kpi"><span class="kpi-label">Repo views (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-views">—</span><span class="kpi-foot">GitHub · rolling window</span></div>
           <div class="kpi"><span class="kpi-label">Repo clones (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-clones">—</span><span class="kpi-foot">GitHub · people taking the code</span></div>
           <div class="kpi"><span class="kpi-label">Repo unique visitors (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-uniques">—</span><span class="kpi-foot">GitHub · rolling window</span></div>
-          <div class="kpi"><span class="kpi-label">Web app sessions</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span><span class="kpi-foot" id="cowork-kpi-web-sessions-foot">Clarity · 3-day rolling</span></div>
-          <div class="kpi"><span class="kpi-label">Web app sessions (6d)</span><span class="kpi-value" id="cowork-kpi-web-7d">—</span><span class="kpi-foot" id="cowork-kpi-web-7d-foot">2 non-overlapping windows</span></div>
+          <div class="kpi"><span class="kpi-label">Web app sessions (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span><span class="kpi-foot" id="cowork-kpi-web-sessions-foot">Clarity · 3-day rolling</span></div>
           <div class="kpi"><span class="kpi-label">Web app users</span><span class="kpi-value" id="cowork-kpi-web-users">—</span><span class="kpi-foot" id="cowork-kpi-web-users-foot">Clarity · distinct users</span></div>
           <div class="kpi"><span class="kpi-label">Active time / session</span><span class="kpi-value" id="cowork-kpi-active-time">—</span><span class="kpi-foot" id="cowork-kpi-active-time-foot">Clarity · hands-on time, not idle</span></div>
           <div class="kpi"><span class="kpi-label">Avg scroll depth</span><span class="kpi-value" id="cowork-kpi-scroll">—</span><span class="kpi-foot">Clarity · session-weighted across apps</span></div>

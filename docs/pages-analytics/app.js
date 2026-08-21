@@ -150,15 +150,29 @@ const startOfNDaysAgo = (n) => {
 const ANALYTICS_COVERAGE_START = "2026-05-08";
 
 const WINDOWS = {
-  "14d":    { label: "Last 14 days", short: "14d",    since: () => startOfNDaysAgo(14) },
-  "30d":    { label: "Last 30 days", short: "30d",    since: () => startOfNDaysAgo(30) },
-  "ytd":    { label: "Year to date", short: "YTD",    since: startOfYear },
-  "custom": { label: "Custom range", short: "Custom", since: () => windowState.customSince || ANALYTICS_COVERAGE_START },
+  "3d":     { label: "Last 3 days",  short: "3d",     days: 3,    since: () => startOfNDaysAgo(3) },
+  "7d":     { label: "Last 7 days",  short: "7d",     days: 7,    since: () => startOfNDaysAgo(7) },
+  "14d":    { label: "Last 14 days", short: "14d",    days: 14,   since: () => startOfNDaysAgo(14) },
+  "30d":    { label: "Last 30 days", short: "30d",    days: 30,   since: () => startOfNDaysAgo(30) },
+  "ytd":    { label: "Year to date", short: "YTD",    days: null, since: startOfYear },
+  "custom": { label: "Custom range", short: "Custom", days: null, since: () => windowState.customSince || ANALYTICS_COVERAGE_START },
 };
 const windowState = { key: "14d", customSince: null, customUntil: null };
 const currentSince = () => WINDOWS[windowState.key].since();
 const currentUntil = () => (windowState.key === "custom" ? (windowState.customUntil || null) : null);
 const currentShort = () => WINDOWS[windowState.key].short;
+/* Day count for the selected window, or null for open-ended ranges. Clarity
+   data is a series of daily snapshots rather than a summable daily total, so
+   it needs the span in days rather than a since-date to pick how many
+   snapshots to read. */
+const currentWindowDays = () => {
+  const w = WINDOWS[windowState.key];
+  if (w.days) return w.days;
+  const since = currentSince();
+  const until = currentUntil() || `${todayUTC().getUTCFullYear()}-${pad(todayUTC().getUTCMonth() + 1)}-${pad(todayUTC().getUTCDate())}`;
+  const ms = new Date(until + "T00:00:00Z") - new Date(since + "T00:00:00Z");
+  return Math.max(1, Math.round(ms / 86400000) + 1);
+};
 
 function sumDaily(dailyMap, sinceDate, untilDate) {
   // dailyMap: { "YYYY-MM-DD": { count, uniques } }
@@ -1754,14 +1768,15 @@ function renderCoworkBilling(repos, sites) {
 
   set("cowork-kpi-web-sessions", fmt(webSessionsTotal));
 
-  /* Seven-day view.
+  /* Windowed view.
      Each Clarity snapshot is a 3-day rolling window captured daily, so
-     consecutive snapshots overlap by two days and summing seven of them would
-     count most days three times. Two snapshots three days apart do not overlap,
-     so D and D-3 give a clean six-day total, which is the closest honest
-     approximation of a week this feed supports. The sparkline shows the raw
-     daily rolling value so direction is visible without implying precision the
-     window cannot carry. */
+     consecutive snapshots overlap by two days and summing them all would count
+     most days three times. Snapshots three days apart do not overlap, so the
+     window is built by stepping back in threes from the newest. That gives an
+     exact figure for 3d, 6d for a 7d request, 12d for 14d, and so on: always
+     the largest non-overlapping span that fits inside what was asked for.
+     The sparkline shows the raw daily rolling value so direction stays visible
+     without implying precision the window cannot carry. */
   const perDay = new Map();
   for (const site of Object.values(sites || {})) {
     const byUrl = site?.snapshotsByUrl || {};
@@ -1789,28 +1804,27 @@ function renderCoworkBilling(repos, sites) {
   }
 
   const trendDays = [...perDay.keys()].sort();
-  const trend = trendDays.slice(-14).map((d) => ({ day: d, sessions: perDay.get(d) }));
+  const trend = trendDays.slice(-21).map((d) => ({ day: d, sessions: perDay.get(d) }));
 
-  const newestDay = trendDays[trendDays.length - 1];
-  const priorDay = trendDays[trendDays.length - 4];
-  const sixDay = (newestDay && priorDay)
-    ? (perDay.get(newestDay) || 0) + (perDay.get(priorDay) || 0)
-    : null;
-
-  set("cowork-kpi-web-7d", sixDay == null ? "—" : fmt(sixDay));
-  const d7foot = document.getElementById("cowork-kpi-web-7d-foot");
-  if (d7foot) {
-    d7foot.textContent = (newestDay && priorDay)
-      ? `2 non-overlapping windows · ${priorDay} + ${newestDay}`
-      : "Needs 4+ days of snapshots";
+  const wantDays = (typeof currentWindowDays === "function") ? currentWindowDays() : 14;
+  const stepsWanted = Math.max(1, Math.floor(wantDays / 3));
+  const picked = [];
+  for (let i = 0; i < stepsWanted; i++) {
+    const idx = trendDays.length - 1 - (i * 3);
+    if (idx < 0) break;
+    picked.push(trendDays[idx]);
   }
-  renderWebTrend(trend);
+  const windowSessions = picked.reduce((s, d) => s + (perDay.get(d) || 0), 0);
+  const coveredDays = picked.length * 3;
+
+  set("cowork-kpi-web-sessions", picked.length ? fmt(windowSessions) : "—");
   const wsFoot = document.getElementById("cowork-kpi-web-sessions-foot");
   if (wsFoot) {
-    wsFoot.textContent = coworkSnapshotDate
-      ? `Clarity · 3-day rolling to ${coworkSnapshotDate}`
-      : "Clarity · 3-day rolling";
+    wsFoot.textContent = picked.length
+      ? `Clarity · ${coveredDays}d from ${picked.length} non-overlapping snapshot${picked.length === 1 ? "" : "s"}`
+      : "Clarity · no snapshots in range";
   }
+  renderWebTrend(trend);
 
   const webTbody = document.getElementById("cowork-webapp-tbody");
   if (webTbody) {
