@@ -35,6 +35,17 @@ jobs:
           # fall back to the ledger — a stale date is better than no check.
           API_DATE=$(gh api "repos/$GH_REPO/actions/secrets/TRAFFIC_PAT" --jq '.updated_at[0:10]' 2>/dev/null || true)
 
+          # Validate the shape, do not just test for non-empty. On a 401 the
+          # CLI writes its error body to stdout, so API_DATE ends up holding a
+          # multi-line JSON blob rather than a date. That is non-empty, so the
+          # old check took the "api" branch with garbage, and writing a
+          # multi-line value to GITHUB_OUTPUT then failed the whole step. The
+          # net effect was that this reminder died exactly when the token had
+          # expired, which is the one moment it needs to fire.
+          if ! printf '%s' "$API_DATE" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+            API_DATE=""
+          fi
+
           if [ -n "$API_DATE" ]; then
             SOURCE="api"
             LAST_ROTATED="$API_DATE"
