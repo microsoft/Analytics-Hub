@@ -1295,12 +1295,24 @@
         alloc.freeze = 4;
         alloc.autofilter = 'A4:K' + last;
 
+        /* The Users tab is per-person, so it is the only sheet that scales with
+           headcount. At a real tenant that is hundreds of thousands of rows,
+           which makes the workbook slow to open and near-useless to work in,
+           and Excel refuses anything past 1,048,576 rows outright. Cap it and
+           point at the Line items CSV, which always carries everyone. */
+        var USERS_CAP = 50000;
         var usersS = { name: 'Users', cols: [26, 20, 18, 16, 16, 18, 10, 10, 12, 10, 12, 12, 12, 12, 16], rows: [] };
         usersS.rows.push([TT('Users - per-person detail')]);
         usersS.rows.push([B('Billing model'), { t: 'f', f: 'Allocation!$B$2', s: 'def' }]);
-        usersS.rows.push([txt('Chosen $ follows the model on the Allocation tab. Use the filter row to slice, or pivot this table.')]);
+        var allUsers = state.users.slice().sort(function (a, b) { return b.used - a.used; });
+        var capped = allUsers.length > USERS_CAP;
+        var us = capped ? allUsers.slice(0, USERS_CAP) : allUsers;
+        usersS.rows.push([txt(capped
+            ? 'Showing the top ' + fmtInt(USERS_CAP) + ' users by credits, of ' + fmtInt(allUsers.length) +
+              '. Export Line items (CSV) from the report for all of them. Totals on the other tabs cover every user regardless.'
+            : 'Chosen $ follows the model on the Allocation tab. Use the filter row to slice, or pivot this table.')]);
         usersS.rows.push([H('User (MSID / UPN)'), H('Display name'), H('Department'), H('Cost Center'), H('Business Unit'), H(unitHeader() + ' (GL)'), H('Credits'), H('Daily use'), H('Allowance'), H('Overage'), H('PAYGO $'), H('Prepaid $'), H('Hybrid $'), H('Chosen $'), H('Spending policy')]);
-        var us = state.users.slice().sort(function (a, b) { return b.used - a.used; }), ufirst = 5;
+        var ufirst = 5;
         for (i = 0; i < us.length; i++) {
             u = us[i]; r = ufirst + i;
             var over = Math.max(0, u.used - u.limit);

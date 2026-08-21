@@ -7,7 +7,8 @@ const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/healthcare-chargeb
 const dom = new JSDOM(fs.readFileSync(path.join(APP, 'index.html'), 'utf8'),
   { url: 'https://x/', runScripts: 'outside-only', pretendToBeVisual: true });
 const w = dom.window;
-w.clarity = () => {}; w.alert = (m) => console.log('[alert] ' + m);
+w.CompressionStream = CompressionStream; w.Response = Response;
+  w.clarity = () => {}; w.alert = (m) => console.log('[alert] ' + m);
 
 const files = {};
 let pending = null;
@@ -42,6 +43,12 @@ per.value = 'March 2027';
 per.dispatchEvent(new w.Event('input', { bubbles: true }));
 
 ['btnExportGl', 'btnExportJournal', 'btnExportLines', 'stExport', 'stTemplate', 'btnExportXlsx'].forEach(click);
+
+// the workbook now deflates through CompressionStream, so its blob lands a
+// microtask later than the CSVs
+setTimeout(main, 150);
+
+function main() {
 const names = Object.keys(files);
 console.log('   files: ' + names.join('\n          '));
 
@@ -66,17 +73,6 @@ ok('GL period on every row', glLines.slice(1).every(l => l.indexOf('March 2027')
 ok('GL unit header is title-cased', /,[A-Z]\w* \(GL key\),/.test(glLines[0]));
 
 // ---------- pennies foot exactly ----------
-function splitCsv(line) {
-  const f = []; let cur = '', q = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (q) { if (c === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
-    else if (c === '"') q = true;
-    else if (c === ',') { f.push(cur); cur = ''; }
-    else cur += c;
-  }
-  f.push(cur); return f;
-}
 const amtIx = glLines[0].split(',').indexOf('Amount USD');
 const glSum = glLines.slice(1).reduce((a, l) => a + parseFloat(splitCsv(l)[amtIx]), 0);
 
@@ -110,9 +106,34 @@ ok('every CSV stamps the billing period', [gl, settle, journal].every(t => /Marc
 
 // ---------- workbook ----------
 const xlsxName = names.find(n => n.endsWith('.xlsx'));
+const xb = files[xlsxName];
 fs.mkdirSync('C:/Studio proj/Analytics-Hub/_audit', { recursive: true });
-fs.writeFileSync('C:/Studio proj/Analytics-Hub/_audit/' + xlsxName, files[xlsxName]);
-ok('workbook exported', files[xlsxName].length > 10000);
+fs.writeFileSync('C:/Studio proj/Analytics-Hub/_audit/' + xlsxName, xb);
+ok('workbook exported', xb.length > 10000);
+
+/* Structural zip check. The central directory size and offset must land the
+   EOCD exactly where it sits, or Excel and every zip reader rejects the file.
+   Cheap to assert and it catches an off-by-N in the writer immediately. */
+ok('xlsx starts with a local file header', xb.subarray(0, 4).toString('hex') === '504b0304');
+const eocd = xb.length - 22;
+ok('xlsx ends with an EOCD record', xb.subarray(eocd, eocd + 4).toString('hex') === '504b0506');
+const cdSize = xb.readUInt32LE(eocd + 12), cdOff = xb.readUInt32LE(eocd + 16);
+console.log('   cd offset ' + cdOff + ' + size ' + cdSize + ' = ' + (cdOff + cdSize) + ' (EOCD at ' + eocd + ')');
+ok('xlsx central directory is correctly sized', cdOff + cdSize === eocd);
+ok('xlsx central directory has the right magic', xb.subarray(cdOff, cdOff + 4).toString('hex') === '504b0102');
 
 console.log('\n' + (fails ? fails + ' FAILURES' : 'ALL PASS'));
 process.exit(fails ? 1 : 0);
+}
+
+function splitCsv(line) {
+  const f = []; let cur = '', q = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (q) { if (c === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { f.push(cur); cur = ''; }
+    else cur += c;
+  }
+  f.push(cur); return f;
+}

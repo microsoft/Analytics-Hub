@@ -92,6 +92,13 @@
         .cb-export-lede { font-size:0.78rem; line-height:1.45; color: var(--text-secondary); margin:0 0 0.6rem; }
         .cb-export-primary { border-left:3px solid var(--copilot-cyan); padding-left:0.6rem; }
         .cb-export-primary button { border-color: var(--copilot-cyan); color: var(--copilot-cyan); }
+        .cb-limits { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; }
+        .cb-limits th { background: rgba(74,158,247,0.12); color: var(--copilot-blue); text-align:left; padding:0.6rem 0.8rem; border-bottom:1px solid var(--border); }
+        .cb-limits td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); color: var(--text-secondary); }
+        .cb-limits td:first-child { color: var(--text-primary); }
+        .cb-limit-notes { margin:0.8rem 0 0; padding-left:1.1rem; }
+        .cb-limit-notes li { margin-bottom:0.5rem; font-size:0.9rem; line-height:1.55; color: var(--text-secondary); }
+        .cb-limit-notes strong { color: var(--text-primary); }
 
         /* ---- settlement walkthrough ---- */
         .cb-how { border:1px solid var(--border); border-radius:12px; background: var(--surface-raised); margin-bottom:1.2rem; }
@@ -218,6 +225,25 @@
                     <li><strong>Copilot credit / Cost Management export</strong> &mdash; in the <em>Microsoft 365 admin center</em>, go to <em>Copilot &rarr; Cost management &rarr; Consumption</em> and choose <strong>Export CSV</strong>. It just needs one row per user with the credits they consumed.</li>
                 </ol>
                 <p class="fb-note">Column names are auto-detected, so most export layouts work as-is &mdash; you can remap the org column inside the report if needed. Every file is parsed locally in your browser; nothing is uploaded.</p>
+            </div>
+            <div class="instructions-section">
+                <h2>Scale and limits</h2>
+                <p>Measured on synthetic tenants, not estimated. There is no cap on the number of entities: 35 and 200 both settle and reconcile identically.</p>
+                <table class="cb-limits">
+                    <thead><tr><th>Tenant</th><th>Time to report</th><th>Workbook</th><th>Line items CSV</th></tr></thead>
+                    <tbody>
+                        <tr><td>200,000 users, 35 entities</td><td>~8 seconds</td><td>3.5 MB</td><td>31 MB</td></tr>
+                        <tr><td>200,000 users, 200 entities</td><td>~9 seconds</td><td>3.7 MB</td><td>31 MB</td></tr>
+                        <tr><td>500,000 users, 35 entities</td><td>~22 seconds</td><td>3.5 MB</td><td>78 MB</td></tr>
+                    </tbody>
+                </table>
+                <ul class="cb-limit-notes">
+                    <li><strong>Entities:</strong> no limit. Entitlements are matched by name, so the only practical constraint is that the names in your entitlement file match the org column in your export. The report tells you which ones did not match.</li>
+                    <li><strong>Credits:</strong> no practical limit. Values are exact to 9,007,199,254,740,991 credits, far beyond any tenant.</li>
+                    <li><strong>Workbook Users tab:</strong> capped at the top 50,000 users by credits. Beyond that the workbook becomes slow to open and Excel refuses more than 1,048,576 rows outright. The Line items CSV always contains everyone, and the totals on every other tab cover all users regardless.</li>
+                    <li><strong>Memory:</strong> the whole tenant is held in browser memory. Expect roughly 350 MB at 200,000 users and 1.3 GB at 500,000. On a low-memory machine, filter to fewer entities first.</li>
+                    <li><strong>Rounding:</strong> per-entity amounts are allocated so they add up to the invoice to the cent, rather than each being rounded independently.</li>
+                </ul>
             </div>
             <div class="instructions-section cb-changelog">
                 <h2>Changelog</h2>
