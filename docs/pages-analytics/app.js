@@ -471,9 +471,31 @@ function renderRepoDetail(r) {
         `<li><span>${x.referrer}</span><span>${fmt(x.count)}</span></li>`).join("")
     : `<li><span class="empty" style="padding:0">No referrer data</span></li>`;
 
-  const pathList = paths.length
-    ? paths.slice(0, 10).map(x =>
-        `<li><span>${(x.title || x.path).slice(0, 60)}</span><span>${fmt(x.count)}</span></li>`).join("")
+  /* Same case-variant fold as the rollup table. GitHub returns the casing the
+     visitor typed, and repo URLs are case-insensitive, so the overview page can
+     appear twice and read as two different pages. */
+  const foldedPaths = (() => {
+    const agg = new Map();
+    for (const p of paths) {
+      const raw = p.path || p.name || "(unknown)";
+      const key = canonicalPathKey(raw);
+      const e = agg.get(key) || { count: 0, title: p.title, variants: new Map() };
+      e.count += p.count || 0;
+      e.variants.set(raw, (e.variants.get(raw) || 0) + (p.count || 0));
+      agg.set(key, e);
+    }
+    return [...agg.entries()]
+      .map(([key, e]) => ({
+        label: e.title || preferredPathLabel(e.variants, r.fullName ? [r.fullName] : [], key),
+        count: e.count,
+        merged: e.variants.size > 1,
+      }))
+      .sort((a, b) => b.count - a.count);
+  })();
+
+  const pathList = foldedPaths.length
+    ? foldedPaths.slice(0, 10).map(x =>
+        `<li><span>${String(x.label).slice(0, 60)}${x.merged ? " *" : ""}</span><span>${fmt(x.count)}</span></li>`).join("")
     : `<li><span class="empty" style="padding:0">No path data</span></li>`;
 
   const linkedHtml = r.linkedSite ? renderLinkedSiteDetail(r.linkedSite) : '';
@@ -487,6 +509,7 @@ function renderRepoDetail(r) {
       <div>
         <h4>Popular paths · GitHub repo (14d)</h4>
         <ul>${pathList}</ul>
+        ${foldedPaths.some((x) => x.merged) ? '<p class="detail-note">* merged across URL spellings of the same page</p>' : ''}
       </div>
     </div>
     ${linkedHtml}
@@ -1487,30 +1510,76 @@ function renderEngagement(repos) {
       : `<tr><td colspan="4" class="empty">No referrer data yet.</td></tr>`;
   }
 
-  // Aggregated paths
+  // Aggregated paths.
+  //
+  // GitHub reports popular paths using the URL casing the visitor actually
+  // used, and repo URLs are case-insensitive, so /microsoft/CreditUsage and
+  // /microsoft/creditusage both resolve to the same page and both come back as
+  // separate rows. On CreditUsage that split the repo overview almost in half,
+  // 782 views against 756, which reads as two different pages in the table.
+  //
+  // Only the owner and repo segments are folded. Everything after them is a
+  // real file path and git is case-sensitive there, so /blob/main/README.md and
+  // /blob/main/readme.md are genuinely different URLs and must stay apart.
   const pathTbody = document.getElementById("paths-rollup-tbody");
   if (pathTbody) {
     const agg = new Map();
     for (const [repoName, repo] of Object.entries(repos)) {
       for (const p of (repo.paths || [])) {
-        const key = p.path || p.name || "(unknown)";
-        const e = agg.get(key) || { count: 0, uniques: 0, repos: new Set() };
+        const raw = p.path || p.name || "(unknown)";
+        const key = canonicalPathKey(raw);
+        const e = agg.get(key) || { count: 0, uniques: 0, repos: new Set(), variants: new Map() };
         e.count   += p.count   || 0;
         e.uniques += p.uniques || 0;
         e.repos.add(repoName);
+        e.variants.set(raw, (e.variants.get(raw) || 0) + (p.count || 0));
         agg.set(key, e);
       }
     }
     const rows = [...agg.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 15);
     pathTbody.innerHTML = rows.length
-      ? rows.map(([name, e]) => `<tr>
-          <td><code>${name}</code></td>
+      ? rows.map(([key, e]) => {
+          const label = preferredPathLabel(e.variants, e.repos, key);
+          const merged = e.variants.size > 1;
+          /* Views add up cleanly across spellings. Unique visitors do not:
+             anyone who used both spellings is counted twice and there is no way
+             to tell from this data, so say so rather than present it as exact. */
+          const note = merged
+            ? ` title="Merged ${e.variants.size} URL spellings of the same page: ${[...e.variants.keys()].join(', ')}. Views are additive; unique visitors may double count anyone who used more than one spelling."`
+            : "";
+          return `<tr${note}>
+          <td><code>${label}</code>${merged ? ` <span class="path-merged">${e.variants.size} spellings</span>` : ""}</td>
           <td class="num">${fmt(e.count)}</td>
-          <td class="num">${fmt(e.uniques)}</td>
+          <td class="num">${merged ? "≤" : ""}${fmt(e.uniques)}</td>
           <td class="num">${e.repos.size}</td>
-        </tr>`).join("")
+        </tr>`;
+        }).join("")
       : `<tr><td colspan="4" class="empty">No path data yet.</td></tr>`;
   }
+}
+
+/* Fold the case-insensitive part of a GitHub path (owner and repo) while
+   leaving the case-sensitive file path after it untouched. */
+function canonicalPathKey(path) {
+  const parts = String(path || "").split("/");
+  // ["", owner, repo, ...rest] for a leading-slash path
+  if (parts.length >= 3) {
+    parts[1] = parts[1].toLowerCase();
+    parts[2] = parts[2].toLowerCase();
+  }
+  return parts.join("/");
+}
+
+/* Which spelling to show once variants are folded together. Prefer the one that
+   matches the repo's real name, since that is the canonical URL, and fall back
+   to whichever spelling drew the most views. */
+function preferredPathLabel(variants, repoNames, fallback) {
+  const list = [...variants.entries()].map(([path, count]) => ({ path, count }));
+  if (!list.length) return fallback;
+  const prefixes = [...repoNames].map((n) => "/" + String(n));
+  const canonical = list.find((v) => prefixes.some((p) => v.path === p || v.path.startsWith(p + "/")));
+  if (canonical) return canonical.path;
+  return list.sort((a, b) => b.count - a.count)[0].path;
 }
 
 // ------------------------------------------------------------ sub-app rankings

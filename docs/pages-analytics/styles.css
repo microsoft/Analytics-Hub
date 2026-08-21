@@ -1233,6 +1233,14 @@
   background: rgba(245,158,11,0.16); color: #9a6206;
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
 }
+/* Marks a path row that folds more than one URL spelling of the same page. */
+.path-merged {
+  display: inline-block; margin-left: 0.4rem; padding: 0.08rem 0.4rem;
+  border-radius: 999px; background: var(--border, rgba(0,0,0,0.08));
+  color: var(--text-soft, #666); font-size: 0.68rem; font-weight: 600;
+  white-space: nowrap;
+}
+.detail-note { margin: 0.5rem 0 0; font-size: 0.75rem; color: var(--text-soft, #666); }
 .cowork-events-note {
   margin-top: 1.1rem; padding: 0.95rem 1.15rem;
   border: 1px solid var(--border, rgba(0,0,0,0.08));
