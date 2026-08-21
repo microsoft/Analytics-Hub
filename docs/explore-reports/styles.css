@@ -796,3 +796,7 @@
 .btn-primary, .cta.primary, a.primary, .primary-btn {
   background: var(--accent);
 }
+
+/* votes — inherits ../styles.css, but this page's cells need the row layout */
+td.col-actions { white-space: nowrap; }
+td.col-actions .ah-vote { margin-left: 0; margin-right: 6px; vertical-align: middle; }

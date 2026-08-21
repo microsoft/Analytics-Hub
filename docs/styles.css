@@ -1921,3 +1921,34 @@ main .team-hero .lede {
 .cb-limit-source { font-size: .9em; opacity: .78; line-height: 1.6; }
 [data-theme="dark"] .cb-limit-card { background: #1e1e24; border-color: rgba(255,255,255,0.12); }
 [data-theme="dark"] .cb-limit-card blockquote { background: rgba(255,255,255,0.05); }
+
+/* ---------------------------------------------------------------- votes
+   Thumbs up / down on each report card, matching Copilot Analytics Labs.
+   Sits inside .rf-foot between the source label and the View link, so it
+   inherits the card's own accent colour via --c. */
+.ah-vote {
+  display: inline-flex; align-items: center; gap: 2px;
+  flex: none; margin-left: auto; margin-right: 8px;
+}
+.ah-vote.is-pending { opacity: .55; }
+.ah-vote-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 7px; border: none; border-radius: 6px;
+  background: transparent; color: var(--text-muted);
+  font: inherit; font-size: 12px; font-weight: 600; line-height: 1;
+  cursor: pointer; transition: background-color .12s, color .12s;
+}
+.ah-vote-btn:hover { background: var(--surface-2, rgba(127,127,127,.12)); color: var(--text); }
+.ah-vote-btn:focus-visible { outline: 2px solid var(--c, var(--accent)); outline-offset: 1px; }
+.ah-vote-btn svg { display: block; }
+.ah-vote-up.is-on   { color: var(--c, var(--accent)); }
+.ah-vote-down.is-on { color: #d13438; }
+.ah-vote-n { font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) { .rf-src { display: none; } }
+
+/* Flagship grid now carries three cards. The base rule reserves a 420px
+   minimum, which only fits two in the 1152px wrap, leaving the third stranded
+   on its own row. Allow a narrower track once there is room for three. */
+@media (min-width: 1100px) {
+  .flagship-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
