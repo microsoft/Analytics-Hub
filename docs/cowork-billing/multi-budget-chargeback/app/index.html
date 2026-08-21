@@ -99,6 +99,20 @@
             color: var(--copilot-cyan); font-weight:700; margin-bottom:.45rem; }
         .cb-define p { margin:0; font-size:1rem; line-height:1.65; color: var(--text-secondary); }
         .cb-define strong { color: var(--text-primary); }
+        .cb-split2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin:1.4rem 0 1.2rem; }
+        .cb-half { background: var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.2rem 1.35rem; }
+        .cb-half-tag { font-size:0.72rem; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
+            color: var(--text-secondary); margin-bottom:.5rem; }
+        .cb-half-tag.alt { color: var(--copilot-cyan); }
+        .cb-half-lede { font-size:1.05rem; font-weight:600; color: var(--text-primary); margin:0 0 .8rem; }
+        .cb-half ul { margin:0; padding-left:1.1rem; }
+        .cb-half li { font-size:0.92rem; line-height:1.6; color: var(--text-secondary); margin-bottom:.6rem; }
+        .cb-half li strong { color: var(--text-primary); }
+        .cb-callout { background: rgba(0,212,255,.07); border-left:3px solid var(--copilot-cyan);
+            border-radius:0 10px 10px 0; padding:.85rem 1.1rem; font-size:0.97rem; line-height:1.6;
+            color: var(--text-secondary); margin-bottom:1rem; }
+        .cb-callout strong { color: var(--text-primary); }
+        @media (max-width: 900px) { .cb-split2 { grid-template-columns:1fr; } }
         .cb-limits { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.9rem; }
         .cb-limits th { background: rgba(74,158,247,0.12); color: var(--copilot-blue); text-align:left; padding:0.6rem 0.8rem; border-bottom:1px solid var(--border); }
         .cb-limits td { padding:0.55rem 0.8rem; border-bottom:1px solid var(--border); color: var(--text-secondary); }
@@ -189,6 +203,34 @@
                     </div></li>
                 </ol>
                 <p>The report walks these same five steps against your own numbers. There is also a flat internal rate mode, if you would rather charge every entity one blended rate and reconcile centrally.</p>
+            </div>
+            <div class="instructions-section">
+                <h2>What you configure, and what this settles</h2>
+                <p>A reasonable question: if spending policies already control Copilot spend, why is a settlement needed at all? Because the two do different jobs.</p>
+                <div class="cb-split2">
+                    <div class="cb-half">
+                        <div class="cb-half-tag">In the admin centre</div>
+                        <p class="cb-half-lede">Spending policies, month-round.</p>
+                        <ul>
+                            <li>Assigned to <strong>Entra security groups</strong>, not to individuals. To give one person a different allowance, put them in a group that has one.</li>
+                            <li>A <strong>policy budget</strong> is a hard cap. Reach it and users lose access until credits reset.</li>
+                            <li>A <strong>per-user limit</strong> is a guardrail so one person cannot drain the pool. A running task above it still completes.</li>
+                            <li>Each policy can bill to a <strong>different Azure subscription</strong>, which does separate pay-as-you-go spend at source. It cannot be changed after the policy is created.</li>
+                        </ul>
+                    </div>
+                    <div class="cb-half">
+                        <div class="cb-half-tag alt">In this report</div>
+                        <p class="cb-half-lede">Settlement, at month end.</p>
+                        <ul>
+                            <li>Policies are <strong>limit-based</strong>. In Microsoft's words, they &ldquo;don't allocate or reserve credits&rdquo;.</li>
+                            <li>So no policy can hold part of the prepaid pool for one organisation. Whoever consumes earliest still gets the discounted rate.</li>
+                            <li>This report closes that gap after the fact, by re-billing each organisation against <strong>the share it funded</strong>.</li>
+                            <li>Nothing needs to change in the tenant. Configure policies as you would anyway, then settle here.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="cb-callout">The one input the platform cannot give you is <strong>who funded what share of the pool</strong>. That is a commercial agreement between the organisations, and it is what you enter below as entitlements.</p>
+                <p class="fb-note">One caveat worth knowing: usage above a per-user limit &ldquo;isn't billed (at Microsoft's sole discretion), and doesn't appear as consumed credits&rdquo; in Cost Management. Your chargeback still reconciles, because the tenant was not charged for it, but credits-used will understate the work actually done. Source: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a>.</p>
             </div>
             <div class="instructions-section">
                 <h2>Load your data</h2>
