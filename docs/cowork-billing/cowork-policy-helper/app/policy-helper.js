@@ -1905,6 +1905,9 @@ function exportAdjustedOverages() {
         state.users = buildUsers(entraRows, creditRows);
         if (!state.users.length) { showError('No users could be built from these files. Check that the credit file has a user principal name column.'); return; }
         showDashboard();
+        // Mark the URL so demo and real report sessions are distinguishable in
+        // the Clarity URL export, which cannot see custom events.
+        try { if (window.cwkMarkMode) window.cwkMarkMode(demo ? 'demo' : 'real'); } catch (e) {}
     }
 
     // ------------------------------------------------------------ landing wiring
@@ -2006,6 +2009,7 @@ function exportAdjustedOverages() {
         $('fileEntra').value = ''; $('fileCredits').value = '';
         $('btnGenerate').disabled = true;
         window.scrollTo(0, 0);
+        try { if (window.cwkClearMode) window.cwkClearMode(); } catch (e) {}
     }
 
     function init() {

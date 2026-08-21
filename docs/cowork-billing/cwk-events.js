@@ -76,6 +76,82 @@
   }
   window.cwkMode = mode;
 
+  /* ---- data mode in the URL -------------------------------------------
+   *
+   * Clarity's Data Export API returns a URL dimension but will not return
+   * custom events. clarity('event', ...) is visible in Clarity's own dashboard
+   * and nowhere else, so anything encoded only as an event is invisible to the
+   * nightly snapshot that builds the analytics page. The URL is the one channel
+   * that is both queryable and free, so the split that matters most, evaluation
+   * on sample data versus real work on a customer's own upload, is written into
+   * the URL as well as being fired as an event.
+   *
+   * These tools never navigate once data is loaded, so the state has to be
+   * pushed into the URL of the page already open. Clarity proxies
+   * history.pushState and history.replaceState and re-registers a page view
+   * when the URL changes, so replaceState is enough. No reload is needed and
+   * the customer's upload is never at risk.
+   *
+   * The state is carried in the QUERY STRING, not a fragment. Clarity compares
+   * URLs with the hash stripped:
+   *
+   *     // clarity-js/src/core/history.ts
+   *     function getCurrentUrl(): string {
+   *         return location.href.replace(location.hash, Constant.Empty);
+   *     }
+   *
+   * so a hash-only change is deliberately ignored and would have recorded
+   * nothing. It also never binds hashchange. The full href including the query
+   * string is what gets logged as the URL dimension, so a query parameter is
+   * both detected and reported. Anchor URLs such as /#explore do appear in the
+   * data, but only because someone landed on them directly.
+   *
+   * ?demo=1 doubles as the flag every app already honours on load, so the URL
+   * in the address bar stays a working shareable demo link. */
+  var MODE_PARAMS = { demo: 'demo=1', real: 'report=1' };
+
+  function isDemoUrl() {
+    try { return /[?&]demo=1\b/.test(location.search); } catch (e) { return false; }
+  }
+  window.cwkIsDemoUrl = isDemoUrl;
+
+  /* Current query string as parts, with any existing mode flag removed. */
+  function paramsWithoutMode() {
+    var s = location.search.replace(/^\?/, '');
+    return (s ? s.split('&') : []).filter(function (p) {
+      var k = p.split('=')[0];
+      return k !== 'demo' && k !== 'report';
+    });
+  }
+
+  function writeParams(parts) {
+    var next = location.pathname + (parts.length ? '?' + parts.join('&') : '') + location.hash;
+    if (next !== location.pathname + location.search + location.hash) {
+      history.replaceState(null, '', next);
+    }
+  }
+
+  /* Record in the URL that a report was produced, and in which mode. Exactly
+   * one flag is ever present, so demo, real and landing are three distinct
+   * URLs per app. Writing demo=1 also clears report=1 and vice versa, which
+   * matters because a user can view the demo and then load their own data:
+   * leaving demo=1 on would mean a refresh silently discarded their upload. */
+  function markMode(kind) {
+    try {
+      var want = MODE_PARAMS[kind === 'demo' ? 'demo' : 'real'];
+      var parts = paramsWithoutMode();
+      parts.push(want);
+      writeParams(parts);
+    } catch (e) {}
+  }
+  window.cwkMarkMode = markMode;
+
+  /* Return the URL to its landing state when the user resets the app. */
+  function clearMode() {
+    try { writeParams(paramsWithoutMode()); } catch (e) {}
+  }
+  window.cwkClearMode = clearMode;
+
   var APP = appName();
   var fired = {};
 

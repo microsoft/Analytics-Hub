@@ -1226,6 +1226,13 @@
   background: rgba(52,211,153,0.14); color: #0f9b6c;
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
 }
+/* Same shape as pill-good, amber. Used where a figure is real but low, so it
+   reads as "worth a look" rather than "broken". */
+.pill-warn {
+  display: inline-block; padding: 0.12rem 0.5rem; border-radius: 999px;
+  background: rgba(245,158,11,0.16); color: #9a6206;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
+}
 .cowork-events-note {
   margin-top: 1.1rem; padding: 0.95rem 1.15rem;
   border: 1px solid var(--border, rgba(0,0,0,0.08));

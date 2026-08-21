@@ -63,6 +63,48 @@ const COWORK_WEB_HINTS = [
   /roi[-_ ]?calculator/i,
 ];
 
+/* Which cowork tool a Clarity URL belongs to, and how far the visitor got.
+ *
+ * The stage is read out of the query string because Clarity's Data Export API
+ * returns a URL dimension but will not return custom events, so a click on
+ * "View Demo" is invisible to this page unless it changes the URL. cwk-events.js
+ * writes ?demo=1 when sample data is loaded and ?report=1 when a report is built
+ * from a real upload, both via history.replaceState, which Clarity proxies and
+ * treats as a new page view.
+ *
+ * Anything with neither flag is someone who arrived and did not load data. That
+ * is a real and useful third state, not a gap. */
+const COWORK_APPS = [
+  { key: "multi-budget", label: "Multi-Budget Chargeback", needle: "multi-budget-chargeback" },
+  { key: "healthcare", label: "Healthcare Chargeback (redirect)", needle: "healthcare-chargeback" },
+  { key: "chargeback", label: "Chargeback Report", needle: "cowork-chargeback" },
+  { key: "policy-helper", label: "Policy Helper", needle: "cowork-policy-helper" },
+  { key: "usage-tracker", label: "Usage Tracker", needle: "cowork-usage-tracker" },
+  { key: "roi-model", label: "Cohort ROI Model", needle: "cowork-roi-model" },
+  { key: "finops", label: "FinOps / FOCUS", needle: "finops-cowork" },
+];
+
+/* The first nightly snapshot that can contain mode-tagged URLs.
+ *
+ * Tagging shipped on 2026-08-21, after that morning's 07:34 UTC snapshot had
+ * already run, so 08-21 carries none of it. Dating the constant to the deploy
+ * day rather than the first clean snapshot would fold a pre-tagging day into
+ * the figures and report it as measured. */
+const COWORK_MODE_TAGGING_SINCE = "2026-08-22";
+
+function coworkApp(url) {
+  const u = String(url || "").toLowerCase();
+  for (const a of COWORK_APPS) if (u.includes(a.needle)) return a;
+  return null;
+}
+
+function coworkStage(url) {
+  const u = String(url || "").toLowerCase();
+  if (/[?&]demo=1(?:&|$)/.test(u)) return "demo";
+  if (/[?&]report=1(?:&|$)/.test(u)) return "real";
+  return "landing";
+}
+
 const COWORK_CORRELATION_SERIES = [
   { label: "FinOps", needle: "finops-cowork", color: "#7c3aed" },
   { label: "Chargeback", needle: "cowork-chargeback", color: "#0ea5e9" },
@@ -1816,6 +1858,141 @@ function renderCoworkBilling(repos, sites) {
   }
   const windowSessions = picked.reduce((s, d) => s + (perDay.get(d) || 0), 0);
   const coveredDays = picked.length * 3;
+
+  /* ---- demo versus real, per tool -------------------------------------
+     Same non-overlapping stepping as the sessions figure above, but split by
+     tool and by the stage flag in the query string. Sessions are de-duplicated
+     per URL first, because Clarity repeats the session total across metric
+     rows. */
+  const funnelPerDay = new Map();
+  for (const site of Object.values(sites || {})) {
+    const byUrl = site?.snapshotsByUrl || {};
+    for (const day of Object.keys(byUrl)) {
+      const perUrl = new Map();
+      for (const g of (byUrl[day] || [])) {
+        for (const row of (g?.information || [])) {
+          const url = row?.Url || row?.url || "";
+          if (!url) continue;
+          const lower = String(url).toLowerCase();
+          if (lower.includes("what-i-did-with-cowork")) continue;
+          if (lower.includes("localhost") || lower.includes("127.0.0.1")
+              || lower.includes("azurewebsites.net")) continue;
+          if (!coworkApp(url)) continue;
+          const n = Math.max(parseIntSafe(row.sessionsCount), parseIntSafe(row.totalSessionCount));
+          perUrl.set(url, Math.max(perUrl.get(url) || 0, n));
+        }
+      }
+      const dayMap = funnelPerDay.get(day) || new Map();
+      for (const [url, n] of perUrl) {
+        const key = coworkApp(url).key + "|" + coworkStage(url);
+        dayMap.set(key, (dayMap.get(key) || 0) + n);
+      }
+      funnelPerDay.set(day, dayMap);
+    }
+  }
+
+  const funnel = new Map();
+  for (const day of picked) {
+    const dayMap = funnelPerDay.get(day);
+    if (!dayMap) continue;
+    for (const [key, n] of dayMap) {
+      const [appKey, stage] = key.split("|");
+      const e = funnel.get(appKey) || { landing: 0, demo: 0, real: 0 };
+      e[stage] += n;
+      funnel.set(appKey, e);
+    }
+  }
+
+  /* The demo and real columns are gated on the date, not on whether any tagged
+     URL happens to be present.
+     ?demo=1 already existed as a hand-written link on the Policy Helper landing
+     page, so a handful of tagged sessions predate the instrumentation. Counting
+     those would report one entry path as if it were all of them, and would pair
+     them with a real-runs figure of zero that only means "never measured".
+     So the split is computed over snapshots on or after the day tagging shipped,
+     and left blank rather than zeroed before it. */
+  const modeDays = picked.filter((d) => d >= COWORK_MODE_TAGGING_SINCE);
+  const modeReady = modeDays.length > 0;
+  const fullCoverage = modeReady && modeDays.length === picked.length;
+  const modeCoveredDays = modeDays.length * 3;
+
+  const modeFunnel = new Map();
+  for (const day of modeDays) {
+    const dayMap = funnelPerDay.get(day);
+    if (!dayMap) continue;
+    for (const [key, n] of dayMap) {
+      const [appKey, stage] = key.split("|");
+      const e = modeFunnel.get(appKey) || { landing: 0, demo: 0, real: 0 };
+      e[stage] += n;
+      modeFunnel.set(appKey, e);
+    }
+  }
+
+  let demoTotal = 0, realTotal = 0, landingTotal = 0;
+  for (const e of modeFunnel.values()) {
+    demoTotal += e.demo; realTotal += e.real; landingTotal += e.landing;
+  }
+  const runsTotal = demoTotal + realTotal;
+
+  set("cowork-kpi-demo-runs", modeReady ? fmt(demoTotal) : "—");
+  set("cowork-kpi-real-runs", modeReady ? fmt(realTotal) : "—");
+  set("cowork-kpi-real-share",
+    modeReady && runsTotal ? `${Math.round((realTotal / runsTotal) * 100)}%` : "—");
+
+  const notMeasuredFoot = `Not measured before ${COWORK_MODE_TAGGING_SINCE}`;
+  const dFoot = document.getElementById("cowork-kpi-demo-runs-foot");
+  if (dFoot) dFoot.textContent = modeReady ? `Sample data loaded · ${modeCoveredDays}d` : notMeasuredFoot;
+  const rFoot = document.getElementById("cowork-kpi-real-runs-foot");
+  if (rFoot) rFoot.textContent = modeReady ? `Report built from an upload · ${modeCoveredDays}d` : notMeasuredFoot;
+  const sFoot = document.getElementById("cowork-kpi-real-share-foot");
+  if (sFoot) {
+    sFoot.textContent = modeReady
+      ? `${fmt(runsTotal)} run${runsTotal === 1 ? "" : "s"} · ${fmt(landingTotal)} did not load data`
+      : notMeasuredFoot;
+  }
+
+  const funnelTbody = document.getElementById("cowork-funnel-tbody");
+  if (funnelTbody) {
+    const rows = COWORK_APPS
+      .map((a) => ({ app: a, e: funnel.get(a.key), m: modeFunnel.get(a.key) }))
+      /* Kept even at zero sessions. An app whose URL Clarity knows about but
+         which nobody opened is a finding, not an empty row: Multi-Budget sits
+         at zero precisely because it is unlisted from the hub. Apps with no URL
+         in the data at all are still dropped. */
+      .filter((r) => r.e)
+      .sort((x, y) => (y.e.demo + y.e.real + y.e.landing) - (x.e.demo + x.e.real + x.e.landing));
+    funnelTbody.innerHTML = rows.length
+      ? rows.map(({ app, e, m }) => {
+          const arrived = e.landing + e.demo + e.real;
+          const runs = m ? m.demo + m.real : 0;
+          const seen = m ? m.landing + runs : 0;
+          /* Only shown at full coverage. While the mode window is shorter than
+             the session window, this would divide one period's runs by another
+             period's traffic and read as a collapse in conversion. */
+          const conv = fullCoverage && seen ? Math.round((runs / seen) * 100) : null;
+          const realPct = modeReady && runs ? Math.round((m.real / runs) * 100) : null;
+          return `<tr>
+          <td>${app.label}</td>
+          <td class="num">${fmt(arrived)}</td>
+          <td class="num">${modeReady && m ? fmt(m.demo) : "—"}</td>
+          <td class="num">${modeReady && m ? fmt(m.real) : "—"}</td>
+          <td class="num">${conv == null ? "—" : conv + "%"}</td>
+          <td class="num">${realPct == null ? "—" : `<span class="${realPct >= 50 ? "pill-good" : "pill-warn"}">${realPct}%</span>`}</td>
+        </tr>`;
+        }).join("")
+      : `<tr><td colspan="6" class="empty">No cowork web app URLs in this window.</td></tr>`;
+  }
+
+  const funnelNote = document.getElementById("cowork-funnel-note");
+  if (funnelNote) {
+    if (!modeReady) {
+      funnelNote.textContent = `Sessions cover ${coveredDays} day${coveredDays === 1 ? "" : "s"}. Demo and real tagging went live on ${COWORK_MODE_TAGGING_SINCE} and fill in from the first nightly snapshot after that date, so those two columns are blank rather than zero.`;
+    } else if (!fullCoverage) {
+      funnelNote.textContent = `Sessions cover ${coveredDays} days. Demo and real cover the ${modeCoveredDays} of those days since tagging began on ${COWORK_MODE_TAGGING_SINCE}, so the two are not directly comparable yet and the loaded-data share is withheld.`;
+    } else {
+      funnelNote.textContent = `Window covers ${coveredDays} day${coveredDays === 1 ? "" : "s"} from ${picked.length} non-overlapping Clarity snapshot${picked.length === 1 ? "" : "s"}.`;
+    }
+  }
 
   set("cowork-kpi-web-sessions", picked.length ? fmt(windowSessions) : "—");
   const wsFoot = document.getElementById("cowork-kpi-web-sessions-foot");

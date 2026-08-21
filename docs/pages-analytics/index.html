@@ -500,6 +500,9 @@
           <div class="kpi"><span class="kpi-label">Active time / session</span><span class="kpi-value" id="cowork-kpi-active-time">—</span><span class="kpi-foot" id="cowork-kpi-active-time-foot">Clarity · hands-on time, not idle</span></div>
           <div class="kpi"><span class="kpi-label">Avg scroll depth</span><span class="kpi-value" id="cowork-kpi-scroll">—</span><span class="kpi-foot">Clarity · session-weighted across apps</span></div>
           <div class="kpi"><span class="kpi-label">Friction / 100 sessions</span><span class="kpi-value" id="cowork-kpi-friction">—</span><span class="kpi-foot">Dead + rage clicks, quickbacks, errors</span></div>
+          <div class="kpi"><span class="kpi-label">Demo runs (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-demo-runs">—</span><span class="kpi-foot" id="cowork-kpi-demo-runs-foot">Clarity · sample data loaded</span></div>
+          <div class="kpi"><span class="kpi-label">Real runs (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-real-runs">—</span><span class="kpi-foot" id="cowork-kpi-real-runs-foot">Clarity · report built from an upload</span></div>
+          <div class="kpi"><span class="kpi-label">Real share of runs</span><span class="kpi-value" id="cowork-kpi-real-share">—</span><span class="kpi-foot" id="cowork-kpi-real-share-foot">Adoption vs evaluation</span></div>
           <div class="kpi"><span class="kpi-label">PBIT resource hits</span><span class="kpi-value" id="cowork-kpi-pbit-hits">—</span><span class="kpi-foot">GitHub popular paths · not downloads</span></div>
         </div>
 
@@ -553,6 +556,31 @@
 
     <section class="cowork-table-section">
       <div class="wrap">
+        <h2>Evaluation vs real use, per tool</h2>
+        <p class="section-sub">Splits web app sessions by how far the visitor got: arrived without loading anything, ran the sample data, or built a report from their own upload. Read from the URL, since Clarity's export API cannot return custom events. <strong>Demo runs</strong> are evaluation. <strong>Real runs</strong> are the adoption signal.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="cowork-funnel-table">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th class="num" title="All sessions on this tool in the window, at any stage.">Sessions</th>
+                <th class="num" title="Sessions that loaded the built-in sample data.">Demo runs</th>
+                <th class="num" title="Sessions that produced a report from a real uploaded file.">Real runs</th>
+                <th class="num" title="Share of sessions that got as far as loading any data at all, rather than leaving from the landing page.">Loaded data</th>
+                <th class="num" title="Of the sessions that ran the tool, the share using real data rather than the sample.">Real share</th>
+              </tr>
+            </thead>
+            <tbody id="cowork-funnel-tbody">
+              <tr><td colspan="6" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-sub" id="cowork-funnel-note">—</p>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
         <h2>Cowork web app engagement (Clarity URL view)</h2>
         <p class="section-sub">Per-URL sessions, depth and dwell from the most recent Clarity snapshot. Each snapshot is a <strong>3-day rolling window</strong>, so these are current-rate figures, not lifetime totals. Local and staging hosts are excluded.</p>
         <div class="table-wrap">
@@ -574,9 +602,10 @@
           </table>
         </div>
         <div class="cowork-events-note">
-          <h4>Why there are no click-level cards here yet</h4>
-          <p>The apps already fire named events to Clarity for <strong>View demo</strong>, report generated, every export, share, download and feedback. Those arrive, and are visible in the Clarity dashboard under Smart Events.</p>
-          <p>They cannot be shown on this page yet. Clarity's Data Export API returns a fixed schema of nine dimensions and sixteen behavioural metrics, and custom events are not among them. Everything here is built from what that API does return, so click-level signals need a different route: relay the same events to GA4, or post them to a small collector of our own. Until then, scroll depth and active time above are the closest honest proxy for whether someone worked a tool or glanced at it.</p>
+          <h4>What is measured here, and what still is not</h4>
+          <p>The apps fire named events to Clarity for <strong>View demo</strong>, report generated, every export, share, download and feedback. Those arrive and are visible in the Clarity dashboard under Smart Events. They cannot be read back onto this page: Clarity's Data Export API returns a fixed schema of nine dimensions and sixteen behavioural metrics, and custom events are not among them.</p>
+          <p><strong>Demo versus real is now measured anyway</strong>, without new infrastructure. The apps write their state into the query string, <code>?demo=1</code> or <code>?report=1</code>, and Clarity's URL dimension is returned by the export API. That is why the table above works. It has to be the query string rather than a <code>#fragment</code>: Clarity compares URLs with the hash stripped before deciding whether the page changed, so a fragment would have recorded nothing.</p>
+          <p><strong>Still not measurable:</strong> export clicks, Share this tool, Request a change, and Copy or Open in email. None of them navigate, so there is no URL to observe, and the counts stay in Clarity's dashboard only. Getting those onto this page needs a second destination with a queryable API, such as Application Insights or a GA4 relay.</p>
         </div>
       </div>
     </section>

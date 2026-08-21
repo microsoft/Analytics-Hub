@@ -1463,6 +1463,9 @@
         syncToggle('cbFilterToggle', 'data-filter', state.lineFilter);
         render();
         window.scrollTo(0, 0);
+        // Mark the URL so demo and real report sessions are distinguishable in
+        // the Clarity URL export, which cannot see custom events.
+        try { if (window.cwkMarkMode) window.cwkMarkMode(state.demoActive ? 'demo' : 'real'); } catch (e) {}
     }
     function loadDemo() {
         if (!window.DEMO_ENTRA_CSV || !window.DEMO_CREDITS_CSV) { showError('Demo data not available.'); return; }
@@ -1486,6 +1489,7 @@
         $('btnGenerate').disabled = true;
         var err = $('cbLandingError'); if (err) err.hidden = true;
         window.scrollTo(0, 0);
+        try { if (window.cwkClearMode) window.cwkClearMode(); } catch (e) {}
     }
 
     function init() {

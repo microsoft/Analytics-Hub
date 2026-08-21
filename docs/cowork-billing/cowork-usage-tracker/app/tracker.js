@@ -1178,7 +1178,12 @@
         $('btnClearEntra').addEventListener('click', function (e) { e.stopPropagation(); clearEntra(); });
 
         $('btnSaveCk').addEventListener('click', saveCheckpoint);
-        $('btnDemo').addEventListener('click', loadDemo);
+        $('btnDemo').addEventListener('click', function () {
+            loadDemo();
+            // Reflect demo mode in the URL so it is visible in the Clarity export
+            // and so the address bar stays a working shareable demo link.
+            try { if (window.cwkMarkMode) window.cwkMarkMode('demo'); } catch (e) {}
+        });
         $('btnExportBundle').addEventListener('click', exportBundle);
         $('btnImportBundle').addEventListener('click', function () { $('fileBundle').click(); });
         $('fileBundle').addEventListener('change', function () { if (this.files && this.files.length) importBundle(this.files); });
@@ -1189,6 +1194,12 @@
         var db = $('btnTrendDeck'); if (db) db.addEventListener('click', exportDeck);
 
         loadCheckpoints();
+
+        // ?demo=1 auto-load, matching the other tools so the demo link is shareable.
+        if (/[?&]demo=1\b/.test(location.search)) {
+            try { if (window.cwkTrack) window.cwkTrack('demo_opened', true); } catch (e) {}
+            loadDemo();
+        }
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
