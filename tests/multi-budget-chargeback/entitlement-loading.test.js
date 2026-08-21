@@ -2,7 +2,7 @@
    These are the paths a customer actually uses, and a mistyped name used to
    silently zero a unit's entitlement, so the matcher gets hard assertions. */
 const fs = require('fs'), path = require('path'), { JSDOM } = require('jsdom');
-const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/healthcare-chargeback/app';
+const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/multi-budget-chargeback/app';
 const dom = new JSDOM(fs.readFileSync(path.join(APP, 'index.html'), 'utf8'),
   { url: 'https://x/', runScripts: 'outside-only', pretendToBeVisual: true });
 const w = dom.window;
@@ -51,17 +51,17 @@ ok('entitlement total preserved', Math.abs(entTotal() - before) <= 16);
 // ---------- messy real-world input ----------
 const messy = [
   'Department,Entitlement (credits)',
-  '  claims processing ,  400,000 ',        // case, padding, thousands separators
+  '  customer operations ,  400,000 ',        // case, padding, thousands separators
   '"Data & Analytics",250000',              // quoted field
-  'Clinical Operations,8 packs',            // packs
-  'Ward 7B,50000',                          // name not in the data
+  'Field Services,8 packs',            // packs
+  'Depot 12,50000',                          // name not in the data
 ].join('\n');
 $('stEntitle').value = messy;
 $('stApply').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
 const s2 = summary();
 console.log('   messy input       : ' + s2);
 ok('loose match on case and whitespace', /3 of 16/.test(s2));
-ok('unrecognised name surfaced', /Ward 7B/.test(s2));
+ok('unrecognised name surfaced', /Depot 12/.test(s2));
 ok('units without entitlement surfaced', /no entitlement set for/.test(s2));
 ok('summary flagged bad', !!w.document.querySelector('.cb-match.bad'));
 
@@ -70,14 +70,14 @@ const rows = [...w.document.querySelectorAll('.cb-settle table tbody tr')].map(t
   ent: +tr.children[3].textContent.replace(/[^0-9]/g, ''),
 }));
 const get = (l) => (rows.find(r => r.label === l) || {}).ent;
-console.log('   Claims Processing : ' + get('Claims Processing'));
-console.log('   Clinical Ops      : ' + get('Clinical Operations'));
-ok('thousands separators parsed', get('Claims Processing') === 400000);
+console.log('   Customer Operations : ' + get('Customer Operations'));
+console.log('   Field Services      : ' + get('Field Services'));
+ok('thousands separators parsed', get('Customer Operations') === 400000);
 ok('quoted field parsed', get('Data & Analytics') === 250000);
-ok('packs converted at 25,000', get('Clinical Operations') === 200000);
+ok('packs converted at 25,000', get('Field Services') === 200000);
 
 // ---------- tab separated, as pasted from Excel ----------
-$('stEntitle').value = 'Department\tEntitlement\nFinance\t123456\nEngineering\t654321';
+$('stEntitle').value = 'Department\tEntitlement\nFinance\t123456\nProduct Engineering\t654321';
 $('stApply').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
 console.log('   tab separated     : ' + summary());
 ok('excel paste (tab separated) works', /2 of 16/.test(summary()));
@@ -104,7 +104,7 @@ if (reset) {
 // ---------- the file upload path, end to end ----------
 $('btnDemo').dispatchEvent(new w.MouseEvent('click', { bubbles: true }));
 const csv = 'Department,Users,Credits used,Entitlement (credits)\n' +
-            'Finance,26,117872,"1,000,000"\nMarketing,12,50000,4 packs\nNursing,3,100,7500';
+            'Finance,26,117872,"1,000,000"\nMarketing,12,50000,4 packs\nDepot 12,3,100,7500';
 const fi = $('stFile');
 const fake = new w.File([csv], 'entitlements.csv', { type: 'text/csv' });
 Object.defineProperty(fi, 'files', { value: [fake], configurable: true });
@@ -114,7 +114,7 @@ setTimeout(() => {
   const s = summary();
   console.log('   file upload       : ' + s);
   ok('file upload matched the real units', /2 of 16/.test(s));
-  ok('file upload flagged the unknown unit', /Nursing/.test(s));
+  ok('file upload flagged the unknown unit', /Depot 12/.test(s));
   const r = [...w.document.querySelectorAll('.cb-settle table tbody tr')]
     .map(tr => ({ l: tr.children[0].textContent, e: +tr.children[3].textContent.replace(/[^0-9]/g, '') }));
   const g = (l) => (r.find(x => x.l === l) || {}).e;

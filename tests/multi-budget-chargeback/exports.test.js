@@ -2,7 +2,7 @@
    these files. They get asserted like an interface, because a downstream GL
    import failing is far more expensive than a UI glitch. */
 const fs = require('fs'), path = require('path'), { JSDOM } = require('jsdom');
-const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/healthcare-chargeback/app';
+const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/multi-budget-chargeback/app';
 
 const dom = new JSDOM(fs.readFileSync(path.join(APP, 'index.html'), 'utf8'),
   { url: 'https://x/', runScripts: 'outside-only', pretendToBeVisual: true });
@@ -53,7 +53,7 @@ const names = Object.keys(files);
 console.log('   files: ' + names.join('\n          '));
 
 // ---------- naming and identity ----------
-ok('every export names the app', names.every(n => /^healthcare-chargeback|^entitlement-template/.test(n)));
+ok('every export names the app', names.every(n => /^multi-budget-chargeback|^entitlement-template/.test(n)));
 ok('no cowork-chargeback filenames', !names.some(n => /^cowork-chargeback/.test(n)));
 ok('period appears in filenames', names.filter(n => /march-2027/.test(n)).length >= 4);
 

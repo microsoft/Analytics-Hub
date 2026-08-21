@@ -1,5 +1,5 @@
 const fs = require('fs'), path = require('path'), { JSDOM } = require('jsdom');
-const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/healthcare-chargeback/app';
+const APP = 'C:/Studio proj/Analytics-Hub/docs/cowork-billing/multi-budget-chargeback/app';
 const dom = new JSDOM(fs.readFileSync(path.join(APP, 'index.html'), 'utf8'),
   { url: 'https://x/', runScripts: 'outside-only', pretendToBeVisual: true });
 const w = dom.window;

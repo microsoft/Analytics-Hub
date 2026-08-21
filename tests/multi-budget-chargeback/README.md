@@ -1,13 +1,13 @@
-# healthcare-chargeback tests
+# multi-budget-chargeback tests
 
 Kept outside `docs/` so GitHub Pages does not serve them.
 
 ```
 npm install jsdom --no-save
-node tests/healthcare-chargeback/settlement.test.js   # settlement maths
-node tests/healthcare-chargeback/demo.test.js         # demo-mode e2e (jsdom)
-node tests/healthcare-chargeback/entitlement-loading.test.js  # template, paste, file upload
-node tests/healthcare-chargeback/exports.test.js      # export contract
+node tests/multi-budget-chargeback/settlement.test.js   # settlement maths
+node tests/multi-budget-chargeback/demo.test.js         # demo-mode e2e (jsdom)
+node tests/multi-budget-chargeback/entitlement-loading.test.js  # template, paste, file upload
+node tests/multi-budget-chargeback/exports.test.js      # export contract
 ```
 
 `settlement.test.js` needs no dependencies. `demo.test.js` needs `jsdom`.

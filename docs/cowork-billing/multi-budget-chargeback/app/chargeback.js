@@ -1,4 +1,4 @@
-/* chargeback.js - Healthcare Chargeback (100% client-side).
+/* chargeback.js - Multi-Budget Chargeback Report (100% client-side).
    One job: turn Cowork consumption + org data into a finance-ready,
    invoice-reconciled chargeback - per unit and per person, in dollars.
    Full-consumption model: allocates 100% of the bill. No frameworks, no network. */
@@ -28,7 +28,7 @@
         demoActive: false,
         pending: { entra: null, credits: null },
         entraFileNames: [],
-        // --- settlement (HealthCareChargeback) ---
+        // --- settlement (Multi-Budget Chargeback) ---
         entitlements: {},          // { unitLabel: credits funded }
         surplusMode: 'redistribute',
         settleMode: 'entitlement', // 'entitlement' | 'flat'
@@ -39,7 +39,7 @@
         howOpen: true              // walkthrough starts open; the mechanic is not obvious
     };
 
-    var APP_NAME = 'Healthcare Chargeback';
+    var APP_NAME = 'Multi-Budget Chargeback Report';
 
     function $(id) { return document.getElementById(id); }    function esc(s) {
         return String(s == null ? '' : s)
@@ -979,7 +979,7 @@
             ['Residual', 'Total settled minus what Microsoft charges the tenant. Zero means the settlement reconciles to the invoice.']
         ]));
         try { if (window.cwkTrack) window.cwkTrack('export_settlement_csv'); } catch (e) {}
-        downloadBlob(toCsv(rows), 'healthcare-chargeback-settlement-' + periodSlug() + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'multi-budget-chargeback-settlement-' + periodSlug() + demoSuffix() + '.csv');
     }
 
     /* Rounding each unit's bill to cents independently leaves the column sum a
@@ -1030,7 +1030,7 @@
            alongside its own components posts the period twice. Totals and
            reconciliation live in the settlement CSV and the workbook. */
         try { if (window.cwkTrack) window.cwkTrack('export_gl_csv'); } catch (e) {}
-        downloadBlob(toCsv(rows), 'healthcare-chargeback-post-to-gl-' + periodSlug() + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'multi-budget-chargeback-post-to-gl-' + periodSlug() + demoSuffix() + '.csv');
     }
     function periodSlug() {
         return String(periodLabel()).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -1110,7 +1110,7 @@
             ['Overage credits', 'Credits consumed above the user\u2019s allowance.'],
             ['Note', 'This journal compares billing models. It does not include the prepaid settlement. For the settled bill per ' + unitWord() + ', use the settlement export or Post to GL.']
         ]));
-        downloadBlob(toCsv(rows), 'healthcare-chargeback-journal-' + periodSlug() + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'multi-budget-chargeback-journal-' + periodSlug() + demoSuffix() + '.csv');
     }
     function exportLineItemsCsv() {
         if (!state.users.length) { alert('Load data first.'); return; }
@@ -1123,7 +1123,7 @@
             var daily = state.daysInPeriod > 0 ? u.used / state.daysInPeriod : 0;
             rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, unitOf(u), Math.round(u.used), daily.toFixed(1), (daily * rate).toFixed(2), Math.round(u.limit), Math.round(over), chargeForModel(u.used, u.limit, 'paygo').toFixed(2), chargeForModel(u.used, u.limit, 'prepaid').toFixed(2), chargeForModel(u.used, u.limit, 'hybrid').toFixed(2), u.policy, u.limitSource || 'fallback']);
         });
-        downloadBlob(toCsv(rows), 'healthcare-chargeback-line-items-' + periodSlug() + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'multi-budget-chargeback-line-items-' + periodSlug() + demoSuffix() + '.csv');
     }
 
     function exportWorkbook() {
@@ -1346,7 +1346,7 @@
         var sheets = [readme, summary];
         if (settleS) sheets.push(settleS);
         sheets = sheets.concat([alloc, usersS, cmp]);
-        window.CBXLSX.download('healthcare-chargeback-workbook-' + periodSlug() + demoSuffix() + '.xlsx', sheets);
+        window.CBXLSX.download('multi-budget-chargeback-workbook-' + periodSlug() + demoSuffix() + '.xlsx', sheets);
     }
 
     function showError(msg) { var e = $('cbLandingError'); if (!e) { alert(msg); return; } e.textContent = msg; e.hidden = false; }
