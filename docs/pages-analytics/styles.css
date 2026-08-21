@@ -1219,3 +1219,19 @@
 .cov-ok { background: var(--accent); opacity: .75; }
 .cov-gap { background: var(--border); border: 1px dashed var(--text-muted); opacity: .55; }
 .cowork-coverage-note { font-size: .82rem; color: var(--text-soft); margin: 0; line-height: 1.5; }
+
+/* --- web app engagement: depth pill + the events caveat --- */
+.pill-good {
+  display: inline-block; padding: 0.12rem 0.5rem; border-radius: 999px;
+  background: rgba(52,211,153,0.14); color: #0f9b6c;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em;
+}
+.cowork-events-note {
+  margin-top: 1.1rem; padding: 0.95rem 1.15rem;
+  border: 1px solid var(--border, rgba(0,0,0,0.08));
+  border-left: 3px solid #4A9EF7;
+  border-radius: 0 10px 10px 0; background: rgba(74,158,247,0.05);
+}
+.cowork-events-note h4 { margin: 0 0 0.5rem; font-size: 0.95rem; }
+.cowork-events-note p { margin: 0 0 0.55rem; font-size: 0.88rem; line-height: 1.6; opacity: 0.85; }
+.cowork-events-note p:last-child { margin-bottom: 0; }

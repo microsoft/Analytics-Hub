@@ -1615,7 +1615,10 @@ function renderCoworkBilling(repos, sites) {
         if (lower.includes("localhost") || lower.includes("127.0.0.1")
             || lower.includes("azurewebsites.net")) continue;
         if (!matchesAny(url, COWORK_WEB_HINTS)) continue;
-        const entry = webAgg.get(url) || { url, sessions: 0, users: 0, signals: 0, sites: new Set() };
+        const entry = webAgg.get(url) || {
+          url, sessions: 0, users: 0, signals: 0, sites: new Set(),
+          scroll: null, activeTime: null, totalTime: null, bots: 0, pagesPerSession: null,
+        };
         // Clarity returns 9 metric rows per URL and repeats the same session
         // total on most of them (6x in sessionsCount, plus once more as
         // totalSessionCount on the Traffic row). Take the value once via max
@@ -1632,6 +1635,22 @@ function renderCoworkBilling(repos, sites) {
         if (FRICTION_METRICS.has(metricName)) {
           entry.signals += parseIntSafe(row.subTotal);
         }
+        // Depth and dwell live on their own metric rows rather than on Traffic,
+        // so they have to be picked up by name. Both are already per-URL
+        // averages from Clarity, so they are read rather than accumulated.
+        if (metricName === "ScrollDepth" && row.averageScrollDepth != null) {
+          entry.scroll = Number(row.averageScrollDepth);
+        }
+        if (metricName === "EngagementTime") {
+          if (row.activeTime != null) entry.activeTime = parseIntSafe(row.activeTime);
+          if (row.totalTime != null) entry.totalTime = parseIntSafe(row.totalTime);
+        }
+        if (row.totalBotSessionCount != null) {
+          entry.bots = Math.max(entry.bots, parseIntSafe(row.totalBotSessionCount));
+        }
+        if (row.pagesPerSessionPercentage != null) {
+          entry.pagesPerSession = Number(row.pagesPerSessionPercentage);
+        }
         entry.sites.add(siteKey);
         webAgg.set(url, entry);
         if (!coworkSnapshotDate) { coworkSnapshotDate = latestDate; coworkSnapshotSite = siteKey; }
@@ -1642,6 +1661,50 @@ function renderCoworkBilling(repos, sites) {
   const webRows = [...webAgg.values()].sort((a, b) => b.sessions - a.sessions).slice(0, 40);
   const webSessionsTotal = webRows.reduce((s, r) => s + r.sessions, 0);
   const webUsersTotal = webRows.reduce((s, r) => s + r.users, 0);
+
+  /* Depth and dwell are per-URL averages, so a plain mean would let a page with
+     three sessions swing the headline as hard as one with two thousand. Weight
+     by sessions so the number reflects what visitors actually experienced. */
+  function weighted(rows, field) {
+    let num = 0, den = 0;
+    for (const r of rows) {
+      const v = r[field];
+      if (v == null || !isFinite(v) || r.sessions <= 0) continue;
+      num += v * r.sessions;
+      den += r.sessions;
+    }
+    return den ? num / den : null;
+  }
+  const avgScroll = weighted(webRows, "scroll");
+  const avgActive = weighted(webRows, "activeTime");
+  const avgTotal = weighted(webRows, "totalTime");
+  const botTotal = webRows.reduce((s, r) => s + (r.bots || 0), 0);
+  const frictionTotal = webRows.reduce((s, r) => s + (r.signals || 0), 0);
+  // Friction per 100 sessions, because the raw count only ever tracks traffic.
+  const frictionRate = webSessionsTotal ? (frictionTotal / webSessionsTotal) * 100 : null;
+
+  const secs = (v) => (v == null ? "—" : (v >= 60 ? `${Math.floor(v / 60)}m ${Math.round(v % 60)}s` : `${Math.round(v)}s`));
+  const pct1 = (v) => (v == null ? "—" : `${v.toFixed(1)}%`);
+
+  set("cowork-kpi-web-users", fmt(webUsersTotal));
+  set("cowork-kpi-active-time", secs(avgActive));
+  set("cowork-kpi-scroll", pct1(avgScroll));
+  set("cowork-kpi-friction", frictionRate == null ? "—" : frictionRate.toFixed(1));
+
+  const atFoot = document.getElementById("cowork-kpi-active-time-foot");
+  if (atFoot && avgTotal != null && avgActive != null) {
+    const share = avgTotal > 0 ? (avgActive / avgTotal) * 100 : null;
+    atFoot.textContent = share == null
+      ? "Clarity · active time per session"
+      : `Clarity · ${Math.round(share)}% of ${secs(avgTotal)} on page`;
+  }
+  const btFoot = document.getElementById("cowork-kpi-web-users-foot");
+  if (btFoot) {
+    btFoot.textContent = botTotal
+      ? `Clarity · ${fmt(botTotal)} bot session${botTotal === 1 ? "" : "s"} excluded`
+      : "Clarity · distinct users";
+  }
+
   set("cowork-kpi-web-sessions", fmt(webSessionsTotal));
   const wsFoot = document.getElementById("cowork-kpi-web-sessions-foot");
   if (wsFoot) {
@@ -1652,14 +1715,28 @@ function renderCoworkBilling(repos, sites) {
 
   const webTbody = document.getElementById("cowork-webapp-tbody");
   if (webTbody) {
+    /* Short labels beat full URLs here: the table is scanned to compare apps,
+       and forty characters of shared prefix on every row defeats that. */
+    const label = (u) => u
+      .replace(/^https?:\/\//, "")
+      .replace("microsoft.github.io/Analytics-Hub/", "")
+      .replace(/\/app\/index\.html$/, "")
+      .replace(/\/index\.html$/, "")
+      .replace(/\/$/, "") || "home";
     webTbody.innerHTML = webRows.length
-      ? webRows.map((r) => `<tr>
-          <td><a href="${r.url}" target="_blank" rel="noopener">${r.url}</a></td>
+      ? webRows.map((r) => {
+          const engaged = r.scroll != null && r.scroll >= 60 && (r.activeTime || 0) >= 60;
+          return `<tr>
+          <td><a href="${r.url}" target="_blank" rel="noopener" title="${r.url}">${label(r.url)}</a></td>
           <td class="num">${fmt(r.sessions)}</td>
           <td class="num">${fmt(r.users)}</td>
+          <td class="num">${r.scroll == null ? "—" : r.scroll.toFixed(0) + "%"}</td>
+          <td class="num">${r.activeTime == null ? "—" : secs(r.activeTime)}</td>
           <td class="num">${fmt(r.signals)}</td>
-        </tr>`).join("")
-      : `<tr><td colspan="4" class="empty">No cowork web app URL traffic found in Clarity snapshots.</td></tr>`;
+          <td class="num">${engaged ? '<span class="pill-good">deep</span>' : ""}</td>
+        </tr>`;
+        }).join("")
+      : `<tr><td colspan="7" class="empty">No cowork web app URL traffic found in Clarity snapshots.</td></tr>`;
   }
 
   const pbitRows = [];

@@ -493,6 +493,10 @@
           <div class="kpi"><span class="kpi-label">Repo clones (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-clones">—</span><span class="kpi-foot">GitHub · people taking the code</span></div>
           <div class="kpi"><span class="kpi-label">Repo unique visitors (<span data-window-label>14d</span>)</span><span class="kpi-value" id="cowork-kpi-uniques">—</span><span class="kpi-foot">GitHub · rolling window</span></div>
           <div class="kpi"><span class="kpi-label">Web app sessions</span><span class="kpi-value" id="cowork-kpi-web-sessions">—</span><span class="kpi-foot" id="cowork-kpi-web-sessions-foot">Clarity · 3-day rolling</span></div>
+          <div class="kpi"><span class="kpi-label">Web app users</span><span class="kpi-value" id="cowork-kpi-web-users">—</span><span class="kpi-foot" id="cowork-kpi-web-users-foot">Clarity · distinct users</span></div>
+          <div class="kpi"><span class="kpi-label">Active time / session</span><span class="kpi-value" id="cowork-kpi-active-time">—</span><span class="kpi-foot" id="cowork-kpi-active-time-foot">Clarity · hands-on time, not idle</span></div>
+          <div class="kpi"><span class="kpi-label">Avg scroll depth</span><span class="kpi-value" id="cowork-kpi-scroll">—</span><span class="kpi-foot">Clarity · session-weighted across apps</span></div>
+          <div class="kpi"><span class="kpi-label">Friction / 100 sessions</span><span class="kpi-value" id="cowork-kpi-friction">—</span><span class="kpi-foot">Dead + rage clicks, quickbacks, errors</span></div>
           <div class="kpi"><span class="kpi-label">PBIT resource hits</span><span class="kpi-value" id="cowork-kpi-pbit-hits">—</span><span class="kpi-foot">GitHub popular paths · not downloads</span></div>
         </div>
 
@@ -540,22 +544,30 @@
 
     <section class="cowork-table-section">
       <div class="wrap">
-        <h2>Cowork web app pages (Clarity URL view)</h2>
-        <p class="section-sub">Per-URL sessions from the most recent Clarity snapshot. Each snapshot is a <strong>3-day rolling window</strong>, so these are current-rate figures, not lifetime totals. Local and staging hosts are excluded.</p>
+        <h2>Cowork web app engagement (Clarity URL view)</h2>
+        <p class="section-sub">Per-URL sessions, depth and dwell from the most recent Clarity snapshot. Each snapshot is a <strong>3-day rolling window</strong>, so these are current-rate figures, not lifetime totals. Local and staging hosts are excluded.</p>
         <div class="table-wrap">
           <table class="repo-table" id="cowork-webapp-table">
             <thead>
               <tr>
-                <th>URL</th>
+                <th>Page</th>
                 <th class="num">Sessions</th>
                 <th class="num">Distinct users</th>
-                <th class="num" title="Sessions showing a UX friction signal: dead clicks, rage clicks, excessive scroll, quickback or script errors.">UX friction</th>
+                <th class="num" title="Average share of the page reached, from Clarity ScrollDepth.">Scroll</th>
+                <th class="num" title="Average hands-on time per session, excluding idle time on the tab.">Active time</th>
+                <th class="num" title="Count of UX friction occurrences on this page: dead clicks, rage clicks, excessive scroll, quickbacks and script errors. Occurrences, not sessions, so one visitor can contribute several.">UX friction</th>
+                <th class="num" title="Scroll depth at or above 60% and at least a minute of active time, so the page was worked rather than glanced at.">Depth</th>
               </tr>
             </thead>
             <tbody id="cowork-webapp-tbody">
-              <tr><td colspan="4" class="empty">Loading…</td></tr>
+              <tr><td colspan="7" class="empty">Loading…</td></tr>
             </tbody>
           </table>
+        </div>
+        <div class="cowork-events-note">
+          <h4>Why there are no click-level cards here yet</h4>
+          <p>The apps already fire named events to Clarity for <strong>View demo</strong>, report generated, every export, share, download and feedback. Those arrive, and are visible in the Clarity dashboard under Smart Events.</p>
+          <p>They cannot be shown on this page yet. Clarity's Data Export API returns a fixed schema of nine dimensions and sixteen behavioural metrics, and custom events are not among them. Everything here is built from what that API does return, so click-level signals need a different route: relay the same events to GA4, or post them to a small collector of our own. Until then, scroll depth and active time above are the closest honest proxy for whether someone worked a tool or glanced at it.</p>
         </div>
       </div>
     </section>
