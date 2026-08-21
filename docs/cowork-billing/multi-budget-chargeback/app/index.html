@@ -99,6 +99,16 @@
             color: var(--copilot-cyan); font-weight:700; margin-bottom:.45rem; }
         .cb-define p { margin:0; font-size:1rem; line-height:1.65; color: var(--text-secondary); }
         .cb-define strong { color: var(--text-primary); }
+        .cb-video { background: var(--surface); border:1px solid var(--border); border-radius:16px;
+            padding:1.3rem 1.4rem 1.15rem; margin-bottom:2rem; }
+        .cb-video-head { display:flex; align-items:baseline; justify-content:space-between;
+            gap:1rem; flex-wrap:wrap; margin-bottom:.9rem; }
+        .cb-video-head h2 { color: var(--copilot-blue); font-size:1.35rem; margin:0; }
+        .cb-video-meta { font-size:.85rem; color: var(--text-secondary); }
+        .cb-video-player { width:100%; display:block; border-radius:12px; background:#000;
+            border:1px solid var(--border); aspect-ratio:16/9; }
+        .cb-video-cap { margin:.85rem 0 0; font-size:.88rem; line-height:1.6; color: var(--text-secondary); }
+        .cb-video-cap a { color: var(--copilot-blue); }
         .cb-split2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin:1.4rem 0 1.2rem; }
         .cb-half { background: var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.2rem 1.35rem; }
         .cb-half-tag { font-size:0.72rem; letter-spacing:.16em; text-transform:uppercase; font-weight:700;
@@ -174,6 +184,26 @@
             <div class="cb-define">
                 <div class="cb-define-term">Multi-budget</div>
                 <p><strong>A single tenant, more than one budget holder.</strong> Divisions, subsidiaries, agencies, member firms, districts &mdash; any set of organisations that share one Microsoft tenant but answer for their own spend separately. If one finance team pays the whole Copilot bill, you do not need this report. If the bill has to be split back to organisations that each hold their own budget, you do.</p>
+            </div>
+            <div class="cb-video">
+                <div class="cb-video-head">
+                    <h2>Watch the walkthrough</h2>
+                    <span class="cb-video-meta">3 min 26 sec &middot; captioned</span>
+                </div>
+                <!-- preload="none" is deliberate: the file is 22 MB and most
+                     visitors come here to use the tool, not to watch. The
+                     poster stands in until someone presses play. -->
+                <video class="cb-video-player" controls preload="none"
+                       poster="../../assets/multi-budget-chargeback-poster.jpg"
+                       playsinline
+                       aria-label="Multi-Budget Chargeback Report walkthrough video">
+                    <source src="../../assets/multi-budget-chargeback-walkthrough.mp4" type="video/mp4">
+                    <track kind="captions" srclang="en" label="English" default
+                           src="../../assets/multi-budget-chargeback-walkthrough.vtt">
+                    Your browser cannot play this video.
+                    <a href="../../assets/multi-budget-chargeback-walkthrough.mp4">Download it instead</a>.
+                </video>
+                <p class="cb-video-cap">Covers the shared prepaid pool problem, what spending policies do and do not do, the five-step settlement, the entitlement round trip through Excel, the surplus decision, and the Post to GL export. <a href="../../assets/multi-budget-chargeback-walkthrough.mp4" download>Download</a> &middot; <a href="../../assets/multi-budget-chargeback-walkthrough.vtt" download>captions</a></p>
             </div>
             <div class="info-box"><p><strong>All processing happens locally.</strong> Your files are parsed in browser memory on your own machine and no customer data ever leaves the device. Press F12 and watch the network tab: the only outbound call is the site analytics tag, which records anonymous feature usage and never file contents.</p></div>
             <div class="instructions-section">

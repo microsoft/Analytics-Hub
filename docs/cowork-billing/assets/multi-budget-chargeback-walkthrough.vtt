@@ -1,0 +1,265 @@
+WEBVTT
+
+00:00:00.837 --> 00:00:02.750
+A single Microsoft tenant.
+
+00:00:03.138 --> 00:00:05.550
+Several organisations inside it,
+
+00:00:05.600 --> 00:00:06.938
+each with its own budget.
+
+00:00:07.282 --> 00:00:09.320
+That is what multi-budget means.
+
+00:00:09.682 --> 00:00:12.782
+Divisions, subsidiaries, agencies,
+
+00:00:12.832 --> 00:00:15.795
+member firms. All sharing one tenant,
+
+00:00:15.845 --> 00:00:17.936
+each answering for its own spend.
+
+00:00:17.986 --> 00:00:19.361
+Together they fund a pool
+
+00:00:19.411 --> 00:00:21.386
+of prepaid Copilot credits,
+
+00:00:21.436 --> 00:00:23.511
+at a lower rate than paying as they go.
+
+00:00:23.853 --> 00:00:26.403
+That pool is shared across the whole tenant.
+
+00:00:26.778 --> 00:00:29.968
+And it is drawn down first come, first served.
+
+00:00:30.018 --> 00:00:31.843
+So whoever consumes earliest
+
+00:00:31.893 --> 00:00:33.642
+receives the discounted rate.
+
+00:00:34.043 --> 00:00:36.143
+The others move on to pay as you go.
+
+00:00:36.489 --> 00:00:38.451
+Which means a division can pay the higher
+
+00:00:38.501 --> 00:00:40.926
+rate, for credits it funded itself.
+
+00:00:41.272 --> 00:00:43.234
+You might expect spending policies
+
+00:00:43.284 --> 00:00:45.934
+to solve this. In the admin centre,
+
+00:00:45.984 --> 00:00:47.984
+you assign them to security groups,
+
+00:00:48.034 --> 00:00:49.621
+and set a ceiling per person.
+
+00:00:49.963 --> 00:00:52.025
+They do govern access and spend.
+
+00:00:52.388 --> 00:00:54.362
+But they cannot reserve credits.
+
+00:00:54.738 --> 00:00:56.800
+No policy holds part of the pool
+
+00:00:56.850 --> 00:00:58.213
+for one organisation.
+
+00:00:58.784 --> 00:01:00.321
+Which is what the Multi-Budget
+
+00:01:00.371 --> 00:01:01.984
+Chargeback Report is for.
+
+00:01:02.359 --> 00:01:04.409
+Open it from the Analytics Hub.
+
+00:01:05.867 --> 00:01:07.729
+Everything runs in your browser.
+
+00:01:08.104 --> 00:01:09.667
+No file is uploaded,
+
+00:01:09.717 --> 00:01:11.442
+and no data leaves the machine.
+
+00:01:11.794 --> 00:01:14.019
+You need two exports you already have.
+
+00:01:14.419 --> 00:01:16.194
+Your user list from Entra,
+
+00:01:16.244 --> 00:01:18.684
+and your Copilot consumption report.
+
+00:01:18.734 --> 00:01:20.322
+Load them, and the report
+
+00:01:20.372 --> 00:01:21.747
+opens on the settlement.
+
+00:01:23.190 --> 00:01:24.752
+It walks the maths through,
+
+00:01:24.802 --> 00:01:27.015
+step by step, on your own figures.
+
+00:01:27.415 --> 00:01:30.119
+Microsoft bills the tenant as a whole.
+
+00:01:30.169 --> 00:01:32.244
+Each organisation states the share
+
+00:01:32.294 --> 00:01:35.445
+of the pool it funded. Its entitlement.
+
+00:01:35.495 --> 00:01:38.308
+Every bill is rebuilt from that entitlement.
+
+00:01:38.670 --> 00:01:40.383
+Credits within it are charged
+
+00:01:40.433 --> 00:01:41.695
+at the prepaid rate.
+
+00:01:42.070 --> 00:01:44.690
+Anything above it, at pay as you go.
+
+00:01:44.740 --> 00:01:46.615
+Consumption order is no longer
+
+00:01:46.665 --> 00:01:48.040
+part of the calculation.
+
+00:01:48.415 --> 00:01:50.902
+So it no longer decides who benefits.
+
+00:01:51.249 --> 00:01:53.674
+So where do those entitlements come from?
+
+00:01:54.061 --> 00:01:56.211
+Start by downloading the template.
+
+00:01:56.556 --> 00:01:58.993
+It arrives with every organisation already
+
+00:01:59.043 --> 00:02:01.568
+listed, and the credits each one used.
+
+00:02:01.956 --> 00:02:04.093
+No name is typed by hand.
+
+00:02:04.143 --> 00:02:05.918
+Open it in Excel, and fill
+
+00:02:05.968 --> 00:02:08.545
+in the share each organisation funded.
+
+00:02:08.595 --> 00:02:11.070
+Then load that same file straight back in.
+
+00:02:11.742 --> 00:02:13.880
+The report confirms what matched,
+
+00:02:13.930 --> 00:02:16.255
+and flags anything it does not recognise.
+
+00:02:16.642 --> 00:02:18.080
+So a mistyped name can
+
+00:02:18.130 --> 00:02:19.842
+never quietly bill at zero.
+
+00:02:20.190 --> 00:02:22.153
+And if you have not yet agreed who funded
+
+00:02:22.203 --> 00:02:24.940
+what, the report can propose a split for you.
+
+00:02:25.303 --> 00:02:28.191
+By headcount, by usage, or evenly.
+
+00:02:28.533 --> 00:02:30.558
+One detail deserves attention.
+
+00:02:30.946 --> 00:02:32.896
+Billing each organisation against
+
+00:02:32.946 --> 00:02:35.046
+its own entitlement collects slightly
+
+00:02:35.096 --> 00:02:37.036
+more than Microsoft charged.
+
+00:02:37.086 --> 00:02:38.698
+Because some organisations
+
+00:02:38.748 --> 00:02:40.686
+funded credits they never used.
+
+00:02:41.073 --> 00:02:42.498
+Someone else consumed those
+
+00:02:42.548 --> 00:02:44.411
+credits at the prepaid rate,
+
+00:02:44.461 --> 00:02:46.492
+and is billed pay as you go for them.
+
+00:02:46.542 --> 00:02:48.791
+So you choose. Redistribute
+
+00:02:48.841 --> 00:02:50.479
+it to those that went over,
+
+00:02:50.529 --> 00:02:52.666
+or rebate it to those that underspent.
+
+00:02:53.066 --> 00:02:55.142
+Either one reconciles exactly.
+
+00:02:55.542 --> 00:02:57.562
+Or simply hold it centrally.
+
+00:02:57.612 --> 00:03:00.837
+Then export. Post to GL gives one row
+
+00:03:00.887 --> 00:03:03.412
+per organisation. The period,
+
+00:03:03.462 --> 00:03:05.850
+the amount, and how it was calculated.
+
+00:03:06.203 --> 00:03:08.516
+It imports straight into Apptio,
+
+00:03:08.566 --> 00:03:10.116
+or any finance system,
+
+00:03:10.166 --> 00:03:11.554
+with nothing to strip out.
+
+00:03:11.953 --> 00:03:14.504
+And it adds up to the invoice, to the penny.
+
+00:03:14.850 --> 00:03:17.313
+The workbook is for review and sign off.
+
+00:03:17.713 --> 00:03:20.438
+The line items export is your audit trail.
+
+00:03:21.040 --> 00:03:23.465
+One tenant. Many budgets.
+
+00:03:23.853 --> 00:03:25.865
+Settled fairly, in minutes.
