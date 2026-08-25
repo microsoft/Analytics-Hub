@@ -69,6 +69,7 @@
       <a href="../case-studies/">Case Studies</a>
       <a href="../out-of-the-box/">Reporting Estate</a>
       <a href="../team/">Team</a>
+      <a class="nav-subscribe" href="../updates/?from=nav">Stay Up To Date</a>
       <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub ↗</a>
     </nav>
   </div>
@@ -550,6 +551,40 @@
               <tr><td colspan="5" class="empty">Loading…</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h2>Update feed reach</h2>
+        <p class="section-sub">Who is finding the <a href="../updates/" target="_blank" rel="noopener">What's new</a> page, where they arrived from, and how many took the feed address away with them. <strong>Copied address</strong> is the closest measurable equivalent of a subscription.</p>
+        <div class="cowork-kpi-grid">
+          <div class="kpi"><span class="kpi-label">Updates page sessions (<span data-window-label>14d</span>)</span><span class="kpi-value" id="feed-kpi-sessions">—</span><span class="kpi-foot" id="feed-kpi-sessions-foot">Clarity · all entry points</span></div>
+          <div class="kpi"><span class="kpi-label">Distinct visitors</span><span class="kpi-value" id="feed-kpi-users">—</span><span class="kpi-foot">Clarity · de-duplicated per snapshot</span></div>
+          <div class="kpi"><span class="kpi-label">Copied the feed address</span><span class="kpi-value" id="feed-kpi-copied">—</span><span class="kpi-foot" id="feed-kpi-copied-foot">Strongest available subscribe signal</span></div>
+          <div class="kpi"><span class="kpi-label">Copy rate</span><span class="kpi-value" id="feed-kpi-rate">—</span><span class="kpi-foot">Share of visitors who took the address</span></div>
+        </div>
+        <div class="table-wrap" style="margin-top:1.1rem">
+          <table class="repo-table" id="feed-source-table">
+            <thead>
+              <tr>
+                <th>Arrived from</th>
+                <th class="num">Sessions</th>
+                <th class="num">Distinct visitors</th>
+                <th class="num" title="Average share of the page reached.">Scroll</th>
+              </tr>
+            </thead>
+            <tbody id="feed-source-tbody">
+              <tr><td colspan="4" class="empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-sub" id="feed-note">—</p>
+        <div class="cowork-events-note">
+          <h4>Why there is no subscriber count</h4>
+          <p>Feed readers fetch <code>feed.xml</code> over plain HTTP and never run JavaScript, so a subscriber is invisible to Clarity and to any client-side analytics. GitHub Pages does not expose server logs either, so the actual number of Teams channels and Outlook clients polling the feed cannot be known from here.</p>
+          <p>What is measurable is intent: arriving at the page, and copying the address. A copy is recorded by writing <code>?copied=1</code> into the URL, which Clarity treats as a distinct page. Someone who copies the address and never subscribes still counts, and someone who types the address from a screenshot never will, so read this as a floor rather than an exact figure.</p>
         </div>
       </div>
     </section>

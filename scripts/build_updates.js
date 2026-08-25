@@ -184,6 +184,17 @@ const page = `<!DOCTYPE html>
   <meta property="og:description" content="${esc(site.description)}" />
   <meta property="og:image" content="${esc(base)}og-card.png" />
   <meta name="robots" content="index, follow" />
+  <!-- Microsoft Clarity. Without this the page is invisible to the nightly
+       snapshot, and the whole point of ?from= and ?copied= is that the
+       snapshot can read them back out of the URL dimension. -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Updates" />
   <link rel="stylesheet" href="../styles.css" />
   <style>
     .up-wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
@@ -197,6 +208,12 @@ const page = `<!DOCTYPE html>
     .up-subscribe li { margin-bottom: .45rem; line-height: 1.6; font-size: .93rem; }
     .up-feedlink { display: inline-block; margin-top: .35rem; font-family: ui-monospace, Menlo, Consolas, monospace;
       font-size: .88rem; word-break: break-all; }
+    .up-feedrow { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; margin-top: .5rem; }
+    .up-copy { border: 1px solid var(--border-strong, rgba(128,128,128,.4)); background: var(--surface, transparent);
+      color: inherit; font: inherit; font-size: .85rem; font-weight: 600; padding: .42rem .85rem;
+      border-radius: 8px; cursor: pointer; white-space: nowrap; transition: background .15s ease, border-color .15s ease; }
+    .up-copy:hover { background: rgba(0,120,212,.1); border-color: #0078d4; }
+    .up-copy.is-copied { background: rgba(52,211,153,.16); border-color: #34d399; color: #0f9b6c; }
     .up-item { border-top: 1px solid var(--border, rgba(128,128,128,.2)); padding: 1.6rem 0 .3rem; }
     .up-item h3 { margin: .35rem 0 .5rem; font-size: 1.18rem; line-height: 1.35; }
     .up-item h3 a { text-decoration: none; }
@@ -236,8 +253,52 @@ const page = `<!DOCTYPE html>
         <li><strong>Outlook</strong> — only in <em>classic</em> Outlook for Windows: <em>File → Account Settings → Account Settings → RSS Feeds → New</em>. The new Outlook for Windows and Outlook on the web do not support RSS at all, so use the Teams option above instead.</li>
         <li><strong>Any feed reader</strong> — paste the address below.</li>
       </ol>
-      <a class="up-feedlink" href="../feed.xml">${esc(feedUrl)}</a>
+      <div class="up-feedrow">
+        <a class="up-feedlink" href="../feed.xml">${esc(feedUrl)}</a>
+        <button type="button" class="up-copy" id="upCopy" data-feed="${esc(feedUrl)}">Copy address</button>
+      </div>
     </section>
+
+    <script>
+      /* Copying the feed address is the closest thing to a measurable
+         subscribe, and it is the only part of subscribing that happens on a
+         page we can observe. Feed readers fetch feed.xml over plain HTTP and
+         never run JavaScript, so an actual subscriber is invisible to us.
+
+         The copy is recorded by putting ?copied=1 in the URL via replaceState,
+         which Clarity proxies and treats as a new page view. That reuses the
+         same mechanism as the demo tagging on the chargeback tools, and it
+         works because Clarity's export API returns the URL but will not return
+         custom events. */
+      (function () {
+        var btn = document.getElementById('upCopy');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          var url = btn.getAttribute('data-feed');
+          function done() {
+            var was = btn.textContent;
+            btn.textContent = 'Copied';
+            btn.classList.add('is-copied');
+            setTimeout(function () { btn.textContent = was; btn.classList.remove('is-copied'); }, 1800);
+            try {
+              if (location.search.indexOf('copied=1') === -1) {
+                var q = location.search ? location.search + '&copied=1' : '?copied=1';
+                history.replaceState(null, '', location.pathname + q);
+              }
+            } catch (e) {}
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, done);
+          } else {
+            var t = document.createElement('textarea');
+            t.value = url; document.body.appendChild(t); t.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(t);
+            done();
+          }
+        });
+      })();
+    </script>
 
 ${cards}
   </main>

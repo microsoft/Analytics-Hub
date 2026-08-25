@@ -286,6 +286,49 @@ a:hover { text-decoration: underline; }
 }
 .btn-ghost:hover { background: var(--surface-2); text-decoration: none; }
 
+/* ---- Stay up to date -----------------------------------------------------
+   Blue to purple, stopping short of the pink that --accent-grad ends on, so
+   this reads as its own action rather than as the site's decorative accent.
+   Used in the hero and, at a smaller size, in the nav on every page. */
+.btn-subscribe {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: #fff;
+  box-shadow: var(--shadow);
+  border: 1px solid transparent;
+}
+.btn-subscribe:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+  color: #fff;
+  filter: saturate(1.12);
+}
+.btn-subscribe:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+
+/* Nav-sized variant. Declared against .primary-nav so it beats the generic
+   nav link rules without needing !important. */
+.primary-nav a.nav-subscribe {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: filter .15s ease, transform .15s ease;
+}
+.primary-nav a.nav-subscribe:hover {
+  filter: saturate(1.12);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: #fff;
+}
+/* The animated underline on nav links would cut across the pill. */
+.primary-nav a.nav-subscribe::after { content: none; }
+
+@media (max-width: 820px) {
+  .primary-nav a.nav-subscribe { padding: 6px 11px; font-size: 13px; }
+}
+
 .hero-stats {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 24px; max-width: 760px; margin: 0 auto;

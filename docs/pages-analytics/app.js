@@ -92,6 +92,11 @@ const COWORK_APPS = [
  * the figures and report it as measured. */
 const COWORK_MODE_TAGGING_SINCE = "2026-08-22";
 
+/* The day the update feed and the /updates/ page went live. Same reasoning as
+   above: before this the page did not exist, so an empty figure means not yet
+   measured rather than nobody visited. */
+const FEED_LIVE_SINCE = "2026-08-25";
+
 function coworkApp(url) {
   const u = String(url || "").toLowerCase();
   for (const a of COWORK_APPS) if (u.includes(a.needle)) return a;
@@ -2050,6 +2055,111 @@ function renderCoworkBilling(repos, sites) {
         </tr>`;
         }).join("")
       : `<tr><td colspan="6" class="empty">No cowork web app URLs in this window.</td></tr>`;
+  }
+
+  /* ---- update feed reach ----------------------------------------------
+     Feed readers fetch feed.xml over plain HTTP and never run JavaScript, so
+     a subscriber cannot be counted from here and GitHub Pages exposes no
+     server logs either. What is observable is the /updates/ page itself, and
+     the query string tells us how someone arrived and whether they copied the
+     address. ?copied=1 is written by the page via replaceState, the same
+     mechanism as the demo tagging, because Clarity returns the URL but will
+     not return custom events. */
+  const feedPerUrl = new Map();
+  for (const day of picked) {
+    for (const [url, m] of (function () {
+      const per = new Map();
+      for (const site of Object.values(sites || {})) {
+        const groups = (site.snapshotsByUrl || {})[day];
+        if (!groups) continue;
+        for (const g of groups) {
+          const metric = g?.metricName || "";
+          for (const row of (g?.information || [])) {
+            const u = row?.Url || row?.url || "";
+            if (!u || !/\/updates\/?(\?|$)/i.test(u)) continue;
+            const lower = u.toLowerCase();
+            if (lower.includes("localhost") || lower.includes("127.0.0.1")) continue;
+            const e = per.get(u) || { sessions: 0, users: 0, scroll: null };
+            e.sessions = Math.max(e.sessions,
+              parseIntSafe(row.sessionsCount), parseIntSafe(row.totalSessionCount));
+            e.users = Math.max(e.users, parseIntSafe(row.distinctUserCount));
+            if (metric === "ScrollDepth" && row.averageScrollDepth != null) {
+              e.scroll = Number(row.averageScrollDepth);
+            }
+            per.set(u, e);
+          }
+        }
+      }
+      return per;
+    })()) {
+      const e = feedPerUrl.get(url) || { sessions: 0, users: 0, scroll: m.scroll };
+      e.sessions += m.sessions;
+      e.users += m.users;
+      if (m.scroll != null) e.scroll = m.scroll;
+      feedPerUrl.set(url, e);
+    }
+  }
+
+  const SOURCES = [
+    { key: "nav", label: "Nav button", test: (u) => /[?&]from=nav\b/i.test(u) },
+    { key: "hero", label: "Home page button", test: (u) => /[?&]from=hero\b/i.test(u) },
+  ];
+  const feedBySource = new Map();
+  let feedSessions = 0, feedUsers = 0, feedCopied = 0;
+
+  for (const [url, m] of feedPerUrl) {
+    feedSessions += m.sessions;
+    feedUsers += m.users;
+    // A copy rewrites the URL in place, so these rows are a subset of the
+    // sessions above rather than additional traffic.
+    if (/[?&]copied=1\b/i.test(url)) feedCopied += m.sessions;
+    const src = SOURCES.find((s) => s.test(url));
+    const k = src ? src.key : "direct";
+    const e = feedBySource.get(k) || { sessions: 0, users: 0, sw: 0, wsum: 0 };
+    e.sessions += m.sessions;
+    e.users += m.users;
+    if (m.scroll != null && m.sessions > 0) { e.sw += m.scroll * m.sessions; e.wsum += m.sessions; }
+    feedBySource.set(k, e);
+  }
+
+  const feedSeen = feedPerUrl.size > 0;
+  set("feed-kpi-sessions", feedSeen ? fmt(feedSessions) : "—");
+  set("feed-kpi-users", feedSeen ? fmt(feedUsers) : "—");
+  set("feed-kpi-copied", feedSeen ? fmt(feedCopied) : "—");
+  set("feed-kpi-rate", feedSeen && feedSessions
+    ? `${Math.round((feedCopied / feedSessions) * 100)}%` : "—");
+
+  const fsFoot = document.getElementById("feed-kpi-sessions-foot");
+  if (fsFoot) {
+    fsFoot.textContent = feedSeen
+      ? `Clarity · ${coveredDays}d across ${feedPerUrl.size} URL variant${feedPerUrl.size === 1 ? "" : "s"}`
+      : "Not seen in a snapshot yet";
+  }
+  const fcFoot = document.getElementById("feed-kpi-copied-foot");
+  if (fcFoot && !feedSeen) fcFoot.textContent = "Not seen in a snapshot yet";
+
+  const feedTbody = document.getElementById("feed-source-tbody");
+  if (feedTbody) {
+    const order = ["nav", "hero", "direct"];
+    const labels = { nav: "Nav button", hero: "Home page button", direct: "Direct or shared link" };
+    const rows = order
+      .map((k) => ({ k, e: feedBySource.get(k) }))
+      .filter((r) => r.e);
+    feedTbody.innerHTML = rows.length
+      ? rows.map(({ k, e }) => `<tr>
+          <td>${labels[k]}</td>
+          <td class="num">${fmt(e.sessions)}</td>
+          <td class="num">${fmt(e.users)}</td>
+          <td class="num">${e.wsum ? Math.round(e.sw / e.wsum) + "%" : "—"}</td>
+        </tr>`).join("")
+      : `<tr><td colspan="4" class="empty">The updates page has not appeared in a Clarity snapshot yet. It went live on ${FEED_LIVE_SINCE}; the first nightly snapshot after that date will populate this.</td></tr>`;
+  }
+
+  const feedNote = document.getElementById("feed-note");
+  if (feedNote) {
+    feedNote.textContent = feedSeen
+      ? `Window covers ${coveredDays} day${coveredDays === 1 ? "" : "s"}. Copy counts are a subset of sessions, not extra traffic, because copying rewrites the URL of the session already in progress.`
+      : `The feed and updates page went live on ${FEED_LIVE_SINCE}. Figures appear from the first nightly snapshot after that date, so they are blank rather than zero.`;
   }
 
   const funnelNote = document.getElementById("cowork-funnel-note");
