@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2026-08-24T03:23:43.610052Z",
+  "lastUpdated": "2026-08-25T03:20:51.349478Z",
   "repos": {
     "microsoft/Analytics-Hub": {
       "meta": {
         "stars": 28,
-        "forks": 8,
+        "forks": 9,
         "watchers": 1,
         "openIssues": 4,
-        "pushedAt": "2026-08-23T03:22:46Z",
+        "pushedAt": "2026-08-24T03:24:13Z",
         "defaultBranch": "main"
       },
       "dailyViews": {
@@ -436,6 +436,10 @@
           "uniques": 56
         },
         "2026-08-22": {
+          "count": 19,
+          "uniques": 9
+        },
+        "2026-08-23": {
           "count": 19,
           "uniques": 9
         }
@@ -868,13 +872,17 @@
         "2026-08-22": {
           "count": 38,
           "uniques": 19
+        },
+        "2026-08-23": {
+          "count": 23,
+          "uniques": 13
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 343,
-          "uniques": 148
+          "count": 342,
+          "uniques": 147
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
@@ -883,12 +891,12 @@
         },
         {
           "referrer": "Google",
-          "count": 76,
-          "uniques": 44
+          "count": 82,
+          "uniques": 43
         },
         {
           "referrer": "linkedin.com",
-          "count": 65,
+          "count": 66,
           "uniques": 41
         },
         {
@@ -926,7 +934,7 @@
         {
           "path": "/microsoft/Analytics-Hub",
           "title": "Overview",
-          "count": 802,
+          "count": 801,
           "uniques": 439
         },
         {
@@ -956,20 +964,20 @@
         {
           "path": "/microsoft/Analytics-Hub/blob/main/README.md",
           "title": "/blob/main/README.md",
+          "count": 16,
+          "uniques": 12
+        },
+        {
+          "path": "/microsoft/Analytics-Hub/issues",
+          "title": "/issues",
           "count": 15,
-          "uniques": 11
+          "uniques": 10
         },
         {
           "path": "/microsoft/Analytics-Hub/pulls",
           "title": "/pulls",
           "count": 11,
           "uniques": 6
-        },
-        {
-          "path": "/microsoft/Analytics-Hub/issues",
-          "title": "/issues",
-          "count": 10,
-          "uniques": 9
         },
         {
           "path": "/microsoft/Analytics-Hub/blob/main/build_copilot_corpus.py",
@@ -984,7 +992,7 @@
           "uniques": 6
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/DecodingSuperUsage": {
       "meta": {
@@ -1423,6 +1431,10 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 4
+        },
+        "2026-08-23": {
+          "count": 6,
+          "uniques": 5
         }
       },
       "dailyClones": {
@@ -1853,18 +1865,22 @@
         "2026-08-22": {
           "count": 8,
           "uniques": 5
+        },
+        "2026-08-23": {
+          "count": 7,
+          "uniques": 5
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 174,
-          "uniques": 97
+          "count": 171,
+          "uniques": 94
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 94,
-          "uniques": 55
+          "count": 95,
+          "uniques": 56
         },
         {
           "referrer": "github.com",
@@ -1877,19 +1893,19 @@
           "uniques": 9
         },
         {
+          "referrer": "Google",
+          "count": 13,
+          "uniques": 10
+        },
+        {
           "referrer": "confluence.agile.eon.com",
           "count": 13,
           "uniques": 2
         },
         {
-          "referrer": "Google",
-          "count": 12,
-          "uniques": 9
-        },
-        {
           "referrer": "jordankingisalive.github.io",
-          "count": 12,
-          "uniques": 8
+          "count": 10,
+          "uniques": 7
         },
         {
           "referrer": "statics.teams.cdn.office.net",
@@ -1911,26 +1927,26 @@
         {
           "path": "/microsoft/DecodingSuperUsage",
           "title": "Overview",
-          "count": 404,
-          "uniques": 247
+          "count": 399,
+          "uniques": 244
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Interpretation Guide Super Usage Adoption.pdf",
           "title": "/blob/DecodingSuperUsage/Interpretation Guide Super Usage Adoption.pdf",
-          "count": 41,
+          "count": 42,
           "uniques": 29
         },
         {
           "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage",
           "title": "/tree/DecodingSuperUsage",
-          "count": 35,
-          "uniques": 16
+          "count": 33,
+          "uniques": 15
         },
         {
           "path": "/microsoft/decodingsuperusage",
           "title": "Overview",
-          "count": 22,
-          "uniques": 15
+          "count": 23,
+          "uniques": 17
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Storyboard PPTX - Super User Adoption.pptx",
@@ -1947,8 +1963,8 @@
         {
           "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage/PDF Guides",
           "title": "/tree/DecodingSuperUsage/PDF Guides",
-          "count": 19,
-          "uniques": 17
+          "count": 18,
+          "uniques": 16
         },
         {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Template - Super User Adoption CSV -v13.pbit",
@@ -1957,19 +1973,19 @@
           "uniques": 8
         },
         {
-          "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage/Archived Templates",
-          "title": "/tree/DecodingSuperUsage/Archived Templates",
-          "count": 9,
-          "uniques": 7
-        },
-        {
           "path": "/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/README.md",
           "title": "/blob/DecodingSuperUsage/README.md",
           "count": 8,
           "uniques": 8
+        },
+        {
+          "path": "/microsoft/DecodingSuperUsage/tree/DecodingSuperUsage/MSFT Files",
+          "title": "/tree/DecodingSuperUsage/MSFT Files",
+          "count": 8,
+          "uniques": 8
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/superuserimpact": {
       "meta": {
@@ -2408,6 +2424,10 @@
         "2026-08-22": {
           "count": 2,
           "uniques": 2
+        },
+        "2026-08-23": {
+          "count": 5,
+          "uniques": 3
         }
       },
       "dailyClones": {
@@ -2838,13 +2858,17 @@
         "2026-08-22": {
           "count": 6,
           "uniques": 4
+        },
+        "2026-08-23": {
+          "count": 4,
+          "uniques": 2
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 44,
-          "uniques": 34
+          "count": 46,
+          "uniques": 35
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
@@ -2853,8 +2877,8 @@
         },
         {
           "referrer": "Google",
-          "count": 13,
-          "uniques": 8
+          "count": 9,
+          "uniques": 7
         },
         {
           "referrer": "github.com",
@@ -2865,26 +2889,31 @@
           "referrer": "Bing",
           "count": 6,
           "uniques": 3
+        },
+        {
+          "referrer": "microsoftapc-my.sharepoint.com",
+          "count": 2,
+          "uniques": 1
         }
       ],
       "paths": [
         {
           "path": "/microsoft/superuserimpact",
           "title": "Overview",
-          "count": 138,
-          "uniques": 106
-        },
-        {
-          "path": "/microsoft/superuserimpact/blob/main/Template - Super User Impact Direct Query -v13.pbit",
-          "title": "/blob/main/Template - Super User Impact Direct Query -v13.pbit",
-          "count": 5,
-          "uniques": 3
+          "count": 140,
+          "uniques": 108
         },
         {
           "path": "/microsoft/superuserimpact/blob/main/Superuser Impact - Storyboard v4.pptx",
           "title": "/blob/main/Superuser Impact - Storyboard v4.pptx",
+          "count": 5,
+          "uniques": 4
+        },
+        {
+          "path": "/microsoft/superuserimpact/blob/main/Template - Super User Impact Direct Query -v13.pbit",
+          "title": "/blob/main/Template - Super User Impact Direct Query -v13.pbit",
           "count": 4,
-          "uniques": 3
+          "uniques": 2
         },
         {
           "path": "/microsoft/superuserimpact/commits",
@@ -2921,15 +2950,9 @@
           "title": "/commit/10204ecde35f90284bb9f85246f03670b82a146e",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "path": "/microsoft/superuserimpact/issues",
-          "title": "/issues",
-          "count": 1,
-          "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/customizecopilot": {
       "meta": {
@@ -3364,6 +3387,10 @@
         "2026-08-22": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-08-23": {
+          "count": 0,
+          "uniques": 0
         }
       },
       "dailyClones": {
@@ -3790,6 +3817,10 @@
         "2026-08-22": {
           "count": 6,
           "uniques": 4
+        },
+        "2026-08-23": {
+          "count": 4,
+          "uniques": 2
         }
       },
       "referrers": [
@@ -3804,12 +3835,12 @@
           "uniques": 4
         },
         {
-          "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 2,
-          "uniques": 2
+          "referrer": "Google",
+          "count": 1,
+          "uniques": 1
         },
         {
-          "referrer": "Google",
+          "referrer": "teams.public.onecdn.static.microsoft",
           "count": 1,
           "uniques": 1
         }
@@ -3818,13 +3849,13 @@
         {
           "path": "/microsoft/customizecopilot",
           "title": "Overview",
-          "count": 19,
-          "uniques": 18
+          "count": 18,
+          "uniques": 17
         },
         {
           "path": "/microsoft/CustomizeCopilot",
           "title": "Overview",
-          "count": 7,
+          "count": 6,
           "uniques": 1
         },
         {
@@ -3844,19 +3875,13 @@
           "title": "/discussions",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "path": "/microsoft/CustomizeCopilot/tree/main/Champion-ID",
-          "title": "/tree/main/Champion-ID",
-          "count": 1,
-          "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/AI-in-One-Dashboard": {
       "meta": {
-        "stars": 72,
+        "stars": 74,
         "forks": 17,
         "watchers": 4,
         "openIssues": 0,
@@ -4287,6 +4312,10 @@
         "2026-08-22": {
           "count": 30,
           "uniques": 26
+        },
+        "2026-08-23": {
+          "count": 53,
+          "uniques": 43
         }
       },
       "dailyClones": {
@@ -4713,33 +4742,37 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 4,
+          "uniques": 2
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 859,
-          "uniques": 463
+          "count": 865,
+          "uniques": 464
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 489,
-          "uniques": 234
+          "count": 490,
+          "uniques": 233
         },
         {
           "referrer": "Google",
-          "count": 331,
-          "uniques": 120
+          "count": 317,
+          "uniques": 125
         },
         {
           "referrer": "Bing",
-          "count": 153,
-          "uniques": 77
+          "count": 150,
+          "uniques": 74
         },
         {
           "referrer": "github.com",
-          "count": 138,
-          "uniques": 63
+          "count": 140,
+          "uniques": 65
         },
         {
           "referrer": "chatgpt.com",
@@ -4771,43 +4804,43 @@
         {
           "path": "/microsoft/AI-in-One-Dashboard",
           "title": "Overview",
-          "count": 3198,
-          "uniques": 1966
+          "count": 3212,
+          "uniques": 1981
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/tree/main",
           "title": "/tree/main",
-          "count": 138,
-          "uniques": 73
+          "count": 136,
+          "uniques": 72
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/blob/main/README.md",
           "title": "/blob/main/README.md",
-          "count": 116,
-          "uniques": 74
+          "count": 118,
+          "uniques": 75
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/blob/main/AIO Dashboard - Interpretation Guide.pdf",
           "title": "/blob/main/AIO Dashboard - Interpretation Guide.pdf",
-          "count": 107,
-          "uniques": 89
+          "count": 106,
+          "uniques": 88
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/tree/main/scripts",
           "title": "/tree/main/scripts",
-          "count": 85,
-          "uniques": 68
+          "count": 84,
+          "uniques": 67
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/tree/main/Classic Editions",
           "title": "/tree/main/Classic Editions",
-          "count": 85,
-          "uniques": 49
+          "count": 84,
+          "uniques": 48
         },
         {
           "path": "/microsoft/AI-in-One-Dashboard/blob/main/AIO Dashboard - Rollup Edition - 2026-06-25.pbit",
           "title": "/blob/main/AIO Dashboard - Rollup Edition - 2026-06-25.pbit",
-          "count": 76,
+          "count": 75,
           "uniques": 52
         },
         {
@@ -4829,7 +4862,7 @@
           "uniques": 41
         }
       ],
-      "lastTrafficSync": "2026-08-24",
+      "lastTrafficSync": "2026-08-25",
       "releases": {
         "totalDownloads": 37,
         "assetCount": 4,
@@ -4869,7 +4902,8 @@
         "2026-08-21": 37,
         "2026-08-22": 37,
         "2026-08-23": 37,
-        "2026-08-24": 37
+        "2026-08-24": 37,
+        "2026-08-25": 37
       }
     },
     "microsoft/CopilotChatAnalytics": {
@@ -5309,6 +5343,10 @@
         "2026-08-22": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-08-23": {
+          "count": 2,
+          "uniques": 2
         }
       },
       "dailyClones": {
@@ -5739,6 +5777,10 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 3,
+          "uniques": 1
         }
       },
       "referrers": [
@@ -5749,8 +5791,8 @@
         },
         {
           "referrer": "github.com",
-          "count": 32,
-          "uniques": 17
+          "count": 31,
+          "uniques": 16
         },
         {
           "referrer": "Google",
@@ -5762,7 +5804,7 @@
         {
           "path": "/microsoft/CopilotChatAnalytics",
           "title": "Overview",
-          "count": 156,
+          "count": 154,
           "uniques": 111
         },
         {
@@ -5778,16 +5820,16 @@
           "uniques": 5
         },
         {
+          "path": "/microsoft/CopilotChatAnalytics/blob/main/README.md",
+          "title": "/blob/main/README.md",
+          "count": 6,
+          "uniques": 3
+        },
+        {
           "path": "/microsoft/CopilotChatAnalytics/blob/main/Template - Chat Intelligence Report.pbit",
           "title": "/blob/main/Template - Chat Intelligence Report.pbit",
           "count": 5,
           "uniques": 5
-        },
-        {
-          "path": "/microsoft/CopilotChatAnalytics/blob/main/README.md",
-          "title": "/blob/main/README.md",
-          "count": 5,
-          "uniques": 3
         },
         {
           "path": "/microsoft/CopilotChatAnalytics/blob/main/Template Agent Intelligence v4.pbit",
@@ -5820,7 +5862,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/GitHubCopilotImpact": {
       "meta": {
@@ -6259,6 +6301,10 @@
         "2026-08-22": {
           "count": 1,
           "uniques": 1
+        },
+        "2026-08-23": {
+          "count": 1,
+          "uniques": 1
         }
       },
       "dailyClones": {
@@ -6689,17 +6735,21 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 3,
+          "uniques": 1
         }
       },
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 82,
-          "uniques": 46
+          "count": 83,
+          "uniques": 47
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 37,
+          "count": 36,
           "uniques": 23
         },
         {
@@ -6722,8 +6772,8 @@
         {
           "path": "/microsoft/GitHubCopilotImpact",
           "title": "Overview",
-          "count": 168,
-          "uniques": 118
+          "count": 167,
+          "uniques": 119
         },
         {
           "path": "/microsoft/GitHubCopilotImpact/blob/main/Template GitHub Copilot Usage Analytics 2-13f3.pbit",
@@ -6780,7 +6830,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/What-I-Did-Copilot": {
       "meta": {
@@ -7219,6 +7269,10 @@
         "2026-08-22": {
           "count": 15,
           "uniques": 9
+        },
+        "2026-08-23": {
+          "count": 9,
+          "uniques": 8
         }
       },
       "dailyClones": {
@@ -7649,6 +7703,10 @@
         "2026-08-22": {
           "count": 29,
           "uniques": 27
+        },
+        "2026-08-23": {
+          "count": 29,
+          "uniques": 25
         }
       },
       "referrers": [
@@ -7659,13 +7717,13 @@
         },
         {
           "referrer": "github.com",
-          "count": 75,
-          "uniques": 46
+          "count": 73,
+          "uniques": 47
         },
         {
           "referrer": "Google",
-          "count": 56,
-          "uniques": 31
+          "count": 57,
+          "uniques": 32
         },
         {
           "referrer": "Bing",
@@ -7684,7 +7742,7 @@
         },
         {
           "referrer": "awesome-copilot.github.com",
-          "count": 15,
+          "count": 14,
           "uniques": 14
         },
         {
@@ -7707,8 +7765,8 @@
         {
           "path": "/microsoft/What-I-Did-Copilot",
           "title": "Overview",
-          "count": 482,
-          "uniques": 271
+          "count": 475,
+          "uniques": 269
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/docs/effort-estimation-methodology.md",
@@ -7719,8 +7777,8 @@
         {
           "path": "/microsoft/what-i-did-copilot",
           "title": "Overview",
-          "count": 23,
-          "uniques": 18
+          "count": 26,
+          "uniques": 21
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/tree/main",
@@ -7741,16 +7799,16 @@
           "uniques": 7
         },
         {
-          "path": "/microsoft/What-I-Did-Copilot/stargazers",
-          "title": "/stargazers",
-          "count": 10,
-          "uniques": 1
-        },
-        {
           "path": "/microsoft/What-I-Did-Copilot/blob/main/README.md",
           "title": "/blob/main/README.md",
           "count": 9,
           "uniques": 8
+        },
+        {
+          "path": "/microsoft/What-I-Did-Copilot/stargazers",
+          "title": "/stargazers",
+          "count": 8,
+          "uniques": 1
         },
         {
           "path": "/microsoft/What-I-Did-Copilot/commits/main",
@@ -7765,7 +7823,7 @@
           "uniques": 5
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/M365UsageAnalytics": {
       "meta": {
@@ -8204,6 +8262,10 @@
         "2026-08-22": {
           "count": 6,
           "uniques": 4
+        },
+        "2026-08-23": {
+          "count": 10,
+          "uniques": 7
         }
       },
       "dailyClones": {
@@ -8634,28 +8696,32 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 5,
+          "uniques": 2
         }
       },
       "referrers": [
         {
           "referrer": "Google",
-          "count": 116,
+          "count": 117,
           "uniques": 34
         },
         {
           "referrer": "microsoft.github.io",
           "count": 67,
-          "uniques": 42
+          "uniques": 41
         },
         {
           "referrer": "Bing",
-          "count": 43,
-          "uniques": 15
+          "count": 42,
+          "uniques": 14
         },
         {
           "referrer": "github.com",
-          "count": 21,
-          "uniques": 14
+          "count": 20,
+          "uniques": 13
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
@@ -8692,7 +8758,7 @@
         {
           "path": "/microsoft/M365UsageAnalytics",
           "title": "Overview",
-          "count": 268,
+          "count": 272,
           "uniques": 168
         },
         {
@@ -8710,8 +8776,8 @@
         {
           "path": "/microsoft/M365UsageAnalytics/blob/main/M365 Usage Dashboard - Interpretation Guide.pdf",
           "title": "/blob/main/M365 Usage Dashboard - Interpretation Guide.pdf",
-          "count": 20,
-          "uniques": 13
+          "count": 21,
+          "uniques": 14
         },
         {
           "path": "/microsoft/M365UsageAnalytics/blob/main/images/report-pages-carousel.gif",
@@ -8726,14 +8792,14 @@
           "uniques": 9
         },
         {
-          "path": "/microsoft/M365UsageAnalytics/blob/main/images/1 - M365 App Usage Report.png",
-          "title": "/blob/main/images/1 - M365 App Usage Report.png",
-          "count": 12,
+          "path": "/microsoft/M365UsageAnalytics/tree/main",
+          "title": "/tree/main",
+          "count": 13,
           "uniques": 8
         },
         {
-          "path": "/microsoft/M365UsageAnalytics/tree/main",
-          "title": "/tree/main",
+          "path": "/microsoft/M365UsageAnalytics/blob/main/images/1 - M365 App Usage Report.png",
+          "title": "/blob/main/images/1 - M365 App Usage Report.png",
           "count": 12,
           "uniques": 8
         },
@@ -8750,7 +8816,7 @@
           "uniques": 5
         }
       ],
-      "lastTrafficSync": "2026-08-24",
+      "lastTrafficSync": "2026-08-25",
       "releases": {
         "totalDownloads": 62,
         "assetCount": 4,
@@ -8790,7 +8856,8 @@
         "2026-08-21": 62,
         "2026-08-22": 62,
         "2026-08-23": 62,
-        "2026-08-24": 62
+        "2026-08-24": 62,
+        "2026-08-25": 62
       }
     },
     "microsoft/PAX": {
@@ -9230,6 +9297,10 @@
         "2026-08-22": {
           "count": 22,
           "uniques": 14
+        },
+        "2026-08-23": {
+          "count": 24,
+          "uniques": 12
         }
       },
       "dailyClones": {
@@ -9660,23 +9731,27 @@
         "2026-08-22": {
           "count": 8,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 13,
+          "uniques": 4
         }
       },
       "referrers": [
         {
           "referrer": "github.com",
-          "count": 550,
-          "uniques": 186
+          "count": 542,
+          "uniques": 189
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 90,
-          "uniques": 29
+          "count": 91,
+          "uniques": 30
         },
         {
           "referrer": "Google",
-          "count": 62,
-          "uniques": 35
+          "count": 61,
+          "uniques": 34
         },
         {
           "referrer": "microsoft.github.io",
@@ -9694,6 +9769,11 @@
           "uniques": 1
         },
         {
+          "referrer": "chatgpt.com",
+          "count": 1,
+          "uniques": 1
+        },
+        {
           "referrer": "dev.azure.com",
           "count": 1,
           "uniques": 1
@@ -9707,25 +9787,20 @@
           "referrer": "seekanswer.net",
           "count": 1,
           "uniques": 1
-        },
-        {
-          "referrer": "statics.teams.cdn.office.net",
-          "count": 1,
-          "uniques": 1
         }
       ],
       "paths": [
         {
           "path": "/microsoft/PAX",
           "title": "Overview",
-          "count": 643,
-          "uniques": 340
+          "count": 650,
+          "uniques": 346
         },
         {
           "path": "/microsoft/PAX/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.11.x.md",
           "title": "/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.11.x.md",
-          "count": 104,
-          "uniques": 59
+          "count": 101,
+          "uniques": 57
         },
         {
           "path": "/microsoft/PAX/blob/release/PAX_Purview_Audit_Log_Processor_v1.11.15.ps1",
@@ -9736,8 +9811,8 @@
         {
           "path": "/microsoft/PAX/blob/release/README.md",
           "title": "/blob/release/README.md",
-          "count": 34,
-          "uniques": 22
+          "count": 35,
+          "uniques": 23
         },
         {
           "path": "/microsoft/pax",
@@ -9760,7 +9835,7 @@
         {
           "path": "/microsoft/PAX/tree/release",
           "title": "/tree/release",
-          "count": 26,
+          "count": 25,
           "uniques": 17
         },
         {
@@ -9772,26 +9847,26 @@
         {
           "path": "/microsoft/PAX/tree/release/release_documentation",
           "title": "/tree/release/release_documentation",
-          "count": 20,
-          "uniques": 11
+          "count": 19,
+          "uniques": 10
         }
       ],
-      "lastTrafficSync": "2026-08-24",
+      "lastTrafficSync": "2026-08-25",
       "releases": {
-        "totalDownloads": 1353,
+        "totalDownloads": 1369,
         "assetCount": 80,
         "releaseCount": 52,
         "assets": [
           {
             "name": "PAX_Purview_Audit_Log_Processor_v1.11.14.ps1",
-            "downloads": 345,
+            "downloads": 347,
             "release": "purview-v1.11.14",
             "publishedAt": "2026-07-06T15:54:22Z",
             "size": 1748910
           },
           {
             "name": "PAX_Purview_Audit_Log_Processor_v1.11.15.ps1",
-            "downloads": 160,
+            "downloads": 169,
             "release": "purview-v1.11.15",
             "publishedAt": "2026-07-31T15:55:01Z",
             "size": 2590436
@@ -9805,7 +9880,7 @@
           },
           {
             "name": "PAX_CopilotInteractions_Content_Audit_Log_Processor_v2.0.0.ps1",
-            "downloads": 74,
+            "downloads": 76,
             "release": "copilotinteractions-v2.0.0",
             "publishedAt": "2026-04-08T13:02:19Z",
             "size": 237331
@@ -9867,6 +9942,13 @@
             "size": 747257
           },
           {
+            "name": "PAX_Purview_Audit_Log_Processor_v1.11.10.ps1",
+            "downloads": 23,
+            "release": "purview-v1.11.10",
+            "publishedAt": "2026-06-29T09:46:37Z",
+            "size": 1714036
+          },
+          {
             "name": "PAX_Purview_Audit_Log_Processor_v1.11.7.ps1",
             "downloads": 22,
             "release": "purview-v1.11.7",
@@ -9886,13 +9968,6 @@
             "release": "purview-v1.11.1",
             "publishedAt": "2026-05-12T03:12:53Z",
             "size": 1234333
-          },
-          {
-            "name": "PAX_Purview_Audit_Log_Processor_v1.11.10.ps1",
-            "downloads": 20,
-            "release": "purview-v1.11.10",
-            "publishedAt": "2026-06-29T09:46:37Z",
-            "size": 1714036
           },
           {
             "name": "PAX_Purview_Audit_Log_Processor_v1.11.5.ps1",
@@ -9963,7 +10038,8 @@
         "2026-08-21": 1335,
         "2026-08-22": 1345,
         "2026-08-23": 1347,
-        "2026-08-24": 1353
+        "2026-08-24": 1353,
+        "2026-08-25": 1369
       }
     },
     "olivierpecheux/copilot-adoption-sentiment-report": {
@@ -10415,6 +10491,10 @@
         "2026-08-22": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-08-23": {
+          "count": 1,
+          "uniques": 1
         }
       },
       "dailyClones": {
@@ -10845,6 +10925,10 @@
         "2026-08-22": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-08-23": {
+          "count": 0,
+          "uniques": 0
         }
       },
       "referrers": [
@@ -10863,8 +10947,8 @@
         {
           "path": "/jordankingisalive/CopilotROICalculator",
           "title": "Overview",
-          "count": 9,
-          "uniques": 8
+          "count": 10,
+          "uniques": 9
         },
         {
           "path": "/jordankingisalive/CopilotROICalculator/blob/main/sales-script.js",
@@ -10885,7 +10969,7 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/PAX-Cookbook": {
       "dailyViews": {
@@ -11202,6 +11286,10 @@
           "uniques": 3
         },
         "2026-08-22": {
+          "count": 0,
+          "uniques": 0
+        },
+        "2026-08-23": {
           "count": 0,
           "uniques": 0
         }
@@ -11522,6 +11610,10 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 13,
+          "uniques": 3
         }
       },
       "meta": {
@@ -11535,8 +11627,8 @@
       "referrers": [
         {
           "referrer": "Google",
-          "count": 88,
-          "uniques": 17
+          "count": 87,
+          "uniques": 16
         },
         {
           "referrer": "github.com",
@@ -11558,8 +11650,8 @@
         {
           "path": "/microsoft/PAX-Cookbook",
           "title": "Overview",
-          "count": 60,
-          "uniques": 27
+          "count": 59,
+          "uniques": 26
         },
         {
           "path": "/microsoft/PAX-Cookbook/releases/tag/v1.3.2",
@@ -11616,22 +11708,22 @@
           "uniques": 1
         }
       ],
-      "lastTrafficSync": "2026-08-24",
+      "lastTrafficSync": "2026-08-25",
       "releases": {
-        "totalDownloads": 157,
+        "totalDownloads": 160,
         "assetCount": 24,
         "releaseCount": 10,
         "assets": [
           {
             "name": "PAX_Cookbook_Payload.zip",
-            "downloads": 39,
+            "downloads": 40,
             "release": "v1.3.2",
             "publishedAt": "2026-07-06T18:18:10Z",
             "size": 20423269
           },
           {
             "name": "PAX_Cookbook_Setup.exe",
-            "downloads": 28,
+            "downloads": 30,
             "release": "v1.3.2",
             "publishedAt": "2026-07-06T18:18:10Z",
             "size": 72156146
@@ -11796,7 +11888,8 @@
         "2026-08-21": 155,
         "2026-08-22": 157,
         "2026-08-23": 157,
-        "2026-08-24": 157
+        "2026-08-24": 157,
+        "2026-08-25": 160
       }
     },
     "microsoft/CreditUsage": {
@@ -12048,6 +12141,10 @@
         "2026-08-22": {
           "count": 23,
           "uniques": 17
+        },
+        "2026-08-23": {
+          "count": 18,
+          "uniques": 17
         }
       },
       "dailyClones": {
@@ -12298,6 +12395,10 @@
         "2026-08-22": {
           "count": 7,
           "uniques": 5
+        },
+        "2026-08-23": {
+          "count": 6,
+          "uniques": 4
         }
       },
       "meta": {
@@ -12311,8 +12412,8 @@
       "referrers": [
         {
           "referrer": "microsoft.github.io",
-          "count": 587,
-          "uniques": 243
+          "count": 586,
+          "uniques": 244
         },
         {
           "referrer": "teams.public.onecdn.static.microsoft",
@@ -12321,13 +12422,13 @@
         },
         {
           "referrer": "github.com",
-          "count": 291,
+          "count": 293,
           "uniques": 90
         },
         {
           "referrer": "linkedin.com",
-          "count": 14,
-          "uniques": 10
+          "count": 13,
+          "uniques": 9
         },
         {
           "referrer": "Bing",
@@ -12364,19 +12465,19 @@
         {
           "path": "/microsoft/creditusage",
           "title": "Overview",
-          "count": 790,
-          "uniques": 552
+          "count": 798,
+          "uniques": 557
         },
         {
           "path": "/microsoft/CreditUsage",
           "title": "Overview",
-          "count": 788,
-          "uniques": 456
+          "count": 784,
+          "uniques": 455
         },
         {
           "path": "/microsoft/CreditUsage/blob/main/images/dashboard-preview.gif",
           "title": "/blob/main/images/dashboard-preview.gif",
-          "count": 164,
+          "count": 165,
           "uniques": 89
         },
         {
@@ -12394,8 +12495,8 @@
         {
           "path": "/microsoft/CreditUsage/tree/main",
           "title": "/tree/main",
-          "count": 43,
-          "uniques": 36
+          "count": 42,
+          "uniques": 35
         },
         {
           "path": "/microsoft/CreditUsage/blob/main/README.md",
@@ -12410,19 +12511,19 @@
           "uniques": 27
         },
         {
-          "path": "/microsoft/CreditUsage/blob/main/Chargebacks Interpretation Guide.pptx",
-          "title": "/blob/main/Chargebacks Interpretation Guide.pptx",
-          "count": 32,
-          "uniques": 24
-        },
-        {
           "path": "/microsoft/CreditUsage/tree/main/CoworkBilling/demo",
           "title": "/tree/main/CoworkBilling/demo",
           "count": 30,
           "uniques": 25
+        },
+        {
+          "path": "/microsoft/CreditUsage/blob/main/Chargebacks Interpretation Guide.pptx",
+          "title": "/blob/main/Chargebacks Interpretation Guide.pptx",
+          "count": 30,
+          "uniques": 23
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     },
     "microsoft/What-I-did-with-Cowork": {
       "dailyViews": {
@@ -12637,6 +12738,10 @@
         "2026-08-22": {
           "count": 23,
           "uniques": 13
+        },
+        "2026-08-23": {
+          "count": 17,
+          "uniques": 12
         }
       },
       "dailyClones": {
@@ -12851,6 +12956,10 @@
         "2026-08-22": {
           "count": 5,
           "uniques": 3
+        },
+        "2026-08-23": {
+          "count": 6,
+          "uniques": 4
         }
       },
       "meta": {
@@ -12864,18 +12973,13 @@
       "referrers": [
         {
           "referrer": "teams.public.onecdn.static.microsoft",
-          "count": 361,
-          "uniques": 198
+          "count": 353,
+          "uniques": 194
         },
         {
           "referrer": "microsoft.github.io",
-          "count": 149,
-          "uniques": 62
-        },
-        {
-          "referrer": "linkedin.com",
-          "count": 39,
-          "uniques": 18
+          "count": 148,
+          "uniques": 61
         },
         {
           "referrer": "Google",
@@ -12883,14 +12987,19 @@
           "uniques": 23
         },
         {
-          "referrer": "statics.teams.cdn.office.net",
-          "count": 24,
-          "uniques": 1
+          "referrer": "linkedin.com",
+          "count": 37,
+          "uniques": 16
         },
         {
           "referrer": "github.com",
-          "count": 23,
-          "uniques": 10
+          "count": 24,
+          "uniques": 11
+        },
+        {
+          "referrer": "statics.teams.cdn.office.net",
+          "count": 24,
+          "uniques": 1
         },
         {
           "referrer": "Bing",
@@ -12904,7 +13013,7 @@
         },
         {
           "referrer": "teams.df.onecdn.static.microsoft",
-          "count": 12,
+          "count": 8,
           "uniques": 4
         },
         {
@@ -12917,19 +13026,19 @@
         {
           "path": "/microsoft/What-I-did-with-Cowork",
           "title": "Overview",
-          "count": 1264,
-          "uniques": 825
+          "count": 1240,
+          "uniques": 820
         },
         {
           "path": "/microsoft/What-I-did-with-Cowork/blob/main/cowork-roi-report-skill-v37.zip",
           "title": "/blob/main/cowork-roi-report-skill-v37.zip",
-          "count": 216,
+          "count": 215,
           "uniques": 154
         },
         {
           "path": "/microsoft/What-I-did-with-Cowork/tree/main",
           "title": "/tree/main",
-          "count": 47,
+          "count": 46,
           "uniques": 34
         },
         {
@@ -12975,7 +13084,7 @@
           "uniques": 5
         }
       ],
-      "lastTrafficSync": "2026-08-24"
+      "lastTrafficSync": "2026-08-25"
     }
   },
   "sites": {
@@ -39774,6 +39883,367 @@
               {
                 "url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html",
                 "visitsCount": "21"
+              }
+            ]
+          }
+        ],
+        "2026-08-25": [
+          {
+            "metricName": "DeadClickCount",
+            "information": [
+              {
+                "sessionsCount": "1203",
+                "sessionsWithMetricPercentage": 10.64,
+                "sessionsWithoutMetricPercentage": 89.36,
+                "pagesViews": "149",
+                "subTotal": "392"
+              }
+            ]
+          },
+          {
+            "metricName": "ExcessiveScroll",
+            "information": [
+              {
+                "sessionsCount": "1203",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "RageClickCount",
+            "information": [
+              {
+                "sessionsCount": "1203",
+                "sessionsWithMetricPercentage": 0.42,
+                "sessionsWithoutMetricPercentage": 99.58,
+                "pagesViews": "6",
+                "subTotal": "10"
+              }
+            ]
+          },
+          {
+            "metricName": "QuickbackClick",
+            "information": [
+              {
+                "sessionsCount": "1203",
+                "sessionsWithMetricPercentage": 3.08,
+                "sessionsWithoutMetricPercentage": 96.92,
+                "pagesViews": "88",
+                "subTotal": "88"
+              }
+            ]
+          },
+          {
+            "metricName": "ScriptErrorCount",
+            "information": [
+              {
+                "sessionsCount": 1203,
+                "sessionsWithMetricPercentage": 0.58,
+                "sessionsWithoutMetricPercentage": 99.42,
+                "pagesViews": 9,
+                "subTotal": 9
+              }
+            ]
+          },
+          {
+            "metricName": "ErrorClickCount",
+            "information": [
+              {
+                "sessionsCount": "1203",
+                "sessionsWithMetricPercentage": 0.08,
+                "sessionsWithoutMetricPercentage": 99.92,
+                "pagesViews": "1",
+                "subTotal": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "ScrollDepth",
+            "information": [
+              {
+                "averageScrollDepth": 44.9
+              }
+            ]
+          },
+          {
+            "metricName": "Traffic",
+            "information": [
+              {
+                "totalSessionCount": "1203",
+                "totalBotSessionCount": "19",
+                "distinctUserCount": "932",
+                "pagesPerSessionPercentage": 1.5283464566929135
+              }
+            ]
+          },
+          {
+            "metricName": "EngagementTime",
+            "information": [
+              {
+                "totalTime": "398",
+                "activeTime": "98"
+              }
+            ]
+          },
+          {
+            "metricName": "Browser",
+            "information": [
+              {
+                "name": "Edge",
+                "sessionsCount": "904"
+              },
+              {
+                "name": "Chrome",
+                "sessionsCount": "191"
+              },
+              {
+                "name": "MobileSafari",
+                "sessionsCount": "39"
+              },
+              {
+                "name": "ChromeMobile",
+                "sessionsCount": "37"
+              },
+              {
+                "name": "EdgeMobile",
+                "sessionsCount": "15"
+              },
+              {
+                "name": "Safari",
+                "sessionsCount": "9"
+              },
+              {
+                "name": "Firefox",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "SamsungInternet",
+                "sessionsCount": "4"
+              }
+            ]
+          },
+          {
+            "metricName": "Device",
+            "information": [
+              {
+                "name": "PC",
+                "sessionsCount": 1111
+              },
+              {
+                "name": "Mobile",
+                "sessionsCount": 91
+              },
+              {
+                "name": "Tablet",
+                "sessionsCount": 1
+              }
+            ]
+          },
+          {
+            "metricName": "OS",
+            "information": [
+              {
+                "name": "Windows",
+                "sessionsCount": "1014"
+              },
+              {
+                "name": "MacOSX",
+                "sessionsCount": "94"
+              },
+              {
+                "name": "IOS",
+                "sessionsCount": "54"
+              },
+              {
+                "name": "Android",
+                "sessionsCount": "38"
+              },
+              {
+                "name": "Linux",
+                "sessionsCount": "3"
+              }
+            ]
+          },
+          {
+            "metricName": "Country",
+            "information": [
+              {
+                "name": "United States",
+                "sessionsCount": "510"
+              },
+              {
+                "name": "India",
+                "sessionsCount": "76"
+              },
+              {
+                "name": "United Kingdom",
+                "sessionsCount": "72"
+              },
+              {
+                "name": "Australia",
+                "sessionsCount": "65"
+              },
+              {
+                "name": "Germany",
+                "sessionsCount": "61"
+              },
+              {
+                "name": "Netherlands",
+                "sessionsCount": "47"
+              },
+              {
+                "name": "France",
+                "sessionsCount": "33"
+              },
+              {
+                "name": "Japan",
+                "sessionsCount": "27"
+              },
+              {
+                "name": "Singapore",
+                "sessionsCount": "27"
+              },
+              {
+                "name": "Canada",
+                "sessionsCount": "24"
+              }
+            ]
+          },
+          {
+            "metricName": "PageTitle",
+            "information": [
+              {
+                "name": "Microsoft Copilot Adoption Dashboards | Analytics Hub",
+                "sessionsCount": "532"
+              },
+              {
+                "name": "Copilot Credit Consumption & Cost \u2014 Templates, Tools & Methodology \u00b7 Analytics Hub",
+                "sessionsCount": "351"
+              },
+              {
+                "name": "Find a Microsoft Copilot Report \u2014 Power BI Templates for Adoption, ROI & Agent Telemetry \u00b7 Analytics Hub",
+                "sessionsCount": "254"
+              },
+              {
+                "name": "Cowork Policy Helper",
+                "sessionsCount": "38"
+              },
+              {
+                "name": "Internal Demos \u2014 Live Report Walkthroughs \u00b7 Analytics Hub",
+                "sessionsCount": "38"
+              },
+              {
+                "name": "Microsoft Copilot Customer Case Studies \u2014 Real ROI & Adoption Outcomes \u00b7 Analytics Hub",
+                "sessionsCount": "34"
+              },
+              {
+                "name": "Cowork Chargeback",
+                "sessionsCount": "30"
+              },
+              {
+                "name": "FinOps Cowork \u2014 Copilot Cowork Credit FinOps Report",
+                "sessionsCount": "29"
+              },
+              {
+                "name": "Microsoft Copilot Reporting Data Sources \u2014 Viva, Purview, M365 Admin, PAX \u00b7 Analytics Hub",
+                "sessionsCount": "22"
+              },
+              {
+                "name": "Cowork Usage Tracker",
+                "sessionsCount": "22"
+              }
+            ]
+          },
+          {
+            "metricName": "ReferrerUrl",
+            "information": [
+              {
+                "name": null,
+                "sessionsCount": "533"
+              },
+              {
+                "name": "https://teams.public.onecdn.static.microsoft/",
+                "sessionsCount": "223"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/",
+                "sessionsCount": "162"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/cowork-billing/",
+                "sessionsCount": "86"
+              },
+              {
+                "name": "https://www.linkedin.com/",
+                "sessionsCount": "78"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/explore-reports/",
+                "sessionsCount": "77"
+              },
+              {
+                "name": "https://www.bing.com/",
+                "sessionsCount": "30"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/data-sources/",
+                "sessionsCount": "29"
+              },
+              {
+                "name": "https://www.google.com/",
+                "sessionsCount": "18"
+              },
+              {
+                "name": "https://github.com/microsoft/AI-in-One-Dashboard",
+                "sessionsCount": "13"
+              }
+            ]
+          },
+          {
+            "metricName": "PopularPages",
+            "information": [
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/",
+                "visitsCount": "550"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/",
+                "visitsCount": "363"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/explore-reports/",
+                "visitsCount": "256"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html",
+                "visitsCount": "40"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/demos/",
+                "visitsCount": "40"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/case-studies/",
+                "visitsCount": "38"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html",
+                "visitsCount": "29"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html",
+                "visitsCount": "28"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/data-sources/",
+                "visitsCount": "23"
+              },
+              {
+                "url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html",
+                "visitsCount": "22"
               }
             ]
           }
@@ -96815,6 +97285,2179 @@
               }
             ]
           }
+        ],
+        "2026-08-25": [
+          {
+            "metricName": "DeadClickCount",
+            "information": [
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 20,
+                "sessionsWithoutMetricPercentage": 80,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "sessionsCount": "17",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 9.09,
+                "sessionsWithoutMetricPercentage": 90.91,
+                "pagesViews": "2",
+                "subTotal": "3",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "sessionsCount": "33",
+                "sessionsWithMetricPercentage": 6.06,
+                "sessionsWithoutMetricPercentage": 93.94,
+                "pagesViews": "3",
+                "subTotal": "33",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "sessionsCount": "494",
+                "sessionsWithMetricPercentage": 5.26,
+                "sessionsWithoutMetricPercentage": 94.74,
+                "pagesViews": "27",
+                "subTotal": "39",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "351",
+                "sessionsWithMetricPercentage": 14.25,
+                "sessionsWithoutMetricPercentage": 85.75,
+                "pagesViews": "56",
+                "subTotal": "194",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 8.33,
+                "sessionsWithoutMetricPercentage": 91.67,
+                "pagesViews": "3",
+                "subTotal": "13",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 7.69,
+                "sessionsWithoutMetricPercentage": 92.31,
+                "pagesViews": "1",
+                "subTotal": "4",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 33.33,
+                "sessionsWithoutMetricPercentage": 66.67,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 15.38,
+                "sessionsWithoutMetricPercentage": 84.62,
+                "pagesViews": "2",
+                "subTotal": "4",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "sessionsCount": "19",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 50,
+                "sessionsWithoutMetricPercentage": 50,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 16.67,
+                "sessionsWithoutMetricPercentage": 83.33,
+                "pagesViews": "2",
+                "subTotal": "8",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 50,
+                "sessionsWithoutMetricPercentage": 50,
+                "pagesViews": "2",
+                "subTotal": "2",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 18.18,
+                "sessionsWithoutMetricPercentage": 81.82,
+                "pagesViews": "2",
+                "subTotal": "2",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 9.09,
+                "sessionsWithoutMetricPercentage": 90.91,
+                "pagesViews": "2",
+                "subTotal": "5",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "sessionsCount": "35",
+                "sessionsWithMetricPercentage": 14.29,
+                "sessionsWithoutMetricPercentage": 85.71000000000001,
+                "pagesViews": "5",
+                "subTotal": "6",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 50,
+                "sessionsWithoutMetricPercentage": 50,
+                "pagesViews": "1",
+                "subTotal": "2",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "sessionsCount": "7",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "sessionsCount": "245",
+                "sessionsWithMetricPercentage": 12.65,
+                "sessionsWithoutMetricPercentage": 87.35,
+                "pagesViews": "31",
+                "subTotal": "45",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "sessionsCount": "9",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "sessionsCount": "29",
+                "sessionsWithMetricPercentage": 10.34,
+                "sessionsWithoutMetricPercentage": 89.66,
+                "pagesViews": "3",
+                "subTotal": "6",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "sessionsCount": "6",
+                "sessionsWithMetricPercentage": 33.33,
+                "sessionsWithoutMetricPercentage": 66.67,
+                "pagesViews": "2",
+                "subTotal": "6",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 7.41,
+                "sessionsWithoutMetricPercentage": 92.59,
+                "pagesViews": "2",
+                "subTotal": "17",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ExcessiveScroll",
+            "information": [
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "sessionsCount": "17",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "sessionsCount": "33",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "sessionsCount": "494",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "351",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "sessionsCount": "19",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "sessionsCount": "35",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "sessionsCount": "7",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "sessionsCount": "245",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "sessionsCount": "9",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "sessionsCount": "29",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "sessionsCount": "6",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "RageClickCount",
+            "information": [
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "sessionsCount": "17",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "sessionsCount": "33",
+                "sessionsWithMetricPercentage": 3.03,
+                "sessionsWithoutMetricPercentage": 96.97,
+                "pagesViews": "2",
+                "subTotal": "3",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "sessionsCount": "494",
+                "sessionsWithMetricPercentage": 0.2,
+                "sessionsWithoutMetricPercentage": 99.8,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "351",
+                "sessionsWithMetricPercentage": 0.28,
+                "sessionsWithoutMetricPercentage": 99.72,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 8.33,
+                "sessionsWithoutMetricPercentage": 91.67,
+                "pagesViews": "1",
+                "subTotal": "2",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "sessionsCount": "19",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "sessionsCount": "35",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "sessionsCount": "7",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "sessionsCount": "245",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "sessionsCount": "9",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "sessionsCount": "29",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "sessionsCount": "6",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 3.7,
+                "sessionsWithoutMetricPercentage": 96.3,
+                "pagesViews": "1",
+                "subTotal": "3",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "QuickbackClick",
+            "information": [
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "sessionsCount": "17",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 13.64,
+                "sessionsWithoutMetricPercentage": 86.36,
+                "pagesViews": "6",
+                "subTotal": "6",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "sessionsCount": "33",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "sessionsCount": "494",
+                "sessionsWithMetricPercentage": 1.82,
+                "sessionsWithoutMetricPercentage": 98.18,
+                "pagesViews": "10",
+                "subTotal": "10",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "351",
+                "sessionsWithMetricPercentage": 4.84,
+                "sessionsWithoutMetricPercentage": 95.16,
+                "pagesViews": "28",
+                "subTotal": "28",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 16.67,
+                "sessionsWithoutMetricPercentage": 83.33,
+                "pagesViews": "3",
+                "subTotal": "3",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 15.38,
+                "sessionsWithoutMetricPercentage": 84.62,
+                "pagesViews": "4",
+                "subTotal": "4",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "sessionsCount": "19",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 25,
+                "sessionsWithoutMetricPercentage": 75,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 9.09,
+                "sessionsWithoutMetricPercentage": 90.91,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 12.5,
+                "sessionsWithoutMetricPercentage": 87.5,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 66.67,
+                "sessionsWithoutMetricPercentage": 33.33,
+                "pagesViews": "2",
+                "subTotal": "2",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "sessionsCount": "35",
+                "sessionsWithMetricPercentage": 14.29,
+                "sessionsWithoutMetricPercentage": 85.71000000000001,
+                "pagesViews": "7",
+                "subTotal": "7",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 9.09,
+                "sessionsWithoutMetricPercentage": 90.91,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "sessionsCount": "7",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "sessionsCount": "245",
+                "sessionsWithMetricPercentage": 5.71,
+                "sessionsWithoutMetricPercentage": 94.29,
+                "pagesViews": "20",
+                "subTotal": "20",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "sessionsCount": "9",
+                "sessionsWithMetricPercentage": 11.11,
+                "sessionsWithoutMetricPercentage": 88.89,
+                "pagesViews": "3",
+                "subTotal": "3",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "sessionsCount": "29",
+                "sessionsWithMetricPercentage": 3.45,
+                "sessionsWithoutMetricPercentage": 96.55,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "sessionsCount": "6",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ScriptErrorCount",
+            "information": [
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 20,
+                "sessionsWithoutMetricPercentage": 80,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "sessionsCount": "17",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 27.27,
+                "sessionsWithoutMetricPercentage": 72.73,
+                "pagesViews": "8",
+                "subTotal": "8",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "sessionsCount": "33",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "sessionsCount": "494",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "351",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "sessionsCount": "19",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "sessionsCount": "35",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "sessionsCount": "7",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "sessionsCount": "245",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "sessionsCount": "9",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "sessionsCount": "29",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "sessionsCount": "6",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ErrorClickCount",
+            "information": [
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 20,
+                "sessionsWithoutMetricPercentage": 80,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "sessionsCount": "17",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "sessionsCount": "33",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "sessionsCount": "494",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "351",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "sessionsCount": "13",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "sessionsCount": "19",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "sessionsCount": "12",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "sessionsCount": "1",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "sessionsCount": "22",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "sessionsCount": "35",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "sessionsCount": "11",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "sessionsCount": "7",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "sessionsCount": "3",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "sessionsCount": "245",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "sessionsCount": "9",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "sessionsCount": "29",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "sessionsCount": "6",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ScrollDepth",
+            "information": [
+              {
+                "averageScrollDepth": 30,
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "averageScrollDepth": 38.83,
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "averageScrollDepth": 28.17,
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "averageScrollDepth": 83.53,
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "averageScrollDepth": 46.76,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "averageScrollDepth": 34.53,
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "averageScrollDepth": 40.34,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "averageScrollDepth": 55.33,
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "averageScrollDepth": 48.33,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "averageScrollDepth": 73.33,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "averageScrollDepth": 61.5,
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "averageScrollDepth": 60.4,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "averageScrollDepth": 54.67,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "averageScrollDepth": 48.13,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "averageScrollDepth": 68.2,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "averageScrollDepth": 41.77,
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "averageScrollDepth": 17,
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "averageScrollDepth": 45.73,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "averageScrollDepth": 65,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "averageScrollDepth": 19,
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "averageScrollDepth": 58.52,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "averageScrollDepth": 53,
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "averageScrollDepth": 67.98,
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "averageScrollDepth": 43.58,
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "averageScrollDepth": 17,
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "averageScrollDepth": 68,
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "averageScrollDepth": 56.57,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "averageScrollDepth": 43.67,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "averageScrollDepth": 54.78,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "averageScrollDepth": 58.33,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "averageScrollDepth": 71.2,
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "averageScrollDepth": 53,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "averageScrollDepth": 62.24,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "Traffic",
+            "information": [
+              {
+                "totalSessionCount": "0",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "84",
+                "pagesPerSessionPercentage": 1.0689655172413792,
+                "Url": null
+              },
+              {
+                "totalSessionCount": "1",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "1",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "totalSessionCount": "5",
+                "totalBotSessionCount": "2",
+                "distinctUserCount": "3",
+                "pagesPerSessionPercentage": 1.1428571428571428,
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "totalSessionCount": "17",
+                "totalBotSessionCount": "4",
+                "distinctUserCount": "19",
+                "pagesPerSessionPercentage": 1.0454545454545454,
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "totalSessionCount": "22",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "22",
+                "pagesPerSessionPercentage": 1.434782608695652,
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "totalSessionCount": "33",
+                "totalBotSessionCount": "2",
+                "distinctUserCount": "32",
+                "pagesPerSessionPercentage": 1.0571428571428572,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "totalSessionCount": "494",
+                "totalBotSessionCount": "7",
+                "distinctUserCount": "385",
+                "pagesPerSessionPercentage": 1.222879684418146,
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "totalSessionCount": "351",
+                "totalBotSessionCount": "3",
+                "distinctUserCount": "269",
+                "pagesPerSessionPercentage": 1.3547486033519553,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "totalSessionCount": "12",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "11",
+                "pagesPerSessionPercentage": 1.5,
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "totalSessionCount": "13",
+                "totalBotSessionCount": "1",
+                "distinctUserCount": "7",
+                "pagesPerSessionPercentage": 1.1428571428571428,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "totalSessionCount": "3",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "2",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "totalSessionCount": "13",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "10",
+                "pagesPerSessionPercentage": 1.2307692307692308,
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "totalSessionCount": "19",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "16",
+                "pagesPerSessionPercentage": 1.0526315789473684,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "totalSessionCount": "2",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "2",
+                "pagesPerSessionPercentage": 1.5,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "totalSessionCount": "12",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "11",
+                "pagesPerSessionPercentage": 1.25,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "totalSessionCount": "4",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "4",
+                "pagesPerSessionPercentage": 1.25,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "totalSessionCount": "11",
+                "totalBotSessionCount": "1",
+                "distinctUserCount": "13",
+                "pagesPerSessionPercentage": 1.1538461538461537,
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "totalSessionCount": "1",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "1",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "totalSessionCount": "0",
+                "totalBotSessionCount": "1",
+                "distinctUserCount": "1",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/"
+              },
+              {
+                "totalSessionCount": "8",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "6",
+                "pagesPerSessionPercentage": 1.875,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "totalSessionCount": "3",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "4",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "totalSessionCount": "1",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "1",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "totalSessionCount": "22",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "20",
+                "pagesPerSessionPercentage": 1.1363636363636365,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "totalSessionCount": "3",
+                "totalBotSessionCount": "1",
+                "distinctUserCount": "4",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "totalSessionCount": "35",
+                "totalBotSessionCount": "1",
+                "distinctUserCount": "29",
+                "pagesPerSessionPercentage": 1.3421052631578947,
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "totalSessionCount": "11",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "8",
+                "pagesPerSessionPercentage": 1.0909090909090908,
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "totalSessionCount": "2",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "2",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "totalSessionCount": "2",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "2",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "totalSessionCount": "7",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "6",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "totalSessionCount": "3",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "2",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "totalSessionCount": "245",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "188",
+                "pagesPerSessionPercentage": 1.2469635627530364,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "totalSessionCount": "9",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "10",
+                "pagesPerSessionPercentage": 1.3,
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "totalSessionCount": "29",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "24",
+                "pagesPerSessionPercentage": 1.206896551724138,
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "totalSessionCount": "6",
+                "totalBotSessionCount": "1",
+                "distinctUserCount": "7",
+                "pagesPerSessionPercentage": 1.1428571428571428,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "totalSessionCount": "27",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "22",
+                "pagesPerSessionPercentage": 1.3571428571428572,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          },
+          {
+            "metricName": "EngagementTime",
+            "information": [
+              {
+                "totalTime": "304",
+                "activeTime": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#admin-center"
+              },
+              {
+                "totalTime": "335",
+                "activeTime": "274",
+                "Url": "https://microsoft.github.io/Analytics-Hub/pages-analytics/"
+              },
+              {
+                "totalTime": "194",
+                "activeTime": "26",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#top"
+              },
+              {
+                "totalTime": "141",
+                "activeTime": "18",
+                "Url": "https://microsoft.github.io/Analytics-Hub/data-sources/"
+              },
+              {
+                "totalTime": "277",
+                "activeTime": "37",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+              },
+              {
+                "totalTime": "307",
+                "activeTime": "81",
+                "Url": "https://microsoft.github.io/Analytics-Hub/"
+              },
+              {
+                "totalTime": "401",
+                "activeTime": "108",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
+              },
+              {
+                "totalTime": "184",
+                "activeTime": "54",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#explore"
+              },
+              {
+                "totalTime": "482",
+                "activeTime": "199",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/"
+              },
+              {
+                "totalTime": "152",
+                "activeTime": "8",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/"
+              },
+              {
+                "totalTime": "225",
+                "activeTime": "57",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/"
+              },
+              {
+                "totalTime": "534",
+                "activeTime": "330",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#ai-in-one"
+              },
+              {
+                "totalTime": "77",
+                "activeTime": "64",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#agent-evaluator"
+              },
+              {
+                "totalTime": "306",
+                "activeTime": "23",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#value-lens"
+              },
+              {
+                "totalTime": "427",
+                "activeTime": "168",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
+              },
+              {
+                "totalTime": "59",
+                "activeTime": "22",
+                "Url": "https://microsoft.github.io/Analytics-Hub/team/"
+              },
+              {
+                "totalTime": "0",
+                "activeTime": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text"
+              },
+              {
+                "totalTime": "591",
+                "activeTime": "52",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/#cb-methodology"
+              },
+              {
+                "totalTime": "343",
+                "activeTime": "59",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/"
+              },
+              {
+                "totalTime": "21",
+                "activeTime": "8",
+                "Url": "https://jordankingisalive.github.io/Analytics-Hub/"
+              },
+              {
+                "totalTime": "263",
+                "activeTime": "16",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html"
+              },
+              {
+                "totalTime": "12",
+                "activeTime": "12",
+                "Url": "https://microsoft.github.io/Analytics-Hub/faq/"
+              },
+              {
+                "totalTime": "322",
+                "activeTime": "41",
+                "Url": "https://microsoft.github.io/Analytics-Hub/case-studies/"
+              },
+              {
+                "totalTime": "221",
+                "activeTime": "17",
+                "Url": "https://microsoft.github.io/Analytics-Hub/#cat=usage-intelligence"
+              },
+              {
+                "totalTime": "0",
+                "activeTime": "0",
+                "Url": "https://microsoft.github.io/Analytics-Hub/?trk=public_post_comment-text#top"
+              },
+              {
+                "totalTime": "462",
+                "activeTime": "12",
+                "Url": "https://microsoft.github.io/Analytics-Hub/out-of-the-box/#journey"
+              },
+              {
+                "totalTime": "235",
+                "activeTime": "15",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#roi-calculator"
+              },
+              {
+                "totalTime": "235",
+                "activeTime": "113",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#cowork-billing"
+              },
+              {
+                "totalTime": "359",
+                "activeTime": "79",
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/"
+              },
+              {
+                "totalTime": "268",
+                "activeTime": "41",
+                "Url": "https://microsoft.github.io/Analytics-Hub/demos/#super-user-adoption"
+              },
+              {
+                "totalTime": "364",
+                "activeTime": "32",
+                "Url": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+              },
+              {
+                "totalTime": "301",
+                "activeTime": "90",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html?demo=1"
+              },
+              {
+                "totalTime": "351",
+                "activeTime": "31",
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+              }
+            ]
+          }
         ]
       }
     },
@@ -116707,6 +119350,287 @@
               }
             ]
           }
+        ],
+        "2026-08-25": [
+          {
+            "metricName": "DeadClickCount",
+            "information": [
+              {
+                "sessionsCount": "67",
+                "sessionsWithMetricPercentage": 11.94,
+                "sessionsWithoutMetricPercentage": 88.06,
+                "pagesViews": "8",
+                "subTotal": "13"
+              }
+            ]
+          },
+          {
+            "metricName": "ExcessiveScroll",
+            "information": [
+              {
+                "sessionsCount": "67",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "RageClickCount",
+            "information": [
+              {
+                "sessionsCount": "67",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "QuickbackClick",
+            "information": [
+              {
+                "sessionsCount": "67",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0"
+              }
+            ]
+          },
+          {
+            "metricName": "ScriptErrorCount",
+            "information": [
+              {
+                "sessionsCount": "67",
+                "sessionsWithMetricPercentage": 32.84,
+                "sessionsWithoutMetricPercentage": 67.16,
+                "pagesViews": "22",
+                "subTotal": "28"
+              }
+            ]
+          },
+          {
+            "metricName": "ErrorClickCount",
+            "information": [
+              {
+                "sessionsCount": "67",
+                "sessionsWithMetricPercentage": 2.99,
+                "sessionsWithoutMetricPercentage": 97.01,
+                "pagesViews": "2",
+                "subTotal": "2"
+              }
+            ]
+          },
+          {
+            "metricName": "ScrollDepth",
+            "information": [
+              {
+                "averageScrollDepth": 53.43
+              }
+            ]
+          },
+          {
+            "metricName": "Traffic",
+            "information": [
+              {
+                "totalSessionCount": "67",
+                "totalBotSessionCount": "24",
+                "distinctUserCount": "92",
+                "pagesPerSessionPercentage": 1
+              }
+            ]
+          },
+          {
+            "metricName": "EngagementTime",
+            "information": [
+              {
+                "totalTime": "121",
+                "activeTime": "12"
+              }
+            ]
+          },
+          {
+            "metricName": "Browser",
+            "information": [
+              {
+                "name": "Edge",
+                "sessionsCount": 44
+              },
+              {
+                "name": "Chrome",
+                "sessionsCount": 20
+              },
+              {
+                "name": "Firefox",
+                "sessionsCount": 2
+              },
+              {
+                "name": "Safari",
+                "sessionsCount": 1
+              }
+            ]
+          },
+          {
+            "metricName": "Device",
+            "information": [
+              {
+                "name": "PC",
+                "sessionsCount": "67"
+              }
+            ]
+          },
+          {
+            "metricName": "OS",
+            "information": [
+              {
+                "name": "Windows",
+                "sessionsCount": 61
+              },
+              {
+                "name": "MacOSX",
+                "sessionsCount": 6
+              }
+            ]
+          },
+          {
+            "metricName": "Country",
+            "information": [
+              {
+                "name": "United States",
+                "sessionsCount": "53"
+              },
+              {
+                "name": "France",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "Singapore",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "Spain",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "United Arab Emirates",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "Netherlands",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "United Kingdom",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "PageTitle",
+            "information": [
+              {
+                "name": "M365 Copilot ROI - Live Demo Report",
+                "sessionsCount": "27"
+              },
+              {
+                "name": "M365 Copilot Productivity ROI Calculator",
+                "sessionsCount": "22"
+              },
+              {
+                "name": "M365 Copilot Productivity ROI Projections",
+                "sessionsCount": "8"
+              },
+              {
+                "name": "Copilot Adoption Journey - Productivity ROI Over Time",
+                "sessionsCount": "5"
+              },
+              {
+                "name": "Changelog - M365 Copilot ROI Calculator",
+                "sessionsCount": "5"
+              }
+            ]
+          },
+          {
+            "metricName": "ReferrerUrl",
+            "information": [
+              {
+                "name": null,
+                "sessionsCount": "20"
+              },
+              {
+                "name": "https://microsoft.github.io/",
+                "sessionsCount": "12"
+              },
+              {
+                "name": "https://microsoft.github.io/Analytics-Hub/demos/",
+                "sessionsCount": "12"
+              },
+              {
+                "name": "https://teams.public.onecdn.static.microsoft/",
+                "sessionsCount": "7"
+              },
+              {
+                "name": "https://bing.com/",
+                "sessionsCount": "6"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/",
+                "sessionsCount": "4"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/index.html",
+                "sessionsCount": "2"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html",
+                "sessionsCount": "1"
+              },
+              {
+                "name": "https://jordankingisalive.github.io/",
+                "sessionsCount": "1"
+              }
+            ]
+          },
+          {
+            "metricName": "PopularPages",
+            "information": [
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html",
+                "visitsCount": "31"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/",
+                "visitsCount": "20"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html",
+                "visitsCount": "11"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html",
+                "visitsCount": "10"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html",
+                "visitsCount": "9"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/stagingroicalculator/",
+                "visitsCount": "8"
+              },
+              {
+                "url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html",
+                "visitsCount": "2"
+              }
+            ]
+          }
         ]
       },
       "baseline": {
@@ -124987,6 +127911,508 @@
                 "totalTime": "41",
                 "activeTime": "41",
                 "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              }
+            ]
+          }
+        ],
+        "2026-08-25": [
+          {
+            "metricName": "DeadClickCount",
+            "information": [
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 25,
+                "sessionsWithoutMetricPercentage": 75,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 20,
+                "sessionsWithoutMetricPercentage": 80,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 7.41,
+                "sessionsWithoutMetricPercentage": 92.59,
+                "pagesViews": "2",
+                "subTotal": "3",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 25,
+                "sessionsWithoutMetricPercentage": 75,
+                "pagesViews": "2",
+                "subTotal": "4",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "sessionsCount": "16",
+                "sessionsWithMetricPercentage": 12.5,
+                "sessionsWithoutMetricPercentage": 87.5,
+                "pagesViews": "2",
+                "subTotal": "4",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ExcessiveScroll",
+            "information": [
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "sessionsCount": "16",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "RageClickCount",
+            "information": [
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "sessionsCount": "16",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "QuickbackClick",
+            "information": [
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "sessionsCount": "16",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ScriptErrorCount",
+            "information": [
+              {
+                "sessionsCount": 4,
+                "sessionsWithMetricPercentage": 50,
+                "sessionsWithoutMetricPercentage": 50,
+                "pagesViews": 2,
+                "subTotal": 2,
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "sessionsCount": 5,
+                "sessionsWithMetricPercentage": 20,
+                "sessionsWithoutMetricPercentage": 80,
+                "pagesViews": 1,
+                "subTotal": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "sessionsCount": 27,
+                "sessionsWithMetricPercentage": 22.22,
+                "sessionsWithoutMetricPercentage": 77.78,
+                "pagesViews": 6,
+                "subTotal": 6,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "sessionsCount": 8,
+                "sessionsWithMetricPercentage": 12.5,
+                "sessionsWithoutMetricPercentage": 87.5,
+                "pagesViews": 1,
+                "subTotal": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "sessionsCount": 16,
+                "sessionsWithMetricPercentage": 68.75,
+                "sessionsWithoutMetricPercentage": 31.25,
+                "pagesViews": 11,
+                "subTotal": 17,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "sessionsCount": 2,
+                "sessionsWithMetricPercentage": 50,
+                "sessionsWithoutMetricPercentage": 50,
+                "pagesViews": 1,
+                "subTotal": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "sessionsCount": 5,
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": 0,
+                "subTotal": 0,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ErrorClickCount",
+            "information": [
+              {
+                "sessionsCount": "4",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 20,
+                "sessionsWithoutMetricPercentage": 80,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "sessionsCount": "27",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "sessionsCount": "8",
+                "sessionsWithMetricPercentage": 12.5,
+                "sessionsWithoutMetricPercentage": 87.5,
+                "pagesViews": "1",
+                "subTotal": "1",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "sessionsCount": "16",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "sessionsCount": "2",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "sessionsCount": "5",
+                "sessionsWithMetricPercentage": 0,
+                "sessionsWithoutMetricPercentage": 100,
+                "pagesViews": "0",
+                "subTotal": "0",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "ScrollDepth",
+            "information": [
+              {
+                "averageScrollDepth": 33.5,
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "averageScrollDepth": 35,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "averageScrollDepth": 59,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "averageScrollDepth": 57.25,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "averageScrollDepth": 64.5,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "averageScrollDepth": 36.5,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "averageScrollDepth": 23,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "Traffic",
+            "information": [
+              {
+                "totalSessionCount": "0",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "1",
+                "pagesPerSessionPercentage": 1,
+                "Url": null
+              },
+              {
+                "totalSessionCount": "4",
+                "totalBotSessionCount": "4",
+                "distinctUserCount": "8",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "totalSessionCount": "5",
+                "totalBotSessionCount": "5",
+                "distinctUserCount": "10",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "totalSessionCount": "27",
+                "totalBotSessionCount": "4",
+                "distinctUserCount": "31",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "totalSessionCount": "8",
+                "totalBotSessionCount": "3",
+                "distinctUserCount": "11",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "totalSessionCount": "16",
+                "totalBotSessionCount": "4",
+                "distinctUserCount": "20",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "totalSessionCount": "2",
+                "totalBotSessionCount": "0",
+                "distinctUserCount": "2",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "totalSessionCount": "5",
+                "totalBotSessionCount": "4",
+                "distinctUserCount": "9",
+                "pagesPerSessionPercentage": 1,
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
+              }
+            ]
+          },
+          {
+            "metricName": "EngagementTime",
+            "information": [
+              {
+                "totalTime": "15",
+                "activeTime": "14",
+                "Url": "https://jordankingisalive.github.io/stagingroicalculator/"
+              },
+              {
+                "totalTime": "80",
+                "activeTime": "9",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/Start%20Here.html"
+              },
+              {
+                "totalTime": "188",
+                "activeTime": "15",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html"
+              },
+              {
+                "totalTime": "19",
+                "activeTime": "18",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/roi-calculator.html"
+              },
+              {
+                "totalTime": "142",
+                "activeTime": "10",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/"
+              },
+              {
+                "totalTime": "1",
+                "activeTime": "1",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/index.html"
+              },
+              {
+                "totalTime": "39",
+                "activeTime": "1",
+                "Url": "https://jordankingisalive.github.io/CopilotROICalculator/changelog.html"
               }
             ]
           }
