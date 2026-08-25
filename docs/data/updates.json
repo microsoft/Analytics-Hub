@@ -1,5 +1,5 @@
 {
-  "$comment": "Source of truth for the Analytics Hub update feed.  Entries are drafts until you publish them. Only status=published reaches feed.xml and the updates page, so a draft can sit here through as many small commits as you like without notifying anyone.  Workflow: add an entry with \"status\": \"draft\" and no date, keep working, then run  node scripts/build_updates.js --publish  when it is worth telling people about. --publish <id> publishes one; --list shows what is waiting.  The date is stamped at publish time rather than draft time, because a subscriber sees the item when it is published, and a backdated item can sort below things they have already read or be skipped entirely.  Never change an id once published: feed readers use it to tell new items from ones they have already shown.",
+  "$comment": "Source of truth for the Analytics Hub update feed.  Entries are drafts until you publish them. Only status=published reaches feed.xml and the updates page, so a draft can sit here through as many small commits as you like without notifying anyone.  Workflow: add an entry with \"status\": \"draft\" and no date, keep working, then run  node scripts/build_updates.js --publish  when it is worth telling people about. --publish <id> publishes one; --list shows what is waiting.  The date is stamped at publish time rather than draft time, because a subscriber sees the item when it is published, and a backdated item can sort below things they have already read or be skipped entirely.  Never change an id once published: feed readers use it to tell new items from ones they have already shown. Set \"alert\": true on an entry to put it in alerts.xml as well as feed.xml. Reserve that for a new report, or a fix to one that was giving wrong numbers, since anyone subscribed to alerts.xml has asked only to be told about things worth interrupting them for.",
   "site": {
     "title": "Analytics Hub — what's new",
     "base": "https://microsoft.github.io/Analytics-Hub/",
@@ -16,7 +16,8 @@
       ],
       "title": "Subscribe to hub updates by feed",
       "summary": "The hub now publishes release notes to a feed, so you can hear about new and changed reports without checking back. Subscribe from a Teams channel, classic Outlook, or any feed reader. Everything shipped since July is already listed.",
-      "date": "2026-08-25"
+      "date": "2026-08-25",
+      "alert": true
     },
     {
       "id": "2026-08-24-multi-budget-entitlements",
@@ -54,7 +55,8 @@
       ],
       "title": "Prepaid settlement, entitlement templates and a Post to GL export",
       "summary": "Re-bills each organisation against the share of the prepaid pool it funded, so consumption order stops deciding who gets the discounted rate. Entitlements load from a downloadable template, by CSV, or pasted from Excel, and the report says exactly what matched. Surplus can be redistributed, rebated or held centrally. Post to GL exports one row per unit, ready for Apptio. Per-unit amounts now add up to the invoice to the cent, and the workbook export handles 200,000 users in about eight seconds.",
-      "status": "published"
+      "status": "published",
+      "alert": true
     },
     {
       "id": "2026-08-17-policy-helper-v12",
@@ -67,7 +69,8 @@
       ],
       "title": "Policy Helper v1.2 — numbered tiers and a roster-first layout",
       "summary": "Policy tiers are numbered Tier 1, Tier 2, Tier 3 rather than named, which reads more easily against real spending policies. The user roster now opens the report, since it is the working surface. Changing a rate or editing a tier allowance refreshes the change-impact bar, roster and exception queue immediately.",
-      "status": "published"
+      "status": "published",
+      "alert": true
     },
     {
       "id": "2026-08-11-policy-helper-v11",
@@ -103,7 +106,8 @@
       ],
       "title": "Cowork Policy Helper first release",
       "summary": "A spending-policy manager with live impact preview and demo data, running entirely in the browser. Assign users to spend tiers by attribute, review the exception queue, and export a point-in-time record of who sits on which policy.",
-      "status": "published"
+      "status": "published",
+      "alert": true
     },
     {
       "id": "2026-07-17-three-billing-models",

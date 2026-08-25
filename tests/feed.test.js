@@ -27,6 +27,29 @@ const SRC = path.join(ROOT, 'docs/data/updates.json');
 let fails = 0;
 const ok = (n, c) => { if (!c) { fails++; console.log('  FAIL ' + n); } else console.log('  ok   ' + n); };
 
+/* Several blocks below mutate updates.json and restore it afterwards. A crash
+   between those two points leaves the source file damaged, which is worse than
+   a failing test: the next build then writes a broken feed from broken input,
+   and it is not obvious why. Capture the original once and write it back
+   unconditionally however the process ends. */
+const PRISTINE = fs.readFileSync(SRC, 'utf8');
+let restored = false;
+function restore() {
+  if (restored) return;
+  restored = true;
+  try {
+    fs.writeFileSync(SRC, PRISTINE);
+    execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')],
+      { cwd: ROOT, stdio: 'pipe' });
+  } catch (e) { /* nothing useful to do while exiting */ }
+}
+process.on('exit', restore);
+process.on('uncaughtException', (e) => {
+  restore();
+  console.error('\nCRASHED. updates.json restored.\n' + e.message);
+  process.exit(1);
+});
+
 // Always build first so the test reflects the source, not a stale artefact.
 execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')], { cwd: ROOT });
 
@@ -100,10 +123,51 @@ ok('updates page advertises the feed',
   /rel="alternate"[^>]*application\/rss\+xml/.test(upIndex));
 // New Outlook has no RSS support at all, so the instructions must not send
 // people hunting for a menu that does not exist.
-ok('subscribe steps name classic Outlook specifically', /classic<\/em> Outlook|classic Outlook/.test(upIndex));
-ok('subscribe steps warn that new Outlook cannot do this', /do not support RSS/.test(upIndex));
+ok('subscribe steps name classic Outlook specifically', /classic Outlook/.test(upIndex));
+ok('subscribe steps say new Outlook cannot do the built-in reader',
+  /New Outlook and Outlook on the web cannot do it/.test(upIndex));
 ok('subscribe steps name the real Teams template',
   /Post to a channel when a webfeed item is published/.test(upIndex));
+
+console.log('\n=== two feeds ===');
+const ALERTS = path.join(ROOT, 'docs/alerts.xml');
+ok('alerts.xml exists', fs.existsSync(ALERTS));
+const axml = fs.readFileSync(ALERTS, 'utf8');
+const adoc = new JSDOM(axml, { contentType: 'text/xml' }).window.document;
+ok('alerts.xml parses', !adoc.querySelector('parsererror'));
+const aitems = [...adoc.querySelectorAll('item')];
+const expectedAlerts = src.updates.filter((u) => u.status === 'published' && u.alert === true);
+ok('alerts has one item per important entry', aitems.length === expectedAlerts.length);
+ok('alerts is smaller than the full feed', aitems.length < items.length);
+ok('alerts declares its own self link', axml.includes('alerts.xml'));
+
+const aguids = aitems.map((i) => text(i, 'guid'));
+/* Identical guids across both feeds matter: someone subscribed to both should
+   see one item, not two variants. Different guids would show it twice. */
+ok('every alert guid appears in the full feed', aguids.every((gg) => guids.includes(gg)));
+const fullDates = Object.fromEntries(items.map((i) => [text(i, 'guid'), text(i, 'pubDate')]));
+ok('pubDates match across both feeds',
+  aitems.every((i) => text(i, 'pubDate') === fullDates[text(i, 'guid')]));
+ok('important items carry an Alert category',
+  aitems.every((i) => [...i.getElementsByTagName('category')].some((c) => c.textContent === 'Alert')));
+// A routine entry must not leak into the alerts feed.
+const routine = src.updates.find((u) => u.status === 'published' && !u.alert);
+if (routine) {
+  ok('a routine entry stays out of alerts', !aguids.includes('analytics-hub:' + routine.id));
+}
+
+console.log('\n=== inbox instructions are honest ===');
+const upPage = fs.readFileSync(path.join(ROOT, 'docs/updates/index.html'), 'utf8');
+// The whole point of the rewrite: email delivery must not look classic-only.
+ok('leads with a route that works in any Outlook',
+  /works in new Outlook, Outlook on the web and on your phone/.test(upPage));
+ok('names the RSS trigger', /When a feed item is published/.test(upPage));
+ok('names the Outlook send action', /Send an email \(V2\)/.test(upPage));
+ok('says the connectors cost nothing extra', /included with Microsoft 365/.test(upPage));
+ok('still flags classic-only for the built-in reader',
+  /exists only in classic Outlook/.test(upPage));
+ok('offers both feeds', upPage.includes('feed.xml') && upPage.includes('alerts.xml'));
+ok('copy records which feed was taken', /data-which/.test(upPage));
 
 console.log('\n=== validation refuses bad input ===');
 function buildWith(mutate, args) {

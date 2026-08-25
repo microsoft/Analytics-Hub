@@ -101,14 +101,19 @@ setTimeout(() => {
     ['?from=nav', 20, 14],
     ['?from=hero', 8, 6],
     ['', 5, 4],
-    ['?from=nav&copied=1', 6, 5],
+    ['?from=nav&copied=all', 4, 3],
+    ['?from=hero&copied=alerts', 2, 2],
   ]));
   setTimeout(() => {
     const sessions = Number(g(w2, 'feed-kpi-sessions').replace(/,/g, ''));
     const copied = Number(g(w2, 'feed-kpi-copied').replace(/,/g, ''));
     console.log('  sessions: ' + sessions + ' | copied: ' + copied + ' | rate: ' + g(w2, 'feed-kpi-rate'));
-    ok('sessions counted', sessions === 20 + 8 + 5 + 6);
-    ok('copies counted', copied === 6);
+    console.log('  copied foot: ' + g(w2, 'feed-kpi-copied-foot'));
+    ok('sessions counted', sessions === 20 + 8 + 5 + 4 + 2);
+    ok('copies counted across both feeds', copied === 6);
+    // Which feed people take is worth knowing on its own: heavy alerts-only
+    // uptake would say the full feed is too noisy.
+    ok('the alerts-only split is surfaced', /important-only feed/.test(g(w2, 'feed-kpi-copied-foot')));
     /* The important one. A copied session is the same session as the one that
        arrived, so copies must never exceed sessions and the rate must stay a
        sane percentage. */
@@ -119,8 +124,8 @@ setTimeout(() => {
     console.log('  rows:');
     rows.forEach((r) => console.log('    ' + r.join(' | ')));
     const byLabel = Object.fromEntries(rows.map((r) => [r[0], Number(r[1].replace(/,/g, ''))]));
-    ok('nav attributed', byLabel['Nav button'] === 20 + 6);
-    ok('hero attributed', byLabel['Home page button'] === 8);
+    ok('nav attributed', byLabel['Nav button'] === 20 + 4);
+    ok('hero attributed', byLabel['Home page button'] === 8 + 2);
     ok('direct attributed', byLabel['Direct or shared link'] === 5);
     ok('every source row present', rows.length === 3);
     ok('note no longer says not measured', !g(w2, 'feed-note').includes('blank rather than zero'));
@@ -128,8 +133,9 @@ setTimeout(() => {
     console.log('\n=== the updates page is instrumented at all ===');
     const up = fs.readFileSync(ROOT + '/docs/updates/index.html', 'utf8');
     ok('carries the Clarity tag', /clarity\.ms\/tag/.test(up));
-    ok('has a copy button', /id="upCopy"/.test(up));
-    ok('copy writes copied=1 into the URL', /copied=1/.test(up));
+    ok('has copy buttons', (up.match(/class="up-copy"/g) || []).length >= 2);
+    ok('copy records which feed was taken', /copied=' \+ which|copied=/.test(up) && /data-which/.test(up));
+    ok('offers both feeds', /feed\.xml/.test(up) && /alerts\.xml/.test(up));
     ok('copy uses replaceState, which Clarity observes', /replaceState/.test(up));
 
     console.log('\n=== entry points carry attribution ===');

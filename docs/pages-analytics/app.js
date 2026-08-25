@@ -2105,14 +2105,18 @@ function renderCoworkBilling(repos, sites) {
     { key: "hero", label: "Home page button", test: (u) => /[?&]from=hero\b/i.test(u) },
   ];
   const feedBySource = new Map();
-  let feedSessions = 0, feedUsers = 0, feedCopied = 0;
+  let feedSessions = 0, feedUsers = 0, feedCopied = 0, feedCopiedAlerts = 0;
 
   for (const [url, m] of feedPerUrl) {
     feedSessions += m.sessions;
     feedUsers += m.users;
-    // A copy rewrites the URL in place, so these rows are a subset of the
-    // sessions above rather than additional traffic.
-    if (/[?&]copied=1\b/i.test(url)) feedCopied += m.sessions;
+    /* A copy rewrites the URL in place, so these rows are a subset of the
+       sessions above rather than additional traffic. The value records which
+       feed was taken: copied=all or copied=alerts. An older copied=1 form
+       exists in any snapshot taken before the two-feed split, so it is still
+       matched. */
+    if (/[?&]copied=(1|all|alerts)\b/i.test(url)) feedCopied += m.sessions;
+    if (/[?&]copied=alerts\b/i.test(url)) feedCopiedAlerts += m.sessions;
     const src = SOURCES.find((s) => s.test(url));
     const k = src ? src.key : "direct";
     const e = feedBySource.get(k) || { sessions: 0, users: 0, sw: 0, wsum: 0 };
@@ -2136,7 +2140,13 @@ function renderCoworkBilling(repos, sites) {
       : "Not seen in a snapshot yet";
   }
   const fcFoot = document.getElementById("feed-kpi-copied-foot");
-  if (fcFoot && !feedSeen) fcFoot.textContent = "Not seen in a snapshot yet";
+  if (fcFoot) {
+    fcFoot.textContent = !feedSeen
+      ? "Not seen in a snapshot yet"
+      : (feedCopiedAlerts
+        ? `${fmt(feedCopiedAlerts)} took the important-only feed`
+        : "Strongest available subscribe signal");
+  }
 
   const feedTbody = document.getElementById("feed-source-tbody");
   if (feedTbody) {
