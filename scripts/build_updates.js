@@ -13,9 +13,9 @@
  *   docs/updates/index.html
  *
  * Draft gating. Entries are drafts until published, and only published ones
- * reach the feed. That exists so a week of small commits does not become a
- * week of notifications: write the entry when the work happens, publish when
- * there is something worth interrupting people for.
+ * reach the feed. The feed carries announcements only: new reports, new
+ * features to existing reports, critical bug fixes. Not every small change.
+ * Write the entry when the work happens, publish when it is worth announcing.
  *
  * Publishing stamps the date. A draft carries no date and gets today's when it
  * is published. Dating it when it was written would drop an item into
@@ -342,7 +342,7 @@ const page = `<!DOCTYPE html>
 
     <section class="up-subscribe">
       <h2>Get told when something matters</h2>
-      <p>This feed carries announcements only. New reports, and fixes to reports that were giving wrong numbers. Not every small change, so subscribing will not fill your inbox.</p>
+      <p>This feed carries announcements only. New reports, new features to existing reports, critical bug fixes. Not every small change, so subscribing will not fill your inbox.</p>
 
       <div class="up-feedrow">
         <a class="up-feedlink" href="../feed.xml">${esc(feedUrl)}</a>
