@@ -62,8 +62,17 @@ setTimeout(() => {
 
   if (lower.length === 1) {
     const views = Number(lower[0][1].replace(/,/g, ''));
-    // 782 + 756 in the current snapshot
-    ok('merged views are the sum of both spellings', views === 782 + 756);
+    /* Derive the expected total from the data rather than pinning a literal.
+       The nightly collector moves these numbers every day, so a hardcoded sum
+       fails for a reason that has nothing to do with the folding logic. */
+    let expected = 0;
+    for (const repo of Object.values(RAW.repos || {})) {
+      for (const p of (repo.paths || [])) {
+        if (k(p.path) === '/microsoft/creditusage') expected += p.count || 0;
+      }
+    }
+    console.log('  expected merged views from source data: ' + expected);
+    ok('merged views are the sum of both spellings', expected > 0 && views === expected);
     ok('uniques marked as an upper bound', lower[0][2].startsWith('\u2264'));
     ok('row labelled as merged', /spellings/.test(lower[0][0]));
   }
