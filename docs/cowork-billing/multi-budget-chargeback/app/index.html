@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Budget Chargeback Report</title>
-    <meta name="description" content="Client-side Copilot Cowork chargeback generator for multi-entity organisations sharing one tenant. Settles a shared prepaid pool back to the entity that funded it. Turns consumption + org exports into a finance-ready, invoice-reconciled chargeback. All processing happens locally in your browser.">
+    <title>Multi-Budget Chargeback Report — Credit Entitlements &amp; Settlement</title>
+    <meta name="description" content="Client-side Copilot Cowork chargeback generator for multi-entity organisations sharing one tenant. Set a credit entitlement per entity, the share of the prepaid pool it funded, and settle every bill against it so consumption order stops deciding who gets the discount. Turns consumption + org exports into a finance-ready, invoice-reconciled chargeback. All processing happens locally in your browser.">
     <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -180,8 +180,12 @@
         <section id="cbLanding">
             <header>
                 <h1>Multi-Budget Chargeback Report</h1>
-                <p class="subtitle">For one Microsoft tenant shared by several separately budgeted organisations. Settles a shared prepaid Copilot credit pool back to whoever funded it, so the organisation that consumed earliest does not keep the discount. 100% in your browser.</p>
+                <p class="subtitle">For one Microsoft tenant shared by several separately budgeted organisations. Each organisation states its <strong>entitlement</strong>, the share of the prepaid Copilot credit pool it funded, and every bill is rebuilt from that. The organisation that consumed earliest does not keep the discount. 100% in your browser.</p>
             </header>
+            <div class="cb-define">
+                <div class="cb-define-term">Entitlement</div>
+                <p><strong>The share of the prepaid pool an organisation paid for.</strong> A claim on the money, not a reservation of credits. The tenant cannot ring-fence credits per organisation, so nothing stops one entity consuming another&rsquo;s discounted credits. The entitlement is what lets you correct that after the fact: bill each organisation against what it funded rather than against what it happened to draw down first.</p>
+            </div>
             <div class="cb-define">
                 <div class="cb-define-term">Multi-budget</div>
                 <p><strong>A single tenant, more than one budget holder.</strong> Divisions, subsidiaries, agencies, member firms, districts &mdash; any set of organisations that share one Microsoft tenant but answer for their own spend separately. If one finance team pays the whole Copilot bill, you do not need this report. If the bill has to be split back to organisations that each hold their own budget, you do.</p>
@@ -331,6 +335,13 @@
             </div>
             <div class="instructions-section cb-changelog">
                 <h2>Changelog</h2>
+                <div class="cl-entry">
+                    <div class="cl-date">2026-08-24</div>
+                    <ul class="cl-list">
+                        <li><span class="cl-tag chg">Changed</span> <strong>Entitlement</strong> now leads the framing, with its own definition. It is the term finance and FinOps teams already use, and it is the one input the platform cannot supply, so it is what the report is really built around.</li>
+                        <li><span class="cl-tag chg">Changed</span> Listed on the Cowork Billing hub. It had been reachable by direct link only while the settlement panel was still moving.</li>
+                    </ul>
+                </div>
                 <div class="cl-entry">
                     <div class="cl-date">2026-08-21</div>
                     <ul class="cl-list">
