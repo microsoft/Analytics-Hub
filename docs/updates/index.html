@@ -10,7 +10,6 @@
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="alternate" type="application/rss+xml" title="Analytics Hub — what's new" href="../feed.xml" />
-  <link rel="alternate" type="application/rss+xml" title="Analytics Hub — important only" href="../alerts.xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Analytics Hub" />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/updates/" />
@@ -43,13 +42,6 @@
     .up-feedlink { display: inline-block; margin-top: .35rem; font-family: ui-monospace, Menlo, Consolas, monospace;
       font-size: .88rem; word-break: break-all; }
     .up-feedrow { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; margin-top: .5rem; }
-    .up-feeds { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin: 1.1rem 0 1.6rem; }
-    @media (max-width: 700px) { .up-feeds { grid-template-columns: 1fr; } }
-    .up-feedcard { border: 1px solid var(--border, rgba(128,128,128,.25)); border-radius: 10px;
-      padding: .95rem 1.05rem; background: var(--bg, transparent); }
-    .up-feedcard h3 { margin: 0 0 .3rem; font-size: .98rem; }
-    .up-feedcard p { margin: 0; font-size: .86rem; line-height: 1.55; opacity: .8; }
-    .up-feedcard-alert { border-left: 3px solid #8661c5; }
     .up-howto { margin: 1.4rem 0 .5rem; font-size: 1rem; }
     .up-copy { border: 1px solid var(--border-strong, rgba(128,128,128,.4)); background: var(--surface, transparent);
       color: inherit; font: inherit; font-size: .82rem; font-weight: 600; padding: .34rem .7rem;
@@ -71,13 +63,10 @@
     .up-tag.chg { background: rgba(74,158,247,.15); color: #2064a8; }
     .up-tag.fix { background: rgba(245,158,11,.16); color: #9a6206; }
     .up-tag.rem { background: rgba(148,163,184,.2); color: #55637a; }
-    .up-tag.alert { background: linear-gradient(135deg, rgba(0,120,212,.16), rgba(134,97,197,.18));
-      color: #6b4bb0; border: 1px solid rgba(134,97,197,.3); }
     @media (prefers-color-scheme: dark) {
       .up-tag.chg { color: #7ab8f5; }
       .up-tag.fix { color: #f0b34a; }
       .up-tag.rem { color: #a3b0c4; }
-      .up-tag.alert { color: #b9a3f0; }
     }
   </style>
 </head>
@@ -91,78 +80,60 @@
     </div>
 
     <section class="up-subscribe">
-      <h2>Get these where you want them</h2>
-      <p>Nothing to sign up for, and no email address to hand over. Pick a feed, then pick how you want it delivered.</p>
+      <h2>Get told when something matters</h2>
+      <p>This feed carries announcements only. New reports, and fixes to reports that were giving wrong numbers. Not every small change, so subscribing will not fill your inbox.</p>
 
-      <div class="up-feeds">
-        <div class="up-feedcard">
-          <h3>Everything</h3>
-          <p>Every update, including small changes.</p>
-          <div class="up-feedrow">
-            <a class="up-feedlink" href="../feed.xml">https://microsoft.github.io/Analytics-Hub/feed.xml</a>
-            <button type="button" class="up-copy" data-feed="https://microsoft.github.io/Analytics-Hub/feed.xml" data-which="all">Copy</button>
-          </div>
-        </div>
-        <div class="up-feedcard up-feedcard-alert">
-          <h3>Important only</h3>
-          <p>New reports, and fixes to reports that were giving wrong numbers. Nothing routine.</p>
-          <div class="up-feedrow">
-            <a class="up-feedlink" href="../alerts.xml">https://microsoft.github.io/Analytics-Hub/alerts.xml</a>
-            <button type="button" class="up-copy" data-feed="https://microsoft.github.io/Analytics-Hub/alerts.xml" data-which="alerts">Copy</button>
-          </div>
-        </div>
+      <div class="up-feedrow">
+        <a class="up-feedlink" href="../feed.xml">https://microsoft.github.io/Analytics-Hub/feed.xml</a>
+        <button type="button" class="up-copy" id="upCopy" data-feed="https://microsoft.github.io/Analytics-Hub/feed.xml">Copy</button>
       </div>
 
-      <h3 class="up-howto">Then set up delivery, once</h3>
+      <h3 class="up-howto">Set up delivery once</h3>
       <ol>
-        <li><strong>Email, in any Outlook.</strong> Go to <a href="https://make.powerautomate.com/" target="_blank" rel="noopener">Power Automate</a>, create a flow from blank, and pick the RSS trigger <em>When a feed item is published</em>. Paste a feed address above, then add the Outlook action <em>Send an email (V2)</em> addressed to yourself. Both connectors are included with Microsoft 365, so there is nothing to buy. This lands in your normal inbox and works in new Outlook, Outlook on the web and on your phone.</li>
-        <li><strong>A Teams channel.</strong> Open the channel, select <em>More options (…)</em> beside the channel name, then <em>Workflows</em>. Search for <em>webfeed</em> and choose <strong>Post to a channel when a webfeed item is published</strong>. Paste a feed address when prompted.</li>
+        <li><strong>Email, in any Outlook.</strong> Go to <a href="https://make.powerautomate.com/" target="_blank" rel="noopener">Power Automate</a>, create a flow from blank, and pick the RSS trigger <em>When a feed item is published</em>. Paste the address above, then add the Outlook action <em>Send an email (V2)</em> addressed to yourself. Both connectors are included with Microsoft 365, so there is nothing to buy. This lands in your normal inbox and works in new Outlook, Outlook on the web and on your phone.</li>
+        <li><strong>A Teams channel.</strong> Open the channel, select <em>More options (…)</em> beside the channel name, then <em>Workflows</em>. Search for <em>webfeed</em> and choose <strong>Post to a channel when a webfeed item is published</strong>. Paste the address when prompted.</li>
         <li><strong>Classic Outlook only.</strong> <em>File → Account Settings → Account Settings → RSS Feeds → New</em>. This is the built-in RSS reader, and it exists only in classic Outlook. New Outlook and Outlook on the web cannot do it, so use option 1 instead.</li>
-        <li><strong>Any feed reader.</strong> Paste a feed address above.</li>
+        <li><strong>Any feed reader.</strong> Paste the address above.</li>
       </ol>
     </section>
 
     <script>
-      /* Copying a feed address is the closest thing to a measurable subscribe,
-         and it is the only part of subscribing that happens on a page we can
-         observe. Feed readers fetch the XML over plain HTTP and never run
-         JavaScript, so an actual subscriber is invisible to us.
+      /* Copying the feed address is the closest thing to a measurable
+         subscribe, and it is the only part of subscribing that happens on a
+         page we can observe. Feed readers fetch the XML over plain HTTP and
+         never run JavaScript, so an actual subscriber is invisible to us.
 
-         The copy is recorded by putting ?copied= into the URL via
+         The copy is recorded by putting ?copied=all into the URL via
          replaceState, which Clarity proxies and treats as a new page view.
          That reuses the same mechanism as the demo tagging on the chargeback
-         tools, and it works because Clarity's export API returns the URL but
-         will not return custom events. The value records which of the two
-         feeds was taken, since that is worth knowing on its own. */
+         tools, and works because Clarity's export API returns the URL but
+         will not return custom events. */
       (function () {
-        var btns = document.querySelectorAll('.up-copy');
-        if (!btns.length) return;
-        Array.prototype.forEach.call(btns, function (btn) {
-          btn.addEventListener('click', function () {
-            var url = btn.getAttribute('data-feed');
-            var which = btn.getAttribute('data-which') || 'all';
-            function done() {
-              var was = btn.textContent;
-              btn.textContent = 'Copied';
-              btn.classList.add('is-copied');
-              setTimeout(function () { btn.textContent = was; btn.classList.remove('is-copied'); }, 1800);
-              try {
-                if (location.search.indexOf('copied=') === -1) {
-                  var q = location.search ? location.search + '&copied=' + which : '?copied=' + which;
-                  history.replaceState(null, '', location.pathname + q);
-                }
-              } catch (e) {}
-            }
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(url).then(done, done);
-            } else {
-              var t = document.createElement('textarea');
-              t.value = url; document.body.appendChild(t); t.select();
-              try { document.execCommand('copy'); } catch (e) {}
-              document.body.removeChild(t);
-              done();
-            }
-          });
+        var btn = document.getElementById('upCopy');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          var url = btn.getAttribute('data-feed');
+          function done() {
+            var was = btn.textContent;
+            btn.textContent = 'Copied';
+            btn.classList.add('is-copied');
+            setTimeout(function () { btn.textContent = was; btn.classList.remove('is-copied'); }, 1800);
+            try {
+              if (location.search.indexOf('copied=') === -1) {
+                var q = location.search ? location.search + '&copied=all' : '?copied=all';
+                history.replaceState(null, '', location.pathname + q);
+              }
+            } catch (e) {}
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, done);
+          } else {
+            var t = document.createElement('textarea');
+            t.value = url; document.body.appendChild(t); t.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(t);
+            done();
+          }
         });
       })();
     </script>
@@ -173,26 +144,8 @@
           <span class="up-tool">Analytics Hub</span>
         </div>
         <h3><a href="https://microsoft.github.io/Analytics-Hub/updates/">Subscribe to hub updates by feed</a></h3>
-        <p class="up-tags"><span class="up-tag alert">Important</span><span class="up-tag add">Added</span></p>
+        <p class="up-tags"><span class="up-tag add">Added</span></p>
         <p>The hub now publishes release notes to a feed, so you can hear about new and changed reports without checking back. Subscribe from a Teams channel, classic Outlook, or any feed reader. Everything shipped since July is already listed.</p>
-      </article>
-      <article class="up-item">
-        <div class="up-meta">
-          <time datetime="2026-08-24">24 August 2026</time>
-          <span class="up-tool">Multi-Budget Chargeback Report</span>
-        </div>
-        <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/">Multi-Budget Chargeback now leads with entitlements</a></h3>
-        <p class="up-tags"><span class="up-tag chg">Changed</span></p>
-        <p>An entitlement is the share of a shared prepaid pool that an organisation actually funded. It is a claim on the money rather than a reservation of credits, which matters because a tenant cannot ring-fence credits per organisation. The report now leads with that term throughout, and is listed on the Cowork Billing hub after a period as a direct link only.</p>
-      </article>
-      <article class="up-item">
-        <div class="up-meta">
-          <time datetime="2026-08-21">21 August 2026</time>
-          <span class="up-tool">Multi-Budget Chargeback Report</span>
-        </div>
-        <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/">Healthcare Chargeback becomes the Multi-Budget Chargeback Report</a></h3>
-        <p class="up-tags"><span class="up-tag chg">Renamed</span><span class="up-tag add">Added</span></p>
-        <p>The settlement applies to any tenant shared by separately budgeted organisations, not only health systems, so the name now says so. The old link redirects. Adds a walkthrough video, a plain-language definition of multi-budget, and a section separating what spending policies do in the admin centre from what this report settles afterwards.</p>
       </article>
       <article class="up-item">
         <div class="up-meta">
@@ -200,7 +153,7 @@
           <span class="up-tool">Multi-Budget Chargeback Report</span>
         </div>
         <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/">Prepaid settlement, entitlement templates and a Post to GL export</a></h3>
-        <p class="up-tags"><span class="up-tag alert">Important</span><span class="up-tag add">Added</span><span class="up-tag fix">Fixed</span></p>
+        <p class="up-tags"><span class="up-tag add">Added</span><span class="up-tag fix">Fixed</span></p>
         <p>Re-bills each organisation against the share of the prepaid pool it funded, so consumption order stops deciding who gets the discounted rate. Entitlements load from a downloadable template, by CSV, or pasted from Excel, and the report says exactly what matched. Surplus can be redistributed, rebated or held centrally. Post to GL exports one row per unit, ready for Apptio. Per-unit amounts now add up to the invoice to the cent, and the workbook export handles 200,000 users in about eight seconds.</p>
       </article>
       <article class="up-item">
@@ -209,17 +162,8 @@
           <span class="up-tool">Cowork Policy Helper</span>
         </div>
         <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/">Policy Helper v1.2 — numbered tiers and a roster-first layout</a></h3>
-        <p class="up-tags"><span class="up-tag alert">Important</span><span class="up-tag chg">Changed</span><span class="up-tag fix">Fixed</span></p>
+        <p class="up-tags"><span class="up-tag chg">Changed</span><span class="up-tag fix">Fixed</span></p>
         <p>Policy tiers are numbered Tier 1, Tier 2, Tier 3 rather than named, which reads more easily against real spending policies. The user roster now opens the report, since it is the working surface. Changing a rate or editing a tier allowance refreshes the change-impact bar, roster and exception queue immediately.</p>
-      </article>
-      <article class="up-item">
-        <div class="up-meta">
-          <time datetime="2026-08-11">11 August 2026</time>
-          <span class="up-tool">Cowork Policy Helper</span>
-        </div>
-        <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/">Policy Helper v1.1 — allowances read from your own credit limits</a></h3>
-        <p class="up-tags"><span class="up-tag chg">Changed</span></p>
-        <p>Billing policy allowances now come straight from the credit limits in your upload, so each tier matches a real monthly limit and every user&#39;s allowance reflects their actual policy rather than an assumed one.</p>
       </article>
       <article class="up-item">
         <div class="up-meta">
@@ -227,26 +171,8 @@
           <span class="up-tool">Cowork Policy Helper</span>
         </div>
         <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/">Cowork Policy Helper first release</a></h3>
-        <p class="up-tags"><span class="up-tag alert">Important</span><span class="up-tag add">Added</span></p>
-        <p>A spending-policy manager with live impact preview and demo data, running entirely in the browser. Assign users to spend tiers by attribute, review the exception queue, and export a point-in-time record of who sits on which policy.</p>
-      </article>
-      <article class="up-item">
-        <div class="up-meta">
-          <time datetime="2026-07-20">20 July 2026</time>
-          <span class="up-tool">Cowork Chargeback</span>
-        </div>
-        <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/">Cut chargeback by spending policy, and track the prepaid pool</a></h3>
         <p class="up-tags"><span class="up-tag add">Added</span></p>
-        <p>Adds spending-policy-driven credit limits, a Cut by: Spending policy view, and a Policy column in the line items and exports. Prepaid credits purchased now shows pool value, percentage consumed, and either the remaining balance or the pay-as-you-go overflow.</p>
-      </article>
-      <article class="up-item">
-        <div class="up-meta">
-          <time datetime="2026-07-17">17 July 2026</time>
-          <span class="up-tool">Cowork Chargeback</span>
-        </div>
-        <h3><a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/">Three billing models side by side, and a multi-tab workbook export</a></h3>
-        <p class="up-tags"><span class="up-tag add">Added</span><span class="up-tag chg">Changed</span></p>
-        <p>Pay-as-you-go, prepaid pack and hybrid are priced next to each other per department, with a per-person toggle. Click a unit to expand the people behind its charge. Adds a multi-tab Excel workbook export with live formulas, a prepay sizing panel, and a total versus daily-average toggle on the journal.</p>
+        <p>A spending-policy manager with live impact preview and demo data, running entirely in the browser. Assign users to spend tiers by attribute, review the exception queue, and export a point-in-time record of who sits on which policy.</p>
       </article>
   </main>
 </body>

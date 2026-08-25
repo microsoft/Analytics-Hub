@@ -61,7 +61,9 @@ const doc = new JSDOM(xml, { contentType: 'text/xml' }).window.document;
 ok('XML parses without error', !doc.querySelector('parsererror'));
 
 const items = [...doc.querySelectorAll('item')];
-ok('one item per update', items.length === src.updates.length);
+// Only announced entries reach the feed; drafts are held back deliberately.
+const announced = src.updates.filter((u) => u.status === 'published');
+ok('one item per announced entry', items.length === announced.length);
 ok('channel has a self link',
   !!doc.querySelector('link[rel="self"]') || /rel="self"/.test(xml));
 ok('declares rss version 2.0', /<rss version="2\.0"/.test(xml));
@@ -77,7 +79,7 @@ ok('every item has a guid', guids.every(Boolean));
 ok('guids are unique', new Set(guids).size === guids.length);
 // The guid must derive from the id and nothing else. If it ever picked up the
 // title or the date, editing a typo would re-notify every subscriber.
-const byId = src.updates.every((u) => guids.includes('analytics-hub:' + u.id));
+const byId = announced.every((u) => guids.includes('analytics-hub:' + u.id));
 ok('guid is derived from the id alone', byId);
 
 console.log('\n=== dates ===');
@@ -87,7 +89,7 @@ ok('every pubDate is RFC 822', dates.every((d) => RFC822.test(d)));
 
 // Weekday names must match the actual calendar, which catches a hand-rolled
 // formatter drifting off by a day.
-const weekdayOk = src.updates.every((u) => {
+const weekdayOk = announced.every((u) => {
   const item = items.find((i) => text(i, 'guid') === 'analytics-hub:' + u.id);
   const expect = new Date(u.date + 'T16:00:00Z')
     .toLocaleDateString('en-GB', { weekday: 'short', timeZone: 'UTC' });
@@ -129,35 +131,29 @@ ok('subscribe steps say new Outlook cannot do the built-in reader',
 ok('subscribe steps name the real Teams template',
   /Post to a channel when a webfeed item is published/.test(upIndex));
 
-console.log('\n=== two feeds ===');
-const ALERTS = path.join(ROOT, 'docs/alerts.xml');
-ok('alerts.xml exists', fs.existsSync(ALERTS));
-const axml = fs.readFileSync(ALERTS, 'utf8');
-const adoc = new JSDOM(axml, { contentType: 'text/xml' }).window.document;
-ok('alerts.xml parses', !adoc.querySelector('parsererror'));
-const aitems = [...adoc.querySelectorAll('item')];
-const expectedAlerts = src.updates.filter((u) => u.status === 'published' && u.alert === true);
-ok('alerts has one item per important entry', aitems.length === expectedAlerts.length);
-ok('alerts is smaller than the full feed', aitems.length < items.length);
-ok('alerts declares its own self link', axml.includes('alerts.xml'));
-
-const aguids = aitems.map((i) => text(i, 'guid'));
-/* Identical guids across both feeds matter: someone subscribed to both should
-   see one item, not two variants. Different guids would show it twice. */
-ok('every alert guid appears in the full feed', aguids.every((gg) => guids.includes(gg)));
-const fullDates = Object.fromEntries(items.map((i) => [text(i, 'guid'), text(i, 'pubDate')]));
-ok('pubDates match across both feeds',
-  aitems.every((i) => text(i, 'pubDate') === fullDates[text(i, 'guid')]));
-ok('important items carry an Alert category',
-  aitems.every((i) => [...i.getElementsByTagName('category')].some((c) => c.textContent === 'Alert')));
-// A routine entry must not leak into the alerts feed.
-const routine = src.updates.find((u) => u.status === 'published' && !u.alert);
-if (routine) {
-  ok('a routine entry stays out of alerts', !aguids.includes('analytics-hub:' + routine.id));
-}
+console.log('\n=== the feed carries announcements only ===');
+/* One feed, and publishing is the decision to notify. A draft appears nowhere:
+   not in the feed, not on the page. That is the whole point, so it is the
+   thing most worth asserting. */
+const draftCount = src.updates.filter((u) => (u.status || 'draft') !== 'published').length;
+console.log('  ' + items.length + ' announced, ' + draftCount + ' held as drafts');
+ok('there are drafts being held', draftCount > 0);
+ok('the feed is smaller than the full entry list', items.length < src.updates.length);
+const heldIds = src.updates
+  .filter((u) => (u.status || 'draft') !== 'published')
+  .map((u) => 'analytics-hub:' + u.id);
+ok('no held draft appears in the feed', heldIds.every((h) => !guids.includes(h)));
+const pageNow = fs.readFileSync(path.join(ROOT, 'docs/updates/index.html'), 'utf8');
+ok('no held draft appears on the page',
+  src.updates.filter((u) => (u.status || 'draft') !== 'published')
+    .every((u) => !pageNow.includes(u.title)));
+ok('the page says the feed is announcements only',
+  /announcements only/.test(pageNow));
+ok('the page promises it will not fill an inbox',
+  /will not fill your inbox/.test(pageNow));
 
 console.log('\n=== inbox instructions are honest ===');
-const upPage = fs.readFileSync(path.join(ROOT, 'docs/updates/index.html'), 'utf8');
+const upPage = pageNow;
 // The whole point of the rewrite: email delivery must not look classic-only.
 ok('leads with a route that works in any Outlook',
   /works in new Outlook, Outlook on the web and on your phone/.test(upPage));
@@ -166,8 +162,7 @@ ok('names the Outlook send action', /Send an email \(V2\)/.test(upPage));
 ok('says the connectors cost nothing extra', /included with Microsoft 365/.test(upPage));
 ok('still flags classic-only for the built-in reader',
   /exists only in classic Outlook/.test(upPage));
-ok('offers both feeds', upPage.includes('feed.xml') && upPage.includes('alerts.xml'));
-ok('copy records which feed was taken', /data-which/.test(upPage));
+ok('there is exactly one feed', !upPage.includes('alerts.xml'));
 
 console.log('\n=== validation refuses bad input ===');
 function buildWith(mutate, args) {
