@@ -1,11 +1,23 @@
 {
-  "$comment": "Source of truth for the Analytics Hub update feed. Add a new entry at the TOP when something ships, then run: node scripts/build_updates.js. That regenerates docs/feed.xml and docs/updates/index.html. Do not hand-edit either of those files. Dates are ISO yyyy-mm-dd and are treated as 16:00 UTC on that day so ordering is stable. 'id' must never change once published: feed readers use it to tell new items from ones they have already shown.",
+  "$comment": "Source of truth for the Analytics Hub update feed.  Entries are drafts until you publish them. Only status=published reaches feed.xml and the updates page, so a draft can sit here through as many small commits as you like without notifying anyone.  Workflow: add an entry with \"status\": \"draft\" and no date, keep working, then run  node scripts/build_updates.js --publish  when it is worth telling people about. --publish <id> publishes one; --list shows what is waiting.  The date is stamped at publish time rather than draft time, because a subscriber sees the item when it is published, and a backdated item can sort below things they have already read or be skipped entirely.  Never change an id once published: feed readers use it to tell new items from ones they have already shown.",
   "site": {
     "title": "Analytics Hub — what's new",
     "base": "https://microsoft.github.io/Analytics-Hub/",
     "description": "Release notes for the Copilot Analytics Hub: chargeback and consumption reporting, cost management tools, and Power BI templates."
   },
   "updates": [
+    {
+      "id": "2026-08-update-feed",
+      "status": "published",
+      "tool": "Analytics Hub",
+      "link": "updates/",
+      "tags": [
+        "Added"
+      ],
+      "title": "Subscribe to hub updates by feed",
+      "summary": "The hub now publishes release notes to a feed, so you can hear about new and changed reports without checking back. Subscribe from a Teams channel, classic Outlook, or any feed reader. Everything shipped since July is already listed.",
+      "date": "2026-08-25"
+    },
     {
       "id": "2026-08-24-multi-budget-entitlements",
       "date": "2026-08-24",
@@ -15,7 +27,8 @@
         "Changed"
       ],
       "title": "Multi-Budget Chargeback now leads with entitlements",
-      "summary": "An entitlement is the share of a shared prepaid pool that an organisation actually funded. It is a claim on the money rather than a reservation of credits, which matters because a tenant cannot ring-fence credits per organisation. The report now leads with that term throughout, and is listed on the Cowork Billing hub after a period as a direct link only."
+      "summary": "An entitlement is the share of a shared prepaid pool that an organisation actually funded. It is a claim on the money rather than a reservation of credits, which matters because a tenant cannot ring-fence credits per organisation. The report now leads with that term throughout, and is listed on the Cowork Billing hub after a period as a direct link only.",
+      "status": "published"
     },
     {
       "id": "2026-08-21-multi-budget-rebrand",
@@ -27,7 +40,8 @@
         "Added"
       ],
       "title": "Healthcare Chargeback becomes the Multi-Budget Chargeback Report",
-      "summary": "The settlement applies to any tenant shared by separately budgeted organisations, not only health systems, so the name now says so. The old link redirects. Adds a walkthrough video, a plain-language definition of multi-budget, and a section separating what spending policies do in the admin centre from what this report settles afterwards."
+      "summary": "The settlement applies to any tenant shared by separately budgeted organisations, not only health systems, so the name now says so. The old link redirects. Adds a walkthrough video, a plain-language definition of multi-budget, and a section separating what spending policies do in the admin centre from what this report settles afterwards.",
+      "status": "published"
     },
     {
       "id": "2026-08-20-prepaid-settlement",
@@ -39,7 +53,8 @@
         "Fixed"
       ],
       "title": "Prepaid settlement, entitlement templates and a Post to GL export",
-      "summary": "Re-bills each organisation against the share of the prepaid pool it funded, so consumption order stops deciding who gets the discounted rate. Entitlements load from a downloadable template, by CSV, or pasted from Excel, and the report says exactly what matched. Surplus can be redistributed, rebated or held centrally. Post to GL exports one row per unit, ready for Apptio. Per-unit amounts now add up to the invoice to the cent, and the workbook export handles 200,000 users in about eight seconds."
+      "summary": "Re-bills each organisation against the share of the prepaid pool it funded, so consumption order stops deciding who gets the discounted rate. Entitlements load from a downloadable template, by CSV, or pasted from Excel, and the report says exactly what matched. Surplus can be redistributed, rebated or held centrally. Post to GL exports one row per unit, ready for Apptio. Per-unit amounts now add up to the invoice to the cent, and the workbook export handles 200,000 users in about eight seconds.",
+      "status": "published"
     },
     {
       "id": "2026-08-17-policy-helper-v12",
@@ -51,7 +66,8 @@
         "Fixed"
       ],
       "title": "Policy Helper v1.2 — numbered tiers and a roster-first layout",
-      "summary": "Policy tiers are numbered Tier 1, Tier 2, Tier 3 rather than named, which reads more easily against real spending policies. The user roster now opens the report, since it is the working surface. Changing a rate or editing a tier allowance refreshes the change-impact bar, roster and exception queue immediately."
+      "summary": "Policy tiers are numbered Tier 1, Tier 2, Tier 3 rather than named, which reads more easily against real spending policies. The user roster now opens the report, since it is the working surface. Changing a rate or editing a tier allowance refreshes the change-impact bar, roster and exception queue immediately.",
+      "status": "published"
     },
     {
       "id": "2026-08-11-policy-helper-v11",
@@ -62,7 +78,8 @@
         "Changed"
       ],
       "title": "Policy Helper v1.1 — allowances read from your own credit limits",
-      "summary": "Billing policy allowances now come straight from the credit limits in your upload, so each tier matches a real monthly limit and every user's allowance reflects their actual policy rather than an assumed one."
+      "summary": "Billing policy allowances now come straight from the credit limits in your upload, so each tier matches a real monthly limit and every user's allowance reflects their actual policy rather than an assumed one.",
+      "status": "published"
     },
     {
       "id": "2026-07-20-spending-policy-limits",
@@ -73,7 +90,8 @@
         "Added"
       ],
       "title": "Cut chargeback by spending policy, and track the prepaid pool",
-      "summary": "Adds spending-policy-driven credit limits, a Cut by: Spending policy view, and a Policy column in the line items and exports. Prepaid credits purchased now shows pool value, percentage consumed, and either the remaining balance or the pay-as-you-go overflow."
+      "summary": "Adds spending-policy-driven credit limits, a Cut by: Spending policy view, and a Policy column in the line items and exports. Prepaid credits purchased now shows pool value, percentage consumed, and either the remaining balance or the pay-as-you-go overflow.",
+      "status": "published"
     },
     {
       "id": "2026-07-20-policy-helper-v10",
@@ -84,7 +102,8 @@
         "Added"
       ],
       "title": "Cowork Policy Helper first release",
-      "summary": "A spending-policy manager with live impact preview and demo data, running entirely in the browser. Assign users to spend tiers by attribute, review the exception queue, and export a point-in-time record of who sits on which policy."
+      "summary": "A spending-policy manager with live impact preview and demo data, running entirely in the browser. Assign users to spend tiers by attribute, review the exception queue, and export a point-in-time record of who sits on which policy.",
+      "status": "published"
     },
     {
       "id": "2026-07-17-three-billing-models",
@@ -96,7 +115,8 @@
         "Changed"
       ],
       "title": "Three billing models side by side, and a multi-tab workbook export",
-      "summary": "Pay-as-you-go, prepaid pack and hybrid are priced next to each other per department, with a per-person toggle. Click a unit to expand the people behind its charge. Adds a multi-tab Excel workbook export with live formulas, a prepay sizing panel, and a total versus daily-average toggle on the journal."
+      "summary": "Pay-as-you-go, prepaid pack and hybrid are priced next to each other per department, with a per-person toggle. Click a unit to expand the people behind its charge. Adds a multi-tab Excel workbook export with live formulas, a prepay sizing panel, and a total versus daily-average toggle on the journal.",
+      "status": "published"
     }
   ]
 }

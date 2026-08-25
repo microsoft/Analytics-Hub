@@ -1,13 +1,27 @@
 #!/usr/bin/env node
 /* Build the Analytics Hub update feed and the "What's new" page.
  *
- * Source of truth is docs/data/updates.json. Run this after adding an entry:
+ * Source of truth is docs/data/updates.json.
  *
- *     node scripts/build_updates.js
+ *   node scripts/build_updates.js              rebuild from published entries
+ *   node scripts/build_updates.js --list       show drafts and published
+ *   node scripts/build_updates.js --publish    publish every draft, dated today
+ *   node scripts/build_updates.js --publish ID publish one draft
  *
  * Outputs, both generated and never hand-edited:
  *   docs/feed.xml          RSS 2.0
  *   docs/updates/index.html
+ *
+ * Draft gating. Entries are drafts until published, and only published ones
+ * reach the feed. That exists so a week of small commits does not become a
+ * week of notifications: write the entry when the work happens, publish when
+ * there is something worth interrupting people for.
+ *
+ * Publishing stamps the date. A draft carries no date and gets today's when it
+ * is published. Dating it when it was written would drop an item into
+ * subscribers' readers already several days old, where it sorts below things
+ * they have read and, in some readers, is not surfaced at all. The date that
+ * matters to a subscriber is when it reached them.
  *
  * Why RSS 2.0 rather than Atom: the consumers here are Outlook, the Teams
  * "Post to a channel when a feed item is published" workflow, and ordinary
@@ -28,7 +42,8 @@
  *    updates.json, the feed goes quiet while the site keeps shipping, which is
  *    the exact failure this feed exists to prevent. So the build compares the
  *    newest changelog date per app against the newest feed entry for that app
- *    and warns loudly when the changelog is ahead.
+ *    and warns loudly when the changelog is ahead. A waiting draft counts as
+ *    covered, since the entry exists and is only being held back on purpose.
  */
 'use strict';
 
@@ -39,9 +54,76 @@ const ROOT = path.resolve(__dirname, '..');
 const DOCS = path.join(ROOT, 'docs');
 const SRC = path.join(DOCS, 'data', 'updates.json');
 
+const argv = process.argv.slice(2);
+const wantList = argv.includes('--list');
+const publishIdx = argv.indexOf('--publish');
+const wantPublish = publishIdx > -1;
+const publishTarget = wantPublish ? argv[publishIdx + 1] : null;
+
 const raw = JSON.parse(fs.readFileSync(SRC, 'utf8'));
 const site = raw.site;
-const updates = raw.updates || [];
+const all = raw.updates || [];
+
+// Absent status means draft. Anything written by hand and not yet thought
+// about should stay out of the feed rather than fall into it.
+const isDraft = (u) => (u.status || 'draft') !== 'published';
+
+/* --------------------------------------------------------------- --publish */
+
+if (wantPublish) {
+  const today = new Date().toISOString().slice(0, 10);
+  const waiting = all.filter(isDraft);
+
+  if (!waiting.length) {
+    console.log('Nothing to publish. No drafts waiting.');
+    process.exit(0);
+  }
+
+  let chosen = waiting;
+  if (publishTarget && !publishTarget.startsWith('--')) {
+    chosen = waiting.filter((u) => u.id === publishTarget);
+    if (!chosen.length) {
+      console.error(`No draft with id "${publishTarget}". Waiting drafts:`);
+      waiting.forEach((d) => console.error('  ' + d.id));
+      process.exit(1);
+    }
+  }
+
+  for (const u of chosen) {
+    u.status = 'published';
+    // Stamped on publish, not on draft. See the note at the top of this file.
+    u.date = today;
+    delete u.drafted;
+    console.log(`published  ${u.id}  (dated ${today})`);
+  }
+
+  fs.writeFileSync(SRC,
+    JSON.stringify({ $comment: raw.$comment, site, updates: all }, null, 2) + '\n', 'utf8');
+  const left = all.filter(isDraft).length;
+  console.log(`\n${chosen.length} published, ${left} draft${left === 1 ? '' : 's'} still waiting.`);
+  console.log('Rebuilding\u2026\n');
+}
+
+const updates = all.filter((u) => !isDraft(u));
+const drafts = all.filter(isDraft);
+
+/* ------------------------------------------------------------------ --list */
+
+if (wantList) {
+  console.log(`published (${updates.length}) \u2014 live in the feed`);
+  updates.slice()
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .forEach((u) => console.log(`  ${u.date}  ${u.id}`));
+  console.log(`\ndrafts (${drafts.length}) \u2014 not in the feed, nobody has been notified`);
+  if (!drafts.length) console.log('  (none)');
+  drafts.forEach((u) =>
+    console.log(`  ${String(u.drafted || 'undated').padEnd(10)}  ${u.id}  ${u.title || ''}`));
+  if (drafts.length) {
+    console.log('\nPublish everything:  node scripts/build_updates.js --publish');
+    console.log('Publish one:         node scripts/build_updates.js --publish ' + drafts[0].id);
+  }
+  process.exit(0);
+}
 
 /* ---------------------------------------------------------------- validate */
 
@@ -49,12 +131,18 @@ const problems = [];
 const seen = new Map();
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
-for (const u of updates) {
+for (const u of all) {
   const where = u.id || u.title || '(unnamed entry)';
   if (!u.id) problems.push(`${where}: missing id`);
   if (!u.title) problems.push(`${where}: missing title`);
   if (!u.summary) problems.push(`${where}: missing summary`);
-  if (!DATE_RE.test(u.date || '')) problems.push(`${where}: date must be yyyy-mm-dd, got ${u.date}`);
+  // A draft has no date yet; publishing assigns it.
+  if (!isDraft(u) && !DATE_RE.test(u.date || '')) {
+    problems.push(`${where}: published entries need a yyyy-mm-dd date, got ${u.date}`);
+  }
+  if (u.status && u.status !== 'draft' && u.status !== 'published') {
+    problems.push(`${where}: status must be "draft" or "published", got "${u.status}"`);
+  }
   if (seen.has(u.id)) problems.push(`${where}: duplicate id, also used by "${seen.get(u.id)}"`);
   seen.set(u.id, u.title);
   // A relative link keeps the JSON portable; absolute ones would silently
@@ -66,6 +154,12 @@ for (const u of updates) {
 
 if (problems.length) {
   console.error('updates.json is not valid:\n  - ' + problems.join('\n  - '));
+  process.exit(1);
+}
+
+if (!updates.length) {
+  console.error('No published entries, so the feed would be empty. That looks broken to anyone already subscribed.');
+  console.error('Publish a draft first: node scripts/build_updates.js --publish');
   process.exit(1);
 }
 
@@ -325,6 +419,9 @@ for (const [tool, rel] of APPS) {
   const dates = [...html.matchAll(/<div class="cl-date">\s*(\d{4}-\d{2}-\d{2})/g)].map((m) => m[1]).sort();
   const newestChangelog = dates[dates.length - 1];
   if (!newestChangelog) continue;
+  // A waiting draft counts as covered: the entry exists and is being held back
+  // deliberately, which is not the same as forgetting to write one.
+  if (drafts.some((u) => u.tool === tool)) continue;
   const forTool = sorted.filter((u) => u.tool === tool).map((u) => u.date).sort();
   const newestFeed = forTool[forTool.length - 1];
   if (!newestFeed || newestChangelog > newestFeed) {
@@ -335,12 +432,17 @@ for (const [tool, rel] of APPS) {
 
 /* ------------------------------------------------------------------ report */
 
-console.log(`feed.xml           ${sorted.length} items, newest ${sorted[0].date}`);
+console.log(`feed.xml           ${sorted.length} published, newest ${sorted[0].date}`);
 console.log(`updates/index.html written`);
+if (drafts.length) {
+  console.log(`\n${drafts.length} draft${drafts.length === 1 ? '' : 's'} held back, not in the feed:`);
+  drafts.forEach((u) => console.log(`  · ${u.id}`));
+  console.log('Publish when ready: node scripts/build_updates.js --publish');
+}
 if (warnings.length) {
   console.log('\nWARNING — the per-app changelogs are ahead of the feed:');
   warnings.forEach((w) => console.log('  ! ' + w));
   process.exitCode = 0; // a warning, not a build failure
-} else {
+} else if (!drafts.length) {
   console.log('changelogs and feed are in step');
 }

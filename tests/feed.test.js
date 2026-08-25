@@ -106,14 +106,15 @@ ok('subscribe steps name the real Teams template',
   /Post to a channel when a webfeed item is published/.test(upIndex));
 
 console.log('\n=== validation refuses bad input ===');
-function buildWith(mutate) {
+function buildWith(mutate, args) {
   const backup = fs.readFileSync(SRC, 'utf8');
   const j = JSON.parse(backup);
   mutate(j);
   fs.writeFileSync(SRC, JSON.stringify(j, null, 2) + '\n');
   let code = 0;
   try {
-    execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')],
+    execFileSync(process.execPath,
+      [path.join(ROOT, 'scripts/build_updates.js'), ...(args || [])],
       { cwd: ROOT, stdio: 'pipe' });
   } catch (e) { code = e.status || 1; }
   fs.writeFileSync(SRC, backup);
@@ -128,22 +129,107 @@ ok('a missing title fails the build',
   buildWith((j) => { delete j.updates[0].title; }) !== 0);
 ok('an absolute link fails the build',
   buildWith((j) => { j.updates[0].link = 'https://example.com/x'; }) !== 0);
+ok('an unknown status fails the build',
+  buildWith((j) => { j.updates[0].status = 'maybe'; }) !== 0);
+// An empty feed would look broken to anyone already subscribed, so refuse to
+// write one rather than quietly emptying it.
+ok('a feed with nothing published fails the build',
+  buildWith((j) => { j.updates.forEach((u) => { u.status = 'draft'; delete u.date; }); }) !== 0);
+
+console.log('\n=== drafts stay out of the feed ===');
+const backupDraft = fs.readFileSync(SRC, 'utf8');
+{
+  const j = JSON.parse(backupDraft);
+  const publishedCount = j.updates.filter((u) => u.status === 'published').length;
+  j.updates.unshift({
+    id: 'test-draft-should-not-appear',
+    status: 'draft',
+    drafted: '2026-01-01',
+    tool: 'Analytics Hub',
+    link: 'updates/',
+    tags: ['Added'],
+    title: 'This draft must not reach anyone',
+    summary: 'If this string appears in the feed or on the page, the draft gate is broken and every work-in-progress note is being pushed to subscribers.',
+  });
+  fs.writeFileSync(SRC, JSON.stringify(j, null, 2) + '\n');
+  const out = execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')],
+    { cwd: ROOT, encoding: 'utf8' });
+
+  const feedNow = fs.readFileSync(FEED, 'utf8');
+  const pageNow = fs.readFileSync(path.join(ROOT, 'docs/updates/index.html'), 'utf8');
+  ok('draft is absent from the feed', !feedNow.includes('test-draft-should-not-appear'));
+  ok('draft is absent from the page', !pageNow.includes('must not reach anyone'));
+  ok('published count is unchanged',
+    (feedNow.match(/<item>/g) || []).length === publishedCount);
+  ok('the build says a draft is being held', /draft.*held back/i.test(out));
+
+  // Publishing must stamp today, not the drafted date. A backdated item lands
+  // in a reader already old, where it sorts below things already read.
+  const today = new Date().toISOString().slice(0, 10);
+  execFileSync(process.execPath,
+    [path.join(ROOT, 'scripts/build_updates.js'), '--publish', 'test-draft-should-not-appear'],
+    { cwd: ROOT, encoding: 'utf8' });
+  const after = JSON.parse(fs.readFileSync(SRC, 'utf8'));
+  const pub = after.updates.find((u) => u.id === 'test-draft-should-not-appear');
+  console.log('  drafted 2026-01-01, published as ' + pub.date);
+  ok('publish flips status', pub.status === 'published');
+  ok('publish stamps today, not the drafted date', pub.date === today);
+  ok('the drafted field is cleared', pub.drafted === undefined);
+  const feedPub = fs.readFileSync(FEED, 'utf8');
+  ok('now it is in the feed', feedPub.includes('test-draft-should-not-appear'));
+}
+fs.writeFileSync(SRC, backupDraft);
+execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')], { cwd: ROOT });
 
 console.log('\n=== drift guard ===');
 // Drop the newest entry for a tool and the build should warn that the app's
-// own changelog has moved ahead of the feed.
+// own changelog has moved ahead of the feed. Must target a tool that actually
+// has a changelog: dropping an entry for something like the hub itself proves
+// nothing, since there is no changelog to compare against.
+const CHECKED = ['Cowork Chargeback', 'Cowork Policy Helper', 'Multi-Budget Chargeback Report'];
 const backup = fs.readFileSync(SRC, 'utf8');
 const j = JSON.parse(backup);
-const newest = j.updates.slice().sort((a, b) => b.date.localeCompare(a.date))[0];
-j.updates = j.updates.filter((u) => u.id !== newest.id);
+const newest = j.updates
+  .filter((u) => CHECKED.includes(u.tool) && u.status === 'published')
+  .sort((a, b) => b.date.localeCompare(a.date))[0];
+ok('found a tool with a changelog to test against', !!newest);
+// Remove every entry for that tool, so there is nothing left to satisfy the
+// comparison and the warning has to fire.
+j.updates = j.updates.filter((u) => u.tool !== newest.tool);
 fs.writeFileSync(SRC, JSON.stringify(j, null, 2) + '\n');
 const out = execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')],
   { cwd: ROOT, encoding: 'utf8' });
 fs.writeFileSync(SRC, backup);
 execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')], { cwd: ROOT });
-console.log('  build said: ' + out.split('\n').filter((l) => l.includes('!')).join(' '));
+console.log('  dropped all entries for: ' + newest.tool);
+console.log('  build said: ' + out.split('\n').filter((l) => l.includes('!')).join(' ').trim());
 ok('warns when a changelog is ahead of the feed', /WARNING/.test(out));
 ok('names the tool that drifted', out.includes(newest.tool));
+
+/* A held draft must silence the warning. A draft means the entry exists and is
+   being withheld on purpose, which is not the same failure as forgetting to
+   write one, and warning about it every build would train people to ignore
+   the warning that matters. */
+{
+  const k = JSON.parse(backup);
+  k.updates = k.updates.filter((u) => u.tool !== newest.tool);
+  k.updates.unshift({
+    id: 'test-drift-draft',
+    status: 'draft',
+    drafted: '2026-01-01',
+    tool: newest.tool,
+    link: newest.link,
+    tags: ['Changed'],
+    title: 'Held back on purpose',
+    summary: 'A draft covering this tool, deliberately not published yet.',
+  });
+  fs.writeFileSync(SRC, JSON.stringify(k, null, 2) + '\n');
+  const out2 = execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')],
+    { cwd: ROOT, encoding: 'utf8' });
+  fs.writeFileSync(SRC, backup);
+  execFileSync(process.execPath, [path.join(ROOT, 'scripts/build_updates.js')], { cwd: ROOT });
+  ok('a waiting draft silences the drift warning', !out2.includes(newest.tool + ': changelog has'));
+}
 
 console.log('\n' + (fails ? fails + ' FAILURE(S)' : 'ALL PASS'));
 process.exit(fails ? 1 : 0);
