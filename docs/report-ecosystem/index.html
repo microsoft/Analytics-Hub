@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="osCxYZt_4rM_dBEUcK15g-bl2Ny5g6I80gJlFZ6eKlY" />
+  <meta property="article:published_time" content="2026-05-18T00:00:00Z" />
+  <title>Report Ecosystem — full Copilot reporting architecture map · Analytics Hub</title>
+  <meta name="description" content="Interactive architecture map of the entire Analytics Hub report estate — every data source, pipeline, and report, and how they connect. Click a node to trace upstream feeders and downstream outputs." />
+  <!-- SEO:start -->
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/report-ecosystem/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub by Microsoft" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/report-ecosystem/" />
+  <meta property="og:title" content="Report Ecosystem · Analytics Hub" />
+  <meta property="og:description" content="Interactive architecture map of the whole report estate. Click any node to trace upstream feeders and downstream outputs." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Analytics Hub - Microsoft Copilot and AI adoption toolkit" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://microsoft.github.io/Analytics-Hub/report-ecosystem/" />
+  <meta name="twitter:title" content="Report Ecosystem · Analytics Hub" />
+  <meta name="twitter:description" content="Interactive architecture map of the whole report estate. Click any node to trace upstream feeders and downstream outputs." />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:image:alt" content="Analytics Hub - Microsoft Copilot and AI adoption toolkit" />
+  <meta name="author" content="Microsoft Copilot ROI Advisory Team" />
+  <meta name="robots" content="noindex, nofollow" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Analytics Hub","item":"https://microsoft.github.io/Analytics-Hub/"},{"@type":"ListItem","position":2,"name":"Report Ecosystem","item":"https://microsoft.github.io/Analytics-Hub/report-ecosystem/"}]}</script>
+
+  <!-- SEO:end -->
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://github.com" />
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Report Ecosystem" />
+  <script src="../clarity-events.js" defer></script>
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark">🧠</span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../out-of-the-box/">Native Reports</a>
+      <a href="../explore-reports/">Explore Reports</a>
+      <a href="../data-sources/">Data Sources</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../team/">Team</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../cowork-billing/" role="menuitem" class="menu-new"><span class="menu-icon" aria-hidden="true">🧾</span><span class="menu-text">Cowork Billing<span class="menu-sub">Methodology deck + customer guide</span></span><span class="menu-new-pill" aria-label="New">NEW</span></a>
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">❓</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">📖</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../compare/" role="menuitem"><span class="menu-icon" aria-hidden="true">⚖️</span><span class="menu-text">Compare Reports<span class="menu-sub">Side-by-side comparisons</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">💬</span><span class="menu-text">Feedback<span class="menu-sub">Problem · suggestion · praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">🔒</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only · live customer walkthroughs</span></span></a>
+        </div>
+      </div>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="ds-page">
+
+  <!-- =============================================== HERO -->
+  <section class="ds-hero">
+    <div class="wrap">
+      <p class="eyebrow">🗺 The whole report estate, one interactive map</p>
+      <h1>The full <span class="grad">report ecosystem</span></h1>
+      <p class="lede">
+        Click any node to trace what feeds it and what it powers. Every template runs in
+        your environment — no data is ever sent to Microsoft.
+      </p>
+      <div class="ds-legend" aria-label="Legend">
+        <span class="lg lg-src"><i></i> Data source</span>
+        <span class="lg lg-pipe"><i></i> Pipeline / Script</span>
+        <span class="lg lg-rpt"><i></i> Report / Template</span>
+        <span class="lg lg-addon"><i></i> Add-on</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== CATEGORY FILTER -->
+  <section class="ds-filter-band" aria-label="Filter by category">
+    <div class="wrap">
+      <p class="ds-filter-label"><span aria-hidden="true">🎯</span> Filter reports by what they measure</p>
+      <div class="ds-filter-chips" id="dsFilterChips" role="toolbar" aria-label="Category filters"></div>
+    </div>
+  </section>
+
+  <!-- =============================================== ECOSYSTEM -->
+  <section class="ds-ecosystem">
+    <div class="wrap">
+      <div class="ds-canvas" id="dsCanvas" aria-label="Interactive ecosystem diagram">
+        <!-- SVG layer for connector lines (drawn under the nodes) -->
+        <svg id="dsLines" class="ds-lines" aria-hidden="true"></svg>
+        <!-- Nodes rendered by JS -->
+        <div class="ds-nodes" id="dsNodes"></div>
+      </div>
+
+      <!-- Detail drawer -->
+      <aside class="ds-drawer" id="dsDrawer" aria-live="polite" hidden>
+        <button class="ds-drawer-close" id="dsDrawerClose" aria-label="Close">✕</button>
+        <div class="ds-drawer-body" id="dsDrawerBody"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- =============================================== SOURCES DETAIL -->
+  <section class="ds-cards">
+    <div class="wrap">
+      <h2 class="section-title">Sources, in plain English</h2>
+      <p class="section-lead">What each one is, who owns it in your org, and what license/role you need.</p>
+      <div class="ds-grid" id="dsGrid"></div>
+    </div>
+  </section>
+
+  <!-- =============================================== FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Open source · Built by Microsoft's Copilot ROI Advisory Team</p>
+      <p><a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">microsoft/Analytics-Hub</a> · <a href="../">Home</a> · <a href="../explore-reports/">Explore Reports</a> · <a href="../team/">Team</a></p>
+    </div>
+  </footer>
+
+</main>
+
+<script src="../app.js" defer></script>
+<script src="graph.js" defer></script>
+
+<!-- Canvas hint toast, fires once per visitor. -->
+<script>
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      if (window.ahNudge) {
+        window.ahNudge.toast(
+          "\u{1F446} Click any node to trace its data lineage",
+          "report-ecosystem-canvas",
+          { anchor: "top-right", duration: 6000 }
+        );
+      }
+    }, 1200);
+  });
+</script>
+
+</body>
+</html>
