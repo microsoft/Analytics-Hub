@@ -1,76 +1,119 @@
-// Analytics Hub · Data-Sources ecosystem
+// Analytics Hub · Report Ecosystem
 // =====================================================================
 // To add a new node:
-//   1. push into NODES with { id, kind, label, sub?, icon, color, col, row }
+//   1. push into NODES with { id, kind, label, sub?, icon, color, col }
+//      (row position is computed automatically — lanes self-distribute)
 //   2. push edge(s) into EDGES with { from, to, style? ('solid'|'dashed') }
-// The diagram, the connector lines, and the detail-card grid will all
-// pick it up automatically.
+// The diagram, connector lines, filter chips, search and the detail-card
+// grid all pick it up automatically.
 // =====================================================================
 
 // kind: 'source' | 'pipe' | 'report' | 'addon'
 const NODES = [
   // ---- column 0 : SOURCES ----
-  { id: "purview",     kind: "source", label: "Microsoft Purview",     sub: "Audit Logs (Graph API / Portal)",   icon: "🛡️", color: "#8661c5", col: 0, row: 0,
+  { id: "purview",     kind: "source", label: "Microsoft Purview",     sub: "Audit Logs (Graph API / Portal)",   icon: "🛡️", color: "#8661c5", col: 0,
     detail: "Unified Audit Log records covering Copilot interactions, file activity, Teams events, and Agent invocations.",
     role:   "Audit Reader or above" },
-  { id: "viva",        kind: "source", label: "Viva Insights",         sub: "Person Query (Behavioral Data)",     icon: "📊", color: "#00B294", col: 0, row: 1,
+  { id: "viva",        kind: "source", label: "Viva Insights",         sub: "Person Query (Behavioral Data)",     icon: "📊", color: "#00B294", col: 0,
     detail: "Person-level work-pattern metrics — collaboration, focus, meeting load, and Copilot interactions.",
     role:   "Viva Insights license + Analyst role" },
-  { id: "github",      kind: "source", label: "GitHub Enterprise",     sub: "Usage API + Members",                icon: "⚡", color: "#0078d4", col: 0, row: 2,
+  { id: "viva-consumption", kind: "source", label: "Viva Consumption Dashboard", sub: "Cowork · Work IQ credits", icon: "🧾", color: "#00B294", col: 0, isNew: true,
+    detail: "Per-person, per-week credit consumption for the usage-billed Copilot services — Cowork and the Work IQ API. Exports de-identified by default; identified export is admin-gated.",
+    role:   "Viva Insights admin (identified export needs a feature-access policy)" },
+  { id: "github",      kind: "source", label: "GitHub Enterprise",     sub: "Usage API + Members",                icon: "⚡", color: "#0078d4", col: 0,
     detail: "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates.",
     role:   "GitHub Enterprise admin" },
-  { id: "entra",       kind: "source", label: "Microsoft Entra ID",    sub: "Users · Groups · Licenses",          icon: "👤", color: "#0078d4", col: 0, row: 3,
-    detail: "User profiles, department, license status. Used to enrich audit data with org context.",
+  { id: "entra",       kind: "source", label: "Microsoft Entra ID",    sub: "Users · Groups · Licenses",          icon: "👤", color: "#0078d4", col: 0,
+    detail: "User profiles, department, license status. Used to enrich audit, credit and transcript data with org context.",
     role:   "User Administrator or Global Reader" },
-  { id: "m365admin",   kind: "source", label: "M365 Admin + Surveys",  sub: "Usage exports · Sentiment",          icon: "📥", color: "#FFB900", col: 0, row: 4,
-    detail: "Public M365 usage exports plus employee sentiment data. Works for any tenant admin.",
+  { id: "m365admin",   kind: "source", label: "M365 Admin + Surveys",  sub: "Usage · Cost Mgmt · Sentiment",      icon: "📥", color: "#FFB900", col: 0,
+    detail: "M365 admin center exports — usage reports, licensed-user lists, and the Copilot Cost Management credit-consumption export — plus employee sentiment survey data.",
     role:   "Any tenant admin" },
-  { id: "local-vscode", kind: "source", label: "Local Copilot Sessions", sub: "VS Code · your machine only",       icon: "💻", color: "#e3008c", col: 0, row: 5,
+  { id: "ppac",        kind: "source", label: "Power Platform Admin",  sub: "Copilot Studio message credits",     icon: "🔷", color: "#8661c5", col: 0, isNew: true,
+    detail: "Per-agent, per-user and per-environment Copilot Studio message-credit consumption reports exported from the Power Platform admin center.",
+    role:   "Power Platform administrator" },
+  { id: "dataverse",   kind: "source", label: "Microsoft Dataverse",   sub: "Copilot Studio transcripts",         icon: "🗂️", color: "#8661c5", col: 0, isNew: true,
+    detail: "The Copilot Studio ConversationTranscript table — every agent session, turn, hand-off and error. Roughly 30 days of retention, so history is accumulated downstream.",
+    role:   "Dataverse environment read access" },
+  { id: "defender",    kind: "source", label: "Microsoft Defender",    sub: "Advanced Hunting (KQL) · MDA",       icon: "🔎", color: "#e3008c", col: 0, isNew: true,
+    detail: "Advanced Hunting threat tables queried with KQL, plus optional Defender for Cloud Apps exports. Used to spot unsanctioned AI tools, OAuth consent risk and behavioural anomalies.",
+    role:   "Security Reader (MDA pages need Defender for Cloud Apps)" },
+  { id: "onedrive-cowork", kind: "source", label: "OneDrive Cowork Sessions", sub: "Your own Documents/Cowork",   icon: "☁️", color: "#e3008c", col: 0, isNew: true,
+    detail: "Your personal Cowork session artifacts — the inputs you gave it and the outputs it produced. Scoped to your own OneDrive; no tenant-level audit data is touched.",
+    role:   "Just you — no admin needed" },
+  { id: "local-vscode", kind: "source", label: "Local Copilot Sessions", sub: "VS Code · your machine only",      icon: "💻", color: "#e3008c", col: 0,
     detail: "Your own GitHub Copilot and Claude chat-session files on your local machine. Nothing leaves your laptop.",
     role:   "Just you — no admin needed" },
 
   // ---- column 1 : PIPES / EXTRACTORS ----
-  { id: "scripts",     kind: "pipe",   label: "Per-Report Scripts",    sub: "Bundled w/ each template",           icon: "📜", color: "#0078d4", col: 1, row: 0,
+  { id: "scripts",     kind: "pipe",   label: "Per-Report Scripts",    sub: "Bundled w/ each template",           icon: "📜", color: "#0078d4", col: 1,
     detail: "PowerShell + Azure Automation runbooks that pull just what one report needs. No infra to stand up." },
-  { id: "pax",         kind: "pipe",   label: "PAX (Standalone)",      sub: "Purview + Entra exporter",          icon: "🔌", color: "#8661c5", col: 1, row: 1,
+  { id: "pax",         kind: "pipe",   label: "PAX (Standalone)",      sub: "Purview + Entra exporter",          icon: "🔌", color: "#8661c5", col: 1,
     detail: "Pulls from Purview Audit Logs and/or Microsoft Entra (supports Entra-only mode — no Purview required). No row limits · schedulable · pushes to Data Lake, Warehouse, Fabric, SIEM, or any tool. Optional Power BI feed.",
     repo:   "https://github.com/microsoft/pax" },
+  { id: "fabric",      kind: "pipe",   label: "Fabric / Lakehouse",    sub: "Notebooks · Dataflow Gen2",          icon: "🏗️", color: "#00B294", col: 1, isNew: true,
+    detail: "The scale path several templates offer — PySpark notebooks and Dataflow Gen2 land data in a Lakehouse, accumulate history beyond short source retention windows, and drive scheduled refresh." },
 
   // ---- column 2 : REPORTS / TEMPLATES ----
-  { id: "ai-in-one",        kind: "report", label: "AI-in-One Dashboard",      sub: "All Copilot surfaces + Agents",  icon: "🌐", color: "#FFB900", col: 2, row: 0,
+  { id: "valuelens",        kind: "report", label: "ValueLens",                sub: "Copilot value · maturity · ROI",  icon: "🔬", color: "#FFB900", col: 2, isNew: true,
+    topics: ["adoption","engagement","impact","roi","productivity"],
+    detail: "Turns Copilot audit logs into a defensible business case — hours saved, assisted value, user-maturity progression (Beginner to Power) and licence ROI. Ships Local CSV, SharePoint and Fabric paths.",
+    repo: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" },
+  { id: "consumption-central", kind: "report", label: "Consumption Central",   sub: "Credits & cost, 4 products",      icon: "💳", color: "#FFB900", col: 2, isNew: true,
+    topics: ["cost","billing","agents","developer"],
+    detail: "Unified credit and cost visibility across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Fifteen pages of spend, optimisation, forecast and department breakdowns — pages blank out gracefully if a product's data is absent.",
+    repo: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
+  { id: "agent-evaluator",  kind: "report", label: "Agent Evaluator",          sub: "Copilot Studio agent quality",    icon: "🤖", color: "#FFB900", col: 2, isNew: true,
+    topics: ["agents","quality","cost","engagement"],
+    detail: "Nine pages on how your Copilot Studio agents actually perform — resolution and escalation rates, sub-agent hand-offs, grounding and citation quality, topic themes, CSAT, and optional per-agent message-credit spend.",
+    repo: "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio" },
+  { id: "credit-usage",     kind: "report", label: "Credit Usage & Chargeback", sub: "Per-department cost attribution", icon: "🧮", color: "#FFB900", col: 2, isNew: true,
+    topics: ["billing","cost","license"],
+    detail: "Per-user and per-department Copilot credit consumption with chargeback rollup at $0.01/credit — utilisation %, over-limit status and cost-centre attribution for internal billing.",
+    repo: "https://github.com/microsoft/CreditUsage" },
+  { id: "ai-solutions",     kind: "report", label: "AI Solutions Intelligence", sub: "Shadow AI · OAuth · anomalies",  icon: "🛰️", color: "#FFB900", col: 2, isNew: true,
+    topics: ["adoption","risk","engagement","unlicensed"],
+    detail: "Ten pages of tenant-wide AI visibility — Copilot adoption alongside unsanctioned 'shadow AI' tool detection, OAuth consent risk scoring, and off-hours/geo behavioural anomalies.",
+    repo: "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard" },
+  { id: "ai-in-one",        kind: "report", label: "AI-in-One Dashboard",      sub: "All Copilot surfaces + Agents",  icon: "🌐", color: "#FFB900", col: 2,
     topics: ["adoption","chat","agents","license","engagement"],
+    detail: "The broad single-pane view across every Copilot surface and agent activity.",
     repo: "https://github.com/microsoft/AI-in-One-Dashboard" },
-  { id: "chat-agent",       kind: "report", label: "Copilot Chat & Agent Intel", sub: "Deep-dive activity analytics", icon: "💬", color: "#FFB900", col: 2, row: 1,
+  { id: "chat-agent",       kind: "report", label: "Copilot Chat & Agent Intel", sub: "Deep-dive activity analytics", icon: "💬", color: "#FFB900", col: 2,
     topics: ["chat","agents","engagement"],
     repo: "https://github.com/microsoft/CopilotChatAnalytics" },
-  { id: "m365-readiness",   kind: "report", label: "M365 Copilot Readiness",   sub: "License readiness · adoption gaps", icon: "✅", color: "#FFB900", col: 2, row: 2,
+  { id: "m365-readiness",   kind: "report", label: "M365 Copilot Readiness",   sub: "License readiness · adoption gaps", icon: "✅", color: "#FFB900", col: 2,
     topics: ["license","adoption","unlicensed"],
     repo: "https://github.com/microsoft/M365UsageAnalytics" },
-  { id: "super-usage",      kind: "report", label: "Super Usage Analysis",     sub: "Super user identification",      icon: "🦸", color: "#00B294", col: 2, row: 3,
+  { id: "super-usage",      kind: "report", label: "Super Usage Analysis",     sub: "Super user identification",      icon: "🦸", color: "#00B294", col: 2,
     topics: ["adoption","productivity","engagement"],
     repo: "https://github.com/microsoft/DecodingSuperUsage" },
-  { id: "super-impact",     kind: "report", label: "Super User Impact",        sub: "Work-behavior impact metrics",   icon: "📈", color: "#00B294", col: 2, row: 4,
+  { id: "super-impact",     kind: "report", label: "Super User Impact",        sub: "Work-behavior impact metrics",   icon: "📈", color: "#00B294", col: 2,
     topics: ["impact","productivity","roi"],
     repo: "https://github.com/microsoft/superuserimpact" },
-  { id: "ghcp-impact",      kind: "report", label: "GitHub Copilot Impact",    sub: "Dev productivity analytics",     icon: "⚙️", color: "#0078d4", col: 2, row: 5,
+  { id: "ghcp-impact",      kind: "report", label: "GitHub Copilot Impact",    sub: "Dev productivity analytics",     icon: "⚙️", color: "#0078d4", col: 2,
     topics: ["developer","productivity","impact"],
     repo: "https://github.com/microsoft/GitHubCopilotImpact" },
-  { id: "adoption-sent",    kind: "report", label: "Adoption & Sentiment",     sub: "Usage trends + survey data",     icon: "💚", color: "#FFB900", col: 2, row: 6,
+  { id: "adoption-sent",    kind: "report", label: "Adoption & Sentiment",     sub: "Usage trends + survey data",     icon: "💚", color: "#FFB900", col: 2,
     topics: ["adoption","sentiment","engagement"],
     repo: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report" },
 
-  // ---- column 3 : ADD-ONS (spawn off reports) ----
-  { id: "roi-calc",         kind: "addon",  label: "ROI Calculator",           sub: "Spawns from Super Usage Heatmap", icon: "🧮", color: "#e3008c", col: 3, row: 3,
+  // ---- column 3 : ADD-ONS (spawn off reports / personal tools) ----
+  { id: "roi-calc",         kind: "addon",  label: "ROI Calculator",           sub: "Spawns from Super Usage Heatmap", icon: "💰", color: "#e3008c", col: 3,
     topics: ["roi","impact"],
     detail: "Add-on that turns the Super Usage Heatmap CSV into a dollarised ROI summary for execs." },
-  { id: "customize",        kind: "addon",  label: "CustomizeCopilot",         sub: "Champion-ID add-on",              icon: "🎨", color: "#e3008c", col: 3, row: 4,
+  { id: "customize",        kind: "addon",  label: "CustomizeCopilot",         sub: "Champion-ID add-on",              icon: "🎨", color: "#e3008c", col: 3,
     topics: ["customization"],
     detail: "Pages and visuals you can graft onto Super User Impact to identify and recognise champions.",
     repo: "https://github.com/microsoft/customizecopilot" },
-  { id: "what-i-did",       kind: "addon",  label: "What I Did (Copilot)",     sub: "Personal VS Code activity digest", icon: "📝", color: "#e3008c", col: 3, row: 5,
+  { id: "what-i-did",       kind: "addon",  label: "What I Did (Copilot)",     sub: "Personal VS Code activity digest", icon: "📝", color: "#e3008c", col: 3,
     topics: ["productivity","impact"],
     detail: "Runs locally in VS Code, scans your own Copilot/Claude session files, and produces a daily digest of what you built. Doesn't touch any tenant data.",
     repo: "https://github.com/microsoft/What-I-Did-Copilot" },
+  { id: "what-cowork",      kind: "addon",  label: "What Cowork Did For Me",   sub: "Personal Cowork impact report",   icon: "🪄", color: "#e3008c", col: 3, isNew: true,
+    topics: ["productivity","impact","roi"],
+    detail: "A Cowork skill you attach to a session. It reads your own Cowork history from OneDrive and renders an HTML report — research-anchored time saved, professional-services-equivalent value, and a 'did this really need Cowork?' fit grade per project.",
+    repo: "https://github.com/microsoft/What-I-did-with-Cowork" },
 ];
 
 // from → to. style: 'solid' (default) or 'dashed' (optional path)
@@ -80,6 +123,10 @@ const EDGES = [
   { from: "purview", to: "pax" },
   // Entra also feeds PAX directly (Entra-only mode is supported)
   { from: "entra",   to: "pax" },
+  // Fabric is the scale path fed by the credit/transcript sources
+  { from: "dataverse",        to: "fabric", style: "dashed" },
+  { from: "ppac",             to: "fabric", style: "dashed" },
+  { from: "viva-consumption", to: "fabric", style: "dashed" },
   // Scripts feeds the Purview-based reports
   { from: "scripts", to: "ai-in-one" },
   { from: "scripts", to: "chat-agent" },
@@ -99,18 +146,56 @@ const EDGES = [
   { from: "github", to: "ghcp-impact" },
   // M365 admin & surveys into adoption
   { from: "m365admin", to: "adoption-sent" },
+
+  // ---- ValueLens : Purview audit + licensed users, Entra for org context ----
+  { from: "purview",   to: "valuelens" },
+  { from: "m365admin", to: "valuelens" },
+  { from: "entra",     to: "valuelens", style: "dashed" },
+  { from: "pax",       to: "valuelens", style: "dashed" },
+
+  // ---- Consumption Central : Cowork credits + Studio credits + GitHub ----
+  { from: "viva-consumption", to: "consumption-central" },
+  { from: "ppac",             to: "consumption-central" },
+  { from: "github",           to: "consumption-central" },
+  { from: "entra",            to: "consumption-central", style: "dashed" },
+  { from: "fabric",           to: "consumption-central", style: "dashed" },
+
+  // ---- Agent Evaluator : Dataverse transcripts, optional Studio credits ----
+  { from: "dataverse", to: "agent-evaluator" },
+  { from: "ppac",      to: "agent-evaluator", style: "dashed" },
+  { from: "entra",     to: "agent-evaluator", style: "dashed" },
+  { from: "fabric",    to: "agent-evaluator", style: "dashed" },
+
+  // ---- Credit Usage & Chargeback : M365 credit export + Entra org data ----
+  { from: "m365admin", to: "credit-usage" },
+  { from: "entra",     to: "credit-usage" },
+
+  // ---- AI Solutions Intelligence : Defender hunting + Graph + Copilot audit ----
+  { from: "defender", to: "ai-solutions" },
+  { from: "entra",    to: "ai-solutions" },
+  { from: "purview",  to: "ai-solutions", style: "dashed" },
+  { from: "pax",      to: "ai-solutions", style: "dashed" },
+
   // Add-ons spawn off reports
   { from: "super-usage",   to: "roi-calc" },
   { from: "super-usage",   to: "customize" },
   { from: "super-impact",  to: "customize" },
-  // What I Did is personal/local, not from any tenant report
-  { from: "local-vscode",  to: "what-i-did" },
+  // Personal/local tools — not from any tenant report
+  { from: "local-vscode",    to: "what-i-did" },
+  { from: "onedrive-cowork", to: "what-cowork" },
+];
+
+// Lane headers — one per column, rendered into grid row 1
+const LANES = [
+  { col: 0, title: "Data sources",  desc: "Where it comes from" },
+  { col: 1, title: "Extractors",    desc: "How it gets pulled" },
+  { col: 2, title: "Reports",       desc: "What you deploy" },
+  { col: 3, title: "Add-ons",       desc: "Extras that bolt on" },
 ];
 
 // =====================================================================
 // Render
 // =====================================================================
-const ICON_BY_KIND = { source: "src", pipe: "pipe", report: "rpt", addon: "addon" };
 
 // Tracks which node (if any) has been click-locked. Hovering temporarily
 // overrides the lock for preview, but mouseleave snaps back to the lock.
@@ -140,41 +225,55 @@ function renderNodes() {
   const host = document.getElementById("dsNodes");
   host.innerHTML = "";
 
-  // size per column / row
-  const cols = Math.max(...NODES.map(n => n.col)) + 1;
-  const rows = Math.max(...NODES.map(n => n.row)) + 1;
-  host.style.setProperty("--ds-cols", cols);
-  host.style.setProperty("--ds-rows", rows);
+  const lanes = LANES.map(l => NODES.filter(n => n.col === l.col));
+  const rows  = Math.max(...lanes.map(l => l.length));
+  host.style.setProperty("--ds-cols", LANES.length);
+  host.style.setProperty("--ds-rows", rows + 1);
 
-  for (const n of NODES) {
-    const node = el("button", {
-      class: `ds-node ds-${n.kind}`,
-      "data-id": n.id,
-      "data-kind": n.kind,
-      style: `--c:${n.color}; grid-column:${n.col + 1}; grid-row:${n.row + 1};`,
-      onclick: (ev) => {
-        ev.stopPropagation();
-        // Toggle: clicking the locked node again unlocks; otherwise lock to this node.
-        if (lockedId === n.id) {
-          setLocked(null);
-          closeDrawer();
-        } else {
-          setLocked(n.id);
-          openDrawer(n.id);
-        }
-      },
-      onmouseenter: () => { if (!lockedId) highlight(n.id); },
-      onmouseleave: () => { if (!lockedId) highlight(null); },
-    });
-    node.append(
-      el("span", { class: "ds-node-icon", "aria-hidden": "true" }, n.icon),
-      el("span", { class: "ds-node-body" },
-        el("span", { class: "ds-node-label" }, n.label),
-        n.sub ? el("span", { class: "ds-node-sub" }, n.sub) : null
-      )
-    );
-    host.append(node);
+  for (const l of LANES) {
+    host.append(el("div", { class: "ds-lane-head", style: `grid-column:${l.col + 1}; grid-row:1;` },
+      el("span", { class: "ds-lane-title" }, l.title),
+      el("span", { class: "ds-lane-desc" }, l.desc)
+    ));
   }
+
+  lanes.forEach((laneNodes, li) => {
+    const k = laneNodes.length;
+    laneNodes.forEach((n, i) => {
+      // Distribute each lane evenly down the canvas so short lanes (pipes,
+      // add-ons) sit centred against long ones instead of bunching at the top.
+      const row = Math.round(((i + 0.5) * rows) / k) + 1;
+      const node = el("button", {
+        class: `ds-node ds-${n.kind}${n.isNew ? " is-new" : ""}`,
+        "data-id": n.id,
+        "data-kind": n.kind,
+        style: `--c:${n.color}; grid-column:${LANES[li].col + 1}; grid-row:${row};`,
+        onclick: (ev) => {
+          ev.stopPropagation();
+          // Toggle: clicking the locked node again unlocks; otherwise lock to this node.
+          if (lockedId === n.id) {
+            setLocked(null);
+            closeDrawer();
+          } else {
+            setLocked(n.id);
+            openDrawer(n.id);
+          }
+        },
+        onmouseenter: () => { if (!lockedId) highlight(n.id); },
+        onmouseleave: () => { if (!lockedId) highlight(null); },
+      });
+      const parts = [
+        el("span", { class: "ds-node-icon", "aria-hidden": "true" }, n.icon),
+        el("span", { class: "ds-node-body" },
+          el("span", { class: "ds-node-label" }, n.label),
+          n.sub ? el("span", { class: "ds-node-sub" }, n.sub) : null
+        ),
+      ];
+      if (n.isNew) parts.push(el("span", { class: "ds-new-badge", "aria-label": "New" }, "NEW"));
+      node.append(...parts);
+      host.append(node);
+    });
+  });
 }
 
 // Pre-compute edges, then redraw on every resize / scroll-into-view
@@ -273,7 +372,7 @@ function openDrawer(id) {
     <div class="ds-drawer-head" style="--c:${n.color}">
       <div class="ds-drawer-icon">${n.icon}</div>
       <div>
-        <div class="ds-drawer-kind">${n.kind}</div>
+        <div class="ds-drawer-kind">${n.kind}${n.isNew ? ' · <span class="ds-drawer-new">NEW</span>' : ""}</div>
         <h3>${n.label}</h3>
         ${n.sub ? `<p class="ds-drawer-sub">${n.sub}</p>` : ""}
       </div>
@@ -341,7 +440,7 @@ function renderGrid() {
     return `
       <article class="ds-card" style="--ic:${n.color}">
         <div class="ds-card-icon">${n.icon}</div>
-        <h3>${n.label}</h3>
+        <h3>${n.label}${n.isNew ? ' <span class="ds-new-badge">NEW</span>' : ""}</h3>
         <p>${n.detail || n.sub || ""}</p>
         ${n.role ? `<p class="ds-card-role">${n.role}</p>` : ""}
         <div class="data-tools">${tags}</div>
@@ -365,7 +464,11 @@ const TOPICS = [
   { id: "engagement",     label: "Engagement",        icon: "⚡", color: "#e3008c" },
   { id: "agents",         label: "Agents",            icon: "🤖", color: "#e3008c" },
   { id: "chat",           label: "Chat",              icon: "💬", color: "#00B294" },
-  { id: "license",        label: "Licensed users",    icon: "🎯", color: "#0078d4" },
+  { id: "cost",           label: "Cost & credits",    icon: "💳", color: "#8661c5" },
+  { id: "billing",        label: "Chargeback",        icon: "🧾", color: "#00B294" },
+  { id: "quality",        label: "Agent quality",     icon: "🎯", color: "#FFB900" },
+  { id: "risk",           label: "Shadow AI & risk",  icon: "🛰️", color: "#e3008c" },
+  { id: "license",        label: "Licensed users",    icon: "🎫", color: "#0078d4" },
   { id: "unlicensed",     label: "Unlicensed users",  icon: "👥", color: "#8661c5" },
   { id: "impact",         label: "Impact",            icon: "💰", color: "#8661c5" },
   { id: "roi",            label: "ROI",               icon: "🧮", color: "#00B294" },
@@ -410,7 +513,7 @@ function setTopic(topic) {
 
 function applyTopicHighlight() {
   const svg = document.getElementById("dsLines");
-  document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded"));
+  document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded", "is-match"));
   svg.querySelectorAll(".ds-edge").forEach(p => p.classList.remove("is-active", "is-faded"));
   if (!activeTopic) return;
   // matched reports/addons
@@ -443,10 +546,71 @@ function applyTopicHighlight() {
 }
 
 // =====================================================================
+// Search — the estate is too big to scan by eye, so let people jump
+// =====================================================================
+function renderSearch() {
+  const band = document.querySelector(".ds-filter-band .wrap");
+  if (!band) return;
+
+  const wrap    = el("div", { class: "ds-search" });
+  const input   = el("input", {
+    type: "search",
+    id: "dsSearch",
+    class: "ds-search-input",
+    autocomplete: "off",
+    placeholder: `Search ${NODES.length} nodes — try “agent”, “credits”, “Purview”…`,
+    "aria-label": "Search the report ecosystem",
+  });
+  const results = el("div", { class: "ds-search-results", id: "dsSearchResults", role: "listbox", hidden: "hidden" });
+  wrap.append(input, results);
+  band.prepend(wrap);
+
+  const close = () => { results.hidden = true; results.innerHTML = ""; };
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    if (q.length < 2) return close();
+    const hits = NODES.filter(n =>
+      n.label.toLowerCase().includes(q) ||
+      (n.sub || "").toLowerCase().includes(q) ||
+      (n.detail || "").toLowerCase().includes(q) ||
+      (n.topics || []).some(t => t.includes(q))
+    ).slice(0, 8);
+    if (!hits.length) {
+      results.innerHTML = `<p class="ds-search-empty">No match for “${input.value.trim()}”</p>`;
+      results.hidden = false;
+      return;
+    }
+    results.innerHTML = hits.map(n => `
+      <button class="ds-search-hit" data-jump="${n.id}" style="--c:${n.color}" role="option">
+        <span class="ds-search-hit-icon" aria-hidden="true">${n.icon}</span>
+        <span class="ds-search-hit-body">
+          <span class="ds-search-hit-label">${n.label}</span>
+          <span class="ds-search-hit-kind">${n.kind}${n.sub ? " · " + n.sub : ""}</span>
+        </span>
+      </button>`).join("");
+    results.hidden = false;
+    results.querySelectorAll(".ds-search-hit").forEach(b => {
+      b.addEventListener("click", () => {
+        const id = b.getAttribute("data-jump");
+        close();
+        input.value = "";
+        document.getElementById("dsCanvas").scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => { setLocked(id); openDrawer(id); }, 300);
+      });
+    });
+  });
+
+  input.addEventListener("keydown", e => { if (e.key === "Escape") { input.value = ""; close(); } });
+  document.addEventListener("click", e => { if (!wrap.contains(e.target)) close(); });
+}
+
+// =====================================================================
 function init() {
   renderNodes();
   renderGrid();
   renderFilterChips();
+  renderSearch();
   // wait one frame so layout settles before measuring
   requestAnimationFrame(drawLines);
   window.addEventListener("resize", () => requestAnimationFrame(drawLines));

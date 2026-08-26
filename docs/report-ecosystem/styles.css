@@ -396,3 +396,133 @@
 .ds-drawer-cta { margin: 0; }
 .ds-drawer-star { margin: 0; font-weight: 600; }
 .ds-drawer-home { margin: 0; }
+/* =====================================================================
+   REPORT ECOSYSTEM — redesign additions (lane headers, NEW badges, search)
+   ===================================================================== */
+
+/* Denser rows: the estate grew from 18 to 30 nodes, so trim vertical
+   rhythm to keep the whole diagram on one screen-and-a-bit. */
+.ds-nodes {
+  grid-auto-rows: minmax(62px, auto);
+  gap: 12px 70px;
+}
+
+/* ---------- Lane headers (grid row 1) ---------- */
+.ds-lane-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 .2rem .55rem;
+  border-bottom: 1px solid var(--border);
+  align-self: end;
+}
+.ds-lane-title {
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.ds-lane-desc {
+  font-size: .7rem;
+  color: var(--text-muted);
+}
+
+/* ---------- NEW badge ---------- */
+.ds-new-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  font-size: .56rem;
+  font-weight: 800;
+  letter-spacing: .07em;
+  line-height: 1;
+  padding: .22rem .36rem;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #e3008c, #8661c5);
+  box-shadow: 0 2px 8px -2px rgba(227, 0, 140, .7);
+  pointer-events: none;
+}
+.ds-card h3 .ds-new-badge {
+  position: static;
+  margin-left: .4rem;
+  vertical-align: middle;
+}
+.ds-drawer-new {
+  color: #e3008c;
+  font-weight: 800;
+}
+
+/* ---------- Search ---------- */
+.ds-search {
+  position: relative;
+  max-width: 520px;
+  margin: 0 0 1rem;
+}
+.ds-search-input {
+  width: 100%;
+  padding: .7rem 1rem;
+  font: inherit;
+  font-size: .9rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color .18s, box-shadow .18s;
+}
+.ds-search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.ds-search-results {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 50px -22px rgba(0, 0, 0, .45);
+  overflow: hidden;
+}
+.ds-search-hit {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .6rem .8rem;
+  background: none;
+  border: none;
+  border-left: 3px solid var(--c, var(--accent));
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ds-search-hit:hover,
+.ds-search-hit:focus-visible {
+  background: color-mix(in srgb, var(--c, var(--accent)) 12%, transparent);
+}
+.ds-search-hit-icon { font-size: 1.05rem; }
+.ds-search-hit-body { display: flex; flex-direction: column; min-width: 0; }
+.ds-search-hit-label { font-weight: 700; font-size: .86rem; }
+.ds-search-hit-kind {
+  font-size: .7rem;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+.ds-search-empty {
+  margin: 0;
+  padding: .8rem;
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 860px) {
+  .ds-lane-desc { display: none; }
+  .ds-lane-title { font-size: .64rem; }
+  .ds-new-badge { font-size: .5rem; }
+}
