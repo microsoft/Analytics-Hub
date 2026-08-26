@@ -526,3 +526,12 @@
   .ds-lane-title { font-size: .64rem; }
   .ds-new-badge { font-size: .5rem; }
 }
+
+/* The site header is sticky at z-index 60 (above the drawer), so pin the
+   drawer below it or its own title row gets hidden underneath. */
+.ds-drawer {
+  top: var(--ah-header-h, 64px);
+  height: auto;
+}
+/* Browser apps: client-side tools, teal like the Cowork billing family. */
+.lg-app i { background: linear-gradient(135deg, #00B294, #00a1f1); }

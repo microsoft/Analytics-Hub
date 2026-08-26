@@ -110,7 +110,27 @@ const NODES = [
     topics: ["productivity","impact"],
     detail: "Runs locally in VS Code, scans your own Copilot/Claude session files, and produces a daily digest of what you built. Doesn't touch any tenant data.",
     repo: "https://github.com/microsoft/What-I-Did-Copilot" },
-  { id: "what-cowork",      kind: "addon",  label: "What Cowork Did For Me",   sub: "Personal Cowork impact report",   icon: "🪄", color: "#e3008c", col: 3, isNew: true,
+  // ---- browser web apps : run entirely client-side on CSV exports ----
+  { id: "cowork-chargeback",  kind: "app", label: "Cowork Chargeback",        sub: "Who owes what, in dollars",       icon: "🧾", color: "#00B294", col: 3, isNew: true,
+    topics: ["billing","cost"],
+    detail: "Browser app. Feed it your Copilot credit export plus an Entra user export and get a finance-ready, invoice-reconciled bill per cost centre and per person. Full-consumption or overage basis, dynamic cut-by, CSV export. Nothing is uploaded — it all parses locally.",
+    app: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/" },
+  { id: "multi-budget",       kind: "app", label: "Multi-Budget Chargeback",  sub: "Shared tenant, separate budgets", icon: "🏦", color: "#00B294", col: 3, isNew: true,
+    topics: ["billing","cost"],
+    detail: "For divisions, subsidiaries, agencies or districts that share one tenant but hold separate budgets. Set each entity's entitlement — its share of the prepaid pool — and every bill is rebuilt against it, so whoever consumed earliest doesn't keep the discount.",
+    app: "https://microsoft.github.io/Analytics-Hub/cowork-billing/multi-budget-chargeback/app/" },
+  { id: "finops-cowork",      kind: "app", label: "FinOps & FOCUS Cost Report", sub: "Same numbers, FinOps language", icon: "📉", color: "#00B294", col: 3, isNew: true,
+    topics: ["billing","cost"],
+    detail: "Recasts the same Cowork credit consumption into a FinOps Framework and FOCUS-aligned cost view — List / Contracted / Effective / Billed cost, showback and chargeback allocation, and rate optimisation.",
+    app: "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html" },
+  { id: "policy-helper",      kind: "app", label: "Cowork Policy Helper",      sub: "Set limits before the bill",     icon: "🎛", color: "#00B294", col: 3, isNew: true,
+    topics: ["billing","cost","license"],
+    detail: "Assign users to spend-tier billing policies by attribute, review the exception queue, and export a point-in-time record of who is on which policy. Chargeback tells you what already happened; Policy Helper stops it happening again.",
+    app: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/" },
+  { id: "cowork-roi-model",   kind: "app", label: "Cowork ROI Model",          sub: "No tenant data — assumptions only", icon: "📐", color: "#00B294", col: 3, isNew: true,
+    topics: ["roi","impact"],
+    detail: "Interactive value model with no tenant payload at all. You enter your own task counts and assumptions; only research-based minutes-per-task defaults come preloaded by category. Nothing to export, nothing to upload.",
+    app: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/" },  { id: "what-cowork",      kind: "addon",  label: "What Cowork Did For Me",   sub: "Personal Cowork impact report",   icon: "🪄", color: "#e3008c", col: 3, isNew: true,
     topics: ["productivity","impact","roi"],
     detail: "A Cowork skill you attach to a session. It reads your own Cowork history from OneDrive and renders an HTML report — research-anchored time saved, professional-services-equivalent value, and a 'did this really need Cowork?' fit grade per project.",
     repo: "https://github.com/microsoft/What-I-did-with-Cowork" },
@@ -176,6 +196,18 @@ const EDGES = [
   { from: "purview",  to: "ai-solutions", style: "dashed" },
   { from: "pax",      to: "ai-solutions", style: "dashed" },
 
+  // PAX can land straight into Fabric as well as feeding reports directly
+  { from: "pax", to: "fabric" },
+
+  // Browser apps run on the same two CSV exports: M365 credit export + Entra
+  { from: "m365admin", to: "cowork-chargeback" },
+  { from: "entra",     to: "cowork-chargeback" },
+  { from: "m365admin", to: "multi-budget" },
+  { from: "entra",     to: "multi-budget" },
+  { from: "m365admin", to: "finops-cowork" },
+  { from: "entra",     to: "finops-cowork" },
+  { from: "entra",     to: "policy-helper" },
+  { from: "m365admin", to: "policy-helper", style: "dashed" },
   // Add-ons spawn off reports
   { from: "super-usage",   to: "roi-calc" },
   { from: "super-usage",   to: "customize" },
@@ -190,7 +222,7 @@ const LANES = [
   { col: 0, title: "Data sources",  desc: "Where it comes from" },
   { col: 1, title: "Extractors",    desc: "How it gets pulled" },
   { col: 2, title: "Reports",       desc: "What you deploy" },
-  { col: 3, title: "Add-ons",       desc: "Extras that bolt on" },
+  { col: 3, title: "Add-ons & apps", desc: "Bolt-ons and browser tools" },
 ];
 
 // =====================================================================
@@ -386,7 +418,12 @@ function openDrawer(id) {
     <h4>Powers</h4>
     ${chips(downstream)}
 
-    ${n.repo ? `
+    ${n.app ? `
+      <div class="ds-drawer-actions">
+        <a class="btn btn-primary ds-drawer-cta" href="${n.app}" target="_blank" rel="noopener">Open the app &#8599;</a>
+        <a class="btn btn-ghost ds-drawer-home" href="../">&#8592; Home</a>
+      </div>
+    ` : n.repo ? `
       <div class="ds-drawer-actions">
         <a class="btn btn-primary ds-drawer-cta" href="${n.repo}" target="_blank" rel="noopener">Open repository ↗</a>
         <a class="btn btn-secondary ds-drawer-star" href="${n.repo}" target="_blank" rel="noopener" aria-label="Star ${n.label} on GitHub to follow updates">⭐ Star repo to follow for updates</a>
@@ -606,14 +643,23 @@ function renderSearch() {
 }
 
 // =====================================================================
+// The site header is sticky and paints above the drawer, so publish its real
+// height as a CSS var and start the drawer below it.
+function syncDrawerOffset() {
+  const header = document.querySelector(".site-header");
+  const h = header ? Math.round(header.getBoundingClientRect().height) : 64;
+  document.documentElement.style.setProperty("--ah-header-h", h + "px");
+}
+
 function init() {
+  syncDrawerOffset();
   renderNodes();
   renderGrid();
   renderFilterChips();
   renderSearch();
   // wait one frame so layout settles before measuring
   requestAnimationFrame(drawLines);
-  window.addEventListener("resize", () => requestAnimationFrame(drawLines));
+  window.addEventListener("resize", () => { syncDrawerOffset(); requestAnimationFrame(drawLines); });
   document.getElementById("dsDrawerClose").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", e => { if (e.key === "Escape") { setLocked(null); closeDrawer(); } });
   // Clicking anywhere on the canvas background (not on a node) clears the lock
