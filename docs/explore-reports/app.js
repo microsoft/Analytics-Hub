@@ -72,6 +72,9 @@ const TOOLS = [
     sourceKey: "Purview",
     repo: "https://github.com/microsoft/AI-in-One-Dashboard",
     download: "https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip",
+    demoVideo: "https://github.com/microsoft/AI-in-One-Dashboard#-watch-first",
+    demoVideoLabel: "Watch the demo &amp; setup videos",
+    guide: "https://github.com/microsoft/AI-in-One-Dashboard/blob/main/docs/Video-Guide.md",
     emailFile: "01_AI_in_One_Dashboard_Admin_Email.txt",
     preview: "https://raw.githubusercontent.com/microsoft/AI-in-One-Dashboard/main/Images/AIO%20v10%20Gif.gif",
     blurb: "One unified Power BI report covering Microsoft 365 Copilot, Copilot Chat (licensed + unlicensed), Agents, and third-party AI signals. The flagship if you only deploy one template.",
@@ -727,7 +730,14 @@ function rowHtml(t) {
             ${t.demoVideo
               ? `<a class="demo-video-link" href="${t.demoVideo}" target="_blank" rel="noopener">
                   <span class="dv-icon" aria-hidden="true">🎬</span>
-                  <span class="dv-text">Watch the 2-minute demo</span>
+                  <span class="dv-text">${t.demoVideoLabel || 'Watch the 2-minute demo'}</span>
+                </a>`
+              : ''
+            }
+            ${t.guide
+              ? `<a class="demo-video-link" href="${t.guide}" target="_blank" rel="noopener">
+                  <span class="dv-icon" aria-hidden="true">📄</span>
+                  <span class="dv-text">Video guide &amp; chapters</span>
                 </a>`
               : ''
             }
