@@ -493,8 +493,10 @@ const TOOLS = [
     measures: ["adoption","productivity","agents"],
     source: "Copilot Dashboard export (Viva Insights)",
     sourceKey: "Viva Insights",
-    repo: "https://github.com/sbrandl1005/copilot-personal-dashboard",
-    download: "https://github.com/sbrandl1005/copilot-personal-dashboard/archive/refs/heads/main.zip",
+    repo: "https://github.com/microsoft/Personal-Dashboard",
+    download: "https://github.com/microsoft/Personal-Dashboard/archive/refs/heads/main.zip",
+    demoVideo: "https://github.com/microsoft/Personal-Dashboard#-watch-first",
+    demoVideoLabel: "Watch the 3-minute walkthrough",
     blurb: "Self-service Power BI template that turns your own Copilot Dashboard export into a personal view of adoption, hours saved, feature-level leverage, agent usage, and Cowork credits — with org benchmarks, a personalized user-category, and next-step learning. Loads Copilot, Agent, and Cowork exports in any combination.",
     meta: { audience: "Individual users, IC leads, enablement demos", license: "Copilot Dashboard export (Viva Insights)", time: "~15 min" },
     requirements: {
