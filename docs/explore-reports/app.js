@@ -319,6 +319,8 @@ const TOOLS = [
     sourceKey: "M365 Admin",
     repo: "https://github.com/microsoft/CreditUsage",
     download: "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
+    demoVideo: "https://github.com/microsoft/CreditUsage#video-walkthrough",
+    demoVideoLabel: "Watch the 2-minute walkthrough",
     blurb: "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis.",
     meta: { audience: "FinOps, IT admins, platform owners", license: "M365 Admin exports", time: "~45 min" },
     requirements: {
