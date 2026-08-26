@@ -37,6 +37,7 @@
   <!-- SEO:end -->
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="library.css" />
   <link rel="preconnect" href="https://github.com" />
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -141,6 +142,33 @@
     </div>
   </section>
 
+  <!-- =============================================== REPORT LIBRARY -->
+  <section class="wrap rl-section" id="library">
+    <div class="rl-head">
+      <h2 class="section-title">Report library</h2>
+      <p>
+        Every report, add-on and browser tool in one place &mdash; what it covers,
+        which data sources feed it, and every guide, template and demo link we have.
+        Search the text or filter by tag. Click any data source to trace it on the
+        diagram above.
+      </p>
+    </div>
+
+    <div class="rl-toolbar">
+      <input type="search" id="rlSearch" class="rl-search" autocomplete="off"
+             placeholder="Search reports, sources, tags, resources&hellip;"
+             aria-label="Search the report library" />
+      <span class="rl-count" id="rlCount"></span>
+      <button type="button" class="rl-expand-all" id="rlExpandAll">Expand all</button>
+    </div>
+
+    <div class="rl-tags" id="rlTags" role="toolbar" aria-label="Filter by tag"></div>
+
+    <div id="rlGrids"></div>
+
+    <h3 class="rl-group-title">Across the whole Hub</h3>
+    <div class="rl-links" id="rlHubLinks"></div>
+  </section>
   <!-- =============================================== FOOTER -->
   <footer class="site-footer">
     <div class="wrap">
@@ -153,6 +181,7 @@
 
 <script src="../app.js" defer></script>
 <script src="graph.js" defer></script>
+<script src="library.js" defer></script>
 
 <!-- Canvas hint toast, fires once per visitor. -->
 <script>

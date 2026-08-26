@@ -1,0 +1,223 @@
+/* =====================================================================
+   REPORT LIBRARY — "everything in one place" reference section
+   Onboarding surface for new team members: what each report covers,
+   what feeds it, and every resource link in one place.
+   ===================================================================== */
+
+.rl-section { padding: 1rem 0 3.5rem; }
+
+.rl-head { margin-bottom: 1.25rem; }
+.rl-head h2 { margin: 0 0 .35rem; }
+.rl-head p { margin: 0; color: var(--text-muted); max-width: 70ch; }
+
+/* ---------- Toolbar : search + counts ---------- */
+.rl-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  align-items: center;
+  margin: 1rem 0 .75rem;
+}
+.rl-search {
+  flex: 1 1 320px;
+  min-width: 240px;
+  padding: .7rem 1rem;
+  font: inherit;
+  font-size: .9rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.rl-search:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.rl-count {
+  font-size: .82rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.rl-expand-all {
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  padding: .55rem .85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.rl-expand-all:hover { border-color: var(--accent); color: var(--text); }
+
+/* ---------- Tag filter row ---------- */
+.rl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: 1.25rem;
+}
+.rl-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 600;
+  padding: .35rem .6rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--c, var(--accent)) 32%, var(--border));
+  background: color-mix(in srgb, var(--c, var(--accent)) 8%, var(--surface));
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background .16s, border-color .16s, color .16s;
+}
+.rl-tag:hover { border-color: var(--c, var(--accent)); color: var(--text); }
+.rl-tag.is-active {
+  background: var(--c, var(--accent));
+  border-color: var(--c, var(--accent));
+  color: #fff;
+}
+.rl-tag-count { opacity: .75; font-weight: 700; }
+
+/* ---------- Group headings ---------- */
+.rl-group-title {
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 1.75rem 0 .75rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--border);
+}
+.rl-group-title:first-of-type { margin-top: .5rem; }
+
+/* ---------- Cards ---------- */
+.rl-grid { display: grid; gap: .75rem; }
+
+.rl-card {
+  border: 1px solid color-mix(in srgb, var(--c) 26%, var(--border));
+  border-left: 3px solid var(--c);
+  border-radius: 14px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--c) 6%, var(--surface)) 0%,
+    var(--surface) 100%);
+  overflow: hidden;
+  transition: box-shadow .18s, border-color .18s;
+}
+.rl-card:hover { box-shadow: 0 14px 34px -24px color-mix(in srgb, var(--c) 90%, transparent); }
+.rl-card.is-hidden { display: none; }
+
+.rl-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  width: 100%;
+  padding: .9rem 1rem;
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.rl-card-icon {
+  width: 40px; height: 40px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--c) 18%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c) 34%, var(--border));
+}
+.rl-card-main { flex: 1; min-width: 0; }
+.rl-card-title {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .4rem;
+  font-weight: 700; font-size: .98rem; line-height: 1.25;
+}
+.rl-kind-pill {
+  font-size: .58rem; font-weight: 800; letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: .18rem .4rem; border-radius: 5px;
+  background: color-mix(in srgb, var(--c) 20%, transparent);
+  color: var(--c);
+}
+.rl-card-sub { font-size: .78rem; color: var(--text-muted); margin-top: .15rem; }
+.rl-caret {
+  flex-shrink: 0; align-self: center;
+  color: var(--text-muted); font-size: .8rem;
+  transition: transform .2s;
+}
+.rl-card.is-open .rl-caret { transform: rotate(180deg); }
+
+.rl-card-body {
+  display: none;
+  padding: 0 1rem 1.1rem 1rem;
+  border-top: 1px dashed var(--border);
+  margin-top: -1px;
+  padding-top: .9rem;
+}
+.rl-card.is-open .rl-card-body { display: block; }
+
+.rl-detail { margin: 0 0 .9rem; font-size: .88rem; line-height: 1.6; color: var(--text-soft); }
+
+.rl-block { margin-bottom: .9rem; }
+.rl-block:last-child { margin-bottom: 0; }
+.rl-block-label {
+  font-size: .66rem; font-weight: 800; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin: 0 0 .4rem;
+}
+
+/* Upstream source chips — teaches the data connections */
+.rl-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+.rl-chip {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font: inherit; font-size: .74rem; font-weight: 600;
+  padding: .28rem .55rem; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--cc) 34%, var(--border));
+  background: color-mix(in srgb, var(--cc) 10%, var(--surface));
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.rl-chip:hover { border-color: var(--cc); color: var(--text); }
+.rl-chip-static { cursor: default; }
+
+/* Resource links */
+.rl-links { display: grid; gap: .3rem; }
+.rl-link {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .4rem .55rem;
+  border-radius: 8px;
+  font-size: .82rem;
+  color: var(--text-soft);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.rl-link:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+  color: var(--text);
+}
+.rl-link-kind {
+  flex-shrink: 0;
+  width: 1.15rem; text-align: center;
+  font-size: .85rem;
+}
+.rl-link-label { flex: 1; min-width: 0; }
+.rl-link-ext { flex-shrink: 0; opacity: .5; font-size: .72rem; }
+
+.rl-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .9rem;
+}
+
+@media (max-width: 700px) {
+  .rl-toolbar { flex-direction: column; align-items: stretch; }
+  .rl-count { text-align: center; }
+}
