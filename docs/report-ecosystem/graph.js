@@ -349,6 +349,7 @@ function drawLines() {
 function highlight(id) {
   // When a category filter is active, hover effects are suppressed
   if (typeof activeTopic !== "undefined" && activeTopic) return;
+  if (typeof activeRole !== "undefined" && activeRole) return;
   const svg = document.getElementById("dsLines");
   document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded"));
   svg.querySelectorAll(".ds-edge").forEach(p => p.classList.remove("is-active", "is-faded"));
@@ -537,6 +538,7 @@ function renderFilterChips() {
 }
 
 function setTopic(topic) {
+  if (activeRole) clearRole();
   activeTopic = (activeTopic === topic) ? null : topic;
   const chips = document.querySelectorAll(".ds-filter-chip");
   chips.forEach(c => {
@@ -643,6 +645,161 @@ function renderSearch() {
 }
 
 // =====================================================================
+// =====================================================================
+// Role filter — "what can I actually build with the access I have?"
+// A report lights up only when every REQUIRED (solid) upstream source is
+// reachable from the selected role. Dashed edges are optional enrichment
+// and never gate a report.
+// =====================================================================
+const ROLES = [
+  { id: "audit-reader",    label: "Audit Reader",            icon: "🛡", color: "#8661c5", sources: ["purview"],
+    note: "Read the Purview unified audit log — Copilot interactions, file and Teams activity, agent invocations." },
+  { id: "insights-analyst", label: "Insights Analyst",       icon: "📊",  color: "#00B294", sources: ["viva", "viva-consumption"],
+    note: "Viva Insights analyst — person query behavioural data plus the Consumption Dashboard (Cowork and Work IQ credits)." },
+  { id: "tenant-admin",    label: "M365 Tenant Admin",       icon: "📥",  color: "#FFB900", sources: ["m365admin"],
+    note: "M365 admin center — usage exports, licensed-user lists and the Copilot Cost Management credit export." },
+  { id: "user-admin",      label: "User Admin / Global Reader", icon: "👤", color: "#0078d4", sources: ["entra"],
+    note: "Microsoft Entra ID — users, groups, licences and the org attributes every report uses for department slicing." },
+  { id: "ppac-admin",      label: "Power Platform Admin",    icon: "🔷", color: "#8661c5", sources: ["ppac", "dataverse"],
+    note: "Copilot Studio message-credit reports plus the Dataverse conversation transcripts behind agent analytics." },
+  { id: "security-reader", label: "Security Reader",         icon: "🔎",    color: "#e3008c", sources: ["defender"],
+    note: "Defender Advanced Hunting and Cloud Apps — shadow-AI discovery, OAuth consent risk and behavioural anomalies." },
+  { id: "github-admin",    label: "GitHub Enterprise Admin", icon: "⚡",   color: "#24292f", sources: ["github"],
+    note: "GitHub Copilot usage across the enterprise — chat vs agent, language, model and acceptance rates." },
+  { id: "global-admin",    label: "Global Administrator",    icon: "👑",  color: "#0078d4",
+    sources: ["purview", "viva", "viva-consumption", "entra", "m365admin", "ppac", "dataverse", "defender"],
+    note: "Full tenant reach. Everything except the personal, machine-local tools — nobody can see those but their owner." },
+  { id: "no-admin",        label: "No admin rights",         icon: "🙋",   color: "#e3008c", sources: ["onedrive-cowork", "local-vscode"],
+    note: "You still get the personal tools. They read only your own session history and never touch tenant data." },
+];
+
+let activeRole = null;
+
+// Walk to a fixed point: something is buildable once all of its required
+// upstream feeders are themselves reachable.
+function buildableFrom(sourceIds) {
+  const ok = new Set(sourceIds);
+  const candidates = NODES.filter(n => n.kind !== "source");
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const n of candidates) {
+      if (ok.has(n.id)) continue;
+      const required = EDGES.filter(e => e.to === n.id && e.style !== "dashed");
+      if (required.length === 0 || required.every(e => ok.has(e.from))) {
+        ok.add(n.id);
+        changed = true;
+      }
+    }
+  }
+  return ok;
+}
+
+function renderRoleChips() {
+  const band = document.querySelector(".ds-filter-band .wrap");
+  if (!band) return;
+
+  const wrap = el("div", { class: "ds-role-band" });
+  wrap.append(el("p", { class: "ds-filter-label" },
+    el("span", { "aria-hidden": "true" }, "\u{1F511}"),
+    " What can I build with my access?"));
+
+  const row = el("div", { class: "ds-role-chips", role: "toolbar", "aria-label": "Filter by role" });
+  ROLES.forEach(r => {
+    const b = el("button", {
+      class: "ds-role-chip",
+      type: "button",
+      "data-role": r.id,
+      style: `--c:${r.color}`,
+      onclick: () => setRole(r.id),
+    },
+      el("span", { class: "ds-role-icon", "aria-hidden": "true" }, r.icon),
+      el("span", { class: "ds-role-text" }, r.label)
+    );
+    row.append(b);
+  });
+  wrap.append(row);
+  wrap.append(el("div", { class: "ds-role-result", id: "dsRoleResult", hidden: "hidden" }));
+  band.append(wrap);
+}
+
+function clearRole() {
+  activeRole = null;
+  document.querySelectorAll(".ds-role-chip").forEach(c => c.classList.remove("is-active"));
+  const res = document.getElementById("dsRoleResult");
+  if (res) { res.hidden = true; res.innerHTML = ""; }
+}
+
+function setRole(id) {
+  if (activeTopic) setTopic(null);
+  if (activeRole === id) {
+    clearRole();
+    applyRoleHighlight();
+    return;
+  }
+  activeRole = id;
+  document.querySelectorAll(".ds-role-chip").forEach(c =>
+    c.classList.toggle("is-active", c.getAttribute("data-role") === id));
+  applyRoleHighlight();
+}
+
+function applyRoleHighlight() {
+  const svg = document.getElementById("dsLines");
+  document.querySelectorAll(".ds-node").forEach(n => n.classList.remove("is-related", "is-faded", "is-match"));
+  svg.querySelectorAll(".ds-edge").forEach(p => p.classList.remove("is-active", "is-faded"));
+
+  const res = document.getElementById("dsRoleResult");
+  if (!activeRole) { if (res) { res.hidden = true; res.innerHTML = ""; } return; }
+
+  const role = ROLES.find(r => r.id === activeRole);
+  if (!role) return;
+
+  const reach = buildableFrom(role.sources);
+  const owned = new Set(role.sources);
+
+  document.querySelectorAll(".ds-node").forEach(n => {
+    const id = n.getAttribute("data-id");
+    if (owned.has(id)) n.classList.add("is-related", "is-match");
+    else if (reach.has(id)) n.classList.add("is-related");
+    else n.classList.add("is-faded");
+  });
+  svg.querySelectorAll(".ds-edge").forEach(p => {
+    const f = p.getAttribute("data-from"), t = p.getAttribute("data-to");
+    if (reach.has(f) && reach.has(t)) p.classList.add("is-active"); else p.classList.add("is-faded");
+  });
+
+  const unlocked = NODES.filter(n => n.kind !== "source" && n.kind !== "pipe" && reach.has(n.id));
+  const blocked  = NODES.filter(n => n.kind !== "source" && n.kind !== "pipe" && !reach.has(n.id));
+  const total = unlocked.length + blocked.length;
+
+  if (res) {
+    res.hidden = false;
+    res.innerHTML = `
+      <p class="ds-role-note">${role.note}</p>
+      <p class="ds-role-score">
+        <strong>${unlocked.length} of ${total}</strong> reports, apps and add-ons are available with
+        <strong>${role.label}</strong> access alone.
+      </p>
+      <div class="ds-chips ds-role-unlocked">
+        ${unlocked.map(n => `<button class="ds-chip" data-jump="${n.id}" style="--c:${n.color}">${n.icon} ${n.label}</button>`).join("")}
+      </div>
+      ${blocked.length ? `<details class="ds-role-blocked">
+        <summary>${blocked.length} still out of reach &mdash; and what you'd need</summary>
+        <ul>
+          ${blocked.map(n => {
+            const missing = EDGES.filter(e => e.to === n.id && e.style !== "dashed" && !reach.has(e.from))
+              .map(e => NODES.find(x => x.id === e.from))
+              .filter(Boolean)
+              .map(x => x.label);
+            return `<li><strong>${n.label}</strong> &mdash; needs ${missing.length ? missing.join(" + ") : "an upstream feed"}</li>`;
+          }).join("")}
+        </ul>
+      </details>` : ""}`;
+    res.querySelectorAll(".ds-chip[data-jump]").forEach(b => {
+      b.addEventListener("click", () => openDrawer(b.getAttribute("data-jump")));
+    });
+  }
+}
 // The site header is sticky and paints above the drawer, so publish its real
 // height as a CSS var and start the drawer below it.
 function syncDrawerOffset() {
@@ -656,6 +813,7 @@ function init() {
   renderNodes();
   renderGrid();
   renderFilterChips();
+  renderRoleChips();
   renderSearch();
   // wait one frame so layout settles before measuring
   requestAnimationFrame(drawLines);

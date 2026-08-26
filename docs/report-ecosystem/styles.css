@@ -535,3 +535,63 @@
 }
 /* Browser apps: client-side tools, teal like the Cowork billing family. */
 .lg-app i { background: linear-gradient(135deg, #00B294, #00a1f1); }
+/* ---------- ROLE FILTER ---------- */
+.ds-role-band {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.ds-role-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .6rem;
+}
+.ds-role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 600;
+  padding: .4rem .7rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--c) 34%, var(--border));
+  background: color-mix(in srgb, var(--c) 8%, var(--surface));
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background .16s, border-color .16s, color .16s, transform .16s;
+}
+.ds-role-chip:hover { border-color: var(--c); color: var(--text); transform: translateY(-1px); }
+.ds-role-chip.is-active {
+  background: var(--c);
+  border-color: var(--c);
+  color: #fff;
+  box-shadow: 0 6px 18px -10px color-mix(in srgb, var(--c) 90%, transparent);
+}
+.ds-role-icon { font-size: .95rem; }
+
+.ds-role-result {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-alt);
+  padding: .9rem 1rem;
+  margin-top: .3rem;
+}
+.ds-role-note { margin: 0 0 .5rem; font-size: .85rem; color: var(--text-muted); line-height: 1.5; }
+.ds-role-score { margin: 0 0 .6rem; font-size: .9rem; color: var(--text); }
+.ds-role-unlocked { margin-bottom: .3rem; }
+.ds-role-blocked { margin-top: .6rem; font-size: .82rem; }
+.ds-role-blocked summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: .2rem 0;
+}
+.ds-role-blocked summary:hover { color: var(--text); }
+.ds-role-blocked ul { margin: .5rem 0 0; padding-left: 1.1rem; color: var(--text-muted); line-height: 1.7; }
+.ds-role-blocked strong { color: var(--text-soft); }
+
+@media (max-width: 700px) {
+  .ds-role-chip { font-size: .72rem; padding: .35rem .55rem; }
+}
