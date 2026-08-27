@@ -420,6 +420,8 @@ const TOOLS = [
     source: "Cowork consumption + billing context",
     sourceKey: "M365 Admin",
     repo: "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html",
+    demoVideo: "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/media/FinOps-Cowork-Demo.mp4",
+    demoVideoLabel: "Watch the 2-minute overview",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
     blurb: "Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.",
     meta: { audience: "FinOps practitioners, finance, cloud platform teams", license: "M365 Admin exports", time: "~10 min" },
