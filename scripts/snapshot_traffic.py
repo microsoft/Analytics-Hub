@@ -45,6 +45,12 @@ REPOS: list[str] = [
     "microsoft/PAX-Cookbook",
     "microsoft/CreditUsage",
     "microsoft/What-I-did-with-Cowork",
+    "microsoft/ValueLens-for-Microsoft-Copilot",
+    "microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+    "microsoft/AgentEvaluator-for-Copilot-Studio",
+    "microsoft/AI-Solutions-Intelligence-Dashboard",
+    "microsoft/ESS",
+    "microsoft/Personal-Dashboard",
     "olivierpecheux/copilot-adoption-sentiment-report",
     "jordankingisalive/CopilotROICalculator",
 ]
@@ -59,6 +65,10 @@ EXPECTED_FORBIDDEN: frozenset[str] = frozenset({
     # Read-only collaborator on this repo — traffic API needs push access.
     # Remove this entry once write access is granted.
     "microsoft/What-I-did-with-Cowork",
+    # Traffic API returns 403 "Must have push access" as of 2026-08-28.
+    # Repo metadata (stars, releases) still collects on read access.
+    # Remove this entry once write access is granted.
+    "microsoft/AgentEvaluator-for-Copilot-Studio",
 })
 
 # Maximum allowed age (in hours) of any required repo's lastTrafficSync at the
