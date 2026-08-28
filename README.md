@@ -13,7 +13,7 @@
 
 <br>
 
-**[Browse the Toolkit ↓](#-the-toolkit)** &nbsp;·&nbsp; **[Find Your Tool ↓](#-which-tool-do-i-need)** &nbsp;·&nbsp; **[Data Sources ↓](#-data-sources-at-a-glance)** &nbsp;·&nbsp; **[Case Studies ↓](#-client-stories)** &nbsp;·&nbsp; **[About the Team ↓](#-about-the-team)**
+**[Browse the Toolkit ↓](#-the-toolkit)** &nbsp;·&nbsp; **[Find Your Tool ↓](#-which-tool-do-i-need)** &nbsp;·&nbsp; **[Data Sources ↓](#-data-sources-at-a-glance)** &nbsp;·&nbsp; **[Case Studies ↓](#-customer-stories)** &nbsp;·&nbsp; **[About the Team ↓](#-about-the-team)**
 
 <br>
 
@@ -577,9 +577,9 @@ Each tool in this hub requires data from one or more Microsoft admin portals. He
 
 ---
 
-## 📋 Client Stories
+## 📋 Customer Stories
 
-Our team works directly with organizations to help them measure and understand their AI investments. Below are published case studies from some of those engagements.
+Published case studies from organizations measuring their Copilot outcomes. Every metric below comes straight from the source article.
 
 | Organization | Summary | Link |
 |:---|:---|:---:|
