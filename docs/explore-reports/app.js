@@ -523,9 +523,9 @@ const TOOLS = [
     measures: ["agents","impact","roi"],
     source: "Copilot Studio transcripts (Dataverse)",
     sourceKey: "Dataverse",
-    repo: "https://github.com/downeysteph/ESS-Insights",
-    download: "https://github.com/downeysteph/ESS-Insights/archive/refs/heads/main.zip",
-    preview: "https://raw.githubusercontent.com/downeysteph/ESS-Insights/main/images/dashboard-preview.gif",
+    repo: "https://github.com/microsoft/ESS",
+    download: "https://github.com/microsoft/ESS/archive/refs/heads/main.zip",
+    preview: "https://raw.githubusercontent.com/microsoft/ESS/main/images/dashboard-preview.gif",
     blurb: "Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the ConversationTranscript Dataverse table — adoption, resolution vs escalation, time-to-knowledge, tickets deflected, hours saved and dollar value, plus in-conversation feedback. No custom logging or extra pipelines.",
     meta: { audience: "HR/IT program owners, ESS sponsors, execs", license: "Power Platform / Dataverse export", time: "~45 min" },
     requirements: {

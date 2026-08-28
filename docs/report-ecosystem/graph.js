@@ -75,7 +75,10 @@ const NODES = [
     topics: ["adoption","risk","engagement","unlicensed"],
     detail: "Ten pages of tenant-wide AI visibility — Copilot adoption alongside unsanctioned 'shadow AI' tool detection, OAuth consent risk scoring, and off-hours/geo behavioural anomalies.",
     repo: "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard" },
-  { id: "ai-in-one",        kind: "report", label: "AI-in-One Dashboard",      sub: "All Copilot surfaces + Agents",  icon: "🌐", color: "#FFB900", col: 2,
+  { id: "ess",              kind: "report", label: "ESS Insights",              sub: "Employee Self-Service agent value", icon: "🧑‍💼", color: "#FFB900", col: 2, isNew: true,
+    topics: ["agents","adoption","impact","roi","quality"],
+    detail: "Nine pages on how your Employee Self-Service agent is actually performing - adoption and repeat use, resolution vs escalation vs abandonment, time to knowledge, tickets deflected with hours and dollars saved, and in-conversation thumbs and CSAT. Built entirely from the ConversationTranscript rows Copilot Studio already writes, so there is no custom logging to stand up. Ships CSV, Dataverse Direct and Fabric editions, and works for any Copilot Studio agent.",
+    repo: "https://github.com/microsoft/ESS" },  { id: "ai-in-one",        kind: "report", label: "AI-in-One Dashboard",      sub: "All Copilot surfaces + Agents",  icon: "🌐", color: "#FFB900", col: 2,
     topics: ["adoption","chat","agents","license","engagement"],
     detail: "The broad single-pane view across every Copilot surface and agent activity.",
     repo: "https://github.com/microsoft/AI-in-One-Dashboard" },
@@ -208,6 +211,11 @@ const EDGES = [
   { from: "entra",     to: "finops-cowork" },
   { from: "entra",     to: "policy-helper" },
   { from: "m365admin", to: "policy-helper", style: "dashed" },
+  // ---- ESS Insights : Copilot Studio transcripts, org roster and agent credits ----
+  { from: "dataverse", to: "ess" },
+  { from: "entra",     to: "ess", style: "dashed" },
+  { from: "ppac",      to: "ess", style: "dashed" },
+  { from: "fabric",    to: "ess", style: "dashed" },
   // Add-ons spawn off reports
   { from: "super-usage",   to: "roi-calc" },
   { from: "super-usage",   to: "customize" },

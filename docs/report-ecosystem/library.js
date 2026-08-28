@@ -51,7 +51,20 @@ const RESOURCES = {
     { kind: "doc",      label: "PAX exporter scripts", url: "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/tree/main/PAX_Exporter" },
     { kind: "download", label: "Download the repo (.zip)", url: "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/archive/refs/heads/main.zip" },
   ],
-  "ai-in-one": [
+  ess: [
+    { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/ESS#readme" },
+    { kind: "video",    label: "ESS Insights overview (video)", url: "https://github.com/microsoft/ESS/raw/main/ESS_Insights_Overview.mp4" },
+    { kind: "doc",      label: "Setup path — CSV Upload", url: "https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" },
+    { kind: "doc",      label: "Setup path — Dataverse Direct", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" },
+    { kind: "doc",      label: "Setup path — Fabric auto-refresh", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Fabric.md" },
+    { kind: "doc",      label: "Scheduled refresh guide", url: "https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" },
+    { kind: "download", label: "Interpretation Guide (.pptx)", url: "https://github.com/microsoft/ESS/raw/main/ESS%20Insights%20Dashboard%20-%20Interpretation%20Guide.pptx" },
+    { kind: "download", label: "Topic to Time Savings deck (.pptx)", url: "https://github.com/microsoft/ESS/raw/main/Topic%20to%20Time%20Savings.pptx" },
+    { kind: "download", label: "Download .pbit — CSV edition", url: "https://github.com/microsoft/ESS/raw/main/ESS%20Dashboard%20-%20Dynamic%20Topics%20(CSV)%20V17.pbit" },
+    { kind: "download", label: "Download .pbit — Dataverse edition", url: "https://github.com/microsoft/ESS/raw/main/ESS%20Dashboard%20-%20Dynamic%20Topics%20(Dataverse)%20V17.pbit" },
+    { kind: "download", label: "Download .pbit — Fabric edition", url: "https://github.com/microsoft/ESS/raw/main/ESS%20-%20Fabric%20V1.pbit" },
+    { kind: "doc",      label: "Fabric ingestion notebooks", url: "https://github.com/microsoft/ESS/tree/main/Fabric/notebooks" },
+  ],  "ai-in-one": [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/AI-in-One-Dashboard#readme" },
     { kind: "download", label: "Interpretation Guide (PDF)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf" },
     { kind: "download", label: "Storyboard (.pptx)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIinOne_Storyboard_2601.pptx" },
