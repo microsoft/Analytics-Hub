@@ -236,15 +236,19 @@ const stored = localStorage.getItem('theme');
 const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 const initialTheme = stored || preferred;
 document.documentElement.setAttribute('data-theme', initialTheme);
-themeToggle.textContent = initialTheme === 'dark' ? '☀' : '◐';
+// Only the home page ships a theme toggle; without this guard app.js threw
+// here and every statement below it (including renderCards) never ran.
+if (themeToggle) {
+  themeToggle.textContent = initialTheme === 'dark' ? '☀' : '◐';
 
-themeToggle.addEventListener('click', () => {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const next = cur === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  themeToggle.textContent = next === 'dark' ? '☀' : '◐';
-});
+  themeToggle.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeToggle.textContent = next === 'dark' ? '☀' : '◐';
+  });
+}
 
 // ----------------------------------------------------- INIT
 renderCards();
