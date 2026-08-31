@@ -385,30 +385,6 @@ const TOOLS = [
     },
   },
   {
-    id: 'cowork-usage-tracker-app',
-    question: "I want to track Cowork credits beyond the standard Admin Center time period.",
-    title: "Cowork Usage Tracker (Web App)",
-    icon: "⏱️",
-    accent: "#e3008c",
-    category: "impact-roi",
-    tier: "specialty",
-    measures: ["impact","roi"],
-    source: "Recurring Cowork CSV exports",
-    sourceKey: "M365 Admin",
-    repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-usage-tracker/app/index.html",
-    download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
-    blurb: "Trend reconstruction app for point-in-time Cowork exports with run-rate, depletion, and action signals.",
-    meta: { audience: "FinOps, operations, adoption leads", license: "M365 Admin exports", time: "~10 min" },
-    requirements: {
-      roles: [
-        { label: "M365 Admin Reports Reader", url: "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles" }
-      ],
-      software: [
-        { label: "Modern browser (Edge / Chrome / Firefox)" }
-      ]
-    },
-  },
-  {
     id: 'finops-focus-app',
     question: "I need Cowork cost views aligned to FinOps FOCUS definitions.",
     title: "FinOps & FOCUS Cost Report (Web App)",
