@@ -10,7 +10,9 @@
         users: [],
         listRate: 0.01,
         contractedRate: 0.01,
-        allocDim: 'department', // Department / Cost Center / Business Unit toggle
+        allocDim: 'department', // dynamic: any uploaded column (default department-like)
+        dimLabels: {},          // per-dimension display-name overrides (rename)
+        billingModel: 'september',
         fallbackLimit: 400,     // loader-adjustable; used when no per-user limit column
         entityFilter: {},
         entitySearch: '',
@@ -142,6 +144,7 @@
 
             users.push({
                 upn: upn,
+                attrs: erow,
                 displayName: get(creditMap, crow, 'displayName') || get(entraMap, erow, 'displayName') || upn,
                 department: get(entraMap, erow, 'department') || 'Unknown',
                 jobTitle: get(entraMap, erow, 'jobTitle') || '',
@@ -152,12 +155,35 @@
                 manager: get(entraMap, erow, 'manager') || '',
                 used: creditMap.creditsUsed ? toNumber(crow[creditMap.creditsUsed]) : 0,
                 limit: limit,
+                limitFromFile: !!creditMap.creditLimit,
                 sessions: creditMap.sessions ? toNumber(crow[creditMap.sessions]) : 0,
                 licensed: creditMap.license ? toBool(crow[creditMap.license]) : false,
                 lastActivity: get(creditMap, crow, 'lastActivity')
             });
         });
         return users;
+    }
+
+    /* Cross-policy detection - users who changed spending policy mid-period.
+       Microsoft's per-user credit ledger is tracked separately per spending policy
+       and resets to 0 when a user's effective policy changes mid-month, so one
+       export row can span two policies. Microsoft also documents that per-user
+       excess "doesn't count toward the policy limit, isn't billed ... and doesn't
+       appear as consumed credits in the Cost Management dashboards" - so a row
+       where used > limit cannot come from normal enforcement. The credits and the
+       limit were measured against different policies, which makes that user's
+       overage, utilization and right-size recommendation unreliable.
+       Only meaningful when the limit came from the file: a synthetic fallback
+       limit legitimately produces used > limit.
+       Ref: learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits */
+    function isCrossPolicy(u) {
+        if (state.demoActive) return false;
+        return !!u.limitFromFile && u.limit > 0 && u.used > u.limit;
+    }
+    function billingModelLabel() {
+        return state.billingModel === 'september'
+            ? 'September 2026 onward (cumulative per-user)'
+            : 'Up to August 2026 (per-policy reset)';
     }
 
     // Spend-tier billing policies (ported from the Policy Helper) for right-size recommendations.
@@ -212,10 +238,45 @@
     }
 
     // Aggregate users by a logical dimension field.
+    // Cut/allocate by ANY column present in the uploaded user file (keyed to UPN).
+    function detectDimensions() {
+        var seen = {}, dims = [];
+        var deny = /^(user ?principal ?name|upn|user ?id|object ?id|guid|id|display ?name|name|monthly ?credits? ?used|credits? ?used|monthly ?credit ?limit|credit ?limit|limit|allowance|microsoft ?365 ?copilot ?license|copilot ?license|license|licensed|last ?activity ?date?|session ?count|sessions?)$/i;
+        state.users.forEach(function (u) {
+            if (!u.attrs) return;
+            Object.keys(u.attrs).forEach(function (h) {
+                var hs = String(h).trim();
+                if (!hs || deny.test(hs) || seen[hs]) return;
+                seen[hs] = 1; dims.push(hs);
+            });
+        });
+        return dims;
+    }
+    function dimLabelFor(key) {
+        var lbl = state.dimLabels[key];
+        if (lbl != null && String(lbl).trim() !== '') return String(lbl).trim();
+        return key || 'Group';
+    }
+    function attrOf(u, key) {
+        if (u.attrs && u.attrs[key] != null && String(u.attrs[key]).trim() !== '') return String(u.attrs[key]).trim();
+        if (u[key] != null && String(u[key]).trim() !== '') return String(u[key]).trim();
+        return 'Unknown';
+    }
+    function pickDefaultDim() {
+        var dims = detectDimensions();
+        var avail = {}; dims.forEach(function (d) { avail[d] = 1; });
+        if (avail[state.allocDim]) return;
+        var pref = ['department', 'dept', 'cost center', 'costcenter', 'cc', 'business unit', 'businessunit', 'bu'];
+        var chosen = '';
+        for (var i = 0; i < pref.length && !chosen; i++) {
+            for (var j = 0; j < dims.length; j++) { if (String(dims[j]).toLowerCase() === pref[i]) { chosen = dims[j]; break; } }
+        }
+        state.allocDim = chosen || (dims.length ? dims[0] : 'department');
+    }
     function aggregateBy(users, field) {
         var g = {};
         users.forEach(function (u) {
-            var key = (u[field] && String(u[field]).trim()) ? String(u[field]).trim() : 'Unknown';
+            var key = attrOf(u, field);
             var o = g[key] || (g[key] = {
                 label: key, users: 0, active: 0, credits: 0, limit: 0,
                 overage: 0, unused: 0, sessions: 0
@@ -234,7 +295,7 @@
     }
 
     // --------------------------------------------------------- compute the model
-    function scopeLabel(u) { var v = u[state.allocDim]; return (v && String(v).trim()) ? String(v).trim() : 'Unknown'; }
+    function scopeLabel(u) { return attrOf(u, state.allocDim); }
     function entityFilterActive() { for (var k in state.entityFilter) { if (state.entityFilter.hasOwnProperty(k)) return true; } return false; }
     function inScope(u) { return !entityFilterActive() || state.entityFilter[scopeLabel(u)] === true; }
     function injectFoCss() {
@@ -270,6 +331,7 @@
 
         // Org totals.
         var org = { users: users.length, active: 0, credits: 0, limit: 0, overage: 0, unused: 0, sessions: 0, allocatedCredits: 0 };
+        var xpCount = 0, xpCredits = 0, xpOverage = 0;
         users.forEach(function (u) {
             if (u.used > 0) org.active += 1;
             org.credits += u.used;
@@ -277,6 +339,7 @@
             org.overage += u.overage;
             org.unused += u.unused;
             org.sessions += u.sessions;
+            if (isCrossPolicy(u)) { xpCount += 1; xpCredits += u.used; xpOverage += u.overage; }
             if (u.department && u.department !== 'Unknown') org.allocatedCredits += u.used; // for allocation coverage
         });
         org.util = org.limit > 0 ? org.credits / org.limit : 0;
@@ -295,15 +358,15 @@
             byCC: aggregateBy(users, 'costCenter'),
             byBU: aggregateBy(users, 'businessUnit'),
             unusedWaste: costFigures(org.unused, 0).effectiveCost,
-            overageCost: org.overage * state.contractedRate
+            overageCost: org.overage * state.contractedRate,
+            crossPolicy: { count: xpCount, credits: xpCredits, overage: xpOverage }
         };
     }
 
     // Active allocation dimension (shared with the allocation toggle) + per-unit cap lookup.
     function activeDim(m) {
-        if (state.allocDim === 'costCenter') return { key: 'costCenter', label: 'Cost Center', groups: m.byCC };
-        if (state.allocDim === 'businessUnit') return { key: 'businessUnit', label: 'Business Unit', groups: m.byBU };
-        return { key: 'department', label: 'Department', groups: m.byDept };
+        var key = state.allocDim;
+        return { key: key, label: dimLabelFor(key), groups: aggregateBy(m.users, key) };
     }
     function capFor(basis, dimKey, label, fallbackVal) {
         var byDim = state.unitCaps[basis] || {};
@@ -411,15 +474,12 @@
 
     // (D) Cost allocation - showback & chargeback, with dimension toggle.
     function sectionAllocation(m) {
-        var dims = [
-            { key: 'department', label: 'Department', groups: m.byDept },
-            { key: 'costCenter', label: 'Cost Center', groups: m.byCC },
-            { key: 'businessUnit', label: 'Business Unit', groups: m.byBU }
-        ];
-        var active = dims.filter(function (d) { return d.key === state.allocDim; })[0] || dims[0];
+        var active = activeDim(m);
+        var dimKeys = detectDimensions();
+        if (dimKeys.indexOf(state.allocDim) < 0 && state.allocDim) dimKeys = dimKeys.concat([state.allocDim]);
 
-        var toggle = '<div class="dim-toggle">' + dims.map(function (d) {
-            return '<button class="dim-btn' + (d.key === state.allocDim ? ' active' : '') + '" data-dim="' + esc(d.key) + '">' + esc(d.label) + '</button>';
+        var toggle = '<div class="dim-toggle">' + dimKeys.map(function (k) {
+            return '<button class="dim-btn' + (k === state.allocDim ? ' active' : '') + '" data-dim="' + esc(k) + '">' + esc(dimLabelFor(k)) + '</button>';
         }).join('') + '</div>';
 
         var totalEffective = m.orgCost.effectiveCost || 1;
@@ -669,12 +729,36 @@
     }
 
     // =========================================================== render
+    function sectionCrossPolicy(m) {
+        var xp = m.crossPolicy;
+        if (!xp || !xp.count) return '';
+        var pctCredits = m.org.credits > 0 ? xp.credits / m.org.credits : 0;
+        var srcLink = '<p class="xp-src">Reference: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a> &mdash; &ldquo;Spending policy behavior when a user moves between Entra ID Groups&rdquo;.</p>';
+        if (state.billingModel === 'september') {
+            return '<div class="xp-banner xp-info" role="note">' +
+                '<strong>&#8505; ' + fmtInt(xp.count) + ' user' + (xp.count === 1 ? '' : 's') + ' used more than their current cap &mdash; this is expected and the cost figures are correct.</strong>' +
+                '<p>From <strong>September 1, 2026</strong> each user&rsquo;s consumption is one <strong>running total across the billing period</strong>, with the destination policy cap enforced against that total. A user shown over their current cap was down-tiered mid-period; the credits already spent are real, <strong>remain charged to the original policy</strong>, and are billable. Their total consumption and effective cost are trustworthy &mdash; no reconciliation adjustment is needed.</p>' +
+                '<p>Affected: <strong>' + fmtInt(xp.credits) + ' credits</strong> (' + fmtPct(pctCredits) + ' of total). Because usage no longer resets on a policy move, overage and utilization for these users are meaningful again.</p>' +
+                srcLink +
+                '</div>';
+        }
+        return '<div class="xp-banner" role="note">' +
+            '<strong>&#9888; ' + fmtInt(xp.count) + ' user' + (xp.count === 1 ? '' : 's') + ' may have changed spending policy mid-period &mdash; review before charging back.</strong>' +
+            '<p>These users consumed more credits than their monthly limit allows. Up to <strong>August 2026</strong>, Microsoft does not surface true per-user overage in the Cost Management export, so this almost always means the row spans <em>two</em> spending policies: the per-user ledger is tracked separately per policy and <strong>resets to 0</strong> when a user moves between policies mid-month. The credits and the limit were therefore measured against different policies.</p>' +
+            '<p>Affected: <strong>' + fmtInt(xp.credits) + ' credits</strong> (' + fmtPct(pctCredits) + ' of total) and <strong>' + fmtInt(xp.overage) + ' credits</strong> of apparent overage. Overage cost, utilization and the right-size recommendation are unreliable for these users. Total consumption figures are unaffected.</p>' +
+            '<p class="xp-note"><strong>Moving to September 2026?</strong> Switch <em>Billing period</em> to &ldquo;September 2026 onward&rdquo; above &mdash; from then on this usage is a legitimate cumulative total, not an anomaly.</p>' +
+            srcLink +
+            '</div>';
+    }
     function render() {
+        pickDefaultDim();
         var m = compute();
         renderScope(m);
         var body = $('finopsBody');
         if (!body) return;
+        syncFnDimLabel();
         body.innerHTML =
+            sectionCrossPolicy(m) +
             sectionKPIs(m) +
             sectionFocusSummary(m) +
             sectionAllocation(m) +
@@ -685,6 +769,13 @@
             sectionCapabilityCoverage() +
             sectionGlossary();
         populateEntityFilterF();
+    }
+
+    function syncFnDimLabel() {
+        var el = $('fnDimLabel'); if (!el) return;
+        var lbl = state.dimLabels[state.allocDim];
+        el.value = (lbl != null) ? lbl : '';
+        el.placeholder = state.allocDim || 'e.g. Business Line';
     }
 
     // =========================================================== wiring
@@ -710,12 +801,30 @@
     }
     function toCsv(rows) { return rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n'); }
     function demoSuffix() { return state.demoActive ? '-DEMO' : ''; }
+    function dateSlug() { return new Date().toISOString().slice(0, 10); }
+    var DEMO_WARNING = 'SYNTHETIC DEMO DATA - not for real decisions';
+    /* Provenance block written at the top of every export so a finance team can
+       tell which tool, date, billing model and rates produced the numbers, and
+       what the figures do and do not claim. */
+    function stampRows() {
+        var rows = [
+            ['Cowork FinOps Cost Report' + (state.demoActive ? ' - ' + DEMO_WARNING : '')],
+            ['Generated', dateSlug()],
+            ['Billing period', billingModelLabel()],
+            ['List rate ($/credit)', state.listRate.toFixed(4), 'Contracted rate ($/credit)', state.contractedRate.toFixed(4)],
+            ['Allocation cut', dimLabelFor(state.allocDim)]
+        ];
+        rows.push(['Reconciliation basis', 'Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards.']);
+        rows.push([]);
+        return rows;
+    }
     function exportUnitCsv() {
         if (!state.users.length) { alert('Load data first.'); return; }
         var m = compute();
         var dim = activeDim(m);
         var basis = state.capBasis, rate = state.contractedRate, isD = basis === 'dollars';
-        var rows = [['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Consumed $', 'Showback $', 'Chargeback $ (overage)', (isD ? 'Budget cap ($)' : 'Budget cap (credits)'), (isD ? 'Variance ($)' : 'Variance (credits)'), 'Status']];
+        var rows = stampRows();
+        rows.push(['Chargeback unit (' + dim.label + ')', 'Users', 'Consumed credits', 'Consumed $', 'Showback $', 'Chargeback $ (overage)', (isD ? 'Budget cap ($)' : 'Budget cap (credits)'), (isD ? 'Variance ($)' : 'Variance (credits)'), 'Status']);
         dim.groups.forEach(function (g) {
             var f = costFigures(g.credits, g.overage);
             var capVal, variance, util, capOut, varOut;
@@ -733,18 +842,19 @@
             var status = util > 1 ? 'Over' : (util >= 0.85 ? 'Near' : 'Under');
             rows.push([g.label, g.users, Math.round(g.credits), f.effectiveCost.toFixed(2), f.showback.toFixed(2), f.chargeback.toFixed(2), capOut, varOut, status]);
         });
-        if (state.demoActive) rows.unshift(['SYNTHETIC DEMO DATA - not for real decisions']);
-        downloadBlob(toCsv(rows), 'cowork-chargeback-by-' + dim.key + demoSuffix() + '.csv');
+        var slug = String(dimLabelFor(dim.key)).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'unit';
+        downloadBlob(toCsv(rows), 'cowork-finops-by-' + slug + '-' + dateSlug() + demoSuffix() + '.csv');
     }
     function exportUserCsv() {
         if (!state.users.length) { alert('Load data first.'); return; }
         var m = compute();
         var dim = activeDim(m);
         var basis = state.capBasis, rate = state.contractedRate, isD = basis === 'dollars';
-        var rows = [['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $ (overage)', (isD ? 'Unit budget cap ($)' : 'Unit budget cap (credits)')]];
+        var rows = stampRows();
+        rows.push(['User Principal Name', 'Display Name', 'Department', 'Cost Center', 'Business Unit', 'Credits Used', 'Allowance', 'Utilization %', 'Flag', 'Right-size tier', 'Showback $', 'Chargeback $ (overage)', (isD ? 'Unit budget cap ($)' : 'Unit budget cap (credits)')]);
         m.users.forEach(function (u) {
             var f = costFigures(u.used, u.overage);
-            var unitLabel = (u[dim.key] && String(u[dim.key]).trim()) ? String(u[dim.key]).trim() : 'Unknown';
+            var unitLabel = attrOf(u, dim.key);
             var groupAllow = 0;
             dim.groups.forEach(function (g) { if (g.label === unitLabel) groupAllow = g.limit; });
             var capOut;
@@ -752,8 +862,7 @@
             else { capOut = Math.round(toNumber(capFor('credits', dim.key, unitLabel, groupAllow))); }
             rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, Math.round(u.used), Math.round(u.limit), (u.util * 100).toFixed(1), u.flag, policyName(u.recommended), f.showback.toFixed(2), f.chargeback.toFixed(2), capOut]);
         });
-        if (state.demoActive) rows.unshift(['SYNTHETIC DEMO DATA - not for real decisions']);
-        downloadBlob(toCsv(rows), 'cowork-chargeback-by-user' + demoSuffix() + '.csv');
+        downloadBlob(toCsv(rows), 'cowork-finops-by-user-' + dateSlug() + demoSuffix() + '.csv');
     }
 
     // ------------------------------------------------------------ deck + PDF export
@@ -995,6 +1104,15 @@
         var l = $('rateList'), c = $('rateContracted');
         if (l) l.addEventListener('input', function () { readRates(); render(); });
         if (c) c.addEventListener('input', function () { readRates(); render(); });
+        var bm = $('fnBillingModel');
+        if (bm) { bm.value = state.billingModel; bm.addEventListener('change', function () { state.billingModel = this.value === 'august' ? 'august' : 'september'; render(); }); }
+        var dl = $('fnDimLabel');
+        if (dl) dl.addEventListener('input', function () {
+            var v = String(dl.value);
+            if (v.trim() === '') delete state.dimLabels[state.allocDim];
+            else state.dimLabels[state.allocDim] = v;
+            render();
+        });
         var fes = $('finopsEntitySearch'); if (fes) fes.addEventListener('input', function () { state.entitySearch = fes.value; populateEntityFilterF(); });
         var febox = $('finopsEntity'); if (febox) febox.addEventListener('change', function (ev) {
             var t = ev.target && ev.target.closest ? ev.target.closest('[data-entity]') : null; if (!t) return;

@@ -33,9 +33,12 @@
         baseline: {},
         prevBaseline: null,
         groupBy: 'individual',
+        groupDim: '__manager__',
+        groupDimLabels: {},
         groupBudgets: {},
         rules: [],
-        rulesDefault: 'tier1'
+        rulesDefault: 'tier1',
+        billingModel: 'september'
     };
 
     var COHORT_ORDER = ['Light', 'Regular', 'Engaged', 'Native', 'Power', 'Frontier'];
@@ -255,6 +258,7 @@
 
             users.push({
                 upn: upn,
+                attrs: erow,
                 displayName: get(creditMap, crow, 'displayName') || get(entraMap, erow, 'displayName') || upn,
                 department: get(entraMap, erow, 'department') || 'Unknown',
                 jobTitle: get(entraMap, erow, 'jobTitle') || '',
@@ -271,6 +275,49 @@
         });
         state.joinStats = { matched: joinMatched, total: joinTotal };
         return users;
+    }
+
+    /* Cross-policy detection - users who changed spending policy mid-period.
+       Microsoft's per-user credit ledger is tracked separately per spending policy
+       and resets to 0 when a user's effective policy changes mid-month, so one
+       export row can span two policies. Microsoft also documents that per-user
+       excess "doesn't count toward the policy limit, isn't billed ... and doesn't
+       appear as consumed credits in the Cost Management dashboards" - so a row
+       where used > limit cannot come from normal enforcement.
+       For this tool the consequence is a bad recommendation: the limit reflects
+       only the current policy while usage may span two, so the user's apparent
+       utilization - which drives their recommended tier - is wrong.
+       Only meaningful when the limit came from the file; when the limit column is
+       absent every user carries the same synthetic fallback and used > limit is
+       ordinary what-if modelling, not a data signal.
+       Ref: learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits */
+    function isCrossPolicy(u) {
+        if (state.demoActive) return false;
+        return !state.usedFallbackLimit && u.limit > 0 && u.used > u.limit;
+    }
+
+    /* Billing period model (see chargeback apps for the full rationale).
+       'august'    - per-policy ledger resets to 0 on a mid-month policy move.
+       'september' - cumulative per-user total across the period; the destination
+                     policy cap is enforced against that total, moving down blocks,
+                     moving up grants only remaining headroom, and credits already
+                     consumed stay charged to the original policy. */
+    function billingModelLabel() {
+        return state.billingModel === 'september'
+            ? 'September 2026 onward (cumulative per-user)'
+            : 'Up to August 2026 (per-policy reset)';
+    }
+    // Suggested destination per-user limit for a mid-month move = target cap - already used.
+    function midMonthLimit(u) {
+        var d = derive(u);
+        return Math.max(0, Math.round(d.allowance - u.used));
+    }
+    // Under the September model, a mid-month move to the assigned tier blocks the
+    // user immediately when they have already consumed at or beyond that cap.
+    function moveBlocksMidMonth(u) {
+        if (!u.licensed || !(u.used > 0)) return false;
+        var d = derive(u);
+        return d.allowance > 0 && u.used >= d.allowance;
     }
 
     // ------------------------------------------------------------- compute
@@ -769,6 +816,17 @@
         var options = POLICIES.map(function (p) {
             return '<option value="' + p.id + '"' + (p.id === d.pid ? ' selected' : '') + '>' + esc(p.name) + '</option>';
         }).join('');
+        var fitCell = esc(d.fit);
+        var fitTitle = '';
+        if (d.fit === 'Over-allowance') {
+            var mm = midMonthLimit(u);
+            var base = 'Used ' + fmtInt(u.used) + ' of a ' + fmtInt(d.allowance) + ' cap. To move this user mid-month, set their limit to the remaining budget: ' + fmtInt(mm) + ' (0 means they are already over). Or run Auto-adjust to fit.';
+            if (state.billingModel === 'september' && moveBlocksMidMonth(u)) {
+                fitCell += ' <span class="mm-flag" title="' + esc('Moving this user mid-month would block them right away. ' + base) + '">&#9888; blocks mid-month</span>';
+            } else {
+                fitTitle = ' title="' + esc(base) + '"';
+            }
+        }
         return '<tr data-upn="' + esc(u.upn) + '">' +
             '<td class="col-check"><input type="checkbox" class="row-check" data-upn="' + esc(u.upn) + '"' + checked + ' aria-label="Select ' + esc(u.displayName) + '"></td>' +
             '<td>' + esc(truncate(u.displayName, 40)) + '</td>' +
@@ -780,7 +838,7 @@
             '<td class="num cell-alw">' + fmtInt(d.allowance) + '</td>' +
             '<td class="cell-role">' + esc(d.pol.role) + '</td>' +
             '<td class="num cell-util ' + utilClass(d.util) + '">' + fmtPct(d.util) + '</td>' +
-            '<td class="cell-fit ' + fitClass(d.fit) + '">' + esc(d.fit) + '</td>' +
+            '<td class="cell-fit ' + fitClass(d.fit) + '"' + fitTitle + '>' + fitCell + '</td>' +
             '</tr>';
     }
 
@@ -788,9 +846,61 @@
     // The view switcher renders the roster either as the per-user editable
     // table (Individual) or a read-only rollup grouped by department or team.
     // Team is keyed by the user's manager. Editing still happens in Individual.
-    function groupKeyOf(u) {
-        if (state.groupBy === 'department') return u.department || 'Unknown';
-        return u.manager || 'No manager';
+    // Columns available to cut/group by, derived from whatever the user uploaded.
+    // Any column keyed to the UPN works - the file need not be a real Entra export.
+    function detectDimensions() {
+        var seen = {}, dims = [];
+        var deny = /^(user ?principal ?name|upn|user ?id|object ?id|guid|id|display ?name|name|monthly ?credits? ?used|credits? ?used|monthly ?credit ?limit|credit ?limit|limit|allowance|microsoft ?365 ?copilot ?license|copilot ?license|license|licensed|last ?activity ?date?|session ?count|sessions?)$/i;
+        state.users.forEach(function (u) {
+            if (!u.attrs) return;
+            Object.keys(u.attrs).forEach(function (h) {
+                var hs = String(h).trim();
+                if (!hs || deny.test(hs) || seen[hs]) return;
+                seen[hs] = 1; dims.push(hs);
+            });
+        });
+        return dims;
+    }
+    function dimDisplayName(dimKey) {
+        var lbl = state.groupDimLabels[dimKey];
+        if (lbl != null && String(lbl).trim() !== '') return String(lbl).trim();
+        if (dimKey === '__manager__') return 'Team';
+        if (dimKey === 'department') return 'Department';
+        return dimKey || 'Group';
+    }
+    function keyForUserByDim(u, dimKey) {
+        if (dimKey === '__manager__') return u.manager || 'No manager';
+        if (dimKey === 'department') return u.department || 'Unknown';
+        var raw = (u.attrs && u.attrs[dimKey] != null) ? u.attrs[dimKey] : '';
+        var v = String(raw).trim();
+        return v || 'Unassigned';
+    }
+    function groupLabel() { return dimDisplayName(state.groupDim); }
+    function groupKeyOf(u) { return keyForUserByDim(u, state.groupDim); }
+    function syncGroupDimLabel() {
+        var el = $('groupDimLabel'); if (!el) return;
+        var lbl = state.groupDimLabels[state.groupDim];
+        el.value = (lbl != null) ? lbl : '';
+        el.placeholder = state.groupDim === '__manager__' ? 'Team' : (state.groupDim || 'e.g. Business Line');
+    }
+    function populateGroupDimSelect() {
+        var sel = $('groupDimSelect'); if (!sel) return;
+        var dims = detectDimensions();
+        var avail = { '__manager__': 1 };
+        dims.forEach(function (d) { avail[d] = 1; });
+        if (!avail[state.groupDim]) {
+            var pref = ['department', 'cost center', 'costcenter', 'cc', 'business unit', 'businessunit', 'bu', 'team'];
+            var chosen = '';
+            for (var i = 0; i < pref.length && !chosen; i++) {
+                for (var j = 0; j < dims.length; j++) { if (String(dims[j]).toLowerCase() === pref[i]) { chosen = dims[j]; break; } }
+            }
+            state.groupDim = chosen || (dims.length ? dims[0] : '__manager__');
+        }
+        var opts = dims.map(function (d) { return '<option value="' + esc(d) + '">' + esc(d) + '</option>'; });
+        opts.push('<option value="__manager__">Manager (Team)</option>');
+        sel.innerHTML = opts.join('');
+        sel.value = state.groupDim;
+        syncGroupDimLabel();
     }
 
     function aggregateGroups() {
@@ -814,13 +924,13 @@
     }
 
     function teamLabel(key) {
-        if (state.groupBy !== 'team') return key;
+        if (state.groupDim !== '__manager__') return key;
         if (key === 'No manager') return key;
         var at = key.indexOf('@');
         return at > 0 ? key.slice(0, at) : key;
     }
 
-    function budgetKeyFor(key) { return state.groupBy + ':' + key; }
+    function budgetKeyFor(key) { return state.groupDim + ':' + key; }
 
     function budgetStatus(cost, budget) {
         if (!(budget > 0)) return { txt: '&mdash;', cls: '' };
@@ -852,7 +962,7 @@
     }
 
     function renderAgg() {
-        var label = state.groupBy === 'department' ? 'Department' : 'Team';
+        var label = groupLabel();
         $('aggHead').innerHTML = '<tr>' +
             '<th>' + label + '</th>' +
             '<th class="num">Users</th>' +
@@ -949,16 +1059,17 @@
         $('rosterTable').hidden = true;
         $('aggTable').hidden = false;
         var n = renderAgg();
-        var noun = state.groupBy === 'department' ? 'department' : 'team';
+        var noun = groupLabel().toLowerCase();
         $('rosterNote').textContent = 'Showing ' + fmtInt(n) + ' ' + noun + (n === 1 ? '' : 's') +
             ' across ' + fmtInt(filteredUsers().length) + ' users.';
     }
 
     function switchView(mode) {
-        state.groupBy = mode;
-        $('viewIndividual').classList.toggle('active', mode === 'individual');
-        $('viewDepartment').classList.toggle('active', mode === 'department');
-        $('viewTeam').classList.toggle('active', mode === 'team');
+        // 'individual' = editable per-user table; 'grouped' = rollup by the chosen cut.
+        state.groupBy = (mode === 'individual') ? 'individual' : 'grouped';
+        $('viewIndividual').classList.toggle('active', state.groupBy === 'individual');
+        var gb = $('viewGrouped'); if (gb) gb.classList.toggle('active', state.groupBy === 'grouped');
+        var gc = $('groupCutControls'); if (gc) gc.hidden = (state.groupBy !== 'grouped');
         renderRoster();
     }
 
@@ -998,6 +1109,7 @@
     }
 
     function buildControls() {
+        populateGroupDimSelect();
         var depts = {};
         state.users.forEach(function (u) { depts[u.department || 'Unknown'] = true; });
         var deptList = Object.keys(depts).sort();
@@ -1180,6 +1292,8 @@
 
     // --------------------------------------------------------------- export
     function q(v) { var s = String(v == null ? '' : v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+    function dateSlug() { return new Date().toISOString().slice(0, 10); }
+    var DEMO_WARNING = 'SYNTHETIC DEMO DATA - not for real decisions';
 
 // ---- XLSX export ----
 // ------------------------------------------------------------- XLSX export
@@ -1292,7 +1406,7 @@ function buildAndDownloadXlsx(sheets, filename) {
     }
 }
 
-var XLSX_USER_HEADER = ['UPN', 'Display Name', 'Department', 'Job Title', 'Cohort', 'Current Monthly Credits', 'Recommended Policy', 'Assigned Policy', 'Policy Role', 'Policy Allowance', 'Utilization %', 'Projected Monthly Cost', 'Fit Status', 'Forecast Next-Month Credits', 'Forecast Next-Month Cost'];
+var XLSX_USER_HEADER = ['UPN', 'Display Name', 'Department', 'Job Title', 'Cohort', 'Current Monthly Credits', 'Recommended Policy', 'Assigned Policy', 'Policy Role', 'Policy Allowance', 'Utilization %', 'Projected Monthly Cost', 'Fit Status', 'Forecast Next-Month Credits', 'Forecast Next-Month Cost', 'Mid-Month Move Limit (remaining budget)', 'Would Block If Moved Mid-Month'];
 
 function xlsxUserRow(u, g) {
     var d = derive(u);
@@ -1300,22 +1414,33 @@ function xlsxUserRow(u, g) {
     return [u.upn, u.displayName, u.department || 'Unknown', u.jobTitle || '', u.cohort || '',
         Math.round(u.used), policyById(u.recommended).name, d.pol.name, d.pol.role,
         d.allowance, Number((d.util * 100).toFixed(1)), Number((d.allowance * state.rate).toFixed(2)),
-        d.fit, Math.round(fcCr), Number((fcCr * state.rate).toFixed(2))];
+        d.fit, Math.round(fcCr), Number((fcCr * state.rate).toFixed(2)),
+        midMonthLimit(u), moveBlocksMidMonth(u) ? 'Yes' : 'No'];
+}
+
+/* Compact provenance header for xlsx sheets: which tool, when, which billing
+   model and rate produced the figures, plus what they do and do not claim. */
+function xlsxStampRows() {
+    return [
+        ['Cowork Policy Helper' + (state.demoActive ? ' - ' + DEMO_WARNING : ''), '', 'Generated', dateSlug()],
+        ['Billing period', billingModelLabel(), 'Rate ($/credit)', state.rate.toFixed(4)],
+        ['Reconciliation basis', 'Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards.'],
+        []
+    ];
 }
 
 function exportByPolicy() {
     var g = growthFrac();
     var demo = state.demoActive;
     var sheets = POLICIES.map(function (p) {
-        var aoa = [];
-        if (demo) aoa.push(['SYNTHETIC DEMO DATA - not for real decisions']);
+        var aoa = xlsxStampRows();
         aoa.push(XLSX_USER_HEADER.slice());
         state.users.forEach(function (u) {
             if (derive(u).pid === p.id) aoa.push(xlsxUserRow(u, g));
         });
         return { name: p.name, aoa: aoa };
     });
-    buildAndDownloadXlsx(sheets, 'billing-policy-by-policy' + (demo ? '-DEMO' : '') + '.xlsx');
+    buildAndDownloadXlsx(sheets, 'billing-policy-by-policy-' + dateSlug() + (demo ? '-DEMO' : '') + '.xlsx');
 }
 
 function exportByDepartment() {
@@ -1323,27 +1448,27 @@ function exportByDepartment() {
     var demo = state.demoActive;
     var map = {}, order = [];
     state.users.forEach(function (u) {
-        var k = u.department || 'Unknown';
+        var k = groupKeyOf(u);
         if (!map[k]) { map[k] = []; order.push(k); }
         map[k].push(u);
     });
     order.sort();
     if (!order.length) { alert('No users to export.'); return; }
+    var sanitize = function (s) { s = String(s).replace(/[\\\/\?\*\[\]:]/g, ' ').trim().slice(0, 31); return s || 'Sheet'; };
     var sheets = order.map(function (k) {
-        var aoa = [];
-        if (demo) aoa.push(['SYNTHETIC DEMO DATA - not for real decisions']);
+        var aoa = xlsxStampRows();
         aoa.push(XLSX_USER_HEADER.slice());
         map[k].forEach(function (u) { aoa.push(xlsxUserRow(u, g)); });
-        return { name: k, aoa: aoa };
+        return { name: sanitize(teamLabel(k)), aoa: aoa };
     });
-    buildAndDownloadXlsx(sheets, 'billing-policy-by-department' + (demo ? '-DEMO' : '') + '.xlsx');
+    var slug = groupLabel().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'cut';
+    buildAndDownloadXlsx(sheets, 'billing-policy-by-' + slug + '-' + dateSlug() + (demo ? '-DEMO' : '') + '.xlsx');
 }
 
 function exportAdjustedOverages() {
     var demo = state.demoActive;
     var header = ['UPN', 'Display Name', 'Department', 'Credits Used', 'Original Policy', 'Original Allowance', 'Overage Gap', 'New Policy', 'New Allowance', 'New Utilization %', 'Cost Delta'];
-    var aoa = [];
-    if (demo) aoa.push(['SYNTHETIC DEMO DATA - not for real decisions']);
+    var aoa = xlsxStampRows();
     aoa.push(header);
     var count = 0;
     state.users.forEach(function (u) {
@@ -1360,14 +1485,20 @@ function exportAdjustedOverages() {
         count += 1;
     });
     if (!count) { alert('No adjusted-overage users to export: no user who was over their original allowance has been re-tiered yet.'); return; }
-    buildAndDownloadXlsx([{ name: 'Adjusted Overages', aoa: aoa }], 'billing-policy-adjusted-overages' + (demo ? '-DEMO' : '') + '.xlsx');
+    buildAndDownloadXlsx([{ name: 'Adjusted Overages', aoa: aoa }], 'billing-policy-adjusted-overages-' + dateSlug() + (demo ? '-DEMO' : '') + '.xlsx');
 }
 
     function exportCsv() {
         var g = growthFrac();
         var lines = [];
-        if (state.demoActive) { lines.push(q('SYNTHETIC DEMO DATA - synthetic figures, not for real decisions')); }
-        lines.push('UPN,Display Name,Department,Job Title,Cohort,Current Monthly Credits,Recommended Policy,Assigned Policy,Policy Role,Policy Allowance,Utilization %,Projected Monthly Cost,Fit Status,Forecast Next-Month Credits,Forecast Next-Month Cost');
+        lines.push(q('Cowork Policy Helper' + (state.demoActive ? ' - ' + DEMO_WARNING : '')));
+        lines.push('Generated,' + q(dateSlug()));
+        lines.push('Billing period,' + q(billingModelLabel()));
+        lines.push('Rate ($/credit),' + q(state.rate.toFixed(4)));
+        lines.push('Grouped cut,' + q(groupLabel()));
+        lines.push('Reconciliation basis,' + q('Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards.'));
+        lines.push('');
+        lines.push('UPN,Display Name,Department,Job Title,Cohort,Current Monthly Credits,Recommended Policy,Assigned Policy,Policy Role,Policy Allowance,Utilization %,Projected Monthly Cost,Fit Status,Forecast Next-Month Credits,Forecast Next-Month Cost,Mid-Month Move Limit (remaining budget),Would Block If Moved Mid-Month');
         state.users.forEach(function (u) {
             var d = derive(u);
             var utilNum = (d.util * 100).toFixed(1);
@@ -1377,7 +1508,8 @@ function exportAdjustedOverages() {
             lines.push([
                 q(u.upn), q(u.displayName), q(u.department || 'Unknown'), q(u.jobTitle || ''), q(u.cohort),
                 q(Math.round(u.used)), q(policyById(u.recommended).name), q(d.pol.name), q(d.pol.role),
-                q(d.allowance), q(utilNum), q(cost), q(d.fit), q(Math.round(fcCr)), q(fcCost)
+                q(d.allowance), q(utilNum), q(cost), q(d.fit), q(Math.round(fcCr)), q(fcCost),
+                q(midMonthLimit(u)), q(moveBlocksMidMonth(u) ? 'Yes' : 'No')
             ].join(','));
         });
         var f = computeForecast();
@@ -1421,7 +1553,7 @@ function exportAdjustedOverages() {
                 var name = bk.slice(ci + 1);
                 var gcost = 0, gusers = 0;
                 state.users.forEach(function (u) {
-                    var uk = mode === 'department' ? (u.department || 'Unknown') : (u.manager || 'No manager');
+                    var uk = keyForUserByDim(u, mode);
                     if (uk !== name) return;
                     gcost += derive(u).cost;
                     gusers += 1;
@@ -1430,11 +1562,11 @@ function exportAdjustedOverages() {
                 var status = over > 0 ? 'Over budget by ' + over.toFixed(2)
                     : (over < 0 ? 'Under budget by ' + (-over).toFixed(2) : 'On budget');
                 var label = name;
-                if (mode === 'team' && name !== 'No manager') {
+                if (mode === '__manager__' && name !== 'No manager') {
                     var at = name.indexOf('@');
                     label = at > 0 ? name.slice(0, at) : name;
                 }
-                budgetRows.push({ view: mode === 'department' ? 'Department' : 'Team', name: label, users: gusers, cost: gcost, budget: amount, status: status, sort: gcost });
+                budgetRows.push({ view: dimDisplayName(mode), name: label, users: gusers, cost: gcost, budget: amount, status: status, sort: gcost });
             });
             if (budgetRows.length) {
                 budgetRows.sort(function (a, b) { return b.sort - a.sort; });
@@ -1464,7 +1596,7 @@ function exportAdjustedOverages() {
         var url = URL.createObjectURL(blob);
         var link = document.createElement('a');
         link.href = url;
-        link.download = 'billing-policy-assignments.csv';
+        link.download = 'billing-policy-assignments-' + dateSlug() + (state.demoActive ? '-DEMO' : '') + '.csv';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1558,15 +1690,15 @@ function exportAdjustedOverages() {
             var name = bk.slice(ci + 1);
             var gcost = 0, gusers = 0;
             state.users.forEach(function (u) {
-                var uk = mode === 'department' ? (u.department || 'Unknown') : (u.manager || 'No manager');
+                var uk = keyForUserByDim(u, mode);
                 if (uk !== name) return;
                 gcost += derive(u).cost; gusers += 1;
             });
             var over = gcost - amount;
             var status = over > 0 ? 'Over by ' + fmtMoney(over) : (over < 0 ? 'Under by ' + fmtMoney(-over) : 'On budget');
             var label = name;
-            if (mode === 'team' && name !== 'No manager') { var at = name.indexOf('@'); label = at > 0 ? name.slice(0, at) : name; }
-            budgetRows.push({ view: mode === 'department' ? 'Department' : 'Team', name: label, users: gusers, cost: gcost, budget: amount, status: status, over: over, sort: gcost });
+            if (mode === '__manager__' && name !== 'No manager') { var at = name.indexOf('@'); label = at > 0 ? name.slice(0, at) : name; }
+            budgetRows.push({ view: dimDisplayName(mode), name: label, users: gusers, cost: gcost, budget: amount, status: status, over: over, sort: gcost });
         });
         if (budgetRows.length) {
             budgetRows.sort(function (a, b) { return b.sort - a.sort; });
@@ -1661,7 +1793,7 @@ function exportAdjustedOverages() {
         var users = state.users;
         var issues = [];
         var seen = {}, dups = 0;
-        var noPolicy = 0, missingDept = 0, missingCC = 0, badNum = 0;
+        var noPolicy = 0, missingDept = 0, missingCC = 0, badNum = 0, crossPolicy = 0;
         for (var i = 0; i < users.length; i++) {
             var u = users[i];
             if (Object.prototype.hasOwnProperty.call(seen, u.upn)) dups += 1;
@@ -1670,8 +1802,16 @@ function exportAdjustedOverages() {
             if (!u.department || u.department === 'Unknown') missingDept += 1;
             if (!u.costCenter) missingCC += 1;
             if (u.used < 0 || u.limit < 0) badNum += 1;
+            if (isCrossPolicy(u)) crossPolicy += 1;
         }
         if (dups > 0) issues.push({ sev: 'error', label: 'Duplicate user rows', count: dups, note: 'The same user appears more than once in the credit file. Consumption may be double-counted.' });
+        if (crossPolicy > 0) {
+            if (state.billingModel === 'september') {
+                issues.push({ sev: 'warn', label: 'Users over their current policy cap', count: crossPolicy, note: 'These users have used more credits than their current tier allows. Their usage is accurate (from September 1, 2026 Microsoft counts each user\u2019s credits as one running total for the period), so the recommended tier is reliable. The easy fix: click Auto-adjust to fit, which moves everyone to a tier that covers their usage. Only note if you move someone down mid-month by hand: they get blocked once they pass the smaller cap, so move at the start of the month or set their limit to the remaining budget (cap minus what they have already used).' });
+            } else {
+                issues.push({ sev: 'error', label: 'Possible mid-month spending-policy change', count: crossPolicy, note: 'These users consumed more than their monthly credit limit allows. Microsoft does not report true per-user overage in this export, so the row most likely spans two spending policies: the per-user ledger is tracked per policy and resets to 0 when a user moves mid-month. Their credit limit reflects only the current policy while usage may span both, so the recommended tier for these users is unreliable. Verify the real allowance before committing.' });
+            }
+        }
         if (noPolicy > 0) issues.push({ sev: 'error', label: 'Consumption without an active policy', count: noPolicy, note: 'Users are consuming credits but are assigned to the Unassigned tier (no allowance). Assign an active billing policy before billing.' });
         if (badNum > 0) issues.push({ sev: 'error', label: 'Invalid usage or allowance', count: badNum, note: 'Negative usage or allowance values were found - likely a bad export.' });
         if (missingDept > 0) issues.push({ sev: 'warn', label: 'Not matched to the directory', count: missingDept, note: 'No department could be resolved. These users cannot be rolled up by org or reviewed by owner.' });
@@ -1781,8 +1921,18 @@ function exportAdjustedOverages() {
         $('deptFilter').addEventListener('change', function () { state.deptFilter = this.value; renderRoster(); });
         $('cohortFilter').addEventListener('change', function () { state.cohortFilter = this.value; renderRoster(); });
         $('viewIndividual').addEventListener('click', function () { switchView('individual'); });
-        $('viewDepartment').addEventListener('click', function () { switchView('department'); });
-        $('viewTeam').addEventListener('click', function () { switchView('team'); });
+        var vg = $('viewGrouped'); if (vg) vg.addEventListener('click', function () { switchView('grouped'); });
+        var gds = $('groupDimSelect');
+        if (gds) gds.addEventListener('change', function () {
+            state.groupDim = this.value; syncGroupDimLabel(); renderRoster();
+        });
+        var gdl = $('groupDimLabel');
+        if (gdl) gdl.addEventListener('input', function () {
+            var v = String(this.value);
+            if (v.trim() === '') delete state.groupDimLabels[state.groupDim];
+            else state.groupDimLabels[state.groupDim] = v;
+            renderRoster();
+        });
 
         var aggBody = $('aggBody');
         aggBody.addEventListener('input', function (e) {
@@ -1790,7 +1940,7 @@ function exportAdjustedOverages() {
             if (!t.classList.contains('agg-budget')) return;
             var key = t.getAttribute('data-key');
             var v = parseFloat(t.value);
-            var bk = state.groupBy + ':' + key;
+            var bk = budgetKeyFor(key);
             if (!isFinite(v) || v < 0) delete state.groupBudgets[bk];
             else state.groupBudgets[bk] = v;
             var tr = t.parentNode.parentNode;
@@ -1854,6 +2004,15 @@ function exportAdjustedOverages() {
             state.growthPct = v;
             renderForecast();
         });
+
+        var bmSel = $('billingModelSelect');
+        if (bmSel) {
+            bmSel.value = state.billingModel;
+            bmSel.addEventListener('change', function () {
+                state.billingModel = this.value === 'august' ? 'august' : 'september';
+                refreshAll();
+            });
+        }
 
         $('btnExport').addEventListener('click', exportCsv);
         var bexP = $('btnExportPolicy'); if (bexP) bexP.addEventListener('click', exportByPolicy);
@@ -1998,7 +2157,7 @@ function exportAdjustedOverages() {
         state.users = []; state.demoActive = false;
         state.assignments = {}; state.selected = {}; state.baseline = {}; state.prevBaseline = null;
         state.search = ''; state.deptFilter = 'All'; state.cohortFilter = 'All'; state.growthPct = 0;
-        state.ownedCredits = null; state.packSize = 25000; state.packPrice = 200; state.buyCredits = 0; state.activeTab = 'manager'; state.groupBy = 'individual'; state.groupBudgets = {}; state.rules = []; state.rulesDefault = 'tier1';
+        state.ownedCredits = null; state.packSize = 25000; state.packPrice = 200; state.buyCredits = 0; state.activeTab = 'manager'; state.groupBy = 'individual'; state.groupDim = '__manager__'; state.groupDimLabels = {}; state.groupBudgets = {}; state.rules = []; state.rulesDefault = 'tier1';
         $('dashboard').hidden = true;
         $('landing').hidden = false;
         $('statusEntra').textContent = 'No file selected';

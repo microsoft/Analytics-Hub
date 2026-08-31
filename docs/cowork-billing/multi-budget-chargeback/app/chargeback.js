@@ -13,12 +13,14 @@
         daysInPeriod: 30,
         headroomPct: 15,
         fallbackLimit: 400,
+        billingModel: 'september',
         policyLimits: {},
         entityFilter: {},
         entitySearch: '',
         lineSearch: '',
         invoiceTotal: null,
         unitDim: 'costCenter',
+        dimLabels: {},
         lineModel: 'paygo',
         valueMode: 'total',
         lineFilter: 'all',
@@ -145,6 +147,34 @@
             u.limit = state.fallbackLimit; u.limitSource = 'fallback';
         });
     }
+    /* Over-cap / cross-policy detection - depends on the billing period model.
+
+       AUGUST 2026 AND EARLIER (billingModel === 'august') - per-policy reset.
+       Microsoft's per-user credit ledger was tracked separately per spending policy
+       and reset to 0 when a user's effective policy changed mid-month, so one
+       export row could span two policies. Microsoft also documents that per-user
+       excess "doesn't count toward the policy limit, isn't billed ... and doesn't
+       appear as consumed credits in the Cost Management dashboards" - so a row
+       where used > limit could not come from normal enforcement. It meant the credits
+       and the limit were measured against different policies.
+       This matters most for settlement: entitlements are derived from per-user
+       credits, so a distorted or incomplete user total shifts every entity's bill.
+
+       SEPTEMBER 2026 ONWARD (billingModel === 'september') - cumulative per-user.
+       Consumption is metered per user as a running total across the billing period
+       and the destination policy cap is enforced against that total. Credits already
+       consumed remain charged to the original policy and are not rebalanced. A row
+       where used > limit is a LEGITIMATE, trustworthy cumulative total for a user who
+       was down-tiered mid-period - the per-user credits feeding settlement are complete
+       and reconcile to the invoice. Surfaced as information, not a settlement-trust warning.
+
+       Only meaningful when the limit came from the file.
+       Ref: learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits */
+    function isOverCap(u) {
+        if (state.demoActive) return false;
+        return u.limitSource === 'file' && u.limit > 0 && u.used > u.limit;
+    }
+    function isCrossPolicy(u) { return isOverCap(u); }
 
     function unitOf(u) {
         if (state.unitDim === 'Spending policy') { var pv = u.policy; return (!pv || pv === 'Unassigned') ? 'Unallocated' : pv; }
@@ -153,7 +183,17 @@
         if (!v || v.toLowerCase() === 'unknown') return 'Unallocated';
         return v;
     }
-    function unitLabel() { return state.unitDim ? String(state.unitDim) : 'Unit'; }
+    function unitLabel() {
+        var lbl = state.dimLabels[state.unitDim];
+        if (lbl != null && String(lbl).trim() !== '') return String(lbl).trim();
+        return state.unitDim ? String(state.unitDim) : 'Unit';
+    }
+    function syncDimLabelInput() {
+        var el = $('cbDimLabel'); if (!el) return;
+        var lbl = state.dimLabels[state.unitDim];
+        el.value = (lbl != null) ? lbl : '';
+        el.placeholder = state.unitDim ? String(state.unitDim) : 'e.g. Business Line';
+    }
     /* unitLabel() is the raw column name, e.g. "costCenter". Fine as a table
        header, wrong inside a sentence. Split camelCase and lowercase it. */
     function unitWord() {
@@ -238,6 +278,7 @@
     function computeChargeback() {
         var rate = state.rate, pr = state.prepaidRate;
         var groups = {}, order = [], totalCredits = 0, totalOverage = 0, totalLimit = 0, totalWastedCredits = 0, totalHeadroomPack = 0;
+        var xpCount = 0, xpCredits = 0, xpOverage = 0;
         var hf = 1 + (state.headroomPct / 100);
         state.users.forEach(function (u) {
             if (!inScope(u)) return;
@@ -245,6 +286,7 @@
             var g = groups[key] || (groups[key] = { label: key, users: 0, credits: 0, overage: 0, limit: 0 });
             if (g.users === 0 && order.indexOf(key) < 0) order.push(key);
             var over = Math.max(0, u.used - u.limit);
+            if (isCrossPolicy(u)) { xpCount += 1; xpCredits += u.used; xpOverage += over; }
             g.users += 1; g.credits += u.used; g.overage += over; g.limit += u.limit;
             totalCredits += u.used; totalOverage += over;
             totalLimit += u.limit;
@@ -271,6 +313,7 @@
             variancePct: (variance != null && state.invoiceTotal) ? variance / state.invoiceTotal : null,
             totalUsers: arr.reduce(function (a, g) { return a + g.users; }, 0),
             totalLimit: totalLimit,
+            crossPolicy: { count: xpCount, credits: xpCredits, overage: xpOverage },
             prepay: {
                 paygoCost: totalCredits * rate,
                 fullAllowanceCost: totalLimit * pr,
@@ -325,7 +368,8 @@
             reconCard +
             metricCard('Allocation coverage', fmtPct(m.coverage), 'Share mapped to a named unit', '', 'Share of the chargeback mapped to a named GL unit rather than the Unallocated catch-all. 100% means every credit has an owner.') +
             metricCard('Unallocated', fmtMoney(m.unallocCharge), 'Charge to a catch-all GL', m.unallocCharge > 0 ? 'accent-red' : '', 'Chargeback for users with no value in the chosen GL dimension, posted to a catch-all account. Lower is better.') +
-            '</div>';
+            '</div>' +
+            '<p class="recon-disclosure">Reconciliation basis: figures are built from the Microsoft admin center (MAC) usage export, which <strong>can include non-billable usage</strong>. For the true bill, reconcile against your monthly billing record, not the usage dashboards. Settlement re-derives each entity&rsquo;s bill from what it funded; the <em>redistribute</em> surplus mode ties back to your invoice exactly when the per-user credits are complete (which they are under the September cumulative model). <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views" target="_blank" rel="noopener">Compare dashboard views</a>.</p>';
     }
     function renderPrepaid(m) {
         var p = m.prepay;
@@ -401,22 +445,49 @@
         }).map(function (u) {
             var over = Math.max(0, u.used - u.limit);
             var daily = state.daysInPeriod > 0 ? u.used / state.daysInPeriod : 0;
-            return { upn: u.upn, name: u.displayName, unit: unitOf(u), policy: u.policy, credits: u.used, dailyUse: daily, dailyCharge: daily * rate, allowance: u.limit, overage: over, charge: chargeForModel(u.used, u.limit, lm) };
+            return { upn: u.upn, name: u.displayName, unit: unitOf(u), policy: u.policy, credits: u.used, dailyUse: daily, dailyCharge: daily * rate, allowance: u.limit, overage: over, charge: chargeForModel(u.used, u.limit, lm), xp: isCrossPolicy(u) };
         });
         rows = sortRows(rows, state.sortLines.key, state.sortLines.dir);
         var LIMIT = 50, shown = rows.slice(0, LIMIT), sc = state.sortLines;
         var head = '<thead><tr>' + sortTh('lines', 'upn', 'User (MSID / UPN)', false, sc) + sortTh('lines', 'name', 'Display name', false, sc) + sortTh('lines', 'unit', unitLabel() + ' (GL)', false, sc) + (showPol ? sortTh('lines', 'policy', 'Policy', false, sc) : '') + sortTh('lines', 'credits', 'Credits', true, sc) + sortTh('lines', 'dailyUse', 'Daily use', true, sc) + sortTh('lines', 'dailyCharge', 'Daily $', true, sc) + sortTh('lines', 'allowance', 'Prepaid allowance', true, sc) + sortTh('lines', 'overage', 'PAYG (overage)', true, sc) + sortTh('lines', 'charge', 'Chargeback $ (' + modelLabel(lm) + ')', true, sc) + '</tr></thead>';
         var body = '<tbody>' + shown.map(function (r) {
-            return '<tr><td>' + esc(r.upn) + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.unit) + '</td>' + (showPol ? '<td>' + esc(r.policy) + '</td>' : '') + '<td class="num">' + fmtInt(r.credits) + '</td><td class="num">' + r.dailyUse.toFixed(1) + '</td><td class="num">' + fmtMoney(r.dailyCharge) + '</td><td class="num">' + fmtInt(r.allowance) + '</td><td class="num">' + fmtInt(r.overage) + '</td><td class="num">' + fmtMoney(r.charge) + '</td></tr>';
+            var mark = r.xp ? ' <span class="xp-flag" title="Consumed more than the monthly limit allows - likely a mid-month spending-policy change, so credits and limit come from different policies. Verify before settling.">&#9888; policy change?</span>' : '';
+            return '<tr' + (r.xp ? ' class="xp-row"' : '') + '><td>' + esc(r.upn) + mark + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.unit) + '</td>' + (showPol ? '<td>' + esc(r.policy) + '</td>' : '') + '<td class="num">' + fmtInt(r.credits) + '</td><td class="num">' + r.dailyUse.toFixed(1) + '</td><td class="num">' + fmtMoney(r.dailyCharge) + '</td><td class="num">' + fmtInt(r.allowance) + '</td><td class="num">' + fmtInt(r.overage) + '</td><td class="num">' + fmtMoney(r.charge) + '</td></tr>';
         }).join('') + '</tbody>';
         var note = rows.length > LIMIT ? 'Showing the top ' + LIMIT + ' of ' + fmtInt(rows.length) + ' matching users. The CSV export includes all users and all three models.' : fmtInt(rows.length) + ' users shown.';
         var modelTog = '<div class="cb-linemodel"><span class="cb-linemodel-label">Billing model:</span><div class="dim-toggle" id="cbLineModel">' + ['paygo', 'prepaid', 'hybrid'].map(function (mm) { return '<button class="dim-btn' + (lm === mm ? ' active' : '') + '" data-linemodel="' + mm + '">' + modelLabel(mm) + '</button>'; }).join('') + '</div></div>';
         return '<section class="panel">' + panelHead('Per-person line items', 'One row per user with credits, per-day usage and charge, prepaid allowance, PAYG overage, and chargeback dollars under the selected billing model. Switch the model with the toggle; the CSV export includes all three. Shows the top 50. Click a column to sort.') + modelTog + '<div class="table-wrap"><table>' + head + body + '</table></div><p class="section-caption">' + note + ' Click a column to sort.</p></section>';
     }
+    function renderCrossPolicyNotice(m) {
+        var xp = m.crossPolicy;
+        if (!xp || !xp.count) return '';
+        var pctCredits = m.totalCredits > 0 ? xp.credits / m.totalCredits : 0;
+        var srcLink = '<p class="xp-src">Reference: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a> &mdash; &ldquo;Spending policy behavior when a user moves between Entra ID Groups&rdquo;.</p>';
+        if (state.billingModel === 'september') {
+            return '<div class="xp-banner xp-info" role="note">' +
+                '<strong>&#8505; ' + fmtInt(xp.count) + ' user' + (xp.count === 1 ? '' : 's') + ' used more than their current cap &mdash; this is expected and settlement still ties out.</strong>' +
+                '<p>From <strong>September 1, 2026</strong> consumption is metered per user as a <strong>running total across the billing period</strong>, with the destination policy&rsquo;s per-user cap enforced against that total. A user shown above their current cap was down-tiered mid-period; the credits already spent are real and <strong>remain charged to the original policy</strong>.</p>' +
+                '<p><strong>For settlement:</strong> per-user credits are now complete cumulative totals, so entitlements derived from them reconcile to the Microsoft invoice. Affected: <strong>' + fmtInt(xp.credits) + ' credits</strong> (' + fmtPct(pctCredits) + ' of total). No provisional treatment needed &mdash; confirm the <em>Variance vs invoice</em> card still ties out.</p>' +
+                srcLink +
+                '</div>';
+        }
+        return '<div class="xp-banner" role="note">' +
+            '<strong>&#9888; ' + fmtInt(xp.count) + ' user' + (xp.count === 1 ? '' : 's') + ' may have changed spending policy mid-period &mdash; settle with care.</strong>' +
+            '<p>These users consumed more credits than their monthly limit allows. Up to <strong>August 2026</strong>, Microsoft does not surface true per-user overage in the Cost Management export, so this almost always means the row spans <em>two</em> spending policies: the per-user ledger is tracked separately per policy and <strong>resets to 0</strong> when a user moves between policies mid-month.</p>' +
+            '<p><strong>Why it matters here:</strong> settlement derives every entity&rsquo;s bill from per-user credits. If a user&rsquo;s row is distorted, or if pre-move credits were dropped from the user-level view entirely, the credit totals feeding entitlements are wrong and the settlement will not tie back to the Microsoft invoice. Affected: <strong>' + fmtInt(xp.credits) + ' credits</strong> (' + fmtPct(pctCredits) + ' of total). Check the <em>Variance vs invoice</em> card above &mdash; if your user-level credits no longer add up to the Microsoft invoice, treat the settlement as provisional.</p>' +
+            '<p class="xp-note"><strong>Moving to September 2026?</strong> Switch <em>Billing period model</em> to &ldquo;September 2026 onward&rdquo; in the report controls &mdash; from then on these are legitimate cumulative totals that reconcile.</p>' +
+            srcLink +
+            '</div>';
+    }
+    function updateStamp() {
+        var stamp = $('cbStamp'); if (!stamp) return;
+        stamp.textContent = (state.demoActive ? 'Synthetic demo - ' : '') + 'Generated ' + new Date().toISOString().slice(0, 10) + ' - ' + billingModelLabel() + ' - chargeback at ' + fmtMoney(state.rate) + '/credit (PAYGO baseline; Prepaid & Hybrid compared in the journal).';
+    }
     function render() {
         var m = computeChargeback();
         renderSummary(m);
-        var body = $('cbBody'); if (body) body.innerHTML = renderSettlement(m) + renderPrepaid(m) + renderJournal(m) + renderLineItems(m);
+        updateStamp();
+        var body = $('cbBody'); if (body) body.innerHTML = renderCrossPolicyNotice(m) + renderSettlement(m) + renderPrepaid(m) + renderJournal(m) + renderLineItems(m);
         bindSettlement(m);
     }
 
@@ -964,6 +1035,21 @@
             rows.push(totalRow('Microsoft invoice entered', s.invoiceTotal.toFixed(2)));
             rows.push(totalRow('Variance vs tenant cost', s.invoiceVariance.toFixed(2)));
         }
+        var xpm = computeChargeback().crossPolicy;
+        if (xpm && xpm.count) {
+            rows.push([]);
+            if (state.billingModel === 'september') {
+                rows.push(['INFO - users over their current policy cap (September cumulative model)']);
+                rows.push(totalRow('Users affected', xpm.count));
+                rows.push(totalRow('Credits affected', Math.round(xpm.credits)));
+                rows.push(['From September 1, 2026 usage is a cumulative per-user running total and the destination policy cap is enforced against it. Per-user credits are complete cumulative totals that remain charged to the original policy, so entitlements and settled bills derived from them reconcile to the Microsoft invoice - no provisional treatment needed.']);
+            } else {
+                rows.push(['REVIEW - possible mid-month spending-policy changes (up to August 2026)']);
+                rows.push(totalRow('Users affected', xpm.count));
+                rows.push(totalRow('Credits affected', Math.round(xpm.credits)));
+                rows.push(['These users consumed more than their monthly limit. The per-user ledger resets to 0 when a user moves spending policy mid-month, so a single export row can span two policies. Entitlements and settled bills are derived from per-user credits, so confirm the credit totals reconcile to the Microsoft invoice before treating this settlement as final.']);
+            }
+        }
         rows = rows.concat(defsBlock([
             ['Credits used', 'Credits this ' + unitWord() + ' consumed in the period.'],
             ['Entitlement', 'Share of the prepaid pool this ' + unitWord() + ' funded. A claim on the money, not a reservation of credits.'],
@@ -1063,10 +1149,18 @@
         var s = unitLabel();
         return s.charAt(0).toUpperCase() + s.slice(1);
     }
+    function billingModelLabel() { return state.billingModel === 'september' ? 'September 2026 onward (cumulative per-user)' : 'Up to August 2026 (per-policy reset)'; }
+    var DEMO_WARNING = 'SYNTHETIC DEMO DATA - not for real decisions';
+    function dateSlug() { return new Date().toISOString().slice(0, 10); }
     function stampRows() {
         return [
-            [APP_NAME + (state.demoActive ? ' - SYNTHETIC DEMO DATA, do not use for real decisions' : '')],
-            ['Billing period', periodLabel(), 'Generated', new Date().toISOString().slice(0, 10)]
+            [APP_NAME + (state.demoActive ? ' - ' + DEMO_WARNING : '')],
+            ['Reporting period', periodLabel(), 'Generated', dateSlug()],
+            ['Billing period', billingModelLabel()],
+            ['Cut by', unitLabel()],
+            ['Rates', '', 'Rate $/credit', state.rate.toFixed(4), 'Prepaid $/credit', state.prepaidRate.toFixed(4)],
+            ['Reconciliation basis', 'Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards. Settlement re-derives each entity\u2019s bill from what it funded; the redistribute surplus mode ties back to the invoice when per-user credits are complete.'],
+            []
         ];
     }
     function demoSuffix() { return state.demoActive ? '-DEMO' : ''; }
@@ -1114,11 +1208,11 @@
         var rate = state.rate;
         var rows = stampRows();
         rows.push(['Billing models', 'PAYGO / Prepaid / Hybrid', 'Rate $/credit', rate.toFixed(4), 'Prepaid $/credit', state.prepaidRate.toFixed(4)]);
-        rows.push(['User Principal Name (MSID)', 'Display Name', 'Department', 'Cost Center', 'Business Unit', unitLabel() + ' (GL key)', 'Credits', 'Daily usage', 'Daily charge $', 'Prepaid allowance', 'PAYG (overage) credits', 'PAYGO $', 'Prepaid $', 'Hybrid $', 'Spending policy', 'Limit source']);
+        rows.push(['User Principal Name (MSID)', 'Display Name', 'Department', 'Cost Center', 'Business Unit', unitLabel() + ' (GL key)', 'Credits', 'Daily usage', 'Daily charge $', 'Prepaid allowance', 'PAYG (overage) credits', 'PAYGO $', 'Prepaid $', 'Hybrid $', 'Spending policy', 'Limit source', 'Possible mid-month policy change']);
         state.users.slice().sort(function (a, b) { return b.used - a.used; }).forEach(function (u) {
             var over = Math.max(0, u.used - u.limit);
             var daily = state.daysInPeriod > 0 ? u.used / state.daysInPeriod : 0;
-            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, unitOf(u), Math.round(u.used), daily.toFixed(1), (daily * rate).toFixed(2), Math.round(u.limit), Math.round(over), chargeForModel(u.used, u.limit, 'paygo').toFixed(2), chargeForModel(u.used, u.limit, 'prepaid').toFixed(2), chargeForModel(u.used, u.limit, 'hybrid').toFixed(2), u.policy, u.limitSource || 'fallback']);
+            rows.push([u.upn, u.displayName, u.department, u.costCenter, u.businessUnit, unitOf(u), Math.round(u.used), daily.toFixed(1), (daily * rate).toFixed(2), Math.round(u.limit), Math.round(over), chargeForModel(u.used, u.limit, 'paygo').toFixed(2), chargeForModel(u.used, u.limit, 'prepaid').toFixed(2), chargeForModel(u.used, u.limit, 'hybrid').toFixed(2), u.policy, u.limitSource || 'fallback', isCrossPolicy(u) ? 'REVIEW' : '']);
         });
         downloadBlob(toCsv(rows), 'multi-budget-chargeback-line-items-' + periodSlug() + demoSuffix() + '.csv');
     }
@@ -1144,7 +1238,7 @@
 
         var readme = { name: 'Read me', cols: [40, 82], rows: [] };
         readme.rows.push([TT(APP_NAME + ' - allocation and settlement workbook')]);
-        readme.rows.push(['Generated', new Date().toISOString().slice(0, 10) + (demo ? '  (SYNTHETIC DEMO DATA - do not use for real decisions)' : '')]);
+        readme.rows.push(['Generated', dateSlug() + (demo ? '  (' + DEMO_WARNING + ')' : '')]);
         readme.rows.push(['Billing period', periodLabel()]);
         readme.rows.push([]);
         readme.rows.push([B('What this is')]);
@@ -1450,13 +1544,15 @@
         $('cbLanding').hidden = true;
         $('cbReport').hidden = false;
         var banner = $('cbDemoBanner'); if (banner) banner.hidden = !state.demoActive;
-        var stamp = $('cbStamp'); if (stamp) stamp.textContent = (state.demoActive ? 'Synthetic demo - ' : '') + 'Generated ' + new Date().toISOString().slice(0, 10) + ' - chargeback at ' + fmtMoney(state.rate) + '/credit (PAYGO baseline; Prepaid & Hybrid compared in the journal).';
+        var stamp = $('cbStamp'); if (stamp) stamp.textContent = (state.demoActive ? 'Synthetic demo - ' : '') + 'Generated ' + new Date().toISOString().slice(0, 10) + ' - ' + billingModelLabel() + ' - chargeback at ' + fmtMoney(state.rate) + '/credit (PAYGO baseline; Prepaid & Hybrid compared in the journal).';
+        var bmSel = $('cbBillingModel'); if (bmSel) bmSel.value = state.billingModel;
         var rr = $('rateReport'); if (rr) rr.value = state.rate;
         var pri = $('prepaidRateInput'); if (pri) pri.value = state.prepaidRate;
         var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = state.prepaidPurchased != null ? state.prepaidPurchased : '';
         var dpi = $('daysInput'); if (dpi) dpi.value = state.daysInPeriod;
         var hri = $('headroomInput'); if (hri) hri.value = state.headroomPct;
         populateDimSelect();
+        syncDimLabelInput();
         populatePolicyLimits();
         populateEntityFilter();
         var cbs0 = $('cbSearch'); if (cbs0) cbs0.value = state.lineSearch;
@@ -1511,6 +1607,7 @@
         var ppi2 = $('prepaidPurchasedInput'); if (ppi2) ppi2.addEventListener('input', function () { var v = parseFloat(ppi2.value); state.prepaidPurchased = (ppi2.value === '' || !isFinite(v) || v < 0) ? null : v; render(); });
         var dpi2 = $('daysInput'); if (dpi2) dpi2.addEventListener('input', function () { var v = parseFloat(dpi2.value); state.daysInPeriod = isFinite(v) && v > 0 ? v : 30; render(); });
         var hri2 = $('headroomInput'); if (hri2) hri2.addEventListener('input', function () { var v = parseFloat(hri2.value); state.headroomPct = isFinite(v) && v >= 0 ? v : 0; render(); });
+        var bm2 = $('cbBillingModel'); if (bm2) bm2.addEventListener('change', function () { state.billingModel = bm2.value === 'august' ? 'august' : 'september'; render(); });
         var per = $('periodInput');
         if (per) {
             per.value = periodLabel();
@@ -1519,7 +1616,13 @@
             });
         }
         var dimSel = $('cbDimSelect');
-        if (dimSel) dimSel.addEventListener('change', function () { state.unitDim = dimSel.value; state.entityFilter = {}; state.entitySearch = ''; var es0 = $('cbEntitySearch'); if (es0) es0.value = ''; populateEntityFilter(); render(); });
+        if (dimSel) dimSel.addEventListener('change', function () { state.unitDim = dimSel.value; state.entityFilter = {}; state.entitySearch = ''; var es0 = $('cbEntitySearch'); if (es0) es0.value = ''; syncDimLabelInput(); populateEntityFilter(); render(); });
+        var dimLbl = $('cbDimLabel');
+        if (dimLbl) dimLbl.addEventListener('input', function () {
+            var v = String(dimLbl.value);
+            if (v.trim() === '') { delete state.dimLabels[state.unitDim]; } else { state.dimLabels[state.unitDim] = v; }
+            render();
+        });
         var pbox = $('cbPolicyLimits');
         if (pbox) pbox.addEventListener('input', function (e) {
             var t = e.target.closest ? e.target.closest('[data-policy]') : null;

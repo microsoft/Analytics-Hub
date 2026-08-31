@@ -19,6 +19,21 @@
 
    Drawdown order stops mattering because it is not an input.
 
+   Caveat (billing-model dependent): "a per-user monthly total" assumes each
+   user's credits are captured completely. Up to AUGUST 2026, Microsoft tracked
+   the per-user credit ledger separately per spending policy and reset it to 0
+   when a user's effective policy changed mid-month, so a user who moved policy
+   mid-period could have a row that spans two policies - or, per the Consumption
+   tab documentation, one that omits their pre-move credits at user level
+   entirely. Under that model the per-user credits that feed entitlements here can
+   be distorted or short, so reconcile total credits against the Microsoft invoice
+   before treating any settlement as final.
+   From SEPTEMBER 1, 2026 consumption is a cumulative per-user running total across
+   the period (credits already spent remain charged to the original policy), so the
+   per-user totals feeding entitlements are complete and the settlement reconciles.
+   The caller passes the active billing model and flags over-cap rows accordingly.
+   Ref: learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits
+
    The surplus
    -----------
    Settlement does not automatically tie back to the Microsoft invoice. If entity
@@ -30,7 +45,8 @@
    technical one:
      rebate       - return surplus to under-users pro rata by unused entitlement
      redistribute - lend unused entitlement to over-users at the prepaid rate,
-                    which reconciles to the invoice exactly
+                    which reconciles to the invoice exactly, provided the per-user
+                    credits themselves are complete (see the cross-policy caveat)
      hold         - keep it centrally, e.g. to fund next period
 
    Everything here is arithmetic on numbers the caller already has. No customer

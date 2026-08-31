@@ -368,3 +368,20 @@ tbody tr:hover { background: rgba(74, 158, 247, 0.06); }
 .cl-tag.chg { background: rgba(74,158,247,0.15); color: #4A9EF7; }
 .cl-tag.rem { background: rgba(248,113,113,0.15); color: #F87171; }
 .cl-tag.fix { background: rgba(245,158,11,0.15); color: #F59E0B; }
+
+/* Cross-policy (mid-month spending-policy change) review notice */
+.xp-banner {
+    margin: 0 0 1.5rem; padding: 1rem 1.25rem; border-radius: 10px;
+    background: rgba(245, 158, 11, 0.10); border: 1px solid rgba(245, 158, 11, 0.45);
+    border-left-width: 4px; color: var(--text-primary); font-size: 0.92rem;
+}
+.xp-banner strong { color: var(--amber); }
+.xp-banner p { margin: 0.55rem 0 0; color: var(--text-secondary); line-height: 1.5; }
+.xp-banner .xp-src { font-size: 0.82rem; margin-top: 0.7rem; }
+.xp-banner a { color: var(--copilot-blue); }
+.xp-flag {
+    display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem; border-radius: 4px;
+    background: rgba(245, 158, 11, 0.16); color: var(--amber);
+    font-size: 0.72rem; font-weight: 600; white-space: nowrap; cursor: help;
+}
+tr.xp-row td { background: rgba(245, 158, 11, 0.05); }

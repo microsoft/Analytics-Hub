@@ -289,3 +289,23 @@ tbody tr:hover { background: rgba(74, 158, 247, 0.06); }
 
 .cap-input { width: 92px; padding: 0.25rem 0.4rem; font: inherit; text-align: right; color: var(--text-primary); background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; }
 .cap-input:focus { outline: none; border-color: var(--copilot-blue); }
+
+/* Cross-policy (mid-month spending-policy change) review notice */
+.xp-banner {
+    margin: 0.5rem 0 2rem; padding: 1rem 1.25rem; border-radius: 10px;
+    background: rgba(245, 158, 11, 0.10); border: 1px solid rgba(245, 158, 11, 0.45);
+    border-left-width: 4px; color: var(--text-primary); font-size: 0.92rem;
+}
+.xp-banner strong { color: var(--amber); }
+.xp-banner p { margin: 0.55rem 0 0; color: var(--text-secondary); line-height: 1.5; }
+.xp-banner .xp-src { font-size: 0.82rem; margin-top: 0.7rem; }
+.xp-banner a { color: var(--copilot-blue); }
+.xp-banner.xp-info { background: rgba(11, 92, 255, 0.08); border-color: rgba(11, 92, 255, 0.40); }
+.xp-banner.xp-info strong { color: var(--copilot-blue); }
+.xp-banner .xp-note { font-size: 0.85rem; margin-top: 0.6rem; opacity: 0.95; }
+.xp-flag {
+    display: inline-block; margin-left: 0.4rem; padding: 0.05rem 0.4rem; border-radius: 4px;
+    background: rgba(245, 158, 11, 0.16); color: var(--amber);
+    font-size: 0.72rem; font-weight: 600; white-space: nowrap; cursor: help;
+}
+tr.xp-row td { background: rgba(245, 158, 11, 0.05); }

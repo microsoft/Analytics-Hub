@@ -65,7 +65,7 @@
         .cb-userrow td { background: rgba(255,255,255,0.025); font-size: 0.85rem; color: var(--text-secondary); }
         .cb-userrow .cb-username { padding-left: 1.7rem; color: var(--text-primary); }
         .cb-useupn { color: var(--text-secondary); font-size: 0.76rem; }
-        .overage-banner { margin: 1rem 0 0; padding: 0.85rem 1.2rem; border-radius: 10px; background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.45); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+        .overage-banner { margin: 1rem 0 2rem; padding: 0.85rem 1.2rem; border-radius: 10px; background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.45); color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
         .overage-banner strong { color: var(--amber, #F59E0B); }
     </style>
 </head>
@@ -176,7 +176,20 @@
                 <div class="cb-field">
                     <label for="cbDimSelect">Cut by (GL key)</label>
                     <select id="cbDimSelect"></select>
-                    <small>Any org column from your Entra export (Department, Cost Center, Legal Entity, Region...). Unmapped users go to "Unallocated".</small>
+                    <small>Any column from your uploaded user file (Department, Cost Center, Legal Entity, Region...). Unmapped users go to "Unallocated".</small>
+                </div>
+                <div class="cb-field">
+                    <label for="cbDimLabel">Rename this cut (optional)</label>
+                    <input type="text" id="cbDimLabel" maxlength="40" placeholder="e.g. Business Line">
+                    <small>Type a friendly name for the selected cut. It shows on screen and in every export. Leave blank to keep the column name.</small>
+                </div>
+                <div class="cb-field">
+                    <label for="cbBillingModel">Billing period</label>
+                    <select id="cbBillingModel">
+                        <option value="september">September 2026 onward</option>
+                        <option value="august">August 2026 or earlier</option>
+                    </select>
+                    <small>How mid-month policy moves are metered. From Sept 1, 2026 usage is a cumulative per-user total across the period; before that, the per-user ledger reset to 0 on each policy move. Controls how over-cap users are interpreted.</small>
                 </div>
                 <div class="cb-field">
                     <label for="rateReport">Contracted rate ($/credit)</label>
@@ -187,6 +200,10 @@
                     <label for="invoiceInput">Microsoft invoice total ($)</label>
                     <input type="number" id="invoiceInput" min="0" step="0.01" placeholder="optional">
                     <small>Enter to reconcile chargeback vs invoice.</small>
+                </div>
+                <div class="cb-field">
+                    <label class="cb-check"><input type="checkbox" id="cbAllocateInvoice"> Allocate my invoice across units</label>
+                    <small>When on (and an invoice is entered), your actual bill is split across units by consumption share, so the total ties to the invoice exactly. The per-unit split is a consumption-driven allocation, not each unit&rsquo;s individually billed amount.</small>
                 </div>
                 <div class="cb-field">
                     <label for="prepaidRateInput">Prepaid rate ($/credit)</label>

@@ -52,6 +52,11 @@
         }
         .btn-danger { border-color: var(--red); color: var(--red); background: rgba(239, 68, 68, 0.10); }
         .btn-danger:hover { border-color: var(--red); color: var(--red); background: rgba(239, 68, 68, 0.20); }
+        .mm-flag {
+            display: inline-block; margin-left: 0.35rem; padding: 0.05rem 0.4rem; border-radius: 4px;
+            background: rgba(245, 158, 11, 0.16); color: var(--amber, #F59E0B);
+            font-size: 0.7rem; font-weight: 700; white-space: nowrap; cursor: help;
+        }
         .impact-bar {
             display: flex; flex-direction: column; align-items: stretch; gap: 0.55rem;
             padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid var(--border);
@@ -362,7 +367,7 @@
                 <button class="action-btn" id="btnExportDeck"><span class="action-icon">&#128202;</span><span class="action-text">Export deck</span></button>
                 <button class="action-btn" id="btnExportPdf"><span class="action-icon">&#128196;</span><span class="action-text">PDF</span></button>
                 <button class="action-btn" id="btnExportPolicy"><span class="action-icon">&#128203;</span><span class="action-text">By policy</span></button>
-                <button class="action-btn" id="btnExportDept"><span class="action-icon">&#128203;</span><span class="action-text">By dept</span></button>
+                <button class="action-btn" id="btnExportDept"><span class="action-icon">&#128203;</span><span class="action-text">By cut</span></button>
                 <button class="action-btn" id="btnExportAdjusted"><span class="action-icon">&#128203;</span><span class="action-text">Adjusted</span></button>
                 <button class="action-btn" id="btnFeedback2"><span class="action-icon">&#9993;</span><span class="action-text">Feedback</span></button>
                 <button class="action-btn" id="btnReset"><span class="action-icon">&#8617;</span><span class="action-text">Start Over</span></button>
@@ -393,8 +398,18 @@
 
                 <div class="view-switch" role="tablist" aria-label="Roster grouping">
                     <button type="button" class="view-btn active" id="viewIndividual">Individual</button>
-                    <button type="button" class="view-btn" id="viewDepartment">Department</button>
-                    <button type="button" class="view-btn" id="viewTeam">Team</button>
+                    <button type="button" class="view-btn" id="viewGrouped">Grouped</button>
+                </div>
+
+                <div class="rbac-controls" id="groupCutControls" hidden>
+                    <div class="rbac-control">
+                        <label for="groupDimSelect">Cut by</label>
+                        <select id="groupDimSelect"></select>
+                    </div>
+                    <div class="rbac-control">
+                        <label for="groupDimLabel">Rename this cut (optional)</label>
+                        <input type="text" id="groupDimLabel" maxlength="40" placeholder="e.g. Business Line">
+                    </div>
                 </div>
 
                 <div class="rbac-controls">
@@ -476,6 +491,14 @@
             <div class="panel">
                 <h3>Billing policy allowances</h3>
                 <p class="panel-note">Edit each policy&rsquo;s monthly credit allowance. Utilization, fit, and projected cost recompute live.</p>
+                <div class="rbac-control" style="margin: 0 0 1.1rem; max-width: 460px;">
+                    <label for="billingModelSelect">Billing period</label>
+                    <select id="billingModelSelect">
+                        <option value="september">September 2026 onward</option>
+                        <option value="august">August 2026 or earlier</option>
+                    </select>
+                    <small class="panel-note">Most people should leave this on <strong>September 2026 onward</strong>. It just tells the tool how Microsoft counts credits when someone changes tiers mid-month. You don&rsquo;t need to understand the details &mdash; <strong>Auto-adjust to fit</strong> always picks safe tiers either way.</small>
+                </div>
                 <div id="policyEditor" class="policy-editor-grid"></div>
             </div>
 
