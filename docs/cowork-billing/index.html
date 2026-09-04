@@ -275,45 +275,44 @@
   <section class="wrap cb-viewer-wrap" id="cb-methodology">
     <div class="cb-viewer" id="cbViewer" aria-label="Cowork billing methodology deck viewer">
       <div class="cb-viewer-toolbar">
-        <span class="cb-viewer-title">Cowork Methodology Walkthrough</span>
+        <span class="cb-viewer-title">Cowork Time-Savings Methodology &middot; v4</span>
         <div class="cb-viewer-actions">
           <button type="button" class="cb-btn cb-btn-ghost" id="cbFullscreen" aria-label="Open deck fullscreen">Fullscreen</button>
-          <a class="cb-btn cb-btn-ghost" href="assets/Cowork_Methodology_Walkthrough.pptx" download>↓ PPTX</a>
+          <a class="cb-btn cb-btn-ghost" href="assets/Cowork_Methodology_Walkthrough.pdf" download>↓ PDF</a>
         </div>
       </div>
       <div class="cb-viewer-frame">
         <iframe
           id="cbPptxFrame"
-          title="Cowork Methodology Walkthrough — Microsoft Office Web Viewer"
-          src="about:blank"
+          title="Cowork Time-Savings Methodology v4"
+          src="assets/Cowork_Methodology_Walkthrough.pdf#view=FitH"
           allowfullscreen
           allow="fullscreen"
           referrerpolicy="no-referrer-when-downgrade"
           loading="lazy"></iframe>
         <noscript>
           <p class="cb-noscript">
-            The live deck viewer requires JavaScript. Use the download button
-            above to grab the PPTX.
+            Your browser cannot display the embedded PDF. Use the download
+            button above to grab it.
           </p>
         </noscript>
       </div>
     </div>
     <p class="cb-viewer-note">
-      Rendered via the Microsoft Office Web Viewer. Some slide animations and
-      embedded video may render differently than in PowerPoint desktop —
-      download the file for the full-fidelity experience.
+      Per-category time-savings bands, each traceable to a published study.
+      Download the PDF for the full-resolution version.
     </p>
   </section>
 
   <section class="wrap cb-downloads">
     <h2>Downloads &amp; resources</h2>
     <div class="cb-download-grid">
-      <a class="cb-download-card" href="assets/Cowork_Methodology_Walkthrough.pptx" download>
+      <a class="cb-download-card" href="assets/Cowork_Methodology_Walkthrough.pdf" download>
         <span class="cb-download-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12v17l-2.4-1.6L13.2 21 10.8 19 8.4 21 6 19.5V3.5z"/><path d="M9.5 8.5h5M9.5 12.5h5"/></svg></span>
         <div class="cb-download-body">
-          <h3>Cowork Methodology Walkthrough</h3>
-          <p>Click-through deck covering the full Copilot Cowork billing methodology.</p>
-          <span class="cb-download-meta">PPTX · ~110 KB</span>
+          <h3>Cowork Time-Savings Methodology · v4</h3>
+          <p>How each Cowork-attributed task is valued — per-category Low/Typical/High minute bands, each traceable to a published study.</p>
+          <span class="cb-download-meta">PDF · ~325 KB</span>
         </div>
       </a>
       <a class="cb-download-card" href="assets/Copilot-Cowork-Billing-Customer-Guide.docx" download>
@@ -349,21 +348,6 @@
 
 <script>
   (function () {
-    // Build absolute HTTPS URL to the PPTX from the current page.
-    // Office Web Viewer requires a publicly-reachable absolute URL.
-    try {
-      var pptxUrl = new URL('assets/Cowork_Methodology_Walkthrough.pptx', window.location.href).href;
-      // Force https when possible; Office viewer will refuse http URLs on the public web.
-      if (pptxUrl.indexOf('http://') === 0 && window.location.protocol === 'https:') {
-        pptxUrl = 'https://' + pptxUrl.slice(7);
-      }
-      var viewerUrl = 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(pptxUrl);
-      var f = document.getElementById('cbPptxFrame');
-      if (f) f.src = viewerUrl;
-    } catch (err) {
-      // If URL construction fails, leave the iframe blank; noscript / download button remain usable.
-    }
-
     // Fullscreen toggle on the viewer container.
     var btn = document.getElementById('cbFullscreen');
     var target = document.getElementById('cbViewer');
