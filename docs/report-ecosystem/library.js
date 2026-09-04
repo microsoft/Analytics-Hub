@@ -78,7 +78,6 @@ const RESOURCES = {
     { kind: "download", label: "Download .pbit — Agent Intelligence", url: "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20Agent%20Intelligence%20v4.pbit" },
     { kind: "email",    label: "Admin email template — Chat", url: "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/02_Chat_Intelligence_Admin_Email.md" },
     { kind: "email",    label: "Admin email template — Agent", url: "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/03_Agent_Intelligence_Admin_Email.md" },
-    { kind: "doc",      label: "Compare: Chat vs Agent Intelligence", url: "https://microsoft.github.io/Analytics-Hub/compare/chat-intelligence-vs-agent-intelligence/" },
   ],
   "m365-readiness": [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/M365UsageAnalytics#readme" },
@@ -151,10 +150,8 @@ const RESOURCES = {
 const HUB_LINKS = [
   { kind: "demo", label: "Internal Demos — live Power BI walkthroughs", url: "https://microsoft.github.io/Analytics-Hub/demos/" },
   { kind: "doc",  label: "Explore Reports — match a business question to a report", url: "https://microsoft.github.io/Analytics-Hub/explore-reports/" },
-  { kind: "doc",  label: "Native Reports — what Microsoft already ships", url: "https://microsoft.github.io/Analytics-Hub/out-of-the-box/" },
   { kind: "doc",  label: "Glossary — Copilot reporting terms", url: "https://microsoft.github.io/Analytics-Hub/glossary/" },
   { kind: "doc",  label: "FAQ", url: "https://microsoft.github.io/Analytics-Hub/faq/" },
-  { kind: "doc",  label: "Compare reports side by side", url: "https://microsoft.github.io/Analytics-Hub/compare/" },
   { kind: "doc",  label: "Case studies", url: "https://microsoft.github.io/Analytics-Hub/case-studies/" },
   { kind: "doc",  label: "Consumption & Cost (Cowork billing)", url: "https://microsoft.github.io/Analytics-Hub/cowork-billing/" },
 ];

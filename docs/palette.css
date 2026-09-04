@@ -318,6 +318,32 @@ a.ah-ext:hover::after { color: var(--accent); }
   .primary-nav a:not(.nav-cta)::after { display: none; }
   .nav-cta { text-align: center; }
 
+  /* Resources dropdown: inline accordion instead of floating panel */
+  .nav-dropdown { display: block; width: 100%; }
+  .nav-dropdown-trigger {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 12px 4px;
+    border-bottom: 1px solid var(--border);
+    font: inherit; color: inherit;
+  }
+  .nav-dropdown-menu {
+    position: static; display: none;
+    width: 100%; min-width: 0;
+    border: 0; border-radius: 0; box-shadow: none;
+    padding: 0 0 0 12px; margin: 0;
+    background: transparent;
+  }
+  .nav-dropdown-menu::before { display: none; }
+  /* Touch has no real hover: neutralise the desktop hover/focus opens
+     (same 0-3-0 specificity, later source order) so the menu opens only
+     when the click handler sets data-open. */
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu { display: none; }
+  .nav-dropdown[data-open="true"] .nav-dropdown-menu { display: flex; flex-direction: column; }
+  .nav-dropdown-menu a { padding: 10px 4px; border-bottom: 1px solid var(--border); }
+  .nav-dropdown-menu a:last-child { border-bottom: 0; }
+  .nav-dropdown-menu .menu-sep { display: none; }
+
   /* Recent chips: full-width row, horizontal scroll */
   .ah-recent__row { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
   .ah-recent__chip { white-space: nowrap; }
