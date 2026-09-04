@@ -8,14 +8,20 @@
     // Style-name -> cellXfs index (see STYLES_XML below).
     var STYLE = { def: 0, bold: 1, cur: 2, pct: 3, int: 4, dec1: 5, boldCur: 6, boldInt: 7, hdr: 8, title: 9, rate: 10 };
 
-    var STYLES_XML = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    // Currency symbol used by the money number formats. XML numeric character
+    // references keep this file ASCII-only (see header).
+    var curRef = '&#36;';
+    function setCurrency(ref) { curRef = ref || '&#36;'; }
+
+    function stylesXml() {
+        return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
         '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
         '<numFmts count="5">' +
-        '<numFmt numFmtId="164" formatCode="&quot;$&quot;#,##0.00"/>' +
+        '<numFmt numFmtId="164" formatCode="&quot;' + curRef + '&quot;#,##0.00"/>' +
         '<numFmt numFmtId="165" formatCode="0.0%"/>' +
         '<numFmt numFmtId="166" formatCode="#,##0"/>' +
         '<numFmt numFmtId="167" formatCode="#,##0.0"/>' +
-        '<numFmt numFmtId="168" formatCode="&quot;$&quot;0.0000"/>' +
+        '<numFmt numFmtId="168" formatCode="&quot;' + curRef + '&quot;0.0000"/>' +
         '</numFmts>' +
         '<fonts count="4">' +
         '<font><sz val="11"/><name val="Calibri"/></font>' +
@@ -47,6 +53,7 @@
         '</cellXfs>' +
         '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>' +
         '</styleSheet>';
+    }
 
     var ROOT_RELS = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
         '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
@@ -198,7 +205,7 @@
         add('_rels/.rels', ROOT_RELS);
         add('xl/workbook.xml', workbookXml(sheets));
         add('xl/_rels/workbook.xml.rels', workbookRels(sheets.length));
-        add('xl/styles.xml', STYLES_XML);
+        add('xl/styles.xml', stylesXml());
         for (var i = 0; i < sheets.length; i++) add('xl/worksheets/sheet' + (i + 1) + '.xml', sheetXml(sheets[i]));
         return zipStore(files);
     }
@@ -213,7 +220,7 @@
         setTimeout(function () { URL.revokeObjectURL(url); }, 0);
     }
 
-    var api = { S: STYLE, colName: colName, build: build, download: download };
+    var api = { S: STYLE, colName: colName, build: build, download: download, setCurrency: setCurrency };
     if (typeof window !== 'undefined') window.CBXLSX = api;
     if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })();

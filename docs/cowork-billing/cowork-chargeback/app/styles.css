@@ -201,6 +201,12 @@ footer a:hover { text-decoration: underline; }
 .panel h3 { color: var(--copilot-blue); margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.4rem; }
 .panel-note { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.75rem; }
 
+/* --- landing: explanatory note where the rate input used to be --- */
+.config-note-label { display: block; font-weight: 600; color: var(--text-primary);
+  margin-bottom: 0.4rem; font-size: 0.95rem; }
+.config-note { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.45; margin: 0; }
+
+
 /* --- panel info tooltips: hover/focus reveals what the visual shows --- */
 .panel-info { display:inline-flex; align-items:center; justify-content:center; width:1.05rem;
   height:1.05rem; border-radius:50%; border:1px solid var(--border); color:var(--text-secondary);
