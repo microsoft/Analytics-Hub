@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community — Polls & Events · Analytics Hub</title>
+  <meta name="description" content="Shape the Analytics Hub roadmap: answer quick polls and join live trainings or watch recordings. Anonymous polls, no customer data stored." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/community/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/community/" />
+  <meta property="og:title" content="Community — Polls & Events · Analytics Hub" />
+  <meta property="og:description" content="Answer quick polls and join live trainings or watch recordings. Help shape what we build next." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Community — Polls & Events · Analytics Hub" />
+  <meta name="twitter:description" content="Answer quick polls and join live trainings or watch recordings." />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../clarity-events.js?v=202608181034" defer></script>
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <script src="../poll.js" defer></script>
+
+  <style>
+    .comm-hero{padding:2.6rem 0 1rem;}
+    .comm-hero h1{margin:0 0 .5rem;}
+    .comm-hero p{max-width:60ch;color:var(--text-muted,#5a6470);}
+    .comm-section{padding:1.4rem 0 2.2rem;}
+    .comm-section h2{margin:0 0 .3rem;}
+    .comm-section .sub{margin:0 0 1.2rem;color:var(--text-muted,#5a6470);}
+    .comm-grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));}
+    .comm-empty{color:var(--text-muted,#5a6470);font-style:italic;}
+    .evt-card{border:1px solid var(--border,#e2e6ea);border-radius:12px;padding:1.1rem 1.2rem;
+      background:var(--surface,#fff);display:flex;flex-direction:column;gap:.6rem;}
+    .evt-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+    .evt-badge{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+      padding:.15rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--accent,#0078d4) 12%,transparent);
+      color:var(--accent,#0078d4);}
+    .evt-badge--rec{background:color-mix(in srgb,var(--text,#1b1b1b) 10%,transparent);color:var(--text-muted,#5a6470);}
+    .evt-badge--soon{background:color-mix(in srgb,#b8860b 16%,transparent);color:#8a6d00;}
+    .evt-level{font-size:.75rem;color:var(--text-muted,#5a6470);}
+    .evt-title{font-weight:600;font-size:1.05rem;}
+    .evt-when{font-size:.85rem;color:var(--text-muted,#5a6470);}
+    .evt-summary{font-size:.9rem;line-height:1.45;}
+    .evt-note{font-size:.8rem;color:var(--text-muted,#5a6470);border-left:2px solid var(--border,#e2e6ea);padding-left:.6rem;}
+    .evt-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.2rem;}
+    .evt-btn{padding:.5rem .9rem;border-radius:8px;font-weight:600;font-size:.88rem;text-decoration:none;
+      border:1px solid var(--accent,#0078d4);color:#fff;background:var(--accent,#0078d4);cursor:pointer;}
+    .evt-btn--ghost{background:transparent;color:var(--accent,#0078d4);}
+    .evt-btn[aria-disabled="true"]{opacity:.5;pointer-events:none;}
+    .comm-poll-card{display:flex;}
+    .comm-poll-card .ah-poll{width:100%;max-width:none;}
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../explore-reports/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/" aria-current="page">Community</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+        </div>
+      </div>
+      <a class="nav-subscribe" href="../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="comm-hero">
+    <div class="wrap">
+      <h1>Community</h1>
+      <p>Help shape the Analytics Hub. Answer a quick poll, join a live training, or catch a recording. Polls are anonymous and we never store customer data.</p>
+    </div>
+  </section>
+
+  <section class="comm-section" id="polls" hidden>
+    <div class="wrap">
+      <h2>Polls</h2>
+      <p class="sub">Two-second answers that steer what we build next.</p>
+      <div class="comm-grid" id="poll-list"></div>
+    </div>
+  </section>
+
+  <section class="comm-section" id="events" hidden>
+    <div class="wrap">
+      <h2>Events &amp; trainings</h2>
+      <p class="sub">Live sessions you can register for, plus on-demand recordings.</p>
+
+      <h3 id="events-upcoming-h">Upcoming</h3>
+      <div class="comm-grid" id="events-upcoming"></div>
+
+      <h3 id="events-recordings-h" style="margin-top:1.6rem;">Recordings</h3>
+      <div class="comm-grid" id="events-recordings"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <div class="footer-fine">
+      © Microsoft Corporation · MIT Licensed · <a href="../">Analytics Hub home</a> · <a href="../feedback/">Send feedback</a> · <a href="results/">Results (team)</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  // -------------------------------------------------- Polls
+  function renderPolls() {
+    var section = document.getElementById('polls');
+    var host = document.getElementById('poll-list');
+    if (!window.ahPolls) return; // no polls runtime → keep section hidden
+    window.ahPolls.openPolls().then(function (polls) {
+      // Skip polls this browser has already answered — don't show a repeated
+      // "thanks" card. Uses only the on-device localStorage flag (no user data).
+      polls = polls.filter(function (p) { return !window.ahPolls.responded(p.id); });
+      if (!polls.length) { section.hidden = true; return; } // suppress entirely when none open
+      host.innerHTML = '';
+      polls.forEach(function (poll) {
+        var card = document.createElement('div');
+        card.className = 'comm-poll-card';
+        host.appendChild(card);
+        window.ahPolls.render(card, poll);
+      });
+      section.hidden = false;
+    }).catch(function () { section.hidden = true; });
+  }
+
+  // -------------------------------------------------- Events
+  function fmtWhen(iso, mins) {
+    try {
+      var d = new Date(iso);
+      var opts = { weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit', timeZoneName:'short' };
+      return d.toLocaleString(undefined, opts) + (mins ? ' · ' + mins + ' min' : '');
+    } catch (e) { return iso; }
+  }
+  function icsHref(ev) {
+    function z(n){return (n<10?'0':'')+n;}
+    function fmt(d){return d.getUTCFullYear()+z(d.getUTCMonth()+1)+z(d.getUTCDate())+'T'+z(d.getUTCHours())+z(d.getUTCMinutes())+'00Z';}
+    var start = new Date(ev.startsUtc);
+    var end = new Date(start.getTime() + (ev.durationMinutes || 45) * 60000);
+    var body = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Analytics Hub//Community//EN','CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT','UID:' + ev.id + '@analytics-hub.microsoft.github.io','DTSTAMP:' + fmt(new Date()),
+      'DTSTART:' + fmt(start),'DTEND:' + fmt(end),'SUMMARY:' + (ev.title || '').replace(/[,;]/g,' '),
+      'DESCRIPTION:' + String(ev.summary || '').replace(/[\r\n]+/g,' ').replace(/[,;]/g,' '),
+      (ev.registerUrl ? 'URL:' + ev.registerUrl : ''),'END:VEVENT','END:VCALENDAR'
+    ].filter(Boolean).join('\r\n');
+    return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(body);
+  }
+  function eventCard(ev, isUpcoming) {
+    var comingSoon = !!ev.comingSoon;
+    var badge = isUpcoming
+      ? '<span class="evt-badge">Training</span>'
+      : '<span class="evt-badge evt-badge--rec">Recording</span>';
+    var level = ev.level ? '<span class="evt-level">' + esc(ev.level) + '</span>' : '';
+    var soon = comingSoon ? '<span class="evt-badge evt-badge--soon">Coming soon</span>' : '';
+    var when = '';
+    if (isUpcoming) {
+      when = comingSoon
+        ? '<div class="evt-when">Webinar · date to be announced</div>'
+        : '<div class="evt-when">' + esc(fmtWhen(ev.startsUtc, ev.durationMinutes)) + '</div>';
+    }
+    var note = (isUpcoming && ev.msftOnly)
+      ? '<p class="evt-note">Microsoft employees can register. Everyone can watch the recording afterwards.</p>'
+      : '';
+    var actions = '';
+    if (isUpcoming) {
+      if (comingSoon) {
+        actions = '<span class="evt-btn" aria-disabled="true">Registration opening soon</span>';
+      } else {
+        var reg = ev.registerUrl
+          ? '<a class="evt-btn" href="' + esc(ev.registerUrl) + '" target="_blank" rel="noopener">Register &#8599;</a>'
+          : '<span class="evt-btn" aria-disabled="true">Registration soon</span>';
+        var ics = '<a class="evt-btn evt-btn--ghost" href="' + icsHref(ev) + '" download="' + esc(ev.id) + '.ics">Add to calendar</a>';
+        actions = reg + ics;
+      }
+    } else {
+      actions = ev.recordingUrl
+        ? '<a class="evt-btn" href="' + esc(ev.recordingUrl) + '" target="_blank" rel="noopener">Watch recording &#8599;</a>'
+        : '<span class="evt-btn" aria-disabled="true">Recording coming soon</span>';
+    }
+    return '<article class="evt-card">' +
+      '<div class="evt-top">' + badge + level + soon + '</div>' +
+      '<div class="evt-title">' + esc(ev.title) + '</div>' + when +
+      (ev.summary ? '<p class="evt-summary">' + esc(ev.summary) + '</p>' : '') +
+      note + '<div class="evt-actions">' + actions + '</div></article>';
+  }
+  function renderEvents() {
+    var section = document.getElementById('events');
+    var up = document.getElementById('events-upcoming');
+    var rec = document.getElementById('events-recordings');
+    var upH = document.getElementById('events-upcoming-h');
+    var recH = document.getElementById('events-recordings-h');
+    fetch('../data/events.json', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var events = (j && j.events) || [];
+        var now = Date.now();
+        var upcoming = [], recordings = [];
+        events.forEach(function (ev) {
+          var future = ev.startsUtc && new Date(ev.startsUtc).getTime() > now;
+          if (ev.kind === 'training' && (ev.comingSoon || future)) upcoming.push(ev);
+          else recordings.push(ev);
+        });
+        // Dated sessions first (soonest first); undated "coming soon" webinars last.
+        upcoming.sort(function (a, b) {
+          var ad = a.startsUtc ? new Date(a.startsUtc).getTime() : Infinity;
+          var bd = b.startsUtc ? new Date(b.startsUtc).getTime() : Infinity;
+          return ad - bd;
+        });
+        recordings.sort(function (a, b) { return new Date(b.startsUtc) - new Date(a.startsUtc); });
+        // Hide the whole section unless there is at least one real event; hide each
+        // subsection when it has nothing — no "coming soon" placeholder text.
+        if (!upcoming.length && !recordings.length) { section.hidden = true; return; }
+        up.innerHTML = upcoming.map(function (e) { return eventCard(e, true); }).join('');
+        rec.innerHTML = recordings.map(function (e) { return eventCard(e, false); }).join('');
+        upH.hidden = up.hidden = !upcoming.length;
+        recH.hidden = rec.hidden = !recordings.length;
+        section.hidden = false;
+      })
+      .catch(function () { section.hidden = true; });
+  }
+
+  function boot() { renderPolls(); renderEvents(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+</body>
+</html>

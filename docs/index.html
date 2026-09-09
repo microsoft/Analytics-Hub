@@ -54,6 +54,7 @@
   <script src="./palette.js" defer></script>
   <script src="./nudges.js" defer></script>
   <script src="./votes.js?v=82aa1d01" defer></script>
+<script src="./poll.js" defer></script>
 </head>
 <body>
 <a class="ah-skip" href="#top">Skip to main content</a>
@@ -70,6 +71,7 @@
       <a href="explore-reports/">Reports</a>
       <a href="cowork-billing/">Consumption &amp; Cost</a>
       <a href="case-studies/">Case Studies</a>
+      <a href="community/">Community</a>
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
@@ -159,6 +161,42 @@
     </div>
   </div>
 </section>
+
+<!-- =========================================================== COMMUNITY -->
+<section class="band community-band" id="community-home">
+  <div class="wrap">
+    <p class="eyebrow center">Community</p>
+    <h2 class="section-title center">Shape what we build next</h2>
+    <div class="community-home-grid">
+      <div class="community-home-poll">
+        <div data-poll="chargeback-usage-2026"></div>
+        <p class="community-home-more"><a href="community/#polls">More polls &amp; open ideas →</a></p>
+      </div>
+      <aside class="community-home-next" id="community-home-next" hidden>
+        <p class="eyebrow">Next live training</p>
+        <div class="chn-title" id="chn-title"></div>
+        <div class="chn-when" id="chn-when"></div>
+        <p class="chn-note" id="chn-note" hidden>Microsoft employees can register. Everyone can watch the recording afterwards.</p>
+        <div class="chn-actions">
+          <a class="chn-btn" id="chn-register" href="#" target="_blank" rel="noopener">Register ↗</a>
+          <a class="chn-btn chn-btn--ghost" href="community/#events">All events &amp; recordings →</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+<style>
+  .community-home-grid{display:grid;gap:1.4rem;grid-template-columns:1fr;align-items:start;max-width:960px;margin:1.4rem auto 0;}
+  @media (min-width:820px){.community-home-grid{grid-template-columns:1.1fr .9fr;}}
+  .community-home-more{margin:.7rem 0 0;font-size:.9rem;}
+  .community-home-next{border:1px solid var(--border,#e2e6ea);border-radius:12px;padding:1.1rem 1.2rem;background:var(--surface,#fff);}
+  .community-home-next .chn-title{font-weight:600;font-size:1.05rem;margin:.2rem 0 .3rem;}
+  .community-home-next .chn-when{font-size:.85rem;color:var(--text-muted,#5a6470);}
+  .community-home-next .chn-note{font-size:.8rem;color:var(--text-muted,#5a6470);border-left:2px solid var(--border,#e2e6ea);padding-left:.6rem;margin:.6rem 0;}
+  .chn-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.8rem;}
+  .chn-btn{padding:.5rem .9rem;border-radius:8px;font-weight:600;font-size:.88rem;text-decoration:none;border:1px solid var(--accent,#0078d4);color:#fff;background:var(--accent,#0078d4);}
+  .chn-btn--ghost{background:transparent;color:var(--accent,#0078d4);}
+</style>
 
 <!-- =========================================================== FLAGSHIP -->
 <section class="band flagship-band" id="flagship">
@@ -658,6 +696,37 @@
       if (t) t.click();
     }
   })();
+</script>
+<script>
+(function () {
+  'use strict';
+  // One-shot launch announcement for the Community tab — independent of events.
+  if (window.ahNudge) {
+    window.ahNudge.toast(
+      'New: <a href="community/" style="color:inherit;text-decoration:underline;">Community polls &amp; trainings</a> — tell us what to build next.',
+      'community-launch', { duration: 7000 }
+    );
+  }
+  var box = document.getElementById('community-home-next');
+  if (!box) return;
+  function fmtWhen(iso, mins){try{var d=new Date(iso);return d.toLocaleString(undefined,{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'})+(mins?' · '+mins+' min':'');}catch(e){return iso;}}
+  fetch('./data/events.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      var now = Date.now();
+      var next = ((j && j.events) || [])
+        .filter(function (e) { return e.kind === 'training' && e.startsUtc && new Date(e.startsUtc).getTime() > now; })
+        .sort(function (a, b) { return new Date(a.startsUtc) - new Date(b.startsUtc); })[0];
+      if (!next) return;
+      document.getElementById('chn-title').textContent = next.title || '';
+      document.getElementById('chn-when').textContent = fmtWhen(next.startsUtc, next.durationMinutes);
+      if (next.msftOnly) document.getElementById('chn-note').hidden = false;
+      var reg = document.getElementById('chn-register');
+      if (next.registerUrl) { reg.href = next.registerUrl; } else { reg.textContent = 'Registration soon'; reg.removeAttribute('href'); }
+      box.hidden = false;
+    })
+    .catch(function () {});
+})();
 </script>
 </body>
 </html>

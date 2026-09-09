@@ -1,0 +1,23 @@
+{
+  "_comment": "Event LISTINGS only. NO attendee data is ever stored by this site. Signup is handled by external Microsoft-managed registration (Teams / Outlook / MS Forms) via registerUrl. kind: training | recording. msftOnly:true shows a note that Microsoft employees can register and everyone can watch the recording. Times are UTC ISO-8601. Add real events here — no placeholder/fake entries.",
+  "events": [
+    {
+      "id": "ai-in-one-technical-setup",
+      "title": "AI-in-One technical setup",
+      "kind": "training",
+      "level": "Technical",
+      "comingSoon": true,
+      "summary": "Hands-on webinar: set up and configure the AI-in-One Dashboard end to end.",
+      "msftOnly": true
+    },
+    {
+      "id": "valuelens-technical-setup",
+      "title": "ValueLens technical setup",
+      "kind": "training",
+      "level": "Technical",
+      "comingSoon": true,
+      "summary": "Hands-on webinar: set up and configure ValueLens end to end.",
+      "msftOnly": true
+    }
+  ]
+}

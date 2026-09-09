@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="../palette.css?v=936728fb" />
   <script src="../palette.js" defer></script>
   <script src="../nudges.js" defer></script>
+  <script src="../poll.js" defer></script>
 </head>
 <body>
 <a class="ah-skip" href="#top">Skip to main content</a>
@@ -49,6 +50,7 @@
       <a href="../explore-reports/">Reports</a>
       <a href="../cowork-billing/" aria-current="page">Consumption &amp; Cost</a>
       <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
@@ -179,6 +181,45 @@
       </div>
     </article>
   </section>
+
+  <style>
+    .cb-poll-rail{max-width:520px;margin:1.6rem auto;border:1px solid var(--border,#e2e6ea);border-radius:14px;
+      background:var(--surface,#fff);box-shadow:0 8px 24px -14px rgba(15,18,28,.35);padding:.9rem 1rem 1rem;position:relative;}
+    .cb-poll-rail__label{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+      color:var(--accent,#0078d4);margin:0 0 .5rem;}
+    .cb-poll-rail__close{position:absolute;top:.5rem;right:.55rem;border:0;background:transparent;
+      color:var(--text-muted,#5a6470);font-size:1.15rem;line-height:1;cursor:pointer;padding:.2rem .4rem;border-radius:6px;}
+    .cb-poll-rail__close:hover{background:color-mix(in srgb,var(--text,#1b1b1b) 8%,transparent);color:var(--text,#1b1b1b);}
+    .cb-poll-rail .ah-poll{border:0;padding:0;max-width:none;background:transparent;}
+    @media (min-width:1200px){
+      .cb-poll-rail{position:fixed;right:20px;bottom:20px;width:340px;margin:0;z-index:60;
+        max-height:calc(100vh - 40px);overflow:auto;}
+    }
+    @media (min-width:1200px) and (prefers-reduced-motion:no-preference){
+      .cb-poll-rail{animation:cbPollIn .35s ease-out;}
+    }
+    @keyframes cbPollIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  </style>
+  <aside class="cb-poll-rail" id="cbPollRail" aria-label="Quick poll">
+    <button type="button" class="cb-poll-rail__close" aria-label="Dismiss poll">&times;</button>
+    <p class="cb-poll-rail__label">Quick poll</p>
+    <div data-poll="chargeback-usage-2026"></div>
+  </aside>
+  <script>
+  (function () {
+    var rail = document.getElementById('cbPollRail');
+    if (!rail) return;
+    var POLL = 'chargeback-usage-2026';
+    function has(key, obj) { try { return obj ? !!(JSON.parse(localStorage.getItem(key) || '{}')[POLL]) : localStorage.getItem(key) === '1'; } catch (e) { return false; } }
+    // Hide the whole rail if this browser already responded or dismissed it.
+    // Uses only the on-device localStorage flag — no user data is stored.
+    if (has('ah_poll_voted', true) || has('ah:pollrail:' + POLL, false)) { rail.remove(); return; }
+    rail.querySelector('.cb-poll-rail__close').addEventListener('click', function () {
+      try { localStorage.setItem('ah:pollrail:' + POLL, '1'); } catch (e) {}
+      rail.remove();
+    });
+  })();
+  </script>
 
   <section class="wrap cb-downloads cb-primary-explore">
     <h2>Cowork browser tools</h2>
@@ -383,7 +424,6 @@
     }
   })();
 </script>
-<script src="share.js"></script>
 <script src="./cwk-events.js?v=202608181505"></script>
 
 </body>

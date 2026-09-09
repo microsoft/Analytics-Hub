@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Poll results (team) · Analytics Hub</title>
+  <style>
+    :root{--accent:#0078d4;--accent2:#0a3fb0;--border:#e2e6ea;--surface:#fff;--bg:#f6f7f9;--text:#1b1b1b;--muted:#5a6470;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Inter',-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;}
+    .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+    header.topbar{background:var(--surface);border-bottom:1px solid var(--border);}
+    .topbar .wrap{display:flex;align-items:center;gap:14px;padding:14px 20px;flex-wrap:wrap;}
+    .brand{font-weight:700;}
+    .brand span{color:var(--muted);font-weight:400;font-size:.9rem;margin-left:6px;}
+    .spacer{margin-left:auto;}
+    .btn{display:inline-block;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;
+      padding:.5rem 1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;}
+    .btn--ghost{background:transparent;color:var(--accent);}
+    .btn:disabled{opacity:.5;cursor:not-allowed;}
+    main{padding:28px 0 60px;}
+    h1{font-size:1.5rem;margin:0 0 .3rem;}
+    .lede{color:var(--muted);margin:0 0 1.4rem;}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.4rem 1.5rem;margin:0 0 1.2rem;}
+    .who{font-size:.85rem;color:var(--muted);}
+    .poll{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.3rem 1.5rem;margin:0 0 1.2rem;}
+    .poll-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 .2rem;}
+    .poll-head h2{font-size:1.15rem;margin:0;}
+    .poll-meta{font-size:.8rem;color:var(--muted);}
+    .q{margin:1.1rem 0 0;padding:1rem 0 0;border-top:1px solid var(--border);}
+    .q:first-of-type{border-top:0;padding-top:.4rem;}
+    .q-title{font-weight:600;margin:0 0 .7rem;}
+    .bar-row{display:grid;grid-template-columns:minmax(120px,240px) 1fr auto;align-items:center;gap:10px;margin:.35rem 0;}
+    .bar-label{font-size:.9rem;}
+    .bar-track{background:#eef1f5;border-radius:6px;height:14px;overflow:hidden;}
+    .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));}
+    .bar-num{font-size:.85rem;color:var(--muted);white-space:nowrap;}
+    .txt-list{margin:.2rem 0 0;padding:0;list-style:none;}
+    .txt-list li{border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;margin:.4rem 0;font-size:.92rem;background:#fbfcfe;}
+    .txt-list li .meta{display:block;font-size:.72rem;color:var(--muted);margin-top:.3rem;}
+    .muted{color:var(--muted);}
+    .err{background:#fdecec;border:1px solid #f5b5b5;color:#8a1c1c;border-radius:10px;padding:.9rem 1.1rem;margin:0 0 1.2rem;font-size:.92rem;}
+    .center{text-align:center;}
+    .signin-card{max-width:420px;margin:8vh auto;text-align:center;}
+    .signin-card p{color:var(--muted);}
+    .pill{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+      color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);border-radius:999px;padding:2px 9px;}
+    .toolbar{display:flex;gap:.6rem;flex-wrap:wrap;margin:0 0 1.2rem;}
+    .email-in{width:100%;box-sizing:border-box;padding:.7rem .9rem;margin:0 0 .7rem;border:1px solid var(--border);
+      border-radius:10px;font-size:.95rem;}
+    .ok{background:#eaf7ee;border:1px solid #a9dcb8;color:#1c5a2e;border-radius:10px;padding:.9rem 1.1rem;margin:0 0 1.2rem;font-size:.92rem;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">Analytics Hub <span>· Poll results (team)</span></div>
+      <div class="spacer"></div>
+      <a class="btn btn--ghost" href="../">← Community</a>
+      <button class="btn btn--ghost" id="signOutBtn" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <!-- Sign-in state -->
+      <section id="signinView" class="panel signin-card" hidden>
+        <p class="pill">Team access</p>
+        <h1>Poll results</h1>
+        <p>Enter your Microsoft email to get a one-time sign-in link. Access is limited to an allowlist of team members. Everyone else — and the public site — cannot read any responses.</p>
+        <div id="signinErr"></div>
+        <div id="signinOk"></div>
+        <input class="email-in" id="emailInput" type="email" inputmode="email" autocomplete="email"
+               placeholder="you@microsoft.com" />
+        <button class="btn" id="signInBtn">Email me a sign-in link</button>
+      </section>
+
+      <!-- Loading -->
+      <section id="loadingView" class="panel center muted">Loading…</section>
+
+      <!-- Not allowed -->
+      <section id="denyView" class="panel" hidden>
+        <h1>Not on the allowlist</h1>
+        <p class="muted">You're signed in as <strong id="denyEmail"></strong>, but that account isn't on the results allowlist. Ask a maintainer to add you (in <code>ah_admins</code>), then reload.</p>
+        <button class="btn btn--ghost" id="denySignOut">Sign out</button>
+      </section>
+
+      <!-- Results -->
+      <section id="resultsView" hidden>
+        <h1>Poll results</h1>
+        <p class="lede">Signed in as <strong id="whoEmail"></strong>. <span id="totalLine"></span></p>
+        <div id="resultsErr"></div>
+        <div class="toolbar">
+          <button class="btn btn--ghost" id="exportAllBtn">Export all responses (CSV)</button>
+          <button class="btn btn--ghost" id="refreshBtn">Refresh</button>
+        </div>
+        <div id="polls"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+    var SUPABASE_URL = 'https://jaxopniugzdcnajzhzuj.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_5jT3EW5KMobUzw4-_5MrAA_oQJzc6gV';
+    var POLLS_JSON = '../../data/polls.json'; // community/results/ → docs root
+
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    var $ = function (id) { return document.getElementById(id); };
+    function show(id) { ['signinView','loadingView','denyView','resultsView'].forEach(function (v) { $(v).hidden = (v !== id); }); }
+    function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+    function fmtTs(ts){try{return new Date(ts).toLocaleString();}catch(e){return ts||'';}}
+
+    // ---- poll label normalization -------------------------------------------
+    // Returns { title, questions: [{id, question, type, labels:{optId:label}, order}] }
+    function normalizePoll(p) {
+      var out = { title: p.title || p.question || p.id, questions: [] };
+      if (p.questions && p.questions.length) {
+        p.questions.forEach(function (q) {
+          var labels = {};
+          (q.options || []).forEach(function (o) { labels[o.id] = o.label; });
+          out.questions.push({ id: q.id, question: q.question, type: q.type || (q.options ? 'single' : 'text'), labels: labels });
+        });
+      } else {
+        // legacy single/text poll — the widget submits with question_id 'main'
+        var labels = {};
+        (p.options || []).forEach(function (o) { labels[o.id] = o.label; });
+        out.questions.push({ id: 'main', question: p.question || p.title || '', type: p.type || (p.options ? 'single' : 'text'), labels: labels });
+      }
+      return out;
+    }
+
+    function loadPollDefs() {
+      return fetch(POLLS_JSON, { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var map = {};
+          ((j && j.polls) || []).forEach(function (p) { map[p.id] = normalizePoll(p); });
+          return map;
+        })
+        .catch(function () { return {}; });
+    }
+
+    // ---- CSV -----------------------------------------------------------------
+    function csvCell(v){ v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; }
+    function downloadCsv(name, rows) {
+      var csv = rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n');
+      var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+    }
+
+    var STATE = { defs: {}, responses: [] };
+
+    function labelFor(pollId, qid, optId) {
+      var def = STATE.defs[pollId];
+      if (!def) return optId;
+      var q = def.questions.filter(function (x) { return x.id === qid; })[0]
+           || def.questions.filter(function (x) { return x.id === 'main'; })[0];
+      return (q && q.labels[optId]) || optId;
+    }
+    function questionText(pollId, qid) {
+      var def = STATE.defs[pollId];
+      if (!def) return qid;
+      var q = def.questions.filter(function (x) { return x.id === qid; })[0];
+      return (q && q.question) || (qid === 'main' ? (def.title || '') : qid);
+    }
+    function pollTitle(pollId) { return (STATE.defs[pollId] && STATE.defs[pollId].title) || pollId; }
+
+    // ---- render --------------------------------------------------------------
+    function render() {
+      var host = $('polls');
+      host.innerHTML = '';
+      var byPoll = {};
+      STATE.responses.forEach(function (r) {
+        (byPoll[r.poll_id] = byPoll[r.poll_id] || []).push(r);
+      });
+      // Order polls: known defs first (by their order), then any unknown ids.
+      var ids = Object.keys(byPoll);
+      // include defined polls even with zero responses
+      Object.keys(STATE.defs).forEach(function (id) { if (ids.indexOf(id) < 0) ids.push(id); });
+      ids.sort();
+
+      $('totalLine').textContent = STATE.responses.length + ' total response row' +
+        (STATE.responses.length === 1 ? '' : 's') + ' across ' + Object.keys(byPoll).length + ' poll(s).';
+
+      if (!ids.length) { host.innerHTML = '<div class="poll muted">No responses yet.</div>'; return; }
+
+      ids.forEach(function (pollId) {
+        var rows = byPoll[pollId] || [];
+        var el = document.createElement('div'); el.className = 'poll';
+        var head = '<div class="poll-head"><h2>' + esc(pollTitle(pollId)) + '</h2>' +
+          '<span class="poll-meta">' + rows.length + ' response row(s) · id: ' + esc(pollId) + '</span>' +
+          '<span class="spacer"></span>' +
+          '<button class="btn btn--ghost" data-export="' + esc(pollId) + '">Export (CSV)</button></div>';
+
+        // group rows by question_id
+        var byQ = {};
+        rows.forEach(function (r) { var q = r.question_id || 'main'; (byQ[q] = byQ[q] || []).push(r); });
+
+        // preferred question order from defs
+        var qOrder = (STATE.defs[pollId] ? STATE.defs[pollId].questions.map(function (x) { return x.id; }) : []);
+        Object.keys(byQ).forEach(function (q) { if (qOrder.indexOf(q) < 0) qOrder.push(q); });
+
+        var body = '';
+        qOrder.forEach(function (qid) {
+          var qrows = byQ[qid]; if (!qrows) return;
+          var choiceRows = qrows.filter(function (r) { return r.option_id != null; });
+          var textRows = qrows.filter(function (r) { return r.free_text != null && r.free_text !== ''; });
+          body += '<div class="q"><p class="q-title">' + esc(questionText(pollId, qid)) + '</p>';
+
+          if (choiceRows.length) {
+            var counts = {}; choiceRows.forEach(function (r) { counts[r.option_id] = (counts[r.option_id] || 0) + 1; });
+            var total = choiceRows.length;
+            // order options by defs if available
+            var optIds = Object.keys(counts);
+            var def = STATE.defs[pollId];
+            var qdef = def && def.questions.filter(function (x) { return x.id === qid; })[0];
+            if (qdef) { var known = Object.keys(qdef.labels); optIds.sort(function (a, b) { return known.indexOf(a) - known.indexOf(b); }); }
+            body += optIds.map(function (oid) {
+              var n = counts[oid], pct = total ? Math.round(n / total * 100) : 0;
+              return '<div class="bar-row"><span class="bar-label">' + esc(labelFor(pollId, qid, oid)) + '</span>' +
+                '<span class="bar-track"><span class="bar-fill" style="width:' + pct + '%"></span></span>' +
+                '<span class="bar-num">' + n + ' · ' + pct + '%</span></div>';
+            }).join('');
+          }
+          if (textRows.length) {
+            body += '<ul class="txt-list">' + textRows.sort(function (a, b) { return new Date(b.created_at) - new Date(a.created_at); })
+              .map(function (r) { return '<li>' + esc(r.free_text) + '<span class="meta">' + esc(fmtTs(r.created_at)) + '</span></li>'; }).join('') + '</ul>';
+          }
+          if (!choiceRows.length && !textRows.length) body += '<p class="muted">No responses yet.</p>';
+          body += '</div>';
+        });
+
+        if (!rows.length) body = '<p class="muted" style="margin-top:.6rem;">No responses yet.</p>';
+        el.innerHTML = head + body;
+        host.appendChild(el);
+      });
+
+      // wire per-poll export
+      host.querySelectorAll('[data-export]').forEach(function (btn) {
+        btn.addEventListener('click', function () { exportPoll(btn.getAttribute('data-export')); });
+      });
+    }
+
+    function exportRowsFor(list, pollId) {
+      var out = [['poll_id','poll_title','question_id','question','option_id','option_label','free_text','created_at']];
+      list.forEach(function (r) {
+        out.push([
+          r.poll_id, pollTitle(r.poll_id), r.question_id || '', questionText(r.poll_id, r.question_id || 'main'),
+          r.option_id || '', r.option_id ? labelFor(r.poll_id, r.question_id || 'main', r.option_id) : '',
+          r.free_text || '', r.created_at || ''
+        ]);
+      });
+      return out;
+    }
+    function exportPoll(pollId) {
+      var list = STATE.responses.filter(function (r) { return r.poll_id === pollId; });
+      downloadCsv('poll-' + pollId + '.csv', exportRowsFor(list, pollId));
+    }
+    function exportAll() {
+      downloadCsv('poll-responses-all.csv', exportRowsFor(STATE.responses));
+    }
+
+    // ---- data ----------------------------------------------------------------
+    function fetchResponses() {
+      return sb.from('ah_poll_responses')
+        .select('poll_id,question_id,option_id,free_text,created_at')
+        .order('created_at', { ascending: true })
+        .limit(10000);
+    }
+
+    function loadAndRender() {
+      $('resultsErr').innerHTML = '';
+      return Promise.all([loadPollDefs(), fetchResponses()]).then(function (res) {
+        STATE.defs = res[0];
+        var resp = res[1];
+        if (resp.error) {
+          $('resultsErr').innerHTML = '<div class="err">Could not load responses: ' + esc(resp.error.message) +
+            '. The Supabase SQL (sql/community-supabase.sql) may not be set up yet.</div>';
+          STATE.responses = [];
+        } else {
+          STATE.responses = resp.data || [];
+        }
+        render();
+      });
+    }
+
+    // ---- auth flow -----------------------------------------------------------
+    function signIn() {
+      $('signinErr').innerHTML = '';
+      $('signinOk').innerHTML = '';
+      var email = ($('emailInput').value || '').trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        $('signinErr').innerHTML = '<div class="err">Enter a valid email address.</div>';
+        return;
+      }
+      var btn = $('signInBtn'); btn.disabled = true;
+      sb.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: location.href.split('#')[0] }
+      }).then(function (r) {
+        btn.disabled = false;
+        if (r.error) { $('signinErr').innerHTML = '<div class="err">' + esc(r.error.message) + '</div>'; return; }
+        $('signinOk').innerHTML = '<div class="ok">Check your inbox — we sent a one-time sign-in link to <strong>' +
+          esc(email) + '</strong>. Open it in this browser to continue.</div>';
+      });
+    }
+    function signOut() { sb.auth.signOut().then(function () { location.reload(); }); }
+
+    function afterSession(session) {
+      if (!session) { show('signinView'); $('signOutBtn').hidden = true; return; }
+      var email = (session.user && (session.user.email || (session.user.user_metadata && session.user.user_metadata.email))) || '';
+      $('signOutBtn').hidden = false;
+      // Admin check: RLS returns rows from ah_admins only for allowlisted users.
+      sb.from('ah_admins').select('email').then(function (r) {
+        if (r.error) {
+          show('signinView');
+          $('signinErr').innerHTML = '<div class="err">Sign-in works, but the results backend isn\'t reachable yet: ' +
+            esc(r.error.message) + '</div>';
+          return;
+        }
+        if (!r.data || !r.data.length) {
+          $('denyEmail').textContent = email || '(unknown)';
+          show('denyView');
+          return;
+        }
+        $('whoEmail').textContent = email || '(signed in)';
+        show('resultsView');
+        loadAndRender();
+      });
+    }
+
+    // wire buttons
+    $('signInBtn').addEventListener('click', signIn);
+    $('emailInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') signIn(); });
+    $('signOutBtn').addEventListener('click', signOut);
+    $('denySignOut').addEventListener('click', signOut);
+    $('exportAllBtn').addEventListener('click', exportAll);
+    $('refreshBtn').addEventListener('click', loadAndRender);
+
+    // boot: supabase-js parses the magic-link redirect and stores the session.
+    show('loadingView');
+    sb.auth.getSession().then(function (r) { afterSession(r.data && r.data.session); });
+    sb.auth.onAuthStateChange(function (evt, session) {
+      if (evt === 'SIGNED_IN' || evt === 'SIGNED_OUT') afterSession(session);
+    });
+  })();
+  </script>
+</body>
+</html>

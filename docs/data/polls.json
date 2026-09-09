@@ -1,0 +1,55 @@
+{
+  "_comment": "Poll DEFINITIONS only. Responses are stored anonymously in Supabase (see sql/community-supabase.sql). Never put PII here. showResults: after_vote | always | never. type: single | multi | text. placements are page paths (relative to docs/) or the keyword 'home'/'community' where the poll auto-embeds.",
+  "polls": [
+    {
+      "id": "chargeback-usage-2026",
+      "title": "Chargeback report — 30-second feedback",
+      "showResults": "never",
+      "order": 1,
+      "placements": ["cowork-billing/", "home", "community"],
+      "status": "open",
+      "closesOn": "2026-10-02",
+      "questions": [
+        {
+          "id": "usage",
+          "type": "single",
+          "question": "Did you or your customer use the Chargeback Power BI report?",
+          "options": [
+            { "id": "solved", "label": "Yes — it solved our problem" },
+            { "id": "yes-gap", "label": "Yes — but it doesn't meet our needs" },
+            { "id": "no-gap", "label": "No — it doesn't meet our needs" },
+            { "id": "no-need", "label": "No — we didn't need a chargeback report", "end": true }
+          ]
+        },
+        {
+          "id": "recommend",
+          "type": "single",
+          "question": "How likely are you to recommend the Chargeback report to a colleague or customer?",
+          "options": [
+            { "id": "very", "label": "Very likely" },
+            { "id": "somewhat", "label": "Somewhat likely" },
+            { "id": "not", "label": "Not likely" }
+          ]
+        },
+        {
+          "id": "value",
+          "type": "text",
+          "question": "Other than API access, what would make the Chargeback report more valuable for you?",
+          "prompt": "Free text — please don't include customer names or any confidential data.",
+          "maxLength": 600
+        }
+      ]
+    },
+    {
+      "id": "build-priorities-2026",
+      "question": "What should we build next to help you get value from Copilot analytics?",
+      "type": "text",
+      "prompt": "Tell us the report, metric, or workflow that would matter most. Free text — please don't include customer names or any confidential data.",
+      "maxLength": 600,
+      "showResults": "never",
+      "order": 99,
+      "placements": ["community"],
+      "status": "open"
+    }
+  ]
+}
