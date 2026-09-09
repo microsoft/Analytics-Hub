@@ -79,3 +79,6 @@ Tracks design/layout decisions and changes for the new **Community** tab (polls 
 ## Change — home poll → bottom-right rail; results link under Resources (2026-09-09)
 - Home page ('docs/index.html'): moved the Chargeback poll out of the Community band into a fixed **bottom-right quick-poll rail** ('.hp-poll-rail'), mirroring the Consumption page. Dismissible; auto-hides once responded/dismissed (localStorage only). Community band now shows a short blurb + 'More polls & open ideas →'.
 - Added a **Poll Results** item (team-only, survey dashboard) to the **Resources** nav dropdown on all 21 pages, with depth-correct relative paths to 'community/results/'.
+
+## Fix — Community page skip link visible (2026-09-09)
+- Community page used 'class="skip-link"' (no CSS anywhere) so the accessibility "Skip to content" link rendered as a visible link. Changed to the sitewide 'class="ah-skip"' (defined in palette.css) so it's hidden off-screen and only appears on keyboard focus, like every other page.
