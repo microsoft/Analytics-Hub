@@ -83,6 +83,7 @@
           <a href="feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
           <hr class="menu-sep" />
           <a href="demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+          <a href="community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
         </div>
       </div>
       <a class="nav-subscribe" href="updates/?from=nav">Stay Up To Date</a>
@@ -169,7 +170,7 @@
     <h2 class="section-title center">Shape what we build next</h2>
     <div class="community-home-grid">
       <div class="community-home-poll">
-        <div data-poll="chargeback-usage-2026"></div>
+        <p class="community-home-blurb">Answer our 30-second poll — it pops up in the bottom-right corner. Explore open ideas and tell us what to build next.</p>
         <p class="community-home-more"><a href="community/#polls">More polls &amp; open ideas →</a></p>
       </div>
       <aside class="community-home-next" id="community-home-next" hidden>
@@ -189,6 +190,7 @@
   .community-home-grid{display:grid;gap:1.4rem;grid-template-columns:1fr;align-items:start;max-width:960px;margin:1.4rem auto 0;}
   @media (min-width:820px){.community-home-grid{grid-template-columns:1.1fr .9fr;}}
   .community-home-more{margin:.7rem 0 0;font-size:.9rem;}
+  .community-home-blurb{margin:.2rem 0 0;color:var(--text-muted,#5a6470);font-size:.95rem;line-height:1.5;}
   .community-home-next{border:1px solid var(--border,#e2e6ea);border-radius:12px;padding:1.1rem 1.2rem;background:var(--surface,#fff);}
   .community-home-next .chn-title{font-weight:600;font-size:1.05rem;margin:.2rem 0 .3rem;}
   .community-home-next .chn-when{font-size:.85rem;color:var(--text-muted,#5a6470);}
@@ -197,6 +199,45 @@
   .chn-btn{padding:.5rem .9rem;border-radius:8px;font-weight:600;font-size:.88rem;text-decoration:none;border:1px solid var(--accent,#0078d4);color:#fff;background:var(--accent,#0078d4);}
   .chn-btn--ghost{background:transparent;color:var(--accent,#0078d4);}
 </style>
+
+<!-- Home quick-poll rail (bottom-right, mirrors the Consumption page) -->
+<style>
+  .hp-poll-rail{max-width:520px;margin:1.6rem auto;border:1px solid var(--border,#e2e6ea);border-radius:14px;
+    background:var(--surface,#fff);box-shadow:0 8px 24px -14px rgba(15,18,28,.35);padding:.9rem 1rem 1rem;position:relative;}
+  .hp-poll-rail__label{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent,#0078d4);margin:0 0 .5rem;}
+  .hp-poll-rail__close{position:absolute;top:.5rem;right:.55rem;border:0;background:transparent;
+    color:var(--text-muted,#5a6470);font-size:1.15rem;line-height:1;cursor:pointer;padding:.2rem .4rem;border-radius:6px;}
+  .hp-poll-rail__close:hover{background:color-mix(in srgb,var(--text,#1b1b1b) 8%,transparent);color:var(--text,#1b1b1b);}
+  .hp-poll-rail .ah-poll{border:0;padding:0;max-width:none;background:transparent;}
+  @media (min-width:1200px){
+    .hp-poll-rail{position:fixed;right:20px;bottom:20px;width:340px;margin:0;z-index:60;
+      max-height:calc(100vh - 40px);overflow:auto;}
+  }
+  @media (min-width:1200px) and (prefers-reduced-motion:no-preference){
+    .hp-poll-rail{animation:hpPollIn .35s ease-out;}
+  }
+  @keyframes hpPollIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+</style>
+<aside class="hp-poll-rail" id="hpPollRail" aria-label="Quick poll">
+  <button type="button" class="hp-poll-rail__close" aria-label="Dismiss poll">&times;</button>
+  <p class="hp-poll-rail__label">Quick poll</p>
+  <div data-poll="chargeback-usage-2026"></div>
+</aside>
+<script>
+(function () {
+  var rail = document.getElementById('hpPollRail');
+  if (!rail) return;
+  var POLL = 'chargeback-usage-2026';
+  function has(key, obj) { try { return obj ? !!(JSON.parse(localStorage.getItem(key) || '{}')[POLL]) : localStorage.getItem(key) === '1'; } catch (e) { return false; } }
+  // Hide the whole rail if this browser already responded or dismissed it. On-device flag only — no user data stored.
+  if (has('ah_poll_voted', true) || has('ah:pollrail:' + POLL, false)) { rail.remove(); return; }
+  rail.querySelector('.hp-poll-rail__close').addEventListener('click', function () {
+    try { localStorage.setItem('ah:pollrail:' + POLL, '1'); } catch (e) {}
+    rail.remove();
+  });
+})();
+</script>
 
 <!-- =========================================================== FLAGSHIP -->
 <section class="band flagship-band" id="flagship">

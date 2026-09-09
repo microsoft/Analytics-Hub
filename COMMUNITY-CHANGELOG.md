@@ -75,3 +75,7 @@ Tracks design/layout decisions and changes for the new **Community** tab (polls 
 - Entra/Azure app registration needs tenant-admin rights we don't have, so the results dashboard now signs in with Supabase's built-in **email magic link** (OTP) instead of Azure OAuth.
 - Allowlist enforcement is unchanged: 'ah_is_admin()' still matches 'auth.jwt()->>email' against 'ah_admins', so only allowlisted @microsoft.com users can read results.
 - 'docs/community/results/index.html': email input + 'Email me a sign-in link', 'signInWithOtp', SIGNED_IN/SIGNED_OUT handling. Requires adding the results URLs under Supabase → Authentication → URL Configuration.
+
+## Change — home poll → bottom-right rail; results link under Resources (2026-09-09)
+- Home page ('docs/index.html'): moved the Chargeback poll out of the Community band into a fixed **bottom-right quick-poll rail** ('.hp-poll-rail'), mirroring the Consumption page. Dismissible; auto-hides once responded/dismissed (localStorage only). Community band now shows a short blurb + 'More polls & open ideas →'.
+- Added a **Poll Results** item (team-only, survey dashboard) to the **Resources** nav dropdown on all 21 pages, with depth-correct relative paths to 'community/results/'.
