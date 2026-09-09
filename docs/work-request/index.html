@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="osCxYZt_4rM_dBEUcK15g-bl2Ny5g6I80gJlFZ6eKlY" />
+  <title>AI Work Request — Plan and Cost a Copilot Cowork Run · Analytics Hub</title>
+  <meta name="description" content="Free browser tool to plan a Microsoft 365 Copilot Cowork run, cost it against your own measured credit consumption, and export an approval-ready request. Annualises runs per year and per-person multipliers. Nothing is uploaded." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/work-request/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/work-request/" />
+  <meta property="og:title" content="AI Work Request · Analytics Hub" />
+  <meta property="og:description" content="Plan a Copilot Cowork run, cost it against your own measured consumption, and export a request someone can actually approve." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Work Request · Analytics Hub" />
+  <meta name="twitter:description" content="Plan a Copilot Cowork run, cost it against your own measured consumption, and export a request someone can actually approve." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AI Work Request",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any modern browser",
+    "url": "https://microsoft.github.io/Analytics-Hub/work-request/",
+    "description": "Plan a Copilot Cowork run, cost it against your own measured consumption, and export a request someone can actually approve.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Microsoft"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="../styles.css?v=7a506cda" />
+  <link rel="preconnect" href="https://github.com" />
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="AI Work Request" />
+  <script src="../clarity-events.js?v=202608181034" defer></script>
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <style>
+    .wr-wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .wr-hero { padding: 42px 0 4px; }
+    .wr-hero .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; font-weight: 700; opacity: .7; margin: 0 0 6px; }
+    .wr-hero .eyebrow a { color: inherit; }
+    .wr-hero h1 { margin: 0 0 10px; font-size: 2.1rem; line-height: 1.14; letter-spacing: -.02em; }
+    .wr-lede { font-size: 1rem; opacity: .88; max-width: 74ch; margin: 0; }
+
+    .wr-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 26px; align-items: start; margin: 26px 0 0; }
+    @media (max-width: 940px) { .wr-grid { grid-template-columns: 1fr; } }
+
+    .wr-panel { border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; background: var(--surface); margin: 0 0 18px; }
+    .wr-sub { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; opacity: .55; font-weight: 700; margin: 0 0 14px; }
+
+    .wr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 620px) { .wr-row { grid-template-columns: 1fr; } }
+    .wr-field { margin: 0 0 13px; }
+    .wr-field label { display: block; font-size: .8rem; font-weight: 600; margin: 0 0 5px; }
+    .wr-hint { font-size: .74rem; line-height: 1.5; opacity: .6; margin: 5px 0 0; }
+    .wr-in { width: 100%; box-sizing: border-box; font: inherit; font-size: .88rem; padding: 8px 11px;
+      color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; }
+    .wr-in:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent); }
+
+    .wr-f { padding: 12px 0; border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
+    .wr-f:last-child { border-bottom: 0; }
+    .wr-f-h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .wr-f-l { font-size: .89rem; font-weight: 600; }
+    .wr-f-p { font-size: .7rem; font-variant-numeric: tabular-nums; opacity: .45; }
+    .wr-f-w { margin: 2px 0 8px; font-size: .76rem; line-height: 1.5; opacity: .6; max-width: 60ch; }
+    .wr-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .wr-opt { font: inherit; font-size: .76rem; padding: 5px 11px; border-radius: 999px; cursor: pointer;
+      background: transparent; color: inherit; border: 1px solid color-mix(in srgb, currentColor 24%, transparent); }
+    .wr-opt:hover { border-color: var(--accent); }
+    .wr-opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+    .wr-sticky { position: sticky; top: 18px; }
+
+    .wr-head { border-radius: 14px 14px 0 0; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-bottom: 0; }
+    .wr-name { font-size: 1.05rem; font-weight: 700; line-height: 1.3; }
+    .wr-id { font-size: .72rem; opacity: .5; margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+    .wr-nums { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 14px 14px; background: var(--surface); }
+    .wr-n { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+      padding: 13px 20px; border-bottom: 1px solid color-mix(in srgb, currentColor 8%, transparent); }
+    .wr-n:last-child { border-bottom: 0; }
+    .wr-n-l { font-size: .8rem; opacity: .72; }
+    .wr-n-v { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+    .wr-n-v small { display: block; font-size: .68rem; font-weight: 400; opacity: .55; margin-top: 2px; }
+    .wr-n--hero .wr-n-v { font-size: 1.7rem; }
+    .wr-n--good .wr-n-v { color: #107c10; }
+    .wr-n--bad .wr-n-v { color: #d9534f; }
+    .wr-n--unknown .wr-n-v { font-size: .88rem; font-weight: 600; opacity: .55; }
+
+    .wr-cal { margin: 16px 0 0; padding: 13px 16px; border-radius: 10px; font-size: .82rem; line-height: 1.6;
+      border-left: 3px solid #b8860b; background: color-mix(in srgb, #b8860b 8%, transparent); }
+    .wr-cal.is-ok { border-left-color: #107c10; background: color-mix(in srgb, #107c10 7%, transparent); }
+
+    .wr-drivers { list-style: none; padding: 0; margin: 10px 0 0; }
+    .wr-drivers li { display: flex; justify-content: space-between; gap: 10px; font-size: .82rem; padding: 5px 0;
+      border-bottom: 1px solid color-mix(in srgb, currentColor 8%, transparent); }
+    .wr-drivers li:last-child { border-bottom: 0; }
+    .wr-drivers b { font-variant-numeric: tabular-nums; opacity: .55; font-weight: 600; }
+
+    .wr-lean { margin: 16px 0 0; padding: 14px 16px; border-radius: 10px; font-size: .84rem; line-height: 1.6;
+      border: 1px solid color-mix(in srgb, #107c10 30%, transparent); background: color-mix(in srgb, #107c10 6%, transparent); }
+    .wr-lean h4 { margin: 0 0 7px; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: #107c10; }
+    .wr-lean ul { margin: 0 0 10px; padding-left: 18px; }
+    .wr-lean li { margin: 0 0 3px; }
+    .wr-lean-nums { display: flex; gap: 16px; flex-wrap: wrap; font-variant-numeric: tabular-nums; font-size: .8rem; }
+    .wr-lean-nums span { opacity: .8; }
+    .wr-lean-nums b { color: #107c10; }
+
+    .wr-actions { display: flex; gap: 9px; margin: 18px 0 0; flex-wrap: wrap; align-items: center; }
+    .wr-btn { font: inherit; font-size: .82rem; font-weight: 600; padding: 9px 16px; border-radius: 8px; cursor: pointer;
+      border: 1px solid transparent; background: var(--accent); color: #fff; }
+    .wr-btn--ghost { background: transparent; color: inherit; border-color: var(--border); }
+    .wr-btn:hover { filter: brightness(1.07); }
+    .wr-btn:disabled { opacity: .45; cursor: not-allowed; }
+    .wr-said { font-size: .78rem; color: #107c10; }
+
+    .wr-note { font-size: .82rem; opacity: .7; background: color-mix(in srgb, currentColor 5%, transparent);
+      border-radius: 8px; padding: 13px 17px; margin: 30px 0 60px; line-height: 1.6; max-width: 82ch; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../explore-reports/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+
+          <a href="../work-request/" aria-current="page" role="menuitem"><span class="menu-icon" aria-hidden="true">&#129518;</span><span class="menu-text">AI Work Request<span class="menu-sub">Plan &middot; cost &middot; approve a Cowork run</span></span></a>
+          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+        </div>
+      </div>
+      <a class="nav-subscribe" href="../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main>
+  <section class="wr-wrap wr-hero">
+    <p class="eyebrow"><a href="../cowork-billing/">&larr; Consumption &amp; Cost</a> &middot; free tool, nothing leaves your browser</p>
+    <h1>AI Work Request</h1>
+    <p class="wr-lede">
+      Plan a Cowork run, cost it against your own measured consumption, and export a named
+      request someone can actually approve. Built for the conversation that happens before
+      the run, not the invoice that arrives after it.
+    </p>
+  </section>
+
+  <section class="wr-wrap">
+    <div class="wr-grid">
+
+      <div>
+        <div class="wr-panel">
+          <h2 class="wr-sub">The request</h2>
+          <div class="wr-field">
+            <label for="wr-title">What are you asking to run?</label>
+            <input class="wr-in" id="wr-title" type="text" placeholder="Weekly customer-signal sweep for the ACME account team" />
+          </div>
+          <div class="wr-row">
+            <div class="wr-field">
+              <label for="wr-who">Requested by</label>
+              <input class="wr-in" id="wr-who" type="text" placeholder="Name, team" />
+            </div>
+            <div class="wr-field">
+              <label for="wr-for">Approver</label>
+              <input class="wr-in" id="wr-for" type="text" placeholder="Who signs this off" />
+            </div>
+          </div>
+          <div class="wr-field">
+            <label for="wr-outcome">What it produces, and who uses it</label>
+            <input class="wr-in" id="wr-outcome" type="text" placeholder="A ranked signal brief the AE reads Monday morning" />
+          </div>
+        </div>
+
+        <div class="wr-panel">
+          <h2 class="wr-sub">What it does</h2>
+          <div id="wr-factors"></div>
+          <div class="wr-f">
+            <div class="wr-f-h"><span class="wr-f-l">How often</span></div>
+            <p class="wr-f-w">The multiplier people forget. A weekday job is 260 runs a year.</p>
+            <div class="wr-opts" id="wr-cadence"></div>
+          </div>
+          <div class="wr-f">
+            <div class="wr-f-h"><span class="wr-f-l">Who runs it</span></div>
+            <p class="wr-f-w">A per-person automation multiplies by seat. This is where a cheap plan becomes the biggest line on the bill.</p>
+            <div class="wr-opts" id="wr-seats"></div>
+          </div>
+        </div>
+
+        <div class="wr-panel">
+          <h2 class="wr-sub">Calibration &mdash; your numbers, not ours</h2>
+          <div class="wr-row">
+            <div class="wr-field">
+              <label for="wr-credits">Credits used by one run</label>
+              <input class="wr-in" id="wr-credits" type="number" min="0" step="1" placeholder="e.g. 40" />
+              <p class="wr-hint">Run it once, read the actual consumption for that run, put it here.
+                Leave blank and the cost stays honestly unknown.</p>
+            </div>
+            <div class="wr-field">
+              <label for="wr-rate">Cost per credit, if you know it</label>
+              <input class="wr-in" id="wr-rate" type="number" min="0" step="0.001" placeholder="optional" />
+              <p class="wr-hint">From your own agreement. Optional &mdash; the credit total works without it.</p>
+            </div>
+          </div>
+          <div class="wr-row">
+            <div class="wr-field">
+              <label for="wr-mins">Minutes this takes a person today</label>
+              <input class="wr-in" id="wr-mins" type="number" min="0" step="5" placeholder="e.g. 45" />
+              <p class="wr-hint">Per run, doing it by hand. Be honest &mdash; an inflated number
+                is the first thing an approver will challenge.</p>
+            </div>
+            <div class="wr-field">
+              <label for="wr-hourly">Loaded hourly rate</label>
+              <input class="wr-in" id="wr-hourly" type="number" min="0" step="5" placeholder="optional" />
+              <p class="wr-hint">Only if your organisation publishes one. Otherwise leave it and
+                report hours, which is harder to argue with anyway.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wr-sticky">
+        <div class="wr-head">
+          <div class="wr-name" id="wr-h-name">Untitled request</div>
+          <div class="wr-id" id="wr-h-id"></div>
+        </div>
+        <div class="wr-nums" id="wr-nums"></div>
+
+        <div class="wr-cal" id="wr-cal"></div>
+
+        <h2 class="wr-sub" style="margin:22px 0 0">What is driving the cost</h2>
+        <ul class="wr-drivers" id="wr-drivers"></ul>
+
+        <div class="wr-actions">
+          <button type="button" class="wr-btn wr-btn--ghost" id="wr-lean-btn">Show me a leaner version</button>
+        </div>
+        <div class="wr-lean" id="wr-lean" hidden></div>
+
+        <div class="wr-actions">
+          <button type="button" class="wr-btn" id="wr-copy">Copy request</button>
+          <button type="button" class="wr-btn wr-btn--ghost" id="wr-dl">Download .md</button>
+          <button type="button" class="wr-btn wr-btn--ghost" id="wr-reset">Reset</button>
+          <span class="wr-said" id="wr-said" hidden>Copied</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="wr-note">
+      <strong>On the numbers.</strong> The per-run credit figure is yours &mdash; measured in your
+      own tenant, not a published rate, because no public factor-to-credit mapping exists.
+      Everything after it is arithmetic you can check: runs per year, credits per year, hours
+      saved. That annualisation is the point. Nobody mis-estimates one run; they mis-estimate
+      260 runs times 100 people. Uncalibrated, this page says the cost is unknown rather than
+      filling the gap with a guess. Cost-shape rubric adapted from the Cowork Cookbook D365
+      Recipe Planner (CC-BY-4.0).
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <div class="footer-fine">
+      © Microsoft Corporation · MIT Licensed · <a href="../">Analytics Hub home</a> · <a href="../feedback/">Send feedback</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var FACTORS = [{"id":"volume","label":"Data volume","why":"Every record read is work. Usually the largest single driver.","trim":"Narrow the window — a shorter period cuts the read directly.","options":[{"v":0,"label":"Under ~100 items"},{"v":1,"label":"~100-2,000 items"},{"v":2,"label":"Over 2,000, or \"everything\""}]},{"id":"sources","label":"Distinct sources","why":"Each source is its own enumeration, paging and retries.","trim":"Drop a source — ask whether all of them change the answer.","options":[{"v":0,"label":"One"},{"v":1,"label":"Two or three"},{"v":2,"label":"Four or more"}]},{"id":"deliverable","label":"Deliverable","why":"Formatting is generation. A deck costs far more than a table.","trim":"Ship a table instead of a charted dashboard — the cheapest single change.","options":[{"v":0,"label":"Text or short table"},{"v":1,"label":"One formatted doc or page"},{"v":2,"label":"Deck, or charted dashboard"}]},{"id":"images","label":"Image generation","why":"Among the most expensive individual actions available.","trim":"Drop the generated images.","options":[{"v":0,"label":"None"},{"v":1,"label":"One or two"},{"v":2,"label":"Three or more"}]},{"id":"research","label":"Research depth","why":"Following links multiplies the work, and depth compounds it.","trim":"Cap it at one level of links instead of open-ended following.","options":[{"v":0,"label":"None"},{"v":1,"label":"Light lookup"},{"v":2,"label":"Deep multi-source"}]},{"id":"writeback","label":"Write-back","why":"Mutations add validation, confirmation and retry paths.","trim":"Read and review first; write only what survives review.","options":[{"v":0,"label":"Read-only"},{"v":2,"label":"Creates or updates records"}]},{"id":"orchestration","label":"Orchestration","why":"Subagents and loops re-enter the model repeatedly.","trim":"Flatten to a single pass.","options":[{"v":0,"label":"Single pass"},{"v":2,"label":"Subagents or loops"}]}];
+  var CADENCE = [{"id":"once","label":"One-time","runs":1},{"id":"monthly","label":"Monthly","runs":12},{"id":"weekly","label":"Weekly","runs":52},{"id":"daily","label":"Daily (weekdays)","runs":260},{"id":"hourly","label":"Every few hours","runs":1460}];
+  var SEATS   = [{"id":"me","label":"Just me","n":1},{"id":"team","label":"A team (~10)","n":10},{"id":"dept","label":"A department (~50)","n":50},{"id":"org","label":"An org (~100)","n":100}];
+  var KEY = 'wr-state-v1';
+
+  var state = { cadence: 'weekly', seats: 'me',
+    title: '', who: '', approver: '', outcome: '',
+    credits: '', rate: '', mins: '', hourly: '' };
+  FACTORS.forEach(function (f) { state[f.id] = 0; });
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) Object.keys(saved).forEach(function (k) { if (k in state) state[k] = saved[k]; });
+  } catch (e) { /* first visit */ }
+
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  var num = function (n) { return Number(n).toLocaleString(); };
+
+  function renderFactors() {
+    var host = document.getElementById('wr-factors');
+    FACTORS.forEach(function (f) {
+      var w = el('div', 'wr-f');
+      var h = el('div', 'wr-f-h');
+      h.appendChild(el('span', 'wr-f-l', f.label));
+      var p = el('span', 'wr-f-p', '0');
+      p.setAttribute('data-pts', f.id);
+      h.appendChild(p);
+      w.appendChild(h);
+      w.appendChild(el('p', 'wr-f-w', f.why));
+      var o = el('div', 'wr-opts');
+      f.options.forEach(function (opt) {
+        var b = el('button', 'wr-opt', opt.label);
+        b.type = 'button';
+        b.setAttribute('data-factor', f.id);
+        b.setAttribute('data-value', opt.v);
+        o.appendChild(b);
+      });
+      w.appendChild(o);
+      host.appendChild(w);
+    });
+  }
+
+  function renderChips(id, list, key) {
+    var host = document.getElementById(id);
+    list.forEach(function (o) {
+      var b = el('button', 'wr-opt', o.label);
+      b.type = 'button';
+      b.setAttribute('data-' + key, o.id);
+      host.appendChild(b);
+    });
+  }
+
+  function tierFor(s) {
+    if (s <= 2) return 'Low';
+    if (s <= 5) return 'Medium';
+    return 'High';
+  }
+
+  /** Everything downstream of the calibration is checkable arithmetic. */
+  function compute(over) {
+    var st = {};
+    Object.keys(state).forEach(function (k) { st[k] = state[k]; });
+    Object.keys(over || {}).forEach(function (k) { st[k] = over[k]; });
+
+    var score = 0, drivers = [];
+    FACTORS.forEach(function (f) {
+      score += st[f.id];
+      if (st[f.id] > 0) drivers.push({ id: f.id, label: f.label, pts: st[f.id], trim: f.trim });
+    });
+    drivers.sort(function (a, b) { return b.pts - a.pts; });
+
+    var cad = CADENCE.filter(function (c) { return c.id === st.cadence; })[0];
+    var seat = SEATS.filter(function (s) { return s.id === st.seats; })[0];
+    var runs = cad.runs * seat.n;
+
+    var perRun = parseFloat(st.credits);
+    var hasCredits = isFinite(perRun) && perRun > 0;
+    var creditsYear = hasCredits ? Math.round(perRun * runs) : null;
+
+    var rate = parseFloat(st.rate);
+    var moneyYear = (hasCredits && isFinite(rate) && rate > 0) ? creditsYear * rate : null;
+
+    var mins = parseFloat(st.mins);
+    var hasTime = isFinite(mins) && mins > 0;
+    var hoursYear = hasTime ? (mins * runs) / 60 : null;
+
+    var hourly = parseFloat(st.hourly);
+    var valueYear = (hasTime && isFinite(hourly) && hourly > 0) ? hoursYear * hourly : null;
+
+    var net = (valueYear != null && moneyYear != null) ? valueYear - moneyYear : null;
+
+    return { st: st, score: score, tier: tierFor(score), drivers: drivers, cad: cad, seat: seat,
+             runs: runs, perRun: hasCredits ? perRun : null, creditsYear: creditsYear,
+             moneyYear: moneyYear, hoursYear: hoursYear, valueYear: valueYear, net: net };
+  }
+
+  /** The leaner variant: drop the top driver, and halve the cadence if it dominates. */
+  function leanOf(r) {
+    var over = {}, changes = [];
+    var top = r.drivers[0];
+    if (top) {
+      over[top.id] = Math.max(0, r.st[top.id] - 1);
+      changes.push(top.trim);
+    }
+    var idx = CADENCE.map(function (c) { return c.id; }).indexOf(r.st.cadence);
+    if (idx > 1) {
+      over.cadence = CADENCE[idx - 1].id;
+      changes.push('Run it ' + CADENCE[idx - 1].label.toLowerCase() + ' instead of ' + r.cad.label.toLowerCase() + '.');
+    }
+    if (!changes.length) return null;
+    return { over: over, changes: changes, result: compute(over) };
+  }
+
+  function requestId() {
+    var t = (state.title || 'untitled').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 28);
+    var d = new Date();
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    return 'WR-' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '-' + (t || 'untitled');
+  }
+
+  function addNum(host, label, value, sub, cls) {
+    var row = el('div', 'wr-n' + (cls ? ' ' + cls : ''));
+    row.appendChild(el('div', 'wr-n-l', label));
+    var v = el('div', 'wr-n-v');
+    v.appendChild(document.createTextNode(value));
+    if (sub) { var s = document.createElement('small'); s.textContent = sub; v.appendChild(s); }
+    row.appendChild(v);
+    host.appendChild(row);
+  }
+
+  function paint() {
+    var r = compute();
+
+    FACTORS.forEach(function (f) {
+      var n = document.querySelector('[data-pts="' + f.id + '"]');
+      if (n) n.textContent = state[f.id] ? '+' + state[f.id] : '';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-factor]'), function (b) {
+      b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-value')) === state[b.getAttribute('data-factor')]));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cadence]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-cadence') === state.cadence));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-seats]'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-seats') === state.seats));
+    });
+
+    document.getElementById('wr-h-name').textContent = state.title || 'Untitled request';
+    document.getElementById('wr-h-id').textContent =
+      requestId() + '  \u00b7  ' + new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+
+    var nums = document.getElementById('wr-nums');
+    while (nums.firstChild) nums.removeChild(nums.firstChild);
+
+    addNum(nums, 'Runs per year', num(r.runs), r.cad.label + ' \u00d7 ' + r.seat.label.toLowerCase(), 'wr-n--hero');
+
+    if (r.creditsYear != null) {
+      addNum(nums, 'Credits per year', num(r.creditsYear), r.perRun + ' per run, measured', 'wr-n--bad');
+    } else {
+      addNum(nums, 'Credits per year', 'Not yet measured', 'add one run\u2019s consumption below', 'wr-n--unknown');
+    }
+    if (r.moneyYear != null) addNum(nums, 'Cost per year', r.moneyYear.toLocaleString(undefined, { maximumFractionDigits: 0 }), 'at your rate per credit', 'wr-n--bad');
+
+    if (r.hoursYear != null) {
+      addNum(nums, 'Hours given back', num(Math.round(r.hoursYear)),
+        r.st.mins + ' min \u00d7 ' + num(r.runs) + ' runs', 'wr-n--good');
+    } else {
+      addNum(nums, 'Hours given back', 'Not yet estimated', 'add the manual time below', 'wr-n--unknown');
+    }
+    if (r.valueYear != null) addNum(nums, 'Value of that time', r.valueYear.toLocaleString(undefined, { maximumFractionDigits: 0 }), 'hours \u00d7 loaded rate', 'wr-n--good');
+    if (r.net != null) {
+      addNum(nums, 'Net', (r.net >= 0 ? '+' : '') + r.net.toLocaleString(undefined, { maximumFractionDigits: 0 }),
+        r.net >= 0 ? 'time value less run cost' : 'costs more than it saves',
+        r.net >= 0 ? 'wr-n--good' : 'wr-n--bad');
+    }
+    addNum(nums, 'Cost shape', r.tier, r.score + ' points');
+
+    var cal = document.getElementById('wr-cal');
+    var missing = [];
+    if (r.creditsYear == null) missing.push('one run\u2019s credit consumption');
+    if (r.hoursYear == null) missing.push('the manual time it replaces');
+    if (missing.length) {
+      cal.className = 'wr-cal';
+      cal.textContent = 'This request is not yet costed. Add ' + missing.join(' and ') +
+        ' to turn it into something an approver can act on. Until then it describes the work but not the trade.';
+    } else {
+      cal.className = 'wr-cal is-ok';
+      cal.textContent = 'Costed against your own measured run. The annual figures are arithmetic from that one number, so anyone can check them.';
+    }
+
+    var ul = document.getElementById('wr-drivers');
+    while (ul.firstChild) ul.removeChild(ul.firstChild);
+    if (!r.drivers.length) {
+      ul.appendChild(el('li', null, 'Nothing \u2014 this is the cheapest shape of run.'));
+    } else {
+      r.drivers.slice(0, 4).forEach(function (d) {
+        var li = document.createElement('li');
+        li.appendChild(document.createTextNode(d.label));
+        var b = document.createElement('b');
+        b.textContent = '+' + d.pts;
+        li.appendChild(b);
+        ul.appendChild(li);
+      });
+    }
+
+    var lean = leanOf(r);
+    document.getElementById('wr-lean-btn').disabled = !lean;
+    var box = document.getElementById('wr-lean');
+    if (!box.hidden) renderLean(r, lean);
+    persist();
+  }
+
+  function renderLean(r, lean) {
+    var box = document.getElementById('wr-lean');
+    while (box.firstChild) box.removeChild(box.firstChild);
+    if (!lean) { box.hidden = true; return; }
+    var L = lean.result;
+
+    box.appendChild(el('h4', null, 'The leaner version'));
+    var ul = document.createElement('ul');
+    lean.changes.forEach(function (c) { ul.appendChild(el('li', null, c)); });
+    box.appendChild(ul);
+
+    var n = el('div', 'wr-lean-nums');
+    function pair(label, before, after) {
+      var s = document.createElement('span');
+      s.appendChild(document.createTextNode(label + ': ' + before + ' \u2192 '));
+      var b = document.createElement('b');
+      b.textContent = after;
+      s.appendChild(b);
+      n.appendChild(s);
+    }
+    pair('Runs', num(r.runs), num(L.runs));
+    if (r.creditsYear != null && L.creditsYear != null) pair('Credits', num(r.creditsYear), num(L.creditsYear));
+    if (r.hoursYear != null && L.hoursYear != null) pair('Hours saved', num(Math.round(r.hoursYear)), num(Math.round(L.hoursYear)));
+    pair('Shape', r.tier, L.tier);
+    box.appendChild(n);
+
+    var act = el('div', 'wr-actions');
+    var apply = el('button', 'wr-btn', 'Apply this version');
+    apply.type = 'button';
+    apply.id = 'wr-apply';
+    act.appendChild(apply);
+    var close = el('button', 'wr-btn wr-btn--ghost', 'Keep the original');
+    close.type = 'button';
+    close.id = 'wr-lean-close';
+    act.appendChild(close);
+    box.appendChild(act);
+    box.hidden = false;
+    box.setAttribute('data-over', JSON.stringify(lean.over));
+  }
+
+  function markdown() {
+    var r = compute();
+    var L = [];
+    var money = function (v) { return v == null ? null : v.toLocaleString(undefined, { maximumFractionDigits: 0 }); };
+
+    L.push('# AI Work Request: ' + (state.title || 'Untitled'));
+    L.push('');
+    L.push('**' + requestId() + '**  ·  ' + new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }));
+    if (state.who) L.push('Requested by: ' + state.who);
+    if (state.approver) L.push('For approval by: ' + state.approver);
+    L.push('');
+    if (state.outcome) { L.push('**What it produces:** ' + state.outcome); L.push(''); }
+
+    L.push('## The ask');
+    L.push('');
+    L.push('| | |');
+    L.push('|---|---|');
+    L.push('| Frequency | ' + r.cad.label + ' |');
+    L.push('| Who runs it | ' + r.seat.label + ' |');
+    L.push('| **Runs per year** | **' + num(r.runs) + '** |');
+    L.push('| Cost shape | ' + r.tier + ' (' + r.score + ' pts) |');
+    L.push('');
+
+    L.push('## The numbers');
+    L.push('');
+    L.push('| | |');
+    L.push('|---|---|');
+    if (r.creditsYear != null) {
+      L.push('| Credits per run (measured) | ' + r.perRun + ' |');
+      L.push('| **Credits per year** | **' + num(r.creditsYear) + '** |');
+    } else {
+      L.push('| Credits per year | *not yet measured* |');
+    }
+    if (r.moneyYear != null) L.push('| Cost per year | ' + money(r.moneyYear) + ' |');
+    if (r.hoursYear != null) {
+      L.push('| Manual time replaced | ' + state.mins + ' min per run |');
+      L.push('| **Hours given back per year** | **' + num(Math.round(r.hoursYear)) + '** |');
+    } else {
+      L.push('| Hours given back | *not yet estimated* |');
+    }
+    if (r.valueYear != null) L.push('| Value of that time | ' + money(r.valueYear) + ' |');
+    if (r.net != null) L.push('| **Net** | **' + (r.net >= 0 ? '+' : '') + money(r.net) + '** |');
+    L.push('');
+
+    L.push('## What the run does');
+    L.push('');
+    FACTORS.forEach(function (f) {
+      var o = f.options.filter(function (x) { return x.v === state[f.id]; })[0];
+      L.push('- **' + f.label + ':** ' + (o ? o.label : '?') + (state[f.id] ? '  (+' + state[f.id] + ')' : ''));
+    });
+    L.push('');
+
+    if (r.drivers.length) {
+      L.push('**Main cost drivers:** ' + r.drivers.slice(0, 3).map(function (d) { return d.label; }).join(', ') + '.');
+      L.push('');
+    }
+
+    var lean = leanOf(r);
+    if (lean) {
+      L.push('## If this needs to be cheaper');
+      L.push('');
+      lean.changes.forEach(function (c) { L.push('- ' + c); });
+      L.push('');
+      L.push('That would take it to ' + num(lean.result.runs) + ' runs a year' +
+        (lean.result.creditsYear != null ? ', about ' + num(lean.result.creditsYear) + ' credits' : '') +
+        (lean.result.hoursYear != null ? ', still giving back ' + num(Math.round(lean.result.hoursYear)) + ' hours' : '') +
+        ' (' + lean.result.tier + ' shape).');
+      L.push('');
+    }
+
+    L.push('---');
+    L.push('');
+    L.push('*Credits per run were measured in our own tenant, not taken from a published rate —');
+    L.push('no public factor-to-credit mapping exists. Every annual figure above is arithmetic');
+    L.push('from that one measurement and can be checked. Cost-shape rubric adapted from the');
+    L.push('Cowork Cookbook D365 Recipe Planner (CC-BY-4.0).*');
+    return L.join('\n');
+  }
+
+  function flash(msg) {
+    var n = document.getElementById('wr-said');
+    n.textContent = msg;
+    n.hidden = false;
+    setTimeout(function () { n.hidden = true; }, 1700);
+  }
+
+  document.addEventListener('input', function (e) {
+    var map = { 'wr-title': 'title', 'wr-who': 'who', 'wr-for': 'approver', 'wr-outcome': 'outcome',
+                'wr-credits': 'credits', 'wr-rate': 'rate', 'wr-mins': 'mins', 'wr-hourly': 'hourly' };
+    var k = map[e.target.id];
+    if (!k) return;
+    state[k] = e.target.value;
+    paint();
+  });
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t.closest) return;
+
+    var f = t.closest('[data-factor]');
+    if (f) { state[f.getAttribute('data-factor')] = Number(f.getAttribute('data-value')); return paint(); }
+    var c = t.closest('[data-cadence]');
+    if (c) { state.cadence = c.getAttribute('data-cadence'); return paint(); }
+    var s = t.closest('[data-seats]');
+    if (s) { state.seats = s.getAttribute('data-seats'); return paint(); }
+
+    if (t.closest('#wr-lean-btn')) { renderLean(compute(), leanOf(compute())); return; }
+    if (t.closest('#wr-lean-close')) { document.getElementById('wr-lean').hidden = true; return; }
+
+    if (t.closest('#wr-apply')) {
+      var box = document.getElementById('wr-lean');
+      var over = JSON.parse(box.getAttribute('data-over') || '{}');
+      Object.keys(over).forEach(function (k) { state[k] = over[k]; });
+      box.hidden = true;
+      flash('Applied');
+      return paint();
+    }
+
+    if (t.closest('#wr-reset')) {
+      FACTORS.forEach(function (x) { state[x.id] = 0; });
+      ['title','who','approver','outcome','credits','rate','mins','hourly'].forEach(function (k) { state[k] = ''; });
+      state.cadence = 'weekly'; state.seats = 'me';
+      ['wr-title','wr-who','wr-for','wr-outcome','wr-credits','wr-rate','wr-mins','wr-hourly']
+        .forEach(function (id) { var n = document.getElementById(id); if (n) n.value = ''; });
+      document.getElementById('wr-lean').hidden = true;
+      return paint();
+    }
+
+    if (t.closest('#wr-copy')) {
+      var md = markdown();
+      var ok = function () { flash('Copied'); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(md).then(ok, ok);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = md; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch (err) {}
+        document.body.removeChild(ta);
+      }
+      return;
+    }
+
+    if (t.closest('#wr-dl')) {
+      var blob = new Blob([markdown()], { type: 'text/markdown' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = requestId() + '.md';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      flash('Downloaded');
+      return;
+    }
+  });
+
+  renderFactors();
+  renderChips('wr-cadence', CADENCE, 'cadence');
+  renderChips('wr-seats', SEATS, 'seats');
+  ['wr-title','wr-who','wr-for','wr-outcome','wr-credits','wr-rate','wr-mins','wr-hourly'].forEach(function (id) {
+    var map = { 'wr-title': 'title', 'wr-who': 'who', 'wr-for': 'approver', 'wr-outcome': 'outcome',
+                'wr-credits': 'credits', 'wr-rate': 'rate', 'wr-mins': 'mins', 'wr-hourly': 'hourly' };
+    var n = document.getElementById(id);
+    if (n) n.value = state[map[id]] || '';
+  });
+  paint();
+
+  // Test hook. Scores against a copy so a test can never alter what is displayed.
+  window.__wr = function (over) {
+    var r = compute(over || {});
+    var lean = leanOf(r);
+    return { runs: r.runs, credits: r.creditsYear, hours: r.hoursYear == null ? null : Math.round(r.hoursYear),
+             value: r.valueYear, net: r.net, tier: r.tier, score: r.score,
+             lean: lean ? { runs: lean.result.runs, credits: lean.result.creditsYear, tier: lean.result.tier,
+                            changes: lean.changes } : null };
+  };
+  window.__wrMd = markdown;
+})();
+</script>
+
+</body>
+</html>

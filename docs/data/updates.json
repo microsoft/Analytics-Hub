@@ -7,6 +7,18 @@
   },
   "updates": [
     {
+      "id": "2026-09-09-ai-work-request",
+      "tool": "AI Work Request",
+      "link": "work-request/",
+      "tags": [
+        "Added"
+      ],
+      "title": "Plan and cost a Cowork run before you commit to it",
+      "summary": "A new browser tool for the conversation that happens before a run, not the invoice that arrives after it. Describe the work, calibrate against the credits one run actually consumed in your own tenant, and it annualises the cost — because nobody mis-estimates a single run, they mis-estimate 260 runs times 100 people. Exports a named request an approver can act on. Uncalibrated, it reports the cost as unknown rather than guessing. Runs entirely in your browser; nothing is uploaded.",
+      "status": "published",
+      "date": "2026-09-09"
+    },
+    {
       "id": "2026-08-update-feed",
       "status": "published",
       "tool": "Analytics Hub",
