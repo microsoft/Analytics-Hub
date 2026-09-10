@@ -1,0 +1,3921 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-flyout="70" data-density="comfortable">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reports page redesign &mdash; mockup &middot; Analytics Hub</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Design mockup for the Analytics Hub Reports page. Not the live page.">
+<style>
+/* ============================================================
+   MOCKUP v8 - Reports page redesign
+
+   Three changes on top of v7. The v7 background system is untouched:
+   still body{background:var(--mk-bg)} plus the band alternation, still
+   zero gradients, still no wash. Nothing below repaints the page.
+
+   1. The TIER row label is gone. The row keeps its 108px label gutter as
+      an empty .mk-flabel--spacer so the "Core only" pill stays on the
+      same left edge as the Category and Focus area pills; the spacer is
+      display:none under 720px, where .mk-flabel goes flex-basis:100% and
+      an empty label would otherwise eat a whole row. The pill, its id and
+      its filter behaviour are unchanged.
+
+   2. GitHub star counts on the cards, from a second JSON island
+      (#mk-stars) holding the output of scripts/sync_stars.py. It is
+      repository metadata, not a report metric, so it sits in .rf-foot
+      next to the source line at 11.5px - not in the hero stat strip. 17
+      of the 22 reports have a repository; the 5 that are Pages apps carry
+      stars:null and render NO element at all. The star is an inline SVG
+      at 12px, shorter than the .ah-vote row that already sets the foot
+      height, so a card with no star is exactly as tall as one with.
+      A record marked stale:true still renders its last known number, but
+      gets a dashed underline, cursor:help and a title naming its
+      fetchedAt date, so it is never shown as if it were fresh. Freshness
+      is stated once for the page in .mk-starsync, derived from the
+      payload fetchedAt - no schedule string is invented.
+
+   3. Flyout actions split to the two corners the developer asked for.
+      "Download template" moves to the top right, into a .mk-dlg-actions
+      flex row that also owns the close button - a flex row rather than a
+      second absolutely-positioned box, so the two can never overlap at
+      any width. .mk-dlg-head reserves the room in padding-right; under
+      720px the cluster drops into flow as its own right-aligned row so it
+      cannot overflow. "View on GitHub" stays bottom left and is promoted
+      from a text link to .mk-ghbtn, which is .nav-cta from
+      _clones/Analytics-Hub/docs/styles.css reproduced verbatim -
+      background:var(--mk-text) and color:var(--mk-bg), the mockup
+      equivalents of the live --text and --bg. That is a token inversion,
+      not a black button: near-black on near-white in light, near-white on
+      near-black in dark. Hardcoding #000 would break dark mode.
+   ============================================================ */
+
+/* ============================================================
+   MOCKUP v7 - Reports page redesign
+   v7 undoes v5 and v6. Both invented a background system: v5 gave each
+   zone its own flat fill, v6 replaced those with one document-length blue
+   gradient plus an SVG dither layer. The instruction for v7 was to stop
+   inventing and adopt the live homepage's treatment instead, so this
+   version is almost entirely deletion.
+
+   MEASURED, not assumed. Loading _clones/Analytics-Hub/docs/index.html
+   headless and reading computed style, the ENTIRE page-background system
+   on the live homepage is:
+       body { background: var(--bg); }
+       .band:nth-of-type(even) { background: var(--bg-alt); }
+   which resolves to #faf9f8 ground / #f7f7fb alternate in light and
+   #14141b / #14141d in dark. Note that :nth-of-type counts <section>
+   siblings, not .band siblings, so on live it is the 1st, 3rd and 5th
+   .band in document order that pick up --bg-alt. The visible result is a
+   clean alternation down the page starting from the hero, which is what
+   this mockup reproduces. There is no page gradient anywhere on live.
+
+   Deleted here: the .mk-page wash (7 stops, both themes), the
+   .mk-page::before dither layer, --mk-canvas, --mk-hair, both white
+   veils, the stuck fallback, and the six values v6 re-cut purely to
+   survive the wash (--mk-hero-lead, --mk-hero-eyebrow, --mk-link-on-wash,
+   --mk-card-border, --mk-stat-border, --mk-pill-border). On a near-white
+   ground the live tokens clear their thresholds again unaided, so every
+   one of them reverts to the live token it was shadowing.
+
+   Colour comes from the cards, not the background. That is how the live
+   homepage works and it is what was approved at v3.
+
+   Everything else - cards, flyout, media/tab logic, filter behaviour,
+   hero copy, the stat strip, the decisions list - is v6 untouched.
+   Still one accent (#0078d4) plus the neutral scale. Still zero
+   emoji in authored markup. The per-report `icon` field is still
+   never rendered.
+   ============================================================ */
+:root{
+  --mk-font: "Segoe UI Variable","Segoe UI",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  --mk-mono: ui-monospace,"Cascadia Mono","Segoe UI Mono",Consolas,monospace;
+
+  --mk-bg:#faf9f8;
+  --mk-bg-alt:#f7f7fb;
+  --mk-surface:#ffffff;
+  --mk-surface-2:#f3f3f7;
+  --mk-border:#e6e6ee;
+  --mk-border-strong:#d0d0dc;
+  --mk-text:#1a1a25;
+  --mk-soft:#5a5a72;
+  --mk-muted:#8585a0;
+  --mk-accent:#0078d4;
+  /* Same hue, darkened, used wherever white text sits ON the accent.
+     #0078d4 with #fff is 4.53:1 - it scrapes AA and no more. This is
+     the pressed/active surface colour only; the accent itself is
+     unchanged for text, rules and tints. */
+  --mk-accent-strong:#005a9e;
+  --mk-on-accent:#ffffff;
+
+  /* v7 - PAGE GROUND, taken from the live homepage.
+     There is no wash, no gradient and no dither layer any more. The live
+     site colours the page with exactly two rules: body{background:var(--bg)}
+     and .band:nth-of-type(even){background:var(--bg-alt)}. Measured on
+     _clones/Analytics-Hub/docs/index.html that computes to #faf9f8 for the
+     ground and #f7f7fb for the alternate band in light, #14141b and #14141d
+     in dark. Those two values are --mk-bg and --mk-bg-alt above and they are
+     the only page colours v7 uses. Everything the wash needed - seven ramp
+     stops, a canvas colour, a hairline, two white veils, a stuck fallback
+     and six re-cut type/boundary values - is deleted. */
+
+  --mk-shadow-sm: 0 2px 4px rgba(0,0,0,.055), 0 0 2px rgba(0,0,0,.045);
+  --mk-shadow: 0 6px 16px rgba(0,0,0,.09), 0 0 2px rgba(0,0,0,.05);
+  --mk-shadow-lg: 0 24px 60px rgba(20,20,40,.22);
+
+  --mk-radius:14px;
+  --mk-radius-sm:6px;
+
+  --mk-barh:46px;
+  --mk-cardpad:18px;
+  --mk-gap:14px;
+  --mk-sectiongap:76px;
+  --mk-title:15.5px;
+  --mk-body:0.9375rem;
+
+  --mk-fw:70vw;
+  --mk-fh:70vh;
+}
+html[data-theme="dark"]{
+  --mk-bg:#14141b;
+  --mk-bg-alt:#14141d;
+  --mk-surface:#181822;
+  --mk-surface-2:#21212d;
+  --mk-border:#2a2a38;
+  --mk-border-strong:#3a3a4a;
+  --mk-text:#f0f0f5;
+  --mk-soft:#b8b8c8;
+  --mk-muted:#8585a0;
+  --mk-accent:#4cabf5;
+  --mk-accent-strong:#4cabf5;
+  --mk-on-accent:#14141b;
+  /* v7 - dark ground, measured from live: --bg #14141b, --bg-alt #14141d.
+     Eight of the nine neutrals above had drifted from live in v6 and are
+     now the live token verbatim. No wash, no veils, no re-cut boundaries. */
+  --mk-shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+  --mk-shadow: 0 6px 16px rgba(0,0,0,.4);
+  --mk-shadow-lg: 0 24px 60px rgba(0,0,0,.6);
+}
+html[data-density="compact"]{
+  --mk-cardpad:13px;
+  --mk-gap:10px;
+  --mk-sectiongap:52px;
+  --mk-title:14.5px;
+  --mk-body:0.875rem;
+}
+html[data-flyout="50"]{ --mk-fw:50vw; --mk-fh:50vh; }
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+html{ background:var(--mk-bg); }
+body{
+  margin:0;
+  font-family:var(--mk-font);
+  font-size:var(--mk-body);
+  line-height:1.55;
+  color:var(--mk-text);
+  background:var(--mk-bg);
+  -webkit-font-smoothing:antialiased;
+}
+body.mk-locked{ overflow:hidden; }
+
+/* ============================================================
+   v7 - the page wrapper carries nothing. v6 put one document-length
+   linear-gradient plus an SVG dither layer on .mk-page; both are gone.
+   The page ground is body{ background:var(--mk-bg) }, exactly as live,
+   and the bands below alternate onto --mk-bg-alt. .mk-page survives
+   only as the wrapper the markup already had.
+   ============================================================ */
+.mk-page{ min-height:100vh; }
+a{ color:var(--mk-accent); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+h1,h2,h3,h4{ margin:0; font-weight:600; letter-spacing:-0.01em; }
+p{ margin:0; }
+ul,ol{ margin:0; padding:0; }
+:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2px; border-radius:4px; }
+
+.mk-wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
+
+/* ---------- mockup chrome (clearly not product) ---------- */
+.mk-bar{
+  position:sticky; top:0; z-index:60;
+  height:var(--mk-barh);
+  display:flex; align-items:center; gap:20px;
+  padding:0 20px;
+  background:var(--mk-surface-2);
+  border-bottom:1px solid var(--mk-border);
+  font-size:0.75rem;
+}
+.mk-bar-tag{
+  font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+  font-size:0.6875rem; color:var(--mk-muted);
+  padding-right:16px; border-right:1px solid var(--mk-border-strong);
+  white-space:nowrap;
+}
+.mk-ctl{ display:flex; align-items:center; gap:8px; white-space:nowrap; }
+.mk-ctl > span{ color:var(--mk-muted); }
+/* Chrome only, dark only. Adopting the live --text-muted (#8585a0, replacing
+   v6's #8d8da3) over the live --surface-2 took these two labels from 4.67:1
+   to 4.44:1 - the only NEW contrast regression the token correction caused.
+   The bar is mockup chrome and is explicitly not the product, so it keeps the
+   value that passed instead of dragging a product token back off live. */
+html[data-theme="dark"] .mk-bar-tag,
+html[data-theme="dark"] .mk-ctl > span{ color:#8d8da3; }
+.mk-seg{ display:inline-flex; border:1px solid var(--mk-border-strong); border-radius:var(--mk-radius-sm); overflow:hidden; }
+.mk-seg button{
+  font:inherit; font-size:0.75rem; cursor:pointer;
+  padding:3px 10px; border:0; background:transparent; color:var(--mk-soft);
+}
+.mk-seg button + button{ border-left:1px solid var(--mk-border-strong); }
+.mk-seg button[aria-pressed="true"]{ background:var(--mk-accent-strong); color:var(--mk-on-accent); }
+
+/* ============================================================
+   v7 - masthead. The live homepage sets .hero{ background:var(--bg) }:
+   the hero IS the page ground and the alternation starts below it.
+   That is what this is. No gradient, no local band tint, no rule.
+   ============================================================ */
+.mk-head{
+  padding:56px 0 34px;
+  background:var(--mk-bg);
+}
+.mk-eyebrow{
+  font-size:0.6875rem; font-weight:600; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--mk-soft); margin:0;
+}
+/* One short accent rule, used by the hero eyebrow and the group
+   eyebrow. It is the only decorative mark added in v4. */
+.mk-eyebrow--rule::before{
+  content:""; display:inline-block;
+  width:26px; height:2px; margin-right:10px; vertical-align:middle;
+  background:var(--mk-accent);
+}
+.mk-head h1{ font-size:2.5rem; line-height:1.12; margin:10px 0 0; }
+/* Back on the live ground the live type tokens clear their thresholds
+   again, so the hero uses --mk-soft like the rest of the page and the
+   two v6 hero overrides are deleted. */
+.mk-lead{
+  margin:14px 0 0; max-width:62ch; font-size:1.0625rem;
+  line-height:1.6; color:var(--mk-soft);
+}
+.mk-lead strong{ color:var(--mk-text); font-weight:600; }
+.mk-stats{
+  margin:28px 0 0; padding:0; list-style:none;
+  display:grid; gap:10px;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  max-width:660px;
+}
+.mk-stat{
+  padding:12px 16px 12px 15px;
+  background:var(--mk-surface);
+  /* --mk-border-strong is the live token for a boundary that has to be seen.
+     The 3px accent left edge and --mk-shadow-sm are what make the block read
+     as raised; v6's re-cut #456078 existed only to survive the wash. */
+  border:1px solid var(--mk-border-strong);
+  border-left:3px solid var(--mk-accent-strong);
+  border-radius:var(--mk-radius-sm);
+  box-shadow:var(--mk-shadow-sm);
+}
+.mk-stat b{
+  display:block;
+  font-size:1.875rem; line-height:1.05; font-weight:700;
+  letter-spacing:-0.025em; color:var(--mk-accent);
+  font-variant-numeric:tabular-nums;
+}
+.mk-stat span{
+  display:block; margin-top:5px;
+  font-size:0.6875rem; font-weight:600; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--mk-soft);
+}
+
+/* ============================================================
+   v7 - the filter panel. It is the first alternating band under the
+   hero, so it takes --mk-bg-alt, the live .band:nth-of-type(even)
+   colour. That makes the sticky category row trivial again: it is an
+   opaque strip of the same band colour, so nothing scrolls through it
+   and it needs no backdrop-filter, no veil and no gradient. The
+   sentinel and the IntersectionObserver survive unchanged; all
+   .is-stuck does now is add the small live shadow so the strip reads
+   as detached from the content under it.
+   ============================================================ */
+.mk-fp{
+  background:var(--mk-bg-alt);
+  border-bottom:1px solid var(--mk-border);
+}
+.mk-fp-sentinel{ height:1px; margin-bottom:-1px; }
+.mk-fp-cat{
+  position:sticky; top:var(--mk-barh); z-index:40;
+  background:var(--mk-bg-alt);
+  border-bottom:1px solid var(--mk-border);
+}
+.mk-fp-cat.is-stuck{ box-shadow:var(--mk-shadow-sm); }
+.mk-fp-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:12px 0; }
+.mk-fp-row + .mk-fp-row{ border-top:1px solid var(--mk-border); }
+
+/* ============================================================
+   CATEGORY PILLS - reproduced from docs/styles.css L1686-1710.
+   These replace v2's sticky jump-nav: both navigated by
+   category, so keeping both would have been two competing
+   controls for one axis. The developer's screenshot shows pills.
+   ============================================================ */
+.rf-pills{ display:flex; flex-wrap:wrap; gap:8px; }
+.rf-pill{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:7px 14px;
+  border-radius:100px;
+  /* Back to the live value. v5 and v6 overrode this to survive their own
+     band fills; on the live ground the live outline is what live has, so
+     decision 5 below is now settled in favour of matching live exactly. */
+  border:1px solid var(--mk-border);
+  background:var(--mk-surface);
+  color:var(--mk-soft);
+  font:inherit; font-size:13.5px; font-weight:500;
+  cursor:pointer;
+  transition:background .15s, border-color .15s, color .15s;
+}
+.rf-pill:hover{ border-color:var(--mk-accent); color:var(--mk-text); }
+.rf-pill.is-on{
+  background:var(--mk-accent-strong); border-color:var(--mk-accent-strong);
+  color:#fff; font-weight:600;
+  box-shadow:0 1px 2px rgba(0,0,0,.16);
+}
+html[data-theme="dark"] .rf-pill.is-on{ color:#0b0b12; }
+.rf-n{
+  font-size:11.5px; font-weight:600;
+  padding:1px 6px; border-radius:100px;
+  background:rgba(127,127,127,.16);                       /* fallback */
+  background:color-mix(in srgb, currentColor 14%, transparent);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- secondary filter rows (now inside the panel) ---------- */
+.mk-flabel{
+  flex:0 0 108px; font-size:0.6875rem; font-weight:600;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--mk-soft);
+}
+/* v8 - the tier row lost its visible label. The gutter stays so the pill
+   keeps the same left edge as the two rows above it; it is empty and
+   aria-hidden, so it contributes nothing to the a11y tree and no height. */
+.mk-pills{ display:flex; flex-wrap:wrap; gap:6px; }
+.mk-pill{
+  font:inherit; font-size:0.8125rem; cursor:pointer;
+  padding:5px 12px; border-radius:999px;
+  border:1px solid var(--mk-border);
+  background:var(--mk-surface); color:var(--mk-soft);
+}
+.mk-pill:hover{ color:var(--mk-text); border-color:var(--mk-accent); }
+.mk-pill[aria-pressed="true"]{
+  background:var(--mk-accent-strong); border-color:var(--mk-accent-strong);
+  color:var(--mk-on-accent); font-weight:600;
+  box-shadow:0 1px 2px rgba(0,0,0,.16);
+}
+/* Status line: its own strip at the foot of the panel so the count is
+   attached to the controls that produced it, not floating in the grid. */
+/* v8 - the status strip now carries two things: the star-sync freshness
+   note on the left and the result count on the right. The border-top that
+   made the strip moves up to the flex row so the strip still reads as one
+   rule-topped band, exactly as it did in v7. */
+.mk-fp-status{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:0 20px; flex-wrap:wrap;
+  border-top:1px solid var(--mk-border);
+}
+.mk-starsync{
+  margin:0; padding:10px 0 12px;
+  font-size:0.75rem; color:var(--mk-soft);
+}
+.mk-starsync[hidden]{ display:none; }
+.mk-result{
+  margin:0 0 0 auto; padding:10px 0 12px;
+  text-align:right;
+  font-size:0.8125rem; font-weight:600; color:var(--mk-text);
+  font-variant-numeric:tabular-nums;
+}
+.mk-result button{
+  font:inherit; font-size:0.8125rem; font-weight:600; background:none; border:0; padding:0;
+  color:var(--mk-accent-strong); cursor:pointer; text-decoration:underline; margin-left:14px;
+}
+
+/* ============================================================
+   FIX 4 - group headers that own the cards beneath them.
+   v3's header was a 1.375rem title, a grey blurb and a faint
+   uppercase count on plain white, separated from the previous
+   group by whitespace alone - easy to scroll straight past.
+   v4 gives it a 4-accent left border and a 4%-accent wash so the
+   header is a marker rather than a gap, a 1.625rem/700 title,
+   and the count as a real bordered badge. Spacing is asymmetric
+   on purpose: 76px above the header, 16px below it, so each
+   header groups downward with its own cards.
+   No sticky group header: the mockup bar (46px) plus the sticky
+   category row (~57px) already own the top of the viewport, and
+   a third sticky layer would put ~170px of chrome on screen and
+   fight the filter bar. Skipped deliberately, not forgotten.
+   ============================================================ */
+/* v7 - THE BAND SYSTEM. Each group is a full-bleed <section> that owns its
+   own ground, exactly like .band on the live homepage. The alternation is
+   assigned at runtime over the VISIBLE sections rather than with
+   :nth-of-type, because filtering hides sections and a static nth rule
+   would put two identical grounds side by side the moment it did. */
+.mk-sections{ padding:0; }
+.mk-sec{ padding:var(--mk-sectiongap) 0; scroll-margin-top:calc(var(--mk-barh) + 92px); }
+.mk-sec.is-alt{ background:var(--mk-bg-alt); }
+.mk-sec[hidden]{ display:none; }
+.mk-sec-head{
+  display:grid; grid-template-columns:minmax(0,1fr) auto;
+  align-items:start; gap:10px 24px;
+  padding:16px 18px;
+  border:1px solid var(--mk-border);
+  border-left:4px solid var(--mk-accent);
+  border-radius:var(--mk-radius-sm);
+  /* --mk-surface on the band, which is the live idiom for anything that
+     sits forward of the ground. No veil: there is nothing behind it to
+     show through any more. */
+  background:var(--mk-surface);
+}
+.mk-sec-head h2{ font-size:1.625rem; font-weight:700; letter-spacing:-0.02em; margin:7px 0 0; }
+.mk-sec-blurb{ margin:7px 0 0; color:var(--mk-soft); max-width:70ch; }
+.mk-sec-count{
+  margin:2px 0 0; align-self:start;
+  display:inline-block; white-space:nowrap;
+  padding:5px 12px; border-radius:100px;
+  font-size:0.6875rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--mk-accent-strong);
+  font-variant-numeric:tabular-nums;
+  background:var(--mk-surface);                                             /* fallback */
+  background:color-mix(in srgb, var(--mk-accent) 10%, var(--mk-surface));
+  border:1px solid var(--mk-border-strong);                                 /* fallback */
+  border-color:color-mix(in srgb, var(--mk-accent) 34%, var(--mk-border));
+}
+
+.rf-grid{
+  display:grid; gap:var(--mk-gap); margin-top:16px;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  align-items:stretch;
+}
+
+/* ============================================================
+   CARD - reproduced from docs/styles.css L1717-1775 + L1874.
+   `--c` is set per card inline from the report's own accent.
+   Colour lives in the 11% tinted chip, the CTA text and the
+   hover border. No emoji tiles, no coloured card backgrounds.
+   Every color-mix() declaration is preceded by a plain
+   fallback so nothing goes invisible on an engine without it.
+   ============================================================ */
+.rf-card{
+  display:flex; flex-direction:column; align-items:stretch;
+  height:100%; width:100%; text-align:left; font:inherit; color:inherit;
+  cursor:pointer;
+  padding:var(--mk-cardpad);
+  border-radius:var(--mk-radius);
+  /* The live card outline, verbatim: docs/styles.css .rf-card. */
+  border:1px solid var(--mk-border);
+  background:var(--mk-surface);
+  box-shadow:var(--mk-shadow-sm);
+  transition:transform .18s, box-shadow .18s, border-color .18s;
+}
+.rf-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--mk-border-strong);                                     /* fallback */
+  border-color:color-mix(in srgb, var(--c, var(--mk-accent)) 45%, var(--mk-border));
+  box-shadow:var(--mk-shadow);
+}
+.rf-card:focus-visible{ outline:2px solid var(--c, var(--mk-accent)); outline-offset:2px; }
+.rf-card[hidden]{ display:none; }
+
+.rf-top{ display:flex; align-items:center; gap:6px; margin-bottom:10px; min-height:20px; }
+.rf-chip{
+  font-size:11px; font-weight:600; letter-spacing:.02em;
+  padding:3px 9px; border-radius:100px;
+  color:var(--c, var(--mk-accent));
+  background:var(--mk-surface-2);                                           /* fallback */
+  background:color-mix(in srgb, var(--c, var(--mk-accent)) 11%, transparent);
+  white-space:nowrap;
+}
+.rf-more{
+  font-size:10.5px; font-weight:600;
+  padding:3px 7px; border-radius:100px;
+  color:var(--mk-muted);
+  background:var(--mk-surface-2);                                           /* fallback */
+  background:color-mix(in srgb, var(--mk-muted) 12%, transparent);
+  cursor:help;
+}
+.rf-new{
+  font-size:10.5px; font-weight:700; letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px; border-radius:100px;
+  color:#fff; background:var(--mk-accent-strong);
+}
+html[data-theme="dark"] .rf-new{ color:#0b0b12; }
+.rf-title{
+  display:block; margin:0 0 7px;
+  font-size:var(--mk-title); font-weight:600; line-height:1.3;
+  letter-spacing:-0.01em; color:var(--mk-text);
+}
+.rf-blurb{
+  display:-webkit-box; margin:0 0 14px;
+  font-size:13.2px; font-weight:400; line-height:1.5;
+  color:var(--mk-soft);
+  -webkit-line-clamp:3; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.rf-foot{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; margin-top:auto;
+  padding-top:12px; border-top:1px solid var(--mk-border);
+}
+.rf-src{
+  font-size:11.5px; color:var(--mk-muted);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+/* v8 - GitHub stars. Repository metadata, so it sits beside the source
+   line at source-line scale, uses --mk-soft rather than an accent, and is
+   deliberately quieter than .rf-cta and smaller than .ah-vote. .ah-vote is
+   20px tall and already sets the foot height, so this 12px row cannot
+   change a card's height whether it is present or absent. */
+.rf-stars{
+  display:inline-flex; align-items:center; gap:4px; flex:none;
+  font-size:11.5px; font-weight:600; line-height:1;
+  color:var(--mk-soft);
+  font-variant-numeric:tabular-nums;
+}
+.rf-stars svg{ display:block; }
+/* A stale count still shows its last known value - blanking it would lose
+   information - but it is marked, not passed off as current. */
+.rf-stars.is-stale{
+  border-bottom:1px dashed var(--mk-border-strong);
+  cursor:help;
+}
+/* v9: a report with >=10 stars carries a brighter outline. Border-colour
+   only, still 1px, so card geometry is identical to an unstarred card. */
+.rf-card--hot{ border-color:var(--mk-accent); }
+.rf-card--hot:hover{ border-color:var(--mk-accent-strong); }
+.rf-cta{
+  flex:none;
+  font-size:13px; font-weight:600; color:var(--c, var(--mk-accent));
+  text-decoration:none;
+}
+.rf-card:hover .rf-cta{ text-decoration:underline; }
+
+/* Static vote affordance. Matches docs/styles.css L1972-1988 visually but is
+   a <span>, not a <button>: it is INERT in this mockup, it shows no real
+   count, and it must not add a second interactive element inside the card. */
+.ah-vote{
+  display:inline-flex; align-items:center; gap:2px;
+  flex:none; margin-left:auto; margin-right:8px;
+}
+.ah-vote-up{
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 7px; border:none; border-radius:6px;
+  background:transparent; color:var(--mk-muted);
+  font:inherit; font-size:12px; font-weight:600; line-height:1;
+}
+.ah-vote-up svg{ display:block; }
+.ah-vote-n{ font-variant-numeric:tabular-nums; }
+
+.mk-empty{ padding:48px 0; color:var(--mk-soft); text-align:center; }
+.mk-empty[hidden]{ display:none; }
+
+/* ---------- flyout ---------- */
+.mk-dlg{
+  width:min(var(--mk-fw),1100px);
+  max-width:calc(100vw - 32px);
+  height:min(var(--mk-fh),92vh);
+  max-height:calc(100vh - 32px);
+  padding:0; border:1px solid var(--mk-border-strong);
+  border-radius:var(--mk-radius);
+  background:var(--mk-surface); color:var(--mk-text);
+  box-shadow:var(--mk-shadow-lg);
+  overflow:hidden;
+}
+.mk-dlg::backdrop{ background:rgba(20,20,40,.44); }
+html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
+.mk-dlg-inner{ display:flex; flex-direction:column; height:100%; }
+.mk-dlg-head{
+  position:relative; flex:0 0 auto;
+  /* v8 - padding-right now clears the whole top-right action cluster
+     (download button + gap + close), not just the close button. */
+  padding:26px 236px 20px 32px;
+  border-bottom:1px solid var(--mk-border);
+}
+/* v8 - one flex row owns both top-right controls. Because they are laid
+   out by flex rather than each being absolutely positioned, the download
+   button cannot overlap the close button at any width, and the close
+   affordance keeps its position and its hit area. */
+.mk-dlg-actions{
+  position:absolute; top:16px; right:18px;
+  display:flex; align-items:center; gap:10px;
+}
+.mk-dlg-head h2{ font-size:1.5rem; line-height:1.22; margin:8px 0 0; }
+.mk-dlg-q{ margin:10px 0 0; color:var(--mk-soft); max-width:74ch; }
+.mk-dlg-chip{
+  display:inline-block;
+  font-size:11px; font-weight:600; letter-spacing:.02em;
+  padding:3px 9px; border-radius:100px;
+  color:var(--c, var(--mk-accent));
+  background:var(--mk-surface-2);                                           /* fallback */
+  background:color-mix(in srgb, var(--c, var(--mk-accent)) 11%, transparent);
+}
+.mk-dlg-close{
+  flex:none;
+  width:32px; height:32px; line-height:1; font-size:1.25rem;
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
+  background:var(--mk-surface); color:var(--mk-soft); cursor:pointer;
+}
+.mk-dlg-close:hover{ color:var(--mk-text); border-color:var(--mk-border-strong); }
+.mk-dlg-body{ flex:1 1 auto; overflow-y:auto; padding:24px 32px 28px; }
+.mk-dlg-foot{
+  flex:0 0 auto; display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px;
+  padding:16px 32px; border-top:1px solid var(--mk-border);
+  background:var(--mk-bg-alt);
+}
+
+.mk-fig{ margin:0; }
+.mk-figcap{
+  font-size:0.6875rem; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--mk-muted); margin:0 0 8px;
+}
+/* ============================================================
+   FIX 1 - media switcher.
+   Where a report has BOTH an embeddable demo video and a preview
+   image, v4 offers both and keeps exactly one in the DOM at a
+   time. Video is the default: it is the richer artefact and the
+   reason this fix was asked for. preload="metadata" keeps the
+   1-5 MB remote mp4 off the wire until playback is requested,
+   and there is no autoplay and no loop.
+   ============================================================ */
+.mk-mediahead{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:8px 16px; flex-wrap:wrap; margin:0 0 8px;
+}
+.mk-mediahead .mk-figcap{ margin:0; }
+.mk-video{
+  display:block; margin:0 auto;
+  /* The box is reserved up front with aspect-ratio. Without it the element is
+     zero-height until the remote metadata lands, and Chromium's scroll
+     anchoring then shoves the flyout body past the media as it grows. */
+  width:100%; aspect-ratio:16 / 9;
+  max-height:max(160px, min(calc(var(--mk-fh) - 22rem), 46vh));
+  object-fit:contain;
+  background:#000;
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
+}
+.mk-vfallback{
+  display:block; padding:22px 20px; text-align:center;
+  font-size:0.875rem; color:var(--mk-soft);
+  background:var(--mk-surface-2);
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
+}
+.mk-shot{
+  display:block; margin:0 auto; max-width:100%;
+  max-height:max(160px, min(calc(var(--mk-fh) - 22rem), 46vh));
+  width:auto; height:auto; object-fit:contain;
+  background:var(--mk-surface-2);
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
+}
+.mk-noprev{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px; text-align:center;
+  min-height:max(140px, min(calc(var(--mk-fh) - 26rem), 34vh));
+  padding:28px 20px;
+  background:var(--mk-surface-2);
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
+}
+.mk-noprev-title{ font-size:0.875rem; color:var(--mk-soft); }
+.mk-noprev-note{ font-size:0.75rem; letter-spacing:.09em; text-transform:uppercase; color:var(--mk-muted); }
+
+.mk-sub{ margin-top:30px; }
+.mk-sub h3{
+  font-size:0.6875rem; font-weight:600; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--mk-muted);
+  padding-bottom:8px; border-bottom:1px solid var(--mk-border);
+}
+.mk-sub > p{ margin-top:12px; color:var(--mk-soft); max-width:74ch; }
+.mk-dl{ display:grid; grid-template-columns:180px minmax(0,1fr); gap:0; margin-top:8px; }
+.mk-dl dt{
+  padding:11px 16px 11px 0; border-bottom:1px solid var(--mk-border);
+  font-size:0.75rem; letter-spacing:.05em; text-transform:uppercase; color:var(--mk-muted);
+}
+.mk-dl dd{
+  margin:0; padding:11px 0; border-bottom:1px solid var(--mk-border);
+  color:var(--mk-text);
+}
+.mk-dl dd .mk-sep{ color:var(--mk-border-strong); padding:0 6px; }
+.mk-rel{ list-style:none; margin-top:8px; }
+.mk-rel li{ padding:11px 0; border-bottom:1px solid var(--mk-border); }
+.mk-rel button{
+  font:inherit; background:none; border:0; padding:0; cursor:pointer;
+  color:var(--mk-accent); text-align:left;
+}
+.mk-rel button:hover{ text-decoration:underline; }
+.mk-rel .mk-why{ display:block; font-size:0.75rem; color:var(--mk-muted); margin-top:3px; }
+
+.mk-btn{
+  display:inline-block; font:inherit; font-size:0.875rem; font-weight:600;
+  padding:8px 18px; border-radius:var(--mk-radius-sm);
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+  border:1px solid var(--mk-accent-strong);
+}
+.mk-btn:hover{ text-decoration:none; filter:brightness(1.06); }
+.mk-link{ font-size:0.875rem; color:var(--mk-soft); border-bottom:1px solid var(--mk-border-strong); }
+.mk-link:hover{ color:var(--mk-accent); border-bottom-color:var(--mk-accent); text-decoration:none; }
+.mk-footnote{ margin-left:auto; font-size:0.75rem; color:var(--mk-muted); }
+
+/* ============================================================
+   v8 - the GitHub button, reproduced from .nav-cta in
+   _clones/Analytics-Hub/docs/styles.css:
+       .nav-cta { background:var(--text); color:var(--bg) !important;
+                  padding:8px 14px !important; border-radius:8px;
+                  font-weight:600 !important; font-size:13.5px; }
+       .nav-cta:hover { background:var(--accent); text-decoration:none; }
+   The !important flags exist on live only to beat the surrounding nav-link
+   rules; there is no such competition here, so they are dropped and the
+   declarations are otherwise verbatim. The token mapping is
+   --text -> --mk-text and --bg -> --mk-bg, which in this file are the live
+   values exactly (#1a1a25/#faf9f8 light, #f0f0f5/#14141b dark). That is
+   what makes the button INVERT with the theme instead of being a black
+   chip: fill is the text colour, label is the page ground.
+   ============================================================ */
+.mk-ghbtn{
+  display:inline-block; border:0;
+  background:var(--mk-text); color:var(--mk-bg);
+  padding:8px 14px; border-radius:8px;
+  font-weight:600; font-size:13.5px;
+}
+.mk-ghbtn:hover{ background:var(--mk-accent); text-decoration:none; }
+
+/* ---------- findings ---------- */
+/* The notes region is the last band. It takes whichever of the two grounds
+   continues the alternation from the last visible group, assigned at
+   runtime alongside the groups themselves. */
+.mk-findings{ border-top:1px solid var(--mk-border); background:var(--mk-bg); padding:56px 0 80px; }
+.mk-findings.is-alt{ background:var(--mk-bg-alt); }
+.mk-findings h2{ font-size:1.375rem; margin-top:8px; }
+.mk-findings h3{ font-size:0.875rem; letter-spacing:.06em; text-transform:uppercase; color:var(--mk-soft); margin-top:34px; }
+.mk-findings p{ margin-top:12px; color:var(--mk-soft); max-width:82ch; }
+.mk-findings ol{ margin-top:12px; padding-left:22px; color:var(--mk-soft); max-width:82ch; }
+.mk-findings ol li{ margin-top:10px; }
+.mk-findings ul{ margin-top:12px; padding-left:22px; color:var(--mk-soft); max-width:82ch; }
+.mk-findings ul li{ margin-top:10px; }
+.mk-tbl{
+  width:100%; max-width:720px; margin-top:16px;
+  border-collapse:collapse; font-size:0.875rem; font-variant-numeric:tabular-nums;
+}
+.mk-tbl th,.mk-tbl td{ text-align:right; padding:9px 14px; border-bottom:1px solid var(--mk-border); }
+.mk-tbl thead th{
+  font-size:0.6875rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--mk-soft); font-weight:600;
+}
+.mk-tbl th:first-child,.mk-tbl td:first-child{ text-align:left; }
+.mk-tbl tbody th{ font-weight:400; color:var(--mk-text); }
+.mk-tbl tfoot th,.mk-tbl tfoot td{ font-weight:600; border-top:2px solid var(--mk-border-strong); border-bottom:0; }
+.mk-derived{ margin-top:10px; font-size:0.75rem; color:var(--mk-soft); font-family:var(--mk-mono); }
+.mk-swatches{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.mk-sw{
+  font-size:11px; font-weight:600; letter-spacing:.02em;
+  padding:3px 9px; border-radius:100px;
+  font-family:var(--mk-mono);
+  color:var(--c);
+  background:var(--mk-surface-2);                                           /* fallback */
+  background:color-mix(in srgb, var(--c) 11%, transparent);
+}
+
+@media (max-width:720px){
+  .mk-head h1{ font-size:2rem; }
+  .mk-dl{ grid-template-columns:1fr; }
+  .mk-dl dt{ padding-bottom:0; border-bottom:0; }
+  .mk-dl dd{ padding-top:4px; }
+  /* v8 - under 720px there is no room to reserve 236px of header for the
+     action cluster, so the cluster stops being absolute and becomes its
+     own right-aligned row at the top of the header. Same order, same
+     corner, no overlap, no overflow. */
+  .mk-dlg-head{ padding:16px 20px 18px; }
+  .mk-dlg-actions{
+    position:static; justify-content:flex-end;
+    margin:0 0 12px;
+  }
+  .mk-dlg-dl{ font-size:0.8125rem; padding:7px 14px; }
+  .mk-dlg-body{ padding:20px; }
+  .mk-dlg-foot{ padding:14px 20px; }
+  .mk-flabel{ flex-basis:100%; }
+}
+@media (max-width:520px){ .rf-src{ display:none; } }
+@media (prefers-reduced-motion: reduce){
+  .rf-card{ transition:none; }
+  .rf-card:hover{ transform:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="mk-page">
+
+<div class="mk-bar" role="region" aria-label="Mockup controls">
+  <span class="mk-bar-tag">Mockup v8 &mdash; not the live page</span>
+  <span class="mk-ctl"><span>Theme</span>
+    <span class="mk-seg" id="mkTheme">
+      <button type="button" data-v="light" aria-pressed="true">Light</button><button type="button" data-v="dark" aria-pressed="false">Dark</button>
+    </span>
+  </span>
+  <span class="mk-ctl"><span>Flyout size</span>
+    <span class="mk-seg" id="mkFly">
+      <button type="button" data-v="70" aria-pressed="true">70%</button><button type="button" data-v="50" aria-pressed="false">50%</button>
+    </span>
+  </span>
+  <span class="mk-ctl"><span>Density</span>
+    <span class="mk-seg" id="mkDens">
+      <button type="button" data-v="comfortable" aria-pressed="true">Comfortable</button><button type="button" data-v="compact" aria-pressed="false">Compact</button>
+    </span>
+  </span>
+</div>
+
+<header class="mk-head">
+  <div class="mk-wrap">
+    <p class="mk-eyebrow mk-eyebrow--rule">Analytics Hub</p>
+    <h1>Reports</h1>
+    <p class="mk-lead"><strong>None of these started on a whiteboard.</strong> Every report here
+      traces back to a gap a customer actually hit &mdash; a question they needed answered and had
+      no way to answer. Start with yours: see what the report looks like, what data it needs and
+      who has to be in the room, then take the template.</p>
+    <ul class="mk-stats">
+      <li class="mk-stat"><b id="mkCountTools">0</b><span>Reports</span></li>
+      <li class="mk-stat"><b id="mkCountCats">0</b><span>Groups</span></li>
+      <li class="mk-stat"><b id="mkCountCore">0</b><span>Marked core</span></li>
+      <li class="mk-stat"><b id="mkCountSrc">0</b><span>Data sources</span></li>
+    </ul>
+  </div>
+</header>
+
+<section class="mk-fp" aria-label="Refine reports">
+  <div class="mk-fp-sentinel" aria-hidden="true"></div>
+  <div class="mk-fp-cat">
+    <div class="mk-wrap">
+      <div class="mk-fp-row">
+        <span class="mk-flabel" id="mkLblCat">Category</span>
+        <div class="rf-pills" id="mkCatPills" role="group" aria-labelledby="mkLblCat"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mk-wrap">
+    <div class="mk-fp-row">
+      <span class="mk-flabel" id="mkLblFocus">Focus area</span>
+      <span class="mk-pills" id="mkFocusPills" role="group" aria-labelledby="mkLblFocus"></span>
+    </div>
+    <div class="mk-fp-row">
+      <span class="mk-pills" role="group">
+        <button type="button" class="mk-pill" id="mkCoreOnly" aria-pressed="false">Core only</button>
+      </span>
+    </div>
+    <div class="mk-fp-status">
+      <p class="mk-result" id="mkResult" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="mk-sections" id="mkSections"></div>
+  <div class="mk-wrap">
+    <p class="mk-empty" id="mkEmpty" hidden>No reports match that combination.</p>
+  </div>
+</main>
+
+<section class="mk-findings" aria-labelledby="mkFindHead">
+  <div class="mk-wrap">
+    <p class="mk-eyebrow">Mockup notes</p>
+    <h2 id="mkFindHead">What the data actually supports</h2>
+
+    <h3>What changed from v7</h3>
+    <ol>
+      <li><strong>The tier label is gone, the tier filter is not.</strong> The row that read
+        <code>TIER</code> beside a single <code>Core only</code> pill now renders the pill on
+        its own. The 108px label gutter survives as an empty
+        <code>.mk-flabel--spacer</code> so the pill keeps the same left edge as the Category
+        and Focus area pills above it &mdash; without it the pill would slide into the gutter
+        and the three rows would stop lining up. Under 720px, where
+        <code>.mk-flabel</code> becomes <code>flex-basis:100%</code>, the spacer is
+        <code>display:none</code> so it cannot cost a blank row. The button id,
+        <code>aria-pressed</code> contract and filter behaviour are untouched.</li>
+      <li><strong>GitHub stars come from a second JSON island.</strong>
+        <code>#mk-stars</code> carries the output of the daily
+        <code>sync_stars.py</code> job; <code>#mk-data</code> is byte-identical to v7. 17 of
+        the 22 reports resolve to a repository and show a count. The other five &mdash;
+        <code>roi-calc</code>, <code>cowork-chargeback-app</code>,
+        <code>cowork-policy-helper-app</code>, <code>finops-focus-app</code> and
+        <code>cowork-roi-model-app</code> &mdash; are Pages apps, carry
+        <code>stars:null</code> and render no star element at all, not a zero and not a
+        dash. The count sits in the card foot next to the source line at source-line scale,
+        because it is a property of the repository, not a measure of the report; it is
+        deliberately kept out of the hero stat strip.</li>
+      <li><strong>Stale counts are marked, not hidden and not faked.</strong> A record with
+        <code>stale:true</code> still renders its last known number &mdash; blanking it would
+        throw away the only figure available &mdash; but it takes a dashed underline,
+        <code>cursor:help</code> and a tooltip naming its <code>fetchedAt</code> date. The
+        current payload has zero stale records, so this path is exercised by injection, not
+        by the shipped data.</li>
+      <li><strong>Freshness is stated once, and derived.</strong> One quiet line at the foot
+        of the filter panel reads <code>fetchedAt</code> off the payload. No cadence is
+        asserted in the copy, because the copy cannot know whether the job actually ran.</li>
+      <li><strong>The flyout actions moved to opposite corners.</strong> Download template is
+        now top right, in a flex row it shares with the close button, so the two are laid
+        out rather than stacked and cannot overlap at any width. View on GitHub stays bottom
+        left and is now a button.</li>
+      <li><strong>The GitHub button is the live <code>.nav-cta</code>, tokens and all.</strong>
+        <code>background:var(--mk-text)</code> and <code>color:var(--mk-bg)</code>, mapped
+        from live&rsquo;s <code>--text</code> and <code>--bg</code>. It is not a black chip:
+        it renders near-black on near-white in light and inverts to near-white on near-black
+        in dark. A hardcoded <code>#000</code> would have looked right in light and
+        disappeared in dark.</li>
+    </ol>
+
+    <h3>What changed from v6</h3>
+    <ol>
+      <li><strong>The invented background is gone.</strong> v5 painted three zones; v6
+        replaced them with one document-length blue gradient on <code>.mk-page</code> plus an
+        SVG dither layer to stop it Mach-banding. Both are deleted. v7 takes the live
+        homepage&rsquo;s treatment instead, which is two rules and nothing else:
+        <code>body{ background:var(--bg) }</code> and
+        <code>.band:nth-of-type(even){ background:var(--bg-alt) }</code>. There is no
+        <code>linear-gradient</code> anywhere on this page as a page or band background, in
+        either theme.</li>
+      <li><strong>The two colours were measured, not copied out of the stylesheet.</strong>
+        <code>docs/index.html</code> was loaded headless and computed style read off
+        <code>body</code> and every <code>.band</code>. Light: ground <code>#faf9f8</code>,
+        alternate <code>#f7f7fb</code>. Dark: <code>#14141b</code> and <code>#14141d</code>.
+        Worth knowing: <code>:nth-of-type</code> counts <code>&lt;section&gt;</code> siblings,
+        not <code>.band</code> siblings, so on live it is the 1st, 3rd and 5th band in
+        document order that take <code>--bg-alt</code>, and <code>.hero</code> and
+        <code>.measurables-band</code> re-assert <code>--bg</code> explicitly. The visible
+        result is a clean alternation from the hero down, which is what is reproduced here.</li>
+      <li><strong>The mockup&rsquo;s own tokens were corrected against live.</strong> The light
+        ground was <code>#ffffff</code> and live computes <code>#faf9f8</code> &mdash; the
+        <code>:root</code> block near the foot of <code>styles.css</code> overrides the one at
+        the top. Eight dark neutrals had drifted too and are now the live value verbatim:
+        <code>--bg-alt</code>, <code>--surface</code>, <code>--surface-2</code>,
+        <code>--border</code>, <code>--border-strong</code>, <code>--text</code>,
+        <code>--text-soft</code> and <code>--text-muted</code>.</li>
+      <li><strong>Six re-cut values were deleted rather than kept.</strong>
+        <code>--mk-hero-lead</code>, <code>--mk-hero-eyebrow</code>,
+        <code>--mk-link-on-wash</code>, <code>--mk-card-border</code>,
+        <code>--mk-stat-border</code> and <code>--mk-pill-border</code> existed only because
+        the wash was too dark for the live values. On a near-white ground the live values
+        clear their thresholds again, so each one reverts to the live token it was shadowing.
+        The single exception is the &ldquo;Clear filters&rdquo; link, which uses
+        <code>--mk-accent-strong</code> rather than <code>--mk-accent</code>: plain
+        <code>#0078d4</code> on the ground is 4.19:1, under the 4.5:1 AA needs for 13px text.
+        That is a live-site value that does not pass, and it is called out rather than
+        inherited silently.</li>
+      <li><strong>The sticky filter row got simpler, not more complicated.</strong> v6 needed a
+        backdrop blur and a double-faded veil because a transparent sticky strip lets content
+        scroll through it. The strip is now an opaque band colour at rest, so none of that is
+        needed. The zero-height sentinel and the <code>IntersectionObserver</code> are
+        unchanged &mdash; the sticky logic never depended on the wash &mdash; and
+        <code>.is-stuck</code> now adds one small shadow and nothing else.</li>
+      <li><strong>Separation now comes from the cards.</strong> The two page colours are about
+        one L&#42; apart, so the alternation is deliberately almost invisible; that is exactly
+        how the live homepage reads and it is the point. The group header is a
+        <code>--mk-surface</code> block on the band, the cards are raised surfaces with the
+        live <code>--mk-border</code> outline, and the only colour on the page comes from each
+        card&rsquo;s own <code>--c</code>. Nothing was tinted to compensate for the neutral
+        ground.</li>
+    </ol>
+    <h3>What changed from v4</h3>
+    <ol>
+      <li><strong>The lede says where the reports came from.</strong> v4 explained how to use the
+        page and nothing else. The reports are answers to gaps customers actually hit, and the page
+        never said so. The opening sentence now carries that; the practical half &mdash; what the
+        report looks like, what data it needs, who has to be in the room &mdash; is kept verbatim
+        because it is the part that tells people what to do. Two alternates are in the decisions
+        list below, unrendered, so the wording can be swapped without a rebuild.</li>
+      <li><strong>The three zones are genuinely different tones now.</strong> v4 set the hero to
+        <code>color-mix(accent 4%, --mk-bg-alt)</code> and the filter band to
+        <code>color-mix(accent 3%, --mk-surface-2)</code>. Those are one percentage point of the
+        same accent over two greys that differ by four sRGB steps, so the whole top of the page was
+        one flat wash. v5 replaced both with explicit tokens: the hero got a real blue gradient
+        (<code>#c3dcf5</code> to <code>#f2f7fd</code>, 168&deg;, no animation), the filter band drops
+        to a flat cool neutral (<code>#e3e6ee</code>) that carries no chroma so it sits below the
+        hero in weight, and the content area stays white. Measured lightness: hero stops L* 88.1 and
+        97.0, filter band L* 91.2, content L* 100. In v4 the hero and the filter band were 1.006:1
+        apart. <em>Superseded twice: v6 replaced the three fills with one continuous wash, and v7
+        deletes the wash as well and takes the live homepage&rsquo;s two-colour band alternation
+        instead &mdash; see above.</em></li>
+      <li><strong>The stat cards were re-cut to survive the gradient.</strong> Their
+        <code>--mk-border</code> outline measured 1.06:1 against the blue stop &mdash; they would
+        have dissolved into it. They now carry <code>--mk-stat-border</code>, which clears 3:1 at
+        both stops in both themes, plus <code>--mk-shadow-sm</code> to actually read as raised.</li>
+      <li><strong>Two knock-on fixes.</strong> The darker filter band pushed the second-row pill
+        outline from 3.12:1 to 2.87:1 and the category-pill outline from 1.33:1 to 1.01:1, both under
+        the 3:1 WCAG 1.4.11 wants of a control boundary. Both pill families shared
+        <code>--mk-pill-border</code> &mdash; 3.19:1 in light, 4.75:1 in dark. The category pills were
+        the one component v4 reproduced verbatim from <code>docs/styles.css</code>, so that was the
+        single place v5 stopped matching live; it was written up as decision 5 with a one-line revert
+        rather than absorbed silently. <em>Superseded in v7: with the band fills gone both pill
+        families are back on the live <code>--mk-border</code>, and the override is deleted.</em></li>
+    </ol>
+
+    <h3>What changed from v3</h3>
+    <ol>
+      <li><strong>Flyout media now shows video and image together.</strong> Where a report has both an
+        embeddable demo video and a preview image, the flyout offers two tabs and opens on the video.
+        Where it has a video and no image, the video is embedded instead of the &ldquo;no preview&rdquo;
+        placeholder &mdash; that is the Consumption Dashboard fault. Only one media element is in the
+        DOM at a time; the video is <code>controls preload=&quot;metadata&quot;</code>, never autoplay,
+        never looped.</li>
+      <li><strong>A corrected title, applied at render time.</strong> See the live-data bugs below.</li>
+      <li><strong>The hero and the filter block have structure.</strong> The masthead sits on a tinted
+        band, the four counts are stat blocks rather than body text, and the category, focus-area, tier
+        and result rows are now one bordered control surface instead of loose pills on white.</li>
+      <li><strong>The group headers assert themselves.</strong> Accent left border, accent wash, a
+        heavier 1.625rem title and the count as a real badge, with 76px of air above each header and
+        16px below it so the header owns the cards under it.</li>
+    </ol>
+
+    <h3>Live-data bugs this mockup does not hide</h3>
+    <p>All 64 outbound URLs carried by the dataset were requested before this build. 63 resolve.
+      One does not.</p>
+    <ol>
+      <li><strong>Broken download &mdash; &ldquo;What Cowork Did For Me&rdquo;
+        (<code>cowork-impact</code>).</strong> Its <code>download</code> URL,
+        <code>&hellip;/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v24.zip</code>, returns
+        <strong>404</strong>. This is a <strong>live data bug</strong>, not a mockup bug, and it is
+        <strong>still outstanding</strong>. The flyout still renders the Download button, because that
+        is what the live data says it should render.</li>
+      <li><strong>Wrong title &mdash; <code>cowork-billing-report</code>.</strong> The live dataset says
+        &ldquo;Copilot Cowork Billing Report&rdquo;. It should say
+        <strong>&ldquo;Cowork Chargeback Report Power BI&rdquo;</strong>. This is an
+        <strong>OUTSTANDING live-data fix</strong> in
+        <code>docs/explore-reports/app.js</code> &mdash; it has <em>not</em> been corrected at source.
+        This mockup renders the corrected string through a small, labelled
+        <code>PENDING_DATA_FIXES</code> map so the embedded JSON stays a character-faithful copy of
+        live and stays verifiable against it.</li>
+      <li>The <code>/archive/refs/heads/*.zip</code> links redirect to <code>codeload.github.com</code>.
+        That is normal GitHub behaviour and was not counted as a fault.</li>
+    </ol>
+
+    <h3>Video coverage</h3>
+    <p id="mkVidProse">Derived from the embedded dataset at load time.</p>
+    <ul id="mkVidList"></ul>
+    <p class="mk-derived" id="mkVidCheck">derivation: pending</p>
+
+    <h3>What changed from v2</h3>
+    <p>v2 removed all colour and read as flat. v3 restores the homepage
+      <code>rf-card</code> system: each card sets <code>--c</code> inline from its own
+      <code>accent</code> value, and that colour drives three things only &mdash; the 11%-tinted
+      category chip, the &ldquo;View&rdquo; text, and the hover border. Nothing else is coloured.
+      The per-report <code>icon</code> field is still never rendered anywhere on this page.</p>
+    <p>Because every card now carries a coloured chip naming its category, v2&rsquo;s small uppercase
+      category eyebrow on each card was duplicate information and has been removed. The chip replaces it.</p>
+    <p>v2&rsquo;s sticky jump-nav and these category pills both navigate the same axis, so keeping both
+      would have been two competing controls for one job. The jump-nav is gone; the pills stay, because
+      that is what the live homepage uses. Focus area and Core only survive as a quieter second row.</p>
+    <p id="mkAccentProse">Accent palette in use, derived at load time:</p>
+    <div class="mk-swatches" id="mkSwatches"></div>
+    <p><strong>Known legibility issue, reproduced not fixed:</strong> one accent is
+      <code>#24292f</code> (GitHub Copilot Impact). At 11% tint over a dark card it is almost
+      invisible and the chip text is near-black on near-black. This is exactly how it behaves on the
+      live homepage today. It has been left alone here rather than silently corrected, so you can
+      decide whether to change the source value or add a dark-theme floor.</p>
+
+    <h3>The vote affordance is fake here</h3>
+    <p>The thumbs-up and the <code>0</code> beside it are a static, non-interactive
+      <code>&lt;span&gt;</code>, present only so the card matches the live screenshot. It does not
+      click, it is hidden from screen readers, and the <code>0</code> is a placeholder, not a real
+      count. Live counts come from <code>docs/votes.js</code>, which is not loaded in this mockup.</p>
+
+    <h3>Preview coverage</h3>
+    <p id="mkCovProse">Derived from the embedded dataset at load time by file extension.</p>
+    <table class="mk-tbl">
+      <thead>
+        <tr><th scope="col">Category</th><th scope="col">Reports</th><th scope="col">Animated</th><th scope="col">Still</th><th scope="col">None</th></tr>
+      </thead>
+      <tbody id="mkCovBody">
+        <tr data-cat="usage-intelligence"><th scope="row">Usage &amp; Intelligence</th><td>3</td><td>3</td><td>0</td><td>0</td></tr>
+        <tr data-cat="adoption-behavior"><th scope="row">Adoption &amp; Behavior</th><td>4</td><td>2</td><td>1</td><td>1</td></tr>
+        <tr data-cat="readiness"><th scope="row">Readiness</th><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+        <tr data-cat="impact-roi"><th scope="row">Impact &amp; ROI</th><td>9</td><td>3</td><td>1</td><td>5</td></tr>
+        <tr data-cat="developer"><th scope="row">Developer Productivity</th><td>2</td><td>2</td><td>0</td><td>0</td></tr>
+        <tr data-cat="tooling-extension"><th scope="row">Tooling &amp; Extension</th><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+      </tbody>
+      <tfoot>
+        <tr id="mkCovTotals"><th scope="row">Total</th><td>22</td><td>10</td><td>2</td><td>10</td></tr>
+      </tfoot>
+    </table>
+    <p class="mk-derived" id="mkCovCheck">derivation: pending</p>
+    <p>Readiness and Tooling &amp; Extension are 0 animated / 0 still / 2 none. Every report in those
+      two groups opens straight to the typographic placeholder, so those categories currently have no
+      visual payoff at all in a preview-led flyout.</p>
+
+    <h3>Provenance of the fields on this page</h3>
+    <p>The <code>related</code> array is empty for 0 of 22 reports in the live page source; the related
+      lists shown here were derived for this mockup from shared focus-area tags, not authored per report.
+      Sparse fields in the source data: demo video 7 of 22, demo video label 4 of 22, setup guide 1 of 22,
+      admin email template 6 of 22. Exactly one report is multi-category (<code>value-lens</code>, four
+      categories, shown as <code>+3</code>) and exactly one is flagged new
+      (<code>agent-evaluator</code>). No other card invents either.</p>
+    <p>The card blurb is now the <code>blurb</code> field, matching the homepage card anatomy. v2 led
+      with the <code>question</code> field instead. The question has not been dropped &mdash; it is the
+      subheading of the flyout &mdash; but it is no longer what you scan in the grid. Worth a decision.</p>
+
+    <h3>Decisions needed from you</h3>
+    <ol>
+      <li><strong>Which lede?</strong> The hero currently renders the primary. The two alternates
+        below are parked here verbatim and are <em>not</em> rendered anywhere on the page; say the
+        word and either one swaps straight in.
+        <ul>
+          <li><strong>Rendered now:</strong> &ldquo;None of these started on a whiteboard. Every
+            report here traces back to a gap a customer actually hit &mdash; a question they needed
+            answered and had no way to answer. Start with yours: see what the report looks like,
+            what data it needs and who has to be in the room, then take the template.&rdquo;</li>
+          <li><strong>Alternate A:</strong> &ldquo;Every report here answers a question a customer
+            actually asked. Nothing on this page was invented in a vacuum &mdash; each one closed a
+            real gap for a real team. Start with the question you need answered, then take the
+            template.&rdquo;</li>
+          <li><strong>Alternate B:</strong> &ldquo;These reports exist because someone needed them.
+            Each one began as a customer problem with no good answer, and became the report that
+            answered it. Start with the question you need answered, then take the template.&rdquo;</li>
+        </ul>
+        Note that both alternates drop &ldquo;what data it needs and who has to be in the room&rdquo;,
+        which is the only place the page tells you what a report will cost you to run.</li>
+      <li>Cards lead with <code>blurb</code> now, as on the homepage. Do you want the grid to keep
+        scanning on <code>question</code> instead, as v2 did?</li>
+      <li>The flyout is media-led, but even after v4&rsquo;s video fix eight of the 22 reports still open
+        to the typographic placeholder, and two whole groups (Readiness, Tooling &amp; Extension) have no
+        media of any kind. Record previews for the gaps, accept the typographic placeholder as the
+        permanent state, or let those reports open to a text-first layout with no media slot?</li>
+      <li>When a report has both, v4 opens on the <strong>video</strong>. Is that the right default, or
+        should the GIF/still lead because it paints immediately while the mp4 needs a click?</li>
+      <li>The category pills are reproduced from <code>docs/styles.css</code>, which gives them a
+        <code>--mk-border</code> outline. v5 and v6 overrode it with <code>--mk-pill-border</code> so
+        it would survive their invented band fills. <strong>v7 reverts to the live value</strong>,
+        because matching live was the instruction and the override was only ever there to prop up a
+        background that no longer exists. The consequence is that the pill outline is a faint
+        boundary again &mdash; the same faint boundary it is on the live homepage today, and below
+        the 3:1 WCAG 1.4.11 asks of a control boundary. The pills are still identifiable by their
+        fill, their label and their count badge, and the selected pill is a solid accent lozenge.
+        Accept the live outline as-is, fix <code>--border</code> on the live site so every bordered
+        control benefits, or reinstate a mockup-only override here?</li>
+      <li>Fix the two live-data bugs at source in <code>docs/explore-reports/app.js</code> &mdash; the
+        404 download on <code>cowork-impact</code> and the <code>cowork-billing-report</code> title &mdash;
+        so the <code>PENDING_DATA_FIXES</code> map can be deleted?</li>
+      <li>Flyout size: keep 70% as the default, or drop to 50%? Toggle both in the control bar above.</li>
+      <li>Keep <code>related</code> derived automatically from shared tags, or author three related
+        reports per report by hand?</li>
+      <li>Second filter row (focus area, core only): keep it, or are the category pills enough on
+        their own now that the jump-nav is gone?</li>
+      <li>Fix <code>#24292f</code> for dark mode, or leave it as it is on the live site?</li>
+      <li>The current live page has an inline row-expand and a separate lightbox. Do both retire in
+        favour of this single flyout?</li>
+    </ol>
+  </div>
+</section>
+
+</div><!-- /.mk-page -->
+
+<dialog class="mk-dlg" id="mkDlg" aria-labelledby="mkDlgTitle">
+  <div class="mk-dlg-inner">
+    <header class="mk-dlg-head">
+      <div class="mk-dlg-actions">
+        <span id="mkDlgDl"></span>
+        <button type="button" class="mk-dlg-close" id="mkDlgClose" aria-label="Close report details">&times;</button>
+      </div>
+      <p><span class="mk-dlg-chip" id="mkDlgChip"></span></p>
+      <h2 id="mkDlgTitle"></h2>
+      <p class="mk-dlg-q" id="mkDlgQ"></p>
+    </header>
+    <div class="mk-dlg-body" id="mkDlgBody"></div>
+    <footer class="mk-dlg-foot" id="mkDlgFoot"></footer>
+  </div>
+</dialog>
+
+<script id="mk-data" type="application/json">
+{
+  "TOOLS": [
+    {
+      "id": "super-usage",
+      "question": "Who are our Copilot super users, and how did they get there?",
+      "title": "Super Usage Adoption",
+      "icon": "⚡",
+      "accent": "#0078d4",
+      "category": "adoption-behavior",
+      "tier": "core",
+      "measures": [
+        "adoption",
+        "productivity"
+      ],
+      "source": "Viva Insights",
+      "sourceKey": "Viva Insights",
+      "repo": "https://github.com/microsoft/DecodingSuperUsage",
+      "download": "https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip",
+      "emailFile": "04_Super_User_Adoption_Admin_Email.txt",
+      "preview": "https://raw.githubusercontent.com/microsoft/DecodingSuperUsage/refs/heads/DecodingSuperUsage/images/SuperUser.gif",
+      "blurb": "Power BI template on Viva Insights person-query data. Profiles your super users — what they use, how habits form, where they cluster — so you can replicate the pattern.",
+      "meta": {
+        "audience": "CCMs, enablement leads, execs",
+        "license": "Viva Insights",
+        "time": "30 min once query is staged"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Viva Insights advanced person query"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "personal-copilot-dashboard",
+          "title": "Personal Copilot Dashboard",
+          "icon": "📊",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "adoption",
+            "productivity"
+          ]
+        },
+        {
+          "id": "adoption-sentiment",
+          "title": "Adoption & Sentiment Report",
+          "icon": "💛",
+          "accent": "#FFB900",
+          "score": 3,
+          "shared": [
+            "adoption"
+          ]
+        },
+        {
+          "id": "super-user-impact",
+          "title": "Super User Impact",
+          "icon": "🏆",
+          "accent": "#00B294",
+          "score": 3,
+          "shared": [
+            "productivity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "super-user-impact",
+      "question": "What's the measurable impact of super users on work patterns?",
+      "title": "Super User Impact",
+      "icon": "🏆",
+      "accent": "#00B294",
+      "category": "adoption-behavior",
+      "tier": "specialty",
+      "measures": [
+        "impact",
+        "productivity"
+      ],
+      "source": "Viva Insights",
+      "sourceKey": "Viva Insights",
+      "repo": "https://github.com/microsoft/superuserimpact",
+      "download": "https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip",
+      "emailFile": "05_Super_User_Impact_Admin_Email.txt",
+      "preview": "https://raw.githubusercontent.com/microsoft/superuserimpact/main/images/report-preview.gif",
+      "blurb": "Companion to Super Usage Adoption. Quantifies the work-pattern delta super users produce — collaboration, focus time, meeting load — vs comparable peers. Same Viva query feeds both.",
+      "meta": {
+        "audience": "Execs, change leads, HR analytics",
+        "license": "Viva Insights",
+        "time": "Re-uses the Super Usage query"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Super Usage Adoption query output"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "📈",
+          "accent": "#b11f4b",
+          "score": 4,
+          "shared": [
+            "impact",
+            "productivity"
+          ]
+        },
+        {
+          "id": "cowork-impact",
+          "title": "What Cowork Did For Me",
+          "icon": "🎁",
+          "accent": "#e3008c",
+          "score": 4,
+          "shared": [
+            "productivity",
+            "impact"
+          ]
+        },
+        {
+          "id": "personal-copilot-dashboard",
+          "title": "Personal Copilot Dashboard",
+          "icon": "📊",
+          "accent": "#0078d4",
+          "score": 3,
+          "shared": [
+            "productivity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-in-one",
+      "question": "I want a single dashboard showing all Copilot and Agent activity.",
+      "title": "AI-in-One Dashboard",
+      "icon": "🤖",
+      "accent": "#e3008c",
+      "category": "usage-intelligence",
+      "tier": "core",
+      "measures": [
+        "adoption",
+        "chat",
+        "agents",
+        "license"
+      ],
+      "source": "Purview + Entra",
+      "sourceKey": "Purview",
+      "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
+      "download": "https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip",
+      "demoVideo": "https://github.com/microsoft/AI-in-One-Dashboard#-watch-first",
+      "demoVideoLabel": "Watch the demo &amp; setup videos",
+      "guide": "https://github.com/microsoft/AI-in-One-Dashboard/blob/main/docs/Video-Guide.md",
+      "emailFile": "01_AI_in_One_Dashboard_Admin_Email.txt",
+      "preview": "https://raw.githubusercontent.com/microsoft/AI-in-One-Dashboard/main/Images/AIO%20v10%20Gif.gif",
+      "blurb": "One unified Power BI report covering Microsoft 365 Copilot, Copilot Chat (licensed + unlicensed), Agents, and third-party AI signals. The flagship if you only deploy one template.",
+      "meta": {
+        "audience": "Execs, IT leadership, program leads",
+        "license": "Audit Reader + Entra read + M365 Admin export",
+        "time": "~1–2 hours for first build"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log"
+          },
+          {
+            "label": "Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          },
+          {
+            "label": "M365 Admin Reports Reader",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "PAX exporter (optional)",
+            "url": "https://github.com/microsoft/PAX"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 6,
+          "shared": [
+            "adoption",
+            "license",
+            "agents"
+          ]
+        },
+        {
+          "id": "chat-agent",
+          "title": "Copilot Chat & Agent Intelligence",
+          "icon": "💬",
+          "accent": "#8661c5",
+          "score": 5,
+          "shared": [
+            "chat",
+            "agents"
+          ]
+        },
+        {
+          "id": "m365-readiness",
+          "title": "M365 Copilot Readiness Report",
+          "icon": "🎯",
+          "accent": "#FFB900",
+          "score": 4,
+          "shared": [
+            "adoption",
+            "license"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chat-agent",
+      "question": "How are people using Copilot Chat and Agents across our org?",
+      "title": "Copilot Chat & Agent Intelligence",
+      "icon": "💬",
+      "accent": "#8661c5",
+      "category": "usage-intelligence",
+      "tier": "specialty",
+      "measures": [
+        "chat",
+        "agents"
+      ],
+      "source": "Purview + Entra",
+      "sourceKey": "Purview",
+      "repo": "https://github.com/microsoft/CopilotChatAnalytics",
+      "download": "https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip",
+      "emailFile": "02_Chat_Intelligence_Admin_Email.txt",
+      "secondaryEmailFile": "03_Agent_Intelligence_Admin_Email.txt",
+      "preview": "https://raw.githubusercontent.com/microsoft/CopilotChatAnalytics/refs/heads/main/Images/ChatIntelGIG.gif",
+      "blurb": "Two Power BI templates on Purview audit logs + Entra: one for Copilot Chat (licensed + unlicensed), one for Agents. By user, app, department — no third-party analytics, no data leaves the tenant.",
+      "meta": {
+        "audience": "IT admins, Copilot champions, BVAs",
+        "license": "Audit Reader on Purview + Entra read",
+        "time": "~1 hour incl. data export"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log"
+          },
+          {
+            "label": "Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "PAX exporter (optional)",
+            "url": "https://github.com/microsoft/PAX"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 5,
+          "shared": [
+            "chat",
+            "agents"
+          ]
+        },
+        {
+          "id": "agent-evaluator",
+          "title": "Agent Evaluator for Copilot Studio",
+          "icon": "🔎",
+          "accent": "#e3008c",
+          "score": 3,
+          "shared": [
+            "agents"
+          ]
+        },
+        {
+          "id": "ess-insights",
+          "title": "ESS Insights — Employee Self-Serve Business Value",
+          "icon": "🧑‍💼",
+          "accent": "#8661c5",
+          "score": 2,
+          "shared": [
+            "agents"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ghcp-impact",
+      "question": "How are developers adopting GitHub Copilot?",
+      "title": "GitHub Copilot Impact",
+      "icon": "⚙️",
+      "accent": "#24292f",
+      "category": "developer",
+      "tier": "specialty",
+      "measures": [
+        "developer",
+        "adoption"
+      ],
+      "source": "GitHub Enterprise",
+      "sourceKey": "GitHub",
+      "repo": "https://github.com/microsoft/GitHubCopilotImpact",
+      "download": "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip",
+      "emailFile": "06_GitHub_Copilot_Impact_Admin_Email.txt",
+      "preview": "https://raw.githubusercontent.com/microsoft/GitHubCopilotImpact/main/assets/ghcpgif.gif",
+      "blurb": "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — pulled straight from the GitHub Enterprise REST API.",
+      "meta": {
+        "audience": "Developer productivity leads, eng managers, BVAs",
+        "license": "GitHub Enterprise admin (Copilot metrics API)",
+        "time": "~30 min once token is issued"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "GitHub Enterprise Owner or Billing Manager",
+            "url": "https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization"
+          },
+          {
+            "label": "PAT with read:enterprise scope",
+            "url": "https://docs.github.com/rest/copilot/copilot-metrics"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "what-i-did",
+          "title": "What I Did: Copilot Impact Report",
+          "icon": "📝",
+          "accent": "#4cc2ff",
+          "score": 3,
+          "shared": [
+            "developer"
+          ]
+        },
+        {
+          "id": "adoption-sentiment",
+          "title": "Adoption & Sentiment Report",
+          "icon": "💛",
+          "accent": "#FFB900",
+          "score": 2,
+          "shared": [
+            "adoption"
+          ]
+        },
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 2,
+          "shared": [
+            "adoption"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "what-i-did",
+      "question": "What did I personally build with GitHub Copilot this week — and what's the leverage?",
+      "title": "What I Did: Copilot Impact Report",
+      "icon": "📝",
+      "accent": "#4cc2ff",
+      "category": "developer",
+      "tier": "specialty",
+      "measures": [
+        "developer",
+        "productivity"
+      ],
+      "source": "Local Copilot sessions",
+      "sourceKey": "Local",
+      "repo": "https://github.com/microsoft/What-I-Did-Copilot",
+      "download": "https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip",
+      "preview": "https://raw.githubusercontent.com/microsoft/What-I-Did-Copilot/main/docs/images/sample-report.gif",
+      "blurb": "Personal-leverage report. Points a script at your local VS Code / Copilot session logs and summarizes what shipped, where Copilot helped, and the multiplier on your week.",
+      "meta": {
+        "audience": "Individual devs, IC leads, demo storytelling",
+        "license": "None — runs locally",
+        "time": "~5 minutes"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "None — runs on your own machine"
+          }
+        ],
+        "software": [
+          {
+            "label": "VS Code with GitHub Copilot",
+            "url": "https://code.visualstudio.com/docs/copilot/overview"
+          },
+          {
+            "label": "Python 3.10+",
+            "url": "https://www.python.org/downloads/"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ghcp-impact",
+          "title": "GitHub Copilot Impact",
+          "icon": "⚙️",
+          "accent": "#24292f",
+          "score": 3,
+          "shared": [
+            "developer"
+          ]
+        },
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "📈",
+          "accent": "#b11f4b",
+          "score": 2,
+          "shared": [
+            "productivity"
+          ]
+        },
+        {
+          "id": "personal-copilot-dashboard",
+          "title": "Personal Copilot Dashboard",
+          "icon": "📊",
+          "accent": "#0078d4",
+          "score": 2,
+          "shared": [
+            "productivity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cowork-impact",
+      "question": "I want to see business processes that Cowork helped me with and its impact.",
+      "title": "What Cowork Did For Me",
+      "icon": "🎁",
+      "accent": "#e3008c",
+      "category": "impact-roi",
+      "tier": "specialty",
+      "measures": [
+        "roi",
+        "productivity",
+        "impact"
+      ],
+      "source": "Local Cowork sessions (OneDrive)",
+      "sourceKey": "Local",
+      "repo": "https://github.com/microsoft/What-I-did-with-Cowork",
+      "download": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v24.zip",
+      "preview": "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
+      "blurb": "Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categories, and renders a single-file HTML report with Time Saved, professional-services-equivalent value, and a mapping to the four Value Pillars.",
+      "meta": {
+        "audience": "Cowork users, IC leads, execs quantifying Cowork ROI",
+        "license": "None — runs locally",
+        "time": "~2 minutes"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "None — runs against your own OneDrive data"
+          }
+        ],
+        "software": [
+          {
+            "label": "Microsoft Copilot Cowork",
+            "url": "https://copilot.cloud.microsoft/cowork"
+          },
+          {
+            "label": "OneDrive with Documents/Cowork/ folder"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "📈",
+          "accent": "#b11f4b",
+          "score": 7,
+          "shared": [
+            "impact",
+            "roi",
+            "productivity"
+          ]
+        },
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m365-readiness",
+      "question": "Who's ready to be enabled on Copilot, and who should I groom as a champion?",
+      "title": "M365 Copilot Readiness Report",
+      "icon": "🎯",
+      "accent": "#FFB900",
+      "category": "readiness",
+      "tier": "specialty",
+      "measures": [
+        "adoption",
+        "license",
+        "customization"
+      ],
+      "source": "Purview + Entra",
+      "sourceKey": "Purview",
+      "repo": "https://github.com/microsoft/M365UsageAnalytics",
+      "download": "https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip",
+      "emailFile": "07_M365_Copilot_Readiness_Admin_Email.txt",
+      "blurb": "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can stage enablement waves and surface the natural champion candidates in each org — defended with audit data, not gut feel.",
+      "meta": {
+        "audience": "Enablement leads, IT, license owners",
+        "license": "Audit Reader + Entra read",
+        "time": "~45 min for first run"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log"
+          },
+          {
+            "label": "Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "PAX exporter (recommended)",
+            "url": "https://github.com/microsoft/PAX"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 4,
+          "shared": [
+            "adoption",
+            "license"
+          ]
+        },
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 4,
+          "shared": [
+            "adoption",
+            "license"
+          ]
+        },
+        {
+          "id": "cowork-policy-helper-app",
+          "title": "Cowork Policy Helper (Web App)",
+          "icon": "🔐",
+          "accent": "#8661c5",
+          "score": 3,
+          "shared": [
+            "license"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adoption-sentiment",
+      "question": "How do employees feel about Copilot, and does that match actual usage?",
+      "title": "Adoption & Sentiment Report",
+      "icon": "💛",
+      "accent": "#FFB900",
+      "category": "adoption-behavior",
+      "tier": "specialty",
+      "measures": [
+        "sentiment",
+        "adoption"
+      ],
+      "source": "M365 Admin + Survey",
+      "sourceKey": "M365 Admin",
+      "repo": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report",
+      "download": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip",
+      "preview": "https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/images/adoption-overview.png",
+      "blurb": "Four-page Power BI template by olivierpecheux/Microsoft: Adoption Overview, Sentiment Analysis, Comments Analysis, and Saved Time Analysis. Ships with a 12-question recommended Copilot survey — drop into Microsoft Forms, match the UPN column to the Copilot Activity export, and the report stitches sentiment to actual usage by tier (Bottom 25% → Top 10%).",
+      "meta": {
+        "audience": "Change managers, comms, exec sponsors",
+        "license": "M365 Admin report access + survey export",
+        "time": "~30 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "M365 Admin Reports Reader",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles"
+          },
+          {
+            "label": "Forms owner (for the survey)",
+            "url": "https://support.microsoft.com/forms"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Microsoft Forms",
+            "url": "https://forms.office.com"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "personal-copilot-dashboard",
+          "title": "Personal Copilot Dashboard",
+          "icon": "📊",
+          "accent": "#0078d4",
+          "score": 3,
+          "shared": [
+            "adoption"
+          ]
+        },
+        {
+          "id": "super-usage",
+          "title": "Super Usage Adoption",
+          "icon": "⚡",
+          "accent": "#0078d4",
+          "score": 3,
+          "shared": [
+            "adoption"
+          ]
+        },
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 2,
+          "shared": [
+            "adoption"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pax",
+      "question": "How do I automate pulling audit logs without manual exports?",
+      "title": "PAX: Portable Audit eXporter",
+      "icon": "🛡️",
+      "accent": "#6264a7",
+      "category": "tooling-extension",
+      "tier": "specialty",
+      "measures": [
+        "audit"
+      ],
+      "source": "Purview + Entra (Microsoft Graph)",
+      "sourceKey": "Graph API",
+      "repo": "https://github.com/microsoft/PAX",
+      "download": "https://github.com/microsoft/PAX/archive/refs/heads/release.zip",
+      "blurb": "Enterprise-grade PowerShell exporter for Microsoft 365 audit logs and Entra directory data. Pulls from Purview, Entra, or both — supports Entra-only mode with no Purview dependency. Handles billions of events, no row limits, lands data wherever you need it — lake, warehouse, BI. The automation layer behind the Purview + Entra templates.",
+      "meta": {
+        "audience": "IT automation, security ops, data engineering",
+        "license": "App registration + Graph API permissions",
+        "time": "~1 hour incl. app registration"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Entra Application Administrator (to register app)",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#application-administrator"
+          },
+          {
+            "label": "Graph: AuditLog.Read.All",
+            "url": "https://learn.microsoft.com/graph/permissions-reference#auditlogreadall"
+          },
+          {
+            "label": "Graph: Directory.Read.All",
+            "url": "https://learn.microsoft.com/graph/permissions-reference#directoryreadall"
+          }
+        ],
+        "software": [
+          {
+            "label": "PowerShell 7+",
+            "url": "https://learn.microsoft.com/powershell/scripting/install/installing-powershell"
+          },
+          {
+            "label": "Microsoft.Graph PowerShell SDK",
+            "url": "https://learn.microsoft.com/powershell/microsoftgraph/installation"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "customize",
+          "title": "CustomizeCopilot Add-on Library",
+          "icon": "🧩",
+          "accent": "#4cc2ff",
+          "score": 1,
+          "shared": []
+        }
+      ]
+    },
+    {
+      "id": "roi-calc",
+      "question": "I want to tell an ROI story from the Superuser report.",
+      "title": "M365 Copilot Productivity ROI Calculator",
+      "icon": "🧮",
+      "accent": "#0078d4",
+      "category": "impact-roi",
+      "tier": "core",
+      "measures": [
+        "roi",
+        "impact"
+      ],
+      "source": "Power BI export (Super Usage Heatmap CSV)",
+      "sourceKey": "Viva Insights",
+      "repo": "https://jordankingisalive.github.io/CopilotROICalculator/",
+      "download": "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
+      "blurb": "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
+      "meta": {
+        "audience": "BVAs, finance partners, exec sponsors",
+        "license": "Calc is browser-only; upstream needs Super Usage in Power BI + Viva Insights",
+        "time": "~10 min once heatmap CSV is exported from Power BI"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "None for the calc itself"
+          },
+          {
+            "label": "Upstream: Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+          }
+        ],
+        "software": [
+          {
+            "label": "Modern browser (Edge / Chrome / Firefox)"
+          },
+          {
+            "label": "Super Usage heatmap CSV export"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "cowork-chargeback-app",
+          "title": "Cowork Chargeback (Web App)",
+          "icon": "🧮",
+          "accent": "#00B294",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cowork-billing-report",
+      "question": "I want to determine the chargeback and department-level cost allocation.",
+      "title": "Copilot Cowork Billing Report",
+      "icon": "🧾",
+      "accent": "#0078d4",
+      "category": "impact-roi",
+      "tier": "core",
+      "measures": [
+        "impact",
+        "roi"
+      ],
+      "source": "Copilot credit consumption + Entra export",
+      "sourceKey": "M365 Admin",
+      "repo": "https://github.com/microsoft/CreditUsage",
+      "download": "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
+      "demoVideo": "https://github.com/microsoft/CreditUsage#video-walkthrough",
+      "demoVideoLabel": "Watch the 2-minute walkthrough",
+      "blurb": "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis.",
+      "meta": {
+        "audience": "FinOps, IT admins, platform owners",
+        "license": "M365 Admin exports",
+        "time": "~45 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "M365 Admin Reports Reader",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles"
+          },
+          {
+            "label": "Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-chargeback-app",
+          "title": "Cowork Chargeback (Web App)",
+          "icon": "🧮",
+          "accent": "#00B294",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "📈",
+          "accent": "#b11f4b",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cowork-chargeback-app",
+      "question": "I want a lightweight web app that lets me do scenario modeling for Cowork credits.",
+      "title": "Cowork Chargeback (Web App)",
+      "icon": "🧮",
+      "accent": "#00B294",
+      "category": "impact-roi",
+      "tier": "specialty",
+      "measures": [
+        "impact",
+        "roi"
+      ],
+      "source": "Copilot credit consumption + Entra export",
+      "sourceKey": "M365 Admin",
+      "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html",
+      "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+      "preview": "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/report-walkthrough.gif",
+      "blurb": "Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs.",
+      "meta": {
+        "audience": "FinOps, finance partners, IT operations",
+        "license": "M365 Admin exports",
+        "time": "~10 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "M365 Admin Reports Reader",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles"
+          },
+          {
+            "label": "Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Modern browser (Edge / Chrome / Firefox)"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "📈",
+          "accent": "#b11f4b",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cowork-policy-helper-app",
+      "question": "I need to assign Cowork spend policies and track exceptions.",
+      "title": "Cowork Policy Helper (Web App)",
+      "icon": "🔐",
+      "accent": "#8661c5",
+      "category": "readiness",
+      "tier": "specialty",
+      "measures": [
+        "license",
+        "impact"
+      ],
+      "source": "Copilot consumption + Entra user attributes",
+      "sourceKey": "M365 Admin",
+      "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html",
+      "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+      "blurb": "Policy assignment and exception management app for governing Cowork spend tiers.",
+      "meta": {
+        "audience": "IT governance, FinOps, platform admins",
+        "license": "M365 Admin exports",
+        "time": "~10 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "M365 Admin Reports Reader",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles"
+          },
+          {
+            "label": "Entra Reports Reader",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Modern browser (Edge / Chrome / Firefox)"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 4,
+          "shared": [
+            "impact",
+            "license"
+          ]
+        },
+        {
+          "id": "m365-readiness",
+          "title": "M365 Copilot Readiness Report",
+          "icon": "🎯",
+          "accent": "#FFB900",
+          "score": 3,
+          "shared": [
+            "license"
+          ]
+        },
+        {
+          "id": "agent-evaluator",
+          "title": "Agent Evaluator for Copilot Studio",
+          "icon": "🔎",
+          "accent": "#e3008c",
+          "score": 2,
+          "shared": [
+            "impact"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finops-focus-app",
+      "question": "I need Cowork cost views aligned to FinOps FOCUS definitions.",
+      "title": "FinOps & FOCUS Cost Report (Web App)",
+      "icon": "📊",
+      "accent": "#0078d4",
+      "category": "impact-roi",
+      "tier": "specialty",
+      "measures": [
+        "impact",
+        "roi"
+      ],
+      "source": "Cowork consumption + billing context",
+      "sourceKey": "M365 Admin",
+      "repo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html",
+      "demoVideo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/media/FinOps-Cowork-Demo.mp4",
+      "demoVideoLabel": "Watch the 2-minute overview",
+      "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+      "blurb": "Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.",
+      "meta": {
+        "audience": "FinOps practitioners, finance, cloud platform teams",
+        "license": "M365 Admin exports",
+        "time": "~10 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "M365 Admin Reports Reader",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/add-users/about-admin-roles"
+          }
+        ],
+        "software": [
+          {
+            "label": "Modern browser (Edge / Chrome / Firefox)"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "cowork-chargeback-app",
+          "title": "Cowork Chargeback (Web App)",
+          "icon": "🧮",
+          "accent": "#00B294",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cowork-roi-model-app",
+      "question": "I want to model Cowork ROI scenarios.",
+      "title": "Cowork ROI Model (Web App)",
+      "icon": "📈",
+      "accent": "#b11f4b",
+      "category": "impact-roi",
+      "tier": "core",
+      "measures": [
+        "impact",
+        "roi",
+        "productivity"
+      ],
+      "source": "User-entered assumptions + research defaults",
+      "sourceKey": "Local",
+      "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/",
+      "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+      "blurb": "Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required).",
+      "meta": {
+        "audience": "BVAs, finance partners, sellers",
+        "license": "None",
+        "time": "~5 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "None — browser only"
+          }
+        ],
+        "software": [
+          {
+            "label": "Modern browser (Edge / Chrome / Firefox)"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "cowork-impact",
+          "title": "What Cowork Did For Me",
+          "icon": "🎁",
+          "accent": "#e3008c",
+          "score": 7,
+          "shared": [
+            "roi",
+            "productivity",
+            "impact"
+          ]
+        },
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "customize",
+      "question": "I want to add custom pages or extend my Viva Insights reports.",
+      "title": "CustomizeCopilot Add-on Library",
+      "icon": "🧩",
+      "accent": "#4cc2ff",
+      "category": "tooling-extension",
+      "tier": "specialty",
+      "measures": [
+        "customization"
+      ],
+      "source": "Viva Insights",
+      "sourceKey": "Viva Insights",
+      "repo": "https://github.com/microsoft/customizecopilot",
+      "download": "https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip",
+      "blurb": "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more.",
+      "meta": {
+        "audience": "BI developers, advanced template owners",
+        "license": "Whatever the parent template needs",
+        "time": "~15 min per add-on"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Whatever the parent template requires"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Parent Viva Insights template installed"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "m365-readiness",
+          "title": "M365 Copilot Readiness Report",
+          "icon": "🎯",
+          "accent": "#FFB900",
+          "score": 2,
+          "shared": [
+            "customization"
+          ]
+        },
+        {
+          "id": "pax",
+          "title": "PAX: Portable Audit eXporter",
+          "icon": "🛡️",
+          "accent": "#6264a7",
+          "score": 1,
+          "shared": []
+        }
+      ]
+    },
+    {
+      "id": "personal-copilot-dashboard",
+      "question": "I want a personal dashboard of my own Copilot, agent, and Cowork usage vs my org.",
+      "title": "Personal Copilot Dashboard",
+      "icon": "📊",
+      "accent": "#0078d4",
+      "category": "adoption-behavior",
+      "tier": "specialty",
+      "measures": [
+        "adoption",
+        "productivity",
+        "agents"
+      ],
+      "source": "Copilot Dashboard export (Viva Insights)",
+      "sourceKey": "Viva Insights",
+      "repo": "https://github.com/microsoft/Personal-Dashboard",
+      "download": "https://github.com/microsoft/Personal-Dashboard/archive/refs/heads/main.zip",
+      "demoVideo": "https://github.com/microsoft/Personal-Dashboard#-watch-first",
+      "demoVideoLabel": "Watch the 3-minute walkthrough",
+      "blurb": "Self-service Power BI template that turns your own Copilot Dashboard export into a personal view of adoption, hours saved, feature-level leverage, agent usage, and Cowork credits — with org benchmarks, a personalized user-category, and next-step learning. Loads Copilot, Agent, and Cowork exports in any combination.",
+      "meta": {
+        "audience": "Individual users, IC leads, enablement demos",
+        "license": "Copilot Dashboard export (Viva Insights)",
+        "time": "~15 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Copilot Dashboard access (auto-enabled)",
+            "url": "https://learn.microsoft.com/viva/insights/org-team-insights/copilot-dashboard"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Copilot Dashboard export CSVs"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "super-usage",
+          "title": "Super Usage Adoption",
+          "icon": "⚡",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "adoption",
+            "productivity"
+          ]
+        },
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 4,
+          "shared": [
+            "adoption",
+            "agents"
+          ]
+        },
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 4,
+          "shared": [
+            "adoption",
+            "agents"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ess-insights",
+      "question": "How is my Employee Self-Service (ESS) Copilot Studio agent performing — adoption, deflection, and value?",
+      "title": "ESS Insights — Employee Self-Serve Business Value",
+      "icon": "🧑‍💼",
+      "accent": "#8661c5",
+      "category": "impact-roi",
+      "tier": "specialty",
+      "measures": [
+        "agents",
+        "impact",
+        "roi"
+      ],
+      "source": "Copilot Studio transcripts (Dataverse)",
+      "sourceKey": "Dataverse",
+      "repo": "https://github.com/microsoft/ESS",
+      "download": "https://github.com/microsoft/ESS/archive/refs/heads/main.zip",
+      "preview": "https://raw.githubusercontent.com/microsoft/ESS/main/images/dashboard-preview.gif",
+      "blurb": "Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the ConversationTranscript Dataverse table — adoption, resolution vs escalation, time-to-knowledge, tickets deflected, hours saved and dollar value, plus in-conversation feedback. No custom logging or extra pipelines.",
+      "meta": {
+        "audience": "HR/IT program owners, ESS sponsors, execs",
+        "license": "Power Platform / Dataverse export",
+        "time": "~45 min"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Dataverse read (ConversationTranscript)",
+            "url": "https://learn.microsoft.com/microsoft-copilot-studio/"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Copilot Studio agent writing transcripts to Dataverse"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 7,
+          "shared": [
+            "impact",
+            "roi",
+            "agents"
+          ]
+        },
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "value-lens",
+      "question": "I need a defensible ROI narrative for Microsoft Copilot & agent adoption.",
+      "title": "ValueLens for Microsoft Copilot",
+      "icon": "💠",
+      "accent": "#00B294",
+      "category": "impact-roi",
+      "categories": [
+        "impact-roi",
+        "usage-intelligence",
+        "adoption-behavior",
+        "readiness"
+      ],
+      "tier": "specialty",
+      "measures": [
+        "impact",
+        "roi",
+        "adoption",
+        "license",
+        "agents"
+      ],
+      "source": "Purview audit logs",
+      "sourceKey": "Purview",
+      "repo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
+      "download": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+      "preview": "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
+      "demoVideo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4",
+      "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with SharePoint, Fabric, and Dataverse deployment paths.",
+      "meta": {
+        "audience": "Business Value Advisory, execs, program leads",
+        "license": "Purview Audit Reader",
+        "time": "~1 hour for first build"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Python (SharePoint path) or Fabric capacity (Fabric path)"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ess-insights",
+          "title": "ESS Insights — Employee Self-Serve Business Value",
+          "icon": "🧑‍💼",
+          "accent": "#8661c5",
+          "score": 7,
+          "shared": [
+            "agents",
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 6,
+          "shared": [
+            "adoption",
+            "agents",
+            "license"
+          ]
+        },
+        {
+          "id": "consumption-central",
+          "title": "Consumption Central for Microsoft Copilot",
+          "icon": "💳",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "roi",
+            "impact"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consumption-central",
+      "question": "What are we spending on Copilot credits across every product, and where is it going?",
+      "title": "Consumption Central for Microsoft Copilot",
+      "icon": "💳",
+      "accent": "#0078d4",
+      "category": "impact-roi",
+      "tier": "specialty",
+      "measures": [
+        "roi",
+        "impact"
+      ],
+      "source": "Viva Insights consumption + PPAC + GitHub Copilot + Azure Cost Management",
+      "sourceKey": "M365 Admin",
+      "repo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+      "download": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+      "demoVideo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4",
+      "blurb": "One Power BI template for Copilot credit consumption and cost across four products — Cowork/Work IQ, Copilot Studio, GitHub Copilot, and Azure AI Foundry. Group spend by your own org attributes, forecast to the end of the billing period, and see overage against prepaid packs. Local CSV, Fabric, and Viva Direct deployment paths, each with a synthetic sample dataset. Reports spend; it does not enforce limits.",
+      "meta": {
+        "audience": "FinOps, IT admins, platform owners, finance partners",
+        "license": "Admin exports (per product)",
+        "time": "~10 min for a first look with sample data"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Viva Insights Analyst (Cowork consumption)",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+          },
+          {
+            "label": "Power Platform Administrator (Copilot Studio credits)",
+            "url": "https://learn.microsoft.com/power-platform/admin/manage-copilot-studio-messages-capacity"
+          },
+          {
+            "label": "Entra Reports Reader (org attributes)",
+            "url": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#reports-reader"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Fabric capacity (Fabric path only) — optional"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "cowork-billing-report",
+          "title": "Copilot Cowork Billing Report",
+          "icon": "🧾",
+          "accent": "#0078d4",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "cowork-chargeback-app",
+          "title": "Cowork Chargeback (Web App)",
+          "icon": "🧮",
+          "accent": "#00B294",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "📈",
+          "accent": "#b11f4b",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agent-evaluator",
+      "question": "How well are my Copilot Studio agents performing — what do they resolve, what do people ask for, and what does it cost?",
+      "title": "Agent Evaluator for Copilot Studio",
+      "icon": "🔎",
+      "accent": "#e3008c",
+      "category": "usage-intelligence",
+      "tier": "specialty",
+      "isNew": true,
+      "measures": [
+        "agents",
+        "impact"
+      ],
+      "source": "Copilot Studio transcripts (Dataverse) + Power Platform admin center",
+      "sourceKey": "Dataverse",
+      "repo": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio",
+      "download": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/archive/refs/heads/main.zip",
+      "preview": "https://raw.githubusercontent.com/microsoft/AgentEvaluator-for-Copilot-Studio/main/assets/agent-evaluator-demo.gif",
+      "demoVideo": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/media/AgentEvaluator-Demo.mp4",
+      "blurb": "One Power BI template for deep Copilot Studio agent evaluation — sessions, turns, errors, sub-agent calls, quality & performance, topics, knowledge grounding, CSAT and message-credit consumption. Reads the conversation transcripts themselves, so every number has a real conversation behind it. Local CSV, Dataverse and Fabric paths, chosen by one parameter; sample data included.",
+      "meta": {
+        "audience": "Agent makers, Studio admins, FinOps",
+        "license": "Dataverse read (+ Fabric for credit pages)",
+        "time": "~2 min on sample data, ~45 min on your own"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Dataverse read (Copilot Studio transcripts)",
+            "url": "https://learn.microsoft.com/microsoft-copilot-studio/"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Nothing at all for the sample-data path; Dataverse environment or Fabric capacity for your own data"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ess-insights",
+          "title": "ESS Insights — Employee Self-Serve Business Value",
+          "icon": "🧑‍💼",
+          "accent": "#8661c5",
+          "score": 4,
+          "shared": [
+            "agents",
+            "impact"
+          ]
+        },
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 4,
+          "shared": [
+            "impact",
+            "agents"
+          ]
+        },
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "🤖",
+          "accent": "#e3008c",
+          "score": 3,
+          "shared": [
+            "agents"
+          ]
+        }
+      ]
+    }
+  ],
+  "CATEGORIES": [
+    {
+      "id": "usage-intelligence",
+      "label": "Usage & Intelligence",
+      "blurb": "Single panes of glass for Copilot + Agent activity across the tenant."
+    },
+    {
+      "id": "adoption-behavior",
+      "label": "Adoption & Behavior",
+      "blurb": "Who adopts, who champions, who lags — and how the patterns spread."
+    },
+    {
+      "id": "readiness",
+      "label": "Readiness",
+      "blurb": "License placement, activation sequencing, and champion identification."
+    },
+    {
+      "id": "impact-roi",
+      "label": "Impact & ROI",
+      "blurb": "Productivity lift, financial value, and cost modeling outcomes."
+    },
+    {
+      "id": "developer",
+      "label": "Developer Productivity",
+      "blurb": "GitHub Copilot adoption, acceptance rates, personal leverage."
+    },
+    {
+      "id": "tooling-extension",
+      "label": "Tooling & Extension",
+      "blurb": "Data plumbing and add-on libraries that power the reports above."
+    }
+  ],
+  "MEASURES": {
+    "adoption": {
+      "label": "Adoption",
+      "color": "#0078d4"
+    },
+    "impact": {
+      "label": "Impact",
+      "color": "#8661c5"
+    },
+    "chat": {
+      "label": "Chat usage",
+      "color": "#00B294"
+    },
+    "agents": {
+      "label": "Agents",
+      "color": "#e3008c"
+    },
+    "sentiment": {
+      "label": "Sentiment",
+      "color": "#ffaa44"
+    },
+    "license": {
+      "label": "License readiness",
+      "color": "#0078d4"
+    },
+    "roi": {
+      "label": "ROI modeling",
+      "color": "#00B294"
+    },
+    "developer": {
+      "label": "Developer",
+      "color": "#8661c5"
+    },
+    "productivity": {
+      "label": "Productivity",
+      "color": "#e3008c"
+    },
+    "audit": {
+      "label": "Data Export Scripts",
+      "color": "#ffaa44"
+    },
+    "customization": {
+      "label": "Customization",
+      "color": "#0078d4"
+    }
+  }
+}</script>
+
+<!-- v8 - second JSON island: the daily GitHub-star sync payload, written by
+     scripts/sync_stars.py and consumed read-only below. Embedded so the
+     mockup renders offline exactly as the live page would. The mk-data
+     island above is untouched. -->
+<script id="mk-stars" type="application/json">{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/sync_stars.py",
+  "fetchedAt": "2026-09-10T15:39:39Z",
+  "reportCount": 22,
+  "repoCount": 17,
+  "okCount": 17,
+  "staleCount": 0,
+  "noRepoCount": 5,
+  "failures": [],
+  "reports": {
+    "super-usage": {
+      "repo": "microsoft/DecodingSuperUsage",
+      "stars": 47,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "super-user-impact": {
+      "repo": "microsoft/superuserimpact",
+      "stars": 11,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "ai-in-one": {
+      "repo": "microsoft/AI-in-One-Dashboard",
+      "stars": 80,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "chat-agent": {
+      "repo": "microsoft/CopilotChatAnalytics",
+      "stars": 21,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "ghcp-impact": {
+      "repo": "microsoft/GitHubCopilotImpact",
+      "stars": 9,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "what-i-did": {
+      "repo": "microsoft/What-I-Did-Copilot",
+      "stars": 49,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "cowork-impact": {
+      "repo": "microsoft/What-I-did-with-Cowork",
+      "stars": 26,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "m365-readiness": {
+      "repo": "microsoft/M365UsageAnalytics",
+      "stars": 13,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "adoption-sentiment": {
+      "repo": "olivierpecheux/copilot-adoption-sentiment-report",
+      "stars": 2,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "pax": {
+      "repo": "microsoft/PAX",
+      "stars": 26,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "roi-calc": {
+      "repo": null,
+      "stars": null,
+      "stale": false,
+      "reason": "no-github-repo"
+    },
+    "cowork-billing-report": {
+      "repo": "microsoft/CreditUsage",
+      "stars": 9,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "cowork-chargeback-app": {
+      "repo": null,
+      "stars": null,
+      "stale": false,
+      "reason": "no-github-repo"
+    },
+    "cowork-policy-helper-app": {
+      "repo": null,
+      "stars": null,
+      "stale": false,
+      "reason": "no-github-repo"
+    },
+    "finops-focus-app": {
+      "repo": null,
+      "stars": null,
+      "stale": false,
+      "reason": "no-github-repo"
+    },
+    "cowork-roi-model-app": {
+      "repo": null,
+      "stars": null,
+      "stale": false,
+      "reason": "no-github-repo"
+    },
+    "customize": {
+      "repo": "microsoft/customizecopilot",
+      "stars": 6,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "personal-copilot-dashboard": {
+      "repo": "microsoft/Personal-Dashboard",
+      "stars": 1,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "ess-insights": {
+      "repo": "microsoft/ESS",
+      "stars": 5,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "value-lens": {
+      "repo": "microsoft/ValueLens-for-Microsoft-Copilot",
+      "stars": 20,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "consumption-central": {
+      "repo": "microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+      "stars": 14,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "agent-evaluator": {
+      "repo": "microsoft/AgentEvaluator-for-Copilot-Studio",
+      "stars": 11,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    }
+  }
+}</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('mk-data').textContent);
+  var TOOLS = DATA.TOOLS || [];
+  var CATEGORIES = DATA.CATEGORIES || [];
+  var MEASURES = DATA.MEASURES || {};
+
+  /* ---------- pending corrections to the LIVE dataset ----------
+     The JSON island above is a character-faithful copy of the live data in
+     docs/explore-reports/app.js, so it is deliberately NOT edited. Known-bad
+     values are corrected here at render time instead, which keeps the embedded
+     copy verifiable against live and keeps the outstanding fix visible.
+     These are NOT fixed on the live site yet - see the findings panel. */
+  var PENDING_DATA_FIXES = {
+    'cowork-billing-report': {
+      title: 'Cowork Chargeback Report Power BI',
+      /* images/dashboard-preview.gif exists in microsoft/CreditUsage but the
+         live record carries no preview, so the flyout showed a placeholder. */
+      preview: 'https://raw.githubusercontent.com/microsoft/CreditUsage/main/images/dashboard-preview.gif'
+    },
+    'consumption-central': {
+      /* Images/ConsumptionCentral-Preview.gif exists in the repo; same gap. */
+      preview: 'https://raw.githubusercontent.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/main/Images/ConsumptionCentral-Preview.gif'
+    }
+  };
+  function titleOf(t) {
+    if (!t) return '';
+    var f = PENDING_DATA_FIXES[t.id];
+    return (f && typeof f.title === 'string') ? f.title : t.title;
+  }
+  function previewOf(t) {
+    if (!t) return '';
+    var f = PENDING_DATA_FIXES[t.id];
+    return (f && typeof f.preview === 'string') ? f.preview : t.preview;
+  }
+
+  /* ---------- text safety ---------- */
+  var ENT = {
+    '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"',
+    '&#39;': "'", '&apos;': "'", '&nbsp;': ' ', '&mdash;': '-', '&ndash;': '-'
+  };
+  function decodeEnt(v) {
+    return String(v == null ? '' : v)
+      .replace(/&(?:amp|lt|gt|quot|#39|apos|nbsp|mdash|ndash);/g, function (m) { return ENT[m]; });
+  }
+  var ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(v) {
+    return decodeEnt(v).replace(/[&<>"']/g, function (c) { return ESC[c]; });
+  }
+  function safeUrl(v) {
+    var u = String(v == null ? '' : v).trim();
+    return /^https?:\/\//i.test(u) ? u : '';
+  }
+  function escUrl(v) {
+    var u = safeUrl(v);
+    return u ? u.replace(/[&<>"']/g, function (c) { return ESC[c]; }) : '';
+  }
+  /* Accent values are injected into a style attribute, so they are allowlisted
+     to a plain hex literal and nothing else. Anything odd renders uncoloured. */
+  function safeColor(v) {
+    var c = String(v == null ? '' : v).trim();
+    return /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(c) ? c : '';
+  }
+
+  /* ---------- lookups ---------- */
+  var catById = {};
+  CATEGORIES.forEach(function (c) { catById[c.id] = c; });
+  var toolById = {};
+  TOOLS.forEach(function (t) { toolById[t.id] = t; });
+
+  function catLabel(id) { return catById[id] ? catById[id].label : id; }
+  function measureLabel(k) { return MEASURES[k] && MEASURES[k].label ? MEASURES[k].label : k; }
+  function tagText(t) { return (t.measures || []).map(measureLabel).join(', '); }
+  function catIds(t) {
+    return (t.categories && t.categories.length) ? t.categories : [t.category];
+  }
+
+  function mediaKind(preview) {
+    var u = safeUrl(preview);
+    if (!u) return 'none';
+    return /\.gif(?:[?#].*)?$/i.test(u) ? 'animated' : 'still';
+  }
+
+  /* A demoVideo is only embeddable if it points at an actual media file.
+     Three of the seven point at a README anchor on github.com, which is a
+     page, not a video - those are linked out, never put in a <video>. */
+  /* github.com/<o>/<r>/raw/<ref>/<path>.mp4 is served as
+     application/octet-stream, so following it downloads the file instead of
+     playing it. The blob view of the same path is a normal HTML page that
+     renders the video in a centred player, so links point there. The <video>
+     element above still uses the raw URL, which is what it needs. */
+  function watchUrl(v) {
+    var u = safeUrl(v);
+    if (!u) return '';
+    return u.replace(
+      /^(https:\/\/github\.com\/[^\/]+\/[^\/]+)\/raw\/(.+)$/i,
+      '$1/blob/$2'
+    );
+  }
+  function isEmbeddableVideo(v) {
+    var u = safeUrl(v);
+    return !!u && /\.(?:mp4|webm|ogv|ogg|m4v)(?:[?#].*)?$/i.test(u);
+  }
+
+  /* ---------- masthead counts ---------- */
+  var sources = {};
+  TOOLS.forEach(function (t) { if (t.sourceKey) sources[t.sourceKey] = 1; });
+  document.getElementById('mkCountTools').textContent = String(TOOLS.length);
+  document.getElementById('mkCountCats').textContent = String(CATEGORIES.length);
+  document.getElementById('mkCountCore').textContent =
+    String(TOOLS.filter(function (t) { return t.tier === 'core'; }).length);
+  document.getElementById('mkCountSrc').textContent = String(Object.keys(sources).length);
+
+  /* ---------- static, inert vote affordance ----------
+     Deliberately a <span>, not a <button>: the card itself is the button, and
+     nesting an interactive control inside it would be invalid and would add a
+     second tab stop per card. aria-hidden because the count is not real. */
+  var VOTE_SVG =
+    '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">' +
+    '<path fill="currentColor" d="M6.3 14h5a1.6 1.6 0 0 0 1.56-1.26l1.1-5A1.6 1.6 0 0 0 12.4 5.8H9.9l' +
+    '.36-1.9a1.5 1.5 0 0 0-2.6-1.3L5.3 5.4V14Zm-3.9 0h2V6h-2A1.4 1.4 0 0 0 1 7.4v5.2A1.4 1.4 0 0 0 2.4 14Z"/>' +
+    '</svg>';
+  var VOTE_HTML =
+    '<span class="ah-vote" aria-hidden="true">' +
+      '<span class="ah-vote-up">' + VOTE_SVG + '<span class="ah-vote-n">0</span></span>' +
+    '</span>';
+
+  /* ---------- v8: GitHub stars, from the daily sync payload ----------
+     Read-only consumption of #mk-stars. Keyed by report id. A record is
+     either { repo, stars, stale, fetchedAt } or, for the five reports that
+     are Pages apps rather than repositories, { repo:null, stars:null,
+     reason:"no-github-repo" }. Anything that is not a number renders
+     NOTHING - no zero, no dash, no empty pill - so the absence is silent.
+     If the island is missing or malformed the whole feature degrades to
+     absent rather than throwing and taking the page down with it. */
+  var STARS_META = null;
+  var STARS = {};
+  try {
+    var starsIsland = document.getElementById('mk-stars');
+    if (starsIsland) {
+      STARS_META = JSON.parse(starsIsland.textContent);
+      STARS = (STARS_META && STARS_META.reports) || {};
+    }
+  } catch (err) { STARS_META = null; STARS = {}; }
+
+  /* Same inline-SVG approach as VOTE_SVG. No emoji in authored markup. */
+  var STAR_SVG =
+    '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">' +
+    '<path fill="currentColor" d="M8 1.6l1.98 4.01 4.42.64-3.2 3.12.76 4.41L8 11.7l-3.96 2.08.76-4.41' +
+    '-3.2-3.12 4.42-.64L8 1.6Z"/></svg>';
+
+  function fmtDate(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  /* v9: >=10 stars promotes the card to a brighter outline. Colour only -
+     the border stays 1px so nothing reflows. */
+  function starCount(id) {
+    var r = STARS[id];
+    return (r && typeof r.stars === 'number') ? r.stars : -1;
+  }
+  function starsHtml(id) {
+    var r = STARS[id];
+    if (!r || typeof r.stars !== 'number') return '';
+    var n = r.stars;
+    var unit = n === 1 ? ' GitHub star' : ' GitHub stars';
+    var base = (r.repo ? r.repo + ' \u2014 ' : '') + n + unit;
+    var stale = r.stale === true;
+    var when = fmtDate(r.fetchedAt || (STARS_META && STARS_META.fetchedAt));
+    /* A stale value is never presented as current: it keeps the number but
+       says, in the tooltip, the date it was actually read. */
+    var title = stale
+      ? base + ' \u2014 last synced ' + (when || 'an earlier date') +
+        '; this count may be out of date'
+      : base;
+    return '<span class="rf-stars' + (stale ? ' is-stale' : '') + '"' +
+      (stale ? ' data-stale="true"' : '') +
+      ' title="' + esc(title) + '">' + STAR_SVG +
+      '<span class="rf-stars-n">' + n + '</span></span>';
+  }
+
+
+  /* ---------- build sections + cards ---------- */
+  var secWrap = document.getElementById('mkSections');
+  var secHtml = [];
+
+  CATEGORIES.forEach(function (cat) {
+    var inCat = TOOLS.filter(function (t) { return t.category === cat.id; });
+
+    var cards = inCat.map(function (t) {
+      var ids = catIds(t);
+      var others = ids.filter(function (id) { return id !== t.category; });
+      var accent = safeColor(t.accent);
+
+      var more = others.length
+        ? '<span class="rf-more" title="' + esc(others.map(catLabel).join(', ')) + '">+' +
+          others.length + '</span>'
+        : '';
+      var isNew = t.isNew === true ? '<span class="rf-new">New</span>' : '';
+
+      return '' +
+        '<button type="button" class="rf-card' +
+        (starCount(t.id) >= 10 ? ' rf-card--hot' : '') +
+        '" data-id="' + esc(t.id) + '"' +
+        (accent ? ' style="--c:' + esc(accent) + '"' : '') +
+        ' data-cat="' + esc(ids.join(' ')) + '"' +
+        ' data-primary="' + esc(t.category) + '"' +
+        ' data-tier="' + esc(t.tier) + '"' +
+        ' data-measures="' + esc((t.measures || []).join(' ')) + '"' +
+        ' aria-label="Open details for ' + esc(titleOf(t)) + '">' +
+          '<span class="rf-top">' +
+            '<span class="rf-chip">' + esc(cat.label) + '</span>' + more + isNew +
+          '</span>' +
+          '<span class="rf-title">' + esc(titleOf(t)) + '</span>' +
+          '<span class="rf-blurb">' + esc(t.blurb) + '</span>' +
+          '<span class="rf-foot">' +
+            '<span class="rf-src">' + esc(t.source) + '</span>' +
+            starsHtml(t.id) +
+            VOTE_HTML +
+            '<span class="rf-cta" aria-hidden="true">View <span>&#8599;</span></span>' +
+          '</span>' +
+        '</button>';
+    }).join('');
+
+    secHtml.push('' +
+      '<section class="mk-sec" id="sec-' + esc(cat.id) + '" data-cat="' + esc(cat.id) + '" aria-labelledby="h-' + esc(cat.id) + '">' +
+        '<div class="mk-wrap">' +
+        '<div class="mk-sec-head">' +
+          '<div>' +
+            '<p class="mk-eyebrow mk-eyebrow--rule">Report group</p>' +
+            '<h2 id="h-' + esc(cat.id) + '">' + esc(cat.label) + '</h2>' +
+            '<p class="mk-sec-blurb">' + esc(cat.blurb) + '</p>' +
+          '</div>' +
+          '<p class="mk-sec-count"><span data-shown>' + inCat.length + '</span> of ' + inCat.length + ' reports</p>' +
+        '</div>' +
+        '<div class="rf-grid">' + cards + '</div>' +
+        '</div>' +
+      '</section>');
+  });
+
+  secWrap.innerHTML = secHtml.join('');
+
+  /* ---------- category pills (homepage pattern) ---------- */
+  var catPills = document.getElementById('mkCatPills');
+  function rfPill(label, value, on, n) {
+    return '<button type="button" class="rf-pill' + (on ? ' is-on' : '') + '" data-cat="' +
+      esc(value) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
+      esc(label) + ' <span class="rf-n">' + n + '</span></button>';
+  }
+  catPills.innerHTML =
+    rfPill('All', 'all', true, TOOLS.length) +
+    CATEGORIES.map(function (c) {
+      var n = TOOLS.filter(function (t) { return t.category === c.id; }).length;
+      return rfPill(c.label, c.id, false, n);
+    }).join('');
+
+  /* ---------- secondary filters ---------- */
+  var state = { cat: 'all', focus: 'all', coreOnly: false };
+
+  function pill(label, value, pressed) {
+    return '<button type="button" class="mk-pill" data-v="' + esc(value) + '" aria-pressed="' +
+      (pressed ? 'true' : 'false') + '">' + esc(label) + '</button>';
+  }
+  var usedMeasures = Object.keys(MEASURES).filter(function (k) {
+    return TOOLS.some(function (t) { return (t.measures || []).indexOf(k) !== -1; });
+  });
+  document.getElementById('mkFocusPills').innerHTML =
+    pill('All focus areas', 'all', true) +
+    usedMeasures.map(function (k) { return pill(measureLabel(k), k, false); }).join('');
+
+  var cardEls = Array.prototype.slice.call(secWrap.querySelectorAll('.rf-card'));
+  var secEls = Array.prototype.slice.call(secWrap.querySelectorAll('.mk-sec'));
+  var resultEl = document.getElementById('mkResult');
+  var emptyEl = document.getElementById('mkEmpty');
+  var findingsEl = document.querySelector('.mk-findings');
+
+  /* v7 BAND ALTERNATION. The live homepage alternates with
+     .band:nth-of-type(even). Here the groups can be hidden by a filter, so a
+     static nth rule would put two identical grounds side by side as soon as
+     one was hidden; the stripe is therefore assigned over the VISIBLE groups.
+     The hero is the ground and the filter panel is the alternate, so the
+     first visible group starts on the ground again, and the notes region
+     takes whatever comes after the last visible group. */
+  function restripe() {
+    var seen = 0;
+    secEls.forEach(function (sec) {
+      if (sec.hidden) { sec.classList.remove('is-alt'); return; }
+      sec.classList.toggle('is-alt', seen % 2 === 1);
+      seen++;
+    });
+    if (findingsEl) findingsEl.classList.toggle('is-alt', seen % 2 === 1);
+  }
+
+  function matches(el) {
+    if (state.cat !== 'all' && el.getAttribute('data-primary') !== state.cat) return false;
+    if (state.coreOnly && el.getAttribute('data-tier') !== 'core') return false;
+    if (state.focus !== 'all') {
+      var ms = (el.getAttribute('data-measures') || '').split(' ');
+      if (ms.indexOf(state.focus) === -1) return false;
+    }
+    return true;
+  }
+
+  function applyFilters() {
+    var total = 0;
+    cardEls.forEach(function (el) {
+      var ok = matches(el);
+      el.hidden = !ok;
+      if (ok) total++;
+    });
+    secEls.forEach(function (sec) {
+      var shown = sec.querySelectorAll('.rf-card:not([hidden])').length;
+      sec.hidden = shown === 0;
+      var n = sec.querySelector('[data-shown]');
+      if (n) n.textContent = String(shown);
+    });
+    restripe();
+    emptyEl.hidden = total !== 0;
+
+    var filtered = state.cat !== 'all' || state.focus !== 'all' || state.coreOnly;
+    resultEl.innerHTML = 'Showing ' + total + ' of ' + TOOLS.length + ' reports.' +
+      (filtered ? ' <button type="button" id="mkReset">Clear filters</button>' : '');
+    var reset = document.getElementById('mkReset');
+    if (reset) {
+      reset.addEventListener('click', function () {
+        state = { cat: 'all', focus: 'all', coreOnly: false };
+        syncCatPills('all');
+        syncPills(document.getElementById('mkFocusPills'), 'all');
+        document.getElementById('mkCoreOnly').setAttribute('aria-pressed', 'false');
+        applyFilters();
+      });
+    }
+  }
+
+  function syncCatPills(value) {
+    Array.prototype.forEach.call(catPills.querySelectorAll('.rf-pill'), function (b) {
+      var on = b.getAttribute('data-cat') === value;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function syncPills(group, value) {
+    Array.prototype.forEach.call(group.querySelectorAll('.mk-pill'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-v') === value ? 'true' : 'false');
+    });
+  }
+
+  catPills.addEventListener('click', function (e) {
+    var b = e.target.closest('.rf-pill'); if (!b) return;
+    state.cat = b.getAttribute('data-cat');
+    syncCatPills(state.cat);
+    applyFilters();
+  });
+  document.getElementById('mkFocusPills').addEventListener('click', function (e) {
+    var b = e.target.closest('.mk-pill'); if (!b) return;
+    state.focus = b.getAttribute('data-v');
+    syncPills(this, state.focus);
+    applyFilters();
+  });
+  document.getElementById('mkCoreOnly').addEventListener('click', function () {
+    state.coreOnly = !state.coreOnly;
+    this.setAttribute('aria-pressed', state.coreOnly ? 'true' : 'false');
+    applyFilters();
+  });
+
+  applyFilters();
+
+  /* ---------- flyout ---------- */
+  var dlg = document.getElementById('mkDlg');
+  var dlgChip = document.getElementById('mkDlgChip');
+  var dlgTitle = document.getElementById('mkDlgTitle');
+  var dlgQ = document.getElementById('mkDlgQ');
+  var dlgBody = document.getElementById('mkDlgBody');
+  var dlgFoot = document.getElementById('mkDlgFoot');
+  var dlgDl = document.getElementById('mkDlgDl');
+  var opener = null;
+
+  function placeholderHtml(title) {
+    return '<div class="mk-noprev">' +
+      '<p class="mk-noprev-title">' + esc(title) + '</p>' +
+      '<p class="mk-noprev-note">No preview available</p></div>';
+  }
+
+  /* ---------- FIX 1: flyout media ----------
+     Four branches, and only ONE media element is in the DOM at a time:
+       video + image -> two quiet tabs, Video selected by default
+       video only    -> the <video>; never the typographic placeholder
+       image only    -> the <img>, exactly as v3 rendered it
+       neither       -> the typographic placeholder
+     A page-anchor demoVideo (github.com/...#section) is a page, not a media
+     file, so it never reaches the <video> branch - it is linked out of the
+     footer instead. */
+  function imageCap(t) {
+    var kind = mediaKind(t.preview);
+    return kind === 'animated' ? 'Animated preview' : kind === 'still' ? 'Screenshot' : 'Preview';
+  }
+  function imageAlt(t) {
+    return (mediaKind(previewOf(t)) === 'animated' ? 'Animated preview of ' : 'Screenshot of ') +
+      decodeEnt(titleOf(t));
+  }
+  function imageSlot(t) {
+    var u = escUrl(previewOf(t));
+    return u
+      ? '<img class="mk-shot" id="mkShot" src="' + u + '" alt="' + esc(imageAlt(t)) + '" loading="lazy">'
+      : placeholderHtml(titleOf(t));
+  }
+  /* preload="metadata" only: these files are 1-5 MB and live on
+     raw.githubusercontent / github.io. Opening a flyout must not pull them.
+     No autoplay, no loop, no muted-autoplay trick. */
+  function videoSlot(t) {
+    var u = escUrl(t.demoVideo);
+    return '<video class="mk-video" id="mkVid" src="' + u + '" controls preload="metadata" playsinline>' +
+      '<span class="mk-vfallback">This browser cannot play the demo video. ' +
+      '<a href="' + u + '" target="_blank" rel="noopener noreferrer">Open the file directly</a>.</span>' +
+      '</video>';
+  }
+  function mediaSlot(t, mode) { return mode === 'video' ? videoSlot(t) : imageSlot(t); }
+  function mediaCap(t, mode) { return mode === 'video' ? 'Demo video' : imageCap(t); }
+  function mediaFigure(t) {
+    /* v10: the pane carries whatever media exists. Both a video and a GIF ->
+       both, video first behind tabs. Only one -> that one, no tabs. */
+    var hasVid = isEmbeddableVideo(t.demoVideo);
+    var hasImg = !!safeUrl(previewOf(t));
+    var mode = hasVid ? 'video' : 'image';
+    var tabs = (hasVid && hasImg)
+      ? '<span class="mk-seg" id="mkMediaTabs" role="group" aria-label="Choose media">' +
+          '<button type="button" data-media="video" aria-pressed="true">Video</button>' +
+          '<button type="button" data-media="image" aria-pressed="false">Preview</button>' +
+        '</span>'
+      : '';
+    return '<figure class="mk-fig">' +
+        '<figcaption class="mk-mediahead">' +
+          '<span class="mk-figcap" id="mkFigCap">' + esc(mediaCap(t, mode)) + '</span>' + tabs +
+        '</figcaption>' +
+        '<div id="mkMediaSlot">' + mediaSlot(t, mode) + '</div>' +
+      '</figure>';
+  }
+
+  function dlRow(label, valueHtml) {
+    if (!valueHtml) return '';
+    return '<dt>' + esc(label) + '</dt><dd>' + valueHtml + '</dd>';
+  }
+
+  function linkList(items) {
+    if (!items || !items.length) return '';
+    return items.map(function (it) {
+      var u = escUrl(it.url);
+      return u
+        ? '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + esc(it.label) + '</a>'
+        : esc(it.label);
+    }).join('<span class="mk-sep">|</span>');
+  }
+
+  function render(t) {
+    var accent = safeColor(t.accent);
+    if (accent) dlg.style.setProperty('--c', accent);
+    else dlg.style.removeProperty('--c');
+
+    var ids = catIds(t);
+    dlgChip.textContent = ids.map(catLabel).join(' / ') +
+      (t.tier === 'core' ? '  |  Core' : '');
+    dlgTitle.textContent = decodeEnt(titleOf(t));
+    dlgQ.textContent = decodeEnt(t.question);
+
+    var req = t.requirements || {};
+    var meta = t.meta || {};
+
+    var related = (t.related || []).slice(0, 3).map(function (r) {
+      var shared = (r.shared || []).map(measureLabel).join(', ');
+      var rt = titleOf(toolById[r.id]) || r.title;
+      return '<li><button type="button" data-rel="' + esc(r.id) + '">' + esc(rt) + '</button>' +
+        (shared ? '<span class="mk-why">Shares focus area: ' + esc(shared) + '</span>' : '') +
+        '</li>';
+    }).join('');
+
+    dlgBody.innerHTML = '' +
+      mediaFigure(t) +
+      '<section class="mk-sub"><h3>Overview</h3><p>' + esc(t.blurb) + '</p></section>' +
+      '<section class="mk-sub"><h3>At a glance</h3><dl class="mk-dl">' +
+        dlRow('Data source', esc(t.source)) +
+        dlRow('Built for', esc(meta.audience)) +
+        dlRow('Licensing', esc(meta.license)) +
+        dlRow('Time to first result', esc(meta.time)) +
+        dlRow('Focus areas', esc(tagText(t))) +
+      '</dl></section>' +
+      '<section class="mk-sub"><h3>What you need</h3><dl class="mk-dl">' +
+        dlRow('Roles required', linkList(req.roles)) +
+        dlRow('Software', linkList(req.software)) +
+      '</dl></section>' +
+      (related
+        ? '<section class="mk-sub"><h3>Related reports</h3><ul class="mk-rel">' + related + '</ul></section>'
+        : '');
+
+    var slotEl = document.getElementById('mkMediaSlot');
+    var tabsEl = document.getElementById('mkMediaTabs');
+    var capEl = document.getElementById('mkFigCap');
+
+    /* Same honesty rule v3 applied to images: media that will not load is
+       replaced by whatever IS actually available, never left as a blank box. */
+    function wireSlot() {
+      var img = document.getElementById('mkShot');
+      if (img) {
+        img.addEventListener('error', function () {
+          if (capEl) capEl.textContent = 'Preview';
+          slotEl.innerHTML = placeholderHtml(titleOf(t));
+        });
+      }
+      var vidEl = document.getElementById('mkVid');
+      if (vidEl) {
+        vidEl.addEventListener('error', function () {
+          if (tabsEl) {
+            var vb = tabsEl.querySelector('button[data-media="video"]');
+            if (vb) {
+              vb.disabled = true;
+              vb.setAttribute('aria-pressed', 'false');
+              vb.title = 'The demo video failed to load';
+            }
+            var ib = tabsEl.querySelector('button[data-media="image"]');
+            if (ib) ib.setAttribute('aria-pressed', 'true');
+          }
+          if (capEl) capEl.textContent = imageCap(t);
+          slotEl.innerHTML = imageSlot(t);
+          wireSlot();
+        });
+      }
+    }
+    wireSlot();
+
+    if (tabsEl) {
+      tabsEl.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-media]');
+        if (!b || b.disabled) return;
+        var mode = b.getAttribute('data-media');
+        Array.prototype.forEach.call(tabsEl.querySelectorAll('button[data-media]'), function (x) {
+          x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+        });
+        if (capEl) capEl.textContent = mediaCap(t, mode);
+        slotEl.innerHTML = mediaSlot(t, mode);
+        wireSlot();
+      });
+    }
+
+    /* The card's "View" is a static affordance, so the real outbound links
+       live here and only here. This is the whole point of decision (a).
+
+       v8 splits them across the two corners the developer asked for. The
+       download is the primary action, so it goes top right beside the
+       close button; everything else stays in the footer. Both destinations
+       are the same escUrl() values v7 used - nothing was re-pointed - and
+       an absent download simply leaves the header slot empty rather than
+       rendering a dead button. */
+    var dl = escUrl(t.download);
+    var repo = escUrl(t.repo);
+    /* v9: the corners are swapped. GitHub takes the top-right slot, the
+       download drops to the footer. Same destinations, same components. */
+    dlgDl.innerHTML = repo
+      ? '<a class="mk-ghbtn" href="' + repo + '" target="_blank" rel="noopener noreferrer">View on GitHub</a>'
+      : '';
+
+    var actions = [];
+    if (dl) actions.push('<a class="mk-btn mk-dlg-dl" href="' + dl + '" target="_blank" rel="noopener noreferrer">Download template</a>');
+    /* A direct media file that is not on github.com has no blob view to link
+       to, and linking the file itself downloads it. Those videos already play
+       in the pane above, so no footer link is offered for them. */
+    var vidRaw = safeUrl(t.demoVideo);
+    var vidBare = /^https:\/\/github\.com\//i.test(vidRaw || '')
+      ? false
+      : isEmbeddableVideo(t.demoVideo);
+    var vidUrl = vidBare ? '' : escUrl(watchUrl(t.demoVideo));
+    if (vidUrl) {
+      /* The video already plays in the pane; this link is for opening it on
+         its own page. */
+      var vidLabel = t.demoVideoLabel ||
+        (isEmbeddableVideo(t.demoVideo) ? 'Open the demo video' : 'Watch the demo');
+      actions.push('<a class="mk-link" href="' + vidUrl + '" target="_blank" rel="noopener noreferrer">' +
+        esc(vidLabel) + '</a>');
+    }
+    var guide = escUrl(t.guide);
+    if (guide) actions.push('<a class="mk-link" href="' + guide + '" target="_blank" rel="noopener noreferrer">Setup guide</a>');
+    if (t.emailFile) {
+      actions.push('<span class="mk-footnote">Includes an admin request template: ' + esc(t.emailFile) + '</span>');
+    }
+    dlgFoot.innerHTML = actions.join('');
+
+    dlgBody.scrollTop = 0;
+  }
+
+  function focusables() {
+    return Array.prototype.slice.call(dlg.querySelectorAll(
+      'a[href], button:not([disabled]), video[controls], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )).filter(function (el) { return el.offsetParent !== null || el === document.activeElement; });
+  }
+
+  function openReport(id, keepOpener) {
+    var t = toolById[id];
+    if (!t) return;
+    if (!keepOpener) opener = document.activeElement;
+    render(t);
+    if (!dlg.open) {
+      dlg.showModal();
+      document.body.classList.add('mk-locked');
+    }
+    /* render() also zeroes this, but a <dialog> that has not been shown yet is
+       display:none, so assigning scrollTop there is a no-op and the body keeps
+       the scroll offset from the previously-opened report. Repeat it once the
+       dialog is actually laid out, or the media at the top is scrolled past. */
+    dlgBody.scrollTop = 0;
+    dlgTitle.setAttribute('tabindex', '-1');
+    dlgTitle.focus();
+  }
+
+  function closeReport() {
+    if (dlg.open) dlg.close();
+  }
+
+  secWrap.addEventListener('click', function (e) {
+    var card = e.target.closest('.rf-card');
+    if (card) openReport(card.getAttribute('data-id'), false);
+  });
+
+  dlgBody.addEventListener('click', function (e) {
+    var rel = e.target.closest('[data-rel]');
+    if (rel) openReport(rel.getAttribute('data-rel'), true);
+  });
+
+  document.getElementById('mkDlgClose').addEventListener('click', closeReport);
+
+  dlg.addEventListener('click', function (e) {
+    if (e.target === dlg) closeReport();
+  });
+
+  dlg.addEventListener('cancel', function (e) {
+    e.preventDefault();
+    closeReport();
+  });
+
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var f = focusables();
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === dlgTitle)) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  dlg.addEventListener('close', function () {
+    document.body.classList.remove('mk-locked');
+    if (opener && document.contains(opener)) opener.focus();
+    opener = null;
+  });
+
+  /* ---------- mockup controls ---------- */
+  function segment(elId, attr) {
+    var host = document.getElementById(elId);
+    host.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      document.documentElement.setAttribute(attr, b.getAttribute('data-v'));
+      Array.prototype.forEach.call(host.querySelectorAll('button'), function (x) {
+        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      });
+    });
+  }
+  segment('mkTheme', 'data-theme');
+  segment('mkFly', 'data-flyout');
+  segment('mkDens', 'data-density');
+
+  /* ---------- the sticky category row ----------
+     Mechanically unchanged from v6: a zero-height sentinel drives an
+     IntersectionObserver that toggles .is-stuck. The sticky logic never
+     depended on the wash. What .is-stuck DOES is now much smaller - the
+     strip is opaque --mk-bg-alt at rest as well as stuck, so it no longer
+     needs a backdrop blur or a faded veil to stop content showing through.
+     Only the shadow is added. There is still no scroll listener and
+     nothing animates. */
+  (function stickyFilter() {
+    var cat = document.querySelector('.mk-fp-cat');
+    var sentinel = document.querySelector('.mk-fp-sentinel');
+    if (!cat || !sentinel || typeof IntersectionObserver !== 'function') return;
+    var barh = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--mk-barh')
+    ) || 46;
+    var io = new IntersectionObserver(function (entries) {
+      cat.classList.toggle('is-stuck', !entries[0].isIntersecting);
+    }, { rootMargin: '-' + (barh + 1) + 'px 0px 0px 0px', threshold: 0 });
+    io.observe(sentinel);
+  }());
+
+  /* ---------- findings: accent palette, derived ---------- */
+  (function palette() {
+    var seen = [];
+    TOOLS.forEach(function (t) {
+      var c = safeColor(t.accent);
+      if (c && seen.indexOf(c) === -1) seen.push(c);
+    });
+    document.getElementById('mkSwatches').innerHTML = seen.map(function (c) {
+      var n = TOOLS.filter(function (t) { return safeColor(t.accent) === c; }).length;
+      return '<span class="mk-sw" style="--c:' + esc(c) + '">' + esc(c) + ' &middot; ' + n + '</span>';
+    }).join('');
+    document.getElementById('mkAccentProse').textContent =
+      seen.length + ' distinct accent values across ' + TOOLS.length +
+      ' reports, read from the dataset at load time and applied as an inline --c on each card:';
+  }());
+
+  /* ---------- findings: derive coverage from the embedded data ---------- */
+  (function coverage() {
+    var per = {};
+    CATEGORIES.forEach(function (c) { per[c.id] = { r: 0, a: 0, s: 0, n: 0 }; });
+    var tot = { r: 0, a: 0, s: 0, n: 0 };
+    TOOLS.forEach(function (t) {
+      var bucket = per[t.category];
+      if (!bucket) return;
+      var kind = mediaKind(t.preview);
+      bucket.r++; tot.r++;
+      if (kind === 'animated') { bucket.a++; tot.a++; }
+      else if (kind === 'still') { bucket.s++; tot.s++; }
+      else { bucket.n++; tot.n++; }
+    });
+
+    var body = document.getElementById('mkCovBody');
+    var ok = true;
+    CATEGORIES.forEach(function (c) {
+      var row = body.querySelector('tr[data-cat="' + c.id + '"]');
+      if (!row) { ok = false; return; }
+      var cells = row.querySelectorAll('td');
+      var want = [per[c.id].r, per[c.id].a, per[c.id].s, per[c.id].n];
+      for (var i = 0; i < cells.length; i++) {
+        if (cells[i].textContent.trim() !== String(want[i])) ok = false;
+        cells[i].textContent = String(want[i]);
+      }
+    });
+    var tcells = document.getElementById('mkCovTotals').querySelectorAll('td');
+    var twant = [tot.r, tot.a, tot.s, tot.n];
+    for (var j = 0; j < tcells.length; j++) {
+      if (tcells[j].textContent.trim() !== String(twant[j])) ok = false;
+      tcells[j].textContent = String(twant[j]);
+    }
+
+    document.getElementById('mkCovProse').textContent =
+      'Of ' + tot.r + ' reports, ' + tot.a + ' have an animated GIF preview, ' + tot.s +
+      ' have a static image, and ' + tot.n + ' have no preview at all. Counts are derived at load ' +
+      'time from the embedded dataset by preview file extension, not hand-written.';
+
+    document.getElementById('mkCovCheck').textContent =
+      'runtime derivation ' + tot.r + '/' + tot.a + '/' + tot.s + '/' + tot.n +
+      ' vs static table: ' + (ok ? 'MATCH' : 'MISMATCH');
+  }());
+
+  /* ---------- findings: video coverage, derived ---------- */
+  (function videoCoverage() {
+    var withVid = TOOLS.filter(function (t) { return !!safeUrl(t.demoVideo); });
+    var embed = withVid.filter(function (t) { return isEmbeddableVideo(t.demoVideo); });
+    var anchor = withVid.filter(function (t) { return !isEmbeddableVideo(t.demoVideo); });
+    var noImg = withVid.filter(function (t) { return !safeUrl(t.preview); });
+
+    var bothTabs = embed.filter(function (t) { return !!safeUrl(t.preview); });
+    var videoOnly = embed.filter(function (t) { return !safeUrl(t.preview); });
+    var imageOnly = TOOLS.filter(function (t) {
+      return !isEmbeddableVideo(t.demoVideo) && !!safeUrl(t.preview);
+    });
+    var placeholder = TOOLS.filter(function (t) {
+      return !isEmbeddableVideo(t.demoVideo) && !safeUrl(t.preview);
+    });
+
+    function names(list) {
+      return list.map(function (t) { return '<code>' + esc(t.id) + '</code>'; }).join(', ') || 'none';
+    }
+
+    document.getElementById('mkVidProse').textContent =
+      withVid.length + ' of ' + TOOLS.length + ' reports carry a demo video. ' + embed.length +
+      ' of those point at a real media file and are embedded here. ' + anchor.length +
+      ' point at a README anchor on github.com, which is a page and not a video, so they are surfaced ' +
+      'as a labelled link in the flyout footer instead of being forced into a player. ' + noImg.length +
+      ' of the reports that have a video have no preview image at all - under v3 every one of those ' +
+      'opened to the "no preview available" placeholder despite the video existing.';
+
+    document.getElementById('mkVidList').innerHTML =
+      '<li><strong>Video and preview, two tabs, video first</strong> (' + bothTabs.length + '): ' + names(bothTabs) + '</li>' +
+      '<li><strong>Video only, embedded, no placeholder</strong> (' + videoOnly.length + '): ' + names(videoOnly) + '</li>' +
+      '<li><strong>Image only</strong> (' + imageOnly.length + '): ' + names(imageOnly) + '</li>' +
+      '<li><strong>Typographic placeholder</strong> (' + placeholder.length + '): ' + names(placeholder) + '</li>' +
+      '<li><strong>Page-anchor video, linked out rather than embedded</strong> (' + anchor.length + '): ' + names(anchor) + '</li>';
+
+    document.getElementById('mkVidCheck').textContent =
+      'runtime derivation: with video ' + withVid.length + ', embeddable ' + embed.length +
+      ', page-anchor ' + anchor.length + ', video-without-image ' + noImg.length +
+      ' | flyout branches ' + bothTabs.length + '/' + videoOnly.length + '/' + imageOnly.length + '/' +
+      placeholder.length + ' = ' +
+      (bothTabs.length + videoOnly.length + imageOnly.length + placeholder.length) +
+      ' of ' + TOOLS.length;
+  }());
+}());
+</script>
+</body>
+</html>
