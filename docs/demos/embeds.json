@@ -502,7 +502,7 @@
     {
       "id": "roi-calculator",
       "name": "ROI Calculator",
-      "blurb": "Pairs with the Super Usage Adoption Power BI report — export the heatmap visual as CSV, drop it into the calculator, and model payback period, productivity lift, and license-cost recovery live. The calculator UI is public; the heatmap data comes from your Power BI tenant.",
+      "blurb": "Runs on the same Viva Insights person query CSV as Super Usage Adoption and Super User Impact — reuse that export, drop it into the calculator, and model payback period, productivity lift, and license-cost recovery live. No heatmap export needed. The calculator UI is public; the data stays in your browser.",
       "repo": "https://jordankingisalive.github.io/CopilotROICalculator/",
       "sourceKey": "Viva Insights",
       "embedUrl": "https://jordankingisalive.github.io/CopilotROICalculator/demo.html",

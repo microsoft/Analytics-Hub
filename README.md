@@ -60,7 +60,7 @@ The ecosystem combines tenant data sources (Purview, Viva Insights, GitHub Enter
 | Which users should get Copilot licenses next? | [M365 Copilot Readiness](#-m365-copilot-readiness-report) | Purview + Entra |
 | How do employees feel about Copilot, and does that match actual usage? | [Adoption & Sentiment Report](#-adoption--sentiment-report) | M365 Admin Center + Survey |
 | How do I automate pulling audit logs without manual exports? | [PAX: Portable Audit eXporter](#-pax-portable-audit-exporter) | Microsoft Graph API |
-| I want to model Copilot ROI scenarios from a CSV — no Power BI, no install | [M365 Copilot Productivity ROI Calculator](#-m365-copilot-productivity-roi-calculator) | CSV export (browser-only) |
+| I want to model Copilot ROI scenarios from a CSV — no Power BI, no install | [M365 Copilot Productivity ROI Calculator](#-m365-copilot-productivity-roi-calculator) | Viva Insights person query CSV (browser-only) |
 | I want to add custom pages or extend my Viva Insights reports | [CustomizeCopilot](#-customizecopilot-add-on-library) | Viva Insights |
 
 ---
@@ -428,23 +428,23 @@ Combines Microsoft 365 Copilot usage data from the Admin Center with employee su
 
 [![Live Site](https://img.shields.io/badge/🌐%20Live%20Site-Open-2563eb?style=flat-square)](https://jordankingisalive.github.io/CopilotROICalculator/)
 [![Type](https://img.shields.io/badge/Type-Browser%20Web%20App-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://jordankingisalive.github.io/CopilotROICalculator/)
-[![Data Source](https://img.shields.io/badge/Data-CSV%20Export-00B294?style=flat-square)](https://github.com/microsoft/DecodingSuperUsage)
+[![Data Source](https://img.shields.io/badge/Data-Viva%20Insights%20Person%20Query-00B294?style=flat-square)](https://github.com/microsoft/DecodingSuperUsage)
 [![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip)
 
-**Drop in your Copilot usage CSV. See team-level ROI in seconds — all in your browser.**
+**Drop in your Viva Insights person query CSV. See organization-level ROI in seconds — all in your browser.**
 
-A three-tool suite that translates Copilot usage data into a defensible ROI conversation — without Power BI Desktop, without a tenant, without uploading data anywhere. Pairs naturally with [Super Usage Adoption](#-super-usage-adoption): export the heatmap as CSV, drop it in, and get per-team breakdowns, scenario modeling, and a phased adoption roadmap.
+A three-tool suite that translates Copilot usage data into a defensible ROI conversation — without Power BI Desktop, without a tenant, without uploading data anywhere. It reads the **same Viva Insights person query export** as [Super Usage Adoption](#-super-usage-adoption) and [Super User Impact](#-super-user-impact), so if you already run either report you can reuse the file you have. **You no longer export a Power BI heatmap visual** — that path is retired.
 
 <details>
 <summary><strong>Three tools, one site</strong></summary>
 
 <br>
 
-- **📊 Full Data Analysis:** Upload a CSV exported from your Copilot Power BI heatmap. Per-team performance, peak tracking, and organization-wide ROI
+- **📊 Full Data Analysis:** Upload a Viva Insights person query CSV. Real Usage Threshold cohorts (Power, Habitual, Novice, Low, Non-user), per-organization breakdowns, and organization-wide ROI
 - **🧮 ROI Calculator:** Scenario-model projected value with industry-specific hourly rates and adjustable minutes-saved-per-action assumptions
 - **🗜 Adoption Journey:** Month-by-month productivity projections with phase-based rollout roadmaps
 
-Handles both **long-format** (with dates, auto-aggregated to the latest record per team) and **wide-format** (pre-aggregated) CSVs. Sortable tables, PDF export, optional email-draft handoff.
+Requires `PersonId`, `MetricDate` and `Total Copilot actions taken`; Organization, FunctionType, Region, assisted hours and per-app columns are used when present. Any other CSV is rejected with on-screen guidance. Sortable tables, PDF/DOCX/PPTX export, optional email-draft handoff.
 
 </details>
 
@@ -697,7 +697,7 @@ I've cloned the following Microsoft Analytics Hub repositories locally:
 - M365UsageAnalytics: Copilot license readiness and M365 usage scoring (Purview + Power BI)
 - copilot-adoption-sentiment-report: M365 Copilot adoption combined with employee survey sentiment (M365 Admin Center + survey CSV + Power BI)
 - PAX: PowerShell scripts for automating Purview and Graph API audit log exports
-- CopilotROICalculator: Browser-only ROI calculator and scenario modeler (CSV in; runs at https://jordankingisalive.github.io/CopilotROICalculator/)
+- CopilotROICalculator: Browser-only ROI calculator and scenario modeler (Viva Insights person query CSV in — same export as Super Usage Adoption and Super User Impact; runs at https://jordankingisalive.github.io/CopilotROICalculator/)
 
 Please read all README files, PDF interpretation guides, PowerShell scripts, and
 any other documentation across these repositories. Then:

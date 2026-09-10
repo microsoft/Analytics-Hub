@@ -63,9 +63,9 @@ const NODES = [
     repo: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report" },
 
   // ---- column 3 : ADD-ONS (spawn off reports) ----
-  { id: "roi-calc",         kind: "addon",  label: "ROI Calculator",           sub: "Spawns from Super Usage Heatmap", icon: "🧮", color: "#e3008c", col: 3, row: 3,
+  { id: "roi-calc",         kind: "addon",  label: "ROI Calculator",           sub: "Shares the Super Usage export", icon: "🧮", color: "#e3008c", col: 3, row: 3,
     topics: ["roi","impact"],
-    detail: "Add-on that turns the Super Usage Heatmap CSV into a dollarised ROI summary for execs." },
+    detail: "Add-on that turns the Viva Insights person query CSV — the same export Super Usage Adoption and Super User Impact use — into a dollarised ROI summary for execs." },
   { id: "customize",        kind: "addon",  label: "CustomizeCopilot",         sub: "Champion-ID add-on",              icon: "🎨", color: "#e3008c", col: 3, row: 4,
     topics: ["customization"],
     detail: "Pages and visuals you can graft onto Super User Impact to identify and recognise champions.",

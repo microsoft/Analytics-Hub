@@ -64,7 +64,7 @@ Happy to walk through this together. Thanks!`
       "Send your Viva Insights Analyst the email below — they'll need to run a person-query in Viva Insights and share the export with you.",
       "Open the <code>.pbit</code> in Power BI Desktop and point it at the Viva Insights CSV.",
       "Refresh the model (~30 min once the query is staged) and explore the Super User heatmap.",
-      "Pair this with the ROI Calculator (export the heatmap visual as CSV) if you need a $ value to tell the story."
+      "Pair this with the ROI Calculator if you need a $ value to tell the story — it takes the same Viva Insights person query CSV, so no extra export is needed."
     ],
     repo: 'https://github.com/microsoft/DecodingSuperUsage',
     download: 'https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip',
@@ -303,13 +303,13 @@ Can you create the app registration (or walk me through doing it myself) and gra
   'roi-calc': {
     title: 'M365 Copilot Productivity ROI Calculator',
     icon: '🧮',
-    blurb: "Browser-only ROI modeler that pairs with the Super Usage Heatmap.",
-    outcome: "A defensible ROI story: dollarize the time savings your Copilot deployment is producing, sweep assumptions live, and walk into a finance review with numbers you can stand behind. No install required for the calculator itself — but you'll get the strongest answer by pairing it with the Super Usage Power BI report.",
-    roles: ['None for the calculator itself.', 'Power BI Pro + Viva Insights Analyst (only if you want to feed in real Super Usage heatmap data)'],
+    blurb: "Browser-only ROI modeler that runs on the Viva Insights person query CSV.",
+    outcome: "A defensible ROI story: dollarize the time savings your Copilot deployment is producing, sweep assumptions live, and walk into a finance review with numbers you can stand behind. It reads the same Viva Insights person query export as Super Usage Adoption and Super User Impact, so if you already run either report you can reuse the file you have.",
+    roles: ['None for the calculator itself.', 'Viva Insights Analyst (to run and download the person query export)'],
     steps: [
       "Open the calculator in your browser (link below) — no install, runs entirely client-side.",
       "Enter your basic inputs: licensed user count, fully-loaded hourly rate, time saved assumptions.",
-      "(Recommended) Export the Super Usage heatmap visual from the Super Usage Power BI report as CSV and drop it in for tenant-grounded numbers.",
+      "Download a Viva Insights person query CSV (Group by: Week, last 6 months rolling) — the same export Super Usage Adoption and Super User Impact use — and drop it in. You no longer export a Power BI heatmap visual; that path is retired.",
       "Sweep assumptions until you have a band you can defend.",
       "Screenshot or copy the summary into your exec deck."
     ],

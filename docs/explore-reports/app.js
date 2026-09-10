@@ -289,12 +289,12 @@ const TOOLS = [
     category: "impact-roi",
     tier: "core",
     measures: ["roi","impact"],
-    source: "Power BI export (Super Usage Heatmap CSV)",
+    source: "Viva Insights (person query CSV)",
     sourceKey: "Viva Insights",
     repo: "https://jordankingisalive.github.io/CopilotROICalculator/",
     download: "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
-    blurb: "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
-    meta: { audience: "BVAs, finance partners, exec sponsors", license: "Calc is browser-only; upstream needs Super Usage in Power BI + Viva Insights", time: "~10 min once heatmap CSV is exported from Power BI" },
+    blurb: "Browser-only ROI modeler that runs on the same Viva Insights person query CSV as Super Usage Adoption and Super User Impact. If you already run either report, reuse that export — drop it in, sweep assumptions, and generate a defensible value story with real Power/Habitual/Novice/Low/Non-user cohorts. No heatmap export needed, and no install for the calculator itself.",
+    meta: { audience: "BVAs, finance partners, exec sponsors", license: "Calc is browser-only; the export needs Viva Insights Analyst", time: "~10 min once the person query CSV is downloaded" },
     requirements: {
       roles: [
         { label: "None for the calc itself" },
@@ -302,7 +302,7 @@ const TOOLS = [
       ],
       software: [
         { label: "Modern browser (Edge / Chrome / Firefox)" },
-        { label: "Super Usage heatmap CSV export" }
+        { label: "Viva Insights person query CSV export (same file as Super Usage Adoption)" }
       ]
     },
   },
