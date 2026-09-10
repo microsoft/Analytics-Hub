@@ -70,8 +70,8 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
+          <a href="../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
 
-          <a href="../work-request/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#129518;</span><span class="menu-text">AI Work Request<span class="menu-sub">Plan &middot; cost &middot; approve a Cowork run</span></span></a>
           <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
           <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
           <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
@@ -202,6 +202,13 @@
           <strong data-window-label>14d</strong> window selected above; the
           <em>since launch</em> totals always reach back to 2026-05-08.
         </p>
+        <div class="window-switcher window-switcher--repeat" role="tablist" aria-label="Time window — Portfolio roll-up">
+          <span class="window-repeat-label">Range</span>
+          <button type="button" class="window-btn" data-window="3d">3d</button>
+          <button type="button" class="window-btn" data-window="7d">7d</button>
+          <button type="button" class="window-btn active" data-window="14d">14d</button>
+          <button type="button" class="window-btn" data-window="30d">30d</button>
+        </div>
         <div class="portfolio-kpis">
           <div class="kpi-mega"><span class="kpi-label">Views · <span data-window-label>14d</span></span><span class="kpi-value" data-port-kpi="winViews">—</span></div>
           <div class="kpi-mega"><span class="kpi-label">Clones · <span data-window-label>14d</span></span><span class="kpi-value" data-port-kpi="winClones">—</span></div>
@@ -490,6 +497,13 @@
           Excludes <code>microsoft/What-I-did-with-Cowork</code> by design.
         </p>
 
+        <div class="window-switcher window-switcher--repeat" role="tablist" aria-label="Time window — Cowork Billing">
+          <span class="window-repeat-label">Range</span>
+          <button type="button" class="window-btn" data-window="3d">3d</button>
+          <button type="button" class="window-btn" data-window="7d">7d</button>
+          <button type="button" class="window-btn active" data-window="14d">14d</button>
+          <button type="button" class="window-btn" data-window="30d">30d</button>
+        </div>
         <div class="cowork-answer" id="cowork-answer">
           <div class="cowork-answer-head">
             <h3>Answer sheet</h3>
@@ -572,6 +586,13 @@
       <div class="wrap">
         <h2>Update feed reach</h2>
         <p class="section-sub">Who is finding the <a href="../updates/" target="_blank" rel="noopener">What's new</a> page, where they arrived from, and how many took the feed address away with them. <strong>Copied address</strong> is the closest measurable equivalent of a subscription.</p>
+        <div class="window-switcher window-switcher--repeat" role="tablist" aria-label="Time window — Update feed reach">
+          <span class="window-repeat-label">Range</span>
+          <button type="button" class="window-btn" data-window="3d">3d</button>
+          <button type="button" class="window-btn" data-window="7d">7d</button>
+          <button type="button" class="window-btn active" data-window="14d">14d</button>
+          <button type="button" class="window-btn" data-window="30d">30d</button>
+        </div>
         <div class="cowork-kpi-grid">
           <div class="kpi"><span class="kpi-label">Updates page sessions (<span data-window-label>14d</span>)</span><span class="kpi-value" id="feed-kpi-sessions">—</span><span class="kpi-foot" id="feed-kpi-sessions-foot">Clarity · all entry points</span></div>
           <div class="kpi"><span class="kpi-label">Distinct visitors</span><span class="kpi-value" id="feed-kpi-users">—</span><span class="kpi-foot">Clarity · de-duplicated per snapshot</span></div>

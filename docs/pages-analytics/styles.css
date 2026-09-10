@@ -65,6 +65,28 @@
   color: #fff;
   box-shadow: var(--shadow-sm);
 }
+/* Repeat of the window switcher beside a section heading, so a long page does
+   not force a scroll back to the top control. Shares the one global window
+   state; app.js syncs .active across every [data-window] button. */
+.window-switcher--repeat {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 1rem;
+  padding: 3px;
+}
+.window-switcher--repeat .window-btn {
+  font-size: .78rem;
+  padding: .3rem .6rem;
+}
+.window-repeat-label {
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  padding: 0 .5rem 0 .35rem;
+}
 .window-custom {
   display: flex;
   flex-wrap: wrap;

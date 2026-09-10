@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="osCxYZt_4rM_dBEUcK15g-bl2Ny5g6I80gJlFZ6eKlY" />
-  <title>AI Work Request — Plan and Cost a Copilot Cowork Run · Analytics Hub</title>
+  <title>Scope AI Tasks — Plan and Cost a Copilot Cowork Run · Analytics Hub</title>
   <meta name="description" content="Free browser tool to plan a Microsoft 365 Copilot Cowork run, cost it against your own measured credit consumption, and export an approval-ready request. Annualises runs per year and per-person multipliers. Nothing is uploaded." />
   <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/work-request/" />
   <meta name="theme-color" content="#0078d4" />
@@ -15,19 +15,19 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Analytics Hub" />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/work-request/" />
-  <meta property="og:title" content="AI Work Request · Analytics Hub" />
+  <meta property="og:title" content="Scope AI Tasks · Analytics Hub" />
   <meta property="og:description" content="Plan a Copilot Cowork run, cost it against your own measured consumption, and export a request someone can actually approve." />
   <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AI Work Request · Analytics Hub" />
+  <meta name="twitter:title" content="Scope AI Tasks · Analytics Hub" />
   <meta name="twitter:description" content="Plan a Copilot Cowork run, cost it against your own measured consumption, and export a request someone can actually approve." />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "AI Work Request",
+    "name": "Scope AI Tasks",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Any modern browser",
     "url": "https://microsoft.github.io/Analytics-Hub/work-request/",
@@ -53,7 +53,7 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "wxb0r23ozh");
   </script>
-  <meta name="clarity-page" content="AI Work Request" />
+  <meta name="clarity-page" content="Scope AI Tasks" />
   <script src="../clarity-events.js?v=202608181034" defer></script>
   <link rel="stylesheet" href="../palette.css?v=936728fb" />
   <script src="../palette.js" defer></script>
@@ -158,8 +158,8 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
+          <a href="../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
 
-          <a href="../work-request/" aria-current="page" role="menuitem"><span class="menu-icon" aria-hidden="true">&#129518;</span><span class="menu-text">AI Work Request<span class="menu-sub">Plan &middot; cost &middot; approve a Cowork run</span></span></a>
           <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
           <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
           <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
@@ -179,7 +179,7 @@
 <main>
   <section class="wr-wrap wr-hero">
     <p class="eyebrow"><a href="../cowork-billing/">&larr; Consumption &amp; Cost</a> &middot; free tool, nothing leaves your browser</p>
-    <h1>AI Work Request</h1>
+    <h1>Scope AI Tasks</h1>
     <p class="wr-lede">
       Plan a Cowork run, cost it against your own measured consumption, and export a named
       request someone can actually approve. Built for the conversation that happens before
@@ -571,7 +571,7 @@
     var L = [];
     var money = function (v) { return v == null ? null : v.toLocaleString(undefined, { maximumFractionDigits: 0 }); };
 
-    L.push('# AI Work Request: ' + (state.title || 'Untitled'));
+    L.push('# Scope AI Tasks: ' + (state.title || 'Untitled'));
     L.push('');
     L.push('**' + requestId() + '**  ·  ' + new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }));
     if (state.who) L.push('Requested by: ' + state.who);
