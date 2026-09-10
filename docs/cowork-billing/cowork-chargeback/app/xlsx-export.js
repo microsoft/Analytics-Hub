@@ -5,7 +5,7 @@
 (function () {
     'use strict';
 
-    // Style-name -> cellXfs index (see STYLES_XML below).
+    // Style-name -> cellXfs index (see stylesXml below).
     var STYLE = { def: 0, bold: 1, cur: 2, pct: 3, int: 4, dec1: 5, boldCur: 6, boldInt: 7, hdr: 8, title: 9, rate: 10 };
 
     // Currency symbol used by the money number formats. XML numeric character

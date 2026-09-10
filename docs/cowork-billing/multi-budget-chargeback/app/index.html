@@ -14,7 +14,7 @@
     </script>
     <meta name="clarity-page" content="Multi-Budget Chargeback Report" />
     <script src="../../../clarity-events.js?v=202608181034" defer></script>
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
     <style>
         .cb-layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 1.5rem; align-items: start; }
         .cb-rail { position: sticky; top: 1rem; display: flex; flex-direction: column; gap: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; overflow-x: hidden; padding-right: 4px; scrollbar-gutter: stable; }
@@ -290,18 +290,18 @@
                 </div>
                 <div class="config-grid">
                     <div class="config-item">
-                        <label for="rateInput">Contracted rate ($/credit)</label>
-                        <input type="number" id="rateInput" min="0" step="0.001" value="0.01">
-                        <small>Credits are priced to dollars at this rate. Adjust live in the report too.</small>
-                    </div>
-                    <div class="config-item">
                         <label for="fallbackLimit">Fallback credit limit</label>
                         <input type="number" id="fallbackLimit" min="0" step="1" value="400">
                         <small>Used only for the secondary overage lens when the credit file has no per-user limit.</small>
                     </div>
+                    <div class="config-item">
+                        <span class="config-note-label">Contracted rate</span>
+                        <p class="config-note">Pick the currency you are invoiced in below. You set the contracted rate and prepaid rate inside the report &mdash; rates are kept separately for each currency, so a euro figure is never priced at a dollar rate.</p>
+                    </div>
                 </div>
                 <div class="landing-actions">
-                    <button class="btn-primary" id="btnGenerate" disabled>Generate chargeback</button>
+                    <button class="btn-primary" id="btnGenerateUSD" disabled>Generate chargeback &mdash; USD ($)</button>
+                    <button class="btn-primary" id="btnGenerateEUR" disabled>Generate chargeback &mdash; EUR (&euro;)</button>
                     <button class="btn-secondary btn-gradient" id="btnDemo">View Demo</button>
                 </div>
                 <p id="cbLandingError" class="landing-error" hidden></p>
@@ -429,17 +429,17 @@
                     <small>How mid-month policy moves are metered. From Sept 1, 2026 usage is a cumulative per-user total across the period; before that, the per-user ledger reset to 0 on each policy move. Controls how over-cap users are interpreted for settlement.</small>
                 </div>
                 <div class="cb-field">
-                    <label for="rateReport">Contracted rate ($/credit)</label>
+                    <label for="rateReport">Contracted rate (<span class="cb-cur">$</span>/credit)</label>
                     <input type="number" id="rateReport" min="0" step="0.001" value="0.01">
                     <small>Credits to dollars.</small>
                 </div>
                 <div class="cb-field">
-                    <label for="invoiceInput">Microsoft invoice total ($)</label>
+                    <label for="invoiceInput">Microsoft invoice total (<span class="cb-cur">$</span>)</label>
                     <input type="number" id="invoiceInput" min="0" step="0.01" placeholder="optional">
                     <small>Enter to reconcile chargeback vs invoice.</small>
                 </div>
                 <div class="cb-field">
-                    <label for="prepaidRateInput">Prepaid rate ($/credit)</label>
+                    <label for="prepaidRateInput">Prepaid rate (<span class="cb-cur">$</span>/credit)</label>
                     <input type="number" id="prepaidRateInput" min="0" step="0.001" value="0.008">
                     <small>Rate for prepaid credit packs.</small>
                 </div>
@@ -495,7 +495,7 @@
                         </div>
                         <div class="cb-export">
                             <button class="btn-secondary" id="btnExportXlsx">&#8615; Workbook (XLSX)</button>
-                            <small><strong>Review and share.</strong> Start on the Settlement tab, check the residual is zero, override any line in Adjustment&nbsp;$ and Final&nbsp;$ recomputes. Tabs: Read me, Summary, Settlement, Allocation, Users, Model comparison.</small>
+                            <small><strong>Review and share.</strong> Start on the Settlement tab, check the residual is zero, override any line in the Adjustment column and the Final column recomputes. Tabs: Read me, Summary, Settlement, Allocation, Users, Model comparison.</small>
                         </div>
                         <div class="cb-export">
                             <button class="btn-secondary" id="btnExportJournal">&#8615; Journal (CSV)</button>
@@ -503,7 +503,7 @@
                         </div>
                         <div class="cb-export">
                             <button class="btn-secondary" id="btnExportLines">&#8615; Line items (CSV)</button>
-                            <small><strong>Audit trail.</strong> Every user with Department / Cost Center / Business Unit and all three model $. Always includes everyone regardless of the filters above. Use it to answer a query about a single person.</small>
+                            <small><strong>Audit trail.</strong> Every user with Department / Cost Center / Business Unit and the cost under all three models. Always includes everyone regardless of the filters above. Use it to answer a query about a single person.</small>
                         </div>
                     </div>
                 </aside>

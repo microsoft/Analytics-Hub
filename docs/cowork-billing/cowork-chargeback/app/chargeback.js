@@ -17,6 +17,7 @@
         rate: 0.01,
         prepaidRate: 0.008,
         prepaidPurchased: null,
+        allocModel: 'credits',
         daysInPeriod: 30,
         headroomPct: 15,
         fallbackLimit: 400,
@@ -334,6 +335,35 @@
         var unalloc = groups['Unallocated'];
         var unallocCharge = unalloc ? (reconActive ? unalloc.reconciled : unalloc.paygo) : 0;
         var variance = (state.invoiceTotal != null) ? (reconActive ? 0 : (totalPaygo - state.invoiceTotal)) : null;
+        // Split the prepaid pool across units. Mirrors the Power BI model: coverage is
+        // always capped at what a unit actually consumed, and where budgets exceed the
+        // pool every unit is scaled by the same ratio rather than served first-come.
+        var pool = state.prepaidPurchased;
+        var allocActive = pool != null && pool > 0 && totalCredits > 0;
+        if (allocActive) {
+            var totUsers = arr.reduce(function (a, g) { return a + g.users; }, 0);
+            var totBudget = arr.reduce(function (a, g) { return a + Math.min(g.credits, g.limit); }, 0);
+            var budgetScale = totBudget > 0 ? Math.min(1, pool / totBudget) : 0;
+            arr.forEach(function (g) {
+                var covered;
+                if (state.allocModel === 'headcount') covered = Math.min(g.credits, pool * (totUsers > 0 ? g.users / totUsers : 0));
+                else if (state.allocModel === 'budget') covered = Math.min(g.credits, g.limit) * budgetScale;
+                else covered = Math.min(g.credits, pool * (g.credits / totalCredits));
+                g.allocCovered = covered;
+                g.allocGap = Math.max(0, g.credits - covered);
+                g.allocCoveredCost = covered * pr;
+                g.allocGapCost = g.allocGap * rate;
+                g.allocCost = g.allocCoveredCost + g.allocGapCost;
+            });
+        } else {
+            arr.forEach(function (g) {
+                g.allocCovered = 0; g.allocGap = g.credits;
+                g.allocCoveredCost = 0; g.allocGapCost = g.credits * rate; g.allocCost = g.allocGapCost;
+            });
+        }
+        var allocCoveredTotal = arr.reduce(function (a, g) { return a + g.allocCovered; }, 0);
+        var allocGapTotal = arr.reduce(function (a, g) { return a + g.allocGap; }, 0);
+        var allocCostTotal = arr.reduce(function (a, g) { return a + g.allocCost; }, 0);
         return {
             groups: arr,
             totalCredits: totalCredits, totalOverage: totalOverage,
@@ -360,6 +390,18 @@
                 shortfall: state.prepaidPurchased != null ? Math.max(0, totalCredits - state.prepaidPurchased) : 0,
                 unusedPoolValue: state.prepaidPurchased != null ? Math.max(0, state.prepaidPurchased - totalCredits) * pr : 0,
                 shortfallPaygo: state.prepaidPurchased != null ? Math.max(0, totalCredits - state.prepaidPurchased) * rate : 0
+            },
+            alloc: {
+                active: allocActive,
+                model: state.allocModel,
+                pool: pool,
+                covered: allocCoveredTotal,
+                gap: allocGapTotal,
+                coveredCost: allocCoveredTotal * pr,
+                gapCost: allocGapTotal * rate,
+                cost: allocCostTotal,
+                coveragePct: totalCredits > 0 ? allocCoveredTotal / totalCredits : 0,
+                unusedPool: allocActive ? Math.max(0, pool - allocCoveredTotal) : 0
             }
         };
     }
@@ -430,6 +472,46 @@
         }
         return '<section class="panel">' + panelHead('Prepay sizing vs Pay-as-you-go', 'Compares paying per credit against three prepaid credit-pack scenarios: full allowance, right-sized to actual usage, and right-sized plus a growth buffer.') + cards + pool +
             '<p class="section-caption">Prepaid rate ' + fmtMoney(state.prepaidRate) + '/credit. Full allowance buys every user pack (unused is wasted); right-sized buys only actual usage; headroom adds a ' + state.headroomPct + '% buffer for growth. Per-day usage and daily charge are in the line items below.</p></section>';
+    }
+    var ALLOC_MODELS = [
+        { key: 'credits', label: 'Prorated based on credits used', note: 'Each ' + 'unit' + ' gets a share of the pool matching its share of consumption. Heaviest consumers receive the largest slices.' },
+        { key: 'headcount', label: 'Prorated based on employee count', note: 'The pool is split by headcount regardless of consumption. Large but light teams get more; small heavy teams spill to PAYGO sooner.' },
+        { key: 'budget', label: 'Limited to budgeted allowances', note: 'Each unit is covered only up to its own budgeted allowance. Where budgets together exceed the pool, every unit is scaled down by the same ratio.' }
+    ];
+    function allocModelLabel(k) {
+        for (var i = 0; i < ALLOC_MODELS.length; i++) if (ALLOC_MODELS[i].key === k) return ALLOC_MODELS[i].label;
+        return ALLOC_MODELS[0].label;
+    }
+    function renderAllocation(m) {
+        var a = m.alloc;
+        if (!a.active) {
+            return '<section class="panel">' + panelHead('Prepaid pool allocation by ' + unitLabel(), 'Splits your purchased prepaid pool across units, then prices whatever the pool does not cover at the pay-as-you-go rate.') +
+                '<p class="section-caption">Enter <strong>Prepaid credits purchased</strong> in the report controls to split the pool across each ' + esc(unitLabel().toLowerCase()) + ' and see the pay-as-you-go gap.</p></section>';
+        }
+        var note = '';
+        for (var i = 0; i < ALLOC_MODELS.length; i++) if (ALLOC_MODELS[i].key === a.model) note = ALLOC_MODELS[i].note;
+        var cards = '<div class="metrics-grid">' +
+            metricCard('Covered by prepaid', fmtMoney(a.coveredCost), fmtInt(a.covered) + ' credits at ' + fmtMoney(state.prepaidRate), 'accent-savings', 'Credits the pool covers under the selected model, priced at the prepaid rate.') +
+            metricCard('Not covered (PAYGO)', fmtMoney(a.gapCost), fmtInt(a.gap) + ' credits at ' + fmtMoney(state.rate), a.gap > 0 ? 'accent-red' : '', 'Consumption the pool does not reach, billed at the pay-as-you-go rate.') +
+            metricCard('Total under this model', fmtMoney(a.cost), 'Prepaid covered + PAYGO gap', '', 'What the organisation pays in total once the pool is allocated and the remainder billed pay-as-you-go.') +
+            metricCard('Usage covered by pool', fmtPct(a.coveragePct), fmtInt(a.covered) + ' of ' + fmtInt(m.totalCredits) + ' credits', '', 'Share of total consumption the prepaid pool absorbs under the selected model.') +
+            '</div>';
+        var body = m.groups.slice().sort(function (x, y) { return y.credits - x.credits; }).map(function (g) {
+            return '<tr><td>' + esc(g.label) + '</td><td class="num">' + fmtInt(g.users) + '</td><td class="num">' + fmtInt(g.credits) + '</td><td class="num">' + fmtInt(g.allocCovered) + '</td><td class="num">' + fmtMoney(g.allocCoveredCost) + '</td><td class="num">' + fmtInt(g.allocGap) + '</td><td class="num">' + fmtMoney(g.allocGapCost) + '</td><td class="num"><strong>' + fmtMoney(g.allocCost) + '</strong></td></tr>';
+        }).join('');
+        var foot = '<tr style="font-weight:700"><td>TOTAL</td><td class="num">' + fmtInt(m.totalUsers) + '</td><td class="num">' + fmtInt(m.totalCredits) + '</td><td class="num">' + fmtInt(a.covered) + '</td><td class="num">' + fmtMoney(a.coveredCost) + '</td><td class="num">' + fmtInt(a.gap) + '</td><td class="num">' + fmtMoney(a.gapCost) + '</td><td class="num">' + fmtMoney(a.cost) + '</td></tr>';
+        var table = '<div class="table-wrap"><table><thead><tr>' +
+            '<th>' + esc(unitLabel()) + '</th><th class="num">Users</th><th class="num">Credits used</th>' +
+            '<th class="num">Covered (cr)</th><th class="num">Covered ' + curSym() + '</th>' +
+            '<th class="num">Gap (cr)</th><th class="num">PAYGO ' + curSym() + '</th><th class="num">Total ' + curSym() + '</th>' +
+            '</tr></thead><tbody>' + body + foot + '</tbody></table></div>';
+        var unused = a.unusedPool > 0
+            ? ' <strong>' + fmtInt(a.unusedPool) + ' credits of the pool go unused</strong> under this model.'
+            : '';
+        return '<section class="panel">' + panelHead('Prepaid pool allocation by ' + unitLabel(), 'Splits your purchased prepaid pool across units, then prices whatever the pool does not cover at the pay-as-you-go rate. Switch models in the report controls.') +
+            cards + table +
+            '<p class="section-caption"><strong>' + esc(allocModelLabel(a.model)) + '.</strong> ' + esc(note) +
+            ' Pool of ' + fmtInt(a.pool) + ' credits at ' + fmtMoney(state.prepaidRate) + '; anything above a unit\u2019s share bills at ' + fmtMoney(state.rate) + '.' + unused + '</p></section>';
     }
     function renderJournal(m) {
         var daily = state.valueMode === 'daily' && state.daysInPeriod > 0, days = state.daysInPeriod;
@@ -542,7 +624,7 @@
         var m = computeChargeback();
         renderSummary(m);
         updateStamp();
-        var body = $('cbBody'); if (body) body.innerHTML = renderCurrencyNotice() + renderCrossPolicyNotice(m) + renderPrepaid(m) + renderJournal(m) + renderLineItems(m);
+        var body = $('cbBody'); if (body) body.innerHTML = renderCurrencyNotice() + renderCrossPolicyNotice(m) + renderPrepaid(m) + renderAllocation(m) + renderJournal(m) + renderLineItems(m);
     }
 
     function downloadBlob(text, filename) {
@@ -847,6 +929,7 @@
         syncCurrencyLabels();
         var pri = $('prepaidRateInput'); if (pri) pri.value = state.prepaidRate;
         var ppi = $('prepaidPurchasedInput'); if (ppi) ppi.value = state.prepaidPurchased != null ? state.prepaidPurchased : '';
+        var am0 = $('cbAllocModel'); if (am0) am0.value = state.allocModel;
         var dpi = $('daysInput'); if (dpi) dpi.value = state.daysInPeriod;
         var hri = $('headroomInput'); if (hri) hri.value = state.headroomPct;
         populateDimSelect();
@@ -869,7 +952,7 @@
     function resetToLanding() {
         state.pending = { entra: null, credits: null }; state.users = []; state.demoActive = false; state.entraFileNames = []; state.invoiceTotal = null; state.allocateInvoice = false;
         state.lineModel = 'paygo'; state.lineFilter = 'all'; state.unitDim = null; state.entraRows = [];
-        state.prepaidRate = 0.008; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null;
+        state.prepaidRate = 0.008; state.daysInPeriod = 30; state.headroomPct = 15; state.prepaidPurchased = null; state.allocModel = 'credits';
         state.expandedUnits = {}; state.valueMode = 'total'; state.policyLimits = {}; state.entityFilter = {}; state.entitySearch = ''; state.lineSearch = '';
         state.sortJournal = { key: 'paygo', dir: 'desc' }; state.sortLines = { key: 'charge', dir: 'desc' };
         $('statusEntra').textContent = 'No file selected'; $('statusCredits').textContent = 'No file selected';
@@ -912,6 +995,7 @@
         var ai = $('cbAllocateInvoice'); if (ai) ai.addEventListener('change', function () { state.allocateInvoice = !!ai.checked; render(); });
         var pri2 = $('prepaidRateInput'); if (pri2) pri2.addEventListener('input', function () { var v = parseFloat(pri2.value); state.prepaidRate = isFinite(v) && v >= 0 ? v : 0; markRatesTouched(); stashCurrency(); render(); });
         var ppi2 = $('prepaidPurchasedInput'); if (ppi2) ppi2.addEventListener('input', function () { var v = parseFloat(ppi2.value); state.prepaidPurchased = (ppi2.value === '' || !isFinite(v) || v < 0) ? null : v; render(); });
+        var am = $('cbAllocModel'); if (am) am.addEventListener('change', function () { state.allocModel = am.value; render(); });
         var dpi2 = $('daysInput'); if (dpi2) dpi2.addEventListener('input', function () { var v = parseFloat(dpi2.value); state.daysInPeriod = isFinite(v) && v > 0 ? v : 30; render(); });
         var hri2 = $('headroomInput'); if (hri2) hri2.addEventListener('input', function () { var v = parseFloat(hri2.value); state.headroomPct = isFinite(v) && v >= 0 ? v : 0; render(); });
         var bm2 = $('cbBillingModel'); if (bm2) bm2.addEventListener('change', function () { state.billingModel = bm2.value === 'august' ? 'august' : 'september'; render(); });

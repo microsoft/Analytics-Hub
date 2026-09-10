@@ -216,6 +216,15 @@
                     <small>Total prepaid credits you bought. Compares your pool against actual usage in the Prepay panel.</small>
                 </div>
                 <div class="cb-field">
+                    <label for="cbAllocModel">Prepaid allocation model</label>
+                    <select id="cbAllocModel">
+                        <option value="credits">Prorated based on credits used</option>
+                        <option value="headcount">Prorated based on employee count</option>
+                        <option value="budget">Limited to budgeted allowances</option>
+                    </select>
+                    <small>How the prepaid pool is split across units. Whatever the pool covers bills at the prepaid rate; anything above a unit&rsquo;s share bills pay-as-you-go.</small>
+                </div>
+                <div class="cb-field">
                     <label for="daysInput">Days in period</label>
                     <input type="number" id="daysInput" min="1" step="1" value="30">
                     <small>For per-day usage and daily charge.</small>

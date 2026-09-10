@@ -331,3 +331,8 @@ tbody tr:hover { background: rgba(74, 158, 247, 0.06); }
     font-size: 0.72rem; font-weight: 600; white-space: nowrap; cursor: help;
 }
 tr.xp-row td { background: rgba(245, 158, 11, 0.05); }
+
+/* --- landing: explanatory note where the rate input used to be --- */
+.config-note-label { display: block; font-weight: 600; color: var(--text-primary);
+  margin-bottom: 0.4rem; font-size: 0.95rem; }
+.config-note { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.45; margin: 0; }
