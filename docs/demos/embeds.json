@@ -650,9 +650,11 @@
     {
       "id": "consumption-central",
       "name": "Consumption Central",
-      "blurb": "One template for Copilot credit consumption and cost across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Group spend by your own org attributes and forecast to the end of the billing period. No live embed — watch the demo video or run it on the bundled sample data.",
+      "blurb": "One template for Copilot credit consumption and cost across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Group spend by your own org attributes and forecast to the end of the billing period.",
       "repo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot",
       "sourceKey": "Entra + Copilot Credits",
+      "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=2bc44c3d-e4f3-4e78-9dd9-e4f70eca2398&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
+      "height": 720,
       "requirements": {
         "roles": [
           {
@@ -707,6 +709,77 @@
         {
           "label": "Download the templates (.zip)",
           "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/archive/refs/heads/main.zip",
+          "kind": "download"
+        }
+      ]
+    },
+    {
+      "id": "agent-evaluator",
+      "name": "Agent Evaluator",
+      "blurb": "Deep evaluation for Copilot Studio agents — sessions, turns, errors, sub-agent calls, quality and performance, topics, knowledge grounding, CSAT and message-credit consumption. Reads the conversation transcripts themselves, so every number has a real conversation behind it. Local CSV, Dataverse and Fabric paths, chosen by one parameter; sample data included.",
+      "repo": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio",
+      "sourceKey": "Dataverse",
+      "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=9c1b019e-cdea-4d79-a513-d621039f0e37&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
+      "height": 720,
+      "requirements": {
+        "roles": [
+          {
+            "label": "Dataverse read (Copilot Studio transcripts)",
+            "url": "https://learn.microsoft.com/microsoft-copilot-studio/"
+          },
+          {
+            "label": "Power BI workspace Member"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Nothing at all for the sample-data path; Dataverse environment or Fabric capacity for your own data"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Watch the demo",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/media/AgentEvaluator-Demo.mp4",
+          "kind": "video"
+        },
+        {
+          "label": "Sample data — run it with no tenant setup",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/tree/main/data",
+          "kind": "download"
+        },
+        {
+          "label": "Setup: local CSV path",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/local-csv.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Setup: Dataverse path",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/dataverse.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Setup: Fabric path",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/fabric.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Credit consumption reference",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/credit-consumption.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Download .pbit template",
+          "url": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/Agent%20Evaluator.pbit",
           "kind": "download"
         }
       ]
