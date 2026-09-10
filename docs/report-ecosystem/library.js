@@ -107,7 +107,7 @@ const RESOURCES = {
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#readme" },
     { kind: "download", label: "Download .pbit template", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/raw/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit" },
     { kind: "doc",      label: "Recommended survey questions (12)", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#-recommended-survey-questions" },
-    { kind: "email",    label: "Contact the author (opecheux@microsoft.com)", url: "mailto:opecheux@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report" },
+    { kind: "email",    label: "Contact the Analytics Hub team", url: "mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report" },
   ],
   "roi-calc": [
     { kind: "app",      label: "Open the ROI Calculator", url: "https://jordankingisalive.github.io/CopilotROICalculator/" },
