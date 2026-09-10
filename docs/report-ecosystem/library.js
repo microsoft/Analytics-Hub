@@ -66,6 +66,7 @@ const RESOURCES = {
     { kind: "doc",      label: "Fabric ingestion notebooks", url: "https://github.com/microsoft/ESS/tree/main/Fabric/notebooks" },
   ],  "ai-in-one": [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/AI-in-One-Dashboard#readme" },
+    { kind: "video",    label: "Watch the 2-minute overview", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Overview.mp4" },
     { kind: "download", label: "Interpretation Guide (PDF)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf" },
     { kind: "download", label: "Storyboard (.pptx)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIinOne_Storyboard_2601.pptx" },
     { kind: "download", label: "Download .pbit (SharePoint refresh)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2028%2004%20-%20Sharepoint%20Refresh.pbit" },
