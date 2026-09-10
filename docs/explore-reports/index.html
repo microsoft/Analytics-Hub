@@ -144,78 +144,99 @@
 <main id="top" class="picker-page">
 
   <!-- =============================================== HERO -->
-  <section class="picker-hero">
+  <section class="mk-head">
     <div class="wrap">
-      <p class="eyebrow">Which report do I need?</p>
-      <h1>From question to report <span class="grad">in one click</span></h1>
-      <p class="lede">
-        Find the question you're trying to answer. Get the preview, direct link, and
-        download in one screen. No hunting.
-      </p>
-      <div class="picker-controls">
-        <label class="search-wrap" for="qSearch">
-          <span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></span>
-          <input id="qSearch" type="search" placeholder="Search by question, report name, or data source…" autocomplete="off" />
-        </label>
-        <div class="filter-row">
-          <span class="filter-label">Report group</span>
-          <div class="filter-pills" role="tablist" aria-label="Filter by report group">
-            <button class="pill active" data-cat="all">All reports</button>
-            <button class="pill" data-cat="usage-intelligence">Usage &amp; Intelligence</button>
-            <button class="pill" data-cat="adoption-behavior">Adoption &amp; Behavior</button>
-            <button class="pill" data-cat="readiness">Readiness</button>
-            <button class="pill" data-cat="impact-roi">Impact &amp; ROI</button>
-            <button class="pill" data-cat="developer">Developer Productivity</button>
-            <button class="pill" data-cat="tooling-extension">Tooling &amp; Extension</button>
-          </div>
+      <p class="eyebrow mk-eyebrow--rule">Analytics Hub</p>
+      <h1>Reports</h1>
+      <p class="lede"><strong>None of these started on a whiteboard.</strong> Every report here
+        traces back to a gap a customer actually hit &mdash; a question they needed answered and had
+        no way to answer. Start with yours: see what the report looks like, what data it needs and
+        who has to be in the room, then take the template.</p>
+      <ul class="mk-stats">
+        <li class="mk-stat"><b id="mkCountTools">0</b><span>Reports</span></li>
+        <li class="mk-stat"><b id="mkCountCats">0</b><span>Groups</span></li>
+        <li class="mk-stat"><b id="mkCountCore">0</b><span>Marked core</span></li>
+        <li class="mk-stat"><b id="mkCountSrc">0</b><span>Data sources</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- =============================================== FILTERS -->
+  <section class="mk-fp" id="filters" aria-label="Refine reports">
+    <div class="mk-fp-sentinel" aria-hidden="true"></div>
+    <div class="mk-fp-cat">
+      <div class="wrap">
+        <div class="mk-fp-row">
+          <span class="mk-flabel" id="mkLblCat">Category</span>
+          <div class="rf-pills" id="mkCatPills" role="group" aria-labelledby="mkLblCat"></div>
         </div>
-        <div class="filter-row">
-          <span class="filter-label">Focus areas</span>
-          <div class="filter-pills outcome-pills" role="group" aria-label="Optional focus area filters">
-            <button class="pill outcome-pill" data-measure-filter="adoption">Adoption</button>
-            <button class="pill outcome-pill" data-measure-filter="chat">Chat usage</button>
-            <button class="pill outcome-pill" data-measure-filter="agents">Agents</button>
-            <button class="pill outcome-pill" data-measure-filter="license">License readiness</button>
-            <button class="pill outcome-pill" data-measure-filter="impact">Impact</button>
-            <button class="pill outcome-pill" data-measure-filter="roi">ROI</button>
-            <button class="pill outcome-pill" data-measure-filter="sentiment">Sentiment</button>
-            <button class="pill outcome-pill" data-measure-filter="developer">Developer</button>
-            <button class="pill outcome-pill" data-measure-filter="audit">Data Export Scripts</button>
-          </div>
-          <button class="pill pill-tier" data-tier="core" title="Recommended starting reports">Core only</button>
-        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="mk-fp-row mk-fp-row--stack">
+        <label class="mk-flabel" for="mkSearch">Search</label>
+        <span class="mk-searchwrap">
+          <input type="search" id="mkSearch" class="mk-search" autocomplete="off"
+                 placeholder="Try chargeback, champions, sentiment, agents, licences&hellip;"
+                 aria-describedby="mkResult" />
+          <button type="button" class="mk-searchclear" id="mkSearchClear" hidden
+                  aria-label="Clear search">&times;</button>
+        </span>
+      </div>
+      <div class="mk-fp-row">
+        <span class="mk-pills" role="group" aria-label="Filter by tier">
+          <button type="button" class="mk-pill" id="mkCoreOnly" aria-pressed="false">Core only</button>
+        </span>
+      </div>
+      <div class="mk-fp-status">
+        <p class="mk-starsync" id="mkStarSync" hidden></p>
+        <p class="mk-result" id="mkResult" role="status" aria-live="polite"></p>
+        <span class="mk-sortwrap">
+          <label class="mk-sortlabel" for="mkSort">Sort by</label>
+          <select id="mkSort" class="mk-sort">
+            <option value="popular">Popularity</option>
+            <option value="week">Popular this week</option>
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </span>
       </div>
     </div>
   </section>
 
-  <!-- =============================================== TABLE -->
-  <section class="band picker-table-band">
-    <div class="wrap">
-      <p class="chooser-guide"><strong>How to choose:</strong> Start with <strong>Readiness</strong>, then move to <strong>Impact &amp; ROI</strong> once adoption is stable.</p>
-      <div class="table-wrap">
-        <table class="picker-table" id="pickerTable">
-          <thead>
-            <tr>
-              <th class="col-q">If you're asking…</th>
-              <th class="col-tool">Use this report</th>
-              <th class="col-src">What it measures</th>
-              <th class="col-actions"><span class="col-actions-heads"><span title="Open report link">Open</span><span title="Download .zip package">Download</span></span></th>
-            </tr>
-          </thead>
-          <tbody id="pickerBody">
-            <!-- rendered by app.js -->
-          </tbody>
-        </table>
-        <p id="emptyState" class="empty-state" hidden>No matches. Try a different keyword or clear the filter.</p>
-      </div>
-
-      <p class="picker-footnote">
-        Click any row to expand for preview, context, and download details.
-      </p>
-    </div>
-  </section>
+  <!-- =============================================== GRID -->
+  <div class="wrap">
+    <p class="mk-howto">
+      <svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M6.5 2.4a1.1 1.1 0 0 1 1.9-.8l7.9 7.6c.5.5.2 1.4-.5 1.5l-3.4.5 2 3.8a1.1 1.1 0 0 1-.5 1.5l-1.5.8a1.1 1.1 0 0 1-1.5-.5l-2-3.8-2.4 2.5c-.5.5-1.4.2-1.5-.6z"/>
+      </svg>
+      <span><strong>Click any report card</strong> to open its guides, setup steps, FAQs and demo videos.</span>
+    </p>
+  </div>
+  <div class="mk-sections" id="mkSections"></div>
+  <div class="wrap">
+    <p class="mk-empty" id="mkEmpty" hidden>No reports match that combination.</p>
+  </div>
 
 </main>
+
+<!-- Report details flyout: one modal replaces the old inline row-expand
+     and the separate full-screen image overlay. -->
+<dialog class="mk-dlg" id="mkDlg" aria-labelledby="mkDlgTitle">
+  <div class="mk-dlg-inner">
+    <header class="mk-dlg-head">
+      <div class="mk-dlg-actions">
+        <span id="mkDlgDl"></span>
+        <button type="button" class="mk-dlg-close" id="mkDlgClose" aria-label="Close report details">&times;</button>
+      </div>
+      <p><span class="mk-dlg-chip" id="mkDlgChip"></span></p>
+      <h2 id="mkDlgTitle"></h2>
+      <p class="mk-dlg-q" id="mkDlgQ"></p>
+    </header>
+    <div class="mk-dlg-body" id="mkDlgBody"></div>
+    <footer class="mk-dlg-foot" id="mkDlgFoot"></footer>
+  </div>
+</dialog>
 
 <footer class="site-footer">
   <div class="wrap">
@@ -226,14 +247,5 @@
 </footer>
 
 <script src="app.js"></script>
-
-<!-- Lightbox for enlarged previews -->
-<div class="lightbox" id="lightbox" hidden aria-hidden="true" role="dialog" aria-label="Preview">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Close preview">✕</button>
-  <figure class="lightbox-figure">
-    <img id="lightboxImg" alt="Enlarged report preview" />
-    <figcaption id="lightboxCaption"></figcaption>
-  </figure>
-</div>
 </body>
 </html>

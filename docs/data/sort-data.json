@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "build_sort_data.ps1",
+  "trafficWindow": {
+    "from": "2026-09-01",
+    "to": "2026-09-07",
+    "days": 7
+  },
+  "note": "created = GitHub repo creation. viewsWeek = repo views over the trailing 7 finalised days. Reports without a GitHub repository carry nulls and sort last.",
+  "reports": {
+    "super-usage": {
+      "repo": "microsoft/DecodingSuperUsage",
+      "stars": 47,
+      "created": "2025-03-12T20:37:50Z",
+      "viewsWeek": 290,
+      "viewsTotal": 4251
+    },
+    "super-user-impact": {
+      "repo": "microsoft/superuserimpact",
+      "stars": 11,
+      "created": "2026-01-28T23:09:54Z",
+      "viewsWeek": 67,
+      "viewsTotal": 1251
+    },
+    "ai-in-one": {
+      "repo": "microsoft/AI-in-One-Dashboard",
+      "stars": 80,
+      "created": "2025-10-17T11:32:12Z",
+      "viewsWeek": 1955,
+      "viewsTotal": 26769
+    },
+    "chat-agent": {
+      "repo": "microsoft/CopilotChatAnalytics",
+      "stars": 21,
+      "created": "2025-06-16T16:06:40Z",
+      "viewsWeek": 145,
+      "viewsTotal": 1004
+    },
+    "ghcp-impact": {
+      "repo": "microsoft/GitHubCopilotImpact",
+      "stars": 9,
+      "created": "2025-10-05T22:42:42Z",
+      "viewsWeek": 29,
+      "viewsTotal": 1197
+    },
+    "what-i-did": {
+      "repo": "microsoft/What-I-Did-Copilot",
+      "stars": 49,
+      "created": "2026-03-30T20:52:26Z",
+      "viewsWeek": 238,
+      "viewsTotal": 4456
+    },
+    "cowork-impact": {
+      "repo": "microsoft/What-I-did-with-Cowork",
+      "stars": 26,
+      "created": "2026-06-18T09:39:01Z",
+      "viewsWeek": 513,
+      "viewsTotal": 8795
+    },
+    "m365-readiness": {
+      "repo": "microsoft/M365UsageAnalytics",
+      "stars": 13,
+      "created": "2026-02-12T21:21:52Z",
+      "viewsWeek": 424,
+      "viewsTotal": 3907
+    },
+    "adoption-sentiment": {
+      "repo": "olivierpecheux/copilot-adoption-sentiment-report",
+      "stars": 2,
+      "created": "2026-02-24T15:05:07Z",
+      "viewsWeek": 0,
+      "viewsTotal": 0
+    },
+    "pax": {
+      "repo": "microsoft/PAX",
+      "stars": 26,
+      "created": "2025-10-07T22:20:39Z",
+      "viewsWeek": 522,
+      "viewsTotal": 6598
+    },
+    "roi-calc": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "cowork-billing-report": {
+      "repo": "microsoft/CreditUsage",
+      "stars": 9,
+      "created": "2026-06-22T18:09:07Z",
+      "viewsWeek": 670,
+      "viewsTotal": 5822
+    },
+    "cowork-chargeback-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "cowork-policy-helper-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "finops-focus-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "cowork-roi-model-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "customize": {
+      "repo": "microsoft/customizecopilot",
+      "stars": 6,
+      "created": "2026-02-16T05:28:26Z",
+      "viewsWeek": 15,
+      "viewsTotal": 267
+    },
+    "personal-copilot-dashboard": {
+      "repo": "microsoft/Personal-Dashboard",
+      "stars": 1,
+      "created": "2026-08-14T16:26:16Z",
+      "viewsWeek": 98,
+      "viewsTotal": 251
+    },
+    "ess-insights": {
+      "repo": "microsoft/ESS",
+      "stars": 5,
+      "created": "2026-08-14T15:50:59Z",
+      "viewsWeek": 188,
+      "viewsTotal": 809
+    },
+    "value-lens": {
+      "repo": "microsoft/ValueLens-for-Microsoft-Copilot",
+      "stars": 20,
+      "created": "2026-05-10T22:57:12Z",
+      "viewsWeek": 2069,
+      "viewsTotal": 6871
+    },
+    "consumption-central": {
+      "repo": "microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+      "stars": 14,
+      "created": "2026-08-09T19:54:55Z",
+      "viewsWeek": 2921,
+      "viewsTotal": 10953
+    },
+    "agent-evaluator": {
+      "repo": "microsoft/AgentEvaluator-for-Copilot-Studio",
+      "stars": 11,
+      "created": "2026-07-06T20:05:16Z",
+      "viewsWeek": 0,
+      "viewsTotal": 0
+    }
+  }
+}

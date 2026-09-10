@@ -1,802 +1,521 @@
 /* ============================================================
-   Find a Tool · picker page styles
-   piggybacks on ../styles.css
+   Explore Reports · page styles
+
+   Ported from the approved redesign mockup (reports-mockup-v16).
+   The mockup carried a private --mk-* token set that shadowed the
+   live design tokens one for one; that set is gone. Everything
+   below uses the live tokens from ../styles.css and ../palette.css
+   (--bg, --bg-alt, --surface, --surface-2, --border, --border-strong,
+   --text, --text-soft, --text-muted, --accent, --radius, --radius-sm,
+   --shadow-sm, --shadow, --shadow-lg, --font).
+
+   Four local tokens survive, because they have no live equivalent:
+     --mk-accent-strong  AA-safe accent for white text ON the accent.
+                         #0078d4 with #fff is 4.53:1 and no more.
+     --mk-on-accent      the label colour that sits on that fill.
+     --mk-fw / --mk-fh   flyout viewport geometry, also used by the
+                         media max-height calculations.
+   Plus --mk-stickytop, the height of the sticky .site-header, shared
+   between the sticky rule here and the IntersectionObserver in app.js
+   so the two cannot drift apart.
+
+   Card, pill and grid primitives (.rf-card, .rf-pill, .rf-grid,
+   .rf-chip, .rf-title, .rf-blurb, .rf-foot, .rf-src, .rf-cta,
+   .rf-new, .ah-vote) are DEFINED in ../styles.css and shared with
+   the home page. Only the deltas this page needs are declared here.
    ============================================================ */
 
-.picker-page { padding-bottom: 4rem; }
-
-/* ---------- HERO ---------- */
-.picker-hero {
-  background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg) 100%);
-  padding: 3.5rem 0 2.5rem;
-  border-bottom: 1px solid var(--border);
+:root {
+  --mk-accent-strong: #005a9e;
+  --mk-on-accent: #ffffff;
+  --mk-stickytop: 64px;
+  --mk-fw: 70vw;
+  --mk-fh: 70vh;
 }
-.picker-hero .eyebrow {
+[data-theme="dark"] {
+  --mk-accent-strong: #4cabf5;
+  --mk-on-accent: #14141b;
+}
+
+.picker-page { padding-bottom: 0; }
+body.mk-locked { overflow: hidden; }
+
+/* ============================================================
+   MASTHEAD
+   The live page chrome sets .hero { background: var(--bg) } — the
+   hero IS the page ground and the band alternation starts below it.
+   ============================================================ */
+.mk-head {
+  padding: 56px 0 34px;
+  background: var(--bg);
+}
+.mk-head .eyebrow { color: var(--text-soft); }
+/* One short accent rule. The only decorative mark on the page. */
+.mk-eyebrow--rule::before {
+  content: "";
   display: inline-block;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
-  font-weight: 600;
-  font-size: .8rem;
-  padding: .3rem .75rem;
-  border-radius: 999px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  margin: 0 0 1rem;
-}
-.picker-hero h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
-  line-height: 1.15;
-  letter-spacing: -.02em;
-}
-.picker-hero h1 .grad {
-  background: var(--accent-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  padding-bottom: .12em;
-  margin-bottom: -.12em;
-}
-.picker-hero .lede {
-  font-size: 1.05rem;
-  color: var(--text-soft);
-  max-width: 62ch;
-  line-height: 1.55;
-  margin: 0 0 1.75rem;
-}
-
-/* ---------- CONTROLS ---------- */
-.picker-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.search-wrap {
-  position: relative;
-  max-width: 540px;
-  width: 100%;
-}
-.search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  opacity: .65;
-}
-.search-wrap input {
-  width: 100%;
-  padding: .75rem 1rem .75rem 2.5rem;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: .95rem;
-  transition: border-color .15s, box-shadow .15s;
-}
-.search-wrap input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
-}
-
-.filter-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-}
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .6rem .8rem;
-}
-.filter-label {
-  font-size: .78rem;
-  font-weight: 700;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.filter-pills .pill {
-  padding: .45rem .9rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-soft);
-  border-radius: 999px;
-  font-size: .85rem;
-  cursor: pointer;
-  transition: all .15s;
-}
-.filter-pills .pill:hover {
-  border-color: var(--border-strong);
-  color: var(--text);
-}
-.filter-pills .pill.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.outcome-pills .pill {
-  font-size: .8rem;
-  padding: .35rem .75rem;
-}
-.outcome-pills .pill.active {
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-  color: var(--text);
-}
-
-/* ---------- TABLE ---------- */
-.picker-table-band {
-  padding-top: 2rem;
-}
-.table-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-.picker-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .94rem;
-}
-.picker-table thead {
-  background: var(--bg-alt);
-  border-bottom: 2px solid var(--border);
-}
-.picker-table th {
-  text-align: left;
-  padding: .85rem 1rem;
-  font-weight: 600;
-  font-size: .82rem;
-  color: var(--text-soft);
-  text-transform: uppercase;
-  letter-spacing: .03em;
-}
-.col-actions { width: 176px; text-align: right; }
-.col-src { width: 180px; }
-.col-tool { width: 30%; }
-
-.picker-table .row-main {
-  border-bottom: 1px solid var(--border);
-  transition: background .15s;
-}
-.picker-table .row-main:hover { background: var(--bg-alt); }
-.picker-table .row-main.expanded { background: var(--bg-alt); }
-.picker-table .row-main.expanded { border-bottom-color: transparent; }
-.picker-table td {
-  padding: .72rem .9rem;
+  width: 26px; height: 2px;
+  margin-right: 10px;
   vertical-align: middle;
+  background: var(--accent);
 }
-
-.expand-btn {
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  color: var(--text);
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  width: 100%;
+.mk-head h1 {
+  font-size: 2.5rem; line-height: 1.12;
+  font-weight: 600; letter-spacing: -0.01em;
+  margin: 10px 0 0;
 }
-.expand-btn .chev {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--accent, #0078d4) 7%, var(--surface));
-  border: 1px solid color-mix(in srgb, var(--accent, #0078d4) 18%, var(--border));
-  color: color-mix(in srgb, var(--accent, #0078d4) 80%, var(--text));
-  font-size: .9rem;
-  font-weight: 700;
-  line-height: 1;
-  transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
-}
-.expand-btn:hover .chev {
-  background: color-mix(in srgb, var(--accent, #0078d4) 18%, var(--surface));
-  border-color: color-mix(in srgb, var(--accent, #0078d4) 45%, var(--border));
-  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent, #0078d4) 20%, transparent);
-}
-.row-main.expanded .expand-btn .chev {
-  transform: rotate(90deg);
-  background: var(--accent, #0078d4);
-  border-color: var(--accent, #0078d4);
-  color: #fff;
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent, #0078d4) 35%, transparent);
-}
-
-.tool-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  font-weight: 600;
-  color: var(--text);
-  text-decoration: none;
-  padding: .25rem .5rem;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  transition: background .15s, border-color .15s, transform .15s;
-}
-.tool-chip:hover,
-.tool-chip:focus-visible {
-  background: color-mix(in srgb, var(--c, var(--accent)) 8%, transparent);
-  border-color: color-mix(in srgb, var(--c, var(--accent)) 35%, transparent);
-  transform: translateY(-1px);
-  outline: none;
-}
-.src-tag {
-  display: inline-block;
-  background: color-mix(in srgb, var(--accent-3) 12%, transparent);
-  color: var(--text);
-  padding: .3rem .65rem;
-  border-radius: 6px;
-  font-size: .82rem;
-  font-weight: 500;
-}
-
-.col-actions {
-  white-space: nowrap;
-}
-.ico-btn {
-  display: inline-flex;
-  min-width: 72px;
-  height: 32px;
-  padding: 0 .7rem;
-  border-radius: 8px;
-  background: transparent;
-  border: 1px solid var(--border);
+.mk-head .lede {
+  margin: 14px 0 0; max-width: 62ch;
+  font-size: 1.0625rem; line-height: 1.6;
   color: var(--text-soft);
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  margin-left: 4px;
-  cursor: pointer;
-  font-size: .82rem;
-  font-weight: 600;
-  transition: all .12s;
 }
-.ico-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-}
-.ico-btn-empty {
-  background: transparent;
-  border-color: transparent;
-  color: var(--text-muted);
-  opacity: .35;
-  cursor: default;
-  pointer-events: none;
-}
-.ico-btn-empty:hover {
-  border-color: transparent;
-  color: var(--text-muted);
-  transform: none;
-}
+.mk-head .lede strong { color: var(--text); font-weight: 600; }
 
-/* ---------- DETAIL ROW ---------- */
-.row-detail {
-  background: var(--bg-alt);
-  border-bottom: 1px solid var(--border);
+.mk-stats {
+  margin: 28px 0 0; padding: 0; list-style: none;
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  max-width: 660px;
 }
-.row-detail > td {
-  padding: 1.25rem 1.25rem 1.5rem !important;
-}
-.detail-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 360px) 1fr;
-  gap: 1.5rem;
-  align-items: start;
-}
-@media (max-width: 760px) {
-  .detail-grid { grid-template-columns: 1fr; }
-}
-
-.detail-preview .preview-link {
-  display: block;
-  position: relative;
-  width: 100%;
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  transition: transform .2s, box-shadow .2s;
-  min-height: 160px;
-  padding: 0;
-  cursor: zoom-in;
-  font: inherit;
-  text-align: left;
-}
-.detail-preview .preview-link:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-.detail-preview .preview-link.preview-fallback { cursor: pointer; }
-
-/* Demo video link, sits directly under the preview thumbnail. */
-.demo-video-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  margin-top: .6rem;
-  padding: .55rem .8rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  text-decoration: none;
-  color: var(--text);
-  font-size: .88rem;
-  font-weight: 600;
-  transition: transform .2s, box-shadow .2s, border-color .2s;
-}
-.demo-video-link:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  border-color: var(--accent, #0078d4);
-}
-.demo-video-link .dv-icon { font-size: 1rem; line-height: 1; }
-
-.detail-preview img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-.preview-zoom-hint {
-  position: absolute;
-  left: 50%; bottom: 10px;
-  transform: translateX(-50%);
-  display: inline-flex; align-items: center; gap: .35rem;
-  padding: .35rem .7rem;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, .72);
-  color: #fff;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .02em;
-  backdrop-filter: blur(6px);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .18s, transform .18s;
-}
-.preview-link:hover .preview-zoom-hint,
-.preview-link:focus-visible .preview-zoom-hint {
-  opacity: 1;
-  transform: translate(-50%, -2px);
-}
-.preview-zoom-hint .zoom-icon { font-size: .9rem; }
-.preview-link.preview-fallback .preview-zoom-hint { display: none; }
-
-.preview-link .preview-fallback-inner { display: none; }
-.preview-link.preview-fallback .preview-fallback-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: .75rem;
-  padding: 2rem 1rem;
-  min-height: 180px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--c) 18%, transparent), color-mix(in srgb, var(--c) 6%, transparent));
-}
-.preview-fallback-inner .pf-icon {
-  font-size: 3rem;
-  line-height: 1;
-}
-.preview-fallback-inner .pf-name {
-  font-weight: 600;
-  color: var(--text);
-  text-align: center;
-}
-
-/* action column headers */
-.col-actions-heads {
-  display: grid;
-  grid-template-columns: repeat(2, 72px);
-  gap: 6px;
-  justify-content: end;
-  font-size: .66rem;
-  text-transform: uppercase;
-  letter-spacing: .03em;
-  color: var(--text-muted);
-  font-weight: 700;
-}
-.col-actions-heads span { text-align: center; }
-
-/* ---------- LIGHTBOX ---------- */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(8, 10, 16, .82);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-  padding: 3rem 1.5rem;
-  animation: lb-in .18s ease-out;
-}
-@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
-.lightbox[hidden] { display: none; }
-.lightbox-figure {
-  margin: 0;
-  max-width: min(1200px, 95vw);
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .85rem;
-}
-.lightbox img {
-  max-width: 100%;
-  max-height: 80vh;
-  display: block;
-  border-radius: 14px;
-  box-shadow: 0 30px 80px -10px rgba(0, 0, 0, .6);
-  background: #111;
-}
-.lightbox figcaption {
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
-}
-.lightbox-close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, .25);
-  background: rgba(255, 255, 255, .12);
-  color: #fff;
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .15s, transform .15s;
-}
-.lightbox-close:hover {
-  background: rgba(255, 255, 255, .22);
-  transform: scale(1.05);
-}
-.detail-copy .blurb {
-  margin: 0 0 1rem;
-  font-size: 1rem;
-  line-height: 1.55;
-  color: var(--text);
-}
-.btn-soft {
+.mk-stat {
+  padding: 12px 16px 12px 15px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
-  color: var(--text);
-  border-radius: var(--radius);
-  cursor: pointer;
-  font: inherit;
-  transition: all .15s;
+  border-left: 3px solid var(--mk-accent-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
 }
-.btn-soft:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+.mk-stat b {
+  display: block;
+  font-size: 1.875rem; line-height: 1.05; font-weight: 700;
+  letter-spacing: -0.025em; color: var(--accent);
+  font-variant-numeric: tabular-nums;
 }
-.data-line {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: .85rem;
-}
-.data-line strong { color: var(--text-soft); }
-
-/* ---------- REQUIREMENTS (roles + software inside expanded card) ---------- */
-.detail-reqs {
-  margin-top: .85rem;
-  padding-top: .85rem;
-  border-top: 1px dashed var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: .55rem;
-}
-.req-row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  align-items: start;
-  gap: .85rem;
-  min-width: 0;
-}
-.req-label {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  font-size: .75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  color: var(--text-muted);
-  padding-top: .3rem;
-  white-space: nowrap;
-}
-.req-icon { font-size: .95rem; line-height: 1; }
-.req-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .35rem;
-  min-width: 0;
-}
-.req-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .3rem;
-  padding: .3rem .65rem;
-  font-size: .8rem;
-  font-weight: 500;
-  line-height: 1.25;
-  color: var(--text-soft);
-  background: var(--surface);
-  border: 1px dashed var(--border-strong);
-  border-radius: 999px;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.req-chip-link {
-  border-style: solid;
-  cursor: pointer;
-  transition: all .12s ease;
-}
-.req-chip-link:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-.req-chip-arrow {
-  font-size: .72rem;
-  opacity: .65;
-}
-.req-chip-muted {
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-@media (max-width: 760px) {
-  .req-row {
-    grid-template-columns: 1fr;
-    gap: .35rem;
-  }
-  .req-label { padding-top: 0; }
-}
-
-/* ---------- FOOTNOTE / EMPTY ---------- */
-.picker-footnote {
-  margin-top: 1.25rem;
-  color: var(--text-muted);
-  font-size: .85rem;
-  line-height: 1.55;
-  max-width: 80ch;
-}
-.chooser-guide {
-  margin: 0 0 .85rem;
-  padding: .7rem .9rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-alt);
-  color: var(--text-soft);
-  font-size: .9rem;
-  line-height: 1.45;
-}
-.empty-state {
-  padding: 2rem;
-  text-align: center;
-  color: var(--text-muted);
-}
-
-/* ---------- mobile ---------- */
-@media (max-width: 760px) {
-  .picker-table .col-src { display: none; }
-  .picker-table th, .picker-table td { padding: .7rem .6rem; }
-  .ico-btn { min-width: 62px; height: 30px; padding: 0 .5rem; font-size: .75rem; }
-  .col-actions-heads { grid-template-columns: repeat(2, 62px); }
-  .filter-label {
-    width: 100%;
-    margin-bottom: -.25rem;
-  }
+.mk-stat span {
+  display: block; margin-top: 5px;
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text-soft);
 }
 
 /* ============================================================
-   Measure chips, category headers, tier badges (added for site polish)
+   FILTER PANEL
+   The first alternating band under the hero, so it takes --bg-alt.
+   That makes the sticky category row trivial: it is an opaque strip
+   of the same band colour, so nothing scrolls through it and it
+   needs no backdrop-filter and no veil. .is-stuck adds a shadow and
+   nothing else.
    ============================================================ */
-
-/* Pills get colored when active and have a --c CSS var */
-.filter-pills .pill[style*="--c"].active {
-  background: var(--c, var(--accent));
-  border-color: var(--c, var(--accent));
-  color: #fff;
-}
-.filter-pills .pill.pill-tier {
-  border-color: var(--border-strong);
-  color: var(--text-soft);
-  font-weight: 600;
-}
-.filter-pills .pill.pill-tier.active {
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-  color: var(--text);
-}
-
-/* Measure chips inside the table row */
-.m-chips {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .2rem;
-}
-.m-text {
-  display: inline;
-  font-size: .92rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: var(--text-soft);
-  line-height: 1.35;
-}
-
-/* Category section headers inside the table */
-.cat-header td {
-  --cat-c1: #6b7280;
-  --cat-c2: #9ca3af;
-  background: color-mix(in srgb, var(--cat-c1) 6%, var(--surface));
+.mk-fp {
+  background: var(--bg-alt);
   border-top: 1px solid var(--border);
-  border-bottom: 1px solid color-mix(in srgb, var(--cat-c1) 30%, var(--border));
-  border-left: 3px solid color-mix(in srgb, var(--cat-c1) 55%, var(--border-strong));
-  padding: .8rem 1rem .65rem;
-  position: relative;
-  transition: background .2s ease;
+  border-bottom: 1px solid var(--border);
 }
-.cat-header:first-child td { border-top: 0; }
-.cat-header[data-cat="usage-intelligence"] td {
-  --cat-c1: #8661c5; --cat-c2: #b794f4;
+.mk-fp-sentinel { height: 1px; margin-bottom: -1px; }
+.mk-fp-cat {
+  position: sticky; top: var(--mk-stickytop); z-index: 40;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
 }
-.cat-header[data-cat="adoption-behavior"] td {
-  --cat-c1: #00B294; --cat-c2: #5ee3c8;
+.mk-fp-cat.is-stuck { box-shadow: var(--shadow-sm); }
+.mk-fp-row {
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap; padding: 17px 0;
 }
-.cat-header[data-cat="readiness"] td {
-  --cat-c1: #2b88d8; --cat-c2: #7ab7eb;
+.mk-fp-row + .mk-fp-row { border-top: 1px solid var(--border); }
+.mk-flabel {
+  flex: 0 0 108px;
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text-soft);
 }
-.cat-header[data-cat="impact-roi"] td {
-  --cat-c1: #e3008c; --cat-c2: #ff7ab8;
+
+/* Category pills: the shared .rf-pill from ../styles.css, with the
+   selected state re-cut onto the AA-safe accent. */
+.mk-fp .rf-pills { margin: 0; }
+.mk-fp .rf-pill.is-on {
+  background: var(--mk-accent-strong);
+  border-color: var(--mk-accent-strong);
+  box-shadow: 0 1px 2px rgba(0,0,0,.16);
 }
-.cat-header[data-cat="developer"] td {
-  --cat-c1: #0078d4; --cat-c2: #5fb4ff;
-}
-.cat-header[data-cat="tooling-extension"] td {
-  --cat-c1: #ffaa44; --cat-c2: #ffd28a;
-}
-.cat-header .cat-label { color: color-mix(in srgb, var(--cat-c1) 80%, var(--text)); }
-.cat-header .cat-count {
-  background: color-mix(in srgb, var(--cat-c1) 12%, var(--surface));
-  border-color: color-mix(in srgb, var(--cat-c1) 35%, var(--border));
-  color: color-mix(in srgb, var(--cat-c1) 70%, var(--text));
-}
-.cat-header-inner {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  flex-wrap: wrap;
-}
-.cat-label {
-  font-size: .96rem;
-  font-weight: 700;
-  letter-spacing: -.01em;
-  color: var(--text);
-}
-.cat-blurb {
-  font-size: .8rem;
-  color: var(--text-muted);
-  flex: 1 1 280px;
-}
-.cat-count {
-  font-size: .72rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: var(--bg);
+
+.mk-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.mk-pill {
+  font: inherit; font-size: 0.8125rem; cursor: pointer;
+  padding: 5px 12px; border-radius: 999px;
   border: 1px solid var(--border);
-  padding: .15rem .55rem;
-  border-radius: 999px;
+  background: var(--surface); color: var(--text-soft);
+}
+.mk-pill:hover { color: var(--text); border-color: var(--accent); }
+.mk-pill[aria-pressed="true"] {
+  background: var(--mk-accent-strong);
+  border-color: var(--mk-accent-strong);
+  color: var(--mk-on-accent); font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,.16);
 }
 
-/* CORE tier badge on the tool-chip */
-.tier-badge {
-  display: inline-block;
-  font-size: .58rem;
-  font-weight: 800;
-  letter-spacing: .08em;
-  padding: .12rem .4rem;
-  border-radius: 4px;
-  vertical-align: middle;
-  margin-left: .35rem;
+/* The search row stacks: the label sits above the field rather than
+   beside it, so the label gutter is released and the field starts at
+   the row edge. */
+.mk-fp-row--stack { flex-direction: column; align-items: flex-start; gap: 7px; }
+.mk-fp-row--stack .mk-flabel { flex: 0 0 auto; }
+.mk-searchwrap {
+  position: relative; display: inline-flex; align-items: center;
+  flex: 1 1 340px; max-width: 460px;
 }
-.tier-badge.tier-core {
-  background: rgba(255, 255, 255, 0.22);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+/* flex-basis is the CROSS axis in a column, so the row inherits 340px
+   of height unless the basis is released here. */
+.mk-fp-row--stack .mk-searchwrap { flex: 0 0 auto; width: 100%; max-width: 520px; }
+.mk-search {
+  width: 100%; font: inherit; font-size: 13.5px; color: var(--text);
+  padding: 8px 30px 8px 11px;
+  border: 1px solid var(--border-strong); border-radius: 8px;
+  background: var(--surface);
 }
+.mk-search::placeholder { color: var(--text-muted); }
+.mk-search:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px;
+  border-color: var(--accent);
+}
+.mk-search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.mk-searchclear {
+  position: absolute; right: 6px; width: 20px; height: 20px; padding: 0;
+  border: 0; border-radius: 50%; cursor: pointer; line-height: 1;
+  font-size: 15px; color: var(--text-soft); background: transparent;
+}
+.mk-searchclear:hover { background: var(--surface-2); color: var(--text); }
+.mk-searchclear[hidden] { display: none; }
 
+.mk-fp-status {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0 20px; flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+.mk-starsync {
+  margin: 0; padding: 10px 0 12px;
+  font-size: 0.75rem; color: var(--text-soft);
+}
+.mk-starsync[hidden] { display: none; }
+.mk-result {
+  margin: 0 0 0 auto; padding: 10px 0 12px;
+  text-align: right;
+  font-size: 0.8125rem; font-weight: 600; color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.mk-result button {
+  font: inherit; font-size: 0.8125rem; font-weight: 600;
+  background: none; border: 0; padding: 0; margin-left: 14px;
+  color: var(--mk-accent-strong); cursor: pointer; text-decoration: underline;
+}
+.mk-sortwrap { display: inline-flex; align-items: center; gap: 8px; flex: none; }
+.mk-sortlabel {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text-soft);
+}
+.mk-sort {
+  font: inherit; font-size: 13px; color: var(--text);
+  padding: 6px 26px 6px 9px; border-radius: 8px;
+  border: 1px solid var(--border-strong); background: var(--surface);
+  appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%235a5a72' d='M0 0h10L5 6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 9px center;
+}
+.mk-sort:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 /* ============================================================
-   Design normalisation  ·  2026-08-11
-   This stylesheet loads after the shared styles.css, so anything it
-   declares wins by order. That is how each page drifted into its own
-   hero size, weight and gradient. Re-asserting the shared treatment
-   here keeps the page-specific rules above intact while bringing the
-   chrome back in line.
+   GRID
+   One flat grid: no group headers, because the pills, the search
+   box and the sort control already do that job. The cards carry the
+   spacing the headers used to provide.
    ============================================================ */
-.cs-hero h1, .ds-hero h1, .help-hero h1, .picker-hero h1, .fb-hero h1,
-.oob-hero h1, .page-hero h1, .team-hero h1, .demo-hero h1, .gloss-hero h1,
-.faq-hero h1, .cmp-hero h1, .cb-hero h1 {
-  font-size: clamp(27px, 3vw, 36px);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -.01em;
-  margin: 0 0 12px;
-  max-width: 24ch;
-  /* single accent, not the three-colour gradient */
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  color: var(--text);
-  -webkit-text-fill-color: currentColor;
-}
-.cs-hero h1 .grad, .ds-hero h1 .grad, .help-hero h1 .grad,
-.picker-hero h1 .grad, .fb-hero h1 .grad, .oob-hero h1 .grad,
-.page-hero h1 .grad, .team-hero h1 .grad, .demo-hero h1 .grad,
-.gloss-hero h1 .grad, .faq-hero h1 .grad, .cmp-hero h1 .grad, .grad {
-  background: none;
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  color: var(--accent);
-  /* gradient text also sets -webkit-text-fill-color: transparent; resetting
-     colour alone leaves the text invisible over the removed gradient. */
-  -webkit-text-fill-color: currentColor;
-}
-.cs-hero, .ds-hero, .help-hero, .picker-hero, .fb-hero, .oob-hero,
-.page-hero, .team-hero, .demo-hero, .gloss-hero, .faq-hero, .cmp-hero,
-.cb-hero {
-  padding: 52px 0 34px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-.cs-hero .lede, .ds-hero .lede, .help-hero .lede, .picker-hero .lede,
-.fb-hero .lede, .oob-hero .lede, .page-hero .lede, .team-hero .lede,
-.demo-hero .lede, .gloss-hero .lede, .faq-hero .lede, .cmp-hero .lede,
-.cb-hero .lede {
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text-soft);
-  max-width: 66ch;
-  margin: 0;
-}
-.eyebrow {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 8px;
-}
-/* Solid accent on primary actions, matching the refreshed buttons. */
-.btn-primary, .cta.primary, a.primary, .primary-btn {
-  background: var(--accent);
+.mk-sec { padding: 40px 0 76px; }
+.picker-page .rf-grid {
+  display: grid; gap: 30px; margin-top: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  align-items: stretch;
 }
 
-/* votes — inherits ../styles.css, but this page's cells need the row layout */
-td.col-actions { white-space: nowrap; }
-td.col-actions .ah-vote { margin-left: 0; margin-right: 6px; vertical-align: middle; }
+/* Sits between the filters and the grid, where someone looks right
+   before their first click. Blue and weighted so it reads as
+   guidance, not chrome. */
+.mk-howto {
+  display: flex; align-items: center; gap: 10px;
+  margin: 26px 0 4px; padding: 13px 17px;
+  font-size: 15px; font-weight: 600; line-height: 1.45;
+  color: var(--mk-accent-strong);
+  background-color: #eaf3fc;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  border: 1px solid var(--border-strong);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+}
+.mk-howto svg { flex: none; color: var(--accent); }
+.mk-howto strong { font-weight: 700; }
+[data-theme="dark"] .mk-howto { background-color: #16283a; }
+
+/* ============================================================
+   CARD DELTAS
+   .rf-card and friends live in ../styles.css. The card is an
+   <article>, not a <button>: votes.js mounts a real <button> into
+   .rf-foot, and a button inside a button is invalid and would give
+   every card two overlapping tab stops. The title button carries a
+   stretched overlay so the whole card still opens the flyout, while
+   .rf-foot's own controls sit above that overlay.
+   ============================================================ */
+.picker-page .rf-card { position: relative; height: 100%; }
+.picker-page .rf-card:focus-within {
+  border-color: color-mix(in srgb, var(--c, var(--accent)) 45%, var(--border));
+}
+.rf-open {
+  font: inherit; font-size: inherit; font-weight: inherit;
+  line-height: inherit; letter-spacing: inherit;
+  color: inherit; text-align: left;
+  background: none; border: 0; padding: 0; margin: 0;
+  cursor: pointer;
+}
+.rf-open::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: inherit;
+}
+.rf-open:focus-visible { outline: 2px solid var(--c, var(--accent)); outline-offset: 3px; }
+/* Above the stretched overlay, so the vote button and the View link
+   stay independently clickable. */
+.picker-page .rf-foot > a,
+.picker-page .rf-foot .ah-vote { position: relative; z-index: 1; }
+.picker-page .rf-title { margin: 0 0 7px; }
+
+.rf-more {
+  font-size: 10.5px; font-weight: 600;
+  padding: 3px 7px; border-radius: 100px;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+  cursor: help;
+}
+/* GitHub stars are repository metadata, so they sit beside the source
+   line at source-line scale and stay quieter than .rf-cta. .ah-vote is
+   20px tall and already sets the foot height, so this 12px row cannot
+   change a card's height whether it is present or absent. */
+.rf-stars {
+  display: inline-flex; align-items: center; gap: 4px; flex: none;
+  font-size: 11.5px; font-weight: 600; line-height: 1;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+.rf-stars svg { display: block; }
+/* A stale count still shows its last known value — blanking it would
+   lose information — but it is marked, not passed off as current. */
+.rf-stars.is-stale { border-bottom: 1px dashed var(--border-strong); cursor: help; }
+/* >=10 stars promotes the card to a brighter outline. Border colour
+   only, still 1px, so geometry is identical to an unstarred card. */
+.rf-card--hot { border-color: var(--accent); }
+.rf-card--hot:hover { border-color: var(--mk-accent-strong); }
+
+.mk-empty { padding: 48px 0; color: var(--text-soft); text-align: center; }
+.mk-empty[hidden] { display: none; }
+
+/* ============================================================
+   FLYOUT
+   ============================================================ */
+.mk-dlg {
+  width: min(var(--mk-fw), 1100px);
+  max-width: calc(100vw - 32px);
+  height: min(var(--mk-fh), 92vh);
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface); color: var(--text);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.mk-dlg::backdrop { background: rgba(20,20,40,.44); }
+[data-theme="dark"] .mk-dlg::backdrop { background: rgba(0,0,0,.62); }
+.mk-dlg-inner { display: flex; flex-direction: column; height: 100%; }
+.mk-dlg-head {
+  position: relative; flex: 0 0 auto;
+  /* padding-right clears the whole top-right action cluster. */
+  padding: 26px 236px 20px 32px;
+  border-bottom: 1px solid var(--border);
+}
+/* One flex row owns both top-right controls, so the GitHub button
+   cannot overlap the close button at any width. */
+.mk-dlg-actions {
+  position: absolute; top: 16px; right: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.mk-dlg-head h2 { font-size: 1.5rem; line-height: 1.22; margin: 8px 0 0; font-weight: 600; }
+.mk-dlg-head h2:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mk-dlg-q { margin: 10px 0 0; color: var(--text-soft); max-width: 74ch; }
+.mk-dlg-chip {
+  display: inline-block;
+  font-size: 11px; font-weight: 600; letter-spacing: .02em;
+  padding: 3px 9px; border-radius: 100px;
+  color: var(--c, var(--accent));
+  background: var(--surface-2);
+  background: color-mix(in srgb, var(--c, var(--accent)) 11%, transparent);
+}
+.mk-dlg-close {
+  flex: none;
+  width: 32px; height: 32px; line-height: 1; font-size: 1.25rem;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text-soft); cursor: pointer;
+}
+.mk-dlg-close:hover { color: var(--text); border-color: var(--border-strong); }
+.mk-dlg-body { flex: 1 1 auto; overflow-y: auto; padding: 24px 32px 28px; }
+.mk-dlg-foot {
+  flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px 22px;
+  padding: 16px 32px; border-top: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.mk-fig { margin: 0; }
+.mk-figcap {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 8px;
+}
+/* Where a report has BOTH an embeddable demo video and a preview
+   image, both are offered and exactly one is in the DOM at a time.
+   Video is the default. preload="metadata" keeps the 1-5 MB remote
+   mp4 off the wire until playback is requested; no autoplay, no loop. */
+.mk-mediahead {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px 16px; flex-wrap: wrap; margin: 0 0 8px;
+}
+.mk-mediahead .mk-figcap { margin: 0; }
+.mk-seg {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.mk-seg button {
+  font: inherit; font-size: 0.75rem; cursor: pointer;
+  padding: 3px 10px; border: 0; background: transparent; color: var(--text-soft);
+}
+.mk-seg button + button { border-left: 1px solid var(--border-strong); }
+.mk-seg button[aria-pressed="true"] {
+  background: var(--mk-accent-strong); color: var(--mk-on-accent);
+}
+.mk-seg button[disabled] { opacity: .45; cursor: not-allowed; }
+.mk-video {
+  display: block; margin: 0 auto;
+  /* The box is reserved up front with aspect-ratio. Without it the
+     element is zero-height until the remote metadata lands, and
+     scroll anchoring then shoves the flyout body past the media. */
+  width: 100%; aspect-ratio: 16 / 9;
+  max-height: max(160px, min(calc(var(--mk-fh) - 22rem), 46vh));
+  object-fit: contain;
+  background: #000;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.mk-vfallback {
+  display: block; padding: 22px 20px; text-align: center;
+  font-size: 0.875rem; color: var(--text-soft);
+  background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.mk-shot {
+  display: block; margin: 0 auto; max-width: 100%;
+  max-height: max(160px, min(calc(var(--mk-fh) - 22rem), 46vh));
+  width: auto; height: auto; object-fit: contain;
+  background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.mk-noprev {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; text-align: center;
+  min-height: max(140px, min(calc(var(--mk-fh) - 26rem), 34vh));
+  padding: 28px 20px;
+  background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.mk-noprev-title { font-size: 0.875rem; color: var(--text-soft); margin: 0; }
+.mk-noprev-note {
+  margin: 0; font-size: 0.75rem; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+
+.mk-sub { margin-top: 30px; }
+.mk-sub h3 {
+  margin: 0; font-size: 0.6875rem; font-weight: 600; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--text-muted);
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.mk-sub > p { margin: 12px 0 0; color: var(--text-soft); max-width: 74ch; }
+.mk-dl { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 0; margin: 8px 0 0; }
+.mk-dl dt {
+  padding: 11px 16px 11px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.75rem; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.mk-dl dd {
+  margin: 0; padding: 11px 0; border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.mk-dl dd .mk-sep { color: var(--border-strong); padding: 0 6px; }
+
+/* Tags are the search vocabulary made visible; clicking one searches
+   for it. */
+.mk-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.mk-tag {
+  font: inherit; font-size: 11.5px; font-weight: 600; line-height: 1;
+  padding: 5px 9px; border-radius: 999px; cursor: pointer;
+  color: var(--text-soft); background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.mk-tag:hover { color: var(--text); border-color: var(--border-strong); }
+
+.mk-rel { list-style: none; margin: 8px 0 0; padding: 0; }
+.mk-rel li { padding: 11px 0; border-bottom: 1px solid var(--border); }
+.mk-rel button {
+  font: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--accent); text-align: left;
+}
+.mk-rel button:hover { text-decoration: underline; }
+.mk-rel .mk-why { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+
+.mk-btn {
+  display: inline-block; font: inherit; font-size: 0.875rem; font-weight: 600;
+  padding: 8px 18px; border-radius: var(--radius-sm);
+  background: var(--mk-accent-strong); color: var(--mk-on-accent);
+  border: 1px solid var(--mk-accent-strong);
+}
+.mk-btn:hover { text-decoration: none; filter: brightness(1.06); color: var(--mk-on-accent); }
+.mk-link {
+  font-size: 0.875rem; color: var(--text-soft);
+  border-bottom: 1px solid var(--border-strong);
+}
+.mk-link:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
+.mk-footnote { margin-left: auto; font-size: 0.75rem; color: var(--text-muted); }
+
+/* The same treatment as .nav-cta in ../styles.css: fill is the text
+   colour, label is the page ground, so the button inverts with the
+   theme instead of being a black chip. */
+.mk-ghbtn {
+  display: inline-block; border: 0;
+  background: var(--text); color: var(--bg);
+  padding: 8px 14px; border-radius: 8px;
+  font-weight: 600; font-size: 13.5px;
+}
+.mk-ghbtn:hover { background: var(--accent); color: var(--bg); text-decoration: none; }
+
+@media (max-width: 720px) {
+  .mk-head h1 { font-size: 2rem; }
+  .mk-dl { grid-template-columns: 1fr; }
+  .mk-dl dt { padding-bottom: 0; border-bottom: 0; }
+  .mk-dl dd { padding-top: 4px; }
+  /* Under 720px there is no room to reserve 236px of header for the
+     action cluster, so it stops being absolute and becomes its own
+     right-aligned row. Same order, same corner, no overlap. */
+  .mk-dlg-head { padding: 16px 20px 18px; }
+  .mk-dlg-actions { position: static; justify-content: flex-end; margin: 0 0 12px; }
+  .mk-dlg-body { padding: 20px; }
+  .mk-dlg-foot { padding: 14px 20px; }
+  .mk-flabel { flex-basis: 100%; }
+}
+@media (max-width: 520px) { .rf-src { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .picker-page .rf-card { transition: none; }
+  .picker-page .rf-card:hover { transform: none; }
+}
