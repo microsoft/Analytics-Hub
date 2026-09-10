@@ -185,7 +185,7 @@ const TOOLS = [
     source: "Local Cowork sessions (OneDrive)",
     sourceKey: "Local",
     repo: "https://github.com/microsoft/What-I-did-with-Cowork",
-    download: "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v24.zip",
+    download: "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v37.zip",
     preview: "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
     blurb: "Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categories, and renders a single-file HTML report with Time Saved, professional-services-equivalent value, and a mapping to the four Value Pillars.",
     meta: { audience: "Cowork users, IC leads, execs quantifying Cowork ROI", license: "None — runs locally", time: "~2 minutes" },
@@ -309,7 +309,7 @@ const TOOLS = [
   {
     id: 'cowork-billing-report',
     question: "I want to determine the chargeback and department-level cost allocation.",
-    title: "Copilot Cowork Billing Report",
+    title: "Cowork Chargeback Report Power BI",
     icon: "🧾",
     accent: "#0078d4",
     category: "impact-roi",
