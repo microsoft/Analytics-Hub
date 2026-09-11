@@ -11,6 +11,7 @@
      5. CTA / button tracking    → "cta: <label>"
      6. Search usage             → "search used"
      7. Engaged dwell            → "engaged 30s"
+     8. Video plays              → "video play: <file>"
 
    Design rules:
      - Event names carry WHAT was clicked, not just that something was.
@@ -197,6 +198,44 @@
       fired = true;
       safeEvent("search used");
     }, { passive: true });
+  })();
+
+  // ---------------------------------------------------- video plays
+  /* Native <video> play buttons live INSIDE the element, so they never reach
+   * the click handler above. Listen for the first "play" of each video and
+   * name it by its source file, so the count answers "how many times was the
+   * ValueLens demo actually started" rather than an anonymous tally.
+   *
+   *   - Capture phase: the "play" event does not bubble.
+   *   - Fires once per <video> per page load (a scrub/pause/resume is the same
+   *     view, not a new one), so the number is "video starts", not "play events".
+   *   - Name is the source file with its extension dropped, bounded and safe. */
+  function videoName(el) {
+    if (!el) return "";
+    var src = el.currentSrc || el.getAttribute("src") || "";
+    if (!src) {
+      var s = el.querySelector && el.querySelector("source[src]");
+      if (s) src = s.getAttribute("src") || "";
+    }
+    if (!src) {
+      var lbl = el.getAttribute("aria-label") || el.getAttribute("title") || "";
+      return cleanLabel(lbl);
+    }
+    var name = fileOf(src).replace(/\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i, "");
+    return name.slice(0, 60);
+  }
+
+  (function () {
+    var seen = (typeof WeakSet === "function") ? new WeakSet() : null;
+    document.addEventListener("play", function (ev) {
+      try {
+        var v = ev.target;
+        if (!v || !v.tagName || v.tagName !== "VIDEO") return;
+        if (seen) { if (seen.has(v)) return; seen.add(v); }
+        var name = videoName(v);
+        safeEvent(name ? "video play: " + name : "video play");
+      } catch (e) { /* never break the page */ }
+    }, true);
   })();
 
   // ---------------------------------------------------- engaged dwell
