@@ -156,7 +156,7 @@
           <div class="cr-facet-tiles" id="goalTiles"></div>
         </div>
         <div class="cr-facet cr-facet--product">
-          <p class="cr-facet-h"><span class="fx">&#129513;</span> By product <small>— which Copilot surface?</small></p>
+          <p class="cr-facet-h"><span class="fx">&#129513;</span> By product <small>— pick one or more surfaces</small></p>
           <div class="cr-facet-tiles" id="productTiles"></div>
         </div>
       </div>
@@ -268,17 +268,17 @@
       use:'unify credit & cost across Cowork, Studio, GitHub and Azure AI Foundry with forecast & dept breakdowns',
       data:['credits'], audience:'FinOps, IT finance', effort:'med',
       url:'https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot',
-      products:['cowork','github'], productRank:{cowork:3}, goals:{cost:1} },
+      products:['cowork','github'], productRank:{cowork:4}, goals:{cost:1} },
     { id:'credit-usage', name:'Credit Usage & Chargeback', ic:'\uD83E\uDDEE',
       use:'attribute per-user / per-department credit spend for internal billing at $0.01/credit',
       data:['credits','purview'], audience:'Finance, cost centres', effort:'low',
       url:'https://github.com/microsoft/CreditUsage',
-      products:['cowork'], productRank:{cowork:4}, goals:{cost:1} },
+      products:['cowork'], productRank:{cowork:5}, goals:{cost:1} },
     { id:'cowork-chargeback', name:'Cowork Chargeback (web app)', ic:'\uD83E\uDDFE',
       use:'get a finance-ready, invoice-reconciled bill per cost centre — entirely in your browser',
       data:['credits'], audience:'Finance, cost centres', effort:'low',
       url:'https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/',
-      products:['cowork'], productRank:{cowork:5}, goals:{cost:2} },
+      products:['cowork'], productRank:{cowork:6}, goals:{cost:2} },
     { id:'agent-evaluator', name:'Agent Evaluator', ic:'\uD83E\uDD16',
       use:'measure Copilot Studio agent quality — resolution, escalation, grounding, CSAT and per-agent spend',
       data:['copilotstudio'], audience:'Agent owners, makers', effort:'med',
@@ -314,16 +314,21 @@
       data:['personal'], audience:'Cowork users, IC leads, execs', effort:'low',
       url:'https://github.com/microsoft/What-I-did-with-Cowork',
       products:['cowork'], productRank:{cowork:2}, goals:{impact:2, individual:1} },
+    { id:'cowork-team-report', name:'Cowork Team Report', ic:'\uD83D\uDCEC',
+      use:'roll up your team\u2019s Cowork hours saved & dollar value into an anonymized newsletter dashboard, emailed on a schedule',
+      data:['personal'], audience:'Team leads, managers, execs', effort:'low',
+      url:'https://microsoft.github.io/CoworkDashboard/',
+      products:['cowork'], productRank:{cowork:3}, goals:{impact:2} },
     { id:'personal-copilot-dashboard', name:'Personal Copilot Dashboard', ic:'\uD83D\uDCCA',
       use:'see your own Copilot, agent & Cowork usage vs org benchmarks in a personal Power BI view',
       data:['viva'], audience:'Individual users, IC leads', effort:'low',
       url:'https://github.com/microsoft/Personal-Dashboard',
-      products:['m365','cowork'], productRank:{cowork:6, m365:3}, goals:{individual:1} }
+      products:['m365','cowork'], productRank:{cowork:7, m365:3}, goals:{individual:1} }
   ];
 
   var EFFORT = { low:['cr-eff--low','Low'], med:['cr-eff--med','Medium'], high:['cr-eff--high','High'] };
 
-  var state = { goal:null, product:null };
+  var state = { goal:null, product:[] };
   var $ = function (id) { return document.getElementById(id); };
   function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
   function dataLabels(ids){ return ids.map(function(d){return DATA_SOURCES[d]||d;}); }
@@ -344,13 +349,24 @@
   // rank a report given the active facets. Lower = stronger fit.
   function rankOf(r){
     if (state.goal) return r.goals[state.goal];           // explicit goal rank
-    if (state.product && r.productRank && r.productRank[state.product]) return r.productRank[state.product];
+    if (state.product.length && r.productRank){            // best productRank across selected surfaces
+      var pr = 9, hit = false;
+      for (var i=0;i<state.product.length;i++){
+        var v = r.productRank[state.product[i]];
+        if (v){ hit = true; if (v < pr) pr = v; }
+      }
+      if (hit) return pr;
+    }
     // product-only (or nothing): use the report's best goal rank as prominence
     var best = 9; for (var k in r.goals) if (r.goals[k] < best) best = r.goals[k];
     return best;
   }
   function matchesGoal(r){ return !state.goal || !!r.goals[state.goal]; }
-  function matchesProduct(r){ return !state.product || r.products.indexOf(state.product) >= 0; }
+  function matchesProduct(r){
+    if (!state.product.length) return true;               // OR across selected products
+    for (var i=0;i<state.product.length;i++){ if (r.products.indexOf(state.product[i]) >= 0) return true; }
+    return false;
+  }
 
   function currentList(){
     return REPORTS.filter(function (r) { return matchesGoal(r) && matchesProduct(r); })
@@ -360,9 +376,11 @@
       });
   }
 
+  function productSummary(){ return state.product.map(function(id){ return PRODUCT_LABELS[id]; }).join(' + '); }
+
   function resultsHeading(){
     var g = state.goal ? goalTitle(state.goal) : null;
-    var p = state.product ? PRODUCT_LABELS[state.product] : null;
+    var p = state.product.length ? productSummary() : null;
     if (g && p)  return { t:'For ' + g + ' in ' + p, s:'' };
     if (g)       return { t:'For ' + g + ', start here', s:'' };
     if (p)       return { t:p + ' reports', s:'' };
@@ -372,16 +390,18 @@
   function renderActive(){
     var bits = [];
     if (state.goal)    bits.push('<span class="cr-tag cr-tag--goal">'+esc(goalTitle(state.goal))+' <button data-clear="goal" aria-label="Clear goal">\u00D7</button></span>');
-    if (state.product) bits.push('<span class="cr-tag cr-tag--product">'+esc(PRODUCT_LABELS[state.product])+' <button data-clear="product" aria-label="Clear product">\u00D7</button></span>');
+    state.product.forEach(function(id){
+      bits.push('<span class="cr-tag cr-tag--product">'+esc(PRODUCT_LABELS[id])+' <button data-clear-product="'+id+'" aria-label="Remove '+esc(PRODUCT_LABELS[id])+'">\u00D7</button></span>');
+    });
     var el = $('active');
-    if (!bits.length){ el.innerHTML = '<span class="cr-active-lbl">No filter yet — pick a goal, a product, or both.</span>'; return; }
+    if (!bits.length){ el.innerHTML = '<span class="cr-active-lbl">No filter yet — pick a goal, one or more products, or a mix.</span>'; return; }
     el.innerHTML = '<span class="cr-active-lbl">Filtering by:</span>' + bits.join('') +
       '<button class="cr-clear" data-clear="all">Clear all</button>';
   }
 
   function renderCards(){
     var sec = $('resultsSection');
-    if (!state.goal && !state.product){ sec.hidden = true; return; }
+    if (!state.goal && !state.product.length){ sec.hidden = true; return; }
     sec.hidden = false;
     var head = resultsHeading();
     $('resultsTitle').textContent = head.t;
@@ -389,7 +409,7 @@
     var list = currentList();
 
     if (!list.length){
-      $('cards').innerHTML = '<div class="cr-empty">No report matches <em>'+esc(goalTitle(state.goal))+'</em> for <em>'+esc(PRODUCT_LABELS[state.product])+'</em>. Try clearing one of the two filters.</div>';
+      $('cards').innerHTML = '<div class="cr-empty">No report matches <em>'+esc(goalTitle(state.goal))+'</em> for <em>'+esc(productSummary())+'</em>. Try clearing one of the filters.</div>';
       return;
     }
     $('cards').innerHTML = list.map(function (r) {
@@ -435,13 +455,13 @@
       b.classList.toggle('is-active', b.getAttribute('data-goal') === state.goal);
     });
     Array.prototype.forEach.call(document.querySelectorAll('[data-product]'), function (b) {
-      b.classList.toggle('is-active', b.getAttribute('data-product') === state.product);
+      b.classList.toggle('is-active', state.product.indexOf(b.getAttribute('data-product')) >= 0);
     });
   }
 
   function refresh(scroll){
     syncTiles(); renderActive(); renderCards(); renderMatrix();
-    if (scroll && (state.goal || state.product)) $('resultsSection').scrollIntoView({ behavior:'smooth', block:'start' });
+    if (scroll && (state.goal || state.product.length)) $('resultsSection').scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
   // ---- Interactions -------------------------------------------------------
@@ -454,15 +474,18 @@
   $('productTiles').addEventListener('click', function (e) {
     var btn = e.target.closest('[data-product]'); if (!btn) return;
     var v = btn.getAttribute('data-product');
-    state.product = (state.product === v) ? null : v;
+    var i = state.product.indexOf(v);
+    if (i >= 0) state.product.splice(i, 1); else state.product.push(v);
     refresh(true);
   });
   $('active').addEventListener('click', function (e) {
+    var one = e.target.closest('[data-clear-product]');
+    if (one){ var id = one.getAttribute('data-clear-product'); var j = state.product.indexOf(id); if (j >= 0) state.product.splice(j, 1); refresh(false); return; }
     var btn = e.target.closest('[data-clear]'); if (!btn) return;
     var what = btn.getAttribute('data-clear');
     if (what === 'goal') state.goal = null;
-    else if (what === 'product') state.product = null;
-    else { state.goal = null; state.product = null; }
+    else if (what === 'product') state.product = [];
+    else { state.goal = null; state.product = []; }
     refresh(false);
   });
 

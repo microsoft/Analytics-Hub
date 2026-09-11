@@ -119,3 +119,12 @@ Tracks design/layout decisions and changes for the new **Community** tab (polls 
 - **WENT LIVE (2026-09-10):** removed `noindex` + "Mockup · for review" flag; the **Reports** nav
   tab now points to `docs/choose-report/` across all 21 pages (replacing `explore-reports/`, which
   remains as the detailed catalogue the picker links into).
+- **Multi-select products (2026-09-11):** the product facet now accepts multiple surfaces with an
+  **OR** condition (e.g. Copilot Chat + Studio Agents shows the union). `state.product` is an array;
+  each selected surface is a removable tag. Goal facet stays single-select. Ranking with multiple
+  surfaces uses the strongest per-surface `productRank` (min), else the report's best goal rank —
+  so "Best fit" can surface several cards (a report that's a hero for any selected surface).
+- **Added Cowork Team Report (2026-09-11):** https://microsoft.github.io/CoworkDashboard/ — team-level
+  Cowork ROI newsletter (anonymized hours saved & dollar value, runs in-browser, no tenant data).
+  Tagged ROI & Impact (also-works) + Cowork product at Cowork rank 3 (after What Cowork Did For Me);
+  cost/dashboard reports bumped down one so ValueLens stays the sole Cowork hero. 19 reports total.
