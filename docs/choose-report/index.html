@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Which report should I use? — Guided picker · Analytics Hub</title>
+  <meta name="description" content="Answer one question about your goal and the data you can access, and get the right Microsoft Copilot reporting template — with a plain-English 'when to use which' comparison." />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../palette.css" />
+  <script src="../palette.js" defer></script>
+  <style>
+    .cr-page{--cr-gap:1.1rem;}
+    .cr-hero{padding:2.6rem 0 1.2rem;text-align:center;}
+    .cr-hero .eyebrow{color:var(--accent,#0078d4);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.78rem;margin:0 0 .5rem;}
+    .cr-hero h1{font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.15;margin:0 0 .6rem;}
+    .cr-hero .grad{background:linear-gradient(90deg,#0078d4,#8661c5);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .cr-hero .lede{max-width:640px;margin:0 auto;color:var(--text-muted,#5a6470);font-size:1.05rem;line-height:1.55;}
+    .cr-mock-flag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#8a5a00;background:#fff4d6;border:1px solid #f0d48a;border-radius:999px;padding:3px 10px;margin-bottom:1rem;}
+
+    .cr-step-label{font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted,#5a6470);margin:0 0 .8rem;display:flex;align-items:center;gap:.55rem;}
+    .cr-step-num{display:inline-grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:999px;background:var(--accent,#0078d4);color:#fff;font-size:.8rem;}
+
+    /* Goal tiles */
+    .cr-goals{display:grid;gap:var(--cr-gap);grid-template-columns:1fr;margin:0 0 2.2rem;}
+    @media(min-width:640px){.cr-goals{grid-template-columns:1fr 1fr;}}
+    @media(min-width:960px){.cr-goals{grid-template-columns:1fr 1fr 1fr;}}
+    .cr-goal{position:relative;text-align:left;border:1px solid var(--border,#e2e6ea);border-radius:14px;background:var(--surface,#fff);
+      padding:1.1rem 1.15rem;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;color:inherit;font:inherit;}
+    .cr-goal:hover{border-color:var(--accent,#0078d4);box-shadow:0 8px 24px -16px rgba(15,18,28,.4);transform:translateY(-2px);}
+    .cr-goal.is-active{border-color:var(--accent,#0078d4);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent,#0078d4) 35%,transparent);}
+    .cr-goal .gi{font-size:1.5rem;line-height:1;display:block;margin-bottom:.5rem;}
+    .cr-goal .gt{font-weight:650;font-size:1.02rem;margin:0 0 .25rem;}
+    .cr-goal .gd{font-size:.86rem;color:var(--text-muted,#5a6470);line-height:1.45;margin:0;}
+
+    /* Facets — goal & product at parity */
+    .cr-facets{display:grid;gap:var(--cr-gap);grid-template-columns:1fr;margin:0 0 1.4rem;}
+    @media(min-width:860px){.cr-facets{grid-template-columns:1fr 1fr;}}
+    .cr-facet{border:1px solid var(--border,#e2e6ea);border-radius:16px;background:color-mix(in srgb,var(--accent,#0078d4) 3%,var(--surface,#fff));padding:1.1rem 1.15rem;}
+    .cr-facet-h{display:flex;align-items:center;gap:.5rem;margin:0 0 .9rem;font-weight:700;font-size:1.02rem;}
+    .cr-facet-h .fx{font-size:1.15rem;}
+    .cr-facet-h small{font-weight:400;color:var(--text-muted,#5a6470);font-size:.82rem;}
+    .cr-facet-tiles{display:grid;gap:.6rem;grid-template-columns:1fr;}
+    @media(min-width:520px){.cr-facet-tiles{grid-template-columns:1fr 1fr;}}
+    .cr-tile{position:relative;text-align:left;border:1px solid var(--border,#e2e6ea);border-radius:11px;background:var(--surface,#fff);
+      padding:.7rem .8rem;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;color:inherit;font:inherit;display:flex;gap:.55rem;align-items:flex-start;}
+    .cr-tile:hover{border-color:var(--accent,#0078d4);transform:translateY(-1px);}
+    .cr-tile.is-active{border-color:var(--accent,#0078d4);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent,#0078d4) 35%,transparent);background:color-mix(in srgb,var(--accent,#0078d4) 7%,var(--surface,#fff));}
+    .cr-tile .ti{font-size:1.25rem;line-height:1.1;}
+    .cr-tile .tt{font-weight:640;font-size:.94rem;margin:0;line-height:1.2;}
+    .cr-tile .td{font-size:.78rem;color:var(--text-muted,#5a6470);margin:.15rem 0 0;line-height:1.35;}
+    .cr-tile--compact{align-items:center;padding:.6rem .8rem;}
+    .cr-tile--compact .tt{font-size:.95rem;}
+    .cr-facet--product .cr-tile.is-active{border-color:#8661c5;box-shadow:0 0 0 2px color-mix(in srgb,#8661c5 35%,transparent);background:color-mix(in srgb,#8661c5 8%,var(--surface,#fff));}
+
+    /* Active filter summary */
+    .cr-active{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0 0 1.8rem;min-height:1.9rem;}
+    .cr-active-lbl{font-size:.84rem;color:var(--text-muted,#5a6470);}
+    .cr-tag{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;border-radius:999px;padding:.25rem .6rem .25rem .7rem;border:1px solid transparent;}
+    .cr-tag--goal{background:color-mix(in srgb,var(--accent,#0078d4) 12%,transparent);color:var(--accent,#0078d4);}
+    .cr-tag--product{background:color-mix(in srgb,#8661c5 14%,transparent);color:#6c4ba6;}
+    .cr-tag button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:1rem;line-height:1;padding:0;margin-left:.1rem;}
+    .cr-clear{margin-left:auto;font-size:.82rem;background:transparent;border:0;color:var(--accent,#0078d4);cursor:pointer;text-decoration:underline;}
+
+
+    .cr-refine{border:1px solid var(--border,#e2e6ea);border-radius:14px;background:var(--surface,#fff);padding:1.1rem 1.2rem;margin:0 0 1.6rem;}
+    .cr-pills{display:flex;flex-wrap:wrap;gap:.5rem;}
+    .cr-pill{border:1px solid var(--border,#e2e6ea);background:transparent;color:inherit;border-radius:999px;padding:.4rem .85rem;font-size:.86rem;cursor:pointer;transition:.15s;}
+    .cr-pill:hover{border-color:var(--accent,#0078d4);}
+    .cr-pill.is-on{background:var(--accent,#0078d4);border-color:var(--accent,#0078d4);color:#fff;}
+    .cr-refine-hint{font-size:.82rem;color:var(--text-muted,#5a6470);margin:.7rem 0 0;}
+
+    /* Results */
+    .cr-results{margin:0 0 2.6rem;}
+    .cr-results-head{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:0 0 1rem;}
+    .cr-results-head h2{margin:0;font-size:1.25rem;}
+    .cr-results-sub{color:var(--text-muted,#5a6470);font-size:.9rem;}
+    .cr-cards{display:grid;gap:var(--cr-gap);grid-template-columns:1fr;}
+    @media(min-width:820px){.cr-cards{grid-template-columns:1fr 1fr;}}
+    .cr-card{border:1px solid var(--border,#e2e6ea);border-radius:14px;background:var(--surface,#fff);padding:1.15rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;}
+    .cr-card.is-primary{border-color:var(--accent,#0078d4);box-shadow:0 10px 30px -18px rgba(0,120,212,.6);}
+    .cr-card-top{display:flex;align-items:flex-start;gap:.7rem;}
+    .cr-card-ic{font-size:1.6rem;line-height:1;}
+    .cr-card h3{margin:0;font-size:1.08rem;}
+    .cr-badge{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-radius:999px;padding:2px 8px;white-space:nowrap;}
+    .cr-badge--best{background:var(--accent,#0078d4);color:#fff;}
+    .cr-badge--alt{background:color-mix(in srgb,var(--text,#1b1b1b) 8%,transparent);color:var(--text-muted,#5a6470);}
+    .cr-why{font-size:.9rem;line-height:1.5;margin:0;}
+    .cr-why b{color:var(--accent,#0078d4);}
+    .cr-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.15rem;}
+    .cr-chip{font-size:.75rem;border:1px solid var(--border,#e2e6ea);border-radius:6px;padding:2px 7px;color:var(--text-muted,#5a6470);}
+    .cr-chip b{color:var(--text,#1b1b1b);font-weight:600;}
+    .cr-card-cta{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem;}
+    .cr-btn{font-size:.85rem;font-weight:600;text-decoration:none;padding:.45rem .85rem;border-radius:8px;border:1px solid var(--accent,#0078d4);}
+    .cr-btn--fill{background:var(--accent,#0078d4);color:#fff;}
+    .cr-btn--ghost{background:transparent;color:var(--accent,#0078d4);}
+    .cr-empty{border:1px dashed var(--border,#e2e6ea);border-radius:12px;padding:1.4rem;text-align:center;color:var(--text-muted,#5a6470);}
+
+    /* Matrix */
+    .cr-matrix-wrap{overflow-x:auto;border:1px solid var(--border,#e2e6ea);border-radius:14px;}
+    table.cr-matrix{border-collapse:collapse;width:100%;min-width:820px;font-size:.88rem;}
+    .cr-matrix th,.cr-matrix td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--border,#e2e6ea);vertical-align:top;}
+    .cr-matrix thead th{position:sticky;top:0;background:var(--surface,#fff);font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#5a6470);}
+    .cr-matrix tbody tr:hover{background:color-mix(in srgb,var(--accent,#0078d4) 5%,transparent);}
+    .cr-matrix .rn{font-weight:600;white-space:nowrap;}
+    .cr-matrix .rn a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;}
+    .cr-matrix .rn a:hover{border-bottom-color:currentColor;}
+    .cr-eff{font-weight:600;font-size:.8rem;padding:2px 8px;border-radius:999px;}
+    .cr-eff--low{background:#e7f6ec;color:#1c6b34;}
+    .cr-eff--med{background:#fff3d6;color:#8a5a00;}
+    .cr-eff--high{background:#fdeaea;color:#9a2020;}
+    .cr-row-dim{opacity:.32;}
+    .cr-section{margin:0 0 2.8rem;}
+    .cr-section > .wrap > h2{font-size:1.4rem;margin:0 0 .3rem;}
+    .cr-section-lede{color:var(--text-muted,#5a6470);margin:0 0 1.2rem;max-width:680px;}
+    .cr-note{font-size:.82rem;color:var(--text-muted,#5a6470);margin-top:.8rem;}
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="top" class="cr-page">
+  <section class="cr-hero">
+    <div class="wrap">
+      <p class="eyebrow">Which report should I use?</p>
+      <h1>Filter by <span class="grad">goal, product, or both</span></h1>
+      <p class="lede">Twenty-plus templates is a lot. Narrow by what you're trying to do, by the Copilot surface you care about, or combine the two — we'll rank the report that fits, plus a plain-English guide to when to use which.</p>
+    </div>
+  </section>
+
+  <section class="cr-section">
+    <div class="wrap">
+      <div class="cr-facets">
+        <div class="cr-facet cr-facet--goal">
+          <p class="cr-facet-h"><span class="fx">&#127919;</span> By goal <small>— what are you trying to do?</small></p>
+          <div class="cr-facet-tiles" id="goalTiles"></div>
+        </div>
+        <div class="cr-facet cr-facet--product">
+          <p class="cr-facet-h"><span class="fx">&#129513;</span> By product <small>— which Copilot surface?</small></p>
+          <div class="cr-facet-tiles" id="productTiles"></div>
+        </div>
+      </div>
+      <div class="cr-active" id="active"></div>
+    </div>
+  </section>
+
+  <section class="cr-section cr-results" id="resultsSection" hidden>
+    <div class="wrap">
+      <div class="cr-results-head">
+        <h2 id="resultsTitle">Recommended for you</h2>
+        <span class="cr-results-sub" id="resultsSub"></span>
+      </div>
+      <div class="cr-cards" id="cards"></div>
+    </div>
+  </section>
+
+  <section class="cr-section">
+    <div class="wrap">
+      <h2>When to use which — at a glance</h2>
+      <p class="cr-section-lede">The full picture in one table. As you pick a goal (and optionally a surface) above, matching rows stay bold and the rest dim, so you see your options in context instead of in isolation.</p>
+      <div class="cr-matrix-wrap">
+        <table class="cr-matrix">
+          <thead>
+            <tr>
+              <th>Report</th><th>Use it when you need to…</th><th>Surfaces</th><th>Best for</th><th>Setup</th>
+            </tr>
+          </thead>
+          <tbody id="matrixBody"></tbody>
+        </table>
+      </div>
+      <p class="cr-note">Grounded in the live catalogue. "Setup" is a rough effort signal (Low = a script/CSV; Medium = template + a data source to stage; High = pipeline/lakehouse). Not every one of the 22 tools is shown — this is the decision-first slice.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  // ---- Data (curated from the live report catalogue) ----------------------
+  var DATA_SOURCES = {
+    purview:      'Purview audit logs',
+    viva:         'Viva Insights',
+    m365admin:    'M365 admin center',
+    copilotstudio:'Copilot Studio transcripts',
+    github:       'GitHub Copilot',
+    credits:      'Credit / cost exports',
+    defender:     'Microsoft Defender',
+    personal:     'My own OneDrive / VS Code',
+    sample:       'None — sample data'
+  };
+
+  var PRODUCTS = [
+    { id:'m365',   ic:'\uD83D\uDCCA', title:'M365 Copilot' },
+    { id:'chat',   ic:'\uD83D\uDCAC', title:'Copilot Chat' },
+    { id:'studio', ic:'\uD83E\uDD16', title:'Studio Agents' },
+    { id:'cowork', ic:'\uD83E\uDDFE', title:'Cowork' },
+    { id:'github', ic:'\u2328\uFE0F', title:'GitHub Copilot' }
+  ];
+  var PRODUCT_LABELS = {};
+  PRODUCTS.forEach(function (p) { PRODUCT_LABELS[p.id] = p.title; });
+
+  var GOALS = [
+    { id:'impact',     ic:'\uD83D\uDCA0', title:'ROI & Impact',           desc:'Hours saved, assisted value, dollars.' },
+    { id:'adoption',   ic:'\uD83D\uDCC8', title:'Adoption',               desc:'Who uses Copilot & how habits spread.' },
+    { id:'cost',       ic:'\uD83E\uDDEE', title:'Cost & Consumption',     desc:'Credit spend, forecast & per-dept chargeback.' },
+    { id:'agents',     ic:'\uD83D\uDEE0\uFE0F', title:'Agent quality',    desc:'Resolution, escalation, performance, latency.' },
+    { id:'developer',  ic:'\u2699\uFE0F', title:'Developer productivity', desc:'GitHub Copilot adoption & acceptance.' },
+    { id:'individual', ic:'\uD83D\uDE4B', title:'Individual productivity', desc:'Your own Copilot usage & personal digests.' }
+  ];
+
+  // rank: 1 = primary/best fit for that goal, 2 = strong alternative
+  var REPORTS = [
+    { id:'valuelens', name:'ValueLens', ic:'\uD83D\uDD2C',
+      use:'turn Copilot audit logs into hours saved, assisted value & maturity — a board-ready ROI story',
+      data:['purview','m365admin','sample'], audience:'Execs, BDMs, value teams', effort:'med',
+      url:'https://github.com/microsoft/ValueLens-for-Microsoft-Copilot',
+      products:['m365','studio','cowork'], productRank:{m365:9, cowork:1}, goals:{impact:1} },
+    { id:'roi-calc', name:'ROI Calculator', ic:'\uD83D\uDCB0',
+      use:'dollarise the Super Usage heatmap into a quick exec ROI summary',
+      data:['viva'], audience:'Execs, change leads', effort:'low',
+      url:'../explore-reports/#roi-calc',
+      products:['m365'], productRank:{m365:7}, goals:{impact:2} },
+    { id:'ess', name:'ESS Insights', ic:'\uD83E\uDDD1\u200D\uD83D\uDCBC',
+      use:'show an Employee Self-Service agent\u2019s deflection, time-to-knowledge and dollars saved',
+      data:['copilotstudio','sample'], audience:'ESS / HR service owners', effort:'med',
+      url:'https://github.com/microsoft/ESS',
+      products:['studio'], goals:{impact:2, agents:2} },
+    { id:'super-impact', name:'Super User Impact', ic:'\uD83C\uDFC6',
+      use:'quantify the work-pattern lift super users create vs comparable peers',
+      data:['viva'], audience:'Execs, HR analytics', effort:'med',
+      url:'https://github.com/microsoft/superuserimpact',
+      products:['m365'], productRank:{m365:4}, goals:{impact:1} },
+    { id:'ai-in-one', name:'AI-in-One Dashboard', ic:'\uD83C\uDF10',
+      use:'see all Copilot surfaces + agent activity in one broad single-pane view',
+      data:['purview','m365admin'], audience:'CCMs, IT, adoption leads', effort:'med',
+      url:'https://github.com/microsoft/AI-in-One-Dashboard',
+      products:['m365','chat','studio'], productRank:{m365:2}, goals:{adoption:1} },
+    { id:'super-usage', name:'Super Usage Adoption', ic:'\u26A1',
+      use:'profile your super users — what they use and how the habit formed — so you can replicate it',
+      data:['viva'], audience:'CCMs, enablement leads', effort:'med',
+      url:'https://github.com/microsoft/DecodingSuperUsage',
+      products:['m365'], productRank:{m365:1}, goals:{adoption:1} },
+    { id:'adoption-sent', name:'Adoption & Sentiment', ic:'\uD83D\uDC9A',
+      use:'pair usage trends with how people actually feel about Copilot',
+      data:['purview'], audience:'Adoption & comms leads', effort:'med',
+      url:'https://github.com/olivierpecheux/copilot-adoption-sentiment-report',
+      products:['m365'], productRank:{m365:6}, goals:{adoption:2} },
+    { id:'consumption-central', name:'Consumption Central', ic:'\uD83D\uDCB3',
+      use:'unify credit & cost across Cowork, Studio, GitHub and Azure AI Foundry with forecast & dept breakdowns',
+      data:['credits'], audience:'FinOps, IT finance', effort:'med',
+      url:'https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot',
+      products:['cowork','github'], productRank:{cowork:3}, goals:{cost:1} },
+    { id:'credit-usage', name:'Credit Usage & Chargeback', ic:'\uD83E\uDDEE',
+      use:'attribute per-user / per-department credit spend for internal billing at $0.01/credit',
+      data:['credits','purview'], audience:'Finance, cost centres', effort:'low',
+      url:'https://github.com/microsoft/CreditUsage',
+      products:['cowork'], productRank:{cowork:4}, goals:{cost:1} },
+    { id:'cowork-chargeback', name:'Cowork Chargeback (web app)', ic:'\uD83E\uDDFE',
+      use:'get a finance-ready, invoice-reconciled bill per cost centre — entirely in your browser',
+      data:['credits'], audience:'Finance, cost centres', effort:'low',
+      url:'https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/',
+      products:['cowork'], productRank:{cowork:5}, goals:{cost:2} },
+    { id:'agent-evaluator', name:'Agent Evaluator', ic:'\uD83E\uDD16',
+      use:'measure Copilot Studio agent quality — resolution, escalation, grounding, CSAT and per-agent spend',
+      data:['copilotstudio'], audience:'Agent owners, makers', effort:'med',
+      url:'https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio',
+      products:['studio'], goals:{agents:1} },
+    { id:'chat-agent', name:'Copilot Chat & Agent Intel', ic:'\uD83D\uDCAC',
+      use:'deep-dive chat and agent activity analytics across the org',
+      data:['purview'], audience:'Analysts, CCMs', effort:'med',
+      url:'https://github.com/microsoft/CopilotChatAnalytics',
+      products:['chat','studio'], goals:{agents:2, adoption:2} },
+    { id:'m365-readiness', name:'M365 Copilot Readiness', ic:'\u2705',
+      use:'find who\u2019s ready to be enabled and who to groom as a champion',
+      data:['m365admin'], audience:'Adoption & license owners', effort:'med',
+      url:'https://github.com/microsoft/M365UsageAnalytics',
+      products:['m365'], productRank:{m365:5}, surfaceLabel:'M365 apps', goals:{adoption:2} },
+    { id:'ai-solutions', name:'AI Solutions Intelligence', ic:'\uD83D\uDEF0\uFE0F',
+      use:'spot shadow-AI tools, OAuth consent risk and behavioural anomalies tenant-wide',
+      data:['defender','purview'], audience:'Security, IT governance', effort:'high',
+      url:'https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard',
+      products:['m365','chat'], productRank:{m365:8}, surfaceLabel:'All AI', goals:{adoption:2} },
+    { id:'ghcp-impact', name:'GitHub Copilot Impact', ic:'\u2699\uFE0F',
+      use:'measure developer adoption, acceptance rates and productivity lift',
+      data:['github'], audience:'Eng leaders, platform teams', effort:'med',
+      url:'https://github.com/microsoft/GitHubCopilotImpact',
+      products:['github'], goals:{developer:1, adoption:2} },
+    { id:'what-i-did', name:'What I Did (Copilot)', ic:'\uD83D\uDCDD',
+      use:'get a personal digest of what you built with Copilot — no tenant data',
+      data:['personal'], audience:'Individual developers', effort:'low',
+      url:'https://github.com/microsoft/What-I-Did-Copilot',
+      products:['github'], goals:{individual:1, impact:2, developer:2} },
+    { id:'cowork-impact', name:'What Cowork Did For Me', ic:'\uD83C\uDF81',
+      use:'turn your own Cowork session history into time saved & professional-services-equivalent value — runs locally',
+      data:['personal'], audience:'Cowork users, IC leads, execs', effort:'low',
+      url:'https://github.com/microsoft/What-I-did-with-Cowork',
+      products:['cowork'], productRank:{cowork:2}, goals:{impact:2, individual:1} },
+    { id:'personal-copilot-dashboard', name:'Personal Copilot Dashboard', ic:'\uD83D\uDCCA',
+      use:'see your own Copilot, agent & Cowork usage vs org benchmarks in a personal Power BI view',
+      data:['viva'], audience:'Individual users, IC leads', effort:'low',
+      url:'https://github.com/microsoft/Personal-Dashboard',
+      products:['m365','cowork'], productRank:{cowork:6, m365:3}, goals:{individual:1} }
+  ];
+
+  var EFFORT = { low:['cr-eff--low','Low'], med:['cr-eff--med','Medium'], high:['cr-eff--high','High'] };
+
+  var state = { goal:null, product:null };
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s){return String(s==null?'':s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+  function dataLabels(ids){ return ids.map(function(d){return DATA_SOURCES[d]||d;}); }
+  function productLabels(ids){ return ids.map(function(p){return PRODUCT_LABELS[p]||p;}); }
+  function surfacesText(r){ return r.surfaceLabel || productLabels(r.products).join(', '); }
+  function goalTitle(id){ for(var i=0;i<GOALS.length;i++){ if(GOALS[i].id===id) return GOALS[i].title; } return id; }
+
+  function tileHTML(kind, item){
+    var desc = item.desc ? '<span class="td">'+esc(item.desc)+'</span>' : '';
+    return '<button class="cr-tile'+(desc?'':' cr-tile--compact')+'" data-'+kind+'="'+item.id+'"><span class="ti">'+item.ic+'</span>'+
+      '<span><span class="tt">'+esc(item.title)+'</span>'+desc+'</span></button>';
+  }
+
+  // ---- Facet tiles --------------------------------------------------------
+  $('goalTiles').innerHTML    = GOALS.map(function (g) { return tileHTML('goal', g); }).join('');
+  $('productTiles').innerHTML = PRODUCTS.map(function (p) { return tileHTML('product', p); }).join('');
+
+  // rank a report given the active facets. Lower = stronger fit.
+  function rankOf(r){
+    if (state.goal) return r.goals[state.goal];           // explicit goal rank
+    if (state.product && r.productRank && r.productRank[state.product]) return r.productRank[state.product];
+    // product-only (or nothing): use the report's best goal rank as prominence
+    var best = 9; for (var k in r.goals) if (r.goals[k] < best) best = r.goals[k];
+    return best;
+  }
+  function matchesGoal(r){ return !state.goal || !!r.goals[state.goal]; }
+  function matchesProduct(r){ return !state.product || r.products.indexOf(state.product) >= 0; }
+
+  function currentList(){
+    return REPORTS.filter(function (r) { return matchesGoal(r) && matchesProduct(r); })
+      .sort(function (a, b) {
+        var d = rankOf(a) - rankOf(b);
+        return d !== 0 ? d : a.name.localeCompare(b.name);
+      });
+  }
+
+  function resultsHeading(){
+    var g = state.goal ? goalTitle(state.goal) : null;
+    var p = state.product ? PRODUCT_LABELS[state.product] : null;
+    if (g && p)  return { t:'For ' + g + ' in ' + p, s:'' };
+    if (g)       return { t:'For ' + g + ', start here', s:'' };
+    if (p)       return { t:p + ' reports', s:'' };
+    return { t:'Recommended for you', s:'' };
+  }
+
+  function renderActive(){
+    var bits = [];
+    if (state.goal)    bits.push('<span class="cr-tag cr-tag--goal">'+esc(goalTitle(state.goal))+' <button data-clear="goal" aria-label="Clear goal">\u00D7</button></span>');
+    if (state.product) bits.push('<span class="cr-tag cr-tag--product">'+esc(PRODUCT_LABELS[state.product])+' <button data-clear="product" aria-label="Clear product">\u00D7</button></span>');
+    var el = $('active');
+    if (!bits.length){ el.innerHTML = '<span class="cr-active-lbl">No filter yet — pick a goal, a product, or both.</span>'; return; }
+    el.innerHTML = '<span class="cr-active-lbl">Filtering by:</span>' + bits.join('') +
+      '<button class="cr-clear" data-clear="all">Clear all</button>';
+  }
+
+  function renderCards(){
+    var sec = $('resultsSection');
+    if (!state.goal && !state.product){ sec.hidden = true; return; }
+    sec.hidden = false;
+    var head = resultsHeading();
+    $('resultsTitle').textContent = head.t;
+    $('resultsSub').textContent = head.s;
+    var list = currentList();
+
+    if (!list.length){
+      $('cards').innerHTML = '<div class="cr-empty">No report matches <em>'+esc(goalTitle(state.goal))+'</em> for <em>'+esc(PRODUCT_LABELS[state.product])+'</em>. Try clearing one of the two filters.</div>';
+      return;
+    }
+    $('cards').innerHTML = list.map(function (r) {
+      var primary = rankOf(r) === 1;
+      var eff = EFFORT[r.effort];
+      return '<div class="cr-card'+(primary?' is-primary':'')+'">'+
+        '<div class="cr-card-top"><span class="cr-card-ic">'+r.ic+'</span>'+
+          '<div style="flex:1"><h3>'+esc(r.name)+'</h3></div>'+
+          '<span class="cr-badge '+(primary?'cr-badge--best':'cr-badge--alt')+'">'+(primary?'Best fit':'Also works')+'</span>'+
+        '</div>'+
+        '<p class="cr-why">'+(primary?'<b>Use this when</b> ':'Use it when ')+'you need to '+esc(r.use)+'.</p>'+
+        '<div class="cr-meta">'+
+          '<span class="cr-chip"><b>Surfaces:</b> '+esc(surfacesText(r))+'</span>'+
+          '<span class="cr-chip"><b>Data:</b> '+esc(dataLabels(r.data).join(', '))+'</span>'+
+          '<span class="cr-chip"><b>For:</b> '+esc(r.audience)+'</span>'+
+          '<span class="cr-chip"><b>Setup:</b> '+eff[1]+'</span>'+
+        '</div>'+
+        '<div class="cr-card-cta">'+
+          '<a class="cr-btn cr-btn--fill" href="'+r.url+'"'+(/^http/.test(r.url)?' target="_blank" rel="noopener"':'')+'>Open report \u2197</a>'+
+          '<a class="cr-btn cr-btn--ghost" href="../explore-reports/#'+r.id+'">Details</a>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+  }
+
+  // ---- Matrix -------------------------------------------------------------
+  function renderMatrix(){
+    $('matrixBody').innerHTML = REPORTS.map(function (r) {
+      var eff = EFFORT[r.effort];
+      var match = matchesGoal(r) && matchesProduct(r);
+      return '<tr class="'+(match?'':'cr-row-dim')+'">'+
+        '<td class="rn"><a href="'+r.url+'"'+(/^http/.test(r.url)?' target="_blank" rel="noopener"':'')+'>'+r.ic+' '+esc(r.name)+'</a></td>'+
+        '<td>'+esc(r.use.charAt(0).toUpperCase()+r.use.slice(1))+'</td>'+
+        '<td>'+esc(surfacesText(r))+'</td>'+
+        '<td>'+esc(r.audience)+'</td>'+
+        '<td><span class="cr-eff '+eff[0]+'">'+eff[1]+'</span></td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  function syncTiles(){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-goal]'), function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-goal') === state.goal);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-product]'), function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-product') === state.product);
+    });
+  }
+
+  function refresh(scroll){
+    syncTiles(); renderActive(); renderCards(); renderMatrix();
+    if (scroll && (state.goal || state.product)) $('resultsSection').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  // ---- Interactions -------------------------------------------------------
+  $('goalTiles').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-goal]'); if (!btn) return;
+    var v = btn.getAttribute('data-goal');
+    state.goal = (state.goal === v) ? null : v;
+    refresh(true);
+  });
+  $('productTiles').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-product]'); if (!btn) return;
+    var v = btn.getAttribute('data-product');
+    state.product = (state.product === v) ? null : v;
+    refresh(true);
+  });
+  $('active').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-clear]'); if (!btn) return;
+    var what = btn.getAttribute('data-clear');
+    if (what === 'goal') state.goal = null;
+    else if (what === 'product') state.product = null;
+    else { state.goal = null; state.product = null; }
+    refresh(false);
+  });
+
+  renderActive();
+  renderMatrix();
+})();
+</script>
+</body>
+</html>

@@ -82,3 +82,40 @@ Tracks design/layout decisions and changes for the new **Community** tab (polls 
 
 ## Fix — Community page skip link visible (2026-09-09)
 - Community page used 'class="skip-link"' (no CSS anywhere) so the accessibility "Skip to content" link rendered as a visible link. Changed to the sitewide 'class="ah-skip"' (defined in palette.css) so it's hidden off-screen and only appears on keyboard focus, like every other page.
+
+---
+
+## 2026-09-10 — "Which report should I use?" guided picker (mockup)
+- Added `docs/choose-report/index.html` (`noindex`, not linked in nav) — a decision-first
+  page to help users pick the right report instead of scanning the full catalogue.
+- **Faceted, combinable filter (goal & product at parity):** two equal side-by-side panels —
+  "By goal" (ROI & Impact, Adoption, Cost & Consumption, Agent quality, Developer productivity,
+  Individual productivity) and "By product" (M365 Copilot, Copilot Chat, Studio Agents, Cowork,
+  GitHub Copilot). Users can pick a goal, a product, or both (intersection).
+- Consumption is a **goal** (Cost & Consumption), not a surface. Readiness/governance dropped as
+  a category. New **Individual productivity** goal (What I Did, Personal Copilot Dashboard).
+- Product tiles show icon + label only (no hint text) to reduce clutter; goal tiles keep a one-liner.
+- An active-filter summary bar shows the chosen facets as removable tags with a "Clear all".
+- Reports carry a ranked `goals{}` map (1 = best fit, 2 = also works), a `products[]`
+  tag list, and an optional `productRank{}` (per-surface best-fit override), so cross-cutting
+  reports surface under every relevant goal/surface. Ranking: by goal rank when a goal is set,
+  else by `productRank` for the active surface, else by the report's best goal rank.
+- Added **What Cowork Did For Me** (cowork-impact); the two "What I Did" reports also map to
+  ROI & Impact; What I Did (Copilot) also under Developer productivity; What Cowork Did For Me
+  under Individual productivity (best fit for Cowork surface, ahead of Personal Copilot Dashboard).
+- Tag refinements: Super User Impact promoted to ROI & Impact best-fit; Super User Impact &
+  ValueLens dropped from Adoption; ValueLens surfaces = M365/Studio/Cowork (removed from Chat),
+  demoted to last in M365 but **hero (sole best-fit) under Cowork**; M365 order via `productRank`
+  (Super Usage → AI-in-One → Personal Copilot → …); Consumption Central removed from Studio Agents;
+  Credit Usage removed from GitHub Copilot.
+- AI Solutions Intelligence: `surfaceLabel:'All AI'`, data = Defender + Purview; filtered under
+  M365 Copilot and Copilot Chat only (removed from Studio, Cowork, GitHub).
+- M365 Copilot Readiness: `surfaceLabel:'M365 apps'`. GitHub Copilot Impact also mapped to Adoption.
+- Added per-report `surfaceLabel` override for the Surfaces chip/column.
+- Ranked recommendation cards (Best fit / Also works) with use-case, surfaces, data, audience, setup effort.
+- Plus a "when to use which" comparison matrix that dims rows not matching the active facets.
+- Grounded in the live catalogue (`docs/explore-reports/app.js`), curated 16-report subset.
+- Agent quality goal pill reworded: "Resolution, escalation, performance, latency."
+- **WENT LIVE (2026-09-10):** removed `noindex` + "Mockup · for review" flag; the **Reports** nav
+  tab now points to `docs/choose-report/` across all 21 pages (replacing `explore-reports/`, which
+  remains as the detailed catalogue the picker links into).
