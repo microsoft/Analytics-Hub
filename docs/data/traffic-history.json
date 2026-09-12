@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-12T20:21:43.065132Z",
+  "lastUpdated": "2026-09-12T20:26:34.762300Z",
   "repos": {
     "microsoft/Analytics-Hub": {
       "meta": {
@@ -7,7 +7,7 @@
         "forks": 9,
         "watchers": 1,
         "openIssues": 4,
-        "pushedAt": "2026-09-12T20:21:31Z",
+        "pushedAt": "2026-09-12T20:26:14Z",
         "defaultBranch": "main"
       },
       "dailyViews": {
@@ -11636,7 +11636,7 @@
         "forks": 0,
         "watchers": 0,
         "openIssues": 0,
-        "pushedAt": "2026-05-29T07:58:18Z",
+        "pushedAt": "2026-09-10T14:50:57Z",
         "defaultBranch": "main"
       },
       "dailyViews": {
@@ -12131,6 +12131,22 @@
         "2026-09-07": {
           "count": 5,
           "uniques": 2
+        },
+        "2026-09-08": {
+          "count": 0,
+          "uniques": 0
+        },
+        "2026-09-09": {
+          "count": 0,
+          "uniques": 0
+        },
+        "2026-09-10": {
+          "count": 0,
+          "uniques": 0
+        },
+        "2026-09-11": {
+          "count": 0,
+          "uniques": 0
         }
       },
       "dailyClones": {
@@ -12625,29 +12641,40 @@
         "2026-09-07": {
           "count": 0,
           "uniques": 0
+        },
+        "2026-09-08": {
+          "count": 0,
+          "uniques": 0
+        },
+        "2026-09-09": {
+          "count": 4,
+          "uniques": 4
+        },
+        "2026-09-10": {
+          "count": 17,
+          "uniques": 9
+        },
+        "2026-09-11": {
+          "count": 1,
+          "uniques": 1
         }
       },
       "referrers": [
         {
           "referrer": "github.com",
-          "count": 9,
-          "uniques": 5
-        },
-        {
-          "referrer": "Bing",
-          "count": 1,
-          "uniques": 1
+          "count": 7,
+          "uniques": 4
         }
       ],
       "paths": [
         {
           "path": "/jordankingisalive/CopilotROICalculator",
           "title": "Overview",
-          "count": 21,
-          "uniques": 15
+          "count": 10,
+          "uniques": 5
         }
       ],
-      "lastTrafficSync": "2026-09-09"
+      "lastTrafficSync": "2026-09-12"
     },
     "microsoft/PAX-Cookbook": {
       "dailyViews": {
@@ -50284,11 +50311,11 @@
             "metricName": "DeadClickCount",
             "information": [
               {
-                "sessionsCount": 1464,
-                "sessionsWithMetricPercentage": 7.51,
-                "sessionsWithoutMetricPercentage": 92.49,
-                "pagesViews": 126,
-                "subTotal": 175
+                "sessionsCount": 1461,
+                "sessionsWithMetricPercentage": 7.46,
+                "sessionsWithoutMetricPercentage": 92.54,
+                "pagesViews": 125,
+                "subTotal": 174
               }
             ]
           },
@@ -50296,7 +50323,7 @@
             "metricName": "ExcessiveScroll",
             "information": [
               {
-                "sessionsCount": 1464,
+                "sessionsCount": 1461,
                 "sessionsWithMetricPercentage": 0.07,
                 "sessionsWithoutMetricPercentage": 99.93,
                 "pagesViews": 1,
@@ -50308,7 +50335,7 @@
             "metricName": "RageClickCount",
             "information": [
               {
-                "sessionsCount": 1464,
+                "sessionsCount": 1461,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -50320,9 +50347,9 @@
             "metricName": "QuickbackClick",
             "information": [
               {
-                "sessionsCount": 1464,
-                "sessionsWithMetricPercentage": 4.3,
-                "sessionsWithoutMetricPercentage": 95.7,
+                "sessionsCount": 1461,
+                "sessionsWithMetricPercentage": 4.31,
+                "sessionsWithoutMetricPercentage": 95.69,
                 "pagesViews": 94,
                 "subTotal": 94
               }
@@ -50332,7 +50359,7 @@
             "metricName": "ScriptErrorCount",
             "information": [
               {
-                "sessionsCount": 1464,
+                "sessionsCount": 1461,
                 "sessionsWithMetricPercentage": 0.07,
                 "sessionsWithoutMetricPercentage": 99.93,
                 "pagesViews": 1,
@@ -50344,7 +50371,7 @@
             "metricName": "ErrorClickCount",
             "information": [
               {
-                "sessionsCount": 1464,
+                "sessionsCount": 1461,
                 "sessionsWithMetricPercentage": 0.07,
                 "sessionsWithoutMetricPercentage": 99.93,
                 "pagesViews": 1,
@@ -50356,7 +50383,7 @@
             "metricName": "ScrollDepth",
             "information": [
               {
-                "averageScrollDepth": 46.32
+                "averageScrollDepth": 46.31
               }
             ]
           },
@@ -50364,10 +50391,10 @@
             "metricName": "Traffic",
             "information": [
               {
-                "totalSessionCount": 1464,
+                "totalSessionCount": 1461,
                 "totalBotSessionCount": 80,
-                "distinctUserCount": 1102,
-                "pagesPerSessionPercentage": 1.6583229036295368
+                "distinctUserCount": 1099,
+                "pagesPerSessionPercentage": 1.6572504708097928
               }
             ]
           },
@@ -50385,7 +50412,7 @@
             "information": [
               {
                 "name": "Edge",
-                "sessionsCount": 1156
+                "sessionsCount": 1153
               },
               {
                 "name": "Chrome",
@@ -50422,7 +50449,7 @@
             "information": [
               {
                 "name": "PC",
-                "sessionsCount": 1406
+                "sessionsCount": 1403
               },
               {
                 "name": "Mobile",
@@ -50439,11 +50466,11 @@
             "information": [
               {
                 "name": "Windows",
-                "sessionsCount": 1296
+                "sessionsCount": 1294
               },
               {
                 "name": "MacOSX",
-                "sessionsCount": 107
+                "sessionsCount": 106
               },
               {
                 "name": "IOS",
@@ -50464,7 +50491,7 @@
             "information": [
               {
                 "name": "United States",
-                "sessionsCount": 699
+                "sessionsCount": 696
               },
               {
                 "name": "United Kingdom",
@@ -50509,11 +50536,11 @@
             "information": [
               {
                 "name": "Microsoft Copilot Adoption Dashboards | Analytics Hub",
-                "sessionsCount": 739
+                "sessionsCount": 737
               },
               {
                 "name": "Copilot Credit Consumption & Cost \u2014 Templates, Tools & Methodology \u00b7 Analytics Hub",
-                "sessionsCount": 388
+                "sessionsCount": 386
               },
               {
                 "name": "Find a Microsoft Copilot Report \u2014 Power BI Templates for Adoption, ROI & Agent Telemetry \u00b7 Analytics Hub",
@@ -50554,7 +50581,7 @@
             "information": [
               {
                 "name": null,
-                "sessionsCount": 553
+                "sessionsCount": 554
               },
               {
                 "name": "https://teams.public.onecdn.static.microsoft/",
@@ -50562,11 +50589,11 @@
               },
               {
                 "name": "https://microsoft.github.io/Analytics-Hub/",
-                "sessionsCount": 244
+                "sessionsCount": 243
               },
               {
                 "name": "https://microsoft.github.io/Analytics-Hub/explore-reports/",
-                "sessionsCount": 92
+                "sessionsCount": 91
               },
               {
                 "name": "https://microsoft.github.io/Analytics-Hub/cowork-billing/",
@@ -50578,7 +50605,7 @@
               },
               {
                 "name": "https://github.com/microsoft/AI-in-One-Dashboard",
-                "sessionsCount": 37
+                "sessionsCount": 36
               },
               {
                 "name": "https://www.google.com/",
@@ -50599,11 +50626,11 @@
             "information": [
               {
                 "url": "https://microsoft.github.io/Analytics-Hub/",
-                "visitsCount": 752
+                "visitsCount": 750
               },
               {
                 "url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/",
-                "visitsCount": 389
+                "visitsCount": 387
               },
               {
                 "url": "https://microsoft.github.io/Analytics-Hub/explore-reports/",
@@ -166055,9 +166082,9 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "sessionsCount": 40,
-                "sessionsWithMetricPercentage": 7.5,
-                "sessionsWithoutMetricPercentage": 92.5,
+                "sessionsCount": 41,
+                "sessionsWithMetricPercentage": 7.32,
+                "sessionsWithoutMetricPercentage": 92.68,
                 "pagesViews": 3,
                 "subTotal": 3,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#top"
@@ -166103,17 +166130,17 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=readiness"
               },
               {
-                "sessionsCount": 645,
-                "sessionsWithMetricPercentage": 6.36,
-                "sessionsWithoutMetricPercentage": 93.64,
-                "pagesViews": 42,
-                "subTotal": 59,
+                "sessionsCount": 642,
+                "sessionsWithMetricPercentage": 6.23,
+                "sessionsWithoutMetricPercentage": 93.77,
+                "pagesViews": 41,
+                "subTotal": 58,
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "sessionsCount": 382,
-                "sessionsWithMetricPercentage": 6.81,
-                "sessionsWithoutMetricPercentage": 93.19,
+                "sessionsCount": 380,
+                "sessionsWithMetricPercentage": 6.84,
+                "sessionsWithoutMetricPercentage": 93.16,
                 "pagesViews": 27,
                 "subTotal": 34,
                 "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
@@ -166508,9 +166535,9 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "sessionsCount": 40,
-                "sessionsWithMetricPercentage": 2.5,
-                "sessionsWithoutMetricPercentage": 97.5,
+                "sessionsCount": 41,
+                "sessionsWithMetricPercentage": 2.44,
+                "sessionsWithoutMetricPercentage": 97.56,
                 "pagesViews": 1,
                 "subTotal": 1,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#top"
@@ -166556,7 +166583,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=readiness"
               },
               {
-                "sessionsCount": 645,
+                "sessionsCount": 642,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -166564,7 +166591,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "sessionsCount": 382,
+                "sessionsCount": 380,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -166961,7 +166988,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "sessionsCount": 40,
+                "sessionsCount": 41,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -167009,7 +167036,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=readiness"
               },
               {
-                "sessionsCount": 645,
+                "sessionsCount": 642,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -167017,7 +167044,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "sessionsCount": 382,
+                "sessionsCount": 380,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -167414,9 +167441,9 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "sessionsCount": 40,
-                "sessionsWithMetricPercentage": 2.5,
-                "sessionsWithoutMetricPercentage": 97.5,
+                "sessionsCount": 41,
+                "sessionsWithMetricPercentage": 2.44,
+                "sessionsWithoutMetricPercentage": 97.56,
                 "pagesViews": 1,
                 "subTotal": 1,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#top"
@@ -167462,17 +167489,17 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=readiness"
               },
               {
-                "sessionsCount": 645,
-                "sessionsWithMetricPercentage": 4.96,
-                "sessionsWithoutMetricPercentage": 95.04,
+                "sessionsCount": 642,
+                "sessionsWithMetricPercentage": 4.98,
+                "sessionsWithoutMetricPercentage": 95.02,
                 "pagesViews": 38,
                 "subTotal": 38,
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "sessionsCount": 382,
-                "sessionsWithMetricPercentage": 5.5,
-                "sessionsWithoutMetricPercentage": 94.5,
+                "sessionsCount": 380,
+                "sessionsWithMetricPercentage": 5.53,
+                "sessionsWithoutMetricPercentage": 94.47,
                 "pagesViews": 26,
                 "subTotal": 26,
                 "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
@@ -167867,7 +167894,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "sessionsCount": 40,
+                "sessionsCount": 41,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -167915,7 +167942,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=readiness"
               },
               {
-                "sessionsCount": 645,
+                "sessionsCount": 642,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -167923,7 +167950,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "sessionsCount": 382,
+                "sessionsCount": 380,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -168320,7 +168347,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "sessionsCount": 40,
+                "sessionsCount": 41,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -168368,7 +168395,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=readiness"
               },
               {
-                "sessionsCount": 645,
+                "sessionsCount": 642,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -168376,7 +168403,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "sessionsCount": 382,
+                "sessionsCount": 380,
                 "sessionsWithMetricPercentage": 0,
                 "sessionsWithoutMetricPercentage": 100,
                 "pagesViews": 0,
@@ -168753,7 +168780,7 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#roi-calc"
               },
               {
-                "averageScrollDepth": 40.3,
+                "averageScrollDepth": 39.79,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#top"
               },
               {
@@ -168777,11 +168804,11 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ai-in-one"
               },
               {
-                "averageScrollDepth": 37.72,
+                "averageScrollDepth": 37.71,
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "averageScrollDepth": 40.69,
+                "averageScrollDepth": 40.58,
                 "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
               },
               {
@@ -168825,12 +168852,12 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?report=1"
               },
               {
-                "averageScrollDepth": 35.75,
-                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
-              },
-              {
                 "averageScrollDepth": 78,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#cat=developer"
+              },
+              {
+                "averageScrollDepth": 35.75,
+                "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html?demo=1"
               },
               {
                 "averageScrollDepth": 71.64,
@@ -168964,15 +168991,15 @@
               {
                 "totalSessionCount": 0,
                 "totalBotSessionCount": 0,
-                "distinctUserCount": 99,
-                "pagesPerSessionPercentage": 1.1111111111111112,
+                "distinctUserCount": 97,
+                "pagesPerSessionPercentage": 1.1132075471698113,
                 "Url": null
               },
               {
                 "totalSessionCount": 0,
                 "totalBotSessionCount": 5,
                 "distinctUserCount": 1,
-                "pagesPerSessionPercentage": 3.8,
+                "pagesPerSessionPercentage": 3.6,
                 "Url": "https://Electron"
               },
               {
@@ -169032,18 +169059,18 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/updates/?from=hero"
               },
               {
-                "totalSessionCount": 2,
-                "totalBotSessionCount": 0,
-                "distinctUserCount": 2,
-                "pagesPerSessionPercentage": 1.5,
-                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#roi-calc"
-              },
-              {
                 "totalSessionCount": 1,
                 "totalBotSessionCount": 0,
                 "distinctUserCount": 1,
                 "pagesPerSessionPercentage": 2,
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
+              },
+              {
+                "totalSessionCount": 2,
+                "totalBotSessionCount": 0,
+                "distinctUserCount": 2,
+                "pagesPerSessionPercentage": 1.5,
+                "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#roi-calc"
               },
               {
                 "totalSessionCount": 0,
@@ -169053,10 +169080,10 @@
                 "Url": "http://127.0.0.1:8792/demos/#agent-evaluator"
               },
               {
-                "totalSessionCount": 40,
+                "totalSessionCount": 41,
                 "totalBotSessionCount": 0,
                 "distinctUserCount": 28,
-                "pagesPerSessionPercentage": 1.2093023255813953,
+                "pagesPerSessionPercentage": 1.2045454545454546,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#top"
               },
               {
@@ -169102,17 +169129,17 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ai-in-one"
               },
               {
-                "totalSessionCount": 645,
+                "totalSessionCount": 642,
                 "totalBotSessionCount": 4,
-                "distinctUserCount": 497,
-                "pagesPerSessionPercentage": 1.3567073170731707,
+                "distinctUserCount": 496,
+                "pagesPerSessionPercentage": 1.3537519142419603,
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "totalSessionCount": 382,
+                "totalSessionCount": 380,
                 "totalBotSessionCount": 0,
-                "distinctUserCount": 259,
-                "pagesPerSessionPercentage": 1.3655352480417755,
+                "distinctUserCount": 258,
+                "pagesPerSessionPercentage": 1.3674540682414698,
                 "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
               },
               {
@@ -169573,8 +169600,8 @@
                 "Url": "https://microsoft.github.io/Analytics-Hub/explore-reports/#ghcp-impact"
               },
               {
-                "totalTime": 306,
-                "activeTime": 61,
+                "totalTime": 299,
+                "activeTime": 59,
                 "Url": "https://microsoft.github.io/Analytics-Hub/#top"
               },
               {
@@ -169604,11 +169631,11 @@
               },
               {
                 "totalTime": 320,
-                "activeTime": 83,
+                "activeTime": 84,
                 "Url": "https://microsoft.github.io/Analytics-Hub/"
               },
               {
-                "totalTime": 374,
+                "totalTime": 373,
                 "activeTime": 123,
                 "Url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/"
               },
