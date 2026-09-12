@@ -19,12 +19,21 @@ jobs:
         with:
           python-version: "3.x"
 
+      - uses: actions/create-github-app-token@v2
+        id: personal-token
+        with:
+          app-id: ${{ secrets.TRAFFIC_APP_ID }}
+          private-key: ${{ secrets.TRAFFIC_APP_PRIVATE_KEY }}
+          owner: jordankingisalive
+
       - name: Run snapshot
         id: snapshot
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.TRAFFIC_PAT }}
-          GITHUB_TOKEN_PERSONAL: ${{ secrets.TRAFFIC_PAT_PERSONAL }}
+          # Personal repos authenticate via the GitHub App - nothing to rotate.
+          # The org half stays on TRAFFIC_PAT until microsoft approves the install.
+          GITHUB_TOKEN_PERSONAL: ${{ steps.personal-token.outputs.token }}
           CLARITY_TOKEN_HUB: ${{ secrets.CLARITY_TOKEN_HUB }}
           CLARITY_TOKEN_PERSONAL: ${{ secrets.CLARITY_TOKEN_PERSONAL }}
         run: python scripts/snapshot_traffic.py
