@@ -232,14 +232,30 @@
    * The endpoint stores anonymous per-video tallies only (no viewer identity). */
   var VIDEO_COLLECT_URL = "https://analytics-hub-video-stats.stephansmith-msft.workers.dev/collect";
 
-  function sendBeacon(payload) {
+  function beaconEnabled() {
+    return VIDEO_COLLECT_URL && VIDEO_COLLECT_URL.indexOf("http") === 0;
+  }
+
+  /* One visitor's play + watched-seconds for a given video are coalesced into a
+   * SINGLE request. The collector does read-modify-write on one small per-day
+   * doc, so sending play and watch as two near-simultaneous requests can race
+   * and drop an update. Coalescing (debounced, flushed on unload) makes each
+   * visitor's contribution one write, so the play count is never lost. */
+  var pending = {};        // video -> { plays, seconds }
+  var flushTimer = null;
+
+  function queue(video, field, amount) {
+    if (!beaconEnabled() || !video || amount <= 0) return;
+    var p = pending[video] || (pending[video] = { plays: 0, seconds: 0 });
+    p[field] += amount;
+    if (!flushTimer) flushTimer = setTimeout(flushPending, 1500);
+  }
+
+  function sendCombined(video, d) {
     try {
-      if (!VIDEO_COLLECT_URL || VIDEO_COLLECT_URL.indexOf("http") !== 0) return;
-      var body = JSON.stringify(payload);
-      // Prefer fetch(keepalive): it delivers reliably during normal events and
-      // page unload alike. text/plain keeps it a CORS-simple request so it
-      // reaches the cross-origin Worker without a preflight. sendBeacon is the
-      // fallback for older browsers that lack fetch keepalive.
+      var body = JSON.stringify({ video: video, plays: d.plays, seconds: d.seconds });
+      // fetch(keepalive) delivers reliably during events and unload alike;
+      // text/plain keeps it CORS-simple (no preflight to the cross-origin Worker).
       if (typeof fetch === "function") {
         fetch(VIDEO_COLLECT_URL, { method: "POST", body: body, keepalive: true,
           headers: { "Content-Type": "text/plain" } })["catch"](function () {});
@@ -247,6 +263,16 @@
         navigator.sendBeacon(VIDEO_COLLECT_URL, new Blob([body], { type: "text/plain" }));
       }
     } catch (e) { /* never break the page */ }
+  }
+
+  function flushPending() {
+    if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
+    for (var v in pending) {
+      if (!pending.hasOwnProperty(v)) continue;
+      var d = pending[v];
+      if (d.plays > 0 || d.seconds > 0) sendCombined(v, d);
+      delete pending[v];
+    }
   }
 
   (function () {
@@ -271,7 +297,7 @@
         if (played && played.has(v)) return;
         if (played) played.add(v);
         safeEvent(name ? "video play: " + name : "video play");
-        sendBeacon({ video: name || "(unknown)", plays: 1 });
+        queue(name || "(unknown)", "plays", 1);
       } catch (e) {}
     }, true);
 
@@ -289,11 +315,11 @@
       var v = ev.target; if (v && v.tagName === "VIDEO") { var s = st(v); if (s) s.last = v.currentTime || 0; }
     }, true);
 
-    // ---- flush watched-time delta to the collector (dedup via s.sent)
+    // ---- queue watched-time delta to the collector (dedup via s.sent)
     function flush(v) {
       var s = st(v); if (!s) return;
       var whole = Math.floor(s.watched), delta = whole - s.sent;
-      if (delta >= 1) { s.sent = whole; sendBeacon({ video: videoName(v) || "(unknown)", seconds: delta }); }
+      if (delta >= 1) { s.sent = whole; queue(videoName(v) || "(unknown)", "seconds", delta); }
     }
     document.addEventListener("pause", function (ev) {
       if (ev.target && ev.target.tagName === "VIDEO") flush(ev.target);
@@ -301,11 +327,12 @@
     document.addEventListener("ended", function (ev) {
       if (ev.target && ev.target.tagName === "VIDEO") flush(ev.target);
     }, true);
-    // page hide / tab switch: flush every video that was watched
+    // page hide / tab switch: queue every video's watched time, then send now
     function flushAll() {
       try {
         var vids = document.getElementsByTagName("video");
         for (var i = 0; i < vids.length; i++) flush(vids[i]);
+        flushPending();
       } catch (e) {}
     }
     window.addEventListener("pagehide", flushAll);
