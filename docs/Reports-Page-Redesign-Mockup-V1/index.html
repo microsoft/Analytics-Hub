@@ -1436,6 +1436,35 @@ html[data-theme="dark"]{
   .pk-row:hover,.pk-row:focus-within,
   .pk-tile:hover,.pk-tile:focus-visible,.mk-sharebtn:hover{ transform:none; }
 }
+.pk-find{ margin:18px 0 0; }
+.pk-find-l{ display:block; font-size:13px; font-weight:650; color:var(--mk-soft); margin:0 0 7px; }
+.pk-find-row{ display:flex; gap:9px; align-items:stretch; }
+.pk-find-i{
+  flex:1 1 auto; min-width:0; font:inherit; font-size:14.5px;
+  padding:11px 14px; border-radius:10px;
+  border:1px solid var(--mk-border-strong); background:var(--mk-surface); color:var(--mk-text);
+  transition:border-color .15s ease, box-shadow .22s ease;
+}
+.pk-find-i::placeholder{ color:var(--mk-muted); }
+.pk-find-i:hover{ border-color:var(--mk-accent); }
+.pk-find-i:focus{
+  outline:none; border-color:transparent;
+  background:
+    linear-gradient(var(--mk-surface),var(--mk-surface)) padding-box,
+    var(--mk-cop-grad) border-box;
+  box-shadow:var(--mk-glow);
+}
+.pk-find-x{
+  font:inherit; font-size:13.5px; font-weight:650; cursor:pointer;
+  padding:0 16px; border-radius:10px;
+  border:1px solid var(--mk-accent); background:var(--mk-surface); color:var(--mk-accent-strong);
+  transition:background .15s ease, color .15s ease, box-shadow .22s ease;
+}
+.pk-find-x:hover{
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+  border-color:var(--mk-accent-strong); box-shadow:var(--mk-glow);
+}
+.pk-find-x[hidden]{ display:none; }
 </style>
 </head>
 <body>
@@ -1531,8 +1560,15 @@ html[data-theme="dark"]{
             <div class="pk-tiles pk-tiles--one" id="mkPkProd" role="group" aria-labelledby="mkLblPkProd"></div>
           </section>
         </div>
-        <span class="mk-chips" id="mkPkActive"></span>
-      </li>
+        <div class="pk-find">
+          <label class="pk-find-l" for="mkPkSearch">Or search by name, source or audience</label>
+          <div class="pk-find-row">
+            <input type="search" id="mkPkSearch" class="pk-find-i" autocomplete="off"
+              placeholder="Try &ldquo;Purview&rdquo;, &ldquo;cost&rdquo; or &ldquo;GitHub&rdquo;">
+            <button type="button" class="pk-find-x" id="mkPkSearchClear" hidden>Clear</button>
+          </div>
+        </div>
+        <span class="mk-chips" id="mkPkActive"></span>      </li>
 
       <li class="pk-step pk-step--end">
 
@@ -4990,7 +5026,7 @@ html[data-theme="dark"]{
        4. curated catalog order, via BASE, so nothing is ever arbitrary.
      ============================================================ */
   var PRODUCT_ORDER = ['m365', 'chat', 'studio', 'cowork', 'github'];
-  var pkState = { goal: '', prods: [] };
+  var pkState = { goal: '', prods: [], q: '' };
   var pkGoalEl = document.getElementById('mkPkGoal');
   var pkProdEl = document.getElementById('mkPkProd');
   var pkActiveEl = document.getElementById('mkPkActive');
@@ -5025,9 +5061,24 @@ html[data-theme="dark"]{
     pkState.prods.forEach(function (k) { if (p.indexOf(k) !== -1) n++; });
     return n;
   }
+  /* One lowercased haystack per report: title, the use-this-when line,
+     surfaces, sources, audience, effort. Every word typed must land somewhere
+     in it, so "purview cost" narrows rather than widens. */
+  function pkHay(id) {
+    var t = toolById[id]; if (!t) return '';
+    return [titleOf(t), pkUseWhen(t), productNames(id).join(' '),
+            sourceNames(id).join(' '), audienceOf(id) || '', EFFORT[id] || '']
+      .join(' ').toLowerCase();
+  }
   function pkMatches(id) {
     if (pkState.goal && !goalRank(id, pkState.goal)) return false;
     if (pkState.prods.length && prodHits(id) === 0) return false;
+    if (pkState.q) {
+      var hay = pkHay(id), words = pkState.q.toLowerCase().split(/\s+/);
+      for (var i = 0; i < words.length; i++) {
+        if (words[i] && hay.indexOf(words[i]) === -1) return false;
+      }
+    }
     return true;
   }
   function pkRank(id) {
@@ -5055,16 +5106,21 @@ html[data-theme="dark"]{
   function pkHeading() {
     var g = pkState.goal ? goalTitle(pkState.goal) : '';
     var p = pkSurfaceText();
-    if (g && p) return 'For ' + g + ', on ' + p;
-    if (g) return 'For ' + g + ', start here';
-    if (p) return 'Reports that cover ' + p;
-    return 'All reports';
+    var base;
+    if (g && p) base = 'For ' + g + ', on ' + p;
+    else if (g) base = 'For ' + g + ', start here';
+    else if (p) base = 'Reports that cover ' + p;
+    else base = pkState.q ? 'Matching your search' : 'All reports';
+    if (pkState.q && (g || p)) base += ', matching your search';
+    return base;
   }
   function pkWhat() {
     var g = pkState.goal ? goalTitle(pkState.goal) : '';
     var p = pkSurfaceText();
-    if (g && p) return g + ' on ' + p;
-    return g || p;
+    var bits = [];
+    if (g && p) bits.push(g + ' on ' + p); else if (g || p) bits.push(g || p);
+    if (pkState.q) bits.push('\u201c' + pkState.q + '\u201d');
+    return bits.join(', ');
   }
 
   function pkRowHtml(id) {
@@ -5131,6 +5187,10 @@ html[data-theme="dark"]{
         '<button type="button" data-drop-prod="' + esc(k) + '" aria-label="Remove ' +
         esc(label) + '">&times;</button></span>');
     });
+    if (pkState.q) {
+      bits.push('<span class="mk-chip">Search: ' + esc(pkState.q) +
+        '<button type="button" data-clear="q" aria-label="Clear search">&times;</button></span>');
+    }
     pkActiveEl.innerHTML = bits.length
       ? '<span class="mk-chips-lbl">Choosing</span>' + bits.join('') +
         '<button type="button" class="pk-clear" data-clear="all">Clear all</button>'
@@ -5251,13 +5311,33 @@ html[data-theme="dark"]{
     var clear = b.getAttribute('data-clear');
     var drop = b.getAttribute('data-drop-prod');
     if (clear === 'goal') pkState.goal = '';
-    else if (clear === 'all') { pkState.goal = ''; pkState.prods = []; }
+    else if (clear === 'q') pkSetQ('');
+    else if (clear === 'all') { pkState.goal = ''; pkState.prods = []; pkSetQ(''); }
     else if (drop) pkDropProd(drop);
     else return;
     pkRefresh();
   });
+  var pkFindEl = document.getElementById('mkPkSearch');
+  var pkFindXEl = document.getElementById('mkPkSearchClear');
+  /* Box, Clear button and chip all read the same value whoever changed it. */
+  function pkSetQ(v) {
+    pkState.q = v;
+    if (pkFindEl.value !== v) pkFindEl.value = v;
+    pkFindXEl.hidden = !v;
+  }
+  pkFindEl.addEventListener('input', function () {
+    pkSetQ(pkFindEl.value.trim());
+    pkRefresh();
+  });
+  pkFindEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && pkState.q) { pkSetQ(''); pkRefresh(); }
+  });
+  pkFindXEl.addEventListener('click', function () {
+    pkSetQ(''); pkRefresh(); pkFindEl.focus();
+  });
+
   document.getElementById('mkPkNoneClear').addEventListener('click', function () {
-    pkState.goal = ''; pkState.prods = [];
+    pkState.goal = ''; pkState.prods = []; pkSetQ('');
     pkRefresh();
   });
   /* The same flyout as the cards. There is one <dialog> on this page. */
