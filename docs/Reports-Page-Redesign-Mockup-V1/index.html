@@ -742,7 +742,8 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
   font-size:0.8125rem; font-weight:600; color:var(--mk-soft);
   font-variant-numeric:tabular-nums;
 }
-.pk-list{ display:grid; gap:12px; margin:18px 0 0; padding:0 0 64px; }
+.pk-list{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:18px 0 0; padding:0 0 64px; }
+@media (max-width:900px){ .pk-list{ grid-template-columns:1fr; } }
 /* v25: the two-box chooser. Goal on the left, product on the right. */
 /* v25: the centred lead above the two chooser boxes. */
 .pk-lead{ text-align:center; max-width:74ch; margin:0 auto 28px; }
@@ -817,7 +818,7 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
 .pk-step--choose{ display:block; padding-left:0; }
 .pk-shead--res{ margin-top:6px; }
 .pk-row{
-  display:block; width:100%; text-align:left; font:inherit; cursor:pointer;
+  display:flex; flex-direction:column; width:100%; text-align:left; font:inherit; cursor:pointer;
   padding:16px 18px;
   border:1px solid var(--mk-border); border-left:3px solid var(--mk-border-strong);
   border-radius:var(--mk-radius);
@@ -845,7 +846,7 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
   background:var(--mk-surface-2); border:1px solid var(--mk-border); color:var(--mk-soft);
 }
 .pk-chip b{ color:var(--mk-text); font-weight:650; }
-.pk-foot{ display:flex; align-items:center; gap:12px; margin:13px 0 0; }
+.pk-foot{ display:flex; align-items:center; gap:12px; margin:auto 0 0; padding-top:13px; }
 .pk-cta{ margin-left:auto; font-size:13px; font-weight:600; color:var(--mk-accent-strong); }
 .pk-note{
   margin:30px 0 64px; padding:24px 26px;
