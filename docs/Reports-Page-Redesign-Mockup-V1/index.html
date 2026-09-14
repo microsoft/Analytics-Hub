@@ -1344,6 +1344,98 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   .rf-card{ transition:none; }
   .rf-card:hover{ transform:none; }
 }
+
+/* ==================================================================
+   v26 - interactive colour pass
+   Appended last on purpose: .pk-btn and .mk-sharebtn are each declared
+   twice earlier in this sheet, so anything that must win the cascade
+   has to sit after both copies.
+   ================================================================== */
+:root{
+  --mk-cop-grad:linear-gradient(135deg,#00b7c3 0%,#2b88d8 32%,#6b5ad9 60%,#9a4fc4 82%,#d05fb0 100%);
+  --mk-glow:
+    0 12px 30px rgba(20,20,45,.16),
+    -9px -7px 24px rgba(0,183,195,.34),
+    9px -7px 24px rgba(43,136,216,.32),
+    11px 9px 28px rgba(122,80,215,.32),
+    -9px 10px 28px rgba(208,95,176,.26);
+}
+html[data-theme="dark"]{
+  --mk-glow:
+    0 12px 30px rgba(0,0,0,.50),
+    -9px -7px 26px rgba(0,208,222,.38),
+    9px -7px 26px rgba(80,160,255,.36),
+    11px 9px 30px rgba(150,110,245,.36),
+    -9px 10px 30px rgba(232,120,200,.30);
+}
+
+.pk-row,.pk-tile,.pk-btn,.gd-btn,.mk-sharebtn{
+  transition:transform .2s ease, box-shadow .22s ease,
+             border-color .15s ease, background .22s ease, color .15s ease;
+}
+
+/* Lift, then a gradient ring and a glow. Layer one paints the face over
+   padding-box; layer two shows only through the transparent border. */
+.pk-row:hover,.pk-row:focus-within{
+  transform:translateY(-3px);
+  border-color:transparent;
+  background:
+    linear-gradient(var(--mk-surface),var(--mk-surface)) padding-box,
+    var(--mk-cop-grad) border-box;
+  box-shadow:var(--mk-glow);
+}
+.pk-tile:hover,.pk-tile:focus-visible{
+  transform:translateY(-2px);
+  border-color:transparent;
+  background:
+    linear-gradient(var(--mk-surface),var(--mk-surface)) padding-box,
+    var(--mk-cop-grad) border-box;
+  box-shadow:var(--mk-glow);
+}
+/* A chosen tile keeps its blue fill while it glows. */
+.pk-tile[aria-pressed="true"]:hover,.pk-tile[aria-pressed="true"]:focus-visible{
+  background:
+    linear-gradient(#e8f1fb,#e8f1fb) padding-box,
+    var(--mk-cop-grad) border-box;
+}
+[data-theme="dark"] .pk-tile[aria-pressed="true"]:hover,
+[data-theme="dark"] .pk-tile[aria-pressed="true"]:focus-visible{
+  background:
+    linear-gradient(#16283a,#16283a) padding-box,
+    var(--mk-cop-grad) border-box;
+}
+
+/* Everything the reader can click carries colour now, not grey. */
+.pk-btn--repo{
+  color:var(--mk-accent-strong); border-color:var(--mk-accent);
+  background:var(--mk-surface);
+}
+.pk-btn--repo:hover{
+  color:var(--mk-on-accent); background:var(--mk-accent-strong);
+  border-color:var(--mk-accent-strong); box-shadow:var(--mk-glow);
+}
+.gd-btn--plain{ color:var(--mk-accent-strong); border-color:var(--mk-accent); }
+.gd-btn--plain:hover{
+  color:var(--mk-on-accent); background:var(--mk-accent-strong);
+  border-color:var(--mk-accent-strong);
+}
+.pk-clear{ color:var(--mk-accent-strong); font-weight:650; }
+.pk-tile-n{ color:var(--mk-accent-strong); }
+.pk-tile:hover .pk-tile-t{ color:var(--mk-accent-strong); }
+
+/* Important reads first: bold and outlined. Padding is cut by the extra
+   border width so neither control changes size. */
+.pk-btn--det{
+  font-weight:700; border:2px solid var(--mk-accent-strong); padding:8px 14px;
+}
+.pk-btn--det:hover{ box-shadow:var(--mk-glow); }
+.pk-badge--best{ font-weight:800; border:2px solid var(--mk-accent-strong); padding:3px 8px; }
+.mk-sharebtn:hover{ transform:translateY(-2px); box-shadow:var(--mk-glow); }
+
+@media (prefers-reduced-motion: reduce){
+  .pk-row:hover,.pk-row:focus-within,
+  .pk-tile:hover,.pk-tile:focus-visible,.mk-sharebtn:hover{ transform:none; }
+}
 </style>
 </head>
 <body>
