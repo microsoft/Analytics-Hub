@@ -12,6 +12,7 @@
      6. Search usage             → "search used"
      7. Engaged dwell            → "engaged 30s"
      8. Video plays              → "video play: <file>"
+      9. Video watch-time          → collector beacon (plays + seconds)
 
    Design rules:
      - Event names carry WHAT was clicked, not just that something was.
@@ -225,17 +226,90 @@
     return name.slice(0, 60);
   }
 
+  /* Collector endpoint for the private Video Analytics dashboard. This is the
+   * ONLY place that needs the deployed Worker URL. Blank = disabled: play
+   * counts still go to Clarity, we just don't also send them to the counter.
+   * The endpoint stores anonymous per-video tallies only (no viewer identity). */
+  var VIDEO_COLLECT_URL = "__VIDEO_COLLECT_URL__";
+
+  function sendBeacon(payload) {
+    try {
+      if (!VIDEO_COLLECT_URL || VIDEO_COLLECT_URL.indexOf("http") !== 0) return;
+      var body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        // text/plain keeps this a CORS-simple request so the beacon reaches the
+        // cross-origin Worker without a preflight (which sendBeacon cannot do).
+        navigator.sendBeacon(VIDEO_COLLECT_URL, new Blob([body], { type: "text/plain" }));
+      } else {
+        fetch(VIDEO_COLLECT_URL, { method: "POST", body: body, keepalive: true, mode: "no-cors",
+          headers: { "Content-Type": "text/plain" } });
+      }
+    } catch (e) { /* never break the page */ }
+  }
+
   (function () {
-    var seen = (typeof WeakSet === "function") ? new WeakSet() : null;
+    var played = (typeof WeakSet === "function") ? new WeakSet() : null;
+    /* per-video watch state: { last, watched, sent } */
+    var state = (typeof WeakMap === "function") ? new WeakMap() : null;
+
+    function st(v) {
+      if (!state) return null;
+      var s = state.get(v);
+      if (!s) { s = { last: 0, watched: 0, sent: 0 }; state.set(v, s); }
+      return s;
+    }
+
+    // ---- first play of each video -> count a "start" (Clarity + collector)
     document.addEventListener("play", function (ev) {
       try {
         var v = ev.target;
-        if (!v || !v.tagName || v.tagName !== "VIDEO") return;
-        if (seen) { if (seen.has(v)) return; seen.add(v); }
+        if (!v || v.tagName !== "VIDEO") return;
         var name = videoName(v);
+        var s = st(v); if (s) s.last = v.currentTime || 0;
+        if (played && played.has(v)) return;
+        if (played) played.add(v);
         safeEvent(name ? "video play: " + name : "video play");
-      } catch (e) { /* never break the page */ }
+        sendBeacon({ video: name || "(unknown)", plays: 1 });
+      } catch (e) {}
     }, true);
+
+    // ---- accumulate REAL watched seconds, immune to seeks/scrubs
+    document.addEventListener("timeupdate", function (ev) {
+      try {
+        var v = ev.target; if (!v || v.tagName !== "VIDEO") return;
+        var s = st(v); if (!s) return;
+        var t = v.currentTime || 0, dt = t - s.last;
+        if (dt > 0 && dt < 2) s.watched += dt; // normal tick, not a jump
+        s.last = t;
+      } catch (e) {}
+    }, true);
+    document.addEventListener("seeking", function (ev) {
+      var v = ev.target; if (v && v.tagName === "VIDEO") { var s = st(v); if (s) s.last = v.currentTime || 0; }
+    }, true);
+
+    // ---- flush watched-time delta to the collector (dedup via s.sent)
+    function flush(v) {
+      var s = st(v); if (!s) return;
+      var whole = Math.floor(s.watched), delta = whole - s.sent;
+      if (delta >= 1) { s.sent = whole; sendBeacon({ video: videoName(v) || "(unknown)", seconds: delta }); }
+    }
+    document.addEventListener("pause", function (ev) {
+      if (ev.target && ev.target.tagName === "VIDEO") flush(ev.target);
+    }, true);
+    document.addEventListener("ended", function (ev) {
+      if (ev.target && ev.target.tagName === "VIDEO") flush(ev.target);
+    }, true);
+    // page hide / tab switch: flush every video that was watched
+    function flushAll() {
+      try {
+        var vids = document.getElementsByTagName("video");
+        for (var i = 0; i < vids.length; i++) flush(vids[i]);
+      } catch (e) {}
+    }
+    window.addEventListener("pagehide", flushAll);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") flushAll();
+    });
   })();
 
   // ---------------------------------------------------- engaged dwell
