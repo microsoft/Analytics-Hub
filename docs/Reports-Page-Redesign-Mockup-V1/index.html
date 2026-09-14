@@ -743,6 +743,34 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
   font-variant-numeric:tabular-nums;
 }
 .pk-list{ display:grid; gap:12px; margin:18px 0 0; padding:0 0 64px; }
+/* v25: the two-box chooser. Goal on the left, product on the right. */
+.pk-choose{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+@media (max-width:900px){ .pk-choose{ grid-template-columns:1fr; } }
+.pk-box{
+  background:var(--mk-surface); border:1px solid var(--mk-border);
+  border-radius:14px; padding:18px 18px 20px; box-shadow:var(--mk-shadow-sm);
+}
+.pk-box-h{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:0 0 14px; }
+.pk-box-h .pk-shead{ margin:0; font-size:1.05rem; }
+.pk-box-hint{ font-size:13px; color:var(--mk-muted); }
+.pk-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.pk-tiles--one{ grid-template-columns:1fr; }
+@media (max-width:560px){ .pk-tiles{ grid-template-columns:1fr; } }
+.pk-tile{
+  display:block; text-align:left; cursor:pointer; font:inherit;
+  padding:12px 13px; border-radius:10px;
+  border:1px solid var(--mk-border); background:var(--mk-bg-alt); color:var(--mk-text);
+}
+.pk-tile:hover{ border-color:var(--mk-border-strong); background:var(--mk-surface); }
+.pk-tile[aria-pressed="true"]{
+  border-color:var(--mk-accent); background:color-mix(in srgb,var(--mk-accent) 8%,var(--mk-surface));
+  box-shadow:inset 0 0 0 1px var(--mk-accent);
+}
+.pk-tile-t{ display:flex; align-items:center; gap:8px; font-size:14.5px; font-weight:650; }
+.pk-tile-n{ font-size:11.5px; font-weight:700; color:var(--mk-muted); font-variant-numeric:tabular-nums; }
+.pk-tile-d{ display:block; margin-top:5px; font-size:12.5px; line-height:1.45; color:var(--mk-soft); }
+.pk-step--choose{ display:block; padding-left:0; }
+.pk-shead--res{ margin-top:6px; }
 .pk-row{
   display:block; width:100%; text-align:left; font:inherit; cursor:pointer;
   padding:16px 18px;
@@ -1045,6 +1073,28 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
 }
 .mk-dlg-close:hover{ color:var(--mk-text); border-color:var(--mk-border-strong); }
 .mk-dlg-body{ flex:1 1 auto; overflow-y:auto; padding:24px 32px 28px; }
+/* v25: card actions + the Share button. Purple gradient so Share reads as the
+   "take this away with you" action, distinct from View on GitHub. */
+.pk-actions{ display:flex; gap:9px; margin-left:auto; align-items:center; }
+.pk-btn{
+  font:inherit; font-size:13.5px; font-weight:650; line-height:1; cursor:pointer;
+  padding:9px 15px; border-radius:8px; text-decoration:none;
+  display:inline-flex; align-items:center; border:1px solid transparent;
+}
+.pk-btn--det{ background:var(--mk-accent); color:#fff; }
+.pk-btn--det:hover{ background:var(--mk-accent-strong); }
+.pk-btn--repo{
+  background:var(--mk-surface); color:var(--mk-text); border-color:var(--mk-border-strong);
+}
+.pk-btn--repo:hover{ background:var(--mk-surface-2); border-color:var(--mk-text); }
+.mk-sharebtn{
+  font:inherit; font-size:13.5px; font-weight:650; line-height:1; cursor:pointer;
+  margin-left:auto; padding:9px 17px; border:0; border-radius:8px; color:#fff;
+  background-color:#5c2e91;
+  background-image:linear-gradient(135deg,#7a3fb5 0%,#4a2275 100%);
+}
+.mk-sharebtn:hover{ background-image:linear-gradient(135deg,#8a4cc7 0%,#5a2b8c 100%); }
+.mk-sharebtn:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2px; }
 .mk-dlg-foot{
   flex:0 0 auto; display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px;
   padding:16px 32px; border-top:1px solid var(--mk-border);
@@ -1217,7 +1267,29 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   }
   .mk-dlg-dl{ font-size:0.8125rem; padding:7px 14px; }
   .mk-dlg-body{ padding:20px; }
-  .mk-dlg-foot{ padding:14px 20px; }
+  /* v25: card actions + the Share button. Purple gradient so Share reads as the
+   "take this away with you" action, distinct from View on GitHub. */
+.pk-actions{ display:flex; gap:9px; margin-left:auto; align-items:center; }
+.pk-btn{
+  font:inherit; font-size:13.5px; font-weight:650; line-height:1; cursor:pointer;
+  padding:9px 15px; border-radius:8px; text-decoration:none;
+  display:inline-flex; align-items:center; border:1px solid transparent;
+}
+.pk-btn--det{ background:var(--mk-accent); color:#fff; }
+.pk-btn--det:hover{ background:var(--mk-accent-strong); }
+.pk-btn--repo{
+  background:var(--mk-surface); color:var(--mk-text); border-color:var(--mk-border-strong);
+}
+.pk-btn--repo:hover{ background:var(--mk-surface-2); border-color:var(--mk-text); }
+.mk-sharebtn{
+  font:inherit; font-size:13.5px; font-weight:650; line-height:1; cursor:pointer;
+  margin-left:auto; padding:9px 17px; border:0; border-radius:8px; color:#fff;
+  background-color:#5c2e91;
+  background-image:linear-gradient(135deg,#7a3fb5 0%,#4a2275 100%);
+}
+.mk-sharebtn:hover{ background-image:linear-gradient(135deg,#8a4cc7 0%,#5a2b8c 100%); }
+.mk-sharebtn:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2px; }
+.mk-dlg-foot{ padding:14px 20px; }
   .mk-flabel{ flex-basis:100%; }
 }
 @media (max-width:520px){ .rf-src{ display:none; } }
@@ -1267,145 +1339,70 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
         here traces back to a gap a customer actually hit &mdash; a question they needed answered and
         had no way to answer.</p>
       <p class="mk-intro-sub">We also know this is a lot to take in. Which report to choose, who to
-        engage, what roles are required &mdash; all of that is answered here, three ways:</p>
-      <ul class="mk-intro-list">
-        <li><b>Reports overview</b> &mdash; every report we offer, filterable and sortable. Open any
-          one to read the detail and watch the walkthrough.</li>
-        <li><b>Report picker</b> &mdash; tell us what you are trying to answer and which data you want
-          to surface, and we point you at the reports that fit. Drill into any of them to learn more.</li>
-        <li><b>Guided solutions</b> &mdash; choose any number of reports and generate a tailored setup
-          page, laid out more clearly than we can manage on GitHub, to enable you and the
-          stakeholders you bring with you.</li>
-      </ul>
-    </div>
-    <div class="mk-views" id="mkViews" role="tablist" aria-label="Reports views">
-      <button type="button" class="mk-vtab" role="tab" id="mkTabOverview" data-view="overview"
-              aria-controls="mkPanelOverview" aria-selected="true" tabindex="0">Reports overview</button>
-      <button type="button" class="mk-vtab" role="tab" id="mkTabPicker" data-view="picker"
-              aria-controls="mkPanelPicker" aria-selected="false" tabindex="-1">Report picker</button>
-      <button type="button" class="mk-vtab" role="tab" id="mkTabGuided" data-view="guided"
-              aria-controls="mkPanelGuided" aria-selected="false" tabindex="-1">Guided solutions</button>
+        engage and what roles are required are all answered here.</p>
+      <p class="mk-intro-sub">Tell us what you are trying to do, or which Copilot surface you care about, and we will point you at the reports that answer it.</p>
     </div>
   </div>
 
-  <!-- v19: everything above the switcher is view-specific. The wrapper keeps
-       a reserved height so the switcher below never moves between views. -->
-  <div class="mk-fp-head" id="mkFpHead">
-    <div class="mk-fp-cat" id="mkCatBand">
-      <div class="mk-wrap">
-        <div class="mk-fp-row">
-          <span class="mk-flabel" id="mkLblCat">Category</span>
-          <div class="rf-pills" id="mkCatPills" role="group" aria-labelledby="mkLblCat"></div>
-        </div>
-      </div>
-    </div>
-    <div class="mk-wrap">
-
-      <div class="mk-ctlset" id="mkCtlOverview">
-        <div class="mk-fp-row mk-fp-row--stack">
-          <label class="mk-flabel" for="mkSearch">Search</label>
-          <span class="mk-searchwrap">
-            <input type="search" id="mkSearch" class="mk-search" autocomplete="off"
-                   placeholder="Try cowork, finops, execs, viva insights, studio agents&hellip;"
-                   aria-describedby="mkResult">
-            <button type="button" class="mk-searchclear" id="mkSearchClear" hidden
-                    aria-label="Clear search">&times;</button>
-          </span>
-        </div>
-        <div class="mk-fp-row">
-          <span class="mk-pills" role="group">
-            <button type="button" class="mk-pill" id="mkCoreOnly" aria-pressed="false">Core only</button>
-          </span>
-        </div>
-      </div>
-
-
-      <div class="mk-ctlset" id="mkCtlGuided" hidden>
-        <div class="mk-fp-row mk-fp-row--stack">
-          <label class="mk-flabel" for="mkGdQ">Search</label>
-          <span class="mk-searchwrap">
-            <input type="search" id="mkGdQ" class="mk-search" autocomplete="off"
-                   placeholder="Search reports, themes, outcomes&hellip;"
-                   aria-describedby="mkGdShown">
-            <button type="button" class="mk-searchclear" id="mkGdQClear" hidden
-                    aria-label="Clear search">&times;</button>
-          </span>
-        </div>
-        <div class="mk-fp-row">
-          <span class="mk-pills" role="group">
-            <button type="button" class="mk-pill" id="mkGdOnlySel" aria-pressed="false">Selected only</button>
-            <button type="button" class="mk-pill" id="mkGdClearAll">Clear selection</button>
-          </span>
-          <span class="gd-count" id="mkGdShown"></span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="mk-wrap">
-    <div class="mk-fp-status" id="mkStatus">
-      <p class="mk-result" id="mkResult" role="status" aria-live="polite"></p>
-      <span class="mk-sortwrap">
-        <label class="mk-sortlabel" for="mkSort">Sort by</label>
-        <select id="mkSort" class="mk-sort">
-          <option value="popular">Popularity</option>
-          <option value="week">Popular this week</option>
-          <option value="latest">Latest</option>
-          <option value="oldest">Oldest</option>
-        </select>
-      </span>
-    </div>
-  </div>
 </section>
 
 <main>
 
-<section id="mkPanelOverview" role="tabpanel" aria-labelledby="mkTabOverview">
-  <div class="mk-wrap">
-    <p class="mk-howto">
-      <svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true" focusable="false">
-        <path fill="currentColor" d="M6.5 2.4a1.1 1.1 0 0 1 1.9-.8l7.9 7.6c.5.5.2 1.4-.5 1.5l-3.4.5 2 3.8a1.1 1.1 0 0 1-.5 1.5l-1.5.8a1.1 1.1 0 0 1-1.5-.5l-2-3.8-2.4 2.5c-.5.5-1.4.2-1.5-.6z"/>
-      </svg>
-      <span><strong>Click any report card</strong> to open its guides, setup steps, FAQs and demo videos.</span>
-    </p>
-  </div>
-  <div class="mk-sections" id="mkSections"></div>
-  <div class="mk-wrap">
-    <p class="mk-empty" id="mkEmpty" hidden>No reports match that combination.</p>
-  </div>
-</section>
+<!-- v25: the boss cut Reports overview and the Guided-solutions pack builder.
+     Their markup is gone from the page. The code that drove them is now inert
+     but still looks its nodes up, so the ids resolve here to detached stubs
+     rather than null. Nothing below is rendered or reachable. -->
+<div id="mkDeadStubs" hidden aria-hidden="true">
+  <div id="mkViews"></div><div id="mkStatus"></div><div id="mkFpHead"></div>
+  <div id="mkPanelOverview"></div><div id="mkSections"></div>
+  <div id="mkCatPills"></div><div id="mkCtlOverview"></div><div id="mkCtlGuided"></div>
+  <button type="button" id="mkTabOverview"></button>
+  <button type="button" id="mkTabPicker"></button>
+  <button type="button" id="mkTabGuided"></button>
+  <input id="mkSearch"><button type="button" id="mkSearchClear"></button>
+  <button type="button" id="mkCoreOnly"></button>
+  <select id="mkSort"><option value="popular"></option><option value="week"></option><option value="latest"></option><option value="oldest"></option></select>
+  <p id="mkResult"></p><p id="mkEmpty"></p>
+  <div id="mkGdPick"></div><div id="mkGdList"></div><ul id="mkGdChosen"></ul>
+  <div id="mkCatBand"></div>
+  <input id="mkGdQ"><button type="button" id="mkGdQClear"></button>
+  <span id="mkGdShown"></span><span id="mkGdCount"></span>
+  <button type="button" id="mkGdOnlySel"></button>
+  <button type="button" id="mkGdClearAll"></button>
+  <p id="mkGdNone"></p><button type="button" id="mkGdGen"></button>
+</div>
 
-<section id="mkPanelPicker" role="tabpanel" aria-labelledby="mkTabPicker" hidden>
+<section id="mkPanelPicker">
   <div class="mk-wrap">
     <!-- v20: the whole guided flow reads downward. Step 1 and step 2 live in
          the panel, not in the control head, so a choice never sends the reader
          back up the page. Step 3 is always mounted and updates in place. -->
     <ol class="pk-steps">
 
-      <li class="pk-step">
-        <span class="pk-snum">1</span>
-        <div class="pk-sbody">
-          <h2 class="pk-shead" id="mkLblPkGoal">What are you trying to do?</h2>
-          <p class="pk-shint">Pick one. Click it again to clear it.</p>
-          <span class="mk-pills" id="mkPkGoal" role="group" aria-labelledby="mkLblPkGoal"></span>
+      <li class="pk-step pk-step--choose">
+        <div class="pk-choose">
+          <section class="pk-box">
+            <div class="pk-box-h">
+              <h2 class="pk-shead" id="mkLblPkGoal">By goal</h2>
+              <span class="pk-box-hint">what are you trying to do?</span>
+            </div>
+            <div class="pk-tiles" id="mkPkGoal" role="group" aria-labelledby="mkLblPkGoal"></div>
+          </section>
+          <section class="pk-box">
+            <div class="pk-box-h">
+              <h2 class="pk-shead" id="mkLblPkProd">By product</h2>
+              <span class="pk-box-hint">pick one or more surfaces</span>
+            </div>
+            <div class="pk-tiles pk-tiles--one" id="mkPkProd" role="group" aria-labelledby="mkLblPkProd"></div>
+          </section>
         </div>
-      </li>
-
-      <li class="pk-step">
-        <span class="pk-snum">2</span>
-        <div class="pk-sbody">
-          <h2 class="pk-shead" id="mkLblPkProd">Which Copilot surfaces?</h2>
-          <p class="pk-shint">Optional, and you can pick more than one &mdash; a report counts
-            if it covers any of them.</p>
-          <span class="mk-pills" id="mkPkProd" role="group" aria-labelledby="mkLblPkProd"></span>
-          <span class="mk-chips" id="mkPkActive"></span>
-        </div>
+        <span class="mk-chips" id="mkPkActive"></span>
       </li>
 
       <li class="pk-step pk-step--end">
-        <span class="pk-snum">3</span>
+
         <div class="pk-sbody">
-          <h2 class="pk-shead">Start here</h2>
+          <h2 class="pk-shead pk-shead--res">Recommended for you</h2>
           <div class="pk-results" id="mkPkResults">
             <div class="pk-note" id="mkPkIdle">
               <h3>Nothing chosen yet</h3>
@@ -1447,41 +1444,13 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   </div>
 </section>
 
-<section id="mkPanelGuided" role="tabpanel" aria-labelledby="mkTabGuided" hidden>
+<section id="mkPanelGuided" hidden>
   <div class="mk-wrap">
-
-    <div class="gd-cols" id="mkGdPick">
-      <section class="gd-panel">
-        <div class="gd-panel-h">
-          <h2>Choose the reports</h2>
-        </div>
-        <div class="gd-panel-b">
-          <div class="gd-list" id="mkGdList"></div>
-        </div>
-      </section>
-      <aside class="gd-side">
-        <section class="gd-panel">
-          <div class="gd-panel-h">
-            <h2>Your pack</h2>
-            <span class="gd-count" id="mkGdCount">0 reports</span>
-          </div>
-          <div class="gd-panel-b">
-            <ul class="gd-chosen" id="mkGdChosen"></ul>
-            <p class="gd-none" id="mkGdNone">Nothing selected yet. Tick a report to start the pack.</p>
-            <div class="gd-btnrow">
-              <button type="button" class="gd-btn" id="mkGdGen" disabled>Generate guide</button>
-            </div>
-            <p class="gd-note">The selection travels inside the link, so nothing is
-              generated, committed or stored.</p>
-          </div>
-        </section>
-      </aside>
-    </div>
 
     <div class="gd-result" id="mkGdResult" hidden>
       <div class="pk-head">
         <h2>Your setup guide</h2>
-        <button type="button" class="gd-btn gd-btn--plain" id="mkGdStartOver">Start over</button>
+        <button type="button" class="gd-btn gd-btn--plain" id="mkGdStartOver">Back to reports</button>
       </div>
       <p class="gd-lead" id="mkGdLead"></p>
       <div class="gd-summary" id="mkGdSummary"></div>
@@ -4734,6 +4703,9 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     if (t.emailFile) {
       actions.push('<span class="mk-footnote">Includes an admin request template: ' + esc(t.emailFile) + '</span>');
     }
+    /* v25: Share lives bottom-right and builds the guide for THIS report only. */
+    actions.push('<button type="button" class="mk-sharebtn" id="mkDlgShare" ' +
+      'data-id="' + esc(t.id) + '">Share</button>');
     dlgFoot.innerHTML = actions.join('');
 
     dlgBody.scrollTop = 0;
@@ -4850,21 +4822,15 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     fpHead.style.minHeight = '';
   }
 
-  function setView(id, moveFocus) {
-    VIEWS.forEach(function (v) {
-      var on = v.id === id;
-      var tab = document.getElementById(v.tab);
-      tab.setAttribute('aria-selected', on ? 'true' : 'false');
-      tab.tabIndex = on ? 0 : -1;
-      document.getElementById(v.panel).hidden = !on;
-      if (v.ctl) document.getElementById(v.ctl).hidden = !on;
-      if (on && moveFocus) tab.focus();
-    });
-    var bare = id === 'picker';
-    fpHead.hidden = bare;
-    fpHead.style.minHeight = '';
-    catBand.hidden = id !== 'overview';
-    statusEl.hidden = id !== 'overview';
+  /* v25: one page. The only thing that toggles now is the generated guide,
+     which takes over from the picker and hands back on Start over. */
+  var pickerPanel = document.getElementById('mkPanelPicker');
+  var guidedPanel = document.getElementById('mkPanelGuided');
+  function setView(id) {
+    var guide = id === 'guided';
+    guidedPanel.hidden = !guide;
+    pickerPanel.hidden = guide;
+    if (guide) window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   tablistEl.addEventListener('click', function (e) {
@@ -4912,18 +4878,24 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   var pkNoneEl = document.getElementById('mkPkNone');
   var pkHeadEl = document.getElementById('mkPkHead');
 
+  /* v25: tiles, not pills. Title, count and the one-line description, with no
+     icon or emoji - the reference image used a coloured glyph per tile and the
+     developer has rejected emoji throughout. */
   pkGoalEl.innerHTML = GOALS.map(function (g) {
     var n = TOOLS.filter(function (t) { return goalRank(t.id, g.id); }).length;
-    return '<button type="button" class="mk-pill" data-v="' + esc(g.id) +
-      '" aria-pressed="false" title="' + esc(g.desc) + '">' + esc(g.title) +
-      '<span class="mk-pill-n">' + n + '</span></button>';
+    return '<button type="button" class="pk-tile mk-pill" data-v="' + esc(g.id) +
+      '" aria-pressed="false">' +
+      '<span class="pk-tile-t">' + esc(g.title) +
+        '<span class="pk-tile-n">' + n + '</span></span>' +
+      '<span class="pk-tile-d">' + esc(g.desc) + '</span></button>';
   }).join('');
 
   pkProdEl.innerHTML = PRODUCT_ORDER.map(function (k) {
     var n = TOOLS.filter(function (t) { return facetsOf(t.id).p.indexOf(k) !== -1; }).length;
-    return '<button type="button" class="mk-pill" data-v="' + esc(k) +
-      '" aria-pressed="false">' + esc(PRODUCT_LABELS[k] || k) +
-      '<span class="mk-pill-n">' + n + '</span></button>';
+    return '<button type="button" class="pk-tile mk-pill" data-v="' + esc(k) +
+      '" aria-pressed="false">' +
+      '<span class="pk-tile-t">' + esc(PRODUCT_LABELS[k] || k) +
+        '<span class="pk-tile-n">' + n + '</span></span></button>';
   }).join('');
 
   function prodHits(id) {
@@ -4982,14 +4954,17 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     var reads = sourceNames(id).join(', ');
     var aimed = audienceOf(id);
     var effort = EFFORT[id] || '';
-    return '<button type="button" class="pk-row' + (best ? ' pk-row--best' : '') +
-      '" data-id="' + esc(id) + '" aria-label="Open details for ' + esc(titleOf(t)) + '">' +
+    /* v25: an <article>, not a <button> - the footer now carries two real
+       controls and a button cannot nest inside a button. */
+    var repoUrl = escUrl(t.repo);
+    return '<article class="pk-row' + (best ? ' pk-row--best' : '') +
+      '" data-id="' + esc(id) + '">' +
       '<span class="pk-top">' +
         '<span class="pk-title">' + esc(titleOf(t)) + '</span>' +
         '<span class="pk-badge' + (best ? ' pk-badge--best' : '') + '">' +
           (best ? 'Best fit' : 'Also works') + '</span>' +
       '</span>' +
-      '<span class="pk-q">' + esc(t.question) + '</span>' +
+      '<span class="pk-q"><b>Use this when</b> ' + esc(pkUseWhen(t)) + '</span>' +
       '<span class="pk-meta">' +
         (prods  ? '<span class="pk-chip"><b>Copilot surface</b> ' + esc(prods) + '</span>' : '') +
         (reads  ? '<span class="pk-chip"><b>Reads from</b> ' + esc(reads) + '</span>' : '') +
@@ -4997,9 +4972,25 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
         (effort ? '<span class="pk-chip"><b>Setup effort</b> ' + esc(effort) + '</span>' : '') +
       '</span>' +
       '<span class="pk-foot">' + starsHtml(id) +
-        '<span class="pk-cta">Open the full detail</span>' +
+        '<span class="pk-actions">' +
+          '<button type="button" class="pk-btn pk-btn--det" data-details="' + esc(id) + '">' +
+            'View details</button>' +
+          (repoUrl
+            ? '<a class="pk-btn pk-btn--repo" href="' + esc(repoUrl) + '" target="_blank" ' +
+              'rel="noopener noreferrer">View repo</a>'
+            : '') +
+        '</span>' +
       '</span>' +
-    '</button>';
+    '</article>';
+  }
+
+  /* Leads with the moment of use rather than restating the title. */
+  function pkUseWhen(t) {
+    var q = String(t.question || '').trim();
+    q = q.replace(/^(I want to|I want|I need to|I need)\s+/i, 'you need to ');
+    q = q.replace(/^(How|What|Who|Where|Why|Which)\b/, function (w) { return 'you are asking ' + w.toLowerCase(); });
+    if (!/^you\b/i.test(q)) q = 'you need to answer: ' + q;
+    return q.charAt(0).toLowerCase() + q.slice(1);
   }
 
   function renderPkActive() {
@@ -5091,6 +5082,26 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     renderPicker();
     if (window.scrollY !== y) window.scrollTo(0, y);
   }
+
+  /* Share: build the guide for this one report, close the flyout, show it. */
+  /* Back to reports: the pack builder it used to reset is gone, so this just
+     hands the page back to the picker. */
+  document.getElementById('mkGdStartOver').addEventListener('click', function () {
+    setView('picker');
+  }, true);
+
+  document.addEventListener('click', function (e) {
+    var sb = e.target.closest('#mkDlgShare'); if (!sb) return;
+    var id = sb.getAttribute('data-id');
+    if (!id || !toolById[id]) return;
+    gdSel.length = 0;
+    gdSel.push(id);
+    var dlg = document.getElementById('mkDlg');
+    if (dlg && dlg.open) dlg.close();
+    gdSide();
+    setView('guided');
+    gdRenderGuide();
+  });
 
   document.getElementById('mkPkGenAll').addEventListener('click', function () {
     pkSendToGuided(true);
