@@ -230,7 +230,7 @@
    * ONLY place that needs the deployed Worker URL. Blank = disabled: play
    * counts still go to Clarity, we just don't also send them to the counter.
    * The endpoint stores anonymous per-video tallies only (no viewer identity). */
-  var VIDEO_COLLECT_URL = "__VIDEO_COLLECT_URL__";
+  var VIDEO_COLLECT_URL = "https://analytics-hub-video-stats.stephansmith-msft.workers.dev/collect";
 
   function sendBeacon(payload) {
     try {
