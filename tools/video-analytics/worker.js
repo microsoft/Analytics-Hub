@@ -58,22 +58,39 @@ async function handleCollect(request, env) {
   try { payload = JSON.parse(await request.text()); }
   catch (e) { return new Response("bad json", { status: 400, headers: CORS }); }
 
-  const video = cleanVideo(payload && payload.video);
-  if (!video) return new Response("bad video", { status: 400, headers: CORS });
+  // Accept either a single { video, plays, seconds } or a batch { v: { <video>:
+  // { plays, seconds }, ... } }. Batching lets one visitor's whole session be a
+  // single read-modify-write, so simultaneous per-video writes can't race.
+  const items = [];
+  if (payload && payload.v && typeof payload.v === "object") {
+    for (const name in payload.v) {
+      if (!Object.prototype.hasOwnProperty.call(payload.v, name)) continue;
+      items.push({ video: name, plays: payload.v[name] && payload.v[name].plays,
+                   seconds: payload.v[name] && payload.v[name].seconds });
+    }
+  } else if (payload) {
+    items.push({ video: payload.video, plays: payload.plays, seconds: payload.seconds });
+  }
 
-  let plays = Number(payload.plays) || 0;
-  let secs = Number(payload.seconds) || 0;
-  // clamp to sane bounds so a bad actor can't inflate wildly in one call
-  plays = Math.max(0, Math.min(5, Math.round(plays)));
-  secs = Math.max(0, Math.min(36000, Math.round(secs)));
-  if (!plays && !secs) return new Response(null, { status: 204, headers: CORS });
+  // sanitise + clamp
+  const clean = [];
+  for (const it of items) {
+    const video = cleanVideo(it.video);
+    if (!video) continue;
+    const plays = Math.max(0, Math.min(5, Math.round(Number(it.plays) || 0)));
+    const secs = Math.max(0, Math.min(36000, Math.round(Number(it.seconds) || 0)));
+    if (plays || secs) clean.push({ video, plays, secs });
+  }
+  if (!clean.length) return new Response(null, { status: 204, headers: CORS });
 
   const key = "day#" + todayUTC();
   const doc = (await env.VIDEO_STATS.get(key, "json")) || {};
-  const row = doc[video] || { plays: 0, secs: 0 };
-  row.plays += plays;
-  row.secs += secs;
-  doc[video] = row;
+  for (const c of clean) {
+    const row = doc[c.video] || { plays: 0, secs: 0 };
+    row.plays += c.plays;
+    row.secs += c.secs;
+    doc[c.video] = row;
+  }
   await env.VIDEO_STATS.put(key, JSON.stringify(doc));
 
   return new Response(null, { status: 204, headers: CORS });
