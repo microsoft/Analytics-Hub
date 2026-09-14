@@ -236,13 +236,15 @@
     try {
       if (!VIDEO_COLLECT_URL || VIDEO_COLLECT_URL.indexOf("http") !== 0) return;
       var body = JSON.stringify(payload);
-      if (navigator.sendBeacon) {
-        // text/plain keeps this a CORS-simple request so the beacon reaches the
-        // cross-origin Worker without a preflight (which sendBeacon cannot do).
+      // Prefer fetch(keepalive): it delivers reliably during normal events and
+      // page unload alike. text/plain keeps it a CORS-simple request so it
+      // reaches the cross-origin Worker without a preflight. sendBeacon is the
+      // fallback for older browsers that lack fetch keepalive.
+      if (typeof fetch === "function") {
+        fetch(VIDEO_COLLECT_URL, { method: "POST", body: body, keepalive: true,
+          headers: { "Content-Type": "text/plain" } })["catch"](function () {});
+      } else if (navigator.sendBeacon) {
         navigator.sendBeacon(VIDEO_COLLECT_URL, new Blob([body], { type: "text/plain" }));
-      } else {
-        fetch(VIDEO_COLLECT_URL, { method: "POST", body: body, keepalive: true, mode: "no-cors",
-          headers: { "Content-Type": "text/plain" } });
       }
     } catch (e) { /* never break the page */ }
   }
