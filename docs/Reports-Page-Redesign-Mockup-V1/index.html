@@ -106,6 +106,7 @@
      the pressed/active surface colour only; the accent itself is
      unchanged for text, rules and tints. */
   --mk-accent-strong:#005a9e;
+  --mk-hit:#fff3b0;
   --mk-on-accent:#ffffff;
 
   /* v7 - PAGE GROUND, taken from the live homepage.
@@ -308,7 +309,7 @@ html[data-theme="dark"] .mk-ctl > span{ color:#8d8da3; }
   border-bottom:1px solid var(--mk-border);
 }
 .mk-fp-cat.is-stuck{ box-shadow:var(--mk-shadow-sm); }
-.mk-fp-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:12px 0; }
+.mk-fp-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:17px 0; }
 .mk-fp-row + .mk-fp-row{ border-top:1px solid var(--mk-border); }
 
 /* ============================================================
@@ -374,6 +375,78 @@ html[data-theme="dark"] .rf-pill.is-on{ color:#0b0b12; }
    note on the left and the result count on the right. The border-top that
    made the strip moves up to the flex row so the strip still reads as one
    rule-topped band, exactly as it did in v7. */
+/* The search row stacks: label sits above the field rather than beside it,
+   so the label slot is released and the field starts at the row edge. */
+.mk-fp-row--stack{ flex-direction:column; align-items:flex-start; gap:7px; }
+.mk-fp-row--stack .mk-flabel{ flex:0 0 auto; }
+.mk-pill-n{
+  margin-left:7px; font-size:11px; font-weight:700; opacity:.62;
+  font-variant-numeric:tabular-nums;
+}
+.mk-none{ color:var(--mk-muted); }
+.mk-searchwrap{ position:relative; display:inline-flex; align-items:center; flex:1 1 340px; max-width:460px; }
+/* flex-basis is the CROSS axis in a column, so the row inherits 340px of
+   height unless the basis is released here. */
+.mk-fp-row--stack .mk-searchwrap{ flex:0 0 auto; width:100%; max-width:520px; }
+.mk-search{
+  width:100%; font:inherit; font-size:13.5px; color:var(--mk-text);
+  padding:8px 30px 8px 11px;
+  border:1px solid var(--mk-border-strong); border-radius:8px;
+  background:var(--mk-surface);
+}
+.mk-search::placeholder{ color:var(--mk-muted); }
+.mk-search:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:1px; border-color:var(--mk-accent); }
+.mk-search::-webkit-search-cancel-button{ -webkit-appearance:none; appearance:none; }
+.mk-searchclear{
+  position:absolute; right:6px; width:20px; height:20px; padding:0;
+  border:0; border-radius:50%; cursor:pointer; line-height:1;
+  font-size:15px; color:var(--mk-soft); background:transparent;
+}
+.mk-searchclear:hover{ background:var(--mk-surface-2); color:var(--mk-text); }
+/* Tags are the search vocabulary made visible; clicking one searches for it. */
+.mk-tags{ display:flex; flex-wrap:wrap; gap:6px; margin:0; padding:0; list-style:none; }
+.mk-tag{
+  font:inherit; font-size:11.5px; font-weight:600; line-height:1;
+  padding:5px 9px; border-radius:999px; cursor:pointer;
+  color:var(--mk-soft); background:var(--mk-surface-2);
+  border:1px solid var(--mk-border);
+}
+.mk-tag:hover{ color:var(--mk-text); border-color:var(--mk-border-strong); }
+.mk-hit{ background:var(--mk-hit); border-radius:2px; }
+/* Sits between the filters and the grid, where someone looks right before
+   their first click. Blue and weighted so it reads as guidance, not chrome. */
+.mk-howto{
+  display:flex; align-items:center; gap:10px;
+  margin:26px 0 4px; padding:13px 17px;
+  font-size:15px; font-weight:600; line-height:1.45;
+  color:var(--mk-accent-strong);
+  background:color-mix(in srgb, var(--mk-accent) 7%, var(--mk-surface));
+  background-color:#eaf3fc;
+  border:1px solid color-mix(in srgb, var(--mk-accent) 28%, var(--mk-border));
+  border-left:3px solid var(--mk-accent);
+  border-radius:10px;
+}
+.mk-howto svg{ flex:none; color:var(--mk-accent); }
+.mk-howto strong{ font-weight:700; }
+[data-theme="dark"] .mk-howto{ background-color:#16283a; }
+@media (max-width:600px){
+  .mk-howto{ align-items:flex-start; font-size:14.5px; }
+  .mk-howto svg{ margin-top:2px; }
+}
+.mk-sortwrap{ display:inline-flex; align-items:center; gap:8px; flex:none; }
+.mk-sortlabel{
+  font-size:0.6875rem; font-weight:600; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--mk-soft);
+}
+.mk-sort{
+  font:inherit; font-size:13px; color:var(--mk-text);
+  padding:6px 26px 6px 9px; border-radius:8px;
+  border:1px solid var(--mk-border-strong); background:var(--mk-surface);
+  appearance:none; -webkit-appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%235a5a72' d='M0 0h10L5 6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 9px center;
+}
+.mk-sort:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:1px; }
 .mk-fp-status{
   display:flex; align-items:baseline; justify-content:space-between;
   gap:0 20px; flex-wrap:wrap;
@@ -447,7 +520,9 @@ html[data-theme="dark"] .rf-pill.is-on{ color:#0b0b12; }
 }
 
 .rf-grid{
-  display:grid; gap:var(--mk-gap); margin-top:16px;
+  /* v14: one flat grid with no group headers, so the cards carry the spacing
+     that the headers used to provide. */
+  display:grid; gap:30px; margin-top:8px;
   grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
   align-items:stretch;
 }
@@ -573,6 +648,354 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
 
 .mk-empty{ padding:48px 0; color:var(--mk-soft); text-align:center; }
 .mk-empty[hidden]{ display:none; }
+
+/* ============================================================
+   v19 - ONE PAGE, THREE VIEWS
+
+   The developer asked for the reports overview, the "which report is
+   right for you" picker and the guided setup-pack builder to stop being
+   three pages. They are now three tabpanels behind one switcher.
+
+   The switcher sits BELOW the control rows and ABOVE the result line, and
+   it must not move when the view changes. The control rows are
+   view-specific and different heights, so .mk-fp-head is given a reserved
+   min-height at load: the tallest of the three control sets, measured with
+   the sticky category band in place. Nothing below it can then shift.
+
+   No new page colours, no gradients, no emoji. Everything here is built
+   from the tokens v7 adopted from the live homepage.
+   ============================================================ */
+.mk-fp-head{ min-height:var(--mk-ctlh,0px); }
+.mk-ctlset[hidden]{ display:none; }
+.mk-fp-status[hidden]{ display:none; }
+.mk-fp-cat[hidden]{ display:none; }
+
+/* Sets expectations before the three tabs, so nobody has to guess which one
+   they want. */
+.mk-intro{ margin:30px 0 20px; }
+.mk-intro-lead{
+  margin:0; font-size:17px; line-height:1.5; color:var(--mk-text); max-width:78ch;
+}
+.mk-intro-lead strong{ font-weight:700; }
+.mk-intro-list{
+  margin:14px 0 0; padding:0; list-style:none;
+  display:grid; gap:9px; max-width:88ch;
+}
+.mk-intro-list li{
+  position:relative; padding-left:16px;
+  font-size:14.5px; line-height:1.5; color:var(--mk-soft);
+}
+.mk-intro-list li::before{
+  content:""; position:absolute; left:0; top:9px;
+  width:6px; height:6px; border-radius:50%; background:var(--mk-accent);
+}
+.mk-intro-list b{ color:var(--mk-text); font-weight:650; }
+.mk-intro-sub{ margin:12px 0 0; font-size:15px; line-height:1.55; color:var(--mk-soft); max-width:80ch; }
+.mk-views{
+  display:inline-flex; gap:4px; margin:15px 0 13px; padding:4px;
+  background:var(--mk-surface-2);
+  border:1px solid var(--mk-border); border-radius:10px;
+}
+.mk-views[hidden]{ display:none; }
+.mk-vtab{
+  font:inherit; font-size:13.5px; font-weight:600; white-space:nowrap;
+  cursor:pointer; padding:8px 16px; border-radius:7px;
+  border:1px solid transparent; background:transparent; color:var(--mk-soft);
+}
+.mk-vtab:hover{ background:var(--mk-surface); color:var(--mk-text); }
+.mk-vtab[aria-selected="true"]{
+  background:var(--mk-accent-strong); border-color:var(--mk-accent-strong);
+  color:var(--mk-on-accent); font-weight:600;
+  box-shadow:0 1px 2px rgba(0,0,0,.16);
+}
+
+/* ---------- view 2: report picker ---------- */
+.mk-chips{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.mk-chips-lbl{
+  font-size:0.6875rem; font-weight:600; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--mk-soft);
+}
+.mk-chip{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:12px; font-weight:600; padding:4px 6px 4px 11px;
+  border-radius:999px; background:var(--mk-surface);
+  border:1px solid var(--mk-border-strong); color:var(--mk-text);
+}
+.mk-chip button{
+  font:inherit; font-size:14px; line-height:1; cursor:pointer;
+  border:0; background:transparent; color:var(--mk-muted);
+  padding:0 3px; border-radius:4px;
+}
+.mk-chip button:hover{ color:var(--mk-text); background:var(--mk-surface-2); }
+.pk-clear{
+  font:inherit; font-size:0.8125rem; font-weight:600; background:none;
+  border:0; padding:0; color:var(--mk-accent-strong); cursor:pointer;
+  text-decoration:underline;
+}
+.pk-head{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px 24px; flex-wrap:wrap; margin:30px 0 0;
+}
+.pk-head[hidden]{ display:none; }
+.pk-head h2{ font-size:1.375rem; font-weight:700; }
+.pk-count{
+  font-size:0.8125rem; font-weight:600; color:var(--mk-soft);
+  font-variant-numeric:tabular-nums;
+}
+.pk-list{ display:grid; gap:12px; margin:18px 0 0; padding:0 0 64px; }
+.pk-row{
+  display:block; width:100%; text-align:left; font:inherit; cursor:pointer;
+  padding:16px 18px;
+  border:1px solid var(--mk-border); border-left:3px solid var(--mk-border-strong);
+  border-radius:var(--mk-radius);
+  background:var(--mk-surface); color:var(--mk-text);
+  box-shadow:var(--mk-shadow-sm);
+  transition:border-color .15s, box-shadow .15s;
+}
+.pk-row:hover{ border-color:var(--mk-accent); box-shadow:var(--mk-shadow); }
+.pk-row--best{ border-left-color:var(--mk-accent); }
+.pk-top{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.pk-title{ font-size:1.0625rem; font-weight:650; letter-spacing:-0.01em; }
+.pk-badge{
+  font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:4px 9px; border-radius:999px;
+  background:var(--mk-surface-2); border:1px solid var(--mk-border); color:var(--mk-soft);
+}
+.pk-badge--best{
+  background:var(--mk-accent-strong); border-color:var(--mk-accent-strong);
+  color:var(--mk-on-accent);
+}
+.pk-q{ display:block; margin:8px 0 0; font-size:14px; color:var(--mk-soft); }
+.pk-meta{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 0; }
+.pk-chip{
+  font-size:11.5px; padding:5px 10px; border-radius:999px;
+  background:var(--mk-surface-2); border:1px solid var(--mk-border); color:var(--mk-soft);
+}
+.pk-chip b{ color:var(--mk-text); font-weight:650; }
+.pk-foot{ display:flex; align-items:center; gap:12px; margin:13px 0 0; }
+.pk-cta{ margin-left:auto; font-size:13px; font-weight:600; color:var(--mk-accent-strong); }
+.pk-note{
+  margin:30px 0 64px; padding:24px 26px;
+  border:1px dashed var(--mk-border-strong); border-radius:var(--mk-radius);
+  background:var(--mk-surface); color:var(--mk-soft);
+}
+.pk-note[hidden]{ display:none; }
+.pk-note h2{ font-size:1.0625rem; font-weight:650; color:var(--mk-text); margin:0 0 7px; }
+.pk-note h3{ font-size:1.0625rem; font-weight:650; color:var(--mk-text); margin:0 0 7px; }
+
+/* v20 - the report picker renders as numbered steps inside the panel. */
+.pk-steps{ list-style:none; margin:0; padding:30px 0 72px; }
+.pk-step{ display:grid; grid-template-columns:34px minmax(0,1fr); gap:16px; }
+.pk-step + .pk-step{ margin-top:26px; padding-top:26px; border-top:1px solid var(--mk-border); }
+.pk-snum{
+  width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+  font-size:13px; font-weight:700; margin-top:2px;
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+}
+.pk-sbody{ min-width:0; }
+.pk-shead{ font-size:1.0625rem; font-weight:650; margin:2px 0 0; }
+.pk-shint{ margin:6px 0 0; font-size:13px; color:var(--mk-muted); }
+.pk-sbody .mk-pills{ margin:13px 0 0; }
+.pk-sbody .mk-chips{ margin:13px 0 0; }
+/* Holds the page height steady so changing a choice cannot move the viewport. */
+.pk-results{ min-height:440px; }
+.pk-results .pk-list{ padding-bottom:0; }
+.pk-results .pk-head{ margin-top:0; }
+
+/* v20 - step 4 of the guided walkthrough. */
+.gx-reads{ margin:7px 0 0; color:var(--mk-text); font-weight:600; }
+.gx-easy{
+  margin:12px 0 0; padding:12px 14px; border-radius:10px; font-size:14px;
+  background-color:#eef6ff; border:1px solid var(--mk-border); color:var(--mk-text);
+}
+[data-theme="dark"] .gx-easy{ background-color:#16283a; }
+.gx-do{ margin:14px 0 0; padding:0 0 0 21px; display:grid; gap:10px;
+  color:var(--mk-soft); font-size:14.5px; line-height:1.55; }
+.gx-do li{ padding-left:3px; }
+.gx-do strong{ color:var(--mk-text); font-weight:650; }
+.gx-do code, .gx-reads code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px; padding:1px 5px; border-radius:5px;
+  background:var(--mk-surface-2); border:1px solid var(--mk-border);
+}
+/* v24 - inline links live inside the sentences, so they must read as links. */
+.gx-do a, .gx-reads a, .gx-easy a, .gx-hint a, .gx-route a, .gx-more a{
+  color:var(--mk-accent); text-decoration:underline; text-underline-offset:2px;
+  text-decoration-thickness:1px; font-weight:600;
+}
+.gx-do a:hover, .gx-reads a:hover, .gx-easy a:hover,
+.gx-hint a:hover, .gx-route a:hover, .gx-more a:hover{ color:var(--mk-accent-strong); }
+
+/* v24 - hoverable / focusable glossary term. Keyboard reachable, Escape closes. */
+.gx-term{
+  position:relative; border-bottom:1px dotted var(--mk-muted);
+  cursor:help; outline:none;
+}
+.gx-term:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2px; border-radius:3px; }
+.gx-tip{
+  position:absolute; left:0; bottom:calc(100% + 9px); z-index:70; width:266px;
+  display:none; padding:10px 12px; border-radius:9px;
+  font-size:12.5px; font-weight:400; line-height:1.5; letter-spacing:0;
+  color:#ffffff; background:#1f2430; box-shadow:0 10px 26px rgba(0,0,0,.3);
+}
+.gx-tip b{ display:block; color:#ffffff; font-weight:700; margin-bottom:3px; }
+.gx-term:hover .gx-tip, .gx-term:focus .gx-tip{ display:block; }
+.gx-term.gx-term--off .gx-tip{ display:none; }
+@media (max-width:640px){ .gx-tip{ width:210px; } }
+
+/* v24 - two clearly separated routes to the same data. */
+.gx-routes{ margin:14px 0 0; display:grid; gap:11px; }
+.gx-route{
+  border:1px solid var(--mk-border); border-left:3px solid var(--mk-accent);
+  border-radius:10px; padding:12px 14px 13px; background:var(--mk-surface-2);
+}
+.gx-route h5{
+  margin:0; font-size:13.5px; font-weight:700; color:var(--mk-text); letter-spacing:.01em;
+}
+.gx-route .gx-trade{ margin:3px 0 0; font-size:12.5px; color:var(--mk-muted); }
+.gx-route .gx-do{ margin:9px 0 0; font-size:14px; }
+.gx-more{ margin:13px 0 0; font-size:13px; color:var(--mk-muted); }
+.gx-more a + a{ margin-left:14px; }
+
+/* ---------- view 3: guided solutions ---------- */
+.gd-cols{
+  display:grid; grid-template-columns:minmax(0,1fr) 360px;
+  gap:28px; align-items:start; margin:30px 0 0; padding-bottom:64px;
+}
+.gd-cols[hidden]{ display:none; }
+@media (max-width:1000px){ .gd-cols{ grid-template-columns:1fr; } }
+.gd-panel{
+  background:var(--mk-surface); border:1px solid var(--mk-border);
+  border-radius:var(--mk-radius); box-shadow:var(--mk-shadow-sm);
+}
+.gd-panel-h{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 18px; border-bottom:1px solid var(--mk-border);
+}
+.gd-panel-h h2{ font-size:1rem; font-weight:650; }
+.gd-panel-b{ padding:16px 18px; }
+.gd-list{ display:grid; gap:10px; }
+.gd-item{
+  display:grid; grid-template-columns:22px minmax(0,1fr); gap:13px;
+  align-items:start; padding:13px 15px; cursor:pointer;
+  border:1px solid var(--mk-border); border-radius:10px; background:var(--mk-surface);
+}
+.gd-item[hidden]{ display:none; }
+.gd-item:hover{ border-color:var(--mk-border-strong); }
+.gd-item.is-on{ border-color:var(--mk-accent); background:var(--mk-bg-alt); }
+.gd-item input{ width:17px; height:17px; margin:2px 0 0; accent-color:var(--mk-accent); }
+.gd-item h3{ font-size:0.9375rem; font-weight:650; }
+.gd-item p{ margin:4px 0 0; font-size:13px; color:var(--mk-soft); }
+.gd-meta{ display:flex; gap:12px; flex-wrap:wrap; margin:7px 0 0; font-size:11.5px; color:var(--mk-muted); }
+.gd-side{ position:sticky; top:calc(var(--mk-barh) + 14px); display:grid; gap:16px; }
+.gd-chosen{ list-style:none; margin:0; padding:0; display:grid; gap:7px; max-height:270px; overflow:auto; }
+.gd-chosen li{
+  display:flex; align-items:center; gap:9px; font-size:13px;
+  padding:8px 10px; border:1px solid var(--mk-border);
+  border-radius:8px; background:var(--mk-bg-alt);
+}
+.gd-n{ color:var(--mk-muted); font-variant-numeric:tabular-nums; min-width:15px; }
+.gd-chosen button{
+  margin-left:auto; border:0; background:transparent; cursor:pointer;
+  color:var(--mk-muted); font-size:15px; line-height:1; padding:2px 5px; border-radius:4px;
+}
+.gd-chosen button:hover{ color:var(--mk-text); background:var(--mk-surface-2); }
+.gd-none{ font-size:13px; color:var(--mk-muted); }
+.gd-none[hidden]{ display:none; }
+.gd-count{ font-size:12.5px; color:var(--mk-soft); font-variant-numeric:tabular-nums; }
+.gd-btnrow{ display:flex; gap:9px; flex-wrap:wrap; margin-top:14px; }
+.gd-btn{
+  font:inherit; font-size:13.5px; font-weight:600; cursor:pointer;
+  padding:10px 16px; border-radius:8px; border:1px solid transparent;
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+  text-decoration:none; display:inline-flex; align-items:center; gap:7px;
+}
+.gd-btn:hover{ background:var(--mk-accent); text-decoration:none; color:var(--mk-on-accent); }
+.gd-btn[disabled]{ opacity:.45; cursor:not-allowed; }
+.gd-btn--plain{ background:var(--mk-surface); color:var(--mk-text); border-color:var(--mk-border-strong); }
+.gd-btn--plain:hover{ background:var(--mk-surface-2); color:var(--mk-text); }
+.gd-note{ margin:12px 0 0; font-size:12px; color:var(--mk-muted); }
+.gd-result[hidden]{ display:none; }
+.gd-lead{ margin:10px 0 0; font-size:1rem; color:var(--mk-soft); max-width:74ch; }
+.gd-summary{ display:flex; gap:26px; flex-wrap:wrap; margin:20px 0 0; }
+.gd-summary div{ font-size:13px; color:var(--mk-muted); }
+.gd-summary b{ display:block; font-size:1.35rem; font-weight:700; color:var(--mk-text); line-height:1.2; }
+.gd-share{
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px 24px;
+  align-items:start; margin:24px 0 0; padding:18px 20px;
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius); background:var(--mk-surface);
+}
+@media (max-width:760px){ .gd-share{ grid-template-columns:1fr; } }
+.gd-share .gd-btnrow{ margin-top:22px; }
+.gd-url{
+  margin:8px 0 0; padding:10px 11px;
+  font:12px/1.5 var(--mk-mono); color:var(--mk-soft);
+  background:var(--mk-bg-alt); border:1px solid var(--mk-border); border-radius:8px;
+  word-break:break-all; max-height:90px; overflow:auto;
+}
+.gd-said{ margin:9px 0 0; font-size:12.5px; font-weight:600; color:#0f7b3d; }
+.gd-said[hidden]{ display:none; }
+[data-theme="dark"] .gd-said{ color:#4ad07f; }
+
+/* the generated guide - the 6-step spine from the customer-enablement view */
+.gx-tabs{
+  display:flex; gap:4px; overflow-x:auto; margin:28px 0 0; padding:8px 0;
+  border-bottom:1px solid var(--mk-border);
+}
+.gx-tab{
+  font:inherit; font-size:13.5px; font-weight:600; white-space:nowrap; cursor:pointer;
+  padding:9px 15px; border-radius:8px; border:1px solid transparent;
+  background:transparent; color:var(--mk-soft);
+}
+.gx-tab:hover{ background:var(--mk-surface); color:var(--mk-text); }
+.gx-tab[aria-selected="true"]{
+  background:var(--mk-surface); color:var(--mk-text);
+  border-color:var(--mk-border); box-shadow:var(--mk-shadow-sm);
+}
+.gx-i{ margin-right:7px; color:var(--mk-muted); font-variant-numeric:tabular-nums; }
+.gx-tab[aria-selected="true"] .gx-i{ color:var(--mk-accent); }
+.gx-panel{ padding:30px 0 72px; }
+.gx-panel[hidden]{ display:none; }
+.gx-rhead h3{ font-size:1.5rem; font-weight:700; letter-spacing:-.015em; }
+.gx-q{ margin:9px 0 0; font-size:1rem; color:var(--mk-soft); }
+.gx-badges{ display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 0; }
+.gx-badge{
+  font-size:11.5px; font-weight:600; padding:5px 10px; border-radius:999px;
+  background:var(--mk-surface-2); border:1px solid var(--mk-border); color:var(--mk-soft);
+}
+.gx-step{ display:grid; grid-template-columns:34px minmax(0,1fr); gap:16px; padding:26px 0 0; }
+.gx-num{
+  width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+  font-size:13px; font-weight:700; margin-top:2px;
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+}
+.gx-body{ min-width:0; }
+.gx-body h4{ font-size:1.0625rem; font-weight:650; margin:2px 0 0; }
+.gx-body p{ margin:7px 0 0; color:var(--mk-soft); }
+.gx-checks{ list-style:none; margin:12px 0 0; padding:0; display:grid; gap:8px; }
+.gx-checks li{
+  display:grid; grid-template-columns:20px minmax(0,1fr); gap:11px; align-items:start;
+  padding:11px 13px; border:1px solid var(--mk-border); border-radius:9px;
+  background:var(--mk-surface); font-size:14px;
+}
+.gx-checks svg{ margin-top:3px; color:var(--mk-accent); }
+.gx-hint{ margin:7px 0 0; font-size:12.5px; color:var(--mk-muted); }
+.gx-fig{ margin:14px 0 0; }
+.gx-fig video, .gx-fig img{
+  display:block; width:100%; border:1px solid var(--mk-border);
+  border-radius:10px; background:var(--mk-surface-2);
+}
+.gx-fig figcaption{ margin:7px 0 0; font-size:12px; color:var(--mk-muted); }
+.gx-links{ display:flex; gap:18px; flex-wrap:wrap; margin:13px 0 0; font-size:14px; }
+.gx-cta{
+  font:inherit; font-size:14px; font-weight:600; text-decoration:none;
+  display:inline-flex; align-items:center; gap:8px; margin:14px 10px 0 0;
+  padding:10px 17px; border-radius:8px;
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+}
+.gx-cta:hover{ background:var(--mk-accent); text-decoration:none; color:var(--mk-on-accent); }
+.gx-cta--dark{ background:var(--mk-text); color:var(--mk-bg); }
+.gx-cta--dark:hover{ background:var(--mk-accent); color:var(--mk-on-accent); }
 
 /* ---------- flyout ---------- */
 .mk-dlg{
@@ -831,50 +1254,255 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   <div class="mk-wrap">
     <p class="mk-eyebrow mk-eyebrow--rule">Analytics Hub</p>
     <h1>Reports</h1>
-    <p class="mk-lead"><strong>None of these started on a whiteboard.</strong> Every report here
-      traces back to a gap a customer actually hit &mdash; a question they needed answered and had
-      no way to answer. Start with yours: see what the report looks like, what data it needs and
-      who has to be in the room, then take the template.</p>
-    <ul class="mk-stats">
-      <li class="mk-stat"><b id="mkCountTools">0</b><span>Reports</span></li>
-      <li class="mk-stat"><b id="mkCountCats">0</b><span>Groups</span></li>
-      <li class="mk-stat"><b id="mkCountCore">0</b><span>Marked core</span></li>
-      <li class="mk-stat"><b id="mkCountSrc">0</b><span>Data sources</span></li>
-    </ul>
+
   </div>
 </header>
 
 <section class="mk-fp" aria-label="Refine reports">
   <div class="mk-fp-sentinel" aria-hidden="true"></div>
-  <div class="mk-fp-cat">
-    <div class="mk-wrap">
-      <div class="mk-fp-row">
-        <span class="mk-flabel" id="mkLblCat">Category</span>
-        <div class="rf-pills" id="mkCatPills" role="group" aria-labelledby="mkLblCat"></div>
+
+  <div class="mk-wrap">
+    <div class="mk-intro">
+      <p class="mk-intro-lead"><strong>None of these started on a whiteboard.</strong> Every report
+        here traces back to a gap a customer actually hit &mdash; a question they needed answered and
+        had no way to answer.</p>
+      <p class="mk-intro-sub">We also know this is a lot to take in. Which report to choose, who to
+        engage, what roles are required &mdash; all of that is answered here, three ways:</p>
+      <ul class="mk-intro-list">
+        <li><b>Reports overview</b> &mdash; every report we offer, filterable and sortable. Open any
+          one to read the detail and watch the walkthrough.</li>
+        <li><b>Report picker</b> &mdash; tell us what you are trying to answer and which data you want
+          to surface, and we point you at the reports that fit. Drill into any of them to learn more.</li>
+        <li><b>Guided solutions</b> &mdash; choose any number of reports and generate a tailored setup
+          page, laid out more clearly than we can manage on GitHub, to enable you and the
+          stakeholders you bring with you.</li>
+      </ul>
+    </div>
+    <div class="mk-views" id="mkViews" role="tablist" aria-label="Reports views">
+      <button type="button" class="mk-vtab" role="tab" id="mkTabOverview" data-view="overview"
+              aria-controls="mkPanelOverview" aria-selected="true" tabindex="0">Reports overview</button>
+      <button type="button" class="mk-vtab" role="tab" id="mkTabPicker" data-view="picker"
+              aria-controls="mkPanelPicker" aria-selected="false" tabindex="-1">Report picker</button>
+      <button type="button" class="mk-vtab" role="tab" id="mkTabGuided" data-view="guided"
+              aria-controls="mkPanelGuided" aria-selected="false" tabindex="-1">Guided solutions</button>
+    </div>
+  </div>
+
+  <!-- v19: everything above the switcher is view-specific. The wrapper keeps
+       a reserved height so the switcher below never moves between views. -->
+  <div class="mk-fp-head" id="mkFpHead">
+    <div class="mk-fp-cat" id="mkCatBand">
+      <div class="mk-wrap">
+        <div class="mk-fp-row">
+          <span class="mk-flabel" id="mkLblCat">Category</span>
+          <div class="rf-pills" id="mkCatPills" role="group" aria-labelledby="mkLblCat"></div>
+        </div>
       </div>
+    </div>
+    <div class="mk-wrap">
+
+      <div class="mk-ctlset" id="mkCtlOverview">
+        <div class="mk-fp-row mk-fp-row--stack">
+          <label class="mk-flabel" for="mkSearch">Search</label>
+          <span class="mk-searchwrap">
+            <input type="search" id="mkSearch" class="mk-search" autocomplete="off"
+                   placeholder="Try cowork, finops, execs, viva insights, studio agents&hellip;"
+                   aria-describedby="mkResult">
+            <button type="button" class="mk-searchclear" id="mkSearchClear" hidden
+                    aria-label="Clear search">&times;</button>
+          </span>
+        </div>
+        <div class="mk-fp-row">
+          <span class="mk-pills" role="group">
+            <button type="button" class="mk-pill" id="mkCoreOnly" aria-pressed="false">Core only</button>
+          </span>
+        </div>
+      </div>
+
+
+      <div class="mk-ctlset" id="mkCtlGuided" hidden>
+        <div class="mk-fp-row mk-fp-row--stack">
+          <label class="mk-flabel" for="mkGdQ">Search</label>
+          <span class="mk-searchwrap">
+            <input type="search" id="mkGdQ" class="mk-search" autocomplete="off"
+                   placeholder="Search reports, themes, outcomes&hellip;"
+                   aria-describedby="mkGdShown">
+            <button type="button" class="mk-searchclear" id="mkGdQClear" hidden
+                    aria-label="Clear search">&times;</button>
+          </span>
+        </div>
+        <div class="mk-fp-row">
+          <span class="mk-pills" role="group">
+            <button type="button" class="mk-pill" id="mkGdOnlySel" aria-pressed="false">Selected only</button>
+            <button type="button" class="mk-pill" id="mkGdClearAll">Clear selection</button>
+          </span>
+          <span class="gd-count" id="mkGdShown"></span>
+        </div>
+      </div>
+
     </div>
   </div>
   <div class="mk-wrap">
-    <div class="mk-fp-row">
-      <span class="mk-flabel" id="mkLblFocus">Focus area</span>
-      <span class="mk-pills" id="mkFocusPills" role="group" aria-labelledby="mkLblFocus"></span>
-    </div>
-    <div class="mk-fp-row">
-      <span class="mk-pills" role="group">
-        <button type="button" class="mk-pill" id="mkCoreOnly" aria-pressed="false">Core only</button>
-      </span>
-    </div>
-    <div class="mk-fp-status">
+    <div class="mk-fp-status" id="mkStatus">
       <p class="mk-result" id="mkResult" role="status" aria-live="polite"></p>
+      <span class="mk-sortwrap">
+        <label class="mk-sortlabel" for="mkSort">Sort by</label>
+        <select id="mkSort" class="mk-sort">
+          <option value="popular">Popularity</option>
+          <option value="week">Popular this week</option>
+          <option value="latest">Latest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+      </span>
     </div>
   </div>
 </section>
 
 <main>
+
+<section id="mkPanelOverview" role="tabpanel" aria-labelledby="mkTabOverview">
+  <div class="mk-wrap">
+    <p class="mk-howto">
+      <svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M6.5 2.4a1.1 1.1 0 0 1 1.9-.8l7.9 7.6c.5.5.2 1.4-.5 1.5l-3.4.5 2 3.8a1.1 1.1 0 0 1-.5 1.5l-1.5.8a1.1 1.1 0 0 1-1.5-.5l-2-3.8-2.4 2.5c-.5.5-1.4.2-1.5-.6z"/>
+      </svg>
+      <span><strong>Click any report card</strong> to open its guides, setup steps, FAQs and demo videos.</span>
+    </p>
+  </div>
   <div class="mk-sections" id="mkSections"></div>
   <div class="mk-wrap">
     <p class="mk-empty" id="mkEmpty" hidden>No reports match that combination.</p>
   </div>
+</section>
+
+<section id="mkPanelPicker" role="tabpanel" aria-labelledby="mkTabPicker" hidden>
+  <div class="mk-wrap">
+    <!-- v20: the whole guided flow reads downward. Step 1 and step 2 live in
+         the panel, not in the control head, so a choice never sends the reader
+         back up the page. Step 3 is always mounted and updates in place. -->
+    <ol class="pk-steps">
+
+      <li class="pk-step">
+        <span class="pk-snum">1</span>
+        <div class="pk-sbody">
+          <h2 class="pk-shead" id="mkLblPkGoal">What are you trying to do?</h2>
+          <p class="pk-shint">Pick one. Click it again to clear it.</p>
+          <span class="mk-pills" id="mkPkGoal" role="group" aria-labelledby="mkLblPkGoal"></span>
+        </div>
+      </li>
+
+      <li class="pk-step">
+        <span class="pk-snum">2</span>
+        <div class="pk-sbody">
+          <h2 class="pk-shead" id="mkLblPkProd">Which Copilot surfaces?</h2>
+          <p class="pk-shint">Optional, and you can pick more than one &mdash; a report counts
+            if it covers any of them.</p>
+          <span class="mk-pills" id="mkPkProd" role="group" aria-labelledby="mkLblPkProd"></span>
+          <span class="mk-chips" id="mkPkActive"></span>
+        </div>
+      </li>
+
+      <li class="pk-step pk-step--end">
+        <span class="pk-snum">3</span>
+        <div class="pk-sbody">
+          <h2 class="pk-shead">Start here</h2>
+          <div class="pk-results" id="mkPkResults">
+            <div class="pk-note" id="mkPkIdle">
+              <h3>Nothing chosen yet</h3>
+              <p>Answer step 1, or pick a surface in step 2, or both. We rank the reports that
+                answer it and put the ones built for the job first. Every recommendation opens
+                the same detail view as the cards.</p>
+            </div>
+            <div class="pk-note" id="mkPkNone" hidden>
+              <h3>Nothing matches that combination</h3>
+              <p>No report covers <span id="mkPkNoneWhat"></span>.
+                <button type="button" class="pk-clear" id="mkPkNoneClear">Clear the choices</button>
+                and try a wider one.</p>
+            </div>
+            <div class="pk-head" id="mkPkHead" hidden>
+              <h3 id="mkPkTitle">Recommended for you</h3>
+              <span class="pk-count" id="mkPkCount"></span>
+            </div>
+            <div class="pk-list" id="mkPkList"></div>
+          </div>
+        </div>
+      </li>
+
+      <li class="pk-step pk-step--end" id="mkPkStep4" hidden>
+        <span class="pk-snum">4</span>
+        <div class="pk-sbody">
+          <h2 class="pk-shead">Want the setup instructions?</h2>
+          <p class="pk-ssub">Generate a guide for any of these &mdash; one report or several. You get a
+            tailored page covering the roles and permissions to request, where the data comes from and
+            how to get it, and the template to download. Shareable with whoever has to help you.</p>
+          <div class="pk-genrow">
+            <button type="button" class="mk-btn" id="mkPkGenAll">Generate a guide for these
+              <span id="mkPkGenN"></span></button>
+            <button type="button" class="pk-clear" id="mkPkGenPick">Choose which ones first</button>
+          </div>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<section id="mkPanelGuided" role="tabpanel" aria-labelledby="mkTabGuided" hidden>
+  <div class="mk-wrap">
+
+    <div class="gd-cols" id="mkGdPick">
+      <section class="gd-panel">
+        <div class="gd-panel-h">
+          <h2>Choose the reports</h2>
+        </div>
+        <div class="gd-panel-b">
+          <div class="gd-list" id="mkGdList"></div>
+        </div>
+      </section>
+      <aside class="gd-side">
+        <section class="gd-panel">
+          <div class="gd-panel-h">
+            <h2>Your pack</h2>
+            <span class="gd-count" id="mkGdCount">0 reports</span>
+          </div>
+          <div class="gd-panel-b">
+            <ul class="gd-chosen" id="mkGdChosen"></ul>
+            <p class="gd-none" id="mkGdNone">Nothing selected yet. Tick a report to start the pack.</p>
+            <div class="gd-btnrow">
+              <button type="button" class="gd-btn" id="mkGdGen" disabled>Generate guide</button>
+            </div>
+            <p class="gd-note">The selection travels inside the link, so nothing is
+              generated, committed or stored.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="gd-result" id="mkGdResult" hidden>
+      <div class="pk-head">
+        <h2>Your setup guide</h2>
+        <button type="button" class="gd-btn gd-btn--plain" id="mkGdStartOver">Start over</button>
+      </div>
+      <p class="gd-lead" id="mkGdLead"></p>
+      <div class="gd-summary" id="mkGdSummary"></div>
+      <div class="gd-share">
+        <div>
+          <p class="mk-chips-lbl">Shareable link</p>
+          <div class="gd-url" id="mkGdUrl"></div>
+          <p class="gd-said" id="mkGdSaid" hidden>Link copied.</p>
+        </div>
+        <div class="gd-btnrow">
+          <button type="button" class="gd-btn" id="mkGdCopy">Copy link</button>
+          <a class="gd-btn gd-btn--plain" id="mkGdMail" href="#">Email it</a>
+        </div>
+      </div>
+      <div class="gx-tabs" id="mkGdTabs" role="tablist" aria-label="Reports in this pack"></div>
+      <div id="mkGdPanels"></div>
+    </div>
+
+  </div>
+</section>
+
 </main>
 
 <section class="mk-findings" aria-labelledby="mkFindHead">
@@ -2971,7 +3599,176 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
      scripts/sync_stars.py and consumed read-only below. Embedded so the
      mockup renders offline exactly as the live page would. The mk-data
      island above is untouched. -->
-<script id="mk-stars" type="application/json">{
+<script id="mk-sort" type="application/json">
+{
+  "schemaVersion": 1,
+  "generatedBy": "build_sort_data.ps1",
+  "trafficWindow": {
+    "from": "2026-09-01",
+    "to": "2026-09-07",
+    "days": 7
+  },
+  "note": "created = GitHub repo creation. viewsWeek = repo views over the trailing 7 finalised days. Reports without a GitHub repository carry nulls and sort last.",
+  "reports": {
+    "super-usage": {
+      "repo": "microsoft/DecodingSuperUsage",
+      "stars": 47,
+      "created": "2025-03-12T20:37:50Z",
+      "viewsWeek": 290,
+      "viewsTotal": 4251
+    },
+    "super-user-impact": {
+      "repo": "microsoft/superuserimpact",
+      "stars": 11,
+      "created": "2026-01-28T23:09:54Z",
+      "viewsWeek": 67,
+      "viewsTotal": 1251
+    },
+    "ai-in-one": {
+      "repo": "microsoft/AI-in-One-Dashboard",
+      "stars": 80,
+      "created": "2025-10-17T11:32:12Z",
+      "viewsWeek": 1955,
+      "viewsTotal": 26769
+    },
+    "chat-agent": {
+      "repo": "microsoft/CopilotChatAnalytics",
+      "stars": 21,
+      "created": "2025-06-16T16:06:40Z",
+      "viewsWeek": 145,
+      "viewsTotal": 1004
+    },
+    "ghcp-impact": {
+      "repo": "microsoft/GitHubCopilotImpact",
+      "stars": 9,
+      "created": "2025-10-05T22:42:42Z",
+      "viewsWeek": 29,
+      "viewsTotal": 1197
+    },
+    "what-i-did": {
+      "repo": "microsoft/What-I-Did-Copilot",
+      "stars": 49,
+      "created": "2026-03-30T20:52:26Z",
+      "viewsWeek": 238,
+      "viewsTotal": 4456
+    },
+    "cowork-impact": {
+      "repo": "microsoft/What-I-did-with-Cowork",
+      "stars": 26,
+      "created": "2026-06-18T09:39:01Z",
+      "viewsWeek": 513,
+      "viewsTotal": 8795
+    },
+    "m365-readiness": {
+      "repo": "microsoft/M365UsageAnalytics",
+      "stars": 13,
+      "created": "2026-02-12T21:21:52Z",
+      "viewsWeek": 424,
+      "viewsTotal": 3907
+    },
+    "adoption-sentiment": {
+      "repo": "olivierpecheux/copilot-adoption-sentiment-report",
+      "stars": 2,
+      "created": "2026-02-24T15:05:07Z",
+      "viewsWeek": 0,
+      "viewsTotal": 0
+    },
+    "pax": {
+      "repo": "microsoft/PAX",
+      "stars": 26,
+      "created": "2025-10-07T22:20:39Z",
+      "viewsWeek": 522,
+      "viewsTotal": 6598
+    },
+    "roi-calc": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "cowork-billing-report": {
+      "repo": "microsoft/CreditUsage",
+      "stars": 9,
+      "created": "2026-06-22T18:09:07Z",
+      "viewsWeek": 670,
+      "viewsTotal": 5822
+    },
+    "cowork-chargeback-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "cowork-policy-helper-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "finops-focus-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "cowork-roi-model-app": {
+      "repo": null,
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
+    "customize": {
+      "repo": "microsoft/customizecopilot",
+      "stars": 6,
+      "created": "2026-02-16T05:28:26Z",
+      "viewsWeek": 15,
+      "viewsTotal": 267
+    },
+    "personal-copilot-dashboard": {
+      "repo": "microsoft/Personal-Dashboard",
+      "stars": 1,
+      "created": "2026-08-14T16:26:16Z",
+      "viewsWeek": 98,
+      "viewsTotal": 251
+    },
+    "ess-insights": {
+      "repo": "microsoft/ESS",
+      "stars": 5,
+      "created": "2026-08-14T15:50:59Z",
+      "viewsWeek": 188,
+      "viewsTotal": 809
+    },
+    "value-lens": {
+      "repo": "microsoft/ValueLens-for-Microsoft-Copilot",
+      "stars": 20,
+      "created": "2026-05-10T22:57:12Z",
+      "viewsWeek": 2069,
+      "viewsTotal": 6871
+    },
+    "consumption-central": {
+      "repo": "microsoft/ConsumptionCentral-for-Microsoft-Copilot",
+      "stars": 14,
+      "created": "2026-08-09T19:54:55Z",
+      "viewsWeek": 2921,
+      "viewsTotal": 10953
+    },
+    "agent-evaluator": {
+      "repo": "microsoft/AgentEvaluator-for-Copilot-Studio",
+      "stars": 11,
+      "created": "2026-07-06T20:05:16Z",
+      "viewsWeek": 0,
+      "viewsTotal": 0
+    }
+  }
+}
+</script>
+<script id="mk-stars" type="application/json">
+{
   "schemaVersion": 1,
   "generatedBy": "scripts/sync_stars.py",
   "fetchedAt": "2026-09-10T15:39:39Z",
@@ -3149,6 +3946,161 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     var f = PENDING_DATA_FIXES[t.id];
     return (f && typeof f.title === 'string') ? f.title : t.title;
   }
+  /* Search vocabulary. Written per report from its own question, measures and
+     source, so a search reflects what people actually ask for rather than
+     whatever words happen to appear in the blurb. Lives here rather than in
+     the JSON island for the same reason PENDING_DATA_FIXES does: the island
+     stays a faithful copy of live. These belong in the live dataset. */
+  var TAGS = {
+    'super-usage': ['adoption', 'super users', 'power users', 'champions', 'habits', 'behaviour', 'enablement'],
+    'super-user-impact': ['impact', 'productivity', 'work patterns', 'collaboration', 'meetings', 'time saved'],
+    'ai-in-one': ['executive', 'single pane', 'overview', 'adoption', 'chat', 'agents', 'licences', 'monthly review'],
+    'chat-agent': ['chat', 'agents', 'prompts', 'usage', 'departments', 'maturity'],
+    'ghcp-impact': ['developer', 'github copilot', 'engineering', 'adoption', 'code'],
+    'what-i-did': ['developer', 'github copilot', 'personal', 'weekly', 'individual', 'leverage'],
+    'cowork-impact': ['cowork', 'business process', 'impact', 'personal', 'time saved'],
+    'm365-readiness': ['readiness', 'enablement', 'onboarding', 'champions', 'licences', 'who to enable next'],
+    'adoption-sentiment': ['sentiment', 'survey', 'satisfaction', 'feedback', 'employee voice', 'adoption'],
+    'pax': ['audit', 'logs', 'export', 'automation', 'compliance', 'graph api'],
+    'roi-calc': ['roi', 'business case', 'payback', 'calculator', 'cost recovery', 'value'],
+    'cowork-billing-report': ['chargeback', 'billing', 'cost allocation', 'departments', 'cowork', 'credits', 'showback'],
+    'cowork-chargeback-app': ['chargeback', 'scenario modelling', 'what-if', 'credits', 'cowork', 'web app'],
+    'cowork-policy-helper-app': ['policy', 'spend limits', 'exceptions', 'governance', 'guardrails', 'cowork'],
+    'finops-focus-app': ['finops', 'focus', 'cost', 'cloud finance', 'unit economics', 'cowork'],
+    'cowork-roi-model-app': ['roi', 'scenario modelling', 'business case', 'forecasting', 'cowork'],
+    'customize': ['customisation', 'extend', 'add-ons', 'custom pages', 'viva insights'],
+    'personal-copilot-dashboard': ['personal', 'individual', 'self-service', 'benchmarking', 'my usage'],
+    'ess-insights': ['employee self-service', 'deflection', 'agents', 'support', 'hr', 'business value'],
+    'value-lens': ['roi', 'business case', 'hours saved', 'value', 'defensible', 'executive', 'frontier firm'],
+    'consumption-central': ['credits', 'consumption', 'cost', 'spend', 'forecast', 'budget', 'finops', 'chargeback'],
+    'agent-evaluator': ['agents', 'copilot studio', 'quality', 'transcripts', 'csat', 'credits', 'evaluation']
+  };
+  function tagsOf(t) { return (t && TAGS[t.id]) || []; }
+
+  /* ---------- goals ----------
+     Taken verbatim from Shailendra's picker (docs/choose-report/index.html):
+     six goals, and his own per-report ranking where 1 = this is what the
+     report is FOR and 2 = it also serves this. Titles and descriptions are
+     his words, not a rewrite.
+
+     Five of our 22 are absent from his 19. Three of them clearly belong to a
+     goal and are placed here; PAX and CustomizeCopilot are deliberately left
+     ungoaled because they are tooling, not reports. See the note on the page. */
+  var GOALS = [
+    { id: 'impact',     title: 'ROI & Impact',            desc: 'Hours saved, assisted value, dollars.' },
+    { id: 'adoption',   title: 'Adoption',                desc: 'Who uses Copilot and how habits spread.' },
+    { id: 'cost',       title: 'Cost & Consumption',      desc: 'Credit spend, forecast and per-dept chargeback.' },
+    { id: 'agents',     title: 'Agent quality',           desc: 'Resolution, escalation, performance, latency.' },
+    { id: 'developer',  title: 'Developer productivity',  desc: 'GitHub Copilot adoption and acceptance.' },
+    { id: 'individual', title: 'Individual productivity', desc: 'Your own Copilot usage and personal digests.' }
+  ];
+
+  var GOALMAP = {
+    'value-lens':                 { impact: 1 },
+    'roi-calc':                   { impact: 2 },
+    'ess-insights':               { impact: 2, agents: 2 },
+    'super-user-impact':          { impact: 1 },
+    'ai-in-one':                  { adoption: 1 },
+    'super-usage':                { adoption: 1 },
+    'adoption-sentiment':         { adoption: 2 },
+    'consumption-central':        { cost: 1 },
+    'cowork-billing-report':      { cost: 1 },
+    'cowork-chargeback-app':      { cost: 2 },
+    'agent-evaluator':            { agents: 1 },
+    'chat-agent':                 { agents: 2, adoption: 2 },
+    'm365-readiness':             { adoption: 2 },
+    'ghcp-impact':                { developer: 1, adoption: 2 },
+    'what-i-did':                 { individual: 1, impact: 2, developer: 2 },
+    'cowork-impact':              { impact: 2, individual: 1 },
+    'personal-copilot-dashboard': { individual: 1 },
+    /* not in his list; placement is ours, flagged on the page */
+    'cowork-policy-helper-app':   { cost: 2 },
+    'finops-focus-app':           { cost: 2 },
+    'cowork-roi-model-app':       { impact: 2, cost: 2 }
+    /* 'pax' and 'customize' intentionally absent: tooling, not reports */
+  };
+
+  /* His effort rating, where he gave one. Not invented for the rest. */
+  var EFFORT = {
+    'value-lens': 'Medium', 'roi-calc': 'Low', 'ess-insights': 'Medium',
+    'super-user-impact': 'Medium', 'ai-in-one': 'Medium', 'super-usage': 'Medium',
+    'adoption-sentiment': 'Medium', 'consumption-central': 'Medium',
+    'cowork-billing-report': 'Low', 'cowork-chargeback-app': 'Low',
+    'agent-evaluator': 'Medium', 'chat-agent': 'Medium', 'm365-readiness': 'Medium',
+    'ghcp-impact': 'Medium', 'what-i-did': 'Low', 'cowork-impact': 'Low',
+    'personal-copilot-dashboard': 'Low'
+  };
+
+  /* ---------- the rest of Shailendra's model ----------
+     products, data sources and audience, copied from his picker. These are
+     the words people actually search with ("cowork", "finops", "execs"),
+     which is why they belong in the haystack rather than only on screen. */
+  var PRODUCT_LABELS = {
+    m365: 'M365 Copilot', chat: 'Copilot Chat', studio: 'Studio Agents',
+    cowork: 'Cowork', github: 'GitHub Copilot'
+  };
+  var SOURCE_LABELS = {
+    purview: 'Purview audit logs', viva: 'Viva Insights',
+    m365admin: 'M365 admin center', copilotstudio: 'Copilot Studio transcripts',
+    github: 'GitHub Copilot', credits: 'Credit / cost exports',
+    defender: 'Microsoft Defender', personal: 'My own OneDrive / VS Code',
+    sample: 'Bundled sample data'
+  };
+
+  var FACETS = {
+    'value-lens':                 { p: ['m365','studio','cowork'], d: ['purview','m365admin','sample'], a: 'Execs, BDMs, value teams' },
+    'roi-calc':                   { p: ['m365'],                   d: ['viva'],                         a: 'Execs, change leads' },
+    'ess-insights':               { p: ['studio'],                 d: ['copilotstudio','sample'],       a: 'ESS / HR service owners' },
+    'super-user-impact':          { p: ['m365'],                   d: ['viva'],                         a: 'Execs, HR analytics' },
+    'ai-in-one':                  { p: ['m365','chat','studio'],   d: ['purview','m365admin'],          a: 'CCMs, IT, adoption leads' },
+    'super-usage':                { p: ['m365'],                   d: ['viva'],                         a: 'CCMs, enablement leads' },
+    'adoption-sentiment':         { p: ['m365'],                   d: ['purview'],                      a: 'Adoption & comms leads' },
+    'consumption-central':        { p: ['cowork','github'],        d: ['credits'],                      a: 'FinOps, IT finance' },
+    'cowork-billing-report':      { p: ['cowork'],                 d: ['credits','purview'],            a: 'Finance, cost centres' },
+    'cowork-chargeback-app':      { p: ['cowork'],                 d: ['credits'],                      a: 'Finance, cost centres' },
+    'agent-evaluator':            { p: ['studio'],                 d: ['copilotstudio'],                a: 'Agent owners, makers' },
+    'chat-agent':                 { p: ['chat','studio'],          d: ['purview'],                      a: 'Analysts, CCMs' },
+    'm365-readiness':             { p: ['m365'],                   d: ['m365admin'],                    a: 'Adoption & license owners' },
+    'ghcp-impact':                { p: ['github'],                 d: ['github'],                       a: 'Eng leaders, platform teams' },
+    'what-i-did':                 { p: ['github'],                 d: ['personal'],                     a: 'Individual developers' },
+    'cowork-impact':              { p: ['cowork'],                 d: ['personal'],                     a: 'Cowork users, IC leads, execs' },
+    'personal-copilot-dashboard': { p: ['m365','cowork'],          d: ['viva'],                         a: 'Individual users, IC leads' },
+    /* absent from his 19; filled from our own catalog, flagged on the page */
+    'cowork-policy-helper-app':   { p: ['cowork'],                 d: ['credits','m365admin'],          a: 'Finance, IT governance' },
+    'finops-focus-app':           { p: ['cowork'],                 d: ['credits'],                      a: 'FinOps, cloud finance' },
+    'cowork-roi-model-app':       { p: ['cowork'],                 d: ['personal'],                     a: 'Finance, value teams' },
+    'pax':                        { p: ['m365','chat','studio'],   d: ['purview'],                      a: 'IT admins, data engineers' },
+    'customize':                  { p: ['m365'],                   d: ['viva'],                         a: 'Report builders, analysts' }
+  };
+
+  function facetsOf(id) { return FACETS[id] || { p: [], d: [], a: '' }; }
+  function productNames(id) { return facetsOf(id).p.map(function (k) { return PRODUCT_LABELS[k] || k; }); }
+  function sourceNames(id)  { return facetsOf(id).d.map(function (k) { return SOURCE_LABELS[k] || k; }); }
+  function audienceOf(id)   { return facetsOf(id).a; }
+
+  function goalsOf(id) { return GOALMAP[id] || {}; }
+  function goalRank(id, goal) {
+    var g = goalsOf(id);
+    return Object.prototype.hasOwnProperty.call(g, goal) ? g[goal] : 0;
+  }
+  function goalTitle(id) {
+    for (var i = 0; i < GOALS.length; i++) { if (GOALS[i].id === id) return GOALS[i].title; }
+    return id;
+  }
+  function goalNames(id) {
+    var g = goalsOf(id), out = [];
+    GOALS.forEach(function (x) { if (g[x.id] === 1) out.push(goalTitle(x.id)); });
+    GOALS.forEach(function (x) { if (g[x.id] === 2) out.push(goalTitle(x.id)); });
+    return out;
+  }
+  /* Rendered as buttons, not text: each one runs the search for its own term. */
+  function tagChips(t) {
+    var list = tagsOf(t);
+    if (!list.length) return '';
+    return '<ul class="mk-tags">' + list.map(function (tag) {
+      return '<li><button type="button" class="mk-tag" data-tag="' + esc(tag) + '">' + esc(tag) + '</button></li>';
+    }).join('') + '</ul>';
+  }
   function previewOf(t) {
     if (!t) return '';
     var f = PENDING_DATA_FIXES[t.id];
@@ -3223,14 +4175,7 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     return !!u && /\.(?:mp4|webm|ogv|ogg|m4v)(?:[?#].*)?$/i.test(u);
   }
 
-  /* ---------- masthead counts ---------- */
-  var sources = {};
-  TOOLS.forEach(function (t) { if (t.sourceKey) sources[t.sourceKey] = 1; });
-  document.getElementById('mkCountTools').textContent = String(TOOLS.length);
-  document.getElementById('mkCountCats').textContent = String(CATEGORIES.length);
-  document.getElementById('mkCountCore').textContent =
-    String(TOOLS.filter(function (t) { return t.tier === 'core'; }).length);
-  document.getElementById('mkCountSrc').textContent = String(Object.keys(sources).length);
+  /* v23: the masthead stat strip is gone, so there are no counters to fill. */
 
   /* ---------- static, inert vote affordance ----------
      Deliberately a <span>, not a <button>: the card itself is the button, and
@@ -3346,23 +4291,16 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
         '</button>';
     }).join('');
 
-    secHtml.push('' +
-      '<section class="mk-sec" id="sec-' + esc(cat.id) + '" data-cat="' + esc(cat.id) + '" aria-labelledby="h-' + esc(cat.id) + '">' +
-        '<div class="mk-wrap">' +
-        '<div class="mk-sec-head">' +
-          '<div>' +
-            '<p class="mk-eyebrow mk-eyebrow--rule">Report group</p>' +
-            '<h2 id="h-' + esc(cat.id) + '">' + esc(cat.label) + '</h2>' +
-            '<p class="mk-sec-blurb">' + esc(cat.blurb) + '</p>' +
-          '</div>' +
-          '<p class="mk-sec-count"><span data-shown>' + inCat.length + '</span> of ' + inCat.length + ' reports</p>' +
-        '</div>' +
-        '<div class="rf-grid">' + cards + '</div>' +
-        '</div>' +
-      '</section>');
+    /* v14: group headers are gone. The pills and the search box do the sorting
+       now, so the cards run as one continuous grid rather than six labelled
+       bands. Emission order still follows category order. */
+    secHtml.push(cards);
   });
 
-  secWrap.innerHTML = secHtml.join('');
+  secWrap.innerHTML =
+    '<section class="mk-sec"><div class="mk-wrap">' +
+      '<div class="rf-grid">' + secHtml.join('') + '</div>' +
+    '</div></section>';
 
   /* ---------- category pills (homepage pattern) ---------- */
   var catPills = document.getElementById('mkCatPills');
@@ -3379,18 +4317,57 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     }).join('');
 
   /* ---------- secondary filters ---------- */
-  var state = { cat: 'all', focus: 'all', coreOnly: false };
+  /* v19: the goal filter moved to the Report picker view, so the overview
+     state no longer carries one. GOALS and GOALMAP are untouched - the
+     picker ranks with them, and goal names stay in the search haystack. */
+  var state = { cat: 'all', coreOnly: false, q: '' };
 
   function pill(label, value, pressed) {
     return '<button type="button" class="mk-pill" data-v="' + esc(value) + '" aria-pressed="' +
       (pressed ? 'true' : 'false') + '">' + esc(label) + '</button>';
   }
-  var usedMeasures = Object.keys(MEASURES).filter(function (k) {
-    return TOOLS.some(function (t) { return (t.measures || []).indexOf(k) !== -1; });
-  });
-  document.getElementById('mkFocusPills').innerHTML =
-    pill('All focus areas', 'all', true) +
-    usedMeasures.map(function (k) { return pill(measureLabel(k), k, false); }).join('');
+  var SORT = (function () {
+    var el = document.getElementById('mk-sort');
+    try { return JSON.parse(el.textContent).reports || {}; } catch (e) { return {}; }
+  }());
+  var sortEl = document.getElementById('mkSort');
+  var gridEl = secWrap.querySelector('.rf-grid');
+  /* Curated order is the tie-breaker and the fallback, so a sort never
+     scrambles reports that share a value. */
+  var BASE = {};
+  TOOLS.forEach(function (t, i) { BASE[t.id] = i; });
+
+  function sortVal(id, mode) {
+    var r = SORT[id];
+    if (!r) return null;
+    if (mode === 'popular') return (typeof r.stars === 'number') ? r.stars : null;
+    if (mode === 'week') return (typeof r.viewsWeek === 'number') ? r.viewsWeek : null;
+    if (mode === 'latest' || mode === 'oldest') {
+      return r.created ? Date.parse(r.created) : null;
+    }
+    return null;
+  }
+
+  function applySort() {
+    var mode = sortEl.value;
+    var asc = mode === 'oldest';
+    var ordered = cardEls.slice().sort(function (a, b) {
+      var ia = a.getAttribute('data-id'), ib = b.getAttribute('data-id');
+      var va = sortVal(ia, mode), vb = sortVal(ib, mode);
+      /* Missing data always sinks, in both directions. */
+      if (va === null && vb === null) return BASE[ia] - BASE[ib];
+      if (va === null) return 1;
+      if (vb === null) return -1;
+      if (va !== vb) return asc ? va - vb : vb - va;
+      return BASE[ia] - BASE[ib];
+    });
+    var frag = document.createDocumentFragment();
+    ordered.forEach(function (el) { frag.appendChild(el); });
+    gridEl.appendChild(frag);
+  }
+
+  var searchEl = document.getElementById('mkSearch');
+  var clearEl = document.getElementById('mkSearchClear');
 
   var cardEls = Array.prototype.slice.call(secWrap.querySelectorAll('.rf-card'));
   var secEls = Array.prototype.slice.call(secWrap.querySelectorAll('.mk-sec'));
@@ -3415,13 +4392,35 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     if (findingsEl) findingsEl.classList.toggle('is-alt', seen % 2 === 1);
   }
 
+  /* One haystack per card, built once. Title, question, blurb, source and
+     tags all count, so "chargeback" finds the billing report even though the
+     word is not in its title. */
+  var HAY = {};
+  TOOLS.forEach(function (t) {
+    var f = facetsOf(t.id);
+    HAY[t.id] = [
+      titleOf(t), t.id, t.question, t.blurb, t.source, t.sourceKey,
+      (t.measures || []).join(' '), tagsOf(t).join(' '),
+      /* Shailendra's facets: labels AND raw keys, so "m365", "viva" and
+         "Viva Insights" all land on the same reports. */
+      goalNames(t.id).join(' '),
+      productNames(t.id).join(' '), f.p.join(' '),
+      sourceNames(t.id).join(' '),  f.d.join(' '),
+      audienceOf(t.id),
+      EFFORT[t.id] || ''
+    ].join(' ').toLowerCase();
+  });
+  /* Every term must appear somewhere, so extra words narrow rather than widen. */
+  function textMatch(id) {
+    if (!state.q) return true;
+    var hay = HAY[id] || '';
+    return state.q.split(/\s+/).every(function (term) { return hay.indexOf(term) !== -1; });
+  }
+
   function matches(el) {
     if (state.cat !== 'all' && el.getAttribute('data-primary') !== state.cat) return false;
     if (state.coreOnly && el.getAttribute('data-tier') !== 'core') return false;
-    if (state.focus !== 'all') {
-      var ms = (el.getAttribute('data-measures') || '').split(' ');
-      if (ms.indexOf(state.focus) === -1) return false;
-    }
+    if (!textMatch(el.getAttribute('data-id'))) return false;
     return true;
   }
 
@@ -3441,16 +4440,18 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     restripe();
     emptyEl.hidden = total !== 0;
 
-    var filtered = state.cat !== 'all' || state.focus !== 'all' || state.coreOnly;
+    var filtered = state.cat !== 'all' || state.coreOnly || !!state.q;
     resultEl.innerHTML = 'Showing ' + total + ' of ' + TOOLS.length + ' reports.' +
       (filtered ? ' <button type="button" id="mkReset">Clear filters</button>' : '');
     var reset = document.getElementById('mkReset');
     if (reset) {
       reset.addEventListener('click', function () {
-        state = { cat: 'all', focus: 'all', coreOnly: false };
+        state = { cat: 'all', coreOnly: false, q: '' };
+        applySort();
         syncCatPills('all');
-        syncPills(document.getElementById('mkFocusPills'), 'all');
         document.getElementById('mkCoreOnly').setAttribute('aria-pressed', 'false');
+        searchEl.value = '';
+        clearEl.hidden = true;
         applyFilters();
       });
     }
@@ -3475,11 +4476,32 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     syncCatPills(state.cat);
     applyFilters();
   });
-  document.getElementById('mkFocusPills').addEventListener('click', function (e) {
-    var b = e.target.closest('.mk-pill'); if (!b) return;
-    state.focus = b.getAttribute('data-v');
-    syncPills(this, state.focus);
+  /* Filtering on input keeps the result count honest as you type. 22 cards is
+     small enough that this needs no debounce. */
+  searchEl.addEventListener('input', function () {
+    state.q = this.value.trim().toLowerCase();
+    clearEl.hidden = !this.value;
     applyFilters();
+  });
+  searchEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && this.value) { e.stopPropagation(); runSearch(''); }
+  });
+  clearEl.addEventListener('click', function () { runSearch(''); searchEl.focus(); });
+
+  /* Tag chips in the flyout run a search, so the vocabulary is discoverable
+     rather than something you have to guess at. */
+  function runSearch(q) {
+    searchEl.value = q;
+    state.q = q.trim().toLowerCase();
+    clearEl.hidden = !q;
+    applyFilters();
+  }
+  document.addEventListener('click', function (e) {
+    var tag = e.target.closest('.mk-tag'); if (!tag) return;
+    var dlg = document.getElementById('mkDlg');
+    if (dlg && dlg.open) dlg.close();
+    runSearch(tag.getAttribute('data-tag'));
+    document.getElementById('mkSearch').scrollIntoView({ block: 'center', behavior: 'smooth' });
   });
   document.getElementById('mkCoreOnly').addEventListener('click', function () {
     state.coreOnly = !state.coreOnly;
@@ -3487,6 +4509,8 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     applyFilters();
   });
 
+  sortEl.addEventListener('change', function () { applySort(); applyFilters(); });
+  applySort();
   applyFilters();
 
   /* ---------- flyout ---------- */
@@ -3605,7 +4629,13 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
         dlRow('Built for', esc(meta.audience)) +
         dlRow('Licensing', esc(meta.license)) +
         dlRow('Time to first result', esc(meta.time)) +
-        dlRow('Focus areas', esc(tagText(t))) +
+        dlRow('Goal', esc(goalNames(t.id).join(' \u00b7 ')) ||
+          '<span class="mk-none">Tooling &mdash; supports the reports rather than answering a goal</span>') +
+        dlRow('Copilot surface', esc(productNames(t.id).join(' \u00b7 '))) +
+        dlRow('Reads from', esc(sourceNames(t.id).join(' \u00b7 '))) +
+        dlRow('Aimed at', esc(audienceOf(t.id))) +
+        (EFFORT[t.id] ? dlRow('Setup effort', esc(EFFORT[t.id])) : '') +
+        dlRow('Tags', tagChips(t)) +
       '</dl></section>' +
       '<section class="mk-sub"><h3>What you need</h3><dl class="mk-dl">' +
         dlRow('Roles required', linkList(req.roles)) +
@@ -3775,6 +4805,1562 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     if (opener && document.contains(opener)) opener.focus();
     opener = null;
   });
+
+  /* ============================================================
+     v19 - VIEW SWITCHER
+
+     Three tabpanels, one tablist, roving tabindex so the set is a single
+     tab stop. The control rows above the switcher belong to whichever view
+     is active; the result line and the Sort control belong to the overview
+     alone. .mk-fp-head is pinned to the tallest control set so the switcher
+     holds the same y position in all three views.
+     ============================================================ */
+  var VIEWS = [
+    { id: 'overview', tab: 'mkTabOverview', panel: 'mkPanelOverview', ctl: 'mkCtlOverview' },
+    { id: 'picker',   tab: 'mkTabPicker',   panel: 'mkPanelPicker',   ctl: null },
+    { id: 'guided',   tab: 'mkTabGuided',   panel: 'mkPanelGuided',   ctl: 'mkCtlGuided' }
+  ];
+  var tablistEl = document.getElementById('mkViews');
+  var vtabs = Array.prototype.slice.call(tablistEl.querySelectorAll('.mk-vtab'));
+  var catBand = document.getElementById('mkCatBand');
+  var statusEl = document.getElementById('mkStatus');
+  var fpHead = document.getElementById('mkFpHead');
+
+  /* v20: the picker carries no control-head rows any more. The head is
+     reserved against the two views that still have controls, so those two
+     never move relative to each other, and it is taken out of the flow
+     entirely on the picker - which is what removes the dead band the fixed
+     height used to leave above the picker results. */
+  var headMin = 0;
+
+  function reserveHead() {
+    fpHead.hidden = false;
+    fpHead.style.minHeight = '';
+    var tallest = 0;
+    VIEWS.forEach(function (v) {
+      if (!v.ctl) return;
+      VIEWS.forEach(function (w) {
+        if (w.ctl) document.getElementById(w.ctl).hidden = w.id !== v.id;
+      });
+      catBand.hidden = v.id !== 'overview';
+      var h = fpHead.getBoundingClientRect().height;
+      if (h > tallest) tallest = h;
+    });
+    headMin = Math.ceil(tallest);
+    fpHead.style.minHeight = '';
+  }
+
+  function setView(id, moveFocus) {
+    VIEWS.forEach(function (v) {
+      var on = v.id === id;
+      var tab = document.getElementById(v.tab);
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      tab.tabIndex = on ? 0 : -1;
+      document.getElementById(v.panel).hidden = !on;
+      if (v.ctl) document.getElementById(v.ctl).hidden = !on;
+      if (on && moveFocus) tab.focus();
+    });
+    var bare = id === 'picker';
+    fpHead.hidden = bare;
+    fpHead.style.minHeight = '';
+    catBand.hidden = id !== 'overview';
+    statusEl.hidden = id !== 'overview';
+  }
+
+  tablistEl.addEventListener('click', function (e) {
+    var b = e.target.closest('.mk-vtab'); if (!b) return;
+    setView(b.getAttribute('data-view'), false);
+  });
+  tablistEl.addEventListener('keydown', function (e) {
+    var i = vtabs.indexOf(document.activeElement);
+    if (i === -1) return;
+    var next = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % vtabs.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + vtabs.length) % vtabs.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = vtabs.length - 1;
+    if (next === null) return;
+    e.preventDefault();
+    setView(vtabs[next].getAttribute('data-view'), true);
+  });
+
+  /* ============================================================
+     v19 - VIEW 2: REPORT PICKER
+
+     Shailendra's "which report is right for you", rebuilt on our own
+     pills and our own flyout. Goal is single-select; Copilot surface is
+     multi-select and ORs, which is his behaviour. Clicking a chosen goal
+     clears it, so the set needs no "all" pill.
+
+     RANKING, in order:
+       1. goal rank ascending - a report the goal is FOR (rank 1) leads one
+          that merely serves it (rank 2). With no goal chosen the report's
+          own best goal rank stands in; a report with no goal sinks to 9.
+       2. product-match count descending - covering three of the chosen
+          surfaces beats covering one.
+       3. GitHub stars descending - starCount() returns -1 where there is no
+          repository, so those sink rather than tie at zero.
+       4. curated catalog order, via BASE, so nothing is ever arbitrary.
+     ============================================================ */
+  var PRODUCT_ORDER = ['m365', 'chat', 'studio', 'cowork', 'github'];
+  var pkState = { goal: '', prods: [] };
+  var pkGoalEl = document.getElementById('mkPkGoal');
+  var pkProdEl = document.getElementById('mkPkProd');
+  var pkActiveEl = document.getElementById('mkPkActive');
+  var pkListEl = document.getElementById('mkPkList');
+  var pkIdleEl = document.getElementById('mkPkIdle');
+  var pkNoneEl = document.getElementById('mkPkNone');
+  var pkHeadEl = document.getElementById('mkPkHead');
+
+  pkGoalEl.innerHTML = GOALS.map(function (g) {
+    var n = TOOLS.filter(function (t) { return goalRank(t.id, g.id); }).length;
+    return '<button type="button" class="mk-pill" data-v="' + esc(g.id) +
+      '" aria-pressed="false" title="' + esc(g.desc) + '">' + esc(g.title) +
+      '<span class="mk-pill-n">' + n + '</span></button>';
+  }).join('');
+
+  pkProdEl.innerHTML = PRODUCT_ORDER.map(function (k) {
+    var n = TOOLS.filter(function (t) { return facetsOf(t.id).p.indexOf(k) !== -1; }).length;
+    return '<button type="button" class="mk-pill" data-v="' + esc(k) +
+      '" aria-pressed="false">' + esc(PRODUCT_LABELS[k] || k) +
+      '<span class="mk-pill-n">' + n + '</span></button>';
+  }).join('');
+
+  function prodHits(id) {
+    if (!pkState.prods.length) return 0;
+    var p = facetsOf(id).p, n = 0;
+    pkState.prods.forEach(function (k) { if (p.indexOf(k) !== -1) n++; });
+    return n;
+  }
+  function pkMatches(id) {
+    if (pkState.goal && !goalRank(id, pkState.goal)) return false;
+    if (pkState.prods.length && prodHits(id) === 0) return false;
+    return true;
+  }
+  function pkRank(id) {
+    if (pkState.goal) return goalRank(id, pkState.goal) || 9;
+    var g = goalsOf(id), best = 9, k;
+    for (k in g) {
+      if (Object.prototype.hasOwnProperty.call(g, k) && g[k] < best) best = g[k];
+    }
+    return best;
+  }
+  function pkIds() {
+    return TOOLS.filter(function (t) { return pkMatches(t.id); })
+      .map(function (t) { return t.id; })
+      .sort(function (a, b) {
+        var d = pkRank(a) - pkRank(b);      if (d) return d;
+        d = prodHits(b) - prodHits(a);      if (d) return d;
+        d = starCount(b) - starCount(a);    if (d) return d;
+        return BASE[a] - BASE[b];
+      });
+  }
+
+  function pkSurfaceText() {
+    return pkState.prods.map(function (k) { return PRODUCT_LABELS[k] || k; }).join(' or ');
+  }
+  function pkHeading() {
+    var g = pkState.goal ? goalTitle(pkState.goal) : '';
+    var p = pkSurfaceText();
+    if (g && p) return 'For ' + g + ', on ' + p;
+    if (g) return 'For ' + g + ', start here';
+    if (p) return 'Reports that cover ' + p;
+    return 'Recommended for you';
+  }
+  function pkWhat() {
+    var g = pkState.goal ? goalTitle(pkState.goal) : '';
+    var p = pkSurfaceText();
+    if (g && p) return g + ' on ' + p;
+    return g || p;
+  }
+
+  function pkRowHtml(id) {
+    var t = toolById[id];
+    if (!t) return '';
+    var best = pkRank(id) === 1;
+    var prods = productNames(id).join(', ');
+    var reads = sourceNames(id).join(', ');
+    var aimed = audienceOf(id);
+    var effort = EFFORT[id] || '';
+    return '<button type="button" class="pk-row' + (best ? ' pk-row--best' : '') +
+      '" data-id="' + esc(id) + '" aria-label="Open details for ' + esc(titleOf(t)) + '">' +
+      '<span class="pk-top">' +
+        '<span class="pk-title">' + esc(titleOf(t)) + '</span>' +
+        '<span class="pk-badge' + (best ? ' pk-badge--best' : '') + '">' +
+          (best ? 'Best fit' : 'Also works') + '</span>' +
+      '</span>' +
+      '<span class="pk-q">' + esc(t.question) + '</span>' +
+      '<span class="pk-meta">' +
+        (prods  ? '<span class="pk-chip"><b>Copilot surface</b> ' + esc(prods) + '</span>' : '') +
+        (reads  ? '<span class="pk-chip"><b>Reads from</b> ' + esc(reads) + '</span>' : '') +
+        (aimed  ? '<span class="pk-chip"><b>Aimed at</b> ' + esc(aimed) + '</span>' : '') +
+        (effort ? '<span class="pk-chip"><b>Setup effort</b> ' + esc(effort) + '</span>' : '') +
+      '</span>' +
+      '<span class="pk-foot">' + starsHtml(id) +
+        '<span class="pk-cta">Open the full detail</span>' +
+      '</span>' +
+    '</button>';
+  }
+
+  function renderPkActive() {
+    var bits = [];
+    if (pkState.goal) {
+      bits.push('<span class="mk-chip">' + esc(goalTitle(pkState.goal)) +
+        '<button type="button" data-clear="goal" aria-label="Clear goal">&times;</button></span>');
+    }
+    pkState.prods.forEach(function (k) {
+      var label = PRODUCT_LABELS[k] || k;
+      bits.push('<span class="mk-chip">' + esc(label) +
+        '<button type="button" data-drop-prod="' + esc(k) + '" aria-label="Remove ' +
+        esc(label) + '">&times;</button></span>');
+    });
+    pkActiveEl.innerHTML = bits.length
+      ? '<span class="mk-chips-lbl">Choosing</span>' + bits.join('') +
+        '<button type="button" class="pk-clear" data-clear="all">Clear all</button>'
+      : '<span class="mk-chips-lbl">Nothing chosen yet</span>';
+  }
+
+  var pkStep4El = document.getElementById('mkPkStep4');
+  var pkGenNEl  = document.getElementById('mkPkGenN');
+
+  /* Hands the current recommendations to Guided solutions. Same selection
+     state the checkboxes drive, so nothing about the pack is special-cased. */
+  function pkSendToGuided(generate) {
+    var ids = pkIds();
+    if (!ids.length) return;
+    gdSel.length = 0;
+    Array.prototype.forEach.call(gdListEl.querySelectorAll('input[type="checkbox"]'), function (b) {
+      b.checked = false;
+      var row = b.closest('.gd-item'); if (row) row.classList.remove('is-on');
+    });
+    ids.forEach(function (id) {
+      if (!toolById[id]) return;
+      gdSel.push(id);
+      var box = gdListEl.querySelector('input[value="' + id + '"]');
+      if (box) { box.checked = true; var row = box.closest('.gd-item'); if (row) row.classList.add('is-on'); }
+    });
+    gdSide(); gdFilter();
+    setView('guided', true);
+    if (generate) gdRenderGuide();
+  }
+
+  function renderPicker() {
+    renderPkActive();
+    if (!pkState.goal && !pkState.prods.length) {
+      pkIdleEl.hidden = false; pkNoneEl.hidden = true; pkHeadEl.hidden = true; pkStep4El.hidden = true;
+      pkListEl.innerHTML = '';
+      return;
+    }
+    pkIdleEl.hidden = true;
+    var ids = pkIds();
+    if (!ids.length) {
+      pkNoneEl.hidden = false; pkHeadEl.hidden = true; pkListEl.innerHTML = ''; pkStep4El.hidden = true;
+      document.getElementById('mkPkNoneWhat').textContent = pkWhat();
+      return;
+    }
+    pkNoneEl.hidden = true; pkHeadEl.hidden = false;
+    document.getElementById('mkPkTitle').textContent = pkHeading();
+    var bestN = ids.filter(function (id) { return pkRank(id) === 1; }).length;
+    document.getElementById('mkPkCount').textContent =
+      ids.length + (ids.length === 1 ? ' report' : ' reports') + ', ' + bestN + ' a best fit';
+    pkListEl.innerHTML = ids.map(function (id) { return pkRowHtml(id); }).join('');
+    pkStep4El.hidden = false;
+    pkGenNEl.textContent = '(' + ids.length + ')';
+  }
+
+  function syncPkPills() {
+    Array.prototype.forEach.call(pkGoalEl.querySelectorAll('.mk-pill'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-v') === pkState.goal ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(pkProdEl.querySelectorAll('.mk-pill'), function (b) {
+      b.setAttribute('aria-pressed',
+        pkState.prods.indexOf(b.getAttribute('data-v')) !== -1 ? 'true' : 'false');
+    });
+  }
+  function pkDropProd(k) {
+    var i = pkState.prods.indexOf(k);
+    if (i !== -1) pkState.prods.splice(i, 1);
+  }
+
+  /* Changing step 1 or step 2 must never move the reader. .pk-results holds a
+     floor height so the document cannot collapse under the viewport, and we
+     restore scrollY afterwards in case a re-render still nudged it. */
+  function pkRefresh() {
+    var y = window.scrollY;
+    syncPkPills();
+    renderPicker();
+    if (window.scrollY !== y) window.scrollTo(0, y);
+  }
+
+  document.getElementById('mkPkGenAll').addEventListener('click', function () {
+    pkSendToGuided(true);
+  });
+  document.getElementById('mkPkGenPick').addEventListener('click', function () {
+    pkSendToGuided(false);
+  });
+
+  pkGoalEl.addEventListener('click', function (e) {
+    var b = e.target.closest('.mk-pill'); if (!b) return;
+    var v = b.getAttribute('data-v');
+    pkState.goal = pkState.goal === v ? '' : v;
+    pkRefresh();
+  });
+  pkProdEl.addEventListener('click', function (e) {
+    var b = e.target.closest('.mk-pill'); if (!b) return;
+    var v = b.getAttribute('data-v');
+    if (pkState.prods.indexOf(v) === -1) pkState.prods.push(v); else pkDropProd(v);
+    pkRefresh();
+  });
+  pkActiveEl.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var clear = b.getAttribute('data-clear');
+    var drop = b.getAttribute('data-drop-prod');
+    if (clear === 'goal') pkState.goal = '';
+    else if (clear === 'all') { pkState.goal = ''; pkState.prods = []; }
+    else if (drop) pkDropProd(drop);
+    else return;
+    pkRefresh();
+  });
+  document.getElementById('mkPkNoneClear').addEventListener('click', function () {
+    pkState.goal = ''; pkState.prods = [];
+    pkRefresh();
+  });
+  /* The same flyout as the cards. There is one <dialog> on this page. */
+  pkListEl.addEventListener('click', function (e) {
+    var row = e.target.closest('.pk-row'); if (!row) return;
+    openReport(row.getAttribute('data-id'), false);
+  });
+
+  /* ============================================================
+     v19 - VIEW 3: GUIDED SOLUTIONS
+
+     The customer-enablement pack builder, restyled onto this page. Pick
+     reports, press Generate guide, and the tabbed six-step walkthrough
+     renders inline next to the shareable link. The six steps are the spine
+     from customer-enablement-view.html and are emitted unconditionally, so
+     a report with no template or no roles still shows the step and says so
+     rather than silently dropping it.
+     ============================================================ */
+  var gdSel = [];
+  var gdOnlySel = false;
+  var gdListEl = document.getElementById('mkGdList');
+  var gdChosenEl = document.getElementById('mkGdChosen');
+  var gdQEl = document.getElementById('mkGdQ');
+  var gdQClearEl = document.getElementById('mkGdQClear');
+  var gdPickEl = document.getElementById('mkGdPick');
+  var gdResultEl = document.getElementById('mkGdResult');
+  var gdTabsEl = document.getElementById('mkGdTabs');
+  var gdPanelsEl = document.getElementById('mkGdPanels');
+  var gdGenEl = document.getElementById('mkGdGen');
+  var gdShownEl = document.getElementById('mkGdShown');
+
+  gdListEl.innerHTML = TOOLS.map(function (t) {
+    return '<label class="gd-item" data-id="' + esc(t.id) + '">' +
+      '<input type="checkbox" value="' + esc(t.id) + '">' +
+      '<span>' +
+        '<h3>' + esc(titleOf(t)) + '</h3>' +
+        '<p>' + esc(t.question) + '</p>' +
+        '<span class="gd-meta">' +
+          '<span>' + esc(catLabel(t.category)) + '</span>' +
+          '<span>' + esc(t.source) + '</span>' +
+          (t.meta && t.meta.time ? '<span>' + esc(t.meta.time) + '</span>' : '') +
+        '</span>' +
+      '</span>' +
+    '</label>';
+  }).join('');
+  var gdItems = Array.prototype.slice.call(gdListEl.querySelectorAll('.gd-item'));
+
+  /* Same haystack as the overview, so a search behaves identically here. */
+  function gdFilter() {
+    var q = gdQEl.value.trim().toLowerCase();
+    var terms = q ? q.split(/\s+/) : [];
+    var n = 0;
+    gdItems.forEach(function (el) {
+      var id = el.getAttribute('data-id');
+      var hay = HAY[id] || '';
+      var ok = !terms.length || terms.every(function (w) { return hay.indexOf(w) !== -1; });
+      if (gdOnlySel && gdSel.indexOf(id) === -1) ok = false;
+      el.hidden = !ok;
+      if (ok) n++;
+    });
+    gdShownEl.textContent = n + ' of ' + TOOLS.length + ' shown';
+  }
+
+  function gdLink() {
+    if (!gdSel.length) return '';
+    return location.href.replace(/#.*$/, '') + '#r=' + gdSel.join(',');
+  }
+
+  function gdSide() {
+    var n = gdSel.length;
+    document.getElementById('mkGdCount').textContent = n + (n === 1 ? ' report' : ' reports');
+    document.getElementById('mkGdNone').hidden = n > 0;
+    gdGenEl.disabled = n === 0;
+    gdChosenEl.innerHTML = gdSel.map(function (id, i) {
+      var t = toolById[id];
+      var name = t ? titleOf(t) : id;
+      return '<li><span class="gd-n">' + (i + 1) + '</span>' + esc(name) +
+        '<button type="button" data-drop="' + esc(id) + '" aria-label="Remove ' +
+        esc(name) + ' from the pack">&times;</button></li>';
+    }).join('');
+  }
+
+  var GX_TICK = '<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
+    '<path fill="currentColor" d="M6.2 11.7 3 8.5l1.1-1.1 2.1 2.1 5.7-5.7L13 4.9z"/></svg>';
+
+  function gxChecks(items) {
+    if (!items || !items.length) return '';
+    return '<ul class="gx-checks">' + items.map(function (it) {
+      var u = escUrl(it.url);
+      return '<li>' + GX_TICK + '<span>' +
+        (u ? '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + esc(it.label) + '</a>'
+           : esc(it.label)) +
+        '</span></li>';
+    }).join('') + '</ul>';
+  }
+
+  function gxMedia(t) {
+    var vid = isEmbeddableVideo(t.demoVideo) ? escUrl(t.demoVideo) : '';
+    var img = escUrl(previewOf(t));
+    if (!vid && !img) return '';
+    return '<figure class="gx-fig">' +
+      (vid ? '<video src="' + vid + '" controls preload="metadata" playsinline></video>'
+           : '<img src="' + img + '" alt="Preview of ' + esc(titleOf(t)) + '" loading="lazy">') +
+      '<figcaption>' + (vid ? 'Demo video' : 'Animated preview') + '</figcaption></figure>';
+  }
+
+  /* ============================================================
+     v24 - STEP 4: CONNECT YOUR DATA, PER REPORT
+
+     Every entry below was written from a primary source that was actually
+     read: the report own repository README fetched through the GitHub API,
+     the PAX Cookbook User Guide, the shipped app markup, or Microsoft Learn.
+     Nothing here is inferred from a sibling repository.
+
+     Reports that share a data path share the shape of a recipe, but each
+     entry names the specific preset, export or query for THAT report.
+     Where a repository contradicts the catalog, the entry follows the
+     repository and says so out loud.
+
+     v24: every PAX-backed report offers two routes. Route A is the PAX
+     Cookbook desktop app. Route B is Mini-Kitchen in the browser, which
+     builds the command but does NOT run it - the person still runs the
+     PAX PowerShell script themselves. That limit is stated in the copy,
+     never softened.
+
+     Cookbook presets (User Guide 4.2.1): AI-in-One, AI Business Value,
+     M365 Usage Analytics, Entra Directory Export, Microsoft Agent 365
+     catalog only, Custom. Mini-Kitchen ships five named presets and uses
+     different wording for the same targets. Presets are matched per
+     report from that report's own repository, never assumed.
+     ============================================================ */
+  var PAX_URL = {
+    cookbook: 'https://microsoft.github.io/PAX-Cookbook',
+    guide: 'https://github.com/microsoft/PAX-Cookbook/blob/main/docs/PAX-Cookbook-User-Guide.md',
+    releases: 'https://github.com/microsoft/PAX-Cookbook/releases/latest',
+    mini: 'https://microsoft.github.io/PAX-Cookbook/mini-kitchen',
+    repo: 'https://github.com/microsoft/PAX-Cookbook'
+  };
+  var URL_AUDIT = 'https://purview.microsoft.com/audit/auditsearch';
+  var URL_ENTRA = 'https://entra.microsoft.com';
+  var URL_MAC = 'https://admin.microsoft.com';
+  var URL_VIVA = 'https://analysis.insights.cloud.microsoft/';
+
+  /* Inline anchor. The label may carry authored markup, so it is not escaped;
+     the href always goes through escUrl, which allowlists http and https. */
+  function lk(url, label) {
+    var u = escUrl(url);
+    if (!u) return label;
+    return '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+  }
+
+  /* ============================================================
+     GLOSSARY
+
+     term -> plain-English definition. Every definition below was written
+     from a primary source that was actually read - the PAX Cookbook User
+     Guide, the live Mini-Kitchen page, or Microsoft product documentation.
+     A term that could not be defined from a primary source is not here.
+     See _temp/reports-redesign/v24-glossary.txt for the source per term.
+     ============================================================ */
+  var GLOSSARY = {
+    'PAX': 'The PAX Purview Audit Log Processor. It is the open-source engine that does the ' +
+      'actual collecting; PAX Cookbook and Mini-Kitchen only drive it.',
+    'PAX Cookbook': 'A Windows desktop app that drives PAX for you, so you set up a data pull ' +
+      'in a wizard instead of typing a command line.',
+    'Mini-Kitchen': 'A browser page that builds a PAX command for you. It runs entirely in your ' +
+      'browser, pulls no tenant data and stores no secrets.',
+    'Purview': 'Microsoft Purview, the compliance portal. It holds the audit log that records ' +
+      'Copilot activity.',
+    'unified audit log': 'One tenant-wide log of user and admin activity across Microsoft 365. ' +
+      'It records nothing until an admin switches it on.',
+    'Microsoft Entra': 'The Microsoft identity and directory service, previously called Azure ' +
+      'Active Directory. Names, departments and managers live here.',
+    'Viva Insights': 'The Microsoft workplace analytics product. Its Analyst Workbench is where ' +
+      'you build and run queries over collaboration data.',
+    'person query': 'A Viva Insights query that returns one row per person per time period, ' +
+      'carrying whichever metrics you selected.',
+    'Dataverse': 'The Power Platform data store. Copilot Studio agents write their conversation ' +
+      'transcripts into it.',
+    'Copilot Studio': 'The Microsoft tool for building, publishing and managing custom Copilot ' +
+      'agents.',
+    'Microsoft 365 admin center': 'admin.microsoft.com - where Microsoft 365 licences, users, ' +
+      'settings and usage reports are managed.',
+    'Power Platform admin center': 'The console for Power Platform environments, capacity, and ' +
+      'agent credit consumption reporting.',
+    'rollup': 'The step that turns raw audit data into dashboard-ready summary files. The Power ' +
+      'BI presets will not load without it.',
+    '.paxlite': 'A lite recipe file exported by Mini-Kitchen. It re-opens in Mini-Kitchen or ' +
+      'imports straight into PAX Cookbook.',
+    '.pbit': 'A Power BI template. It carries the layout and the queries but no data, so you ' +
+      'point it at your own files.',
+    '.pbix': 'A Power BI report file that carries the layout and a saved copy of the data inside ' +
+      'it.',
+    'Device Code': 'The simplest sign-in option. The run shows you a short code, you type it into ' +
+      'a browser, and that approves the sign-in.',
+    'Windows Hello': 'The Windows confirmation prompt that uses your PIN, fingerprint or face.',
+    'tenant': 'Your own organisation instance of Microsoft 365, with its own users, data and ' +
+      'settings.',
+    'UPN': 'User principal name. The sign-in address for an account, usually shaped like an ' +
+      'email address.',
+    'RLS': 'Row-level security. A Power BI rule that limits which rows of the model a given ' +
+      'viewer is allowed to see.',
+    'FOCUS': 'FinOps Open Cost and Usage Specification. An open standard for naming cost columns ' +
+      'so bills can be compared across providers.',
+    'Fabric': 'Microsoft Fabric, the analytics platform that hosts Lakehouses, notebooks and ' +
+      'scheduled data jobs.',
+    'OneLake': 'The single storage layer inside Microsoft Fabric where Lakehouse data is kept.',
+    'Graph API': 'Microsoft Graph. The one API that Microsoft 365 data is read through.',
+    'SmartScreen': 'The Windows reputation check. It warns before running an installer it has ' +
+      'not seen signed.',
+    'checkpoint': 'A progress file PAX writes as it runs. If a run is interrupted you resume ' +
+      'from it instead of starting over.'
+  };
+
+  /* Surface spellings mapped onto the canonical glossary key, so "Microsoft
+     Purview" and "Purview" are the same term and only mark up once. */
+  var GLOSS_ALIASES = {
+    'PAX Cookbook': 'PAX Cookbook',
+    'Mini-Kitchen': 'Mini-Kitchen',
+    'PAX': 'PAX',
+    'Microsoft Purview': 'Purview',
+    'Purview': 'Purview',
+    'unified audit logging': 'unified audit log',
+    'unified audit log': 'unified audit log',
+    'Microsoft Entra ID': 'Microsoft Entra',
+    'Microsoft Entra': 'Microsoft Entra',
+    'Viva Insights': 'Viva Insights',
+    'person query': 'person query',
+    'Dataverse': 'Dataverse',
+    'Copilot Studio': 'Copilot Studio',
+    'Microsoft 365 admin center': 'Microsoft 365 admin center',
+    'Microsoft 365 admin centre': 'Microsoft 365 admin center',
+    'Power Platform admin center': 'Power Platform admin center',
+    'rolled up': 'rollup',
+    'rollup': 'rollup',
+    '.paxlite': '.paxlite',
+    '.pbit': '.pbit',
+    '.pbix': '.pbix',
+    'Device Code': 'Device Code',
+    'Windows Hello': 'Windows Hello',
+    'tenant': 'tenant',
+    'user principal name': 'UPN',
+    'UPN': 'UPN',
+    'RLS': 'RLS',
+    'FOCUS': 'FOCUS',
+    'Microsoft Fabric': 'Fabric',
+    'Fabric': 'Fabric',
+    'OneLake': 'OneLake',
+    'Microsoft Graph API': 'Graph API',
+    'Graph API': 'Graph API',
+    'SmartScreen': 'SmartScreen',
+    'checkpoint': 'checkpoint'
+  };
+
+  /* Longest spelling first, so "Microsoft Entra ID" wins over "Microsoft Entra"
+     and "PAX Cookbook" is never split into "PAX" + "Cookbook". JS alternation
+     takes the first branch that matches at a position, so order is the rule. */
+  var GLOSS_TERMS = Object.keys(GLOSS_ALIASES).sort(function (a, b) {
+    return b.length - a.length;
+  });
+
+  var glossUid = 0;
+
+  function glossEscRe(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  var GLOSS_RE_SRC = GLOSS_TERMS.map(glossEscRe).join('|');
+
+  function glossMarkup(canonical, shown) {
+    var id = 'gx-tip-' + (++glossUid);
+    return '<span class="gx-term" tabindex="0" aria-describedby="' + id + '">' + esc(shown) +
+      '<span class="gx-tip" role="tooltip" id="' + id + '"><b>' + esc(canonical) + '</b>' +
+      esc(GLOSSARY[canonical]) + '</span></span>';
+  }
+
+  /* Marks up the FIRST occurrence of each term in a step block and no more,
+     so a paragraph is not a minefield of dotted underlines. Text inside a
+     tag, a link, a code span or an existing term is never touched.
+
+     One left-to-right pass over each text node. An already-seen term is
+     still CONSUMED by the match, which is what stops a shorter term from
+     matching inside a longer one that was defined earlier. */
+  function applyGloss(markup, seen) {
+    var parts = String(markup == null ? '' : markup).split(/(<[^>]*>)/);
+    var re = new RegExp('(^|[^A-Za-z0-9_-])(' + GLOSS_RE_SRC + ')(?![A-Za-z0-9_-])', 'g');
+    var depth = 0;
+    for (var i = 0; i < parts.length; i++) {
+      var chunk = parts[i];
+      if (!chunk) continue;
+      if (chunk.charAt(0) === '<') {
+        if (/^<(?:a|code|abbr|span)\b/i.test(chunk)) depth++;
+        else if (/^<\/(?:a|code|abbr|span)\s*>/i.test(chunk)) depth = depth > 0 ? depth - 1 : 0;
+        continue;
+      }
+      if (depth > 0) continue;
+      re.lastIndex = 0;
+      parts[i] = chunk.replace(re, function (all, before, hit) {
+        var canonical = GLOSS_ALIASES[hit];
+        if (!canonical || seen[canonical]) return all;
+        seen[canonical] = 1;
+        return before + glossMarkup(canonical, hit);
+      });
+    }
+    return parts.join('');
+  }
+
+  /* Escape closes an open definition. Hover alone would fail a keyboard user. */
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Escape' && ev.keyCode !== 27) return;
+    var el = document.activeElement;
+    if (el && el.classList && el.classList.contains('gx-term')) {
+      el.classList.add('gx-term--off');
+      el.blur();
+    }
+  });
+  document.addEventListener('focusout', function (ev) {
+    var el = ev.target;
+    if (el && el.classList && el.classList.contains('gx-term')) {
+      el.classList.remove('gx-term--off');
+    }
+  }, true);
+
+  /* ============================================================
+     PAX ROUTES
+
+     Route A is the PAX Cookbook desktop app. Route B is Mini-Kitchen in
+     the browser for machines where you cannot install software.
+
+     Mini-Kitchen builds the command. It does NOT run PAX and never
+     touches the tenant - the person still runs the PAX PowerShell script
+     themselves. That is stated in the trade-off line, not buried.
+     ============================================================ */
+
+  var PAX_AUDIT_STEP =
+    'Switch on auditing before anything else. Open the ' +
+    lk(URL_AUDIT, 'Purview audit search') + ' and if you see the banner ' +
+    '<strong>Start recording user and admin activity</strong>, click it. With unified audit ' +
+    'logging off every query returns zero rows and nothing tells you why. It does not backfill, ' +
+    'so a tenant that just switched it on starts thin.';
+
+  function paxRouteA(preset) {
+    return {
+      label: 'Route A - PAX Cookbook, the desktop app',
+      trade: 'Fewest moving parts. Needs rights to install a Windows app.',
+      steps: [
+        'Download <code>PAX_Cookbook_Setup.exe</code> from the ' +
+          lk(PAX_URL.releases, 'latest PAX Cookbook release') + ' and run it. The wizard brings ' +
+          '.NET 8, PowerShell 7 and Python with it. It is not code-signed yet, so when ' +
+          'SmartScreen shows <strong>Windows protected your PC</strong>, choose <strong>More ' +
+          'info</strong> then <strong>Run anyway</strong>.',
+        'Open <strong>Recipes</strong> then <strong>New Recipe</strong>. Step 1, name it and ' +
+          'pick the <strong>' + preset + '</strong> preset. Step 2, pick <strong>Device ' +
+          'Code</strong>. Step 3, pick <strong>Previous Day</strong>. Step 4, change nothing - ' +
+          'the preset already filled it. Step 5, pick a local folder. Step 6, leave it manual. ' +
+          'Step 7, <strong>Save</strong>. The ' +
+          lk(PAX_URL.guide, 'PAX Cookbook User Guide') + ' walks the same seven steps with ' +
+          'screenshots.',
+        'Open the recipe and click <strong>Bake</strong>. Confirm with Windows Hello, watch the ' +
+          'cook log, then open the folder you chose. If the run is interrupted, resume it from ' +
+          'its checkpoint rather than starting again.'
+      ]
+    };
+  }
+
+  function paxRouteB(preset) {
+    return {
+      label: 'Route B - Mini-Kitchen in the browser, then run the script',
+      trade: 'No app to install. You still need PowerShell 7 and the PAX script - ' +
+        'Mini-Kitchen writes the command, you run it.',
+      steps: [
+        'Open ' + lk(PAX_URL.mini, 'Mini-Kitchen') + ' and choose the <strong>' + preset +
+          '</strong> preset. It runs entirely in that browser tab: no tenant data is pulled ' +
+          'here, no user account information is collected, and no secrets are stored. There is ' +
+          'a <strong>Watch Mini-Kitchen in action</strong> overview video on the page if you ' +
+          'would rather see it first.',
+        'Work down the builder: name the recipe, choose the data scope, what to collect, the ' +
+          'date range, rollup, filters, where output lands, the PAX script path, and ' +
+          'authentication. It targets PAX Script v1.11. Hit <strong>Export</strong> to keep the ' +
+          'result as a <code>.paxlite</code> file - saved recipes live in browser storage only, ' +
+          'so clearing site data deletes them.',
+        'Copy the command it built. Download the PAX script from the ' +
+          lk(PAX_URL.repo, 'PAX Cookbook repository') + ', open PowerShell 7 and paste the ' +
+          'command in. This is the step that reaches your tenant - Mini-Kitchen never did.'
+      ]
+    };
+  }
+
+  function paxRoutes(cookbookPreset, miniPreset) {
+    return [paxRouteA(cookbookPreset), paxRouteB(miniPreset)];
+  }
+
+  var VIVA_QUERY = [
+    'Open the ' + lk(URL_VIVA, 'Viva Insights Analyst Workbench') + ' and click ' +
+      '<strong>Analysis results</strong> in the left sidebar.',
+    'Click <strong>Create analysis</strong>, choose the <strong>Person query</strong> card, ' +
+      'then <strong>Set up analysis</strong>.',
+    'Set <strong>Time period</strong> to Last 6 months (rolling), <strong>Group by</strong> ' +
+      'to <strong>Week</strong>, and the filter to <code>Is Active = True</code>.',
+    'Add at least the attributes <code>Organization</code>, <code>FunctionType</code> and ' +
+      '<code>TimeZone</code>.'
+  ];
+
+  var CREDIT_APP_STEPS = [
+    'In the ' + lk(URL_ENTRA, 'Microsoft Entra admin center') + ' open <strong>Identity</strong> ' +
+      'then <strong>Users</strong> then <strong>All users</strong>, and choose ' +
+      '<strong>Download users</strong>. That CSV carries the org attributes - department, ' +
+      'cost centre, job title - used to group people. You can load more than one.',
+    'In the ' + lk(URL_MAC, 'Microsoft 365 admin center') + ' go to <strong>Copilot</strong> ' +
+      'then <strong>Cost management</strong> then the <strong>Consumption</strong> tab, and ' +
+      'choose <strong>Export CSV</strong>. It needs one row per user with the credits they ' +
+      'consumed.',
+    'Drop both files into the app. Column names are auto-detected, so most export layouts ' +
+      'work as they are.'
+  ];
+
+  var CONNECT = {
+
+    'super-usage': {
+      reads: 'A <strong>Viva Insights person query</strong> export - one row per person per week.',
+      steps: VIVA_QUERY.concat([
+        'Under metrics choose <strong>All metrics</strong> for <strong>Microsoft 365 ' +
+          'Copilot</strong>, <strong>Collaboration network</strong>, <strong>Working hours ' +
+          'collaboration</strong> and <strong>Focus metrics</strong>. Missing even one group ' +
+          'leaves visuals blank in Power BI.',
+        'Save and run, then wait until <strong>Status = Completed</strong>. The first run can ' +
+          'take several hours. Do not export while it is still processing.',
+        'For the CSV template, download the result as CSV. For the Direct Query template, ' +
+          'copy the <strong>Partition ID</strong> and <strong>Query ID</strong> instead, then ' +
+          'follow the ' +
+          lk('https://github.com/microsoft/DecodingSuperUsage', 'query guide in the repository') +
+          '.'
+      ]),
+      note: 'If you built this query before v13, re-open it, open the <strong>Microsoft 365 ' +
+        'Copilot</strong> metric selection and re-check <strong>Select all</strong>, so the ' +
+        'newly consolidated Copilot Chat metrics are included.'
+    },
+
+    'super-user-impact': {
+      reads: 'A <strong>Viva Insights person query</strong> export - one row per person per week.',
+      steps: VIVA_QUERY.concat([
+        'Under metrics choose <strong>All metrics</strong> for <strong>Microsoft 365 ' +
+          'Copilot</strong>, <strong>Collaboration network</strong>, <strong>Working hours ' +
+          'collaboration</strong> and <strong>Focus metrics</strong>. Missing even one group ' +
+          'leaves visuals blank in Power BI.',
+        'Save and run, then wait until <strong>Status = Completed</strong>. Do not export ' +
+          'mid-processing.',
+        'For the CSV template, download the result as CSV. For the Direct Query template, copy ' +
+          'the <strong>Partition ID</strong> and <strong>Query ID</strong> instead, then follow ' +
+          'the ' +
+          lk('https://github.com/microsoft/superuserimpact', 'query guide in the repository') +
+          '.'
+      ]),
+      note: 'If you built this query before v13, re-open it and re-check <strong>Select ' +
+        'all</strong> under the Microsoft 365 Copilot metrics.'
+    },
+
+    'ai-in-one': {
+      reads: 'Two rolled up CSVs that PAX produces from the <strong>Microsoft Purview</strong> ' +
+        'unified audit log and <strong>Microsoft Entra</strong>.',
+      pre: [PAX_AUDIT_STEP],
+      routeLead: 'Two ways to produce those files. The only question that matters: can you ' +
+        'install a Windows app?',
+      routes: paxRoutes('AI-in-One', 'AI-in-One Dashboard'),
+      tailLead: 'Then, in Power BI Desktop.',
+      tail: [
+        'Open the template and point it at the two rollup files the run produced: the ' +
+          'interactions CSV and the Entra users CSV. The ' +
+          lk('https://github.com/microsoft/AI-in-One-Dashboard', 'AI-in-One repository') +
+          ' carries the full parameter list.'
+      ],
+      note: 'This template only consumes PAX rollup output. A raw Purview audit CSV or a ' +
+        'hand-exported Entra users CSV will not load. Note the preset name differs by route: ' +
+        'the desktop app calls it <strong>AI-in-One</strong>, Mini-Kitchen calls it ' +
+        '<strong>AI-in-One Dashboard</strong>, and Mini-Kitchen states plainly that this preset ' +
+        'does not pull the broader Microsoft 365 audit usage bundle.'
+    },
+
+    'm365-readiness': {
+      reads: 'The Microsoft 365 unified audit log from <strong>Microsoft Purview</strong>, plus ' +
+        'user details from <strong>Microsoft Entra</strong>.',
+      easy: 'the repo ships <strong>M365 Dashboard - DEMO PBIX.pbix</strong>, a cached synthetic ' +
+        'dataset. Open ' +
+        lk('https://github.com/microsoft/M365UsageAnalytics', 'that file from the repository') +
+        ' first and explore the whole report with no tenant setup at all. It is for preview and ' +
+        'testing only - the .pbit stays the template for your own data.',
+      pre: [PAX_AUDIT_STEP],
+      routeLead: 'Two ways to produce the CSVs. Pick on whether you can install software.',
+      routes: paxRoutes('M365 Usage Analytics', 'M365 Usage Dashboard'),
+      tailLead: 'Then, in Power BI Desktop.',
+      tail: [
+        'Open <strong>M365 Usage Dashboard</strong> (the .pbit) and aim its parameters at the ' +
+          'CSVs the run produced. Start with a one-month window before you ask for more.'
+      ],
+      note: 'Microsoft began enforcing a new <code>AuditLogsQuery.Read.All</code> permission in ' +
+        'April 2026. With only the legacy permission, audit calls appear to succeed and ' +
+        'silently return zero records. PAX v1.10.9 and later request the right scopes, so make ' +
+        'sure admin consent is granted. This preset is the broad one - it pulls the Exchange, ' +
+        'OneDrive, SharePoint and Teams audit bundle alongside Copilot interactions.'
+    },
+
+    'chat-agent': {
+      reads: 'Three CSV exports: the Copilot interaction audit log from <strong>Microsoft ' +
+        'Purview</strong>, the Copilot licensed user list from the <strong>Microsoft 365 admin ' +
+        'center</strong>, and org data from <strong>Microsoft Entra</strong>.',
+      steps: [
+        'In the ' + lk(URL_AUDIT, 'Purview audit search') + ' open <strong>Audit</strong>. Under ' +
+          '<strong>Activities</strong> choose the friendly name <code>Copilot Activities - ' +
+          'Interacted with Copilot</code>, set a range of three to six months, name the search ' +
+          'and run it. When the status reads <strong>Completed</strong>, open it and choose ' +
+          '<strong>Export</strong> then <strong>Download all results</strong>. You need an audit ' +
+          'role such as <strong>Audit Reader</strong>; the ' +
+          lk('https://learn.microsoft.com/en-us/purview/audit-log-search', 'Microsoft Learn ' +
+            'guide to audit log search') + ' lists the rest.',
+        'In the ' + lk(URL_MAC, 'Microsoft 365 admin center') + ' go to <strong>Reports</strong> ' +
+          'then <strong>Usage</strong> then <strong>Microsoft 365 Copilot</strong>. On the ' +
+          '<strong>Readiness</strong> tab scroll to <strong>Copilot Readiness Details</strong>, ' +
+          'add the column <code>Has Copilot license assigned</code>, then use the ellipsis menu ' +
+          'and choose <strong>Export</strong>.',
+        'In the ' + lk(URL_ENTRA, 'Microsoft Entra admin center') + ' go to ' +
+          '<strong>Identity</strong> then <strong>Users</strong> then <strong>All users</strong>, ' +
+          'choose <strong>Download users</strong>, and include at least ' +
+          '<code>UserPrincipalName</code> and <code>Department</code>. Pick CSV and download.',
+        'Open the template, supply a text string used to hash and de-identify the sensitive ' +
+          'identifiers, then paste the full path of each CSV into its parameter. The ' +
+          lk('https://github.com/microsoft/CopilotChatAnalytics', 'repository README') +
+          ' lists every parameter.'
+      ],
+      note: 'To get real names rather than hashed ones in the admin-centre export, go to ' +
+        '<strong>Settings</strong> then <strong>Org settings</strong> then <strong>Reports</strong> ' +
+        'and clear <strong>Display concealed user, group, site names in all reports</strong>. ' +
+        'There is no PAX Cookbook or Mini-Kitchen preset for this report, so there is no ' +
+        'second route to offer - the audit export is done by hand in Purview.'
+    },
+
+    'ghcp-impact': {
+      reads: 'Three files: a GitHub Copilot usage export, a GitHub enterprise members CSV, and a ' +
+        'Microsoft Entra user export.',
+      easy: 'start with the ' +
+        lk('https://github.com/microsoft/GitHubCopilotImpact/tree/main/GHCP%20Sample%20Files',
+          'GHCP Sample Files folder') +
+        ' - a sample members export, a sample Entra org export and a sample usage JSON. Point ' +
+        'the template at those and the whole report fills in before you touch your own tenant.',
+      steps: [
+        'Sign in to GitHub as an <strong>Enterprise Owner</strong>, open your enterprise, and ' +
+          'from the breadcrumb overflow menu open <strong>Insights</strong>. Choose ' +
+          '<strong>Copilot Usage</strong>, select <strong>Last 28 days</strong>, download it, ' +
+          'and save it as a <code>.json</code> file - the ' +
+          lk('https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/administer-copilot/manage-for-enterprise/view-usage-and-adoption',
+            'GitHub usage and adoption docs') + ' show the same screen.',
+        'Still in the enterprise, open <strong>People</strong>, and in the ' +
+          '<strong>Members</strong> section choose <strong>CSV Report</strong>. Under 1,000 ' +
+          'members it downloads straight away; above that GitHub emails you a link.',
+        'In the ' + lk(URL_ENTRA, 'Microsoft Entra admin center') + ' go to ' +
+          '<strong>Identity</strong> then <strong>Users</strong> then <strong>All users</strong> ' +
+          'and choose <strong>Download users</strong>. <code>UserPrincipalName</code> and ' +
+          '<code>Department</code> are required; do not pull attributes you do not need.',
+        'Open the .pbit in Power BI Desktop and paste the full path of each of the three files ' +
+          'into its parameter.'
+      ],
+      note: 'Enforced single sign-on has to be on, otherwise GitHub handles cannot be matched to ' +
+        'enterprise identities.'
+    },
+
+    'what-i-did': {
+      reads: 'Your own GitHub Copilot session logs, which are already on your machine. There is ' +
+        'no tenant export and no admin involved.',
+      easy: 'there is nothing to request. It reads session files you already have, and the ' +
+        'report is generated locally.',
+      steps: [
+        'Install the plugin. In a Copilot CLI session run <code>/plugin install ' +
+          'whatidid@awesome-copilot</code>. In VS Code, open <strong>Chat: Plugins</strong>, ' +
+          'search <code>whatidid</code> and click <strong>Install</strong> - the ' +
+          lk('https://github.com/microsoft/What-I-Did-Copilot', 'repository README') +
+          ' lists every install option.',
+        'Run <code>gh auth login</code> once. That authenticates the GitHub CLI and enables the ' +
+          'optional AI analysis; without it the tool falls back to a local heuristic and makes ' +
+          'no external calls.',
+        'Ask it to generate the report. It reads <code>~/.copilot/session-state/</code> for ' +
+          'Copilot CLI sessions and the VS Code Copilot Chat session store, then writes a ' +
+          'single HTML report.'
+      ],
+      note: 'Everything stays local: it reads session files that already exist and adds nothing ' +
+        'to disk beyond the report and a small cache. Credit and cost figures are directional ' +
+        'estimates - only official GitHub Copilot billing is authoritative.'
+    },
+
+    'cowork-impact': {
+      reads: 'Your own <strong>Copilot Cowork</strong> session history in OneDrive, under ' +
+        '<code>Documents/Cowork/</code>.',
+      easy: 'no export and no admin. Cowork installs the skill for you and reads the sessions ' +
+        'you already have.',
+      steps: [
+        'Download the latest skill zip from the ' +
+          lk('https://github.com/microsoft/What-I-did-with-Cowork', 'Cowork skill repository') +
+          '. Do not unzip it - it is attached exactly as it downloads.',
+        'Open a new ' + lk('https://copilot.cloud.microsoft/cowork', 'Copilot Cowork') +
+          ' session, click the plus symbol to attach the zip, and send the message ' +
+          '<strong>Add this skill.</strong>',
+        'Cowork unpacks it and puts it in the right place. In the same session or a new one, ask ' +
+          '<strong>Generate my impact summary report.</strong>',
+        'The skill harvests your Cowork sessions from OneDrive, classifies them, and renders a ' +
+          'self-contained HTML report, with an optional one-row-per-session CSV.'
+      ],
+      note: 'Heads up: the repository now ships ' +
+        '<code>cowork-roi-report-skill-v37.zip</code>, but this catalog still points at the v24 ' +
+        'zip. Take the latest version from the repo.'
+    },
+
+    'adoption-sentiment': {
+      reads: 'One required CSV - the Copilot activity export from the <strong>Microsoft 365 ' +
+        'admin center</strong> - plus two optional ones, a survey export and an Entra user export.',
+      steps: [
+        'In the ' + lk(URL_MAC, 'Microsoft 365 admin center') + ' go to <strong>Reports</strong> ' +
+          'then <strong>Usage</strong> then <strong>Microsoft 365 Copilot</strong>. Set the ' +
+          'report period to <strong>180 days</strong> for the most history, then click ' +
+          '<strong>Export</strong>. The file is named something like ' +
+          '<code>CopilotActivityUserDetail_YYYY-MM-DD.csv</code>.',
+        'Optional - export your survey responses as CSV. The file must contain an ' +
+          '<code>Email</code> column holding user principal names that match the activity ' +
+          'export. The ' +
+          lk('https://github.com/olivierpecheux/copilot-adoption-sentiment-report',
+            'repository ships a recommended question set') +
+          ' you can import into Microsoft Forms.',
+        'Optional - in the ' + lk(URL_ENTRA, 'Microsoft Entra admin center') + ' open ' +
+          '<strong>Users</strong> then <strong>All users</strong> and choose <strong>Download ' +
+          'users</strong>. That adds <code>displayName</code> and <code>companyName</code>, ' +
+          'which supplies the Organization attribute.',
+        'Open the report in Power BI Desktop and set the three parameters to your file paths. ' +
+          'Use <code>/</code> to skip either optional file, and do not wrap paths in quotes.'
+      ],
+      note: 'The admin-centre export hides user names by default. Go to <strong>Settings</strong> ' +
+        'then <strong>Org settings</strong> then <strong>Reports</strong>, clear <strong>Display ' +
+        'concealed user, group, and site names in all reports</strong>, wait 48 hours, then ' +
+        're-export. Export monthly and append to get trends.'
+    },
+
+    'pax': {
+      reads: 'Nothing - PAX is the thing that produces the data. It reads <strong>Microsoft ' +
+        'Purview</strong>, <strong>Microsoft Entra ID</strong> and the <strong>Microsoft 365 ' +
+        'admin center</strong> through the Microsoft Graph API.',
+      pre: [PAX_AUDIT_STEP],
+      routeLead: 'PAX is the engine. You only have to decide what drives it.',
+      routes: [
+        {
+          label: 'Route A - PAX Cookbook, the desktop app',
+          trade: 'Fewest moving parts. Needs rights to install a Windows app.',
+          steps: [
+            'Install ' + lk(PAX_URL.cookbook, 'PAX Cookbook') + ' from its ' +
+              lk(PAX_URL.releases, 'latest release') + ' and let the app run the engine for you. ' +
+              'The wizard brings .NET 8, PowerShell 7 and Python with it.',
+            'Build a recipe and pick the preset that matches the dashboard you are feeding. The ' +
+              'app ships <strong>AI-in-One</strong>, <strong>AI Business Value</strong>, ' +
+              '<strong>M365 Usage Analytics</strong>, <strong>Entra Directory Export</strong>, ' +
+              '<strong>Microsoft Agent 365 catalog only</strong> and <strong>Custom</strong>.',
+            'Choose where output lands - a local folder, a SharePoint document library, or ' +
+              'Microsoft Fabric OneLake Delta tables - then <strong>Bake</strong>.'
+          ]
+        },
+        {
+          label: 'Route B - Mini-Kitchen in the browser, then run the script',
+          trade: 'No app to install. You still need PowerShell 7 and the PAX script - ' +
+            'Mini-Kitchen writes the command, you run it.',
+          steps: [
+            'Open ' + lk(PAX_URL.mini, 'Mini-Kitchen') + ' and start from one of its five ' +
+              'presets: <strong>AI-in-One Dashboard</strong>, <strong>AI Business Value ' +
+              'Dashboard</strong>, <strong>M365 Usage Dashboard</strong>, <strong>Entra user ' +
+              'info only</strong> or <strong>Microsoft Agent 365 catalog</strong>. Nothing you ' +
+              'type there leaves the browser.',
+            'Set the scope, dates, rollup, filters and output, then copy the command it builds. ' +
+              'Export it as a <code>.paxlite</code> file if you want to keep it - browser ' +
+              'storage is the only place it lives otherwise.',
+            'Run the command yourself in PowerShell 7 against the PAX script, with the switches ' +
+              'your dashboard needs - commonly <code>-Rollup</code>, plus ' +
+              '<code>-IncludeUserInfo</code>, <code>-IncludeM365Usage</code>, ' +
+              '<code>-OnlyUserInfo</code> or <code>-OnlyAgent365Info</code>.'
+          ]
+        }
+      ],
+      note: 'The exported audit data is highly sensitive and is not hashed, masked or ' +
+        'anonymised. Treat the output accordingly. Mini-Kitchen removes the app install, not the ' +
+        'need for PowerShell.',
+      more: [['PAX Cookbook User Guide', PAX_URL.guide]]
+    },
+
+    'roi-calc': {
+      reads: 'A <strong>Viva Insights person query</strong> export as CSV - one row per person ' +
+        'per week.',
+      easy: 'the repo ships <code>sample-data.csv</code>. Drop ' +
+        lk('https://github.com/jordankingisalive/CopilotROICalculator', 'that file from the repo') +
+        ' into the upload area and the whole calculator runs with no tenant data at all.',
+      steps: VIVA_QUERY.concat([
+        'Under metrics choose <strong>Microsoft 365 Copilot - all metrics</strong>, then run the ' +
+          'query and download the result as CSV from <strong>Analysis results</strong>.',
+        'Open the calculator and set your parameters: industry or a custom hourly rate, licence ' +
+          'cost per user per month, minutes saved per Copilot action, and the analysis period.',
+        'Drop the CSV into the upload area. Parsing happens in your browser - the file is never ' +
+          'uploaded anywhere.'
+      ]),
+      note: 'Grouping by <strong>Week</strong> is required, because the cohort tiers need at ' +
+        'least 12 consecutive weekly rows per person. Also note: this catalog lists the source ' +
+        'as a Super Usage heatmap CSV, but the tool README is explicit that the heatmap export ' +
+        'is retired and is rejected on upload. The person query export is the only accepted format.'
+    },
+
+    'cowork-billing-report': {
+      reads: 'Two CSV exports joined on user principal name: Copilot credit consumption, and a ' +
+        '<strong>Microsoft Entra</strong> org directory.',
+      easy: 'the ' +
+        lk('https://github.com/microsoft/CreditUsage', 'repository includes a demo data folder') +
+        ', so you can open the template and see all six pages before you collect anything real.',
+      steps: [
+        'In the ' + lk(URL_MAC, 'Microsoft 365 admin center') + ' go to <strong>Copilot</strong> ' +
+          'then <strong>Cost management</strong> then the <strong>Consumption</strong> tab and ' +
+          'click <strong>Export CSV</strong>. That gives one row per user with the monthly ' +
+          'credit limit, credits used, session count, percent used and last activity date.',
+        'In the ' + lk(URL_ENTRA, 'Microsoft Entra admin center') + ' go to ' +
+          '<strong>Identity</strong> then <strong>Users</strong> then <strong>All users</strong> ' +
+          'then <strong>Download users</strong>. This supplies <code>department</code>, ' +
+          '<code>jobTitle</code>, <code>city</code>, <code>country</code> and ' +
+          '<code>manager</code> - the org context the credit export does not carry.',
+        'Open the template and set <code>CreditCsvPath</code> to the credit CSV and ' +
+          '<code>EntraCsvPath</code> to the directory CSV.',
+        'Refresh and confirm the consumption visuals populate and all six pages render.'
+      ],
+      note: 'Do not rename the columns - a missing column produces blank visuals with no error. ' +
+        '<code>jobFamily</code>, <code>costCenter</code> and <code>businessUnit</code> are not ' +
+        'standard Entra fields, so an admin has to map them in, or those slicers stay blank. ' +
+        'Every user in the credit export needs a matching directory row or their credits are ' +
+        'not attributed.'
+    },
+
+    'cowork-chargeback-app': {
+      reads: 'Two things you load in the browser: one or more <strong>Microsoft Entra</strong> ' +
+        'user exports, and your <strong>Copilot credit / Cost Management</strong> export.',
+      easy: 'click <strong>View Demo</strong> in the app to run the whole chargeback on ' +
+        'synthetic data first. Nothing is uploaded - every file is parsed locally in your browser.',
+      steps: CREDIT_APP_STEPS.concat([
+        'Enter your Microsoft invoice total to reconcile the journal, then export the journal or ' +
+          'the line items as CSV.'
+      ])
+    },
+
+    'cowork-policy-helper-app': {
+      reads: 'Two things you load in the browser: one or more <strong>Microsoft Entra</strong> ' +
+        'user exports, and your <strong>Copilot credit / Cost Management</strong> export.',
+      easy: 'click <strong>View Demo</strong> in the app to explore it on synthetic data first. ' +
+        'Files are parsed locally in your browser and assignments are held in memory only.',
+      steps: CREDIT_APP_STEPS.concat([
+        'The two files are joined on user principal name. Each user is placed in a usage cohort ' +
+          'by percentile of credits used and given a recommended policy, which you can override ' +
+          'per row before exporting the assignments as CSV.'
+      ])
+    },
+
+    'finops-focus-app': {
+      reads: 'Two things you load in the browser: one or more <strong>Microsoft Entra</strong> ' +
+        'user exports, and your <strong>Copilot credit / Cost Management</strong> export.',
+      easy: 'click <strong>View Demo Report</strong> to see the full FOCUS-aligned cost view on ' +
+        'synthetic data. Every figure is computed on the page from the files you choose.',
+      steps: CREDIT_APP_STEPS.concat([
+        'The two files are joined on user principal name and priced into the FOCUS cost columns ' +
+          '(List, Contracted, Effective, Billed). Tune the list and contracted rates live, and ' +
+          'allocate by department, cost centre or business unit.'
+      ])
+    },
+
+    'cowork-roi-model-app': {
+      reads: 'Nothing. There is no file to upload, no export to request and no admin to chase.',
+      easy: 'open it and start typing. The minutes-per-task bands are pre-filled from published ' +
+        'research, so the model produces numbers immediately.',
+      steps: [
+        'Open the app and name your scenario.',
+        'Enter your task volumes per category, and adjust the minutes per task if you want to ' +
+          'depart from the research band. There is a control to reset minutes back to the band.',
+        'Set the money inputs: annual cost, blended hourly rate, monthly active users and ' +
+          'users per licence, then use the adjustment slider to haircut the result.',
+        'Read assisted hours, value and ROI straight off the page.'
+      ],
+      note: 'Inputs and calculations stay local to your browser session and are not posted to ' +
+        'any API by the page.'
+    },
+
+    'customize': {
+      reads: 'Nothing of its own. These are add-on <em>pages</em> you import into a report that ' +
+        'is already connected to its data.',
+      easy: 'if your host report already works, there is no new data to connect at all.',
+      steps: [
+        'Open your host report - <strong>Super User Adoption</strong> or <strong>Super User ' +
+          'Impact</strong> - in Power BI Desktop and confirm it is connected and loading.',
+        'Open a second Power BI Desktop window and open the add-on template, then connect it to ' +
+          'the same data source when prompted.',
+        'In the add-on window find the pages you want in the <strong>Pages</strong> pane, and ' +
+          'copy them across into your host report.',
+        'Check the ' +
+          lk('https://github.com/microsoft/customizecopilot', 'per-add-on dependency list') +
+          ' for the measures that page needs, and add any that are missing to your host model.'
+      ],
+      note: 'Both templates have to use the same or compatible schema. Person-level pages need ' +
+        'at least one week of Copilot data from Viva Insights, and four or more weeks for ' +
+        'trends. Network metrics need Viva Insights network analysis enabled.'
+    },
+
+    'personal-copilot-dashboard': {
+      reads: 'A <strong>Copilot Dashboard</strong> export from Viva Insights, optionally joined ' +
+        'to agent and Cowork consumption folders.',
+      steps: [
+        'Open the <strong>Copilot Dashboard</strong> through ' +
+          lk(URL_VIVA, 'Viva Insights') + ' and click <strong>Export data</strong>. That ' +
+          'downloads your Copilot usage CSV.',
+        'If you use agents, also export the agent data folder - it contains ' +
+          '<code>AgentMetadata.csv</code>, <code>PersonAgentResponsesMetrics.csv</code>, ' +
+          '<code>PersonAgentCreditsRetentionMetrics.csv</code> and <code>PeopleMetadata.csv</code>.',
+        'If you use Cowork, export its consumption folder containing ' +
+          '<code>PersonServiceCreditsMetrics.csv</code>, <code>PeopleMetadata.csv</code> and ' +
+          '<code>SpendingPolicyMetadata.csv</code>.',
+        'Open the template and set <code>CopilotCsvFilePath</code>, ' +
+          '<code>AgentDataFolderPath</code> and <code>CoworkDataFolderPath</code>, then use the ' +
+          '<strong>PersonId</strong> slicer to filter the report to yourself.'
+      ],
+      note: 'All three inputs are optional - load any combination, and pages without source data ' +
+        'stay blank. If you would rather build a custom person query instead, the ' +
+        '<a href="https://github.com/microsoft/Personal-Dashboard" target="_blank" ' +
+        'rel="noopener noreferrer">repository</a> also ships a Viva Insights person query ' +
+        'edition with CSV Import and Direct Query templates. Upload an identifiable user ' +
+        'attribute such as work email so each person maps correctly.'
+    },
+
+    'ess-insights': {
+      reads: 'Copilot Studio conversation transcripts from the Dataverse ' +
+        '<code>ConversationTranscript</code> table - the data your agent already writes.',
+      easy: 'the repo ships <strong>ESS Dashboard - DEMO PBIX.pbix</strong>. Open ' +
+        lk('https://github.com/microsoft/ESS', 'that file from the repository') +
+        ' to explore the nine pages before you arrange any Dataverse access.',
+      steps: [
+        'Check the agent environment actually persists transcripts. In Copilot Studio confirm ' +
+          '<strong>Save conversation transcripts to Dataverse</strong> is <strong>ON</strong>. ' +
+          'Agents running in Teams or Microsoft 365 Copilot environments do not write ' +
+          'transcripts to Dataverse and cannot be used.',
+        'Get the <strong>Bot Transcript Viewer</strong> security role on that environment. ' +
+          'Environment Maker is not enough.',
+        'Export the transcripts: open the ' +
+          lk('https://make.powerapps.com', 'Power Apps maker portal') + ', switch to the agent ' +
+          'environment, go to <strong>Tables</strong> then <strong>All</strong>, search ' +
+          '<code>conversation</code>, open <strong>ConversationTranscript</strong>, then ' +
+          '<strong>Export</strong> then <strong>Export data</strong>, and unzip the CSV.',
+        'Open the CSV Upload template and point the transcript parameter at that file, following ' +
+          'the ' +
+          lk('https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md', 'CSV setup guide') +
+          '. Optionally add an org roster exported from the admin centre and an agent credits ' +
+          'export from Copilot Studio Analytics.'
+      ],
+      note: 'Do not open the transcript CSV in Excel - Excel corrupts the JSON in the ' +
+        '<code>Content</code> column and the template fails to load. Dataverse also deletes ' +
+        'transcripts after 30 days by default, and extending that has to be done before the data ' +
+        'you want exists. Once you are ready to put it in front of stakeholders on a schedule, ' +
+        'the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" ' +
+        'target="_blank" rel="noopener noreferrer">Dataverse Direct path</a> pulls live and only ' +
+        'needs the environment URL.'
+    },
+
+    'value-lens': {
+      reads: 'Copilot interaction audit logs from <strong>Microsoft Purview</strong>, licensed ' +
+        'users from the <strong>Microsoft 365 admin center</strong>, and org data from ' +
+        '<strong>Microsoft Entra</strong>.',
+      easy: 'take the ' +
+        lk('https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV',
+          '<strong>1. Local CSV</strong> path') +
+        '. It ships a fabricated sample dataset that fills the whole dashboard - open the ' +
+        'template, point it at three CSVs, done. No tenant, no exports, no scripts.',
+      steps: [
+        'Run the <strong>1. Local CSV</strong> path against its bundled sample data first. It ' +
+          'tells you whether the numbers are worth wiring up before you wire anything up.',
+        'When you want your own numbers, the three core sources are Copilot interactions from ' +
+          'Purview, the licensed user list from the Microsoft 365 admin center, and department ' +
+          'or function data from Microsoft Entra.',
+        'Then pick how it refreshes. <strong>2. SharePoint</strong> runs a scheduled script that ' +
+          'extracts, rolls up and uploads, and works on Power BI Pro. <strong>3. Fabric</strong> ' +
+          'uses the reviewed notebook and Lakehouse path if you have capacity.',
+        'Follow the README inside whichever path folder you picked - each one carries the exact, ' +
+          'maintained setup. The ' +
+          lk('https://github.com/microsoft/ValueLens-for-Microsoft-Copilot', 'top-level README') +
+          ' compares all three.'
+      ],
+      note: 'Optional sources - Agent 365, Cowork consumption, product feedback, Copilot Studio ' +
+        'transcripts - are gated by <code>Enable_*</code> toggles and the dashboard works fine ' +
+        'without them. This report has no PAX Cookbook or Mini-Kitchen preset, so there is no ' +
+        'second route here: it ships its own three deployment paths and its SharePoint and ' +
+        'Fabric paths use their own scripts and notebooks.'
+    },
+
+    'consumption-central': {
+      reads: 'Copilot consumption from <strong>Viva Insights</strong>, alongside Power Platform, ' +
+        'GitHub Copilot and Azure cost feeds.',
+      easy: 'every path ships a synthetic sample dataset. Start with <strong>1. Local CSV</strong> ' +
+        'and point the template at its <code>sample-data</code> folder - the whole report fills ' +
+        'in with no exports and no waiting for a billing cycle.',
+      steps: [
+        'Run the <strong>1. Local CSV</strong> path against the bundled sample data first. It ' +
+          'takes about ten minutes and tells you whether the numbers are worth automating.',
+        'Before you use real Viva data, switch on identification. Viva Insights ships Copilot ' +
+          'data de-identified by default, so the person arrives as a hashed ' +
+          '<code>PersonId</code> while every other source is keyed on ' +
+          '<code>UserPrincipalName</code> - until identification is on there is nothing to join ' +
+          'on. In the ' + lk(URL_MAC, 'Microsoft 365 admin center') + ' go to ' +
+          '<strong>Settings</strong> then <strong>Viva</strong> then <strong>Feature access ' +
+          'management</strong> and create a policy for app <strong>Viva Insights</strong>, ' +
+          'feature <strong>Identification</strong>.',
+        'Re-run your export, or point the connector at the identified query.',
+        'Then choose how it runs: <strong>Local CSV</strong> for files, <strong>Fabric</strong> ' +
+          'for scale, or <strong>Viva Direct</strong> for Cowork data with no files at all. The ' +
+          lk('https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/DATA-SOURCES.md',
+            'data sources guide') + ' says exactly where each feed comes from.'
+      ],
+      note: 'Turning identification on means processing personal data. Check whether per-person ' +
+        'reporting needs works-council consent or employee notification where you operate - your ' +
+        'organisation is the data controller, not Microsoft. The Power BI connector does not ' +
+        'enforce the Viva minimum group size.'
+    },
+
+    'agent-evaluator': {
+      reads: 'Copilot Studio conversation transcripts from <strong>Dataverse</strong>, plus a ' +
+        'Power Platform admin center export for the credit-consumption pages.',
+      easy: 'set <strong>Source Mode</strong> to <code>TranscriptCSV</code> and use the ' +
+        lk('https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/tree/main/data',
+          'sample transcripts and org data bundled in the repo') +
+        '. The whole dashboard renders with no tenant and no capacity.',
+      steps: [
+        'Open the template and leave <strong>Source Mode</strong> on <code>TranscriptCSV</code> ' +
+          'to run against the bundled sample data in <code>data/</code>.',
+        'For your own transcripts, switch <strong>Source Mode</strong> to ' +
+          '<code>Dataverse</code>. That reads live transcripts and parses them in the model, so ' +
+          'it needs a Dataverse environment and read access to the conversation transcript table.',
+        'Follow the per-path guide in the ' +
+          lk('https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio', 'repository docs ' +
+            'folder') + ' - there is one for local CSV, one for Dataverse and one for Fabric.'
+      ],
+      note: 'The credit-consumption pages need the Power Platform admin center export, and only ' +
+        'the Fabric path ingests it - so those pages stay empty on the local CSV and Dataverse ' +
+        'paths. Transcripts give visibility into agent interactions; they are not a ' +
+        'full-fidelity billing record.'
+    }
+
+  };
+
+  function gxMore(pairs) {
+    if (!pairs || !pairs.length) return '';
+    return '<p class="gx-more">More: ' + pairs.map(function (pair) {
+      return '<a href="' + escUrl(pair[1]) + '" target="_blank" rel="noopener noreferrer">' +
+        esc(pair[0]) + '</a>';
+    }).join('') + '</p>';
+  }
+
+  function gxList(items, seen) {
+    return '<ol class="gx-do">' + items.map(function (li) {
+      return '<li>' + applyGloss(li, seen) + '</li>';
+    }).join('') + '</ol>';
+  }
+
+  /* An honest gap beats a plausible guess: a report with no verified entry
+     says so and points at its README rather than inventing a portal path. */
+  function gxConnect(t) {
+    var rec = CONNECT[t.id];
+    if (!rec) {
+      var repoUrl = escUrl(t.repo);
+      return '<p>We have not verified how this report gets its data, so we are not going to ' +
+        'guess at it.</p>' +
+        (repoUrl ? '<p class="gx-more">Start with the <a href="' + repoUrl +
+          '" target="_blank" rel="noopener noreferrer">repository README</a>.</p>' : '');
+    }
+    /* One seen-map per report, so each term is defined once in this block. */
+    var seen = {};
+    var out = '<p class="gx-reads">' + applyGloss(rec.reads, seen) + '</p>';
+    if (rec.easy) {
+      out += '<p class="gx-easy"><strong>Easiest start:</strong> ' +
+        applyGloss(rec.easy, seen) + '</p>';
+    }
+    if (rec.pre && rec.pre.length) {
+      out += gxList(rec.pre, seen);
+    }
+    if (rec.routes && rec.routes.length) {
+      if (rec.routeLead) {
+        out += '<p class="gx-reads">' + applyGloss(rec.routeLead, seen) + '</p>';
+      }
+      out += '<div class="gx-routes">' + rec.routes.map(function (r) {
+        return '<div class="gx-route"><h5>' + applyGloss(r.label, seen) + '</h5>' +
+          '<p class="gx-trade">' + applyGloss(r.trade, seen) + '</p>' +
+          gxList(r.steps, seen) + '</div>';
+      }).join('') + '</div>';
+    }
+    if (rec.steps && rec.steps.length) {
+      out += gxList(rec.steps, seen);
+    }
+    if (rec.tail && rec.tail.length) {
+      if (rec.tailLead) {
+        out += '<p class="gx-reads">' + applyGloss(rec.tailLead, seen) + '</p>';
+      }
+      out += gxList(rec.tail, seen);
+    }
+    if (rec.note) out += '<p class="gx-hint">' + applyGloss(rec.note, seen) + '</p>';
+    out += gxMore(rec.more);
+    return out;
+  }
+
+  function gxSteps(t) {    var req = t.requirements || {};
+    var meta = t.meta || {};
+    var dl = escUrl(t.download), repo = escUrl(t.repo), guide = escUrl(t.guide);
+    var watch = escUrl(watchUrl(t.demoVideo));
+    var media = gxMedia(t);
+    var n = 0, out = '';
+    function step(head, inner) {
+      n++;
+      return '<section class="gx-step"><span class="gx-num">' + n + '</span>' +
+        '<div class="gx-body"><h4>' + head + '</h4>' + inner + '</div></section>';
+    }
+    out += step('See what you are building',
+      '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
+      (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
+      (watch ? '<div class="gx-links"><a href="' + watch +
+        '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a></div>' : ''));
+    out += step('Get the access you need',
+      '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>' +
+      (gxChecks(req.roles) || '<p class="gx-hint">No special roles required.</p>'));
+    out += step('Install the tools',
+      gxChecks(req.software) || '<p class="gx-hint">Nothing to install.</p>');
+    out += step('Connect your data', gxConnect(t));
+    out += step('Download the template',
+      dl ? '<p>Open it in Power BI Desktop and point the parameters at your own data.' +
+             (meta.time ? ' Expect around <strong>' + esc(meta.time) + '</strong>.' : '') + '</p>' +
+           '<a class="gx-cta" href="' + dl +
+             '" target="_blank" rel="noopener noreferrer">Download template</a>' +
+           (repo ? '<a class="gx-cta gx-cta--dark" href="' + repo +
+             '" target="_blank" rel="noopener noreferrer">View on GitHub</a>' : '')
+         : '<p class="gx-hint">This one is a hosted app rather than a downloadable template, ' +
+           'so there is nothing to open in Power BI Desktop.</p>');
+    var refs = [];
+    if (repo) refs.push('<a href="' + repo +
+      '" target="_blank" rel="noopener noreferrer">Full README and setup notes</a>');
+    if (guide) refs.push('<a href="' + guide +
+      '" target="_blank" rel="noopener noreferrer">Setup guide</a>');
+    refs.push('<a href="mailto:copilot-roi-advisory-team-gh@microsoft.com">' +
+      'Ask the Copilot ROI advisory team</a>');
+    out += step('If you get stuck', '<div class="gx-links">' + refs.join('') + '</div>');
+    return out;
+  }
+
+  function gdShowTab(id) {
+    Array.prototype.forEach.call(gdTabsEl.querySelectorAll('.gx-tab'), function (b) {
+      var on = b.getAttribute('aria-controls') === 'gx-p-' + id;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.tabIndex = on ? 0 : -1;
+    });
+    Array.prototype.forEach.call(gdPanelsEl.querySelectorAll('.gx-panel'), function (p) {
+      p.hidden = p.id !== 'gx-p-' + id;
+    });
+  }
+
+  function gdRenderGuide() {
+    var picked = gdSel.map(function (id) { return toolById[id]; }).filter(Boolean);
+    if (!picked.length) return;
+
+    var srcs = {};
+    picked.forEach(function (t) { if (t.sourceKey) srcs[t.sourceKey] = 1; });
+    var nSrc = Object.keys(srcs).length;
+
+    document.getElementById('mkGdLead').textContent =
+      'Everything below is specific to the ' + picked.length +
+      (picked.length === 1 ? ' report' : ' reports') +
+      ' you chose. Work through a tab top to bottom and you will have it running.';
+
+    document.getElementById('mkGdSummary').innerHTML =
+      '<div><b>' + picked.length + '</b>' + (picked.length === 1 ? 'report' : 'reports') + '</div>' +
+      '<div><b>' + nSrc + '</b>data ' + (nSrc === 1 ? 'source' : 'sources') + '</div>' +
+      '<div><b>' + picked.filter(function (t) {
+        return safeUrl(t.demoVideo) || safeUrl(previewOf(t));
+      }).length + '</b>with a walkthrough</div>';
+
+    gdTabsEl.innerHTML = picked.map(function (t, i) {
+      return '<button type="button" class="gx-tab" role="tab" id="gx-tab-' + esc(t.id) +
+        '" aria-controls="gx-p-' + esc(t.id) + '" aria-selected="' + (i === 0 ? 'true' : 'false') +
+        '" tabindex="' + (i === 0 ? '0' : '-1') + '">' +
+        '<span class="gx-i">' + (i + 1) + '</span>' + esc(titleOf(t)) + '</button>';
+    }).join('');
+
+    gdPanelsEl.innerHTML = picked.map(function (t, i) {
+      return '<section class="gx-panel" id="gx-p-' + esc(t.id) + '" role="tabpanel" ' +
+        'aria-labelledby="gx-tab-' + esc(t.id) + '"' + (i === 0 ? '' : ' hidden') + '>' +
+        '<div class="gx-rhead">' +
+          '<h3>' + esc(titleOf(t)) + '</h3>' +
+          '<p class="gx-q">' + esc(t.question) + '</p>' +
+          '<div class="gx-badges">' +
+            '<span class="gx-badge">' + esc(catLabel(t.category)) + '</span>' +
+            '<span class="gx-badge">' + esc(t.source) + '</span>' +
+            (t.meta && t.meta.time ? '<span class="gx-badge">' + esc(t.meta.time) + '</span>' : '') +
+            (audienceOf(t.id) ? '<span class="gx-badge">For ' + esc(audienceOf(t.id)) + '</span>' : '') +
+          '</div>' +
+        '</div>' + gxSteps(t) +
+      '</section>';
+    }).join('');
+
+    var url = gdLink();
+    document.getElementById('mkGdUrl').textContent = url;
+
+    var names = picked.map(function (t) { return '  - ' + titleOf(t); }).join('\n');
+    var body = 'Hi,\n\n' +
+      'Here is a setup pack for the ' + (picked.length === 1 ? 'report' : 'reports') +
+      ' we discussed:\n\n' + names + '\n\n' +
+      'This link opens a step-by-step guide for each one, covering the permissions and\n' +
+      'roles you will need, where the data comes from, and the template to download:\n\n' +
+      url + '\n\n' +
+      'Happy to walk through any of it together.\n\nThanks';
+    document.getElementById('mkGdMail').href = 'mailto:?subject=' +
+      encodeURIComponent('Setup guide: ' + (picked.length === 1
+        ? titleOf(picked[0]) : picked.length + ' Copilot reports')) +
+      '&body=' + encodeURIComponent(body);
+
+    gdPickEl.hidden = true;
+    gdResultEl.hidden = false;
+  }
+
+  gdListEl.addEventListener('change', function (e) {
+    var box = e.target.closest('input[type=checkbox]'); if (!box) return;
+    var id = box.value, i = gdSel.indexOf(id);
+    if (box.checked && i === -1) gdSel.push(id);
+    if (!box.checked && i !== -1) gdSel.splice(i, 1);
+    box.closest('.gd-item').classList.toggle('is-on', box.checked);
+    gdSide();
+    if (gdOnlySel) gdFilter();
+  });
+  gdChosenEl.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-drop]'); if (!b) return;
+    var id = b.getAttribute('data-drop'), i = gdSel.indexOf(id);
+    if (i !== -1) gdSel.splice(i, 1);
+    var box = gdListEl.querySelector('input[value="' + id + '"]');
+    if (box) { box.checked = false; box.closest('.gd-item').classList.remove('is-on'); }
+    gdSide(); gdFilter();
+  });
+  gdQEl.addEventListener('input', function () {
+    gdQClearEl.hidden = !this.value;
+    gdFilter();
+  });
+  gdQClearEl.addEventListener('click', function () {
+    gdQEl.value = ''; gdQClearEl.hidden = true; gdFilter(); gdQEl.focus();
+  });
+  document.getElementById('mkGdOnlySel').addEventListener('click', function () {
+    gdOnlySel = !gdOnlySel;
+    this.setAttribute('aria-pressed', gdOnlySel ? 'true' : 'false');
+    gdFilter();
+  });
+  document.getElementById('mkGdClearAll').addEventListener('click', function () {
+    gdSel = [];
+    gdItems.forEach(function (el) {
+      el.classList.remove('is-on');
+      var box = el.querySelector('input'); if (box) box.checked = false;
+    });
+    gdOnlySel = false;
+    document.getElementById('mkGdOnlySel').setAttribute('aria-pressed', 'false');
+    gdSide(); gdFilter();
+  });
+
+  gdGenEl.addEventListener('click', function () {
+    if (!gdSel.length) return;
+    gdRenderGuide();
+  });
+  gdTabsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('.gx-tab'); if (!b) return;
+    gdShowTab(b.getAttribute('aria-controls').slice(5));
+  });
+  gdTabsEl.addEventListener('keydown', function (e) {
+    var list = Array.prototype.slice.call(gdTabsEl.querySelectorAll('.gx-tab'));
+    var i = list.indexOf(document.activeElement);
+    if (i === -1) return;
+    var next = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (i + 1) % list.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (i - 1 + list.length) % list.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = list.length - 1;
+    if (next === null) return;
+    e.preventDefault();
+    list[next].focus();
+    gdShowTab(list[next].getAttribute('aria-controls').slice(5));
+  });
+  document.getElementById('mkGdStartOver').addEventListener('click', function () {
+    gdResultEl.hidden = true;
+    gdPickEl.hidden = false;
+    gdTabsEl.innerHTML = '';
+    gdPanelsEl.innerHTML = '';
+    /* replaceState is not permitted on every file:// host, so the URL tidy-up
+       is best-effort and must never take the page down with it. */
+    if (location.hash) {
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
+    }
+    gdGenEl.focus();
+  });
+  document.getElementById('mkGdCopy').addEventListener('click', function () {
+    var url = gdLink(); if (!url) return;
+    var said = document.getElementById('mkGdSaid');
+    function done() {
+      said.hidden = false;
+      setTimeout(function () { said.hidden = true; }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+
+  /* ---------- boot the three views ---------- */
+  gdSide();
+  gdFilter();
+  renderPicker();
+  reserveHead();
+
+  /* A shared #r= link lands on Guided solutions with its pack already open. */
+  var packHash = /(?:^|[#&])r=([^&]+)/.exec(location.hash || '');
+  if (packHash) {
+    decodeURIComponent(packHash[1]).split(',').forEach(function (raw) {
+      var id = raw.trim();
+      if (!id || !toolById[id] || gdSel.indexOf(id) !== -1) return;
+      gdSel.push(id);
+      var box = gdListEl.querySelector('input[value="' + id + '"]');
+      if (box) { box.checked = true; box.closest('.gd-item').classList.add('is-on'); }
+    });
+    gdSide(); gdFilter();
+  }
+  if (packHash && gdSel.length) {
+    setView('guided', false);
+    gdRenderGuide();
+  } else {
+    setView('overview', false);
+  }
 
   /* ---------- mockup controls ---------- */
   function segment(elId, attr) {
