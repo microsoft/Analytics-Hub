@@ -5070,7 +5070,10 @@ html[data-theme="dark"]{
   function pkRowHtml(id) {
     var t = toolById[id];
     if (!t) return '';
-    var best = pkRank(id) === 1;
+    /* Fit is relative to a choice, so no choice means no verdict: the badge
+       and the accent stripe both stay off until a goal or surface is picked. */
+    var chosen = !!(pkState.goal || pkState.prods.length);
+    var best = chosen && pkRank(id) === 1;
     var prods = productNames(id).join(', ');
     var reads = sourceNames(id).join(', ');
     var aimed = audienceOf(id);
@@ -5082,8 +5085,10 @@ html[data-theme="dark"]{
       '" data-id="' + esc(id) + '">' +
       '<span class="pk-top">' +
         '<span class="pk-title">' + esc(titleOf(t)) + '</span>' +
-        '<span class="pk-badge' + (best ? ' pk-badge--best' : '') + '">' +
-          (best ? 'Best fit' : 'Also works') + '</span>' +
+        (chosen
+          ? '<span class="pk-badge' + (best ? ' pk-badge--best' : '') + '">' +
+              (best ? 'Best fit' : 'Also works') + '</span>'
+          : '') +
       '</span>' +
       '<span class="pk-q"><b>Use this when</b> ' + esc(pkUseWhen(t)) + '</span>' +
       '<span class="pk-meta">' +
