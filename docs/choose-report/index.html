@@ -5229,22 +5229,17 @@ html[data-theme="dark"]{
      Where a repository contradicts the catalog, the entry follows the
      repository and says so out loud.
 
-     v24: every PAX-backed report offers two routes. Route A is the PAX
-     Cookbook desktop app. Route B is Mini-Kitchen in the browser, which
-     builds the command but does NOT run it - the person still runs the
-     PAX PowerShell script themselves. That limit is stated in the copy,
-     never softened.
+     Every PAX-backed report documents one route: Mini-Kitchen in the
+     browser. The PAX Cookbook desktop app is not approved for use yet and
+     is not named. Mini-Kitchen builds the command but does NOT run it -
+     the person still runs the PAX PowerShell script themselves. That limit
+     is stated in the copy, never softened.
 
-     Cookbook presets (User Guide 4.2.1): AI-in-One, AI Business Value,
-     M365 Usage Analytics, Entra Directory Export, Microsoft Agent 365
-     catalog only, Custom. Mini-Kitchen ships five named presets and uses
-     different wording for the same targets. Presets are matched per
-     report from that report's own repository, never assumed.
+     Mini-Kitchen ships five named presets. Presets are matched per report
+     from that report's own repository, never assumed.
      ============================================================ */
   var PAX_URL = {
-    cookbook: 'https://microsoft.github.io/PAX-Cookbook',
     guide: 'https://github.com/microsoft/PAX-Cookbook/blob/main/docs/PAX-Cookbook-User-Guide.md',
-    releases: 'https://github.com/microsoft/PAX-Cookbook/releases/latest',
     mini: 'https://microsoft.github.io/PAX-Cookbook/mini-kitchen',
     repo: 'https://github.com/microsoft/PAX-Cookbook'
   };
@@ -5272,9 +5267,9 @@ html[data-theme="dark"]{
      ============================================================ */
   var GLOSSARY = {
     'PAX': 'The PAX Purview Audit Log Processor. It is the open-source engine that does the ' +
-      'actual collecting; PAX Cookbook and Mini-Kitchen only drive it.',
-    'PAX Cookbook': 'A Windows desktop app that drives PAX for you, so you set up a data pull ' +
-      'in a wizard instead of typing a command line.',
+      'actual collecting; Mini-Kitchen only builds the command that drives it.',
+    'PAX Cookbook': 'The repository the PAX script and Mini-Kitchen are published from. ' +
+      'You download the script from there and run it yourself.',
     'Mini-Kitchen': 'A browser page that builds a PAX command for you. It runs entirely in your ' +
       'browser, pulls no tenant data and stores no secrets.',
     'Purview': 'Microsoft Purview, the compliance portal. It holds the audit log that records ' +
@@ -5297,8 +5292,8 @@ html[data-theme="dark"]{
       'agent credit consumption reporting.',
     'rollup': 'The step that turns raw audit data into dashboard-ready summary files. The Power ' +
       'BI presets will not load without it.',
-    '.paxlite': 'A lite recipe file exported by Mini-Kitchen. It re-opens in Mini-Kitchen or ' +
-      'imports straight into PAX Cookbook.',
+    '.paxlite': 'A lite recipe file exported by Mini-Kitchen. It re-opens in Mini-Kitchen so ' +
+      'you can rebuild the same command later.',
     '.pbit': 'A Power BI template. It carries the layout and the queries but no data, so you ' +
       'point it at your own files.',
     '.pbix': 'A Power BI report file that carries the layout and a saved copy of the data inside ' +
@@ -5436,8 +5431,9 @@ html[data-theme="dark"]{
   /* ============================================================
      PAX ROUTES
 
-     Route A is the PAX Cookbook desktop app. Route B is Mini-Kitchen in
-     the browser for machines where you cannot install software.
+     Mini-Kitchen in the browser is the only route we document. The PAX
+     Cookbook desktop app is not approved for use yet, so it is not named
+     here.
 
      Mini-Kitchen builds the command. It does NOT run PAX and never
      touches the tenant - the person still runs the PAX PowerShell script
@@ -5451,33 +5447,9 @@ html[data-theme="dark"]{
     'logging off every query returns zero rows and nothing tells you why. It does not backfill, ' +
     'so a tenant that just switched it on starts thin.';
 
-  function paxRouteA(preset) {
-    return {
-      label: 'Route A - PAX Cookbook, the desktop app',
-      trade: 'Fewest moving parts. Needs rights to install a Windows app.',
-      steps: [
-        'Download <code>PAX_Cookbook_Setup.exe</code> from the ' +
-          lk(PAX_URL.releases, 'latest PAX Cookbook release') + ' and run it. The wizard brings ' +
-          '.NET 8, PowerShell 7 and Python with it. It is not code-signed yet, so when ' +
-          'SmartScreen shows <strong>Windows protected your PC</strong>, choose <strong>More ' +
-          'info</strong> then <strong>Run anyway</strong>.',
-        'Open <strong>Recipes</strong> then <strong>New Recipe</strong>. Step 1, name it and ' +
-          'pick the <strong>' + preset + '</strong> preset. Step 2, pick <strong>Device ' +
-          'Code</strong>. Step 3, pick <strong>Previous Day</strong>. Step 4, change nothing - ' +
-          'the preset already filled it. Step 5, pick a local folder. Step 6, leave it manual. ' +
-          'Step 7, <strong>Save</strong>. The ' +
-          lk(PAX_URL.guide, 'PAX Cookbook User Guide') + ' walks the same seven steps with ' +
-          'screenshots.',
-        'Open the recipe and click <strong>Bake</strong>. Confirm with Windows Hello, watch the ' +
-          'cook log, then open the folder you chose. If the run is interrupted, resume it from ' +
-          'its checkpoint rather than starting again.'
-      ]
-    };
-  }
-
   function paxRouteB(preset) {
     return {
-      label: 'Route B - Mini-Kitchen in the browser, then run the script',
+      label: 'Mini-Kitchen in the browser, then run the script',
       trade: 'No app to install. You still need PowerShell 7 and the PAX script - ' +
         'Mini-Kitchen writes the command, you run it.',
       steps: [
@@ -5498,8 +5470,10 @@ html[data-theme="dark"]{
     };
   }
 
+  /* cookbookPreset is still accepted so call sites stay unchanged, but the
+     desktop route it described is no longer emitted. */
   function paxRoutes(cookbookPreset, miniPreset) {
-    return [paxRouteA(cookbookPreset), paxRouteB(miniPreset)];
+    return [paxRouteB(miniPreset)];
   }
 
   var VIVA_QUERY = [
@@ -5571,8 +5545,7 @@ html[data-theme="dark"]{
       reads: 'Two rolled up CSVs that PAX produces from the <strong>Microsoft Purview</strong> ' +
         'unified audit log and <strong>Microsoft Entra</strong>.',
       pre: [PAX_AUDIT_STEP],
-      routeLead: 'Two ways to produce those files. The only question that matters: can you ' +
-        'install a Windows app?',
+      routeLead: 'How to produce those files.',
       routes: paxRoutes('AI-in-One', 'AI-in-One Dashboard'),
       tailLead: 'Then, in Power BI Desktop.',
       tail: [
@@ -5582,10 +5555,9 @@ html[data-theme="dark"]{
           ' carries the full parameter list.'
       ],
       note: 'This template only consumes PAX rollup output. A raw Purview audit CSV or a ' +
-        'hand-exported Entra users CSV will not load. Note the preset name differs by route: ' +
-        'the desktop app calls it <strong>AI-in-One</strong>, Mini-Kitchen calls it ' +
-        '<strong>AI-in-One Dashboard</strong>, and Mini-Kitchen states plainly that this preset ' +
-        'does not pull the broader Microsoft 365 audit usage bundle.'
+        'hand-exported Entra users CSV will not load. Mini-Kitchen calls the preset ' +
+        '<strong>AI-in-One Dashboard</strong>, and states plainly that it does not pull the ' +
+        'broader Microsoft 365 audit usage bundle.'
     },
 
     'm365-readiness': {
@@ -5597,7 +5569,7 @@ html[data-theme="dark"]{
         ' first and explore the whole report with no tenant setup at all. It is for preview and ' +
         'testing only - the .pbit stays the template for your own data.',
       pre: [PAX_AUDIT_STEP],
-      routeLead: 'Two ways to produce the CSVs. Pick on whether you can install software.',
+      routeLead: 'How to produce the CSVs.',
       routes: paxRoutes('M365 Usage Analytics', 'M365 Usage Dashboard'),
       tailLead: 'Then, in Power BI Desktop.',
       tail: [
@@ -5641,7 +5613,7 @@ html[data-theme="dark"]{
       note: 'To get real names rather than hashed ones in the admin-centre export, go to ' +
         '<strong>Settings</strong> then <strong>Org settings</strong> then <strong>Reports</strong> ' +
         'and clear <strong>Display concealed user, group, site names in all reports</strong>. ' +
-        'There is no PAX Cookbook or Mini-Kitchen preset for this report, so there is no ' +
+        'There is no Mini-Kitchen preset for this report, so there is no ' +
         'second route to offer - the audit export is done by hand in Purview.'
     },
 
@@ -5752,25 +5724,10 @@ html[data-theme="dark"]{
         'Purview</strong>, <strong>Microsoft Entra ID</strong> and the <strong>Microsoft 365 ' +
         'admin center</strong> through the Microsoft Graph API.',
       pre: [PAX_AUDIT_STEP],
-      routeLead: 'PAX is the engine. You only have to decide what drives it.',
+      routeLead: 'PAX is the engine. Mini-Kitchen builds the command that drives it.',
       routes: [
         {
-          label: 'Route A - PAX Cookbook, the desktop app',
-          trade: 'Fewest moving parts. Needs rights to install a Windows app.',
-          steps: [
-            'Install ' + lk(PAX_URL.cookbook, 'PAX Cookbook') + ' from its ' +
-              lk(PAX_URL.releases, 'latest release') + ' and let the app run the engine for you. ' +
-              'The wizard brings .NET 8, PowerShell 7 and Python with it.',
-            'Build a recipe and pick the preset that matches the dashboard you are feeding. The ' +
-              'app ships <strong>AI-in-One</strong>, <strong>AI Business Value</strong>, ' +
-              '<strong>M365 Usage Analytics</strong>, <strong>Entra Directory Export</strong>, ' +
-              '<strong>Microsoft Agent 365 catalog only</strong> and <strong>Custom</strong>.',
-            'Choose where output lands - a local folder, a SharePoint document library, or ' +
-              'Microsoft Fabric OneLake Delta tables - then <strong>Bake</strong>.'
-          ]
-        },
-        {
-          label: 'Route B - Mini-Kitchen in the browser, then run the script',
+          label: 'Mini-Kitchen in the browser, then run the script',
           trade: 'No app to install. You still need PowerShell 7 and the PAX script - ' +
             'Mini-Kitchen writes the command, you run it.',
           steps: [
@@ -5790,8 +5747,8 @@ html[data-theme="dark"]{
         }
       ],
       note: 'The exported audit data is highly sensitive and is not hashed, masked or ' +
-        'anonymised. Treat the output accordingly. Mini-Kitchen removes the app install, not the ' +
-        'need for PowerShell.',
+        'anonymised. Treat the output accordingly. Mini-Kitchen removes nothing about the ' +
+        'need for PowerShell - it writes the command, you run it.',
       more: [['PAX Cookbook User Guide', PAX_URL.guide]]
     },
 
@@ -5996,7 +5953,7 @@ html[data-theme="dark"]{
       ],
       note: 'Optional sources - Agent 365, Cowork consumption, product feedback, Copilot Studio ' +
         'transcripts - are gated by <code>Enable_*</code> toggles and the dashboard works fine ' +
-        'without them. This report has no PAX Cookbook or Mini-Kitchen preset, so there is no ' +
+        'without them. This report has no Mini-Kitchen preset, so there is no ' +
         'second route here: it ships its own three deployment paths and its SharePoint and ' +
         'Fabric paths use their own scripts and notebooks.'
     },
