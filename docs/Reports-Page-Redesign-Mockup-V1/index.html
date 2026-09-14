@@ -1444,7 +1444,6 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
       <li class="pk-step pk-step--end">
 
         <div class="pk-sbody">
-          <h2 class="pk-shead pk-shead--res">Recommended for you</h2>
           <div class="pk-results" id="mkPkResults">
             <div class="pk-note" id="mkPkIdle">
               <h3>Nothing chosen yet</h3>
@@ -4966,7 +4965,7 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     if (g && p) return 'For ' + g + ', on ' + p;
     if (g) return 'For ' + g + ', start here';
     if (p) return 'Reports that cover ' + p;
-    return 'Recommended for you';
+    return 'All reports';
   }
   function pkWhat() {
     var g = pkState.goal ? goalTitle(pkState.goal) : '';
@@ -5066,12 +5065,8 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
 
   function renderPicker() {
     renderPkActive();
-    if (!pkState.goal && !pkState.prods.length) {
-      pkIdleEl.hidden = false; pkNoneEl.hidden = true; pkHeadEl.hidden = true; pkStep4El.hidden = true;
-      pkListEl.innerHTML = '';
-      return;
-    }
     pkIdleEl.hidden = true;
+
     var ids = pkIds();
     if (!ids.length) {
       pkNoneEl.hidden = false; pkHeadEl.hidden = true; pkListEl.innerHTML = ''; pkStep4El.hidden = true;
@@ -5082,7 +5077,9 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     document.getElementById('mkPkTitle').textContent = pkHeading();
     var bestN = ids.filter(function (id) { return pkRank(id) === 1; }).length;
     document.getElementById('mkPkCount').textContent =
-      ids.length + (ids.length === 1 ? ' report' : ' reports') + ', ' + bestN + ' a best fit';
+      (pkState.goal || pkState.prods.length)
+        ? ids.length + (ids.length === 1 ? ' report' : ' reports') + ', ' + bestN + ' a best fit'
+        : ids.length + ' reports';
     pkListEl.innerHTML = ids.map(function (id) { return pkRowHtml(id); }).join('');
     pkStep4El.hidden = false;
     pkGenNEl.textContent = '(' + ids.length + ')';
