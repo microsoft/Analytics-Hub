@@ -219,7 +219,8 @@ function setMeta(){
 
 async function load(){
   try{
-    const r=await fetch("stats.json",{cache:"no-store"});
+    const K=new URLSearchParams(location.search).get("k")||"";
+    const r=await fetch("stats.json"+(K?("?k="+encodeURIComponent(K)):""),{cache:"no-store"});
     RAW=await r.json();
   }catch(e){ RAW={days:[]}; document.getElementById("lastUpdated").textContent="Could not load data."; }
   setMeta(); render();
