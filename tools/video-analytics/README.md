@@ -53,15 +53,31 @@ Bump the `?v=` cache-buster on the `clarity-events.js` includes and deploy the s
 (the existing Analytics-Hub PR does this). Until this URL is set, the site still
 tracks plays in Clarity — it just doesn't also send counts here.
 
-### 5) Lock the dashboard down (Cloudflare Access)
-In the Cloudflare dashboard → **Zero Trust → Access → Applications → Add**:
+### 5) Lock the dashboard down
+
+**Option A — secret-link gate (simplest, no extra service).** Set a token; the
+Worker then requires `?k=<token>` on `/` and `/stats.json`, while `/collect`
+stays public:
+
+```bash
+# generate a token, then:
+npx wrangler secret put DASH_TOKEN   # paste the token when prompted
+npm run deploy
+```
+
+Your private bookmark becomes:
+`https://<worker-host>/?k=<token>`. Anyone without the token gets a "Private
+dashboard" notice. To rotate, set a new `DASH_TOKEN` and redeploy.
+
+**Option B — Cloudflare Access (SSO / email sign-in, stronger).** In the
+Cloudflare dashboard → **Zero Trust → Access → Applications → Add**:
 
 - **Application**: Self-hosted, your Worker hostname.
-- **Paths to protect**: `/` and `/stats.json`  (leave **`/collect` public** so
-  anonymous visitors can still post counts).
+- **Paths to protect**: `/` and `/stats.json`  (leave **`/collect` public**).
 - **Policy**: Allow → emails ending in `@microsoft.com`, or specific addresses.
 
-Now only allowed people can open the dashboard; everyone else gets a sign-in prompt.
+Access can be layered on top of Option A. With Access on, people sign in with
+their email instead of needing the `?k=` link.
 
 ## Where you see it
 Bookmark your Worker root URL:

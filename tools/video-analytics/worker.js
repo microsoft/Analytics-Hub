@@ -97,9 +97,24 @@ async function handleStats(env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === "/collect") return handleCollect(request, env);
-    if (url.pathname === "/stats.json") return handleStats(env);
+    if (url.pathname === "/collect") return handleCollect(request, env); // always public
+
+    // Everything else is the private dashboard. If DASH_TOKEN is set, require
+    // ?k=<token> (a secret-link gate). Leave /collect open so anonymous
+    // visitors can still post counts.
+    const authed = !env.DASH_TOKEN || url.searchParams.get("k") === env.DASH_TOKEN;
+
+    if (url.pathname === "/stats.json") {
+      if (!authed) return new Response("Unauthorized", { status: 401 });
+      return handleStats(env);
+    }
     if (url.pathname === "/" || url.pathname === "/index.html") {
+      if (!authed) {
+        return new Response(UNAUTH_HTML, {
+          status: 401,
+          headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" },
+        });
+      }
       return new Response(DASHBOARD_HTML, {
         headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" },
       });
@@ -107,6 +122,13 @@ export default {
     return new Response("Not found", { status: 404 });
   },
 };
+
+const UNAUTH_HTML =
+  '<!doctype html><meta charset="utf-8"><title>Video Analytics</title>' +
+  '<div style="font:16px/1.5 Segoe UI,system-ui,sans-serif;max-width:560px;margin:18vh auto;padding:0 24px;color:#1a1a25">' +
+  '<h1 style="font-size:1.3rem">Private dashboard</h1>' +
+  '<p style="color:#5a5a72">This dashboard requires an access key. Open it with your full bookmarked link ' +
+  '(the one ending in <code>?k=…</code>). If you do not have it, ask the owner.</p></div>';
 
 /* The dashboard is served inline so the whole thing deploys as one Worker with
    no static-asset config. It fetches /stats.json and aggregates client-side. */
