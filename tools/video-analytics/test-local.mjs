@@ -18,15 +18,21 @@ let fail = 0;
 function assert(cond, msg) { console.log((cond ? "PASS" : "FAIL") + " — " + msg); if (!cond) fail++; }
 
 const r1 = await post({ video: "ValueLens-Demo", plays: 1 });
-assert(r1.status === 204, "collect play -> 204");
+assert(r1.status === 204, "collect single play -> 204");
 await post({ video: "ValueLens-Demo", seconds: 40 });
 await post({ video: "ValueLens-Demo", seconds: 20 });
 await post({ video: "AI-in-One-Overview", plays: 1 });
 await post({ video: "AI-in-One-Overview", seconds: 100 });
 
+// batched payload: one request, multiple videos (the anti-race path)
+await post({ v: {
+  "ConsumptionCentral-Demo": { plays: 1, seconds: 30 },
+  "Personal_Dashboard_Overview": { plays: 1, seconds: 15 }
+} });
+
 // rejects bad video names (potential free text / injection)
 const bad = await post({ video: "some name with spaces", plays: 1 });
-assert(bad.status === 400, "rejects unsafe video name");
+assert(bad.status === 204, "unsafe name skipped (batch-safe, 204)");
 
 // clamps absurd values
 await post({ video: "ESS_Insights_Overview", plays: 999, seconds: 9999999 });
@@ -38,6 +44,9 @@ const today = stats.days.find(d => Object.keys(d.videos).length);
 assert(today.videos["ValueLens-Demo"].plays === 1, "ValueLens plays = 1");
 assert(today.videos["ValueLens-Demo"].secs === 60, "ValueLens secs = 60 (40+20)");
 assert(today.videos["AI-in-One-Overview"].plays === 1, "AI-in-One plays = 1");
+assert(today.videos["ConsumptionCentral-Demo"].plays === 1, "batch: ConsumptionCentral plays = 1");
+assert(today.videos["ConsumptionCentral-Demo"].secs === 30, "batch: ConsumptionCentral secs = 30");
+assert(today.videos["Personal_Dashboard_Overview"].secs === 15, "batch: Personal Dashboard secs = 15");
 assert(today.videos["ESS_Insights_Overview"].plays === 5, "plays clamped to 5");
 assert(today.videos["ESS_Insights_Overview"].secs === 36000, "secs clamped to 36000");
 
