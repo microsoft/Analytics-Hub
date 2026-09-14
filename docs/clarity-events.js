@@ -251,9 +251,9 @@
     if (!flushTimer) flushTimer = setTimeout(flushPending, 1500);
   }
 
-  function sendCombined(video, d) {
+  function sendCombined(items) {
     try {
-      var body = JSON.stringify({ video: video, plays: d.plays, seconds: d.seconds });
+      var body = JSON.stringify({ v: items });
       // fetch(keepalive) delivers reliably during events and unload alike;
       // text/plain keeps it CORS-simple (no preflight to the cross-origin Worker).
       if (typeof fetch === "function") {
@@ -267,12 +267,15 @@
 
   function flushPending() {
     if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
+    var items = {}, any = false;
     for (var v in pending) {
       if (!pending.hasOwnProperty(v)) continue;
       var d = pending[v];
-      if (d.plays > 0 || d.seconds > 0) sendCombined(v, d);
+      if (d.plays > 0 || d.seconds > 0) { items[v] = d; any = true; }
       delete pending[v];
     }
+    // one request for the whole visitor -> a single read-modify-write, no race
+    if (any) sendCombined(items);
   }
 
   (function () {
