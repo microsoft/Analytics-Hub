@@ -744,8 +744,44 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
 }
 .pk-list{ display:grid; gap:12px; margin:18px 0 0; padding:0 0 64px; }
 /* v25: the two-box chooser. Goal on the left, product on the right. */
+/* v25: the centred lead above the two chooser boxes. */
+.pk-lead{ text-align:center; max-width:74ch; margin:0 auto 28px; }
+.pk-lead-eyebrow{
+  margin:0 0 10px; font-size:.75rem; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--mk-accent);
+}
+.pk-lead-h{
+  margin:0; font-size:2.15rem; line-height:1.18; font-weight:700;
+  letter-spacing:-.02em; color:var(--mk-text);
+}
+.pk-hl-a{ color:#0f6cbd; }
+.pk-hl-b{ color:#3b5bdb; }
+.pk-hl-c{ color:#6741d9; }
+[data-theme="dark"] .pk-hl-a{ color:#5cb8ff; }
+[data-theme="dark"] .pk-hl-b{ color:#8aa4ff; }
+[data-theme="dark"] .pk-hl-c{ color:#b197fc; }
+.pk-lead-p{ margin:14px auto 0; font-size:15.5px; line-height:1.6; color:var(--mk-soft); max-width:66ch; }
+@media (max-width:700px){ .pk-lead-h{ font-size:1.7rem; } }
 .pk-choose{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
-@media (max-width:900px){ .pk-choose{ grid-template-columns:1fr; } }
+@media (max-width:900px){ /* v25: the centred lead above the two chooser boxes. */
+.pk-lead{ text-align:center; max-width:74ch; margin:0 auto 28px; }
+.pk-lead-eyebrow{
+  margin:0 0 10px; font-size:.75rem; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--mk-accent);
+}
+.pk-lead-h{
+  margin:0; font-size:2.15rem; line-height:1.18; font-weight:700;
+  letter-spacing:-.02em; color:var(--mk-text);
+}
+.pk-hl-a{ color:#0f6cbd; }
+.pk-hl-b{ color:#3b5bdb; }
+.pk-hl-c{ color:#6741d9; }
+[data-theme="dark"] .pk-hl-a{ color:#5cb8ff; }
+[data-theme="dark"] .pk-hl-b{ color:#8aa4ff; }
+[data-theme="dark"] .pk-hl-c{ color:#b197fc; }
+.pk-lead-p{ margin:14px auto 0; font-size:15.5px; line-height:1.6; color:var(--mk-soft); max-width:66ch; }
+@media (max-width:700px){ .pk-lead-h{ font-size:1.7rem; } }
+.pk-choose{ grid-template-columns:1fr; } }
 .pk-box{
   background:var(--mk-surface); border:1px solid var(--mk-border);
   border-radius:14px; padding:18px 18px 20px; box-shadow:var(--mk-shadow-sm);
@@ -762,10 +798,19 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
   border:1px solid var(--mk-border); background:var(--mk-bg-alt); color:var(--mk-text);
 }
 .pk-tile:hover{ border-color:var(--mk-border-strong); background:var(--mk-surface); }
+/* .mk-pill sets white-on-accent when pressed; these tiles keep a pale fill, so
+   the text colour has to be taken back or the label washes out. */
 .pk-tile[aria-pressed="true"]{
-  border-color:var(--mk-accent); background:color-mix(in srgb,var(--mk-accent) 8%,var(--mk-surface));
+  border-color:var(--mk-accent);
+  background:color-mix(in srgb,var(--mk-accent) 8%,var(--mk-surface));
+  background-color:#e8f1fb;
   box-shadow:inset 0 0 0 1px var(--mk-accent);
+  color:var(--mk-text);
 }
+.pk-tile[aria-pressed="true"] .pk-tile-t{ color:var(--mk-text); }
+.pk-tile[aria-pressed="true"] .pk-tile-d{ color:var(--mk-soft); }
+.pk-tile[aria-pressed="true"] .pk-tile-n{ color:var(--mk-accent-strong); }
+[data-theme="dark"] .pk-tile[aria-pressed="true"]{ background-color:#16283a; }
 .pk-tile-t{ display:flex; align-items:center; gap:8px; font-size:14.5px; font-weight:650; }
 .pk-tile-n{ font-size:11.5px; font-weight:700; color:var(--mk-muted); font-variant-numeric:tabular-nums; }
 .pk-tile-d{ display:block; margin-top:5px; font-size:12.5px; line-height:1.45; color:var(--mk-soft); }
@@ -812,9 +857,10 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
 .pk-note h3{ font-size:1.0625rem; font-weight:650; color:var(--mk-text); margin:0 0 7px; }
 
 /* v20 - the report picker renders as numbered steps inside the panel. */
-.pk-steps{ list-style:none; margin:0; padding:30px 0 72px; }
-.pk-step{ display:grid; grid-template-columns:34px minmax(0,1fr); gap:16px; }
-.pk-step + .pk-step{ margin-top:26px; padding-top:26px; border-top:1px solid var(--mk-border); }
+.pk-steps{ list-style:none; margin:0; padding:34px 0 72px; }
+/* v25: the step numbers are gone, so the 34px gutter column goes with them. */
+.pk-step{ display:block; }
+.pk-step + .pk-step + .pk-step{ margin-top:34px; padding-top:34px; border-top:1px solid var(--mk-border); }
 .pk-snum{
   width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
   font-size:13px; font-weight:700; margin-top:2px;
@@ -1369,6 +1415,8 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   <span id="mkGdShown"></span><span id="mkGdCount"></span>
   <button type="button" id="mkGdOnlySel"></button>
   <button type="button" id="mkGdClearAll"></button>
+  <div id="mkPkStep4"></div><span id="mkPkGenN"></span>
+  <button type="button" id="mkPkGenAll"></button><button type="button" id="mkPkGenPick"></button>
   <p id="mkGdNone"></p><button type="button" id="mkGdGen"></button>
 </div>
 
@@ -1380,6 +1428,14 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
     <ol class="pk-steps">
 
       <li class="pk-step pk-step--choose">
+        <div class="pk-lead">
+          <p class="pk-lead-eyebrow">Which report should I use?</p>
+          <h2 class="pk-lead-h">Filter by <span class="pk-hl-a">goal</span>,
+            <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h2>
+          <p class="pk-lead-p">Twenty-plus templates is a lot. Narrow by what you are trying to do,
+            by the Copilot surface you care about, or combine the two &mdash; we will rank the
+            reports that fit and tell you, in plain English, when to use which.</p>
+        </div>
         <div class="pk-choose">
           <section class="pk-box">
             <div class="pk-box-h">
@@ -1425,20 +1481,7 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
         </div>
       </li>
 
-      <li class="pk-step pk-step--end" id="mkPkStep4" hidden>
-        <span class="pk-snum">4</span>
-        <div class="pk-sbody">
-          <h2 class="pk-shead">Want the setup instructions?</h2>
-          <p class="pk-ssub">Generate a guide for any of these &mdash; one report or several. You get a
-            tailored page covering the roles and permissions to request, where the data comes from and
-            how to get it, and the template to download. Shareable with whoever has to help you.</p>
-          <div class="pk-genrow">
-            <button type="button" class="mk-btn" id="mkPkGenAll">Generate a guide for these
-              <span id="mkPkGenN"></span></button>
-            <button type="button" class="pk-clear" id="mkPkGenPick">Choose which ones first</button>
-          </div>
-        </div>
-      </li>
+      
 
     </ol>
   </div>
