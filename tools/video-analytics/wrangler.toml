@@ -1,0 +1,11 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "analytics-hub-video-stats"
+main = "worker.bundled.js"
+compatibility_date = "2024-11-01"
+
+# KV namespace that stores the per-day counts.
+# Create it once, then paste the returned id below:
+#   npx wrangler kv namespace create VIDEO_STATS
+kv_namespaces = [
+  { binding = "VIDEO_STATS", id = "PASTE_KV_ID_HERE" }
+]
