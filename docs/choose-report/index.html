@@ -1644,6 +1644,23 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
 }
 .gx-metrics tbody th{ font-weight:650; color:var(--mk-text); width:42%; }
 .gx-metrics tbody td{ color:var(--mk-soft); }
+/* v31 - the flyout footer is two controls: template on the left, guide on the
+   right, both 1.5x the old size. Sizes are the previous values multiplied,
+   not eyeballed: 13.5 -> 20px, and the padding scaled to match. */
+.mk-dlg-foot{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.mk-ghbtn{
+  font-size:20px; font-weight:700; line-height:1;
+  padding:15px 27px; border-radius:12px; white-space:nowrap;
+}
+.mk-sharebtn{
+  margin-left:auto;
+  font-size:20px; font-weight:700; line-height:1;
+  padding:14px 26px; border-radius:12px; white-space:nowrap;
+}
+@media (max-width:700px){
+  .mk-ghbtn, .mk-sharebtn{ font-size:16px; padding:12px 20px; }
+  .mk-sharebtn{ margin-left:0; }
+}
 </style>
 </head>
 <body>
@@ -2025,6 +2042,7 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
       "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
       "download": "https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip",
       "demoVideo": "https://github.com/microsoft/AI-in-One-Dashboard#-watch-first",
+      "demoVideos": ["https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Overview.mp4"],
       "demoVideoLabel": "Watch the demo &amp; setup videos",
       "guide": "https://github.com/microsoft/AI-in-One-Dashboard/blob/main/docs/Video-Guide.md",
       "emailFile": "01_AI_in_One_Dashboard_Admin_Email.txt",
@@ -4799,33 +4817,16 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
         }).join('') + '</span>'
       : '';
 
-    dlgDl.innerHTML = repo
-      ? '<a class="mk-ghbtn" href="' + repo + '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>'
-      : '';
+    dlgDl.innerHTML = '';
 
+    /* v31: the footer carries two controls and nothing else. The demo link,
+       the setup-guide link and the admin-template footnote all left - the
+       video plays in the pane above and the guide covers the rest. */
     var actions = [];
-    /* A direct media file that is not on github.com has no blob view to link
-       to, and linking the file itself downloads it. Those videos already play
-       in the pane above, so no footer link is offered for them. */
-    var vidRaw = safeUrl(t.demoVideo);
-    var vidBare = /^https:\/\/github\.com\//i.test(vidRaw || '')
-      ? false
-      : isEmbeddableVideo(t.demoVideo);
-    var vidUrl = vidBare ? '' : escUrl(watchUrl(t.demoVideo));
-    if (vidUrl) {
-      /* The video already plays in the pane; this link is for opening it on
-         its own page. */
-      var vidLabel = t.demoVideoLabel ||
-        (isEmbeddableVideo(t.demoVideo) ? 'Open the demo video' : 'Watch the demo');
-      actions.push('<a class="mk-link" href="' + vidUrl + '" target="_blank" rel="noopener noreferrer">' +
-        esc(vidLabel) + '</a>');
+    if (repo) {
+      actions.push('<a class="mk-ghbtn" href="' + repo +
+        '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>');
     }
-    var guide = escUrl(t.guide);
-    if (guide) actions.push('<a class="mk-link" href="' + guide + '" target="_blank" rel="noopener noreferrer">Setup guide</a>');
-    if (t.emailFile) {
-      actions.push('<span class="mk-footnote">Includes an admin request template: ' + esc(t.emailFile) + '</span>');
-    }
-    /* v25: Share lives bottom-right and builds the guide for THIS report only. */
     actions.push('<button type="button" class="mk-sharebtn" id="mkDlgShare" ' +
       'data-id="' + esc(t.id) + '">Enablement guide</button>');
     dlgFoot.innerHTML = actions.join('');
