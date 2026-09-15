@@ -1519,7 +1519,34 @@ html[data-theme="dark"]{
   /* No mockup control bar in production, so sticky offsets start at zero. */
   :root{ --mk-barh:0px; }
   .mk-page{ min-height:0; padding-bottom:0; }
-  </style>
+  /* v28 - three-step lead. .pk-step3 is deliberately not .pk-step: that class is
+   already the <li> wrapper for each stage of the picker. */
+.pk-lead3{ max-width:62ch; }
+.pk-how{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  margin:36px 0 0; border-top:2px solid var(--mk-text);
+}
+.pk-step3{ padding:18px 26px 20px 0; }
+.pk-step3 + .pk-step3{ border-left:1px solid var(--mk-border); padding-left:26px; }
+.pk-sn{
+  font-size:30px; font-weight:800; line-height:1; letter-spacing:-.03em;
+  background:var(--mk-cop-grad); -webkit-background-clip:text; background-clip:text;
+  color:transparent;
+}
+.pk-st{ margin:10px 0 5px; font-size:15px; font-weight:700; }
+.pk-sp{ margin:0; font-size:13.5px; line-height:1.55; color:var(--mk-soft); }
+.pk-bar{
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  margin:30px 0 34px; padding:16px 22px; border-radius:12px;
+  border:1px solid var(--mk-border); background:var(--mk-surface); box-shadow:var(--mk-shadow-sm);
+}
+.pk-bar p{ margin:0; font-size:14px; color:var(--mk-soft); flex:1 1 320px; }
+.pk-bar b{ color:var(--mk-text); font-weight:700; }
+@media (max-width:860px){
+  .pk-how{ grid-template-columns:1fr; }
+  .pk-step3 + .pk-step3{ border-left:0; border-top:1px solid var(--mk-border); padding-left:0; }
+}
+</style>
 </head>
 <body>
 <a class="ah-skip" href="#top">Skip to main content</a>
@@ -1578,28 +1605,39 @@ html[data-theme="dark"]{
     <ol class="pk-steps">
 
       <li class="pk-step pk-step--choose">
-        <div class="pk-lead2">
-          <div>
-            <p class="pk-lead-eyebrow">Which report should I use?</p>
-            <h1 class="pk-lead2-h">Filter by <span class="pk-hl-a">goal</span>,
-              <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h1>
-            <p class="pk-lead2-p">Twenty-two open-source templates. Pick what you are trying to do,
-              the Copilot surface you care about, or stack the two and watch the list narrow to
-              find the report(s) that will help you the most.</p>
-            <p class="pk-lead2-n">Every template started as a real customer gap, not a hypothetical
-              &mdash; and you can
-              <a class="pk-cta" href="../community/">request the next one</a>.</p>
+        <div class="pk-lead3">
+          <p class="pk-lead-eyebrow">Which report should I use?</p>
+          <h1 class="pk-lead2-h">Filter by <span class="pk-hl-a">goal</span>,
+            <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h1>
+          <p class="pk-lead2-p">Twenty-two open-source templates, each built alongside the customer
+            who needed it first.</p>
+        </div>
+
+        <div class="pk-how">
+          <div class="pk-step3">
+            <div class="pk-sn">1</div>
+            <p class="pk-st">Choose a goal</p>
+            <p class="pk-sp">What are you trying to do &mdash; prove ROI, control cost, drive
+              adoption? One goal at a time.</p>
           </div>
-          <div class="pk-panel">
-            <h2>In every report</h2>
-            <ul class="pk-plist">
-              <li><b>A setup guide</b>What to install, what to connect, and what good looks like when it works.</li>
-              <li><b>A walkthrough video, where one exists</b>Someone building it end to end, so you know what you are signing up for.</li>
-              <li><b>The template</b>Yours to download from GitHub. Open source, no licence to chase.</li>
-            </ul>
-            <p class="pk-pfoot">Open any card below for the detail, then use <b>View repo</b> to get
-              the files from GitHub.</p>
+          <div class="pk-step3">
+            <div class="pk-sn">2</div>
+            <p class="pk-st">Add a product, or do not</p>
+            <p class="pk-sp">Stack as many Copilot products as you like. Goal and product work
+              together, and either one alone is fine.</p>
           </div>
+          <div class="pk-step3">
+            <div class="pk-sn">3</div>
+            <p class="pk-st">Open the card</p>
+            <p class="pk-sp">Inside every report: a setup guide, a walkthrough video where one
+              exists, and the template itself to download from GitHub.</p>
+          </div>
+        </div>
+
+        <div class="pk-bar">
+          <p><b>Nothing here fits?</b> These reports get built because customers ask for them.
+            Vote in polls and tell us what is missing.</p>
+          <a class="pk-cta" href="../community/">Go to the community page</a>
         </div>
         <div class="pk-choose">
           <section class="pk-box">
