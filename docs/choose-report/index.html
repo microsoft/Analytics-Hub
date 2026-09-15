@@ -1097,7 +1097,7 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   position:relative; flex:0 0 auto;
   /* v8 - padding-right now clears the whole top-right action cluster
      (download button + gap + close), not just the close button. */
-  padding:26px 340px 20px 32px;
+  padding:26px 18px 20px 32px;
   border-bottom:1px solid var(--mk-border);
 }
 /* v8 - one flex row owns both top-right controls. Because they are laid
@@ -1615,6 +1615,35 @@ html[data-theme="dark"] .mk-dlg-roles.is-none{ background:#13251a; border-color:
 html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-l{ color:#8fd6a3; }
 html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i a,
 html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#101a13; border-color:#2f5c3a; color:#b7e8c4; }
+.gx-fighead{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 8px; }
+.gx-figcap{ font-size:12px; color:var(--mk-muted); }
+.gx-figtabs{ margin-left:auto; }
+.gx-fig figcaption{ margin:0; }
+/* v30 - one destination for the template, and it is loud. */
+.gx-cta--big{
+  font-size:15px; font-weight:700; padding:14px 26px; border-radius:10px;
+  background:var(--mk-accent-strong); color:var(--mk-on-accent);
+}
+.gx-cta--big:hover{ background:var(--mk-text); color:var(--mk-bg); }
+.mk-ghbtn{
+  font-size:13.5px; font-weight:700; padding:10px 18px; border-radius:8px;
+  white-space:nowrap;
+}
+.gx-metrics{ width:100%; border-collapse:collapse; margin:14px 0 0; font-size:13px; }
+.gx-metrics caption{
+  text-align:left; font-size:11px; font-weight:800; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--mk-muted); padding:0 0 8px;
+}
+.gx-metrics th, .gx-metrics td{
+  text-align:left; padding:9px 12px 9px 0; border-bottom:1px solid var(--mk-border);
+  vertical-align:top;
+}
+.gx-metrics thead th{
+  font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--mk-muted); border-bottom:2px solid var(--mk-border-strong);
+}
+.gx-metrics tbody th{ font-weight:650; color:var(--mk-text); width:42%; }
+.gx-metrics tbody td{ color:var(--mk-soft); }
 </style>
 </head>
 <body>
@@ -4560,32 +4589,72 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
   /* preload="metadata" only: these files are 1-5 MB and live on
      raw.githubusercontent / github.io. Opening a flyout must not pull them.
      No autoplay, no loop, no muted-autoplay trick. */
-  function videoSlot(t) {
-    var u = escUrl(t.demoVideo);
+  function videoSlotUrl(raw) {
+    var u = escUrl(raw);
     return '<video class="mk-video" id="mkVid" src="' + u + '" controls preload="metadata" playsinline>' +
       '<span class="mk-vfallback">This browser cannot play the demo video. ' +
       '<a href="' + u + '" target="_blank" rel="noopener noreferrer">Open the file directly</a>.</span>' +
       '</video>';
   }
-  function mediaSlot(t, mode) { return mode === 'video' ? videoSlot(t) : imageSlot(t); }
-  function mediaCap(t, mode) { return mode === 'video' ? 'Demo video' : imageCap(t); }
+  /* Media is a LIST, not a single slot. A report may ship several demo
+     videos plus an animated preview; each gets its own tab. Keys are
+     positional (v0, v1, i) so more videos need no new code. */
+  function videosOf(t) {
+    var raw = t.demoVideos;
+    var out = [];
+    if (Object.prototype.toString.call(raw) === '[object Array]') {
+      raw.forEach(function (v) {
+        var u = (v && typeof v === 'object') ? v.url : v;
+        if (isEmbeddableVideo(u)) out.push({ url: u, label: (v && v.label) || '' });
+      });
+    }
+    if (!out.length && isEmbeddableVideo(t.demoVideo)) out.push({ url: t.demoVideo, label: '' });
+    return out;
+  }
+  function mediaItems(t) {
+    var vids = videosOf(t), items = [];
+    vids.forEach(function (v, i) {
+      items.push({ key: 'v' + i, kind: 'video', url: v.url,
+        label: v.label || (vids.length > 1 ? 'Video ' + (i + 1) : 'Video') });
+    });
+    if (safeUrl(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
+    return items;
+  }
+  function itemByKey(t, key) {
+    var items = mediaItems(t);
+    for (var i = 0; i < items.length; i++) if (items[i].key === key) return items[i];
+    return items[0];
+  }
+  function mediaSlot(t, key) {
+    var it = itemByKey(t, key);
+    if (!it) return placeholderHtml(titleOf(t));
+    return it.kind === 'video' ? videoSlotUrl(it.url) : imageSlot(t);
+  }
+  function mediaCap(t, key) {
+    var it = itemByKey(t, key);
+    if (!it) return 'Preview';
+    return it.kind === 'video' ? it.label : imageCap(t);
+  }
   function mediaFigure(t) {
-    /* v10: the pane carries whatever media exists. Both a video and a GIF ->
-       both, video first behind tabs. Only one -> that one, no tabs. */
-    var hasVid = isEmbeddableVideo(t.demoVideo);
-    var hasImg = !!safeUrl(previewOf(t));
-    var mode = hasVid ? 'video' : 'image';
-    var tabs = (hasVid && hasImg)
+    var items = mediaItems(t);
+    if (!items.length) {
+      return '<figure class="mk-fig"><figcaption class="mk-mediahead">' +
+        '<span class="mk-figcap" id="mkFigCap">Preview</span></figcaption>' +
+        '<div id="mkMediaSlot">' + placeholderHtml(titleOf(t)) + '</div></figure>';
+    }
+    var first = items[0].key;
+    var tabs = items.length > 1
       ? '<span class="mk-seg" id="mkMediaTabs" role="group" aria-label="Choose media">' +
-          '<button type="button" data-media="video" aria-pressed="true">Video</button>' +
-          '<button type="button" data-media="image" aria-pressed="false">Preview</button>' +
-        '</span>'
+          items.map(function (it, i) {
+            return '<button type="button" data-media="' + it.key + '" aria-pressed="' +
+              (i === 0 ? 'true' : 'false') + '">' + esc(it.label) + '</button>';
+          }).join('') + '</span>'
       : '';
     return '<figure class="mk-fig">' +
         '<figcaption class="mk-mediahead">' +
-          '<span class="mk-figcap" id="mkFigCap">' + esc(mediaCap(t, mode)) + '</span>' + tabs +
+          '<span class="mk-figcap" id="mkFigCap">' + esc(mediaCap(t, first)) + '</span>' + tabs +
         '</figcaption>' +
-        '<div id="mkMediaSlot">' + mediaSlot(t, mode) + '</div>' +
+        '<div id="mkMediaSlot">' + mediaSlot(t, first) + '</div>' +
       '</figure>';
   }
 
@@ -4667,13 +4736,13 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
       if (vidEl) {
         vidEl.addEventListener('error', function () {
           if (tabsEl) {
-            var vb = tabsEl.querySelector('button[data-media="video"]');
+            var vb = tabsEl.querySelector('button[data-media^="v"]');
             if (vb) {
               vb.disabled = true;
               vb.setAttribute('aria-pressed', 'false');
               vb.title = 'The demo video failed to load';
             }
-            var ib = tabsEl.querySelector('button[data-media="image"]');
+            var ib = tabsEl.querySelector('button[data-media="i"]');
             if (ib) ib.setAttribute('aria-pressed', 'true');
           }
           if (capEl) capEl.textContent = imageCap(t);
@@ -4731,11 +4800,10 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
       : '';
 
     dlgDl.innerHTML = repo
-      ? '<a class="mk-ghbtn" href="' + repo + '" target="_blank" rel="noopener noreferrer">View on GitHub</a>'
+      ? '<a class="mk-ghbtn" href="' + repo + '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>'
       : '';
 
     var actions = [];
-    if (dl) actions.push('<a class="mk-btn mk-dlg-dl" href="' + dl + '" target="_blank" rel="noopener noreferrer">Download template</a>');
     /* A direct media file that is not on github.com has no blob view to link
        to, and linking the file itself downloads it. Those videos already play
        in the pane above, so no footer link is offered for them. */
@@ -5253,6 +5321,25 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
      a report with no template or no roles still shows the step and says so
      rather than silently dropping it.
      ============================================================ */
+  /* Guide media tabs. Panels are innerHTML, so one delegated listener on the
+     document covers every panel, now and after a re-render. */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.gx-figtabs button[data-gxkey]');
+    if (!btn) return;
+    var wrap = btn.closest('.gx-figtabs');
+    var fig = btn.closest('.gx-fig');
+    var t = toolById[wrap.getAttribute('data-gxmedia')];
+    if (!t || !fig) return;
+    var it = itemByKey(t, btn.getAttribute('data-gxkey'));
+    Array.prototype.forEach.call(wrap.querySelectorAll('button[data-gxkey]'), function (x) {
+      x.setAttribute('aria-pressed', x === btn ? 'true' : 'false');
+    });
+    var cap = fig.querySelector('.gx-figcap');
+    if (cap) cap.textContent = it ? it.label : '';
+    var slot = fig.querySelector('.gx-figslot');
+    if (slot) slot.innerHTML = gxSlot(t, it);
+  });
+
   var gdSel = [];
   var gdOnlySel = false;
   var gdListEl = document.getElementById('mkGdList');
@@ -5331,14 +5418,31 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
     }).join('') + '</ul>';
   }
 
+  /* The guide used to show one item and no way to reach the others. It now
+     carries the same tab set as the flyout. Panels are rendered as a string,
+     so switching is handled by one delegated listener on the panel host. */
+  function gxSlot(t, it) {
+    if (!it) return '';
+    if (it.kind === 'video') {
+      return '<video src="' + escUrl(it.url) + '" controls preload="metadata" playsinline></video>';
+    }
+    return '<img src="' + escUrl(previewOf(t)) + '" alt="Preview of ' + esc(titleOf(t)) + '" loading="lazy">';
+  }
   function gxMedia(t) {
-    var vid = isEmbeddableVideo(t.demoVideo) ? escUrl(t.demoVideo) : '';
-    var img = escUrl(previewOf(t));
-    if (!vid && !img) return '';
-    return '<figure class="gx-fig">' +
-      (vid ? '<video src="' + vid + '" controls preload="metadata" playsinline></video>'
-           : '<img src="' + img + '" alt="Preview of ' + esc(titleOf(t)) + '" loading="lazy">') +
-      '<figcaption>' + (vid ? 'Demo video' : 'Animated preview') + '</figcaption></figure>';
+    var items = mediaItems(t);
+    if (!items.length) return '';
+    var id = esc(t.id);
+    var tabs = items.length > 1
+      ? '<span class="mk-seg gx-figtabs" data-gxmedia="' + id + '" role="group" aria-label="Choose media">' +
+          items.map(function (it, i) {
+            return '<button type="button" data-gxkey="' + it.key + '" aria-pressed="' +
+              (i === 0 ? 'true' : 'false') + '">' + esc(it.label) + '</button>';
+          }).join('') + '</span>'
+      : '';
+    return '<figure class="gx-fig" data-gxfig="' + id + '">' +
+      '<figcaption class="gx-fighead"><span class="gx-figcap">' + esc(items[0].label) +
+        '</span>' + tabs + '</figcaption>' +
+      '<div class="gx-figslot">' + gxSlot(t, items[0]) + '</div></figure>';
   }
 
   /* ============================================================
@@ -5628,23 +5732,75 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
   var CONNECT = {
 
     'super-usage': {
-      reads: 'A <strong>Viva Insights person query</strong> export - one row per person per week.',
-      steps: VIVA_QUERY.concat([
-        'Under metrics choose <strong>All metrics</strong> for <strong>Microsoft 365 ' +
-          'Copilot</strong>, <strong>Collaboration network</strong>, <strong>Working hours ' +
-          'collaboration</strong> and <strong>Focus metrics</strong>. Missing even one group ' +
-          'leaves visuals blank in Power BI.',
-        'Save and run, then wait until <strong>Status = Completed</strong>. The first run can ' +
-          'take several hours. Do not export while it is still processing.',
-        'For the CSV template, download the result as CSV. For the Direct Query template, ' +
-          'copy the <strong>Partition ID</strong> and <strong>Query ID</strong> instead, then ' +
-          'follow the ' +
-          lk('https://github.com/microsoft/DecodingSuperUsage', 'query guide in the repository') +
-          '.'
-      ]),
+      reads: 'A <strong>Viva Insights person query</strong> export - one row per person per week. ' +
+        'The template accepts it either as a CSV file or as a live Direct Query.',
+      steps: [
+        'Open the ' + lk(URL_VIVA, 'Viva Insights Analyst Workbench') + ' and choose ' +
+          '<strong>Create analysis</strong> in the left sidebar.',
+        'On the <strong>Custom query</strong> tab pick the <strong>Person query</strong> card, ' +
+          'then <strong>Set up analysis</strong>. Person query is the only one that returns a ' +
+          'row per person per period, which is what this template expects.',
+        'Name the query something you will recognise later, then set <strong>Time period</strong> ' +
+          'to the last 6 months and <strong>Group by</strong> to <strong>Week</strong>.',
+        'Switch <strong>Auto-refresh</strong> <strong>On</strong>. Without it the query runs ' +
+          'once and the report goes stale the moment new Copilot activity lands.',
+        'Under <strong>Metrics</strong> add every group in the table below. Missing even one ' +
+          'group leaves visuals blank in Power BI with no error to tell you why.',
+        'Under <strong>Select which employees to include</strong> add the condition ' +
+          '<code>Is Active = True</code>, then under <strong>employee attributes</strong> add at ' +
+          'least <code>Organization</code>, <code>FunctionType</code>, <code>TimeZone</code> and ' +
+          '<code>SupervisorIndicator</code>.',
+        'Click <strong>Run</strong> in the top right, then wait until <strong>Status = ' +
+          'Completed</strong> under <strong>Analysis results</strong>. The first run can take ' +
+          'several hours. Do not export while it is still processing.'
+      ],
+      metrics: [
+        ['After hours collaboration', 'All metrics'],
+        ['Collaboration activity', 'All metrics'],
+        ['Collaboration network', 'Diverse ties, External network size, Internal network size, Strong ties'],
+        ['Collaboration by day of the week', 'All metrics'],
+        ['Meeting types', 'All metrics'],
+        ['Working hours collaboration', 'All metrics'],
+        ['Microsoft 365 Copilot', 'All metrics'],
+        ['External collaboration', 'External collaboration hours'],
+        ['Focus metrics', 'All metrics']
+      ],
+      routeLead: 'Then pick how the template reads the result. Both start from the same ' +
+        'completed query under <strong>Analysis results</strong>.',
+      routes: [
+        {
+          label: 'CSV - download the file',
+          trade: 'Simplest. The report holds a snapshot, so you re-download to refresh it.',
+          steps: [
+            'In <strong>Analysis results</strong>, find your query and click the ' +
+              '<strong>page icon</strong> in the <strong>Actions</strong> column to download ' +
+              'the result as CSV.',
+            'Launch the downloaded <code>.pbit</code>, set <strong>SourceType</strong> to ' +
+              '<strong>CSV</strong>, and paste the full path of the file into the ' +
+              '<strong>CSV</strong> box. Leave the Direct Query boxes empty.',
+            'Click <strong>Load</strong>.'
+          ]
+        },
+        {
+          label: 'Direct Query - connect to the live query',
+          trade: 'Refreshes against Viva Insights, so the report follows the data. Needs ' +
+            'auto-refresh left on.',
+          steps: [
+            'In <strong>Analysis results</strong>, click the <strong>link icon</strong> in the ' +
+              '<strong>Actions</strong> column for that query. It gives you a ' +
+              '<strong>Partition ID</strong> and a <strong>Query ID</strong>.',
+            'Launch the downloaded <code>.pbit</code>, set <strong>SourceType</strong> to ' +
+              '<strong>DirectQuery</strong>, and paste those two values into the ' +
+              '<strong>PartitionID</strong> and <strong>QueryID</strong> boxes. Leave the CSV ' +
+              'box empty.',
+            'Click <strong>Load</strong>.'
+          ]
+        }
+      ],
       note: 'If you built this query before v13, re-open it, open the <strong>Microsoft 365 ' +
         'Copilot</strong> metric selection and re-check <strong>Select all</strong>, so the ' +
-        'newly consolidated Copilot Chat metrics are included.'
+        'newly consolidated Copilot Chat metrics are included. Turning auto-refresh off later ' +
+        'breaks the Direct Query path.'
     },
 
     'super-user-impact': {
@@ -6172,6 +6328,13 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
     if (rec.pre && rec.pre.length) {
       out += gxList(rec.pre, seen);
     }
+    if (rec.metrics && rec.metrics.length) {
+      out += '<table class="gx-metrics"><caption>Metric groups this query must include</caption>' +
+        '<thead><tr><th>Metric group</th><th>What to select</th></tr></thead><tbody>' +
+        rec.metrics.map(function (row) {
+          return '<tr><th scope="row">' + esc(row[0]) + '</th><td>' + esc(row[1]) + '</td></tr>';
+        }).join('') + '</tbody></table>';
+    }
     if (rec.routes && rec.routes.length) {
       if (rec.routeLead) {
         out += '<p class="gx-reads">' + applyGloss(rec.routeLead, seen) + '</p>';
@@ -6218,13 +6381,14 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
     out += step('Install the tools',
       gxChecks(req.software) || '<p class="gx-hint">Nothing to install.</p>');
     out += step('Connect your data', gxConnect(t));
-    out += step('Download the template',
-      dl ? '<p>Open it in Power BI Desktop and point the parameters at your own data.' +
+    /* One destination only: the repository. The separate Download template
+       button pointed at a raw file and confused people about where the
+       template actually lives. */
+    out += step('Get the template',
+      repo ? '<p>Open it in Power BI Desktop and point the parameters at your own data.' +
              (meta.time ? ' Expect around <strong>' + esc(meta.time) + '</strong>.' : '') + '</p>' +
-           '<a class="gx-cta" href="' + dl +
-             '" target="_blank" rel="noopener noreferrer">Download template</a>' +
-           (repo ? '<a class="gx-cta gx-cta--dark" href="' + repo +
-             '" target="_blank" rel="noopener noreferrer">View on GitHub</a>' : '')
+           '<a class="gx-cta gx-cta--big" href="' + repo +
+             '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>'
          : '<p class="gx-hint">This one is a hosted app rather than a downloadable template, ' +
            'so there is nothing to open in Power BI Desktop.</p>');
     var refs = [];
