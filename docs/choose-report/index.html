@@ -1346,6 +1346,7 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   .mk-flabel{ flex-basis:100%; }
 }
 @media (max-width:520px){ .rf-src{ display:none; } }
+.gx-tabs[hidden]{ display:none; }
 @media (prefers-reduced-motion: reduce){
   .rf-card{ transition:none; }
   .rf-card:hover{ transform:none; }
@@ -1543,12 +1544,6 @@ html[data-theme="dark"]{
 
 <main id="top" class="mk-page">
 
-
-
-
-
-<main>
-
 <!-- v25: the boss cut Reports overview and the Guided-solutions pack builder.
      Their markup is gone from the page. The code that drove them is now inert
      but still looks its nodes up, so the ids resolve here to detached stubs
@@ -1671,8 +1666,6 @@ html[data-theme="dark"]{
         <h2>Your setup guide</h2>
         <button type="button" class="gd-btn gd-btn--plain" id="mkGdStartOver">Back to reports</button>
       </div>
-      <p class="gd-lead" id="mkGdLead"></p>
-      <div class="gd-summary" id="mkGdSummary"></div>
       <div class="gd-share">
         <div>
           <p class="mk-chips-lbl">Shareable link</p>
@@ -1684,14 +1677,14 @@ html[data-theme="dark"]{
           <a class="gd-btn gd-btn--plain" id="mkGdMail" href="#">Email it</a>
         </div>
       </div>
-      <div class="gx-tabs" id="mkGdTabs" role="tablist" aria-label="Reports in this pack"></div>
+      <!-- One report per guide, so the tablist is built but never shown. -->
+      <div class="gx-tabs" id="mkGdTabs" role="tablist" aria-label="Reports in this pack" hidden></div>
       <div id="mkGdPanels"></div>
     </div>
 
   </div>
 </section>
 
-</main>
 
 
 </main>
@@ -4634,7 +4627,7 @@ html[data-theme="dark"]{
     }
     /* v25: Share lives bottom-right and builds the guide for THIS report only. */
     actions.push('<button type="button" class="mk-sharebtn" id="mkDlgShare" ' +
-      'data-id="' + esc(t.id) + '">Share</button>');
+      'data-id="' + esc(t.id) + '">Enablement guide</button>');
     dlgFoot.innerHTML = actions.join('');
 
     dlgBody.scrollTop = 0;
@@ -6132,17 +6125,6 @@ html[data-theme="dark"]{
     picked.forEach(function (t) { if (t.sourceKey) srcs[t.sourceKey] = 1; });
     var nSrc = Object.keys(srcs).length;
 
-    document.getElementById('mkGdLead').textContent =
-      'Everything below is specific to the ' + picked.length +
-      (picked.length === 1 ? ' report' : ' reports') +
-      ' you chose. Work through a tab top to bottom and you will have it running.';
-
-    document.getElementById('mkGdSummary').innerHTML =
-      '<div><b>' + picked.length + '</b>' + (picked.length === 1 ? 'report' : 'reports') + '</div>' +
-      '<div><b>' + nSrc + '</b>data ' + (nSrc === 1 ? 'source' : 'sources') + '</div>' +
-      '<div><b>' + picked.filter(function (t) {
-        return safeUrl(t.demoVideo) || safeUrl(previewOf(t));
-      }).length + '</b>with a walkthrough</div>';
 
     gdTabsEl.innerHTML = picked.map(function (t, i) {
       return '<button type="button" class="gx-tab" role="tab" id="gx-tab-' + esc(t.id) +
