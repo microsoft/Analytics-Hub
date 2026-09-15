@@ -1097,7 +1097,7 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   position:relative; flex:0 0 auto;
   /* v8 - padding-right now clears the whole top-right action cluster
      (download button + gap + close), not just the close button. */
-  padding:26px 236px 20px 32px;
+  padding:26px 340px 20px 32px;
   border-bottom:1px solid var(--mk-border);
 }
 /* v8 - one flex row owns both top-right controls. Because they are laid
@@ -1553,6 +1553,68 @@ html[data-theme="dark"]{
   color:transparent; align-self:center;
 }
 .pk-box-h--res{ margin:34px 0 16px; }
+/* v29 - Roles required, promoted out of the body list into the header.
+   It is a prerequisite, not trivia: if you lack the role the report simply
+   returns nothing, so it sits under View on GitHub and is styled as a
+   warning rather than a definition-list row. */
+.mk-dlg-roles{
+  position:absolute; top:62px; right:18px; width:306px;
+  background:#fff6e8; border:1px solid #edc48a; border-left:4px solid #b26a00;
+  border-radius:10px; padding:11px 13px 12px;
+}
+.mk-dlg-roles[hidden]{ display:none; }
+.mk-dlg-roles-l{
+  display:block; font-size:10.5px; font-weight:800; letter-spacing:.09em;
+  text-transform:uppercase; color:#8a5200; margin:0 0 7px;
+}
+.mk-dlg-roles-i{ display:flex; flex-wrap:wrap; gap:6px; }
+.mk-dlg-roles-i a, .mk-dlg-roles-i span{
+  font-size:12px; font-weight:650; line-height:1.25;
+  padding:5px 9px; border-radius:6px;
+  background:#ffffff; border:1px solid #e8cba0;
+  color:#7a4a00; text-decoration:none;
+}
+html[data-theme="dark"] .mk-dlg-roles{
+  background:#2c2113; border-color:#6b4a14; border-left-color:#e0a13a;
+}
+html[data-theme="dark"] .mk-dlg-roles-l{ color:#f0c27a; }
+html[data-theme="dark"] .mk-dlg-roles-i a,
+html[data-theme="dark"] .mk-dlg-roles-i span{
+  background:#1d1710; border-color:#6b4a14; color:#f3d3a0;
+}
+@media (max-width:820px){
+  .mk-dlg-roles{ position:static; width:auto; margin:14px 0 0; }
+}
+/* v29b - the roles block was absolutely positioned and overflowed the header
+   into the body. The header is now a two column grid so it grows to fit
+   whichever column is taller. The action cluster stays absolute, and the
+   rail is pushed down to clear it. */
+.mk-dlg-head{
+  display:grid; grid-template-columns:minmax(0,1fr) 306px; column-gap:22px;
+  padding:26px 18px 20px 32px;
+}
+.mk-dlg-head > p:first-of-type{ grid-column:1; grid-row:1; }
+.mk-dlg-head h2{ grid-column:1; grid-row:2; }
+.mk-dlg-head .mk-dlg-q{ grid-column:1; grid-row:3; }
+/* Grid rows stretch by default, which made the focused h2 look like an input. */
+.mk-dlg-head > p:first-of-type, .mk-dlg-head h2, .mk-dlg-head .mk-dlg-q{ align-self:start; }
+.mk-dlg-roles{
+  position:static; grid-column:2; grid-row:1 / 4;
+  align-self:start; margin-top:46px; width:auto;
+}
+@media (max-width:820px){
+  .mk-dlg-head{ grid-template-columns:1fr; padding-right:18px; }
+  .mk-dlg-roles{ grid-column:1; grid-row:auto; margin-top:14px; }
+}
+/* No role needed is good news, so it drops the amber alarm. */
+.mk-dlg-roles.is-none{ background:#f1f7f2; border-color:#c3ddc9; border-left-color:#2f7d43; }
+.mk-dlg-roles.is-none .mk-dlg-roles-l{ color:#1f6b33; }
+.mk-dlg-roles.is-none .mk-dlg-roles-i a,
+.mk-dlg-roles.is-none .mk-dlg-roles-i span{ border-color:#c3ddc9; color:#1f6b33; }
+html[data-theme="dark"] .mk-dlg-roles.is-none{ background:#13251a; border-color:#2f5c3a; border-left-color:#5fbf7a; }
+html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-l{ color:#8fd6a3; }
+html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i a,
+html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#101a13; border-color:#2f5c3a; color:#b7e8c4; }
 </style>
 </head>
 <body>
@@ -1746,6 +1808,7 @@ html[data-theme="dark"]{
         <span id="mkDlgDl"></span>
         <button type="button" class="mk-dlg-close" id="mkDlgClose" aria-label="Close report details">&times;</button>
       </div>
+      <div class="mk-dlg-roles" id="mkDlgRoles" hidden></div>
       <p><span class="mk-dlg-chip" id="mkDlgChip"></span></p>
       <h2 id="mkDlgTitle"></h2>
       <p class="mk-dlg-q" id="mkDlgQ"></p>
@@ -4580,7 +4643,6 @@ html[data-theme="dark"]{
         dlRow('Tags', tagChips(t)) +
       '</dl></section>' +
       '<section class="mk-sub"><h3>What you need</h3><dl class="mk-dl">' +
-        dlRow('Roles required', linkList(req.roles)) +
         dlRow('Software', linkList(req.software)) +
       '</dl></section>' +
       (related
@@ -4649,6 +4711,25 @@ html[data-theme="dark"]{
     var repo = escUrl(t.repo);
     /* v9: the corners are swapped. GitHub takes the top-right slot, the
        download drops to the footer. Same destinations, same components. */
+    /* Roles are a prerequisite, so they are loud - but several reports need
+       no role at all, and shouting REQUIRED at those is misleading. Those
+       render calm instead. Each entry is wrapped so the flex gap has
+       something to act on; bare text runs would otherwise merge together. */
+    var rolesEl = document.getElementById('mkDlgRoles');
+    var roleItems = req.roles || [];
+    var noRole = roleItems.length === 1 && /^none\b/i.test(roleItems[0].label || '');
+    rolesEl.hidden = !roleItems.length;
+    rolesEl.classList.toggle('is-none', noRole);
+    rolesEl.innerHTML = roleItems.length
+      ? '<span class="mk-dlg-roles-l">' + (noRole ? 'Roles needed' : 'Roles required') + '</span>' +
+        '<span class="mk-dlg-roles-i">' + roleItems.map(function (it) {
+          var u = escUrl(it.url);
+          return u
+            ? '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + esc(it.label) + '</a>'
+            : '<span>' + esc(it.label) + '</span>';
+        }).join('') + '</span>'
+      : '';
+
     dlgDl.innerHTML = repo
       ? '<a class="mk-ghbtn" href="' + repo + '" target="_blank" rel="noopener noreferrer">View on GitHub</a>'
       : '';
