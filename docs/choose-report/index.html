@@ -1552,6 +1552,7 @@ html[data-theme="dark"]{
   background:var(--mk-cop-grad); -webkit-background-clip:text; background-clip:text;
   color:transparent; align-self:center;
 }
+.pk-box-h--res{ margin:34px 0 16px; }
 </style>
 </head>
 <body>
@@ -1649,7 +1650,7 @@ html[data-theme="dark"]{
           <section class="pk-box">
             <div class="pk-box-h">
               <span class="pk-bn" aria-hidden="true">1</span>
-              <h2 class="pk-shead" id="mkLblPkGoal">By goal</h2>
+              <h2 class="pk-shead" id="mkLblPkGoal">Filter by goal</h2>
               <span class="pk-box-hint">what are you trying to do?</span>
             </div>
             <div class="pk-tiles" id="mkPkGoal" role="group" aria-labelledby="mkLblPkGoal"></div>
@@ -1657,7 +1658,7 @@ html[data-theme="dark"]{
           <section class="pk-box">
             <div class="pk-box-h">
               <span class="pk-bn" aria-hidden="true">2</span>
-              <h2 class="pk-shead" id="mkLblPkProd">By product</h2>
+              <h2 class="pk-shead" id="mkLblPkProd">Filter by product</h2>
               <span class="pk-box-hint">pick one or more products</span>
             </div>
             <div class="pk-tiles pk-tiles--one" id="mkPkProd" role="group" aria-labelledby="mkLblPkProd"></div>
@@ -1667,7 +1668,7 @@ html[data-theme="dark"]{
           <label class="pk-find-l" for="mkPkSearch">Or search by name, source or audience</label>
           <div class="pk-find-row">
             <input type="search" id="mkPkSearch" class="pk-find-i" autocomplete="off"
-              placeholder="Try &ldquo;Purview&rdquo;, &ldquo;cost&rdquo; or &ldquo;GitHub&rdquo;">
+              placeholder="Try &ldquo;Agents&rdquo;, &ldquo;Cowork&rdquo;, or &ldquo;GitHub&rdquo;">
             <button type="button" class="pk-find-x" id="mkPkSearchClear" hidden>Clear</button>
           </div>
         </div>
@@ -1676,6 +1677,10 @@ html[data-theme="dark"]{
       <li class="pk-step pk-step--end">
 
         <div class="pk-sbody">
+          <div class="pk-box-h pk-box-h--res">
+            <span class="pk-bn" aria-hidden="true">3</span>
+            <h2 class="pk-shead">Review and choose</h2>
+          </div>
           <div class="pk-results" id="mkPkResults">
             <div class="pk-note" id="mkPkIdle">
               <h3>Nothing chosen yet</h3>
