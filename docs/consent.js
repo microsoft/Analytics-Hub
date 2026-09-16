@@ -147,10 +147,7 @@
     + 'font-size:13px;font-weight:600;padding:11px 16px;border-radius:10px;box-shadow:0 24px 48px rgba(20,20,40,.2);'
     + 'opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;font-family:var(--font,"Segoe UI",system-ui,sans-serif)}'
     + '.ahc-toast.ahc-show{opacity:1;transform:translateY(0)}'
-    + '.ahc-foot-link{cursor:pointer;background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:none}'
-    + '.ahc-fab{position:fixed;left:14px;bottom:14px;z-index:2147482000;font-size:12px;font-weight:600;color:var(--text-soft,#5a5a72);'
-    + 'background:var(--surface,#fff);border:1px solid var(--border,#e6e6ee);border-radius:999px;padding:7px 13px;cursor:pointer;box-shadow:0 4px 12px rgba(20,20,40,.08)}'
-    + '.ahc-fab:hover{border-color:var(--accent,#0078d4);color:var(--accent,#0078d4)}';
+    + '.ahc-foot-link{cursor:pointer;background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:none}';
     var s = document.createElement("style");
     s.id = "ahc-styles";
     s.textContent = css;
@@ -284,34 +281,50 @@
   }
 
   // ---------------------------------------------------- footer link
+  // Only ever targets the real page footer. Dialogs, flyouts and modals have
+  // their own <footer> (e.g. the report flyout's footer.mk-dlg-foot), and an
+  // unscoped querySelector("footer") grabs whichever comes first in the DOM —
+  // which on pages with no site footer is the dialog's, dropping a "Cookie
+  // preferences" link inside the modal. Skip any footer inside an overlay.
+  function isInOverlay(el) {
+    return !!(el.closest && el.closest(
+      'dialog, [role="dialog"], [aria-modal="true"], .mk-dlg, .ahc-overlay, .ahc-banner, .ahc-notice'
+    ));
+  }
+
+  function findSiteFooter() {
+    var preferred = document.querySelector("footer.site-footer");
+    if (preferred && !isInOverlay(preferred)) return preferred;
+    var all = document.querySelectorAll("footer");
+    for (var i = 0; i < all.length; i++) {
+      if (!isInOverlay(all[i])) return all[i];
+    }
+    return null;
+  }
+
   function injectFooterLink() {
     try {
-      var foot = document.querySelector("footer .footer-fine")
-              || document.querySelector("footer .footer-links")
-              || document.querySelector("footer");
-      if (foot && foot.tagName !== "FOOTER") {
-        var link = document.createElement("a");
-        link.href = "#"; link.className = "ahc-foot-link";
-        link.textContent = "Cookie preferences";
-        link.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
-        var sep = document.createTextNode("  \u00B7  ");
-        foot.appendChild(sep); foot.appendChild(link);
+      var foot = findSiteFooter();
+      if (!foot) return; // no site footer (e.g. app/flyout-only pages) — add nothing
+
+      var link = document.createElement("a");
+      link.href = "#";
+      link.className = "ahc-foot-link";
+      link.textContent = "Cookie preferences";
+      link.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
+
+      // Prefer an existing inline footer row so it sits with the other links.
+      var row = foot.querySelector(".footer-fine") || foot.querySelector(".footer-links");
+      if (row) {
+        row.appendChild(document.createTextNode("  \u00B7  "));
+        row.appendChild(link);
         return;
       }
-      if (foot) { // bare <footer>: append a small line
-        var wrap = document.createElement("div");
-        wrap.style.cssText = "text-align:center;font-size:12px;margin-top:8px";
-        var a = document.createElement("a");
-        a.href = "#"; a.className = "ahc-foot-link"; a.textContent = "Cookie preferences";
-        a.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
-        wrap.appendChild(a); foot.appendChild(wrap);
-        return;
-      }
-      // No footer at all → floating pill so the choice is always reachable.
-      var fab = document.createElement("button");
-      fab.className = "ahc-fab"; fab.type = "button"; fab.textContent = "Cookie preferences";
-      fab.addEventListener("click", openPrefs);
-      document.body.appendChild(fab);
+
+      var wrap = document.createElement("div");
+      wrap.style.cssText = "text-align:center;font-size:12px;margin-top:8px";
+      wrap.appendChild(link);
+      foot.appendChild(wrap);
     } catch (e) {}
   }
 

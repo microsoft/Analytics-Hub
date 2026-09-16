@@ -569,7 +569,12 @@ html[data-theme="dark"] .rf-pill.is-on{ color:#0b0b12; }
 .rf-chip{
   font-size:11px; font-weight:600; letter-spacing:.02em;
   padding:3px 9px; border-radius:100px;
-  color:var(--c, var(--mk-accent));
+  /* The raw category accent is a fill colour, not an ink colour. At 11px it
+     fails WCAG 1.4.3: teal #00B294 is 2.69:1 on white, and on the dark
+     surface blue/pink/purple all land ~3.9:1. Mixing toward the page ink
+     keeps the category hue while clearing 4.5:1. Fill below is unchanged. */
+  --c-ink:color-mix(in srgb, var(--c, var(--mk-accent)) 56%, #000);
+  color:var(--c-ink);
   background:var(--mk-surface-2);                                           /* fallback */
   background:color-mix(in srgb, var(--c, var(--mk-accent)) 11%, transparent);
   white-space:nowrap;
@@ -634,7 +639,8 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
 .rf-card--hot:hover{ border-color:var(--mk-accent-strong); }
 .rf-cta{
   flex:none;
-  font-size:13px; font-weight:600; color:var(--c, var(--mk-accent));
+  --c-ink:color-mix(in srgb, var(--c, var(--mk-accent)) 56%, #000);
+  font-size:13px; font-weight:600; color:var(--c-ink);
   text-decoration:none;
 }
 .rf-card:hover .rf-cta{ text-decoration:underline; }
@@ -1117,7 +1123,8 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   display:inline-block;
   font-size:11px; font-weight:600; letter-spacing:.02em;
   padding:3px 9px; border-radius:100px;
-  color:var(--c, var(--mk-accent));
+  --c-ink:color-mix(in srgb, var(--c, var(--mk-accent)) 56%, #000);
+  color:var(--c-ink);
   background:var(--mk-surface-2);                                           /* fallback */
   background:color-mix(in srgb, var(--c, var(--mk-accent)) 11%, transparent);
 }
@@ -1302,9 +1309,22 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   font-size:11px; font-weight:600; letter-spacing:.02em;
   padding:3px 9px; border-radius:100px;
   font-family:var(--mk-mono);
-  color:var(--c);
+  --c-ink:color-mix(in srgb, var(--c) 56%, #000);
+  color:var(--c-ink);
   background:var(--mk-surface-2);                                           /* fallback */
   background:color-mix(in srgb, var(--c) 11%, transparent);
+}
+
+/* Dark theme flips the mix: darkening against a dark surface would make these
+   worse, so blend toward white instead. Verified min 5.06:1 across the four
+   category accents on --mk-surface. */
+[data-theme="dark"] .rf-chip,
+[data-theme="dark"] .rf-cta,
+[data-theme="dark"] .mk-dlg-chip{
+  --c-ink:color-mix(in srgb, var(--c, var(--mk-accent)) 54%, #fff);
+}
+[data-theme="dark"] .mk-sw{
+  --c-ink:color-mix(in srgb, var(--c) 54%, #fff);
 }
 
 @media (max-width:720px){

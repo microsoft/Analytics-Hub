@@ -1753,7 +1753,12 @@ a:hover { text-decoration: underline; }
 .rf-chip {
   font-size: 11px; font-weight: 600; letter-spacing: .02em;
   padding: 3px 9px; border-radius: 100px;
-  color: var(--c, var(--accent));
+  /* The category accent is a fill colour, not an ink colour. At 11px it fails
+     WCAG 1.4.3 (teal #00B294 is 2.69:1 on white; on the dark surface
+     blue/pink/purple all land ~3.9:1). Mix toward the page ink to keep the
+     category hue while clearing 4.5:1. The 11% fill below is unchanged. */
+  --c-ink: color-mix(in srgb, var(--c, var(--accent)) 56%, #000);
+  color: var(--c-ink);
   background: color-mix(in srgb, var(--c, var(--accent)) 11%, transparent);
 }
 .rf-new {
@@ -1788,8 +1793,14 @@ a:hover { text-decoration: underline; }
 }
 .rf-cta {
   flex: none;
-  font-size: 13px; font-weight: 600; color: var(--c, var(--accent));
+  --c-ink: color-mix(in srgb, var(--c, var(--accent)) 56%, #000);
+  font-size: 13px; font-weight: 600; color: var(--c-ink);
   text-decoration: none;
+}
+/* Dark surface: darkening would make these worse, so blend toward white. */
+[data-theme="dark"] .rf-chip,
+[data-theme="dark"] .rf-cta {
+  --c-ink: color-mix(in srgb, var(--c, var(--accent)) 54%, #fff);
 }
 .rf-cta:hover { text-decoration: underline; }
 .rf-empty { color: var(--text-muted); font-size: 14px; padding: 20px 0; }
