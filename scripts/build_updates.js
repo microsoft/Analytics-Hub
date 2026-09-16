@@ -290,7 +290,7 @@ const page = `<!DOCTYPE html>
   </script>
   <meta name="clarity-page" content="Updates" />
   <link rel="stylesheet" href="../styles.css" />
-  <script src="../clarity-events.js?v=202608181034" defer></script>
+  <script src="../clarity-events.js?v=202609141210" defer></script>
   <script src="../consent.js?v=1" defer></script>
   <link rel="stylesheet" href="../palette.css?v=936728fb" />
   <script src="../palette.js" defer></script>
@@ -347,7 +347,7 @@ const page = `<!DOCTYPE html>
       <span class="brand-by">Open source toolkit</span>
     </a>
     <nav class="primary-nav">
-      <a href="../explore-reports/">Reports</a>
+      <a href="../choose-report/">Reports</a>
       <a href="../cowork-billing/">Consumption &amp; Cost</a>
       <a href="../case-studies/">Case Studies</a>
       <a href="../community/">Community</a>
