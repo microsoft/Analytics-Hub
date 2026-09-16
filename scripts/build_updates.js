@@ -291,6 +291,7 @@ const page = `<!DOCTYPE html>
   <meta name="clarity-page" content="Updates" />
   <link rel="stylesheet" href="../styles.css" />
   <script src="../clarity-events.js?v=202608181034" defer></script>
+  <script src="../consent.js?v=1" defer></script>
   <link rel="stylesheet" href="../palette.css?v=936728fb" />
   <script src="../palette.js" defer></script>
   <script src="../nudges.js" defer></script>
