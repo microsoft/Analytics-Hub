@@ -105,7 +105,10 @@
   --mk-border-strong:#d0d0dc;
   --mk-text:#1a1a25;
   --mk-soft:#5a5a72;
-  --mk-muted:#8585a0;
+  /* WCAG 1.4.3 AA: #8585a0 failed body text on every light surface here
+     (3.24-3.58:1). #6b6b85 clears 4.5:1 on all of them (bg 4.91, bg-alt
+     4.83, surface 5.16, surface-2 4.67). Dark block keeps #8585a0 (5.40:1). */
+  --mk-muted:#6b6b85;
   --mk-accent:#0078d4;
   /* Same hue, darkened, used wherever white text sits ON the accent.
      #0078d4 with #fff is 4.53:1 - it scrapes AA and no more. This is

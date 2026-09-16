@@ -13,7 +13,11 @@
   --border-strong:#d0d0dc;
   --text:         #1a1a25;
   --text-soft:    #5a5a72;
-  --text-muted:   #8585a0;
+  /* WCAG 1.4.3 AA: #8585a0 was 3.58:1 on white, below the 4.5:1 body-text
+     minimum. #6b6b85 clears it on all three light surfaces this sits on
+     (#ffffff 5.16:1, --bg-alt 4.83:1, --surface-2 4.67:1). The dark theme
+     keeps #8585a0, which already passes at 5.40:1 on --bg. */
+  --text-muted:   #6b6b85;
   --accent:       #0078d4;
   --accent-2:     #8661c5;
   --accent-3:     #00B294;
