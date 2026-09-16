@@ -1662,6 +1662,16 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
   .mk-sharebtn{ margin-left:0; }
 }
 </style>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Reports" />
+  <script src="../clarity-events.js?v=202609141210" defer></script>
 </head>
 <body>
 <a class="ah-skip" href="#top">Skip to main content</a>
@@ -3977,7 +3987,7 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
 
   /* ---------- pending corrections to the LIVE dataset ----------
      The JSON island above is a character-faithful copy of the live data in
-     docs/explore-reports/app.js, so it is deliberately NOT edited. Known-bad
+     docs/choose-report/app.js, so it is deliberately NOT edited. Known-bad
      values are corrected here at render time instead, which keeps the embedded
      copy verifiable against live and keeps the outstanding fix visible.
      These are NOT fixed on the live site yet - see the findings panel. */
@@ -6596,6 +6606,18 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
     setView('picker', false);
     openReport(id, false);
   }
+  /* ?q= is inherited from explore-reports, which this page replaced. The
+     command palette and any old bookmark still carry search terms that way,
+     so they have to land in the search box rather than be dropped. */
+  (function () {
+    var m = /[?&]q=([^&#]*)/.exec(location.search || '');
+    if (!m) return;
+    var q = decodeURIComponent(m[1].replace(/\+/g, ' ')).trim();
+    if (!q) return;
+    pkSetQ(q);
+    pkRefresh();
+  }());
+
   openFromHash();
   window.addEventListener('hashchange', openFromHash);
 

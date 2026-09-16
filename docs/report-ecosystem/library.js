@@ -150,7 +150,7 @@ const RESOURCES = {
 // Cross-cutting links that aren't tied to one report.
 const HUB_LINKS = [
   { kind: "demo", label: "Internal Demos — live Power BI walkthroughs", url: "https://microsoft.github.io/Analytics-Hub/demos/" },
-  { kind: "doc",  label: "Explore Reports — match a business question to a report", url: "https://microsoft.github.io/Analytics-Hub/explore-reports/" },
+  { kind: "doc",  label: "Explore Reports — match a business question to a report", url: "https://microsoft.github.io/Analytics-Hub/choose-report/" },
   { kind: "doc",  label: "Glossary — Copilot reporting terms", url: "https://microsoft.github.io/Analytics-Hub/glossary/" },
   { kind: "doc",  label: "FAQ", url: "https://microsoft.github.io/Analytics-Hub/faq/" },
   { kind: "doc",  label: "Case studies", url: "https://microsoft.github.io/Analytics-Hub/case-studies/" },

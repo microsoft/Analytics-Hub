@@ -29,22 +29,22 @@
 
   const PAGES = [
     { kind: "page",   title: "Home",            href: url(""),                  hint: "Landing page" },
-    { kind: "page",   title: "Explore Reports",   href: url("explore-reports/"),      hint: "Picker · search reports by question" },
+    { kind: "page",   title: "Explore Reports",   href: url("choose-report/"),      hint: "Picker · search reports by question" },
     { kind: "page",   title: "Case Studies",    href: url("case-studies/"),     hint: "Customer stories + measurable wins" },
     { kind: "page",   title: "Team",            href: url("team/"),             hint: "Who builds the Hub" },
     // Pages Analytics intentionally omitted — direct-URL-only.
   ];
 
   const REPORTS = [
-    { kind: "report", title: "AI-in-One Dashboard",            href: url("explore-reports/?q=ai-in-one"),       hint: "Unified Copilot + Agent + 3P AI" },
-    { kind: "report", title: "Copilot Chat & Agent Intelligence", href: url("explore-reports/?q=chat"),         hint: "Chat + Agent telemetry from Purview" },
-    { kind: "report", title: "Super Usage Adoption",           href: url("explore-reports/?q=super"),           hint: "Viva Insights · super-user profiling" },
-    { kind: "report", title: "Super User Impact",              href: url("explore-reports/?q=super+impact"),    hint: "Work-pattern delta vs peers" },
-    { kind: "report", title: "GitHub Copilot Impact",          href: url("explore-reports/?q=github"),          hint: "Dev adoption · GHE Copilot API" },
-    { kind: "report", title: "M365 Copilot Readiness",         href: url("explore-reports/?q=readiness"),       hint: "Who to license next" },
-    { kind: "report", title: "Adoption & Sentiment",           href: url("explore-reports/?q=sentiment"),       hint: "Survey + usage cross-tab" },
+    { kind: "report", title: "AI-in-One Dashboard",            href: url("choose-report/?q=ai-in-one"),       hint: "Unified Copilot + Agent + 3P AI" },
+    { kind: "report", title: "Copilot Chat & Agent Intelligence", href: url("choose-report/?q=chat"),         hint: "Chat + Agent telemetry from Purview" },
+    { kind: "report", title: "Super Usage Adoption",           href: url("choose-report/?q=super"),           hint: "Viva Insights · super-user profiling" },
+    { kind: "report", title: "Super User Impact",              href: url("choose-report/?q=super+impact"),    hint: "Work-pattern delta vs peers" },
+    { kind: "report", title: "GitHub Copilot Impact",          href: url("choose-report/?q=github"),          hint: "Dev adoption · GHE Copilot API" },
+    { kind: "report", title: "M365 Copilot Readiness",         href: url("choose-report/?q=readiness"),       hint: "Who to license next" },
+    { kind: "report", title: "Adoption & Sentiment",           href: url("choose-report/?q=sentiment"),       hint: "Survey + usage cross-tab" },
     { kind: "report", title: "Copilot ROI Calculator",         href: "https://jordankingisalive.github.io/CopilotROICalculator/", hint: "External · payback model", external: true },
-    { kind: "report", title: "What I Did: Copilot Impact",     href: url("explore-reports/?q=what-i-did"),      hint: "Personal-leverage report" },
+    { kind: "report", title: "What I Did: Copilot Impact",     href: url("choose-report/?q=what-i-did"),      hint: "Personal-leverage report" },
   ];
 
   const INDEX = [...PAGES, ...REPORTS];
