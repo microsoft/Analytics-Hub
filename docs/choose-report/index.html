@@ -6585,6 +6585,20 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
     setView('overview', false);
   }
 
+  /* #d=<id> opens the flyout for one report straight away. The homepage cards
+     link here rather than carrying a second copy of the flyout. #r= still
+     means "open the guide", so the two are not interchangeable. */
+  function openFromHash() {
+    var m = /(?:^|[#&])d=([^&]+)/.exec(location.hash || '');
+    if (!m) return;
+    var id = decodeURIComponent(m[1]).trim();
+    if (!toolById[id]) return;
+    setView('picker', false);
+    openReport(id, false);
+  }
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+
   /* ---------- mockup controls ---------- */
   /* The mockup drove theme, flyout size and density from a control bar that
      production does not have. Flyout and density keep the defaults set on
