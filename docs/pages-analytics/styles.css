@@ -1280,3 +1280,14 @@
 .spark-dot { fill: #4A9EF7; opacity: 0.55; }
 .spark-dot-last { fill: #00A3CC; stroke: #fff; stroke-width: 1.5; }
 .spark-axis { display: flex; justify-content: space-between; margin-top: 0.4rem; font-size: 0.75rem; opacity: 0.7; }
+
+/* Clarity window switcher, sat next to the live-site link on each site card. */
+.linked-site-controls{ display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
+.clarity-win{ display:inline-flex; border:1px solid var(--border,#e2e6ea); border-radius:8px; overflow:hidden; background:var(--surface,#fff); }
+.clarity-win button{ appearance:none; border:0; background:transparent; cursor:pointer;
+  font:inherit; font-size:.78rem; font-weight:600; line-height:1; padding:.42rem .6rem;
+  color:var(--text-muted,#5a6470); border-right:1px solid var(--border,#e2e6ea); }
+.clarity-win button:last-child{ border-right:0; }
+.clarity-win button:hover{ background:color-mix(in srgb,var(--accent,#0078d4) 8%,transparent); color:var(--text,#1b1b1b); }
+.clarity-win button[aria-pressed="true"]{ background:var(--accent,#0078d4); color:#fff; }
+.clarity-win button:focus-visible{ outline:2px solid var(--accent,#0078d4); outline-offset:1px; }

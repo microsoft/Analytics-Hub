@@ -34,6 +34,118 @@ const LINKED_SITES = {
 // Cache for sites snapshots, populated on load.
 let SITES_CACHE = {};
 
+/* Clarity's Data Export API caps numOfDays at 3, so every snapshot we store is
+   a 3-day rolling total and consecutive snapshots overlap by two days. Adding
+   them up would count most days three times, which is why this card was stuck
+   on 3 days. Longer windows are assembled instead from whole snapshots taken
+   3 days apart, which do not overlap - so the offered spans are multiples of
+   3 rather than the 7/14/30 available on the GitHub side, where we hold real
+   per-day counts. */
+const CLARITY_SNAPSHOT_DAYS = 3;
+const CLARITY_WINDOWS = [3, 6, 15, 30];
+let clarityWindowDays = CLARITY_SNAPSHOT_DAYS;
+
+const shiftIsoDate = (iso, days) => {
+  const d = new Date(iso + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+};
+
+/* Per-session averages, so they have to be re-weighted by each block's session
+   count rather than averaged flat. Everything else on these payloads is a count
+   and simply adds. */
+const CLARITY_WEIGHTED = new Set([
+  "averageScrollDepth", "totalTime", "activeTime", "pagesPerSessionPercentage",
+  "sessionsWithMetricPercentage", "sessionsWithoutMetricPercentage",
+]);
+const CLARITY_NAMED = { PageTitle: "name", ReferrerUrl: "name", Country: "name",
+  Browser: "name", Device: "name", OS: "name", PopularPages: "url" };
+
+function blockSessions(metrics) {
+  const t = (metrics || []).find((m) => m.metricName === "Traffic");
+  return parseInt(t?.information?.[0]?.totalSessionCount, 10) || 0;
+}
+
+/* Combine N non-overlapping snapshots into one payload shaped exactly like a
+   single snapshot, so every consumer downstream keeps working unchanged. */
+function aggregateClarity(site, days) {
+  const snaps = site.snapshots || {};
+  const dates = Object.keys(snaps).sort();
+  if (!dates.length) return null;
+  const latest = dates[dates.length - 1];
+  const wanted = Math.max(1, Math.round(days / CLARITY_SNAPSHOT_DAYS));
+
+  const blocks = [];
+  const missing = [];
+  for (let i = 0; i < wanted; i++) {
+    const d = shiftIsoDate(latest, -i * CLARITY_SNAPSHOT_DAYS);
+    if (snaps[d]) blocks.push({ date: d, metrics: snaps[d] });
+    else missing.push(d);
+  }
+  if (!blocks.length) return null;
+
+  const totalW = blocks.reduce((a, b) => a + (blockSessions(b.metrics) || 1), 0);
+  const out = new Map();
+
+  blocks.forEach((b) => {
+    const w = blockSessions(b.metrics) || 1;
+    (b.metrics || []).forEach((m) => {
+      const key = m.metricName;
+      const nameKey = CLARITY_NAMED[key];
+      if (!out.has(key)) out.set(key, nameKey ? new Map() : {});
+      const bucket = out.get(key);
+
+      if (nameKey) {
+        (m.information || []).forEach((row) => {
+          const id = row[nameKey];
+          if (id == null) return;
+          const cur = bucket.get(id) || { [nameKey]: id, sessionsCount: 0, visitsCount: 0 };
+          cur.sessionsCount += parseInt(row.sessionsCount, 10) || 0;
+          cur.visitsCount   += parseInt(row.visitsCount, 10) || 0;
+          bucket.set(id, cur);
+        });
+        return;
+      }
+
+      const row = (m.information || [])[0] || {};
+      Object.keys(row).forEach((f) => {
+        const v = parseFloat(row[f]);
+        if (!Number.isFinite(v)) return;
+        if (CLARITY_WEIGHTED.has(f)) bucket[f] = (bucket[f] || 0) + v * w;
+        else bucket[f] = (bucket[f] || 0) + v;
+      });
+    });
+  });
+
+  const metrics = [];
+  out.forEach((bucket, key) => {
+    const nameKey = CLARITY_NAMED[key];
+    if (nameKey) {
+      const rows = [...bucket.values()]
+        .sort((a, b) => (b.sessionsCount + b.visitsCount) - (a.sessionsCount + a.visitsCount))
+        .slice(0, 10);
+      metrics.push({ metricName: key, information: rows });
+      return;
+    }
+    const row = {};
+    Object.keys(bucket).forEach((f) => {
+      row[f] = CLARITY_WEIGHTED.has(f) ? bucket[f] / totalW : bucket[f];
+    });
+    metrics.push({ metricName: key, information: [row] });
+  });
+
+  return {
+    metrics,
+    syncedAt: latest,
+    windowDays: blocks.length * CLARITY_SNAPSHOT_DAYS,
+    blocks: blocks.length,
+    wantedBlocks: wanted,
+    missing,
+    aggregated: blocks.length > 1,
+    source: blocks.length > 1 ? "Clarity snapshots combined" : "Clarity rolling snapshot",
+  };
+}
+
 // Sub-app URL family mapping. Substring match against Clarity's Url
 // dimension, case-insensitive. Order matters — the first match wins so
 // list the more-specific patterns before broader ones.
@@ -156,7 +268,14 @@ function resolveLinkedSiteSlice(linked) {
   const dates = Object.keys(site.snapshots || {}).sort();
   const latestDate = dates[dates.length - 1];
   const latestMetrics = latestDate ? site.snapshots[latestDate] : null;
-  const snapshotWindow = 3; // numOfDays used by snapshotter
+  const snapshotWindow = CLARITY_SNAPSHOT_DAYS; // numOfDays used by snapshotter
+
+  /* A longer window is always built from the snapshots, never from the
+     baseline, which only ever describes its own fixed period. */
+  if (clarityWindowDays > snapshotWindow) {
+    const agg = aggregateClarity(site, clarityWindowDays);
+    if (agg) return agg;
+  }
 
   if (baseline && (baseline.windowDays || 0) >= snapshotWindow) {
     return {
@@ -537,7 +656,16 @@ function renderLinkedSiteDetail(linked) {
   }
   const latest = slice.metrics;
   const windowDays = slice.windowDays || 3;
-  const windowLabel = windowDays >= 7 ? `Last ${windowDays} days` : `Last ${windowDays} days (rolling)`;
+  const windowLabel = slice.aggregated
+    ? `Last ${windowDays} days (${slice.blocks} \u00d7 3-day snapshots)`
+    : (windowDays >= 7 ? `Last ${windowDays} days` : `Last ${windowDays} days (rolling)`);
+  const shortfall = slice.missing && slice.missing.length
+    ? ` \u00b7 <em title="No snapshot stored for ${slice.missing.join(', ')}">${slice.blocks} of ${slice.wantedBlocks} snapshots available</em>`
+    : "";
+  const winToggle = '<div class="clarity-win" role="group" aria-label="Clarity window">' +
+    CLARITY_WINDOWS.map((d) =>
+      `<button type="button" data-cwin="${d}" aria-pressed="${d === clarityWindowDays}">${d}d</button>`
+    ).join("") + "</div>";
   const syncedDate = (slice.syncedAt || "").slice(0, 10);
 
   const findMetric = (name) => latest.find(m => m.metricName === name);
@@ -594,14 +722,17 @@ function renderLinkedSiteDetail(linked) {
       <div class="linked-site-header">
         <div>
           <h3>📊 ${linked.siteTitle}</h3>
-          <p class="linked-site-source"><strong>${windowLabel}</strong> from Microsoft Clarity · project <code>${site.projectId}</code> · synced ${syncedDate}${windowDays >= 7 ? ' · <em>manual export</em>' : ''}</p>
+          <p class="linked-site-source"><strong>${windowLabel}</strong> from Microsoft Clarity · project <code>${site.projectId}</code> · synced ${syncedDate}${slice.aggregated ? '' : (windowDays >= 7 ? ' · <em>manual export</em>' : '')}${shortfall}</p>
         </div>
-        <a class="linked-site-cta" href="${linked.siteUrl}" target="_blank" rel="noopener">Open live site ↗</a>
+        <div class="linked-site-controls">
+          ${winToggle}
+          <a class="linked-site-cta" href="${linked.siteUrl}" target="_blank" rel="noopener">Open live site ↗</a>
+        </div>
       </div>
 
       <div class="linked-kpi-grid">
         <div class="linked-kpi"><span class="linked-kpi-label">Sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalSessionCount, 10))}</span></div>
-        <div class="linked-kpi"><span class="linked-kpi-label">Distinct users</span><span class="linked-kpi-value">${fmt(parseInt(traffic.distinctUserCount, 10))}</span></div>
+        <div class="linked-kpi"${slice.aggregated ? ' title="Upper bound. Clarity reports distinct users per snapshot and cannot de-duplicate across them, so anyone who visited in more than one 3-day block is counted more than once."' : ''}><span class="linked-kpi-label">Distinct users${slice.aggregated ? ' (max)' : ''}</span><span class="linked-kpi-value">${slice.aggregated ? '\u2264 ' : ''}${fmt(parseInt(traffic.distinctUserCount, 10))}</span></div>
         ${linked.pageTitleMatch ? `<div class="linked-kpi"><span class="linked-kpi-label">${linked.focusedLabel || 'Filtered sessions'}</span><span class="linked-kpi-value">${fmt(focusedSessions)}</span></div>` : ''}
         <div class="linked-kpi"><span class="linked-kpi-label">Avg scroll depth</span><span class="linked-kpi-value">${scrollDepth != null ? Math.round(scrollDepth) + "%" : "—"}</span></div>
         <div class="linked-kpi"><span class="linked-kpi-label">Active time</span><span class="linked-kpi-value">${fmtTime(engagement.activeTime)}</span></div>
@@ -1116,6 +1247,15 @@ function renderRepoCards(rows) {
     </div>
   `).join("");
 }
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest(".clarity-win button[data-cwin]");
+  if (!b) return;
+  const next = parseInt(b.getAttribute("data-cwin"), 10);
+  if (!Number.isFinite(next) || next === clarityWindowDays) return;
+  clarityWindowDays = next;
+  renderSites(SITES_CACHE);
+});
 
 function renderSites(sites) {
   const wrap = document.getElementById("site-grid");
