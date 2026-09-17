@@ -3639,6 +3639,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
       "sourceKey": "Local",
       "repo": "https://github.com/microsoft/CoworkDashboard",
       "download": "https://github.com/microsoft/CoworkDashboard/archive/refs/heads/main.zip",
+      "demoVideo": "https://microsoft.github.io/CoworkDashboard/demo-report.html",
       "guide": "https://microsoft.github.io/CoworkDashboard/",
       "preview": "https://raw.githubusercontent.com/microsoft/CoworkDashboard/main/images/example-report-post.png",
       "blurb": "A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export.",
@@ -6545,11 +6546,28 @@ a.mk-sharebtn:hover{ text-decoration:none; }
     /* One destination only: the repository. The separate Download template
        button pointed at a raw file and confused people about where the
        template actually lives. */
-    out += step('Get the template',
-      repo ? '<p>Open it in Power BI Desktop and point the parameters at your own data.' +
+    /* Nine of the catalog are not Power BI templates - browser apps, Cowork
+       skills, CLI scripts - and telling those to open Power BI Desktop is
+       simply wrong. The hosted-app branch below never fired, because it keys
+       off a missing repo and all of them carry one. */
+    var isPbi = (req.software || []).some(function (x) {
+      return /power bi/i.test(x.label || '');
+    });
+    var isRepo = /^https:\/\/github\.com\//i.test(t.repo || '');
+    var getHead = isPbi ? 'Get the template' : (isRepo ? 'Get it from GitHub' : 'Open the app');
+    var getCopy = isPbi
+      ? 'Open it in Power BI Desktop and point the parameters at your own data.'
+      : (isRepo
+          ? 'Everything you need is in the repository - follow its README to install and run it.'
+          : 'It runs in the browser. There is nothing to download or install.');
+    var getCta = isPbi
+      ? 'Download this template on GitHub'
+      : (isRepo ? 'Open the repository on GitHub' : 'Open the app');
+    out += step(getHead,
+      repo ? '<p>' + getCopy +
              (meta.time ? ' Expect around <strong>' + esc(meta.time) + '</strong>.' : '') + '</p>' +
            '<a class="gx-cta gx-cta--big" href="' + repo +
-             '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>'
+             '" target="_blank" rel="noopener noreferrer">' + getCta + '</a>'
          : '<p class="gx-hint">This one is a hosted app rather than a downloadable template, ' +
            'so there is nothing to open in Power BI Desktop.</p>');
     var refs = [];
