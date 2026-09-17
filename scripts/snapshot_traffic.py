@@ -45,6 +45,7 @@ REPOS: list[str] = [
     "microsoft/PAX-Cookbook",
     "microsoft/CreditUsage",
     "microsoft/What-I-did-with-Cowork",
+    "microsoft/CoworkDashboard",
     "microsoft/ValueLens-for-Microsoft-Copilot",
     "microsoft/ConsumptionCentral-for-Microsoft-Copilot",
     "microsoft/AgentEvaluator-for-Copilot-Studio",
@@ -69,6 +70,13 @@ EXPECTED_FORBIDDEN: frozenset[str] = frozenset({
     # Repo metadata (stars, releases) still collects on read access.
     # Remove this entry once write access is granted.
     "microsoft/AgentEvaluator-for-Copilot-Studio",
+    # Added to REPOS on 2026-09-17. The org token is a fine-grained PAT scoped
+    # to selected repositories, so a newly-created repo is not covered until it
+    # is picked at the next weekly rotation. Listed here so the nightly run does
+    # not go red every night in the meantime, which would bury a real PAT expiry.
+    # Remove this entry once a rotation includes it - the run log shows whether
+    # its traffic call returned 200.
+    "microsoft/CoworkDashboard",
 })
 
 # Maximum allowed age (in hours) of any required repo's lastTrafficSync at the
