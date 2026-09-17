@@ -42,7 +42,7 @@ let SITES_CACHE = {};
    3 rather than the 7/14/30 available on the GitHub side, where we hold real
    per-day counts. */
 const CLARITY_SNAPSHOT_DAYS = 3;
-const CLARITY_WINDOWS = [3, 6, 15, 30];
+const CLARITY_WINDOWS = [3, 7, 14, 30];
 let clarityWindowDays = CLARITY_SNAPSHOT_DAYS;
 
 const shiftIsoDate = (iso, days) => {
@@ -67,18 +67,19 @@ function blockSessions(metrics) {
 }
 
 /* Combine N non-overlapping snapshots into one payload shaped exactly like a
-   single snapshot, so every consumer downstream keeps working unchanged. */
-function aggregateClarity(site, days) {
-  const snaps = site.snapshots || {};
-  const dates = Object.keys(snaps).sort();
+   single snapshot, so every consumer downstream keeps working unchanged.
+   stride is how many days each stored snapshot covers: 1 for dailySnapshots,
+   3 for the older rolling series. Stepping by the stride is what keeps the
+   pieces from overlapping. */
+function combineClarity(snaps, wanted, stride) {
+  const dates = Object.keys(snaps || {}).sort();
   if (!dates.length) return null;
   const latest = dates[dates.length - 1];
-  const wanted = Math.max(1, Math.round(days / CLARITY_SNAPSHOT_DAYS));
 
   const blocks = [];
   const missing = [];
   for (let i = 0; i < wanted; i++) {
-    const d = shiftIsoDate(latest, -i * CLARITY_SNAPSHOT_DAYS);
+    const d = shiftIsoDate(latest, -i * stride);
     if (snaps[d]) blocks.push({ date: d, metrics: snaps[d] });
     else missing.push(d);
   }
@@ -137,13 +138,35 @@ function aggregateClarity(site, days) {
   return {
     metrics,
     syncedAt: latest,
-    windowDays: blocks.length * CLARITY_SNAPSHOT_DAYS,
+    windowDays: blocks.length * stride,
     blocks: blocks.length,
     wantedBlocks: wanted,
     missing,
+    stride,
     aggregated: blocks.length > 1,
     source: blocks.length > 1 ? "Clarity snapshots combined" : "Clarity rolling snapshot",
   };
+}
+
+/* Exact window from the 1-day series. Only returned when every day in the
+   span is present - a partial answer labelled "last 7 days" would be worse
+   than falling back to something whose span we can state honestly. */
+function aggregateClarityDaily(site, days) {
+  const daily = site.dailySnapshots || {};
+  if (Object.keys(daily).length < days) return null;
+  const got = combineClarity(daily, days, 1);
+  if (!got || got.missing.length) return null;
+  got.exact = true;
+  got.source = "Clarity daily snapshots";
+  return got;
+}
+
+/* Fallback for spans the 1-day series cannot cover yet: whole 3-day
+   snapshots stepped 3 days apart. Only lands on multiples of 3, so the
+   label has to state the span it actually covers. */
+function aggregateClarity(site, days) {
+  const wanted = Math.max(1, Math.round(days / CLARITY_SNAPSHOT_DAYS));
+  return combineClarity(site.snapshots || {}, wanted, CLARITY_SNAPSHOT_DAYS);
 }
 
 // Sub-app URL family mapping. Substring match against Clarity's Url
@@ -272,6 +295,12 @@ function resolveLinkedSiteSlice(linked) {
 
   /* A longer window is always built from the snapshots, never from the
      baseline, which only ever describes its own fixed period. */
+  /* Exact first. The daily series only starts accruing from the night this
+     shipped, so until it is deep enough this falls through to the 3-day
+     blocks, which cover a different span and say so. */
+  const exact = aggregateClarityDaily(site, clarityWindowDays);
+  if (exact) return exact;
+
   if (clarityWindowDays > snapshotWindow) {
     const agg = aggregateClarity(site, clarityWindowDays);
     if (agg) return agg;
@@ -656,9 +685,16 @@ function renderLinkedSiteDetail(linked) {
   }
   const latest = slice.metrics;
   const windowDays = slice.windowDays || 3;
-  const windowLabel = slice.aggregated
-    ? `Last ${windowDays} days (${slice.blocks} \u00d7 3-day snapshots)`
-    : (windowDays >= 7 ? `Last ${windowDays} days` : `Last ${windowDays} days (rolling)`);
+  const windowLabel = slice.exact
+    ? `Last ${windowDays} days`
+    : slice.aggregated
+      ? `Last ${windowDays} days (${slice.blocks} \u00d7 3-day snapshots)`
+      : (windowDays >= 7 ? `Last ${windowDays} days` : `Last ${windowDays} days (rolling)`);
+  /* Say so when the span on screen is not the span that was clicked. */
+  const askedFor = clarityWindowDays;
+  const spanNote = (!slice.exact && windowDays !== askedFor)
+    ? ` \u00b7 <em title="Clarity caps an export at 3 days, so until the 1-day series is deep enough a ${askedFor}-day span can only be built from whole 3-day snapshots.">${askedFor}-day span not available yet</em>`
+    : "";
   const shortfall = slice.missing && slice.missing.length
     ? ` \u00b7 <em title="No snapshot stored for ${slice.missing.join(', ')}">${slice.blocks} of ${slice.wantedBlocks} snapshots available</em>`
     : "";
@@ -722,7 +758,7 @@ function renderLinkedSiteDetail(linked) {
       <div class="linked-site-header">
         <div>
           <h3>📊 ${linked.siteTitle}</h3>
-          <p class="linked-site-source"><strong>${windowLabel}</strong> from Microsoft Clarity · project <code>${site.projectId}</code> · synced ${syncedDate}${slice.aggregated ? '' : (windowDays >= 7 ? ' · <em>manual export</em>' : '')}${shortfall}</p>
+          <p class="linked-site-source"><strong>${windowLabel}</strong>${spanNote} from Microsoft Clarity · project <code>${site.projectId}</code> · synced ${syncedDate}${slice.aggregated ? '' : (windowDays >= 7 ? ' · <em>manual export</em>' : '')}${shortfall}</p>
         </div>
         <div class="linked-site-controls">
           ${winToggle}

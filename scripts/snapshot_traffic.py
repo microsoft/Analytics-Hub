@@ -261,8 +261,10 @@ def fetch_traffic(repo: str) -> tuple[dict, list[tuple[str, int]]]:
 # ---------------------------------------------------------------- clarity
 
 
-def fetch_clarity(token: str, by_url: bool = False) -> dict | None:
-    """Single Clarity Data Export call: last 3 days (max allowed).
+def fetch_clarity(
+    token: str, by_url: bool = False, num_days: int = 3
+) -> dict | None:
+    """Single Clarity Data Export call. num_days=3 is the maximum allowed.
 
     The token is project-scoped — Clarity returns data for whichever
     project generated it. No project ID is sent on the request.
@@ -273,13 +275,22 @@ def fetch_clarity(token: str, by_url: bool = False) -> dict | None:
     days; consumers should treat the latest snapshot as a 3-day rolling
     summary, not a single-day total.
 
+    num_days=1 is also accepted, and is what makes arbitrary windows
+    possible. Three-day snapshots taken daily overlap by two days, so they
+    cannot be summed - every calendar day sits inside three of them, and
+    adding seven of them inflates the total roughly threefold. A 1-day
+    call returns a single non-overlapping day, so any span (7, 14, 30)
+    becomes a straight sum. Stored separately under dailySnapshots; the
+    3-day series is left alone because the 100+ days already collected
+    cannot be re-derived at 1-day resolution.
+
     When by_url=True, adds ``dimension1=URL`` so metrics are broken out
     per page URL instead of aggregated site-wide. This is what powers the
     per-page ranking view (which sub-app is winning, etc.).
     """
     if not token:
         return None
-    params = "numOfDays=3"
+    params = f"numOfDays={int(num_days)}"
     if by_url:
         params += "&dimension1=URL"
     url = (
@@ -293,7 +304,7 @@ def fetch_clarity(token: str, by_url: bool = False) -> dict | None:
     status, data = _get_json(url, headers)
     if status == 200:
         return data
-    label = "by-url" if by_url else "aggregate"
+    label = "by-url" if by_url else f"{num_days}-day"
     print(f"  ! clarity ({label}): HTTP {status}", file=sys.stderr)
     return None
 
@@ -425,6 +436,16 @@ def main() -> int:
         data_by_url = fetch_clarity(token, by_url=True)
         if data_by_url is not None:
             site.setdefault("snapshotsByUrl", {})[today_key] = data_by_url
+        # Single-day totals. These do NOT overlap, so consumers can sum any
+        # number of them to get an exact 7-, 14- or 30-day figure - which the
+        # 3-day series above can never give, because its windows overlap.
+        # Third and last Clarity call per project per day; the free tier
+        # allows 10. Deliberately NOT covered by a health gate yet: until a
+        # run or two proves it, a hiccup here must not turn the nightly red
+        # and bury a real PAT expiry.
+        data_1d = fetch_clarity(token, num_days=1)
+        if data_1d is not None:
+            site.setdefault("dailySnapshots", {})[today_key] = data_1d
 
     history["lastUpdated"] = now.isoformat().replace("+00:00", "Z")
 
