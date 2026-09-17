@@ -50,6 +50,7 @@
       color:var(--accent,#0078d4);}
     .evt-badge--rec{background:color-mix(in srgb,var(--text,#1b1b1b) 10%,transparent);color:var(--text-muted,#5a6470);}
     .evt-badge--soon{background:color-mix(in srgb,#b8860b 16%,transparent);color:#8a6d00;}
+    .evt-badge--inc{background:color-mix(in srgb,#d83b96 16%,transparent);color:#a32570;}
     .evt-level{font-size:.75rem;color:var(--text-muted,#5a6470);}
     .evt-title{font-weight:600;font-size:1.05rem;}
     .evt-when{font-size:.85rem;color:var(--text-muted,#5a6470);}
@@ -128,7 +129,30 @@
   <section class="comm-hero">
     <div class="wrap">
       <h1>Community</h1>
-      <p>Help shape the Analytics Hub. Answer a quick poll, join a live training, or catch a recording. Polls are anonymous and we never store customer data.</p>
+      <p>Help shape the Analytics Hub. Answer a quick poll, follow the learning feed for live trainings and recordings, or put your hand up to incubate a report with us before it ships. Polls are anonymous and we never store customer data.</p>
+    </div>
+  </section>
+
+  <section class="comm-section" id="incubate">
+    <div class="wrap">
+      <h2>Incubate a report with us</h2>
+      <p class="sub">Some templates are still being shaped. Take an early build for a run against your own data, tell us what breaks, and help settle the metric definitions before it ships.</p>
+      <div class="comm-grid">
+        <article class="evt-card">
+          <div class="evt-top">
+            <span class="evt-badge evt-badge--inc">Incubating</span>
+            <span class="evt-level">Power BI template &middot; testing</span>
+          </div>
+          <div class="evt-title">Cowork Adoption</div>
+          <div class="evt-when">Purview audit export &middot; about 10 minutes on the sample data</div>
+          <p class="evt-summary">Nine pages on how Copilot Cowork is actually being adopted: activation, how consistently people come back, what work they delegate, and who is emerging as a champion. The metric definitions are the part we most want challenged.</p>
+          <p class="evt-note">Taking part means running it against your own tenant data and telling us what does not hold up. Open the card for the walkthrough, the roles you will need, and the way in.</p>
+          <div class="evt-actions">
+            <a class="evt-btn" href="../choose-report/#d=cowork-adoption">Open the report card</a>
+            <a class="evt-btn evt-btn--ghost" href="../choose-report/#r=cowork-adoption">Enablement guide</a>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 

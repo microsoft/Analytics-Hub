@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Which report should I use? &mdash; Reports &middot; Analytics Hub</title>
-  <meta name="description" content="Filter twenty-two open-source Microsoft Copilot reporting templates by goal, by Copilot surface, or both. Every report carries a setup guide and a downloadable template on GitHub." />
+  <meta name="description" content="Filter twenty-three open-source Microsoft Copilot reporting templates by goal, by Copilot surface, or both. Every report carries a setup guide and a downloadable template on GitHub." />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
@@ -1685,8 +1685,20 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
    back the two things the button had by default. */
 a.mk-sharebtn{ display:inline-block; text-decoration:none; }
 a.mk-sharebtn:hover{ text-decoration:none; }
+a.mk-joinbtn{
+  display:inline-block; text-decoration:none; white-space:nowrap;
+  font:inherit; font-size:20px; font-weight:700; line-height:1;
+  padding:14px 26px; border-radius:12px; color:#fff;
+  background-color:#0f6f63;
+  background-image:linear-gradient(135deg,#14a08f 0%,#0b5a50 100%);
+}
+a.mk-joinbtn:hover{
+  text-decoration:none;
+  background-image:linear-gradient(135deg,#18b8a4 0%,#0d6c60 100%);
+}
+a.mk-joinbtn:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2px; }
 @media (max-width:700px){
-  .mk-ghbtn, .mk-sharebtn{ font-size:16px; padding:12px 20px; }
+  .mk-ghbtn, .mk-sharebtn, a.mk-joinbtn{ font-size:16px; padding:12px 20px; }
   .mk-sharebtn{ margin-left:0; }
 }
 </style>
@@ -1778,7 +1790,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
           <p class="pk-lead-eyebrow">Which report should I use?</p>
           <h1 class="pk-lead2-h">Filter by <span class="pk-hl-a">goal</span>,
             <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h1>
-          <p class="pk-lead2-p">Twenty-two open-source templates, each built alongside the customer
+          <p class="pk-lead2-p">Twenty-three open-source templates, each built alongside the customer
             who needed it first.</p>
         </div>
 
@@ -3699,6 +3711,84 @@ a.mk-sharebtn:hover{ text-decoration:none; }
           ]
         }
       ]
+    },
+    {
+      "id": "cowork-adoption",
+      "incubating": true,
+      "question": "I want to see how Cowork is being adopted, who keeps coming back, and who could be a champion.",
+      "title": "Cowork Adoption",
+      "icon": "\uD83C\uDF31",
+      "accent": "#d83b96",
+      "category": "adoption-behavior",
+      "tier": "specialty",
+      "measures": [
+        "adoption",
+        "impact"
+      ],
+      "source": "Purview audit (CopilotInteraction where AppHost is Cowork) + optional M365 Cowork usage export",
+      "sourceKey": "Purview",
+      "repo": "https://github.com/microsoft/Cowork-Adoption-Intelligence",
+      "download": "https://github.com/microsoft/Cowork-Adoption-Intelligence/archive/refs/heads/main.zip",
+      "guide": "https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md",
+      "preview": "https://raw.githubusercontent.com/microsoft/Cowork-Adoption-Intelligence/main/images/report-pages/02-executive-summary.png",
+      "demoVideo": "https://github.com/microsoft/Cowork-Adoption-Intelligence/raw/main/media/Cowork-Adoption-Intelligence-Walkthrough.mp4",
+      "blurb": "A data-free Power BI template that turns approved Purview audit exports into a nine-page Cowork adoption report: activation, sustained usage, action patterns, delegation maturity and emerging champion signals. Still in testing - the metric definitions are exactly what we want your help pressure-testing before it ships.",
+      "meta": {
+        "audience": "Cowork program owners, adoption leads, enablement teams",
+        "license": "Purview Audit Reader + Reports Reader",
+        "time": "~10 min on the sample data"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-get-started#step-2-assign-permissions-to-search-the-audit-log"
+          },
+          {
+            "label": "Reports Reader (for Cowork usage detail)",
+            "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/cowork-usage-report"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "cowork-team-report",
+          "title": "Team Cowork Skills",
+          "icon": "\uD83D\uDCEC",
+          "accent": "#8661c5",
+          "score": 6,
+          "shared": [
+            "adoption",
+            "impact"
+          ]
+        },
+        {
+          "id": "cowork-impact",
+          "title": "What Cowork Did For Me",
+          "icon": "\uD83C\uDF81",
+          "accent": "#e3008c",
+          "score": 5,
+          "shared": [
+            "impact"
+          ]
+        },
+        {
+          "id": "super-usage",
+          "title": "Super Usage Adoption",
+          "icon": "\uD83D\uDD25",
+          "accent": "#8661c5",
+          "score": 5,
+          "shared": [
+            "adoption"
+          ]
+        }
+      ]
     }
   ],
   "CATEGORIES": [
@@ -4152,6 +4242,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
     'cowork-billing-report': ['chargeback', 'billing', 'cost allocation', 'departments', 'cowork', 'credits', 'showback'],
     'cowork-chargeback-app': ['chargeback', 'scenario modelling', 'what-if', 'credits', 'cowork', 'web app'],
     'cowork-team-report':   ['cowork', 'cowork skills', 'team cowork skills', 'skill', 'teams channel', 'hours saved', 'newsletter', 'team roi'],
+    'cowork-adoption':      ['cowork', 'adoption', 'engagement', 'delegation', 'champions', 'purview', 'incubating'],
     'cowork-policy-helper-app': ['policy', 'spend limits', 'exceptions', 'governance', 'guardrails', 'cowork'],
     'finops-focus-app': ['finops', 'focus', 'cost', 'cloud finance', 'unit economics', 'cowork'],
     'cowork-roi-model-app': ['roi', 'scenario modelling', 'business case', 'forecasting', 'cowork'],
@@ -4258,6 +4349,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
     'finops-focus-app':           { p: ['cowork'],                 d: ['credits'],                      a: 'FinOps, cloud finance' },
     'cowork-roi-model-app':       { p: ['cowork'],                 d: ['personal'],                     a: 'Finance, value teams' },
     'cowork-team-report':         { p: ['cowork'],                 d: ['personal'],                     a: 'Team leads, managers, ICs' },
+    'cowork-adoption':            { p: ['cowork'],                 d: ['purview','m365admin'],          a: 'Cowork program & adoption leads' },
     'pax':                        { p: ['m365','chat','studio'],   d: ['purview'],                      a: 'IT admins, data engineers' },
     'customize':                  { p: ['m365'],                   d: ['viva'],                         a: 'Report builders, analysts' }
   };
@@ -4364,6 +4456,33 @@ a.mk-sharebtn:hover{ text-decoration:none; }
       '$1/blob/$2'
     );
   }
+  var INCUBATE_TO = 'copilot-roi-advisory-team-gh@microsoft.com';
+
+  /* CRLF line breaks: Outlook is the common client here and is the fussiest
+     about bare newlines in a mailto body. The body deliberately ends on a
+     blank line so the signature the client adds lands under the message
+     rather than being jammed against the last sentence. */
+  function incubateMailto(t) {
+    var name = titleOf(t);
+    var body = [
+      'Hello,',
+      '',
+      'I would like to help incubate the ' + name + ' report.',
+      '',
+      'How I would like to take part (delete what does not apply):',
+      '  - Run the template against my own tenant data and send findings back',
+      '  - Pressure-test the metric definitions',
+      '  - Join a working session with the team',
+      '',
+      'My team, and what we are trying to measure:',
+      '  - ',
+      ''
+    ].join('\r\n');
+    return 'mailto:' + INCUBATE_TO +
+      '?subject=' + encodeURIComponent('Incubation: ' + name) +
+      '&body=' + encodeURIComponent(body);
+  }
+
   function isEmbeddableVideo(v) {
     var u = safeUrl(v);
     return !!u && /\.(?:mp4|webm|ogv|ogg|m4v)(?:[?#].*)?$/i.test(u);
@@ -4973,6 +5092,15 @@ a.mk-sharebtn:hover{ text-decoration:none; }
        so it is a real link - middle-click, ctrl-click and "open in new tab"
        all behave, and Back still works because this page never unloads.
        #r= is the same deep link the guide's own Copy link button hands out. */
+    /* An incubating report gets a third action - the way in. A plain mailto
+       hands off to whatever mail client the machine actually uses. Subject and
+       body are prefilled, but the body stops before any sign-off: the client
+       appends the sender's own signature, and inventing one here would
+       overwrite it with something that is not theirs. */
+    if (t.incubating) {
+      actions.push('<a class="mk-joinbtn" href="' + incubateMailto(t) +
+        '">Email us to take part</a>');
+    }
     actions.push('<a class="mk-sharebtn" id="mkDlgShare" href="./#r=' +
       encodeURIComponent(t.id) + '" target="_blank" rel="noopener">Enablement guide</a>');
     dlgFoot.innerHTML = actions.join('');
@@ -5160,7 +5288,9 @@ a.mk-sharebtn:hover{ text-decoration:none; }
   }).join('');
 
   pkProdEl.innerHTML = PRODUCT_ORDER.map(function (k) {
-    var n = TOOLS.filter(function (t) { return facetsOf(t.id).p.indexOf(k) !== -1; }).length;
+    var n = TOOLS.filter(function (t) {
+      return !isIncubating(t.id) && facetsOf(t.id).p.indexOf(k) !== -1;
+    }).length;
     return '<button type="button" class="pk-tile mk-pill" data-v="' + esc(k) +
       '" aria-pressed="false">' +
       '<span class="pk-tile-t">' + esc(PRODUCT_LABELS[k] || k) +
@@ -5182,7 +5312,17 @@ a.mk-sharebtn:hover{ text-decoration:none; }
             sourceNames(id).join(' '), audienceOf(id) || '', EFFORT[id] || '']
       .join(' ').toLowerCase();
   }
+  /* Incubating reports are not part of the shipped catalog. They stay
+     reachable through #d= and #r= so the community page can link straight to
+     the flyout and the guide, but they must not appear in the picker, in its
+     pill counts, or in the guided list - that would read as "available". */
+  function isIncubating(id) {
+    var t = toolById[id];
+    return !!(t && t.incubating);
+  }
+
   function pkMatches(id) {
+    if (isIncubating(id)) return false;
     if (pkState.goal && !goalRank(id, pkState.goal)) return false;
     if (pkState.prods.length && prodHits(id) === 0) return false;
     if (pkState.q) {
@@ -5486,7 +5626,9 @@ a.mk-sharebtn:hover{ text-decoration:none; }
   var gdGenEl = document.getElementById('mkGdGen');
   var gdShownEl = document.getElementById('mkGdShown');
 
-  gdListEl.innerHTML = TOOLS.map(function (t) {
+  gdListEl.innerHTML = TOOLS.filter(function (t) {
+    return !isIncubating(t.id);
+  }).map(function (t) {
     return '<label class="gd-item" data-id="' + esc(t.id) + '">' +
       '<input type="checkbox" value="' + esc(t.id) + '">' +
       '<span>' +
@@ -5515,7 +5657,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
       el.hidden = !ok;
       if (ok) n++;
     });
-    gdShownEl.textContent = n + ' of ' + TOOLS.length + ' shown';
+    gdShownEl.textContent = n + ' of ' + TOOLS.filter(function (t) { return !isIncubating(t.id); }).length + ' shown';
   }
 
   function gdLink() {
@@ -6133,6 +6275,45 @@ a.mk-sharebtn:hover{ text-decoration:none; }
         'not want included; removed sessions are never computed or published. Posts carry no names, ' +
         'prompts or raw filenames, and the manager skill only ever reads what teammates choose to ' +
         'post - never anyone\'s files.'
+    },
+    'cowork-adoption': {
+      reads: 'One required export - <strong>Microsoft Purview</strong> audit records for the ' +
+        '<code>CopilotInteraction</code> operation, kept as raw CSV - plus an optional ' +
+        '<strong>Microsoft 365</strong> Cowork usage export and optional organization files ' +
+        'for segmentation.',
+      easy: 'the repository ships a fabricated sample package, so you can load the template ' +
+        'and see all nine pages in about ten minutes with no tenant role at all. Do that first ' +
+        'and you will know what you are collecting for. ' +
+        lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-a-try-the-report-with-fabricated-data', 'Path A in the setup guide') +
+        ' walks it through.',
+      steps: [
+        'Download the <code>.pbit</code> template and the ' +
+          lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/release/Cowork-Adoption-Intelligence-Sample-Data.zip', 'sample data package') +
+          ', extract the ZIP, open the template and point <code>DataFolderPath</code> at the ' +
+          'extracted folder. Refresh and confirm you see 72 fictional users.',
+        'For real data, in ' + lk('https://purview.microsoft.com/', 'Microsoft Purview') +
+          ' open <strong>Audit</strong>, create a search over your reporting window in UTC, and ' +
+          'set <strong>Activities - operation names</strong> to <code>CopilotInteraction</code>. ' +
+          'Export the result and keep the raw CSV unchanged.',
+        'Check the export carries <code>RecordId</code>, <code>CreationDate</code>, ' +
+          '<code>Operation</code>, <code>UserId</code> and <code>AuditData</code>, and that at ' +
+          'least one row has <code>CopilotEventData.AppHost</code> containing <code>cowork</code>. ' +
+          'Do not expand or reformat the JSON inside <code>AuditData</code>.',
+        'Optional but recommended: in the ' + lk(URL_MAC, 'Microsoft 365 admin center') +
+          ' go to <strong>Copilot</strong> then <strong>Cowork</strong> then ' +
+          '<strong>Usage</strong> and export <strong>Cowork usage details</strong>. Save it as ' +
+          '<code>CoworkUserDetails.csv</code> with the headers the setup guide lists.',
+        'Put the files in one protected working folder, set <code>DataFolderPath</code> to it, ' +
+          'refresh, and validate the pages against the checks in ' +
+          lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#step-7-load-and-validate', 'step 7 of the setup guide') + '.'
+      ],
+      note: 'Audit searches accept a maximum 180-day range, so a longer window needs several ' +
+        'non-overlapping exports dropped into the same folder - the model combines them and drops ' +
+        'duplicate <code>RecordId</code> values. Note also that user identities are concealed by ' +
+        'default in Microsoft 365 usage reports, and <code>Reports Reader</code> does not override ' +
+        'that; changing the tenant-wide setting is a Global Administrator decision under your own ' +
+        'privacy policy. Do not grant Global Administrator to the report operator. This template is ' +
+        'still in testing, so validate the metric definitions before anyone acts on the numbers.'
     },
     'adoption-sentiment': {
       reads: 'One required CSV - the Copilot activity export from the <strong>Microsoft 365 ' +
