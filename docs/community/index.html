@@ -41,6 +41,8 @@
     .comm-section h2{margin:0 0 .3rem;}
     .comm-section .sub{margin:0 0 1.2rem;color:var(--text-muted,#5a6470);}
     .comm-grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));}
+    .comm-two{display:grid;gap:1.4rem 2rem;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));align-items:start;}
+    .comm-col{min-width:0;}
     .comm-empty{color:var(--text-muted,#5a6470);font-style:italic;}
     .evt-card{border:1px solid var(--border,#e2e6ea);border-radius:12px;padding:1.1rem 1.2rem;
       background:var(--surface,#fff);display:flex;flex-direction:column;gap:.6rem;}
@@ -133,6 +135,47 @@
     </div>
   </section>
 
+
+
+
+  <section class="comm-section">
+    <div class="wrap">
+      <div class="comm-two">
+        <section class="comm-col" id="learning-feed">
+      <h2>Learning Feed</h2>
+      <p class="sub">Living resources that track how Microsoft Copilot guidance is changing. More feeds coming soon.</p>
+      <div class="lf-grid">
+        <a class="lf-card" href="./cowork-document-monitor/">
+          <div class="lf-top"><span class="lf-badge">Doc tracker</span><span class="lf-live">Updated 15 Sep 2026</span></div>
+          <div class="lf-kpi"><span class="lf-num">17</span><span class="lf-unit">changes logged &middot; 20 pages watched</span></div>
+          <div class="lf-title">Cowork Document Monitor</div>
+          <p class="lf-desc">A plain-language change log of the Microsoft Learn pages behind Copilot Cowork Copilot Credit billing &mdash; what each page said before, what it says now, and the date it changed, with verbatim quotes from the source pages.</p>
+          <span class="lf-go">Open feed &rarr;</span>
+        </a>
+      </div>
+        </section>
+
+        <section class="comm-col" id="polls" hidden>
+      <h2>Polls</h2>
+      <p class="sub">Two-second answers that steer what we build next.</p>
+      <div class="comm-grid" id="poll-list"></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="comm-section" id="events" hidden>
+    <div class="wrap">
+      <h2>Events &amp; trainings</h2>
+      <p class="sub">Live sessions you can register for, plus on-demand recordings.</p>
+
+      <h3 id="events-upcoming-h">Upcoming</h3>
+      <div class="comm-grid" id="events-upcoming"></div>
+
+      <h3 id="events-recordings-h" style="margin-top:1.6rem;">Recordings</h3>
+      <div class="comm-grid" id="events-recordings"></div>
+    </div>
+  </section>
   <section class="comm-section" id="incubate">
     <div class="wrap">
       <h2>Incubate a report with us</h2>
@@ -156,42 +199,6 @@
     </div>
   </section>
 
-  <section class="comm-section" id="learning-feed">
-    <div class="wrap">
-      <h2>Learning Feed</h2>
-      <p class="sub">Living resources that track how Microsoft Copilot guidance is changing. More feeds coming soon.</p>
-      <div class="lf-grid">
-        <a class="lf-card" href="./cowork-document-monitor/">
-          <div class="lf-top"><span class="lf-badge">Doc tracker</span><span class="lf-live">Updated 15 Sep 2026</span></div>
-          <div class="lf-kpi"><span class="lf-num">17</span><span class="lf-unit">changes logged &middot; 20 pages watched</span></div>
-          <div class="lf-title">Cowork Document Monitor</div>
-          <p class="lf-desc">A plain-language change log of the Microsoft Learn pages behind Copilot Cowork Copilot Credit billing &mdash; what each page said before, what it says now, and the date it changed, with verbatim quotes from the source pages.</p>
-          <span class="lf-go">Open feed &rarr;</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="comm-section" id="polls" hidden>
-    <div class="wrap">
-      <h2>Polls</h2>
-      <p class="sub">Two-second answers that steer what we build next.</p>
-      <div class="comm-grid" id="poll-list"></div>
-    </div>
-  </section>
-
-  <section class="comm-section" id="events" hidden>
-    <div class="wrap">
-      <h2>Events &amp; trainings</h2>
-      <p class="sub">Live sessions you can register for, plus on-demand recordings.</p>
-
-      <h3 id="events-upcoming-h">Upcoming</h3>
-      <div class="comm-grid" id="events-upcoming"></div>
-
-      <h3 id="events-recordings-h" style="margin-top:1.6rem;">Recordings</h3>
-      <div class="comm-grid" id="events-recordings"></div>
-    </div>
-  </section>
 </main>
 
 <footer class="site-footer">
