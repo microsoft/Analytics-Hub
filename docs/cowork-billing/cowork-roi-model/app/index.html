@@ -32,6 +32,9 @@
   --cp-danger: #dc2626;
   --cp-warning: #f59e0b;
   --cp-link: #0078d4;
+  --cp-rev: #0f766e;
+  --cp-cost: #1d4ed8;
+  --cp-risk: #b45309;
   --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
   --cp-overlay: rgba(255, 255, 255, 0.8);
   --cp-panel: rgba(255, 255, 255, 0.86);
@@ -58,6 +61,9 @@ html[data-theme="dark"] {
   --cp-danger: #f87171;
   --cp-warning: #fbbf24;
   --cp-link: #4da6ff;
+  --cp-rev: #5eead4;
+  --cp-cost: #93c5fd;
+  --cp-risk: #fcd34d;
   --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
   --cp-overlay: rgba(41, 41, 41, 0.88);
   --cp-panel: rgba(41, 41, 41, 0.72);
@@ -78,6 +84,7 @@ body {
 }
 .wrap { max-width: 1180px; margin: 0 auto; }
 h1 { font-size: 34px; margin: 0 0 8px; letter-spacing: -0.01em; }
+h2 { font-size: 22px; margin: 0 0 6px; letter-spacing: -0.01em; }
 p { margin: 0; color: var(--cp-text-muted); }
 
 .card {
@@ -87,11 +94,56 @@ p { margin: 0; color: var(--cp-text-muted); }
   box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
 }
 
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 6px;
+  border-bottom: 1px solid var(--cp-border);
+}
+.tab-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  color: var(--cp-text-muted);
+  padding: 11px 18px;
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  top: 1px;
+}
+.tab-btn .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  margin-right: 8px;
+}
+.tab-btn.active {
+  color: var(--cp-text);
+  background: var(--cp-surface);
+  border-color: var(--cp-border);
+}
+.tab-btn.active .num { background: var(--cp-accent); color: var(--cp-accent-fg); }
+.tab-btn:hover:not(.active) { color: var(--cp-text); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
 .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 18px 0; }
 .stat { padding: 16px 18px; }
 .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cp-text-muted); font-weight: 700; }
 .stat .v { font-size: 34px; font-weight: 800; margin-top: 4px; letter-spacing: -0.01em; }
 .stat .v.accent { color: var(--cp-accent); }
+.stat .v.rev { color: var(--cp-rev); }
+.stat .v.cost { color: var(--cp-cost); }
+.stat .v.risk { color: var(--cp-risk); }
 .stat .sub { font-size: 12px; color: var(--cp-text-soft); margin-top: 2px; }
 
 .controls {
@@ -213,6 +265,176 @@ tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
   color: var(--cp-text);
 }
 
+.core-input {
+  display: grid;
+  grid-template-columns: minmax(240px, 340px) 1fr;
+  gap: 18px 28px;
+  align-items: center;
+  padding: 18px 20px;
+  margin: 18px 0;
+}
+@media (max-width: 760px) { .core-input { grid-template-columns: 1fr; } }
+.rev-box { display: flex; align-items: center; gap: 8px; }
+.rev-box input {
+  font-size: 22px;
+  font-weight: 800;
+  width: 100%;
+  letter-spacing: -0.01em;
+  color: var(--cp-accent);
+}
+.persona-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.persona-group button {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--cp-border-strong);
+  background: var(--cp-surface);
+  color: var(--cp-text-muted);
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.persona-group button.active { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
+.persona-group button:hover:not(.active) { background: var(--cp-accent-soft); color: var(--cp-text); }
+
+.goal-block { margin: 22px 0; }
+.goal-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; padding: 0 4px 10px;
+}
+.goal-head h3 { margin: 0; font-size: 16px; letter-spacing: -0.01em; }
+.goal-head .goal-total { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 9px;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+.badge.rev { color: var(--cp-rev); background: color-mix(in srgb, var(--cp-rev) 14%, transparent); }
+.badge.cost { color: var(--cp-cost); background: color-mix(in srgb, var(--cp-cost) 14%, transparent); }
+.badge.risk { color: var(--cp-risk); background: color-mix(in srgb, var(--cp-risk) 14%, transparent); }
+
+.line {
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background: var(--cp-surface);
+}
+.line-head {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px;
+  cursor: pointer;
+}
+.line-head:hover { background: var(--cp-accent-soft); }
+.line-caret { color: var(--cp-text-soft); transition: transform 0.15s; font-size: 12px; }
+.line.open .line-caret { transform: rotate(90deg); }
+.line-title { flex: 1; }
+.line-title .kpi { font-weight: 700; }
+.line-title .strat { font-size: 12px; color: var(--cp-text-soft); margin-top: 1px; }
+.line-value { font-size: 18px; font-weight: 800; color: var(--cp-accent); font-variant-numeric: tabular-nums; }
+.line-body { display: none; padding: 4px 16px 14px; border-top: 1px solid var(--cp-border); }
+.line.open .line-body { display: block; }
+.calc-strip {
+  font-family: Consolas, "Courier New", Courier, monospace;
+  font-size: 12px;
+  color: var(--cp-text-muted);
+  background: var(--cp-surface-soft);
+  border: 1px solid var(--cp-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 12px 0;
+  line-height: 1.7;
+  word-break: break-word;
+}
+.assump { border-bottom: 1px solid var(--cp-border); padding: 10px 0; }
+.assump:last-child { border-bottom: none; }
+.assump-top { display: flex; align-items: center; gap: 10px; }
+.assump-label { font-weight: 600; flex: 1; }
+.assump-label .base-tag {
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--cp-text-soft); border: 1px solid var(--cp-border-strong);
+  border-radius: 4px; padding: 1px 5px; margin-right: 7px;
+}
+.assump-val { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--cp-text); min-width: 70px; text-align: right; }
+.pencil {
+  border: none; background: transparent; cursor: pointer;
+  color: var(--cp-link); font-size: 14px; padding: 2px 6px; border-radius: 6px;
+  line-height: 1;
+}
+.pencil:hover { background: var(--cp-accent-soft); }
+.assump input.edit {
+  width: 92px; text-align: right; padding: 4px 7px; font-size: 13px;
+}
+.assump-src { font-size: 11.5px; color: var(--cp-text-soft); margin-top: 4px; padding-right: 40px; }
+.assump.locked .assump-val { color: var(--cp-text-muted); }
+.mini-btn {
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  border: 1px solid var(--cp-border-strong); background: var(--cp-surface);
+  color: var(--cp-text-muted); padding: 6px 12px; border-radius: 8px; cursor: pointer;
+}
+.mini-btn:hover { background: var(--cp-accent-soft); color: var(--cp-text); }
+
+.combined-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0; }
+@media (max-width: 860px) { .combined-cols { grid-template-columns: 1fr; } }
+.combined-cols .card { padding: 18px 20px; }
+.mini-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--cp-border); font-variant-numeric: tabular-nums; }
+.mini-row:last-child { border-bottom: none; }
+.mini-row.total { font-weight: 800; border-top: 2px solid var(--cp-border-strong); border-bottom: none; margin-top: 4px; padding-top: 12px; }
+.grand {
+  padding: 22px 24px; margin: 18px 0; text-align: center;
+  background: var(--cp-accent-soft); border: 1px solid var(--cp-accent);
+}
+.grand .k { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 800; color: var(--cp-text-muted); }
+.grand .v { font-size: 44px; font-weight: 800; color: var(--cp-accent); letter-spacing: -0.02em; margin-top: 4px; }
+
+.matrix-wrap { overflow-x: auto; margin-top: 10px; }
+table.matrix { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
+table.matrix th, table.matrix td { padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--cp-border); white-space: nowrap; }
+table.matrix th:first-child, table.matrix td:first-child { text-align: left; }
+table.matrix thead th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--cp-text-muted); border-bottom: 1px solid var(--cp-border-strong); }
+table.matrix thead th.col-rev { color: var(--cp-rev); }
+table.matrix thead th.col-cost { color: var(--cp-cost); }
+table.matrix thead th.col-risk { color: var(--cp-risk); }
+table.matrix td.tot, table.matrix th.tot { font-weight: 800; }
+table.matrix tbody tr.persona-row { cursor: pointer; }
+table.matrix tbody tr.persona-row:hover { background: var(--cp-accent-soft); }
+table.matrix tbody tr.persona-row.active { background: var(--cp-accent-soft); }
+table.matrix tbody tr.persona-row td:first-child { font-weight: 600; }
+table.matrix tbody tr.persona-row.active td:first-child::before { content: "\25B8"; color: var(--cp-accent); margin-right: 6px; }
+table.matrix tfoot td { border-top: 2px solid var(--cp-border-strong); border-bottom: none; font-weight: 800; padding-top: 12px; }
+table.matrix tfoot td:first-child { text-transform: uppercase; font-size: 12px; letter-spacing: 0.05em; }
+
+.line.disabled { opacity: 0.6; }
+.line.disabled .line-title .kpi { text-decoration: line-through; color: var(--cp-text-soft); }
+.line.disabled .line-value { color: var(--cp-text-soft); }
+.line-x {
+  border: 1px solid var(--cp-border-strong); background: var(--cp-surface);
+  color: var(--cp-text-soft); font-size: 12px; font-weight: 700; line-height: 1;
+  padding: 4px 8px; border-radius: 7px; cursor: pointer;
+}
+.line-x:hover { background: color-mix(in srgb, var(--cp-cost) 14%, transparent); color: var(--cp-cost); border-color: var(--cp-cost); }
+.line.disabled .line-x:hover { background: var(--cp-accent-soft); color: var(--cp-accent); border-color: var(--cp-accent); }
+.persona-group button.excluded { text-decoration: line-through; opacity: 0.5; }
+table.matrix tbody tr.persona-row.excluded td { color: var(--cp-text-soft); text-decoration: line-through; }
+.line-flows {
+  border: 1px solid var(--cp-border-strong); background: var(--cp-surface);
+  color: var(--cp-link); font-size: 12px; font-weight: 700; line-height: 1;
+  padding: 4px 8px; border-radius: 7px; cursor: pointer; white-space: nowrap;
+}
+.line-flows:hover { background: var(--cp-accent-soft); color: var(--cp-accent); border-color: var(--cp-accent); }
+.line.flows-open .line-flows { background: var(--cp-accent-soft); color: var(--cp-accent); border-color: var(--cp-accent); }
+.flows-panel { display: none; padding: 12px 16px 14px; border-top: 1px dashed var(--cp-border); background: var(--cp-surface-soft); }
+.line.flows-open .flows-panel { display: block; }
+.flows-panel h4 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cp-text-muted); }
+.flows-panel ul { margin: 0; padding-left: 20px; }
+.flows-panel li { margin: 7px 0; font-size: 13.5px; line-height: 1.5; color: var(--cp-text); }
+table.matrix tbody tr.persona-row.excluded td:first-child::before { content: none; }
+
 @media (max-width: 760px) {
   .summary { grid-template-columns: repeat(2, 1fr); }
   .controls { grid-template-columns: 1fr; }
@@ -223,129 +445,274 @@ tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
 <body>
 <div class="wrap">
   <header>
-    <h1>Cowork value model — your assumptions, your numbers</h1>
-    <p>Everything below is editable. Enter your task volumes and assumptions, and the model computes assisted hours, value, and ROI instantly.</p>
-    <div class="ctrl" style="margin-top:12px;max-width:360px">
-      <label>Scenario / customer name <span class="hint">(optional)</span></label>
-      <input type="text" id="scenario" placeholder="e.g. Contoso — Q3 review" />
-    </div>
+    <h1>Cowork ROI Model</h1>
+    <p>Measure the assistance you can observe today, then model the downstream business impact of redeploying that capacity - by persona, across revenue, cost, and risk.</p>
   </header>
 
-  <div class="summary">
-    <div class="stat card">
-      <div class="k">Assisted hrs / mo (post Productivity Recapture)</div>
-      <div class="v" id="sumHours">0</div>
-      <div class="sub" id="sumHoursRange">Range 0 – 0 hrs</div>
-    </div>
-    <div class="stat card">
-      <div class="k">Value / mo (post Productivity Recapture)</div>
-      <div class="v accent" id="sumDollars">$0</div>
-      <div class="sub" id="sumDollarsRange">Range $0 – $0</div>
-    </div>
-    <div class="stat card">
-      <div class="k">ROI multiple (post Productivity Recapture)</div>
-      <div class="v accent" id="sumRoi">—</div>
-      <div class="sub" id="sumRoiRange">Enter monthly cost</div>
-    </div>
-    <div class="stat card">
-      <div class="k">Tasks / month</div>
-      <div class="v" id="sumTasks">0</div>
-      <div class="sub">From your inputs below</div>
-    </div>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="time"><span class="num">1</span>Time savings</button>
+    <button class="tab-btn" data-tab="impact"><span class="num">2</span>Business impact</button>
+    <button class="tab-btn" data-tab="combined"><span class="num">3</span>Combined ROI</button>
   </div>
 
-  <div class="controls card">
-    <div class="ctrl">
-      <label>Monthly Copilot credit cost <span class="hint">(drives ROI)</span></label>
-      <div class="slider-row">
-        <span>$</span>
-        <input type="number" id="cost" value="0" min="0" step="1000" />
-        <span>/ mo</span>
+  <section class="tab-panel active" id="tab-time">
+    <header style="margin-top:18px">
+      <h2>Usage-based time savings - your assumptions, your numbers</h2>
+      <p>Everything below is editable. Enter your task volumes and assumptions, and the model computes assisted hours, value, and ROI instantly.</p>
+      <div class="ctrl" style="margin-top:12px;max-width:360px">
+        <label>Scenario / customer name <span class="hint">(optional)</span></label>
+        <input type="text" id="scenario" placeholder="e.g. Contoso - Q3 review" />
       </div>
-    </div>
-    <div class="ctrl">
-      <label>Loaded labor rate</label>
-      <div class="slider-row">
-        <span>$</span>
-        <input type="number" id="rate" value="72" min="0" step="1" />
-        <span>/ hour</span>
-      </div>
-    </div>
-    <div class="ctrl">
-      <label>Users (MAU) <span class="hint">(for user subscription license cost)</span></label>
-      <div class="slider-row">
-        <input type="number" id="mau" value="0" min="0" step="1" />
-        <span>users</span>
-      </div>
-    </div>
-    <div class="ctrl">
-      <label>User subscription license (USL) <span class="hint">(optional)</span></label>
-      <div class="slider-row">
-        <span>$</span>
-        <input type="number" id="usl" value="0" min="0" step="1" />
-        <span>/ user / mo</span>
-      </div>
-    </div>
-    <div class="ctrl wide">
-      <label>Productivity Recapture Rate <span class="hint">(% of assisted time redeployed to new productive work)</span></label>
-      <div class="slider-row">
-        <input type="range" id="adj" min="0" max="100" step="5" value="100" />
-        <span class="slider-val" id="adjVal">100%</span>
-      </div>
-    </div>
-    <div class="ctrl wide">
-      <label>Reset minutes to research band</label>
-      <div class="band-group" id="bandGroup">
-        <button data-band="low">Conservative</button>
-        <button data-band="mid" class="active">Mid</button>
-        <button data-band="high">High</button>
-      </div>
-    </div>
-  </div>
+    </header>
 
-  <div class="card">
-    <div class="section-title">Per-category breakdown</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Tasks / mo</th>
-          <th>Min / task</th>
-          <th>Assisted hrs / mo</th>
-          <th>Value / mo</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-      <tfoot>
-        <tr>
-          <td>Total / month <span class="hint">(full savings)</span></td>
-          <td id="footTasks">0</td>
-          <td>—</td>
-          <td id="footHours">0</td>
-          <td class="dollars" id="footDollars">$0</td>
-        </tr>
-      </tfoot>
-    </table>
-    <div class="note">
-      <b>How it works:</b> Each row shows full estimated savings for that category:
-      Assisted hours = Tasks × Min per task ÷ 60; Value = hours × labor rate.
-      Productivity Recapture Rate applies to totals to estimate harvestable value.
+    <div class="summary">
+      <div class="stat card">
+        <div class="k">Assisted hrs / mo (post Productivity Recapture)</div>
+        <div class="v" id="sumHours">0</div>
+        <div class="sub" id="sumHoursRange">Range 0 - 0 hrs</div>
+      </div>
+      <div class="stat card">
+        <div class="k">Value / mo (post Productivity Recapture)</div>
+        <div class="v accent" id="sumDollars">$0</div>
+        <div class="sub" id="sumDollarsRange">Range $0 - $0</div>
+      </div>
+      <div class="stat card">
+        <div class="k">ROI multiple (post Productivity Recapture)</div>
+        <div class="v accent" id="sumRoi">-</div>
+        <div class="sub" id="sumRoiRange">Enter monthly cost</div>
+      </div>
+      <div class="stat card">
+        <div class="k">Tasks / month</div>
+        <div class="v" id="sumTasks">0</div>
+        <div class="sub">From your inputs below</div>
+      </div>
     </div>
-    <div class="disclosure">
-      <details>
-        <summary>Privacy note and how to verify network behavior</summary>
-        <p><b>Data handling:</b> This ROI model runs fully in your browser. Inputs and calculations stay local to your session and are not posted to any API by this page.</p>
-        <p><b>Clarity:</b> This page does not include a Microsoft Clarity script, so input data is not sent to Clarity from this app.</p>
-        <p><b>How to verify:</b> Open browser DevTools → <code>Network</code>. Enable <code>Preserve log</code>. Filter by <code>Fetch/XHR</code>, then refresh and edit fields in the model. You should see no new API calls tied to your edits. You can also filter for <code>clarity.ms</code>; this page should show no matching requests.</p>
-      </details>
+
+    <div class="controls card">
+      <div class="ctrl">
+        <label>Monthly Copilot credit cost <span class="hint">(drives ROI)</span></label>
+        <div class="slider-row">
+          <span>$</span>
+          <input type="number" id="cost" value="0" min="0" step="1000" />
+          <span>/ mo</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <label>Loaded labor rate</label>
+        <div class="slider-row">
+          <span>$</span>
+          <input type="number" id="rate" value="72" min="0" step="1" />
+          <span>/ hour</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <label>Users (MAU) <span class="hint">(for user subscription license cost)</span></label>
+        <div class="slider-row">
+          <input type="number" id="mau" value="0" min="0" step="1" />
+          <span>users</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <label>User subscription license (USL) <span class="hint">(optional)</span></label>
+        <div class="slider-row">
+          <span>$</span>
+          <input type="number" id="usl" value="0" min="0" step="1" />
+          <span>/ user / mo</span>
+        </div>
+      </div>
+      <div class="ctrl wide">
+        <label>Productivity Recapture Rate <span class="hint">(% of assisted time redeployed to new productive work)</span></label>
+        <div class="slider-row">
+          <input type="range" id="adj" min="0" max="100" step="5" value="100" />
+          <span class="slider-val" id="adjVal">100%</span>
+        </div>
+      </div>
+      <div class="ctrl wide">
+        <label>Reset minutes to research band</label>
+        <div class="band-group" id="bandGroup">
+          <button data-band="low">Conservative</button>
+          <button data-band="mid" class="active">Mid</button>
+          <button data-band="high">High</button>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <div class="card">
+      <div class="section-title">Per-category breakdown</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Tasks / mo</th>
+            <th>Min / task</th>
+            <th>Assisted hrs / mo</th>
+            <th>Value / mo</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+        <tfoot>
+          <tr>
+            <td>Total / month <span class="hint">(full savings)</span></td>
+            <td id="footTasks">0</td>
+            <td>-</td>
+            <td id="footHours">0</td>
+            <td class="dollars" id="footDollars">$0</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="note">
+        <b>How it works:</b> Each row shows full estimated savings for that category:
+        Assisted hours = Tasks x Min per task / 60; Value = hours x labor rate.
+        Productivity Recapture Rate applies to totals to estimate harvestable value.
+      </div>
+      <div class="disclosure">
+        <details>
+          <summary>Privacy note and how to verify network behavior</summary>
+          <p><b>Data handling:</b> This ROI model runs fully in your browser. Inputs and calculations stay local to your session and are not posted to any API by this page.</p>
+          <p><b>Clarity:</b> This page does not include a Microsoft Clarity script, so input data is not sent to Clarity from this app.</p>
+          <p><b>How to verify:</b> Open browser DevTools then <code>Network</code>. Enable <code>Preserve log</code>. Filter by <code>Fetch/XHR</code>, then refresh and edit fields in the model. You should see no new API calls tied to your edits. You can also filter for <code>clarity.ms</code>; this page should show no matching requests.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-impact">
+    <header style="margin-top:18px">
+      <h2>Modeled business impact - revenue, cost &amp; risk</h2>
+      <p>Answers "what would Cowork be worth to the business?" for each persona. Enter one simple number - <b>Annual Revenue</b> - and every other figure is a sourced assumption you can edit with the <span style="color:var(--cp-link)">&#9998;</span> pencil.</p>
+    </header>
+
+    <div class="core-input card">
+      <div class="ctrl">
+        <label>Annual Revenue <span class="hint">(the one core input)</span></label>
+        <div class="rev-box">
+          <span style="font-size:22px;font-weight:800;color:var(--cp-accent)">$</span>
+          <input type="text" id="annualRevenue" value="" placeholder="e.g. 5,000,000,000" inputmode="numeric" />
+        </div>
+        <div class="hint" id="revEcho" style="margin-top:2px">Enter your annual revenue to begin</div>
+      </div>
+      <div class="ctrl">
+        <label>Persona</label>
+        <div class="persona-group" id="personaGroup"></div>
+        <div class="hint" style="margin-top:4px">Personas and assumptions span Sales, Finance, Marketing &amp; Customer Service.</div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="stat card">
+        <div class="k">Revenue growth</div>
+        <div class="v rev" id="impRev">$0</div>
+        <div class="sub">Annual modeled value</div>
+      </div>
+      <div class="stat card">
+        <div class="k">Reduce cost</div>
+        <div class="v cost" id="impCost">$0</div>
+        <div class="sub">Annual modeled value</div>
+      </div>
+      <div class="stat card">
+        <div class="k">Manage risk</div>
+        <div class="v risk" id="impRisk">$0</div>
+        <div class="sub">Annual modeled value</div>
+      </div>
+      <div class="stat card">
+        <div class="k">Total business value</div>
+        <div class="v accent" id="impTotal">$0</div>
+        <div class="sub" id="impPersonaLabel">Per year</div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin:0 4px 8px">
+      <button class="mini-btn" id="togglePersona">Exclude this persona</button>
+      <button class="mini-btn" id="resetAssumptions">Reset to defaults</button>
+    </div>
+
+    <div id="impactBody"></div>
+
+    <div class="card">
+      <div class="note">
+        <b>How it works:</b> Each line item = a base amount (derived from your Annual Revenue) x a chain of sourced assumptions x a 15% conservative risk adjustment. Expand any line to see the full calculation and edit any assumption. Values are annual. <b>Sources</b> include McKinsey &amp; Company, Forrester Consulting, Gartner, APQC, Gallup, Mercer, SQM Group, TSIA, Bain &amp; Company and BLS, as cited per assumption.
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="tab-combined">
+    <header style="margin-top:18px">
+      <h2>Combined ROI - measured assistance + modeled impact</h2>
+      <p>Two complementary views of value: the assistance you can <b>measure</b> today from usage, and the downstream business impact you can <b>model</b> from redeploying that capacity.</p>
+    </header>
+
+    <div class="combined-cols">
+      <div class="card">
+        <div class="badge" style="color:var(--cp-accent);background:var(--cp-accent-soft)">Measured</div>
+        <h3 style="margin:8px 0 10px">Time-savings assistance <span class="hint">(annualized)</span></h3>
+        <div class="mini-row"><span>Assisted hours / year (post-recapture)</span><b id="cbHours">0</b></div>
+        <div class="mini-row"><span>Tasks / year</span><b id="cbTasks">0</b></div>
+        <div class="mini-row"><span>Labor-value / year</span><b id="cbTimeVal">$0</b></div>
+        <div class="mini-row total"><span>Measured annual value</span><b id="cbTimeTotal">$0</b></div>
+        <div class="hint" style="margin-top:10px">From Tab 1 (monthly figures x 12). Directly attributable, usage-observed labor recapture.</div>
+      </div>
+      <div class="card">
+        <div class="badge rev">Modeled</div>
+        <h3 style="margin:8px 0 10px">Business impact <span class="hint" id="cbPersonaLabel">(Sales persona)</span></h3>
+        <div class="mini-row"><span style="color:var(--cp-rev)">Revenue growth</span><b id="cbRev">$0</b></div>
+        <div class="mini-row"><span style="color:var(--cp-cost)">Reduce cost</span><b id="cbCost">$0</b></div>
+        <div class="mini-row"><span style="color:var(--cp-risk)">Manage risk</span><b id="cbRisk">$0</b></div>
+        <div class="mini-row total"><span>Modeled annual value</span><b id="cbImpactTotal">$0</b></div>
+        <div class="hint" style="margin-top:10px">Sum across all included personas (Tab 2). Downstream impact of redeployed capacity and quality gains. Exclude a persona or strategy on Tab 2 to remove it here.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="badge rev" style="background:var(--cp-accent-soft);color:var(--cp-accent)">Modeled - all personas</div>
+      <h3 style="margin:8px 0 4px">Business value by persona &amp; lever <span class="hint">(annual, modeled)</span></h3>
+      <div class="hint" style="margin-bottom:6px">Every persona across all three levers. Click a row to make it the selected persona above. Figures scale with your Annual Revenue.</div>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th class="col-rev">Revenue growth</th>
+              <th class="col-cost">Reduce cost</th>
+              <th class="col-risk">Manage risk</th>
+              <th class="tot">Total</th>
+            </tr>
+          </thead>
+          <tbody id="matrixBody"></tbody>
+          <tfoot>
+            <tr>
+              <td>All personas</td>
+              <td id="mxRev">$0</td>
+              <td id="mxCost">$0</td>
+              <td id="mxRisk">$0</td>
+              <td class="tot" id="mxTotal">$0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="hint" style="margin-top:10px">The <b>All personas</b> row is a portfolio view (sum across functions). Treat it as an upper bound - some assumptions (e.g. gross margin, attrition, redeployed capacity) overlap across personas, so cross-persona totals can double count. Use a single persona for the most defensible figure.</div>
+    </div>
+
+    <div class="grand card">
+      <div class="k">Combined annual value - measured + modeled</div>
+      <div class="v" id="cbGrand">$0</div>
+      <div class="hint" style="margin-top:6px" id="cbRoiLine">Enter a monthly Copilot cost on Tab 1 to see a blended ROI multiple.</div>
+    </div>
+
+    <div class="card">
+      <div class="note">
+        <b>Reading the two numbers:</b> The <b>measured</b> value is the labor time Cowork gives back, observed from your own usage. The <b>modeled</b> value is what the business could realize if that recaptured capacity - plus in-task quality, faster ramp, and better work composition - is redirected into the outcomes on Tab 2.
+        <br><br>
+        <b>Avoid double counting:</b> The two views overlap conceptually (modeled impact is one way the measured capacity gets spent). Treat the measured value as the floor you can defend from usage data, and the modeled value as the upside case, rather than simply adding both for a single headline figure. The combined total above is shown for completeness.
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
+/* ===== PART 1 - TIME SAVINGS (usage-based) ===== */
 const BUCKETS = [
-  { name: "Analysis & Research", tasks: 0, low: 30, mid: 67, high: 92, src: "Stanford–World Bank GenAI Time Use 2025; McKinsey 2023" },
-  { name: "Document & content creation", tasks: 0, low: 12, mid: 24, high: 42, src: "Microsoft Research 2026 (Verma · Suri · Counts · n=72,186); UK GDS M365 Copilot" },
+  { name: "Analysis & Research", tasks: 0, low: 30, mid: 67, high: 92, src: "Stanford-World Bank GenAI Time Use 2025; McKinsey 2023" },
+  { name: "Document & content creation", tasks: 0, low: 12, mid: 24, high: 42, src: "Microsoft Research 2026 (Verma, Suri, Counts; n=72,186); UK GDS M365 Copilot" },
   { name: "Email workflows", tasks: 0, low: 3, mid: 7, high: 12, src: "Noy & Zhang 2023; NBER w33795" },
   { name: "Meeting workflows", tasks: 0, low: 12, mid: 31, high: 45, src: "Cambon et al. MSR 2024; Forrester TEI 2024" },
   { name: "Communication workflows", tasks: 0, low: 2, mid: 4, high: 6, src: "Microsoft WTI 2024; NBER w33795" },
@@ -369,17 +736,19 @@ const fmtMoney = n => {
   return "$" + v.toLocaleString("en-US");
 };
 
+const timeResult = { hoursMo: 0, dollarsMo: 0, tasksMo: 0, roiDenomMo: 0 };
+
 function buildRows() {
   const tb = $("tbody");
   tb.innerHTML = "";
   BUCKETS.forEach((b, i) => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><div class="bucket-name">${b.name}</div><div class="bucket-src">${b.src}</div></td>
-      <td><input class="cell" type="number" min="0" step="1" data-i="${i}" data-f="tasks" value="${state[i].tasks}"></td>
-      <td><input class="cell" type="number" min="0" step="1" data-i="${i}" data-f="minutes" value="${state[i].minutes}"></td>
-      <td class="out" id="hrs${i}">0</td>
-      <td class="out dollars" id="usd${i}">$0</td>`;
+    tr.innerHTML =
+      '<td><div class="bucket-name">' + b.name + '</div><div class="bucket-src">' + b.src + '</div></td>' +
+      '<td><input class="cell" type="number" min="0" step="1" data-i="' + i + '" data-f="tasks" value="' + state[i].tasks + '"></td>' +
+      '<td><input class="cell" type="number" min="0" step="1" data-i="' + i + '" data-f="minutes" value="' + state[i].minutes + '"></td>' +
+      '<td class="out" id="hrs' + i + '">0</td>' +
+      '<td class="out dollars" id="usd' + i + '">$0</td>';
     tb.appendChild(tr);
   });
   tb.querySelectorAll("input.cell").forEach(inp => {
@@ -420,9 +789,9 @@ function recompute() {
   const postHhigh = totHhigh * rec;
 
   $("sumHours").textContent = fmtInt(postH);
-  $("sumHoursRange").textContent = `Pre-recapture ${fmtInt(totH)} hrs | ${pct}% harvested | Range ${fmtInt(postHlow)} – ${fmtInt(postHhigh)} hrs`;
+  $("sumHoursRange").textContent = "Pre-recapture " + fmtInt(totH) + " hrs | " + pct + "% harvested | Range " + fmtInt(postHlow) + " - " + fmtInt(postHhigh) + " hrs";
   $("sumDollars").textContent = fmtMoney(postD);
-  $("sumDollarsRange").textContent = `Pre-recapture ${fmtMoney(totD)} | Range ${fmtMoney(postHlow * rate)} – ${fmtMoney(postHhigh * rate)}`;
+  $("sumDollarsRange").textContent = "Pre-recapture " + fmtMoney(totD) + " | Range " + fmtMoney(postHlow * rate) + " - " + fmtMoney(postHhigh * rate);
   $("sumTasks").textContent = fmtInt(totT);
 
   const cost = +$("cost").value || 0;
@@ -430,13 +799,19 @@ function recompute() {
   const users = +$("mau").value || 0;
   const denom = cost + (usl * users);
   if (denom > 0) {
-    const roi = x => (x / denom).toFixed(1) + "×";
+    const roi = x => (x / denom).toFixed(1) + "x";
     $("sumRoi").textContent = roi(postD);
-    $("sumRoiRange").textContent = `Pre-recapture ${roi(totD)} | Range ${roi(postHlow * rate)} – ${roi(postHhigh * rate)}`;
+    $("sumRoiRange").textContent = "Pre-recapture " + roi(totD) + " | Range " + roi(postHlow * rate) + " - " + roi(postHhigh * rate);
   } else {
-    $("sumRoi").textContent = "—";
+    $("sumRoi").textContent = "-";
     $("sumRoiRange").textContent = "Enter monthly cost";
   }
+
+  timeResult.hoursMo = postH;
+  timeResult.dollarsMo = postD;
+  timeResult.tasksMo = totT;
+  timeResult.roiDenomMo = denom;
+  renderCombined();
 }
 
 function applyBand(band) {
@@ -457,8 +832,716 @@ document.querySelectorAll("#bandGroup button").forEach(btn =>
   btn.addEventListener("click", () => applyBand(btn.dataset.band))
 );
 
+/* ===== PART 2 - MODELED BUSINESS IMPACT ===== */
+const SRC = {
+  composite: "Composite company baseline assumption.",
+  risk: "Conservative 15% haircut applied uniformly across all line items."
+};
+const RISK = () => ({ label: "Risk adjustment", kind: "risk", v: 15, source: SRC.risk });
+
+const IMPACT_DATA = {
+  sales: {
+    label: "Sales", total: "$43.2M",
+    lines: [
+      { goal: "rev", kpi: "Lead-to-opportunity conversion", strat: "Identify and qualify leads - improve lead conversion",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue from direct sales", kind: "pct", v: 50, source: "McKinsey & Company - ~51% of sales via direct-to-customer channels." },
+          { label: "Increase in qualified opportunities worked", kind: "pct", v: 1.5, source: "Forrester Consulting research." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "rev", kpi: "Win rate on qualified opportunities", strat: "Pursue opportunities and quote - improve opportunity conversion",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue from direct sales", kind: "pct", v: 50, source: "McKinsey & Company direct-sales benchmarks." },
+          { label: "Relative win-rate improvement", kind: "pct", v: 3.0, source: "Forrester Consulting research." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "cost", kpi: "Time to productivity for new sellers", strat: "Recruit and onboard talent - accelerate new-seller productivity",
+        base: { label: "Annual Sales labor cost", ratio: 0.025, source: "APQC - Sales personnel cost ~2.5% of revenue." },
+        factors: [
+          { label: "Annual new-hire share", kind: "pct", v: 25, source: "Informed by external Sales turnover research." },
+          { label: "Realized ramp time saved", kind: "pct", v: 7.2, source: "Forrester Consulting - 18 ramp days saved of a working year." },
+          { label: "Productivity of new hire during ramp", kind: "pct", v: 25, source: "Forrester Consulting." },
+          RISK() ] },
+      { goal: "cost", kpi: "Voluntary Sales attrition", strat: "Manage compliance and offboarding - improve seller retention",
+        base: { label: "Annual Sales labor cost", ratio: 0.025, source: "APQC Sales personnel-cost benchmarks." },
+        factors: [
+          { label: "Annual voluntary attrition rate", kind: "pct", v: 10, source: "Forrester research." },
+          { label: "Reduction in voluntary attrition", kind: "pct", v: 15, source: "Forrester." },
+          { label: "Replacement cost per employee", kind: "pct", v: 25, source: "Forrester - % of fully burdened annual cost." },
+          RISK() ] },
+      { goal: "risk", kpi: "Quote turnaround and accuracy", strat: "Pursue opportunities and quote - improve pricing discipline",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue subject to negotiated pricing", kind: "pct", v: 50, source: "Assumption - revenue involving negotiated pricing/discounts." },
+          { label: "Addressable pricing leakage rate", kind: "pct", v: 1.0, source: "McKinsey & Company pricing research." },
+          { label: "Reduction in addressable leakage", kind: "pct", v: 50, source: "McKinsey & Company B2B pricing evidence." },
+          RISK() ] },
+      { goal: "risk", kpi: "Sales forecast error", strat: "Pursue opportunities and quote - improve forecast accuracy",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue affected by stockouts", kind: "pct", v: 2.0, source: "APQC cross-industry benchmark." },
+          { label: "Forecast-attributable share", kind: "pct", v: 30, source: "Assumption - share of stockout exposure driven by forecast quality." },
+          { label: "Forecast error reduction", kind: "pct", v: 40, source: "McKinsey & Company (broader 20-50% range)." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] }
+    ]
+  },
+  finance: {
+    label: "Finance", total: "$5.5M",
+    lines: [
+      { goal: "rev", kpi: "Order-to-cash revenue leakage", strat: "Manage AR, credit and collections - reduce O2C leakage",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue leakage rate", kind: "pct", v: 0.40, source: "McKinsey & Company order-to-cash research." },
+          { label: "Finance-controlled share", kind: "pct", v: 50, source: "Assumption - shared ownership across Finance and other functions." },
+          { label: "Leakage reduction", kind: "pct", v: 30, source: "McKinsey & Company credit-memo / write-off recovery." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "rev", kpi: "Margin exposed to forecast error", strat: "Plan, budget and analyze performance - improve forecast accuracy",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue at risk from forecast inaccuracy", kind: "pct", v: 1.0, source: "McKinsey & Company forecasting cases." },
+          { label: "Finance-driven share", kind: "pct", v: 50, source: "Assumption - exposure Finance can influence." },
+          { label: "Realization", kind: "pct", v: 50, source: "Assumption - downstream supply/execution constraints." },
+          { label: "Forecast-error reduction", kind: "pct", v: 20, source: "McKinsey & Company (20-50% potential)." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "cost", kpi: "Early-payment discount captured", strat: "Manage accounts payable - increase discount capture",
+        base: { label: "Annual supplier spend", ratio: 0.50, source: "Assumption - supplier spend ~50% of revenue." },
+        factors: [
+          { label: "Discount-eligible spend", kind: "pct", v: 30, source: "APQC - 31.4% of invoice lines offer early-pay discounts." },
+          { label: "Increase in discount capture", kind: "pct", v: 10, source: "APQC benchmark headroom between available and captured." },
+          { label: "Net discount after financing cost", kind: "pct", v: 0.95, source: "Model-derived; replace with supplier terms and cost of capital." },
+          RISK() ] },
+      { goal: "cost", kpi: "Voluntary Finance attrition", strat: "Manage compliance and offboarding - improve Finance retention",
+        base: { label: "Annual Finance labor cost", ratio: 0.0081, source: "APQC Finance personnel-cost methodology." },
+        factors: [
+          { label: "Voluntary attrition", kind: "pct", v: 10, source: "Mercer - ~9-10% professional-workforce turnover." },
+          { label: "Attrition reduction", kind: "pct", v: 15, source: "Gallup - engagement lowers turnover." },
+          { label: "Replacement cost", kind: "pct", v: 55, source: "Gallup replacement-cost research + BLS compensation data." },
+          RISK() ] },
+      { goal: "risk", kpi: "Days sales outstanding", strat: "Manage AR, credit and collections - accelerate collection",
+        base: { label: "Revenue per day", ratio: 0.0027397260274, source: "Composite revenue / 365 days." },
+        factors: [
+          { label: "DSO reduction", kind: "num", v: 2, suffix: " days", source: "APQC / The Hackett Group benchmarks." },
+          { label: "Cost of capital", kind: "pct", v: 10, source: "Model assumption; replace with approved WACC / hurdle rate." },
+          RISK() ] },
+      { goal: "risk", kpi: "Uncollectable balances", strat: "Manage AR, credit and collections - reduce bad-debt write-offs",
+        base: { label: "Annual bad-debt exposure", ratio: 0.0035, source: "0.35% of revenue - conservative vs APQC 0.68% median." },
+        factors: [
+          { label: "Finance-addressable share", kind: "pct", v: 40, source: "Assumption - insolvency/disputes not fully controlled by Finance." },
+          { label: "Write-off reduction", kind: "pct", v: 5, source: "McKinsey & Company credit-and-collections research." },
+          RISK() ] },
+      { goal: "risk", kpi: "Duplicate and erroneous payments", strat: "Manage accounts payable - reduce duplicate payments",
+        base: { label: "Annual supplier spend", ratio: 0.50, source: "Assumption - supplier spend ~50% of revenue." },
+        factors: [
+          { label: "Net duplicate / erroneous payment rate", kind: "pct", v: 0.10, source: "APQC duplicate-payment benchmarks (net unrecovered loss)." },
+          { label: "Reduction in duplicates", kind: "pct", v: 25, source: "APQC performance gap, stronger vs weaker performers." },
+          RISK() ] }
+    ]
+  },
+  marketing: {
+    label: "Marketing", total: "$10.8M",
+    lines: [
+      { goal: "rev", kpi: "Conversion on marketing-sourced pipeline", strat: "Prepare and manage campaigns - improve conversion",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue from direct sales", kind: "pct", v: 50, source: "McKinsey & Company - ~51% direct-to-customer." },
+          { label: "Marketing-sourced share of opportunities", kind: "pct", v: 25, source: "Forrester - varies by GTM model / installed-base mix." },
+          { label: "Conversion improvement", kind: "pct", v: 3.0, source: "McKinsey & Company personalization research." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "rev", kpi: "Time to market on launches", strat: "Introduce and manage products - accelerate launch readiness",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Revenue associated with launches", kind: "pct", v: 10, source: "Assumption - launch-related share of annual revenue." },
+          { label: "Launch timing acceleration", kind: "pct", v: 2.74, source: "PwC / Deloitte + Adobe - ~10 Marketing-dependent launch days." },
+          { label: "Marketing critical-path attribution", kind: "pct", v: 25, source: "Assumption - most timing owned by Product/Eng/Reg/Supply." },
+          { label: "Revenue realization", kind: "pct", v: 50, source: "Assumption - ramp-up rather than full steady-state." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "cost", kpi: "External production and agency cost", strat: "Prepare and manage campaigns - reduce external production spend",
+        base: { label: "Annual Marketing budget", ratio: 0.078, source: "Gartner - 7.8% of revenue." },
+        factors: [
+          { label: "Agency / external production share", kind: "pct", v: 20, source: "Gartner - 19.2% agency-spend benchmark." },
+          { label: "Addressable share of agency spend", kind: "pct", v: 40, source: "Assumption - routine localization/resizing/versioning/templates." },
+          { label: "External production spend replaced", kind: "pct", v: 10, source: "Gartner / PwC / Deloitte + Adobe evidence." },
+          RISK() ] },
+      { goal: "cost", kpi: "Return on working media spend", strat: "Analyze performance - improve return on media spend",
+        base: { label: "Annual Marketing budget", ratio: 0.078, source: "Gartner - 7.8% of revenue." },
+        factors: [
+          { label: "Paid media share", kind: "pct", v: 31.4, source: "Gartner - paid media share of Marketing budget." },
+          { label: "Underperforming / relocatable share", kind: "pct", v: 15, source: "McKinsey & Company Marketing ROI research." },
+          { label: "Reduction in underperforming spend", kind: "pct", v: 25, source: "Assumption for the identified pool." },
+          { label: "Cash-realization share", kind: "pct", v: 50, source: "Assumption - remainder reallocated rather than saved." },
+          RISK() ] },
+      { goal: "cost", kpi: "Voluntary Marketing attrition", strat: "Manage compliance and offboarding - improve Marketing retention",
+        base: { label: "Annual Marketing labor cost", ratio: 0.01911, source: "Gartner - 7.8% x 24.5% labor share." },
+        factors: [
+          { label: "Voluntary attrition", kind: "pct", v: 10, source: "Mercer - ~9-10% white-collar turnover." },
+          { label: "Attrition reduction", kind: "pct", v: 15, source: "Gallup engagement evidence." },
+          { label: "Replacement cost", kind: "pct", v: 60, source: "Gallup replacement-cost research + BLS compensation data." },
+          RISK() ] },
+      { goal: "risk", kpi: "Content compliance and claim accuracy", strat: "Prepare and manage campaigns - improve claim accuracy",
+        base: { label: "Annual Marketing budget", ratio: 0.078, source: "Gartner - 7.8% of revenue." },
+        factors: [
+          { label: "Content production / activation share", kind: "pct", v: 20, source: "Deloitte + Adobe content-supply-chain research." },
+          { label: "Compliance-sensitive share", kind: "pct", v: 40, source: "Assumption - claims/disclosure/legal/privacy/substantiation." },
+          { label: "Annual remediation exposure", kind: "pct", v: 2.0, source: "Assumption - rework/remediation of compliance-sensitive content." },
+          { label: "Reduction in exceptions", kind: "pct", v: 40, source: "Deloitte / PwC embedded-governance evidence." },
+          RISK() ] }
+    ]
+  },
+  cs: {
+    label: "Customer Service", total: "$35.9M",
+    lines: [
+      { goal: "rev", kpi: "Service-generated sales pipeline", strat: "Analyze service performance - surface opportunities",
+        base: { label: "Annual revenue", ratio: 1, fixed: true, source: SRC.composite },
+        factors: [
+          { label: "Service-generated pipeline increase", kind: "pct", v: 1.0, source: "Forrester - D365 Customer Service TEI." },
+          { label: "Opportunity conversion rate", kind: "pct", v: 5, source: "Forrester composite; replace with customer conversion data." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "cost", kpi: "First-contact resolution", strat: "Intake and resolve cases - improve FCR",
+        base: { label: "Annual support-agent labor cost", ratio: 0.0273, source: "Forrester composite, scaled to your revenue." },
+        factors: [
+          { label: "Assisted-interaction labor share", kind: "pct", v: 75, source: "Forrester Consulting." },
+          { label: "Repeat-contact share", kind: "pct", v: 30, source: "SQM Group - ~70% first-contact-resolution benchmark." },
+          { label: "First-contact resolution improvement", kind: "pct", v: 15, source: "Forrester Consulting evidence." },
+          RISK() ] },
+      { goal: "cost", kpi: "Self-service resolution", strat: "Intake and resolve cases - increase self-service",
+        base: { label: "Annual support-agent labor cost", ratio: 0.0273, source: "Forrester composite, scaled to your revenue." },
+        factors: [
+          { label: "Assisted-interaction labor share", kind: "pct", v: 75, source: "Forrester Consulting." },
+          { label: "Assisted workload shifted to self-service", kind: "pct", v: 8.0, source: "Gartner 14% self-service + Forrester containment evidence." },
+          { label: "Net cost avoided per contained contact", kind: "pct", v: 86.4, source: "Gartner - $13.50 assisted vs $1.84 self-service contact." },
+          RISK() ] },
+      { goal: "cost", kpi: "Cost of agent turnover", strat: "Manage service knowledge - reduce agent turnover",
+        base: { label: "Annual Customer Service labor cost", ratio: 0.01667, source: "APQC - $16.67 per $1,000 of revenue." },
+        factors: [
+          { label: "Voluntary attrition rate", kind: "pct", v: 30, source: "SQM Group (~28%) / Forrester (40%) contact-center evidence." },
+          { label: "Reduction in attrition", kind: "pct", v: 30, source: "Forrester Consulting turnover evidence." },
+          { label: "Replacement cost per agent", kind: "pct", v: 30, source: "Forrester - $15K replacement vs $52K annual loaded agent cost." },
+          RISK() ] },
+      { goal: "risk", kpi: "Priority-case SLA breach rate", strat: "Intake and resolve cases - reduce priority-case SLA breaches",
+        base: { label: "Annual support-agent labor cost", ratio: 0.0273, source: "Forrester composite, scaled to your revenue." },
+        factors: [
+          { label: "Assisted-interaction labor share", kind: "pct", v: 75, source: "Forrester Consulting." },
+          { label: "Priority-case breach exposure", kind: "pct", v: 1.0, source: "10% priority cases x 10% breaching SLA." },
+          { label: "Reduction in SLA breaches", kind: "pct", v: 35, source: "Forrester / McKinsey handling-time evidence." },
+          { label: "Direct breach-cost factor", kind: "num", v: 1.5, suffix: "x", source: "Gartner - $20 escalation vs $13.50 assisted contact (150%)." },
+          RISK() ] },
+      { goal: "risk", kpi: "Service-driven revenue retention", strat: "Analyze service performance - improve retention",
+        base: { label: "Revenue subject to renewal", ratio: 0.20, source: "Bain & Company / BCG - ~20% of revenue." },
+        factors: [
+          { label: "Service-attributable nonrenewal exposure", kind: "pct", v: 3, source: "Bain CX research - 10% nonrenewal x 30% service-attributed." },
+          { label: "Reduction in service-driven nonrenewal", kind: "pct", v: 20, source: "McKinsey & Company - proactive service interventions." },
+          { label: "Gross margin", kind: "pct", v: 30, source: SRC.composite },
+          RISK() ] },
+      { goal: "cost", kpi: "First-time-fix rate", strat: "Plan and deliver service work - improve first-time-fix",
+        base: { label: "Annual repeat-visit cost exposure", ratio: 0.0546, source: "Forrester Field Service x TSIA $1,000 truck-roll." },
+        factors: [
+          { label: "Reduction in repeat visits", kind: "pct", v: 4, source: "Forrester Field Service evidence." },
+          RISK() ] },
+      { goal: "rev", kpi: "Technician utilization", strat: "Plan and deliver service work - increase technician utilization",
+        base: { label: "Annual field-service technician labor cost", ratio: 0.04576, source: "Forrester Field Service, $44 loaded hr." },
+        factors: [
+          { label: "Productive technician capacity recaptured", kind: "pct", v: 6.25, source: "Forrester - 1.0 admin hr / 8-hr day, 50% recaptured (shown 6.3% rounded)." },
+          RISK() ] }
+    ]
+  }
+};
+
+const GOAL_META = {
+  rev: { label: "Revenue growth", badge: "rev" },
+  cost: { label: "Reduce cost", badge: "cost" },
+  risk: { label: "Manage risk", badge: "risk" }
+};
+
+/* Sample Cowork workflows per strategy (persona -> KPI -> use cases) */
+const WORKFLOWS = {
+  sales: {
+    "Lead-to-opportunity conversion": [
+      "Research a lead in seconds - Cowork pulls firmographics, recent news and buying signals into a qualification summary with a suggested fit score.",
+      "Draft personalized first-touch outreach grounded in the account's industry, tech stack and the contact's role.",
+      "Auto-triage inbound leads overnight and rank them by fit and intent so reps start with a prioritized call list."
+    ],
+    "Win rate on qualified opportunities": [
+      "Generate a tailored pitch deck and discovery-call brief from the opportunity record and past winning deals.",
+      "Summarize the last meeting and draft the follow-up email with clear next steps and objection handling.",
+      "Surface competitor battlecards and recommended talk tracks for the specific deal and stage."
+    ],
+    "Time to productivity for new sellers": [
+      "New-hire ramp copilot answers product, pricing and process questions from internal docs instantly.",
+      "Generate practice role-play scenarios and score mock discovery calls.",
+      "Assemble a personalized 30-60-90 plan and surface the right playbook for each deal type."
+    ],
+    "Voluntary Sales attrition": [
+      "Cut admin drag - Cowork updates CRM notes, logs activities and drafts internal updates so reps sell more.",
+      "A weekly deal-hygiene assistant flags stalled opportunities and the next best action.",
+      "Draft QBR and pipeline-review packs automatically, removing late-night reporting."
+    ],
+    "Quote turnaround and accuracy": [
+      "Assemble accurate quotes by pulling approved pricing, discount guardrails and product configs into a ready draft.",
+      "Flag margin-eroding discounts and suggest compliant alternatives before the quote is sent.",
+      "Answer 'can I discount this?' instantly from pricing policy, with the rule cited."
+    ],
+    "Sales forecast error": [
+      "Generate a bottoms-up forecast narrative summarizing deal changes, risks and slippage since last week.",
+      "Flag deals with weak signals (no recent activity, single-threaded) that inflate the forecast.",
+      "Draft forecast-call commentary and the territory roll-up automatically."
+    ]
+  },
+  finance: {
+    "Order-to-cash revenue leakage": [
+      "Reconcile invoices against contracts and orders to surface under-billing, missed fees and pricing errors.",
+      "Draft dispute-resolution and credit-memo justifications with supporting evidence attached.",
+      "Summarize leakage by customer and root cause for the monthly order-to-cash review."
+    ],
+    "Margin exposed to forecast error": [
+      "Assemble the variance narrative - Cowork explains actual-vs-forecast deltas by driver in plain language.",
+      "Generate best/base/worst scenario models from the latest actuals and assumptions.",
+      "Draft the exec FP&A commentary from the numbers, ready for review."
+    ],
+    "Early-payment discount captured": [
+      "Scan the AP queue for discount-eligible invoices nearing their window and prioritize them.",
+      "Draft supplier responses to confirm or negotiate early-payment terms.",
+      "Summarize captured vs missed discounts and the cash impact each month."
+    ],
+    "Voluntary Finance attrition": [
+      "Automate month-end grunt work: reconciliations, journal-entry drafts and variance write-ups.",
+      "Answer policy and close-process questions from finance SOPs instantly for the team.",
+      "Track the close checklist and chase outstanding items automatically."
+    ],
+    "Days sales outstanding": [
+      "Prioritize the collections worklist by risk and value with a suggested next action per account.",
+      "Draft tailored dunning emails matched to each customer's history and dispute status.",
+      "Summarize an overdue account's full context before the collector calls."
+    ],
+    "Uncollectable balances": [
+      "Flag early warning signs of credit risk by combining payment history with external signals.",
+      "Draft the credit-review memo and recommended limit changes.",
+      "Summarize aged balances and likely-recoverable amounts for the write-off committee."
+    ],
+    "Duplicate and erroneous payments": [
+      "Detect duplicate or suspicious invoices before payment and explain why each was flagged.",
+      "Draft supplier recovery requests for confirmed overpayments.",
+      "Summarize control exceptions and trends for the AP audit."
+    ]
+  },
+  marketing: {
+    "Conversion on marketing-sourced pipeline": [
+      "Generate personalized campaign variants and landing-page copy by segment and persona.",
+      "Score and route marketing-sourced leads with a fit/intent summary for sales.",
+      "Draft nurture sequences grounded in the buyer's stage and past engagement."
+    ],
+    "Time to market on launches": [
+      "Assemble the launch kit - messaging, FAQs, emails, social and enablement - from the product brief.",
+      "Track launch tasks and draft status updates across the cross-functional team.",
+      "Localize and resize creative for each market and channel in one pass."
+    ],
+    "External production and agency cost": [
+      "Produce first-draft creative (copy, images, variants) in-house, reserving agencies for high-value work.",
+      "Version and resize a master asset across formats and channels automatically.",
+      "Draft tighter creative briefs so agency rounds are fewer and faster."
+    ],
+    "Return on working media spend": [
+      "Summarize campaign performance and flag underperforming placements to reallocate spend.",
+      "Draft A/B test hypotheses and read out the results in plain language.",
+      "Generate weekly media-optimization recommendations for review."
+    ],
+    "Voluntary Marketing attrition": [
+      "Offload repetitive production and reporting so the team focuses on creative strategy.",
+      "Answer brand, legal and process questions from guidelines instantly.",
+      "Draft campaign wrap reports and stakeholder updates automatically."
+    ],
+    "Content compliance and claim accuracy": [
+      "Check content against brand, legal and regulatory guidelines and flag risky claims with the rule cited.",
+      "Draft compliant alternatives for flagged copy and keep an audit trail.",
+      "Summarize required disclosures and approvals per asset before publish."
+    ]
+  },
+  cs: {
+    "Service-generated sales pipeline": [
+      "Detect upsell/cross-sell signals in support conversations and draft a warm handoff to sales.",
+      "Summarize the account's service history and product gaps to surface expansion opportunities.",
+      "Suggest relevant offers to agents at the right moment in the interaction."
+    ],
+    "First-contact resolution": [
+      "Give agents a real-time, cited answer and next-best-action from the knowledge base and past cases.",
+      "Auto-summarize the customer's issue and history so agents skip the ramp-up.",
+      "Draft the full resolution response for the agent to review and send."
+    ],
+    "Self-service resolution": [
+      "Power a customer-facing assistant that resolves common issues from the knowledge base 24/7.",
+      "Auto-generate and keep help articles current from resolved-case patterns.",
+      "Suggest the right self-service answer before a case is ever opened."
+    ],
+    "Cost of agent turnover": [
+      "Cut agent effort with an in-line copilot handling lookups, summaries and drafting.",
+      "Onboard new agents faster with instant, cited answers from support docs.",
+      "Auto-write case notes and wrap-ups so agents avoid after-call work."
+    ],
+    "Priority-case SLA breach rate": [
+      "Triage and prioritize incoming cases by severity and SLA risk automatically.",
+      "Alert on cases about to breach and suggest the fastest path to resolution.",
+      "Draft escalation summaries so specialists engage with full context immediately."
+    ],
+    "Service-driven revenue retention": [
+      "Flag at-risk accounts from sentiment and issue patterns and recommend proactive outreach.",
+      "Draft renewal-save messaging tailored to the account's recent experience.",
+      "Summarize each account's health for the retention review."
+    ],
+    "First-time-fix rate": [
+      "Brief the technician before the visit with the likely fix, parts and manuals.",
+      "Diagnose from the customer's description and recommend the right resolution and parts.",
+      "Draft the post-visit report and follow-up automatically."
+    ],
+    "Technician utilization": [
+      "Suggest optimized scheduling and routing to fit more jobs per day.",
+      "Cut admin time with auto-generated work orders, notes and reports.",
+      "Surface the knowledge a tech needs on-site instantly, reducing callbacks."
+    ]
+  }
+};
+
+const clone = o => JSON.parse(JSON.stringify(o));
+let IMPACT = clone(IMPACT_DATA);
+let activePersona = "sales";
+
+function parseRevenue(raw) {
+  if (!raw) return 0;
+  let s = String(raw).trim().replace(/[$,\s]/g, "");
+  let mult = 1;
+  const m = s.match(/([bmk])$/i);
+  if (m) {
+    const u = m[1].toLowerCase();
+    mult = u === "b" ? 1e9 : u === "m" ? 1e6 : 1e3;
+    s = s.slice(0, -1);
+  }
+  const n = parseFloat(s);
+  return isFinite(n) ? n * mult : 0;
+}
+
+function factorEff(f) {
+  if (f.kind === "risk") return 1 - f.v / 100;
+  if (f.kind === "pct") return f.v / 100;
+  return f.v;
+}
+function factorDisplay(f) {
+  if (f.kind === "risk") return "1 - " + f.v + "%";
+  if (f.kind === "pct") return f.v + "%";
+  return f.v + (f.suffix || "");
+}
+function lineValue(line, R) {
+  if (line.disabled) return 0;
+  let v = R * line.base.ratio;
+  line.factors.forEach(f => { v *= factorEff(f); });
+  return v;
+}
+function personaTotals(pKey, R) {
+  const p = IMPACT[pKey];
+  const t = { rev: 0, cost: 0, risk: 0, total: 0 };
+  if (!p || p.disabled) return t;
+  p.lines.forEach(line => {
+    const v = lineValue(line, R);
+    t[line.goal] += v;
+    t.total += v;
+  });
+  return t;
+}
+
+function buildPersonaButtons() {
+  const g = $("personaGroup");
+  g.innerHTML = "";
+  Object.keys(IMPACT).forEach(key => {
+    const b = document.createElement("button");
+    b.textContent = IMPACT[key].label;
+    b.dataset.persona = key;
+    if (key === activePersona) b.classList.add("active");
+    if (IMPACT[key].disabled) b.classList.add("excluded");
+    b.addEventListener("click", () => {
+      activePersona = key;
+      g.querySelectorAll("button").forEach(x => x.classList.toggle("active", x.dataset.persona === key));
+      renderImpact();
+    });
+    g.appendChild(b);
+  });
+}
+
+function renderImpact() {
+  const R = parseRevenue($("annualRevenue").value);
+  $("revEcho").textContent = R > 0 ? "= " + fmtMoney(R) + " baseline" : "Enter your annual revenue to begin";
+  const p = IMPACT[activePersona];
+  const pDisabled = !!p.disabled;
+  const tBtn = $("togglePersona");
+  if (tBtn) tBtn.textContent = pDisabled ? "Include this persona" : "Exclude this persona";
+  const body = $("impactBody");
+  body.innerHTML = "";
+  ["rev", "cost", "risk"].forEach(goal => {
+    const lines = p.lines.filter(l => l.goal === goal);
+    if (!lines.length) return;
+    const block = document.createElement("div");
+    block.className = "goal-block";
+    const gt = lines.reduce((s, l) => s + (pDisabled ? 0 : lineValue(l, R)), 0);
+    const head = document.createElement("div");
+    head.className = "goal-head";
+    head.innerHTML = '<h3><span class="badge ' + GOAL_META[goal].badge + '">' + GOAL_META[goal].label + '</span></h3><div class="goal-total">' + fmtMoney(gt) + '</div>';
+    block.appendChild(head);
+    lines.forEach(line => block.appendChild(renderLine(line, R, pDisabled)));
+    body.appendChild(block);
+  });
+  const tt = personaTotals(activePersona, R);
+  $("impRev").textContent = fmtMoney(tt.rev);
+  $("impCost").textContent = fmtMoney(tt.cost);
+  $("impRisk").textContent = fmtMoney(tt.risk);
+  $("impTotal").textContent = fmtMoney(tt.total);
+  $("impPersonaLabel").textContent = p.label + " - per year";
+  renderCombined();
+}
+
+function renderLine(line, R, pDisabled) {
+  const off = pDisabled || line.disabled;
+  const v = off ? 0 : lineValue(line, R);
+  const wrap = document.createElement("div");
+  wrap.className = "line" + (off ? " disabled" : "");
+  const head = document.createElement("div");
+  head.className = "line-head";
+  head.innerHTML = '<span class="line-caret">\u25B6</span><div class="line-title"><div class="kpi">' + line.kpi + '</div><div class="strat">' + line.strat + '</div></div><div class="line-value">' + fmtMoney(v) + '</div>';
+  const flows = (WORKFLOWS[activePersona] || {})[line.kpi];
+  if (flows && flows.length) {
+    const fBtn = document.createElement("button");
+    fBtn.className = "line-flows";
+    fBtn.textContent = "\uD83D\uDCA1 Examples";
+    fBtn.title = "See sample Cowork workflows for this scenario";
+    fBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      wrap.classList.toggle("flows-open");
+    });
+    head.appendChild(fBtn);
+  }
+  const xBtn = document.createElement("button");
+  xBtn.className = "line-x";
+  xBtn.textContent = line.disabled ? "\u21BA Include" : "\u2715 Exclude";
+  xBtn.title = line.disabled ? "Re-include this strategy" : "Exclude this strategy (nullify its impact)";
+  if (pDisabled && !line.disabled) { xBtn.disabled = true; xBtn.style.opacity = "0.4"; xBtn.style.cursor = "default"; }
+  xBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    line.disabled = !line.disabled;
+    renderImpact();
+  });
+  head.appendChild(xBtn);
+  head.addEventListener("click", () => wrap.classList.toggle("open"));
+  wrap.appendChild(head);
+  if (flows && flows.length) {
+    const panel = document.createElement("div");
+    panel.className = "flows-panel";
+    panel.innerHTML = '<h4>Sample Cowork workflows</h4><ul>' + flows.map(f => '<li>' + f + '</li>').join("") + '</ul>';
+    wrap.appendChild(panel);
+  }
+  const bodyEl = document.createElement("div");
+  bodyEl.className = "line-body";
+  const baseAmt = R * line.base.ratio;
+  const parts = [fmtMoney(baseAmt)].concat(line.factors.map(f => factorDisplay(f)));
+  const strip = document.createElement("div");
+  strip.className = "calc-strip";
+  strip.textContent = parts.join("  x  ") + "  =  " + fmtMoney(v);
+  bodyEl.appendChild(strip);
+  bodyEl.appendChild(renderAssumpBase(line, R));
+  line.factors.forEach((f, idx) => bodyEl.appendChild(renderAssumpFactor(line, idx, f)));
+  wrap.appendChild(bodyEl);
+  return wrap;
+}
+
+function renderAssumpBase(line, R) {
+  const b = line.base;
+  const row = document.createElement("div");
+  row.className = "assump" + (b.fixed ? " locked" : "");
+  const amt = R * b.ratio;
+  const pctOfRev = b.ratio === 1 ? "100% of revenue" : (+(b.ratio * 100).toPrecision(3)) + "% of revenue";
+  const top = document.createElement("div");
+  top.className = "assump-top";
+  top.innerHTML = '<div class="assump-label"><span class="base-tag">Base</span>' + b.label + '</div><div class="assump-val" data-role="val">' + fmtMoney(amt) + '</div>';
+  const pencilHost = document.createElement("div");
+  if (!b.fixed) {
+    const pencil = document.createElement("button");
+    pencil.className = "pencil"; pencil.title = "Edit share of revenue"; pencil.textContent = "\u270E";
+    pencil.addEventListener("click", () => editBase(line, top));
+    pencilHost.appendChild(pencil);
+  }
+  top.appendChild(pencilHost);
+  row.appendChild(top);
+  const src = document.createElement("div");
+  src.className = "assump-src";
+  src.textContent = (b.fixed ? "" : pctOfRev + " - ") + b.source;
+  row.appendChild(src);
+  return row;
+}
+
+function editBase(line, top) {
+  const valEl = top.querySelector('[data-role="val"]');
+  const inp = document.createElement("input");
+  inp.type = "number"; inp.step = "any"; inp.className = "edit";
+  inp.value = +(line.base.ratio * 100).toPrecision(6);
+  const wrap = document.createElement("span");
+  wrap.appendChild(inp);
+  const pct = document.createElement("span"); pct.textContent = " % of rev"; pct.style.fontSize = "12px";
+  wrap.appendChild(pct);
+  valEl.replaceWith(wrap);
+  inp.focus(); inp.select();
+  const commit = () => {
+    const nv = parseFloat(inp.value);
+    if (isFinite(nv)) line.base.ratio = nv / 100;
+    renderImpact();
+  };
+  inp.addEventListener("blur", commit);
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") inp.blur(); });
+}
+
+function renderAssumpFactor(line, idx, f) {
+  const row = document.createElement("div");
+  row.className = "assump";
+  const top = document.createElement("div");
+  top.className = "assump-top";
+  top.innerHTML = '<div class="assump-label">' + f.label + '</div><div class="assump-val" data-role="val">' + factorDisplay(f) + '</div>';
+  const pencil = document.createElement("button");
+  pencil.className = "pencil"; pencil.title = "Edit assumption"; pencil.textContent = "\u270E";
+  pencil.addEventListener("click", () => editFactor(line, idx, top));
+  top.appendChild(pencil);
+  row.appendChild(top);
+  const src = document.createElement("div");
+  src.className = "assump-src";
+  src.textContent = f.source;
+  row.appendChild(src);
+  return row;
+}
+
+function editFactor(line, idx, top) {
+  const f = line.factors[idx];
+  const valEl = top.querySelector('[data-role="val"]');
+  const inp = document.createElement("input");
+  inp.type = "number"; inp.step = "any"; inp.className = "edit";
+  inp.value = f.v;
+  const wrap = document.createElement("span");
+  if (f.kind === "risk") { const pre = document.createElement("span"); pre.textContent = "1 - "; pre.style.fontSize = "12px"; wrap.appendChild(pre); }
+  wrap.appendChild(inp);
+  const suf = document.createElement("span"); suf.style.fontSize = "12px";
+  suf.textContent = f.kind === "num" ? (f.suffix || "") : "%";
+  wrap.appendChild(suf);
+  valEl.replaceWith(wrap);
+  inp.focus(); inp.select();
+  const commit = () => {
+    const nv = parseFloat(inp.value);
+    if (isFinite(nv)) f.v = nv;
+    renderImpact();
+  };
+  inp.addEventListener("blur", commit);
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") inp.blur(); });
+}
+
+$("annualRevenue").addEventListener("input", renderImpact);
+$("annualRevenue").addEventListener("blur", e => {
+  const R = parseRevenue(e.target.value);
+  if (R > 0) e.target.value = Math.round(R).toLocaleString("en-US");
+  renderImpact();
+});
+$("resetAssumptions").addEventListener("click", () => {
+  IMPACT = clone(IMPACT_DATA);
+  buildPersonaButtons();
+  renderImpact();
+});
+
+$("togglePersona").addEventListener("click", () => {
+  const p = IMPACT[activePersona];
+  p.disabled = !p.disabled;
+  buildPersonaButtons();
+  renderImpact();
+});
+
+/* ===== PART 3 - COMBINED ROI ===== */
+function renderCombined() {
+  const R = parseRevenue($("annualRevenue") ? $("annualRevenue").value : 0);
+  const hoursYr = timeResult.hoursMo * 12;
+  const tasksYr = timeResult.tasksMo * 12;
+  const timeValYr = timeResult.dollarsMo * 12;
+  if ($("cbHours")) {
+    $("cbHours").textContent = fmtInt(hoursYr);
+    $("cbTasks").textContent = fmtInt(tasksYr);
+    $("cbTimeVal").textContent = fmtMoney(timeValYr);
+    $("cbTimeTotal").textContent = fmtMoney(timeValYr);
+  }
+  const port = { rev: 0, cost: 0, risk: 0, total: 0 };
+  let includedCount = 0;
+  const mb = $("matrixBody");
+  if (mb) {
+    let rows = "";
+    Object.keys(IMPACT).forEach(key => {
+      const t = personaTotals(key, R);
+      port.rev += t.rev; port.cost += t.cost; port.risk += t.risk; port.total += t.total;
+      if (!IMPACT[key].disabled) includedCount++;
+      rows += '<tr class="persona-row' + (key === activePersona ? ' active' : '') + (IMPACT[key].disabled ? ' excluded' : '') + '" data-persona="' + key + '">'
+        + '<td>' + IMPACT[key].label + '</td>'
+        + '<td>' + fmtMoney(t.rev) + '</td>'
+        + '<td>' + fmtMoney(t.cost) + '</td>'
+        + '<td>' + fmtMoney(t.risk) + '</td>'
+        + '<td class="tot">' + fmtMoney(t.total) + '</td></tr>';
+    });
+    mb.innerHTML = rows;
+    $("mxRev").textContent = fmtMoney(port.rev);
+    $("mxCost").textContent = fmtMoney(port.cost);
+    $("mxRisk").textContent = fmtMoney(port.risk);
+    $("mxTotal").textContent = fmtMoney(port.total);
+    mb.querySelectorAll("tr.persona-row").forEach(tr => {
+      tr.addEventListener("click", () => {
+        activePersona = tr.dataset.persona;
+        const g = $("personaGroup");
+        if (g) g.querySelectorAll("button").forEach(x => x.classList.toggle("active", x.dataset.persona === activePersona));
+        renderImpact();
+      });
+    });
+  } else {
+    Object.keys(IMPACT).forEach(key => {
+      const t = personaTotals(key, R);
+      port.rev += t.rev; port.cost += t.cost; port.risk += t.risk; port.total += t.total;
+      if (!IMPACT[key].disabled) includedCount++;
+    });
+  }
+  if ($("cbRev")) {
+    $("cbRev").textContent = fmtMoney(port.rev);
+    $("cbCost").textContent = fmtMoney(port.cost);
+    $("cbRisk").textContent = fmtMoney(port.risk);
+    $("cbImpactTotal").textContent = fmtMoney(port.total);
+    const totalPersonas = Object.keys(IMPACT).length;
+    $("cbPersonaLabel").textContent = includedCount === totalPersonas
+      ? "(all " + totalPersonas + " personas)"
+      : "(" + includedCount + " of " + totalPersonas + " personas)";
+    const grand = timeValYr + port.total;
+    $("cbGrand").textContent = fmtMoney(grand);
+    const denomYr = timeResult.roiDenomMo * 12;
+    if (denomYr > 0) {
+      $("cbRoiLine").textContent = "Blended ROI vs annual Copilot cost (" + fmtMoney(denomYr) + "): measured " + (timeValYr / denomYr).toFixed(1) + "x - combined " + (grand / denomYr).toFixed(1) + "x";
+    } else {
+      $("cbRoiLine").textContent = "Enter a monthly Copilot cost on Tab 1 to see a blended ROI multiple.";
+    }
+  }
+}
+
+/* ===== TAB SWITCHING ===== */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".tab-panel").forEach(pnl => pnl.classList.toggle("active", pnl.id === "tab-" + tab));
+    if (tab === "combined") renderCombined();
+  });
+});
+
 buildRows();
 recompute();
+buildPersonaButtons();
+renderImpact();
 </script>
 </body>
 </html>
