@@ -1681,6 +1681,10 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
   font-size:20px; font-weight:700; line-height:1;
   padding:14px 26px; border-radius:12px; white-space:nowrap;
 }
+/* The enablement guide is an <a> now, not a <button>, so it has to be given
+   back the two things the button had by default. */
+a.mk-sharebtn{ display:inline-block; text-decoration:none; }
+a.mk-sharebtn:hover{ text-decoration:none; }
 @media (max-width:700px){
   .mk-ghbtn, .mk-sharebtn{ font-size:16px; padding:12px 20px; }
   .mk-sharebtn{ margin-left:0; }
@@ -4877,8 +4881,12 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
       actions.push('<a class="mk-ghbtn" href="' + repo +
         '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>');
     }
-    actions.push('<button type="button" class="mk-sharebtn" id="mkDlgShare" ' +
-      'data-id="' + esc(t.id) + '">Enablement guide</button>');
+    /* v32: the guide opens in its own tab instead of taking over this page,
+       so it is a real link - middle-click, ctrl-click and "open in new tab"
+       all behave, and Back still works because this page never unloads.
+       #r= is the same deep link the guide's own Copy link button hands out. */
+    actions.push('<a class="mk-sharebtn" id="mkDlgShare" href="./#r=' +
+      encodeURIComponent(t.id) + '" target="_blank" rel="noopener">Enablement guide</a>');
     dlgFoot.innerHTML = actions.join('');
 
     dlgBody.scrollTop = 0;
@@ -5283,25 +5291,11 @@ html[data-theme="dark"] .mk-dlg-roles.is-none .mk-dlg-roles-i span{ background:#
     if (window.scrollY !== y) window.scrollTo(0, y);
   }
 
-  /* Share: build the guide for this one report, close the flyout, show it. */
   /* Back to reports: the pack builder it used to reset is gone, so this just
      hands the page back to the picker. */
   document.getElementById('mkGdStartOver').addEventListener('click', function () {
     setView('picker');
   }, true);
-
-  document.addEventListener('click', function (e) {
-    var sb = e.target.closest('#mkDlgShare'); if (!sb) return;
-    var id = sb.getAttribute('data-id');
-    if (!id || !toolById[id]) return;
-    gdSel.length = 0;
-    gdSel.push(id);
-    var dlg = document.getElementById('mkDlg');
-    if (dlg && dlg.open) dlg.close();
-    gdSide();
-    setView('guided');
-    gdRenderGuide();
-  });
 
   document.getElementById('mkPkGenAll').addEventListener('click', function () {
     pkSendToGuided(true);
