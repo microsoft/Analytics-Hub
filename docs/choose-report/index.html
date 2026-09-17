@@ -2493,6 +2493,8 @@ a.mk-sharebtn:hover{ text-decoration:none; }
       "sourceKey": "Purview",
       "repo": "https://github.com/microsoft/M365UsageAnalytics",
       "download": "https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip",
+      "preview": "https://raw.githubusercontent.com/microsoft/M365UsageAnalytics/main/images/report-pages-carousel.gif",
+      "demoVideo": "https://github.com/microsoft/M365UsageAnalytics/releases/download/M365_Usage_Analytics/M365UsageAnalytics_Overview.mp4",
       "emailFile": "07_M365_Copilot_Readiness_Admin_Email.txt",
       "blurb": "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can stage enablement waves and surface the natural champion candidates in each org — defended with audit data, not gut feel.",
       "meta": {
@@ -4271,6 +4273,11 @@ a.mk-sharebtn:hover{ text-decoration:none; }
   function watchUrl(v) {
     var u = safeUrl(v);
     if (!u) return '';
+    /* A release asset has no blob view; the closest real page is its release. */
+    u = u.replace(
+      /^(https:\/\/github\.com\/[^\/]+\/[^\/]+)\/releases\/download\/([^\/]+)\/[^\/]+$/i,
+      '$1/releases/tag/$2'
+    );
     return u.replace(
       /^(https:\/\/github\.com\/[^\/]+\/[^\/]+)\/raw\/(.+)$/i,
       '$1/blob/$2'
