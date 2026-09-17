@@ -3621,6 +3621,83 @@ a.mk-sharebtn:hover{ text-decoration:none; }
           ]
         }
       ]
+    },
+    {
+      "id": "cowork-team-report",
+      "question": "I want to show my team the hours and money Copilot Cowork is saving them.",
+      "title": "Team Cowork Skills",
+      "icon": "\uD83D\uDCEC",
+      "accent": "#8661c5",
+      "category": "impact-roi",
+      "tier": "specialty",
+      "measures": [
+        "impact",
+        "roi",
+        "productivity"
+      ],
+      "source": "Copilot Cowork sessions, posted to one Teams channel",
+      "sourceKey": "Local",
+      "repo": "https://github.com/microsoft/CoworkDashboard",
+      "download": "https://github.com/microsoft/CoworkDashboard/archive/refs/heads/main.zip",
+      "guide": "https://microsoft.github.io/CoworkDashboard/",
+      "preview": "https://raw.githubusercontent.com/microsoft/CoworkDashboard/main/images/example-report-post.png",
+      "blurb": "A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export.",
+      "meta": {
+        "audience": "Team leads, managers, ICs",
+        "license": "None \u2014 Copilot Cowork only",
+        "time": "~15 min to roll out"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "None \u2014 no admin rights needed"
+          }
+        ],
+        "software": [
+          {
+            "label": "Microsoft Copilot Cowork",
+            "url": "https://copilot.cloud.microsoft/cowork"
+          },
+          {
+            "label": "A dedicated Microsoft Teams channel"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "cowork-impact",
+          "title": "What Cowork Did For Me",
+          "icon": "\uD83C\uDF81",
+          "accent": "#e3008c",
+          "score": 7,
+          "shared": [
+            "impact",
+            "roi",
+            "productivity"
+          ]
+        },
+        {
+          "id": "cowork-roi-model-app",
+          "title": "Cowork ROI Model (Web App)",
+          "icon": "\uD83D\uDCC8",
+          "accent": "#b11f4b",
+          "score": 5,
+          "shared": [
+            "impact",
+            "roi"
+          ]
+        },
+        {
+          "id": "personal-copilot-dashboard",
+          "title": "Personal Copilot Dashboard",
+          "icon": "\uD83D\uDCCA",
+          "accent": "#8661c5",
+          "score": 4,
+          "shared": [
+            "productivity"
+          ]
+        }
+      ]
     }
   ],
   "CATEGORIES": [
@@ -4073,6 +4150,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
     'roi-calc': ['roi', 'business case', 'payback', 'calculator', 'cost recovery', 'value'],
     'cowork-billing-report': ['chargeback', 'billing', 'cost allocation', 'departments', 'cowork', 'credits', 'showback'],
     'cowork-chargeback-app': ['chargeback', 'scenario modelling', 'what-if', 'credits', 'cowork', 'web app'],
+    'cowork-team-report':   ['cowork', 'cowork skills', 'team cowork skills', 'skill', 'teams channel', 'hours saved', 'newsletter', 'team roi'],
     'cowork-policy-helper-app': ['policy', 'spend limits', 'exceptions', 'governance', 'guardrails', 'cowork'],
     'finops-focus-app': ['finops', 'focus', 'cost', 'cloud finance', 'unit economics', 'cowork'],
     'cowork-roi-model-app': ['roi', 'scenario modelling', 'business case', 'forecasting', 'cowork'],
@@ -4124,7 +4202,8 @@ a.mk-sharebtn:hover{ text-decoration:none; }
     /* not in his list; placement is ours, flagged on the page */
     'cowork-policy-helper-app':   { cost: 2 },
     'finops-focus-app':           { cost: 2 },
-    'cowork-roi-model-app':       { impact: 2, cost: 2 }
+    'cowork-roi-model-app':       { impact: 2, cost: 2 },
+    'cowork-team-report':         { impact: 1 }
     /* 'pax' and 'customize' intentionally absent: tooling, not reports */
   };
 
@@ -4177,6 +4256,7 @@ a.mk-sharebtn:hover{ text-decoration:none; }
     'cowork-policy-helper-app':   { p: ['cowork'],                 d: ['credits','m365admin'],          a: 'Finance, IT governance' },
     'finops-focus-app':           { p: ['cowork'],                 d: ['credits'],                      a: 'FinOps, cloud finance' },
     'cowork-roi-model-app':       { p: ['cowork'],                 d: ['personal'],                     a: 'Finance, value teams' },
+    'cowork-team-report':         { p: ['cowork'],                 d: ['personal'],                     a: 'Team leads, managers, ICs' },
     'pax':                        { p: ['m365','chat','studio'],   d: ['purview'],                      a: 'IT admins, data engineers' },
     'customize':                  { p: ['m365'],                   d: ['viva'],                         a: 'Report builders, analysts' }
   };
@@ -6024,6 +6104,35 @@ a.mk-sharebtn:hover{ text-decoration:none; }
         'zip. Take the latest version from the repo.'
     },
 
+    'cowork-team-report': {
+      reads: 'Nothing you export. Each teammate\'s own <strong>Copilot Cowork</strong> activity, ' +
+        'summarised by them and posted into one shared <strong>Teams</strong> channel that the ' +
+        'manager skill then reads.',
+      easy: 'the ' +
+        lk('https://microsoft.github.io/CoworkDashboard/', 'Installer Studio page') +
+        ' bakes your channel into both zips, so nobody is ever asked to paste a link. It runs ' +
+        'entirely in your browser - the channel link is never uploaded.',
+      steps: [
+        'In Teams, create a dedicated channel for these reports and add only the people whose ' +
+          'work should count. Hover the channel, choose <strong>Get link to channel</strong>, and copy it.',
+        'Open the ' + lk('https://microsoft.github.io/CoworkDashboard/', 'Installer Studio') +
+          ', paste that link and click <strong>Parse &amp; verify</strong>. Check it names the right channel, ' +
+          'then download both zips - the manager skill and the member skill.',
+        'Install the manager skill yourself: open ' +
+          lk('https://copilot.cloud.microsoft/cowork', 'Copilot Cowork') +
+          ', attach the manager <code>.zip</code> as-is (do not unzip it) and say ' +
+          '<strong>Install this manager skill and walk me through setup.</strong> Those last words matter - ' +
+          'installing on its own runs nothing, and setup is what sends the member skill to your team.',
+        'Each teammate attaches the member <code>.zip</code> in Cowork, asks it to install, then runs it ' +
+          'once to start. From then on it posts on its own 15-day schedule.',
+        'Ask the manager skill to build the team report, then let it run on a schedule - roughly every ' +
+          'two weeks, a day or two after the member cadence so every post is in before it aggregates.'
+      ],
+      note: 'Each person reviews their sessions before anything is posted and can drop any they do ' +
+        'not want included; removed sessions are never computed or published. Posts carry no names, ' +
+        'prompts or raw filenames, and the manager skill only ever reads what teammates choose to ' +
+        'post - never anyone\'s files.'
+    },
     'adoption-sentiment': {
       reads: 'One required CSV - the Copilot activity export from the <strong>Microsoft 365 ' +
         'admin center</strong> - plus two optional ones, a survey export and an Entra user export.',
