@@ -65,6 +65,33 @@
     .evt-btn[aria-disabled="true"]{opacity:.5;pointer-events:none;}
     .comm-poll-card{display:flex;}
     .comm-poll-card .ah-poll{width:100%;max-width:none;}
+    .lf-polls{margin-top:2.2rem;padding-top:1.6rem;border-top:1px solid var(--border,#e2e6ea);}
+    .lf-subhead{margin:0 0 .3rem;font-size:1.15rem;}
+    /* Incubate card: whole card clickable + flyout */
+    .cw-inc-card{cursor:pointer;transition:box-shadow .15s ease,border-color .15s ease,transform .15s ease;}
+    .cw-inc-card:hover{border-color:var(--accent,#0078d4);box-shadow:0 6px 20px rgba(0,0,0,.06);transform:translateY(-2px);}
+    .cw-dlg{border:none;border-radius:14px;padding:0;max-width:640px;width:calc(100vw - 40px);
+      max-height:calc(100vh - 60px);overflow:hidden;color:var(--text,#1b1b1b);background:var(--surface,#fff);
+      box-shadow:0 24px 60px rgba(0,0,0,.28);}
+    .cw-dlg::backdrop{background:rgba(0,0,0,.45);}
+    .cw-dlg-inner{display:flex;flex-direction:column;max-height:calc(100vh - 60px);}
+    .cw-dlg-head{position:relative;padding:1.3rem 1.5rem .9rem;border-bottom:1px solid var(--border,#e2e6ea);}
+    .cw-dlg-close{position:absolute;top:.7rem;right:.85rem;border:none;background:transparent;font-size:1.7rem;
+      line-height:1;cursor:pointer;color:var(--text-muted,#5a6470);padding:.1rem .3rem;}
+    .cw-dlg-chips{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:0 2rem .5rem 0;}
+    .cw-dlg-head h2{margin:0 0 .3rem;font-size:1.4rem;}
+    .cw-dlg-q{margin:0;color:var(--text-muted,#5a6470);font-style:italic;}
+    .cw-dlg-body{padding:1.2rem 1.5rem;overflow:auto;}
+    .cw-dlg-media{width:100%;border-radius:10px;border:1px solid var(--border,#e2e6ea);margin:0 0 1rem;display:block;}
+    .cw-dlg-body p{margin:0 0 .8rem;font-size:.94rem;line-height:1.5;}
+    .cw-dlg-meta{display:grid;gap:.7rem 1.4rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:1rem 0;}
+    .cw-dlg-meta dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#5a6470);margin:0;}
+    .cw-dlg-meta dd{margin:.15rem 0 0;font-size:.92rem;}
+    .cw-dlg-body h3{font-size:1rem;margin:1.1rem 0 .4rem;}
+    .cw-dlg-body ul{margin:.2rem 0;padding-left:1.2rem;font-size:.92rem;line-height:1.6;}
+    .cw-dlg-foot{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;justify-content:space-between;
+      padding:1rem 1.5rem;border-top:1px solid var(--border,#e2e6ea);}
+    .cw-dlg-foot-left{display:flex;gap:.55rem;flex-wrap:wrap;}
     /* Learning Feed */
     .lf-grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));}
     .lf-card{display:flex;flex-direction:column;gap:.5rem;border:1px solid var(--border,#e2e6ea);border-radius:12px;
@@ -138,10 +165,8 @@
 
 
 
-  <section class="comm-section">
+  <section class="comm-section" id="learning-feed">
     <div class="wrap">
-      <div class="comm-two">
-        <section class="comm-col" id="learning-feed">
       <h2>Learning Feed</h2>
       <p class="sub">Living resources that track how Microsoft Copilot guidance is changing. More feeds coming soon.</p>
       <div class="lf-grid">
@@ -153,13 +178,11 @@
           <span class="lf-go">Open feed &rarr;</span>
         </a>
       </div>
-        </section>
 
-        <section class="comm-col" id="polls" hidden>
-      <h2>Polls</h2>
-      <p class="sub">Two-second answers that steer what we build next.</p>
-      <div class="comm-grid" id="poll-list"></div>
-        </section>
+      <div id="polls" class="lf-polls" hidden>
+        <h3 class="lf-subhead">Polls</h3>
+        <p class="sub">Two-second answers that steer what we build next.</p>
+        <div class="comm-grid" id="poll-list"></div>
       </div>
     </div>
   </section>
@@ -181,7 +204,7 @@
       <h2>Incubate a report with us</h2>
       <p class="sub">Some templates are still being shaped. Take an early build for a run against your own data, tell us what breaks, and help settle the metric definitions before it ships.</p>
       <div class="comm-grid">
-        <article class="evt-card">
+        <article class="evt-card cw-inc-card" id="cwIncCard" aria-haspopup="dialog">
           <div class="evt-top">
             <span class="evt-badge evt-badge--inc">Incubating</span>
             <span class="evt-level">Power BI template &middot; testing</span>
@@ -191,13 +214,49 @@
           <p class="evt-summary">Nine pages on how Copilot Cowork is actually being adopted: activation, how consistently people come back, what work they delegate, and who is emerging as a champion. The metric definitions are the part we most want challenged.</p>
           <p class="evt-note">Taking part means running it against your own tenant data and telling us what does not hold up. Open the card for the walkthrough, the roles you will need, and the way in.</p>
           <div class="evt-actions">
-            <a class="evt-btn" href="../choose-report/#d=cowork-adoption">Open the report card</a>
-            <a class="evt-btn evt-btn--ghost" href="../choose-report/#r=cowork-adoption">Enablement guide</a>
+            <button type="button" class="evt-btn" data-viewdetails>View Details</button>
+            <a class="evt-btn evt-btn--ghost" data-incubate href="#">Incubate</a>
           </div>
         </article>
       </div>
     </div>
   </section>
+
+  <dialog class="cw-dlg" id="cwDlg" aria-labelledby="cwDlgTitle">
+    <div class="cw-dlg-inner">
+      <header class="cw-dlg-head">
+        <button type="button" class="cw-dlg-close" id="cwDlgClose" aria-label="Close details">&times;</button>
+        <div class="cw-dlg-chips">
+          <span class="evt-badge evt-badge--inc">Incubating</span>
+          <span class="evt-level">Power BI template &middot; testing</span>
+        </div>
+        <h2 id="cwDlgTitle">Cowork Adoption</h2>
+        <p class="cw-dlg-q">&ldquo;I want to see how Cowork is being adopted, who keeps coming back, and who could be a champion.&rdquo;</p>
+      </header>
+      <div class="cw-dlg-body">
+        <img class="cw-dlg-media" src="https://raw.githubusercontent.com/microsoft/Cowork-Adoption-Intelligence/main/images/report-pages/02-executive-summary.png" alt="Preview of the Cowork Adoption report executive summary page" loading="lazy" onerror="this.remove()" />
+        <p>A data-free Power BI template that turns approved Purview audit exports into a nine-page Cowork adoption report: activation, sustained usage, action patterns, delegation maturity and emerging champion signals. Still in testing &mdash; the metric definitions are exactly what we want your help pressure-testing before it ships.</p>
+        <dl class="cw-dlg-meta">
+          <div><dt>Data source</dt><dd>Purview audit (CopilotInteraction where AppHost is Cowork) + optional M365 Cowork usage export</dd></div>
+          <div><dt>Audience</dt><dd>Cowork program owners, adoption leads, enablement teams</dd></div>
+          <div><dt>Time to first run</dt><dd>About 10 minutes on the sample data</dd></div>
+        </dl>
+        <h3>What you&rsquo;ll need</h3>
+        <ul>
+          <li><a href="https://learn.microsoft.com/purview/audit-get-started#step-2-assign-permissions-to-search-the-audit-log" target="_blank" rel="noopener">Purview Audit Reader</a></li>
+          <li><a href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/cowork-usage-report" target="_blank" rel="noopener">Reports Reader (for Cowork usage detail)</a></li>
+          <li><a href="https://www.microsoft.com/download/details.aspx?id=58494" target="_blank" rel="noopener">Power BI Desktop (May 2024+)</a></li>
+        </ul>
+      </div>
+      <footer class="cw-dlg-foot">
+        <div class="cw-dlg-foot-left">
+          <a class="evt-btn" href="https://github.com/microsoft/Cowork-Adoption-Intelligence/archive/refs/heads/main.zip">Get the template</a>
+          <a class="evt-btn evt-btn--ghost" href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md" target="_blank" rel="noopener">Enablement guide</a>
+        </div>
+        <a class="evt-btn" data-incubate href="#">Incubate</a>
+      </footer>
+    </div>
+  </dialog>
 
 </main>
 
@@ -335,6 +394,63 @@
   function boot() { renderPolls(); renderEvents(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  // -------------------------------------------------- Incubate card + flyout
+  var card = document.getElementById('cwIncCard');
+  var dlg = document.getElementById('cwDlg');
+  if (!card || !dlg) return;
+
+  // Build the same incubation mailto the Reports page uses. CRLF line breaks
+  // keep Outlook happy; the body ends on a blank line so the signature lands
+  // below the message.
+  var INCUBATE_TO = 'copilot-roi-advisory-team-gh@microsoft.com';
+  var name = 'Cowork Adoption';
+  var body = [
+    'Hello,',
+    '',
+    'I would like to help incubate the ' + name + ' report.',
+    '',
+    'How I would like to take part (delete what does not apply):',
+    '  - Run the template against my own tenant data and send findings back',
+    '  - Pressure-test the metric definitions',
+    '  - Join a working session with the team',
+    '',
+    'My team, and what we are trying to measure:',
+    '  - ',
+    ''
+  ].join('\r\n');
+  var mailto = 'mailto:' + INCUBATE_TO +
+    '?subject=' + encodeURIComponent('Incubation: ' + name) +
+    '&body=' + encodeURIComponent(body);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-incubate]'), function (a) {
+    a.setAttribute('href', mailto);
+  });
+
+  function openDlg() {
+    if (typeof dlg.showModal === 'function') { if (!dlg.open) dlg.showModal(); }
+    else { dlg.setAttribute('open', ''); }
+  }
+  function closeDlg() { if (dlg.open) dlg.close(); }
+
+  // Clicking anywhere on the card opens the flyout, except the Incubate action
+  // (which opens the email) and its own descendants.
+  card.addEventListener('click', function (e) {
+    if (e.target.closest('[data-incubate]')) return; // let the mailto fire
+    e.preventDefault();
+    openDlg();
+  });
+  // Keyboard: the two buttons inside the card are the focusable controls.
+  // View Details activates via its click bubbling to the handler above.
+
+  var closeBtn = document.getElementById('cwDlgClose');
+  if (closeBtn) closeBtn.addEventListener('click', closeDlg);
+  // Click on the backdrop (outside the inner panel) closes the dialog.
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) closeDlg(); });
 })();
 </script>
 
