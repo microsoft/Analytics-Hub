@@ -62,6 +62,22 @@
     .evt-btn[aria-disabled="true"]{opacity:.5;pointer-events:none;}
     .comm-poll-card{display:flex;}
     .comm-poll-card .ah-poll{width:100%;max-width:none;}
+    /* Learning Feed */
+    .lf-grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));}
+    .lf-card{display:flex;flex-direction:column;gap:.5rem;border:1px solid var(--border,#e2e6ea);border-radius:12px;
+      background:var(--surface,#fff);padding:1.2rem 1.3rem;text-decoration:none;color:inherit;
+      transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease;}
+    .lf-card:hover{border-color:var(--accent,#0078d4);box-shadow:0 6px 20px rgba(0,0,0,.06);transform:translateY(-2px);}
+    .lf-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;}
+    .lf-badge{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:.15rem .5rem;
+      border-radius:999px;background:color-mix(in srgb,var(--accent,#0078d4) 12%,transparent);color:var(--accent,#0078d4);}
+    .lf-live{font-size:.75rem;color:var(--text-muted,#5a6470);}
+    .lf-kpi{display:flex;align-items:baseline;gap:.4rem;margin:.2rem 0 0;}
+    .lf-num{font-size:2rem;font-weight:800;line-height:1;color:var(--accent,#0078d4);}
+    .lf-unit{font-size:.85rem;color:var(--text-muted,#5a6470);}
+    .lf-title{font-weight:700;font-size:1.1rem;}
+    .lf-desc{font-size:.9rem;line-height:1.45;color:var(--text-muted,#5a6470);margin:0;}
+    .lf-go{font-size:.88rem;font-weight:600;color:var(--accent,#0078d4);margin-top:.2rem;}
   </style>
   <!-- Microsoft Clarity -->
   <script type="text/javascript">
@@ -113,6 +129,22 @@
     <div class="wrap">
       <h1>Community</h1>
       <p>Help shape the Analytics Hub. Answer a quick poll, join a live training, or catch a recording. Polls are anonymous and we never store customer data.</p>
+    </div>
+  </section>
+
+  <section class="comm-section" id="learning-feed">
+    <div class="wrap">
+      <h2>Learning Feed</h2>
+      <p class="sub">Living resources that track how Microsoft Copilot guidance is changing. More feeds coming soon.</p>
+      <div class="lf-grid">
+        <a class="lf-card" href="./cowork-document-monitor/">
+          <div class="lf-top"><span class="lf-badge">Doc tracker</span><span class="lf-live">Updated 15 Sep 2026</span></div>
+          <div class="lf-kpi"><span class="lf-num">17</span><span class="lf-unit">changes logged &middot; 20 pages watched</span></div>
+          <div class="lf-title">Cowork Document Monitor</div>
+          <p class="lf-desc">A plain-language change log of the Microsoft Learn pages behind Copilot Cowork Copilot Credit billing &mdash; what each page said before, what it says now, and the date it changed, with verbatim quotes from the source pages.</p>
+          <span class="lf-go">Open feed &rarr;</span>
+        </a>
+      </div>
     </div>
   </section>
 

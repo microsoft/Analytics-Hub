@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cowork Document Monitor · Analytics Hub</title>
+  <meta name="description" content="A plain-language change log of the Microsoft Learn documentation pages behind Copilot Cowork Copilot Credit billing. Newest changes first, with verbatim quotes from the source pages." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/community/cowork-document-monitor/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="apple-touch-icon" href="../../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/community/cowork-document-monitor/" />
+  <meta property="og:title" content="Cowork Document Monitor · Analytics Hub" />
+  <meta property="og:description" content="A plain-language change log of the Microsoft Learn documentation pages behind Copilot Cowork Copilot Credit billing." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="stylesheet" href="../../styles.css?v=8b17c1de" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Cowork Document Monitor" />
+  <script src="../../clarity-events.js?v=202609141210" defer></script>
+  <script src="../../consent.js?v=1" defer></script>
+  <link rel="stylesheet" href="../../palette.css?v=936728fb" />
+  <script src="../../palette.js" defer></script>
+  <script src="../../nudges.js" defer></script>
+
+  <style>
+    .dm-hero { padding: 2.6rem 0 .6rem; }
+    .dm-crumb { font-size: .8rem; color: var(--text-soft, #5a6470); margin: 0 0 .8rem; }
+    .dm-crumb a { color: inherit; }
+    .dm-hero h1 { margin: 0 0 .5rem; }
+    .dm-hero .lede { max-width: 74ch; color: var(--text-soft, #5a6470); margin: 0 0 .4rem; }
+    .dm-meta { font-size: .82rem; color: var(--text-soft, #5a6470); opacity: .9; margin: .8rem 0 0; }
+    .dm-kpis { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1.4rem 0 .4rem; }
+    .dm-kpi { border: 1px solid var(--border, #e2e6ea); border-radius: 12px; background: var(--surface, #fff); padding: 1rem 1.1rem; }
+    .dm-kpi .v { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
+    .dm-kpi .l { font-size: .8rem; color: var(--text-soft, #5a6470); margin-top: .25rem; }
+    .dm-summary { border: 1px solid var(--border, #e2e6ea); background: color-mix(in srgb, var(--accent, #0078d4) 6%, transparent); border-left: 4px solid var(--accent, #0078d4); border-radius: 12px; padding: 1rem 1.2rem; margin: 1.6rem 0 .6rem; }
+    .dm-summary h2 { margin: 0 0 .3rem; font-size: 1.05rem; }
+    .dm-summary p { margin: 0; font-size: .95rem; }
+    .dm-note { font-size: .85rem; color: var(--text-soft, #5a6470); background: color-mix(in srgb, currentColor 5%, transparent); border-radius: 10px; padding: .7rem 1rem; margin: 1rem 0; }
+    h2.dm-h { margin: 2.1rem 0 .4rem; font-size: 1.25rem; }
+    .dm-scroll { overflow-x: auto; }
+    table.dm-log { width: 100%; border-collapse: collapse; margin: 1.1rem 0 .6rem; font-size: .9rem; min-width: 720px; }
+    table.dm-log th, table.dm-log td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--border, #e2e6ea); }
+    table.dm-log th { position: sticky; top: 0; background: var(--surface, #fff); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-soft, #5a6470); }
+    table.dm-log td.dm-page { min-width: 190px; font-weight: 600; }
+    table.dm-log td.dm-date { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--text-soft, #5a6470); }
+    table.dm-log td.dm-prev, table.dm-log td.dm-new { max-width: 340px; }
+    .dm-badge-new { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; background: #107c10; color: #fff; }
+    .dm-badge-silent { display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; background: #5a5a5a; color: #fff; }
+    .dm-quote { border-left: 2px solid var(--border, #e2e6ea); padding-left: 10px; margin: 4px 0; }
+    .dm-links { columns: 2; column-gap: 40px; margin: 12px 0 40px; font-size: .88rem; padding-left: 18px; }
+    .dm-links li { break-inside: avoid; margin: 0 0 7px; }
+    .dm-tier { font-size: .7rem; color: var(--text-soft, #5a6470); }
+    .dm-disclaimer { font-size: .8rem; color: var(--text-soft, #5a6470); border-top: 1px solid var(--border, #e2e6ea); margin-top: 1.4rem; padding-top: 1rem; }
+    @media (max-width: 780px) { .dm-links { columns: 1; } }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../../choose-report/">Reports</a>
+      <a href="../../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../../case-studies/">Case Studies</a>
+      <a href="../../community/" aria-current="page">Community</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
+          <a href="../../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+          <a href="../../community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
+        </div>
+      </div>
+      <a class="nav-subscribe" href="../../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="dm-hero">
+    <div class="wrap">
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <h1>Cowork Document Monitor</h1>
+      <p class="lede">
+        A running record of changes Microsoft has published to the Microsoft Learn
+        documentation pages that govern Copilot Cowork Copilot Credit billing. Plain
+        language, newest changes first. When a change adds information that was not
+        present in a prior archived copy, the "Previous text" column is marked
+        <span class="dm-badge-new">NEW</span>. When a page's body text changed without a
+        change to its published "last updated" date, it is marked
+        <span class="dm-badge-silent">DATE UNCHANGED</span>.
+      </p>
+      <div class="dm-kpis">
+        <div class="dm-kpi"><div class="v">20</div><div class="l">Microsoft Learn pages watched</div></div>
+        <div class="dm-kpi"><div class="v">17</div><div class="l">Changes logged</div></div>
+        <div class="dm-kpi"><div class="v">15 Sep 2026</div><div class="l">Most recent change</div></div>
+      </div>
+      <p class="dm-meta">
+        Change log reflects updates through 15 Sep 2026 &middot; Sources: daily documentation
+        snapshots and the Internet Archive (Wayback Machine). Where an archived capture was
+        unavailable, a change is described from the available signals (published date, word
+        count, section added or removed) rather than quoted.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="dm-summary">
+      <h2>About this log</h2>
+      <p>
+        This page tracks factual changes to public Microsoft documentation only. Each row
+        records what a page said before, what it says now, and the date the change was
+        detected. Verbatim quotes are taken directly from the Microsoft Learn pages linked
+        in each row. No customer, tenant, or internal information is included.
+      </p>
+    </div>
+
+    <div class="dm-note">
+      Rows use verbatim captured text where an archived copy was available, and a plain
+      description of the change where only the change signal (published-date change, word
+      count, or a section appearing or disappearing) could be confirmed. Detail is added on
+      each subsequent run as archived captures become available.
+    </div>
+
+    <h2 class="dm-h">Change log</h2>
+    <div class="dm-scroll">
+    <table class="dm-log">
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>Previous text</th>
+          <th>New text</th>
+          <th>Date changed</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener">Copilot Studio credit rates and management</a></td>
+          <td class="dm-prev"><span class="dm-badge-silent">DATE UNCHANGED</span>
+            <p>Body content changed while the character and word counts stayed the same (16,559 characters, 2,316 words on both days) and the published date did not move (still 3 Aug 2026). git commit d3dd478d &rarr; c1af6484.</p>
+          </td>
+          <td class="dm-new">
+            <p><strong>Exact change not yet pinned.</strong> No pre-edit archived capture was available on this run, so the specific wording change could not be isolated. Current published billing rates on the page, recorded so a later capture can identify the change: <strong>Classic answer = 1 Copilot Credit; Generative answer = 2; Agent action = 5; tenant graph grounding = 10; Text &amp; generative AI tools (premium) = 10 Copilot Credits per 1,000 tokens</strong>. Overage enforcement triggers at <strong>125%</strong> of prepaid capacity.</p>
+          </td>
+          <td class="dm-date">15 Sep 2026<br><span style="opacity:.7">published date unchanged (3 Aug 2026)</span></td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-faq" target="_blank" rel="noopener">Copilot Cowork FAQ</a> <span class="dm-tier">+ get-started, new Customize page</span></td>
+          <td class="dm-prev"><span class="dm-badge-new">NEW</span> Custom-instructions Q&amp;A and the Customize page did not exist before.</td>
+          <td class="dm-new">
+            <p class="dm-quote">New FAQ: "Can I give Cowork custom instructions? Yes. On the Preferences tab of the Customize page, add custom instructions that describe how you prefer to work&hellip; Cowork applies them to every task. Your instructions are personal to you and can contain up to 20 KB."</p>
+            <p>Part of a 14 Sep feature rollout: a new <strong>Customize Copilot Cowork</strong> page (learn.microsoft.com/&hellip;/cowork/cowork-customize, ~1,300 words) plus a matching "Customize: set preferences with custom instructions, add your own personal skills&hellip; and plugins" line added to <strong>Get started</strong> (published date 8 Sep &rarr; 14 Sep). This is personalization (instructions, personal skills, plugins), not credits, rates, or spending policy. The new Customize page contains no billing or credit content.</p>
+          </td>
+          <td class="dm-date">14 Sep 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a></td>
+          <td class="dm-prev">
+            <p class="dm-quote">"Credits consumed before the move <strong>remain billed against the previous spending policy</strong>." Worked example: "the user is moved to Group 2&hellip; <strong>The user's usage is reset to 0</strong> and now aligned to Spending Policy B."</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">"&hellip;the user's consumption history <strong>carries forward across the policy change</strong>. Credits consumed under the previous spending policy remain part of the user's consumption history and are accounted for when enforcing the spending limit under the new policy. <strong>Moving a user between groups or spending policies doesn't reset the user's consumption.</strong> Spending limits are preserved when users switch between billing policies."</p>
+            <p class="dm-quote">New worked example: a user consumes 500 credits under Policy A, moves to Policy B, and "the user's <strong>500 credits of prior consumption remain accounted for</strong>&hellip; up to the spending limit configured in Spending Policy B" &mdash; this "reduces the risk that a user could receive a new spending allocation by moving between departments, projects, groups, or spending policies."</p>
+            <p>A mid-month policy move no longer resets per-user usage to 0; consumption carries forward and the new policy's limit is enforced against it. Published date moved to 10 Sep 2026. Policy-level billing of pre-move credits is retained ("&hellip;retained for billing at a policy level but aren't tracked at a user level in the Consumption tab view"), and spending policies remain "limit-based controls [that] don't reserve or allocate" credits.</p>
+          </td>
+          <td class="dm-date">10 Sep 2026<br><span style="opacity:.7">published date 11 Aug &rarr; 10 Sep</span></td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a> <span class="dm-tier">+ billing overview</span></td>
+          <td class="dm-prev">Part of the same 10 Sep update (core page grew 4,204 &rarr; 5,376 words, +8,299 characters).</td>
+          <td class="dm-new">
+            <p>The update added structured limit sections &mdash; <strong>"Required minimum limits", "Policy-level monthly spending limit", "Individual user monthly limit", "Scope users and groups"</strong> &mdash; plus role-permission detail (AI and License admins can set limits and alerts but "can't set or modify the billing method") and custom credit-request routing (for example, redirecting to an external workflow). The <strong>Required minimum limits</strong> content states that if a per-user limit is below the required minimum, a warning is shown and the policy cannot be saved: the policy-level required minimum is <strong>1,000 credits per user</strong> (recommended 2,500) and the individual user monthly required minimum is <strong>2,000 credits</strong> (recommended 7,000). The companion <strong>Usage-Based Billing and Cost Management</strong> overview was refreshed the same day (published date 1 Sep &rarr; 10 Sep, 861 &rarr; 1,171 words). No credit-rate or drawdown-order change; "always uses prepaid credits first" is retained.</p>
+          </td>
+          <td class="dm-date">10 Sep 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/management-controls" target="_blank" rel="noopener">Copilot Control System management controls</a></td>
+          <td class="dm-prev"><span class="dm-badge-silent">DATE UNCHANGED</span>
+            <p class="dm-quote">Title and body read "<strong>Copilot Control System</strong> management controls" and "The management controls pillar of <strong>the Copilot Control System</strong> focuses on the following key capabilities:"</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">Rebranded to "<strong>Copilot controls</strong> for management" and "The management pillar of <strong>Copilot controls</strong> focuses on the following key capabilities:" &mdash; "Copilot Control System" is renamed to "Copilot controls" throughout the title, headings, and body.</p>
+            <p>Terminology rebrand. The DLP, agent and connector governance, and lifecycle-approval content is unchanged, and no credit or spending-policy claim changed. The page's published date did not move (still 25 Feb 2026). The name "Copilot Control System (CCS)" is retired on this page.</p>
+          </td>
+          <td class="dm-date">10 Sep 2026<br><span style="opacity:.7">published date unchanged (25 Feb 2026)</span></td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/index" target="_blank" rel="noopener">Microsoft Copilot Cowork overview</a></td>
+          <td class="dm-prev"><span class="dm-badge-new">NEW</span> Section did not exist before this run.</td>
+          <td class="dm-new">
+            A new section, <strong>"Build apps with the App skill (Frontier)"</strong>, was added,
+            plus a new bullet under "What can Cowork do for you?": <strong>"Create apps (Frontier)"</strong>.
+            It describes a built-in <strong>App skill</strong> that builds lightweight, interactive apps from a
+            description, currently gated to the Frontier preview program. The companion billing page
+            (next row) confirms apps built with Cowork are a named service under usage-based billing,
+            drawing on the same Copilot Credit pool as core Cowork tasks.
+          </td>
+          <td class="dm-date">8 Sep 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits" target="_blank" rel="noopener">Usage-Based Billing and Cost Management for Copilot Credits</a></td>
+          <td class="dm-prev">
+            <p class="dm-quote">"Services managed by usage-based billing&hellip; now include: Cowork, Work IQ API."</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">"Services managed by usage-based billing&hellip; now include: Cowork, <strong>Apps built with
+            Copilot Cowork</strong>, Work IQ API&hellip; Enabling or disabling Cowork also enables or disables the
+            app-building capability by default."</p>
+            <p>The billing surface grew to match the new App skill above. Apps built with Cowork get their
+            own inventory view under "Apps" in the admin center and bill through the same Cowork line.</p>
+          </td>
+          <td class="dm-date">1 Sep 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-faq" target="_blank" rel="noopener">Copilot Cowork FAQ</a></td>
+          <td class="dm-prev">
+            <p class="dm-quote">Skill list ended at "&hellip;Deep Research, and Adaptive Cards."</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">"&hellip;Deep Research, Adaptive Cards, and <strong>App (Frontier)</strong>. The App skill lets
+            you build lightweight, interactive apps in Cowork without writing code."</p>
+            <p>The model picker list was also refreshed (added GPT 6 and Claude Fable 5.1) and the
+            mobile and desktop app-name headings were reworded. The "How is Cowork billed?" answer was unchanged.</p>
+          </td>
+          <td class="dm-date">8 Sep 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/get-started" target="_blank" rel="noopener">Get started with Copilot Cowork</a></td>
+          <td class="dm-prev"><span class="dm-badge-new">NEW</span> Prerequisite not previously listed.</td>
+          <td class="dm-new">
+            <p class="dm-quote">"<strong>Access to create apps</strong>: You must be part of the Frontier program to
+            use the built-in App skill in Cowork."</p>
+            <p>Added to the Prerequisites list alongside the existing license and billing bullets.</p>
+          </td>
+          <td class="dm-date">8 Sep 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-faq" target="_blank" rel="noopener">Copilot Cowork FAQ</a></td>
+          <td class="dm-prev">
+            <p class="dm-quote">"Are there unsupported <strong>countries or regions</strong>?"</p>
+            <p class="dm-quote">"&hellip;limited to Anthropic <strong>supported</strong> regions."</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">"Are there unsupported <strong>regions</strong>?"</p>
+            <p class="dm-quote">"&hellip;limited to Anthropic-<strong>supported</strong> regions."</p>
+            <p>Several answers were lightly reworded (for example "using" &rarr; "by using", "when this happens" &rarr; "when this need arises"). No change in meaning.</p>
+          </td>
+          <td class="dm-date">28 Aug 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugins" target="_blank" rel="noopener">Cowork plugins</a></td>
+          <td class="dm-prev"><span class="dm-badge-new">NEW</span></td>
+          <td class="dm-new">
+            A new Microsoft page, <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugin-development" target="_blank" rel="noopener">"Cowork plugin development"</a>,
+            is now linked from this page. The page's published date also moved to 27 Aug.
+          </td>
+          <td class="dm-date">28 Aug 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Copilot Studio billing and licensing</a></td>
+          <td class="dm-prev"><span class="dm-badge-silent">DATE UNCHANGED</span> About 148 characters of text were removed.</td>
+          <td class="dm-new">The page was shortened while the published date was unchanged (still 3 Aug). The exact wording was not recoverable on this run.</td>
+          <td class="dm-date">28 Aug 2026 <span class="dm-tier">(detected)</span></td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener">Copilot Studio credit rates and management</a></td>
+          <td class="dm-prev"><span class="dm-badge-silent">DATE UNCHANGED</span> About 148 characters of text were removed.</td>
+          <td class="dm-new">The same reduction as the billing page, again with no change to the published date. This page lists published credit consumption rates.</td>
+          <td class="dm-date">28 Aug 2026 <span class="dm-tier">(detected)</span></td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/get-started" target="_blank" rel="noopener">Get started with Copilot Cowork</a></td>
+          <td class="dm-prev">
+            <p class="dm-quote">"<strong>Microsoft 365 Copilot</strong> Cowork allows you to describe what you need&hellip;"</p>
+            <p class="dm-quote">"<strong>Scheduled</strong>: View, edit, reschedule, and clean up your scheduled tasks&hellip;"</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">"<strong>Microsoft Copilot</strong> Cowork allows you to describe what you need&hellip;"</p>
+            <p class="dm-quote">"<strong>Automations</strong>: View, edit, reschedule, and clean up your scheduled tasks&hellip;"</p>
+            <p>The product name dropped "365", and the "Scheduled" feature was renamed "Automations".</p>
+          </td>
+          <td class="dm-date">24 Aug 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views" target="_blank" rel="noopener">View Copilot Credit consumption in the M365 admin center and on your Azure bill</a></td>
+          <td class="dm-prev"><span class="dm-badge-new">NEW</span></td>
+          <td class="dm-new">
+            A new page (not archived before this date). It states that Cowork has
+            <strong>no separate line item on the Azure bill</strong> &mdash; it bills under "Microsoft Copilot
+            Studio" &mdash; that Azure Cost Management does not show capacity-pack consumption, and
+            that reconciliation should use the <strong>monthly billing record rather than the usage dashboards</strong>.
+          </td>
+          <td class="dm-date">21 Aug 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-copilot-studio-messages-capacity" target="_blank" rel="noopener">Manage Copilot Studio credits and capacity</a></td>
+          <td class="dm-prev">
+            <p class="dm-quote">Page titled "<strong>Manage Copilot Studio credits and capacity</strong>"</p>
+          </td>
+          <td class="dm-new">
+            <p class="dm-quote">Retitled "<strong>Manage Copilot Credits and capacity for Copilot Studio</strong>"</p>
+            <p>A rename that places "Copilot Credits" in the title &mdash; the same currency Cowork draws on from the shared capacity pool.</p>
+          </td>
+          <td class="dm-date">14 Aug 2026</td>
+        </tr>
+
+        <tr>
+          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a><br><span class="dm-tier">The core billing page</span></td>
+          <td class="dm-prev"><span class="dm-badge-new">NEW</span><br><span class="dm-tier">Whole section absent from the 28 Jul 2026 archived copy.</span></td>
+          <td class="dm-new">
+            A new section, <strong>"Spending policy behavior when a user moves between Entra ID Groups,"</strong> was added, stating:
+            <p class="dm-quote">"Credits consumed before the move remain billed against the previous spending policy&hellip; <strong>Total credits used</strong> includes credit consumption across <strong>all</strong> spending policies assigned to the user during the billing period."</p>
+            <p class="dm-quote">Worked example: "The user's usage is <strong>reset to 0</strong>&hellip; the user's <strong>Monthly limit</strong> displays as 15,000 credits&hellip; while <strong>Total credits used</strong> displays 24,000 credits, which includes usage from both spending policies."</p>
+            <p>In plain terms: a mid-month move restarted the per-user meter, while the "Total credits used" figure continued to sum both policies, so it could read higher than the limit shown beside it. (This behavior was subsequently changed on 10 Sep 2026 &mdash; see the row above.)</p>
+          </td>
+          <td class="dm-date">11 Aug 2026</td>
+        </tr>
+
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="dm-h">Pages watched</h2>
+    <p class="dm-note" style="opacity:.85">
+      20 Microsoft Learn pages, plus one newly discovered link. Tier 1 = billing-critical,
+      Tier 2 = context. These are the sources the change log is built from.
+    </p>
+    <ul class="dm-links">
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a> <span class="dm-tier">&middot; Tier 1 &middot; core doc</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits" target="_blank" rel="noopener">Usage-Based Billing and Cost Management for Copilot Credits</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-cost" target="_blank" rel="noopener">Check your credit usage for Cowork tasks with /cost</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/discovery-setting-ai-experiences" target="_blank" rel="noopener">Discovery setting for AI experiences enabled by usage-based billing</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/copilot-credit-p3" target="_blank" rel="noopener">Optimize Copilot Credit costs with a pre-purchase plan (P3)</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/index" target="_blank" rel="noopener">Microsoft Copilot Cowork overview</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views" target="_blank" rel="noopener">View Copilot Credit consumption in the M365 admin center and on your Azure bill</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-faq" target="_blank" rel="noopener">Copilot Cowork FAQ</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/cowork-usage-report" target="_blank" rel="noopener">Microsoft 365 admin center Cowork usage report</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener">Copilot Studio credit rates and management</a> <span class="dm-tier">&middot; Tier 1</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/overview" target="_blank" rel="noopener">Microsoft Copilot pay-as-you-go service overview</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/setup" target="_blank" rel="noopener">Set up pay-as-you-go billing (Copilot)</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/api-overview" target="_blank" rel="noopener">Work IQ API overview</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/management-controls" target="_blank" rel="noopener">Copilot Control System management controls</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Copilot Studio billing and licensing</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/manage-copilot-studio-messages-capacity" target="_blank" rel="noopener">Manage Copilot Studio credits and capacity</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/get-started" target="_blank" rel="noopener">Get started with Copilot Cowork</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugins" target="_blank" rel="noopener">Cowork plugins</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/azure/cost-management-billing/reservations/view-amortized-costs" target="_blank" rel="noopener">View amortized costs (Azure reservations)</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/commerce/services/pay-as-you-go-setup-billing-node" target="_blank" rel="noopener">Set up and manage pay-as-you-go billing in the Billing node</a> <span class="dm-tier">&middot; Tier 2</span></li>
+      <li><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugin-development" target="_blank" rel="noopener">Cowork plugin development</a> <span class="dm-tier">&middot; newly discovered</span></li>
+    </ul>
+
+    <p class="dm-disclaimer">
+      Cowork Document Monitor &middot; tracks public Microsoft Learn documentation only &middot;
+      all quotes are verbatim from the linked pages. Documentation is subject to change; always
+      confirm against the linked source page.
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../../updates/">What's new</a> · <a href="../../faq/">FAQ</a> · <a href="../../glossary/">Glossary</a> · <a href="../../feedback/">Feedback</a> · <a href="../../demos/">Internal Demos</a></div>
+    <p>Built by the Analytics Hub Advisory Team ·
+      <a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a> ·
+      <a href="../../feedback/">Feedback</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
