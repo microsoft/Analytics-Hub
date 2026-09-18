@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" data-flyout="70" data-density="comfortable">
 <head>
+  <script>try{if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add('mk-embed');}catch(e){}</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Which report should I use? &mdash; Reports &middot; Analytics Hub</title>
@@ -1701,10 +1702,19 @@ a.mk-joinbtn:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2
   .mk-ghbtn, .mk-sharebtn, a.mk-joinbtn{ font-size:16px; padding:12px 20px; }
   .mk-sharebtn{ margin-left:0; }
 }
+/* Embedded flyout mode: when this page is loaded inside the Community
+   incubate iframe (?embed=1), hide all page chrome so only the report
+   flyout and its backdrop show over the host page. */
+html.mk-embed, html.mk-embed body{ background:transparent !important; }
+html.mk-embed body{ overflow:hidden; }
+html.mk-embed .ah-skip,
+html.mk-embed .site-header,
+html.mk-embed .site-footer,
+html.mk-embed main.mk-page{ display:none !important; }
 </style>
-  <!-- Microsoft Clarity -->
+  <!-- Microsoft Clarity (suppressed in embedded flyout mode) -->
   <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
+    if (!/[?&]embed=1/.test(location.search)) (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
@@ -4835,6 +4845,7 @@ a.mk-joinbtn:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2
   var dlgFoot = document.getElementById('mkDlgFoot');
   var dlgDl = document.getElementById('mkDlgDl');
   var opener = null;
+  var IS_EMBED = /[?&]embed=1/.test(location.search);
 
   function placeholderHtml(title) {
     return '<div class="mk-noprev">' +
@@ -5173,6 +5184,8 @@ a.mk-joinbtn:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:2
     document.body.classList.remove('mk-locked');
     if (opener && document.contains(opener)) opener.focus();
     opener = null;
+    // In embedded flyout mode, tell the host page to remove the iframe.
+    if (IS_EMBED) { try { parent.postMessage({ type: 'ah-card-close' }, '*'); } catch (e) {} }
   });
 
   /* ============================================================
