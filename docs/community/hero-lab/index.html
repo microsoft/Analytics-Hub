@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community hero lab (internal preview) · Analytics Hub</title>
+  <meta name="description" content="Internal, non-indexed preview of candidate hero designs for the Community page." />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="../../palette.css" />
+  <link rel="stylesheet" href="../community.css" />
+  <script src="../../clarity-events.js?v=202609141210" defer></script>
+  <script src="../../consent.js?v=1" defer></script>
+  <script src="../../palette.js" defer></script>
+  <script src="../../nudges.js" defer></script>
+  <script src="../../poll.js" defer></script>
+  <!-- Deliberately no Clarity tag: this is an internal preview, kept out of analytics. -->
+  <style>
+    /* ---- Reports-header tokens + treatment (from choose-report) ---- */
+    :root{
+      --mk-border:#e6e6ee; --mk-text:#1a1a25; --mk-soft:#5a5a72; --mk-muted:#6b6b85;
+      --mk-accent:#0078d4; --mk-accent-strong:#005a9e; --mk-surface:#ffffff;
+      --mk-shadow-sm:0 2px 4px rgba(0,0,0,.055),0 0 2px rgba(0,0,0,.045); --mk-radius:14px;
+      --mk-cop-grad:linear-gradient(135deg,#00b7c3 0%,#2b88d8 32%,#6b5ad9 60%,#9a4fc4 82%,#d05fb0 100%);
+    }
+    [data-theme="dark"]{ --mk-border:#2a2a38; --mk-text:#f0f0f5; --mk-soft:#b8b8c8; --mk-muted:#8585a0; --mk-surface:#181822; }
+    .pk-lead-eyebrow{margin:0 0 10px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mk-accent);}
+    .pk-lead2-h{margin:0;font-size:clamp(2.1rem,4.4vw,3.15rem);line-height:1.08;letter-spacing:-.025em;font-weight:700;color:var(--mk-text);}
+    .pk-lead2-p{margin:16px 0 0;font-size:17px;line-height:1.6;color:var(--mk-soft);max-width:66ch;}
+    .pk-hl-a{color:#0f6cbd;} .pk-hl-b{color:#3b5bdb;} .pk-hl-c{color:#6741d9;}
+    [data-theme="dark"] .pk-hl-a{color:#5cb8ff;} [data-theme="dark"] .pk-hl-b{color:#8aa4ff;} [data-theme="dark"] .pk-hl-c{color:#b197fc;}
+    .pk-how{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:34px 0 0;border-top:2px solid var(--mk-text);}
+    .pk-step3{padding:18px 26px 20px 0;}
+    .pk-step3 + .pk-step3{border-left:1px solid var(--mk-border);padding-left:26px;}
+    .pk-sn{font-size:30px;font-weight:800;line-height:1;letter-spacing:-.03em;background:var(--mk-cop-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .pk-st{margin:10px 0 5px;font-size:1.1rem;font-weight:700;color:var(--mk-text);}
+    .pk-sp{margin:0;font-size:14.5px;line-height:1.55;color:var(--mk-soft);}
+    .pk-sp a{color:var(--mk-accent-strong);font-weight:600;text-decoration:none;}
+    .pk-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:30px 0 0;padding:16px 22px;border-radius:12px;border:1px solid var(--mk-border);background:var(--mk-surface);box-shadow:var(--mk-shadow-sm);}
+    .pk-bar p{margin:0;font-size:14.5px;color:var(--mk-soft);flex:1 1 320px;}
+    .pk-bar b{color:var(--mk-text);font-weight:700;}
+    .pk-cta{color:var(--mk-accent-strong);font-weight:700;text-decoration:none;border-bottom:2px solid var(--mk-accent);white-space:nowrap;}
+    @media(max-width:860px){.pk-how{grid-template-columns:1fr;}.pk-step3 + .pk-step3{border-left:0;border-top:1px solid var(--mk-border);padding-left:0;padding-top:18px;}}
+    .cop-num{background:var(--mk-cop-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;}
+
+    /* two theme cards */
+    .m-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+    @media(max-width:860px){.m-cards{grid-template-columns:1fr;}}
+    .m-card{background:var(--mk-surface);border:1px solid var(--mk-border);border-radius:var(--mk-radius);box-shadow:var(--mk-shadow-sm);padding:26px;}
+    .m-card .k{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mk-accent);}
+    .m-card.inc .k{color:#a3238f;} [data-theme="dark"] .m-card.inc .k{color:#ff9ecb;}
+    .m-card h3{margin:.35rem 0 .5rem;font-size:1.5rem;color:var(--mk-text);}
+    .m-card p{margin:0 0 16px;color:var(--mk-soft);font-size:.98rem;line-height:1.5;}
+    .m-chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;}
+    .m-chip{font-size:.8rem;border:1px solid var(--mk-border);border-radius:999px;padding:.25rem .7rem;color:var(--mk-soft);background:transparent;}
+
+    /* ---- lab chrome ---- */
+    .lab-note{background:#fff6e8;border-bottom:1px solid #edc48a;color:#7a4a00;font-size:.9rem;}
+    [data-theme="dark"] .lab-note{background:#2a2313;border-color:#5a4620;color:#f0d9a8;}
+    .lab-note .wrap{padding:10px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .lab-note b{font-weight:700;}
+    .lab-switch{position:sticky;top:0;z-index:40;background:var(--surface,#fff);border-bottom:1px solid var(--mk-border);box-shadow:0 2px 10px -8px rgba(0,0,0,.4);}
+    .lab-switch .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 0;}
+    .lab-switch .lbl{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mk-muted);margin-right:4px;}
+    .lab-btn{border:1px solid var(--mk-border);background:transparent;color:var(--mk-text);border-radius:999px;padding:.4rem .9rem;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;}
+    .lab-btn[aria-pressed="true"]{background:var(--mk-cop-grad);color:#fff;border-color:transparent;}
+    .lab-variant-name{margin-left:auto;font-size:.85rem;color:var(--mk-soft);}
+    .hero-lab{padding:40px 0 8px;background:var(--surface-2,transparent);}
+    .hv{display:none;}
+    .hv.is-active{display:block;}
+    .lab-belowlbl{border-top:1px dashed var(--mk-border);margin-top:8px;}
+    .lab-belowlbl .wrap{padding:14px 0 0;}
+    .lab-belowlbl .eyebrow{margin:0;}
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../../choose-report/">Reports</a>
+      <a href="../../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../../case-studies/">Case Studies</a>
+      <a href="../../community/" aria-current="page">Community</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
+          <a href="../../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
+          <a href="../../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+          <a href="../results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
+        </div>
+      </div>
+      <a class="nav-subscribe" href="../../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+  </div>
+</header>
+
+<div class="lab-note"><div class="wrap"><b>Internal preview &mdash; hidden &amp; not indexed.</b> Candidate hero designs for the Community page. Use the switcher to try each above the real page sections. Not linked anywhere and blocked in robots.txt.</div></div>
+
+<div class="lab-switch" role="group" aria-label="Choose a hero design">
+  <div class="wrap">
+    <span class="lbl">Hero design</span>
+    <button class="lab-btn" type="button" data-hv="1" aria-pressed="true">1</button>
+    <button class="lab-btn" type="button" data-hv="2" aria-pressed="false">2</button>
+    <button class="lab-btn" type="button" data-hv="3" aria-pressed="false">3</button>
+    <button class="lab-btn" type="button" data-hv="4" aria-pressed="false">4</button>
+    <button class="lab-btn" type="button" data-hv="5" aria-pressed="false">5</button>
+    <span class="lab-variant-name" id="labName">Reports-header treatment</span>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============ HERO VARIANTS ============ -->
+  <section class="hero-lab">
+    <div class="wrap">
+
+      <!-- Variant 1 -->
+      <div class="hv is-active" data-hv="1">
+        <p class="pk-lead-eyebrow">Community &amp; Incubation</p>
+        <h1 class="pk-lead2-h">Shape what we <span class="pk-hl-a">build</span>,<br>and help ship <span class="pk-hl-c">what&rsquo;s next</span></h1>
+        <p class="pk-lead2-p">Two ways in. Steer the roadmap with the community, or take an early build for a run and help settle it before it ships.</p>
+        <div class="pk-how">
+          <div class="pk-step3">
+            <div class="pk-sn">Community</div>
+            <h3 class="pk-st">Follow, answer, attend</h3>
+            <p class="pk-sp">Track the Learning Feed, answer a 30-second poll, and join live trainings or catch the recordings. <a href="#hub">Explore &rarr;</a></p>
+          </div>
+          <div class="pk-step3">
+            <div class="pk-sn">Incubation</div>
+            <h3 class="pk-st">Take an early build for a run</h3>
+            <p class="pk-sp">Run a testing-stage template against your own data and help settle the metric definitions. <a href="../incubations/">See incubations &rarr;</a></p>
+          </div>
+        </div>
+        <div class="pk-bar">
+          <p><b>New to the Hub?</b> The community is where reports get prioritised &mdash; and incubations are how the next one gets shaped.</p>
+          <a class="pk-cta" href="#hub">Explore the community &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Variant 2 -->
+      <div class="hv" data-hv="2">
+        <p class="eyebrow center">Community</p>
+        <h1 class="section-title center">Shape what we build next</h1>
+        <p class="section-lead center">Pick your lane &mdash; steer the roadmap, or get hands-on with a report before it ships.</p>
+        <div class="m-cards" style="margin-top:30px">
+          <div class="m-card">
+            <span class="k">Community</span>
+            <h3>Join the conversation</h3>
+            <p>The people-powered side of the Hub: what we build is driven by what you tell us.</p>
+            <div class="m-chips"><span class="m-chip">Learning Feed</span><span class="m-chip">Polls</span><span class="m-chip">Events &amp; Trainings</span></div>
+            <a class="btn btn-primary" href="#hub">Explore community &rarr;</a>
+          </div>
+          <div class="m-card inc">
+            <span class="k">Incubation</span>
+            <h3>Incubate a report</h3>
+            <p>Some templates are still being shaped. Take an early build for a run and help settle the metrics.</p>
+            <div class="m-chips"><span class="m-chip">Cowork Adoption</span><span class="m-chip">Testing</span><span class="m-chip">Power BI</span></div>
+            <a class="btn btn-ghost" href="../incubations/">See incubations &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant 3 -->
+      <div class="hv" data-hv="3">
+        <div class="hero-eyebrow" style="display:inline-block">Community &amp; Incubation</div>
+        <h1 class="hero-title" style="margin-top:14px">Build it with us, and shape <span class="grad">what&rsquo;s next</span></h1>
+        <p class="hero-sub" style="margin-left:0">The community steers the roadmap; incubations let you test the next report against your own data first.</p>
+        <div class="pk-how" style="border-top-color:var(--mk-border)">
+          <div class="pk-step3">
+            <h3 class="pk-st" style="margin-top:0"><span class="cop-num">Community</span></h3>
+            <p class="pk-sp">Learning Feed, quick polls, live trainings and recordings &mdash; anonymous, no customer data stored.</p>
+            <p style="margin:14px 0 0"><a class="btn btn-primary" href="#hub">Explore</a></p>
+          </div>
+          <div class="pk-step3">
+            <h3 class="pk-st" style="margin-top:0"><span class="cop-num">Incubation</span></h3>
+            <p class="pk-sp">Run an early template against your tenant, pressure-test the metric definitions, and help settle them.</p>
+            <p style="margin:14px 0 0"><a class="btn btn-ghost" href="../incubations/">Incubate</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant 4 -->
+      <div class="hv" data-hv="4">
+        <div style="text-align:center">
+          <p class="pk-lead-eyebrow">Community &amp; Incubation</p>
+          <h1 class="pk-lead2-h">Two ways to <span class="pk-hl-a">move</span> <span class="pk-hl-b">the</span> <span class="pk-hl-c">Hub</span> forward</h1>
+        </div>
+        <div class="pk-how" style="margin-top:30px">
+          <div class="pk-step3">
+            <div class="pk-sn">Community</div>
+            <h3 class="pk-st">Tell us what to build</h3>
+            <p class="pk-sp">Follow the Learning Feed, answer a quick poll, and join live setup sessions. The roadmap follows the room. <a href="#hub">Explore community &rarr;</a></p>
+          </div>
+          <div class="pk-step3">
+            <div class="pk-sn">Incubation</div>
+            <h3 class="pk-st">Ship the next report with us</h3>
+            <p class="pk-sp">Take a testing-stage template for a run against your own data and help settle the metric definitions before launch. <a href="../incubations/">See incubations &rarr;</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant 5 -->
+      <div class="hv" data-hv="5">
+        <p class="eyebrow">Community &amp; Incubation</p>
+        <h1 class="section-title">The roadmap is <span class="grad">yours to steer</span></h1>
+        <div class="pk-how" style="border-top-color:var(--mk-text)">
+          <div class="pk-step3">
+            <div class="pk-sn" style="font-size:23px">Community</div>
+            <p class="pk-sp" style="margin-top:8px">Learning Feed, polls and trainings &mdash; the side of the Hub where what you say becomes what we build.</p>
+            <div style="display:flex;gap:30px;margin:16px 0 0">
+              <div><div class="cop-num" style="font-size:1.9rem">3</div><div class="pk-sp">ways to weigh in</div></div>
+              <div><div class="cop-num" style="font-size:1.9rem">30s</div><div class="pk-sp">to answer a poll</div></div>
+            </div>
+            <p class="pk-sp" style="margin-top:14px"><a href="#hub">Explore the community &rarr;</a></p>
+          </div>
+          <div class="pk-step3">
+            <div class="pk-sn" style="font-size:23px">Incubation</div>
+            <p class="pk-sp" style="margin-top:8px">Reports still being shaped. Run one early, break it, and help settle the numbers before it ships.</p>
+            <div style="display:flex;gap:30px;margin:16px 0 0">
+              <div><div class="cop-num" style="font-size:1.9rem">1</div><div class="pk-sp">report in testing</div></div>
+              <div><div class="cop-num" style="font-size:1.9rem">~10m</div><div class="pk-sp">on the sample data</div></div>
+            </div>
+            <p class="pk-sp" style="margin-top:14px"><a href="../incubations/">See incubations &rarr;</a></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="lab-belowlbl"><div class="wrap"><p class="eyebrow">&darr; The live page below the hero</p></div></div>
+
+  <!-- ============ REAL HUB SECTIONS (as they appear on the Community page) ============ -->
+  <div class="wrap" id="hub">
+
+    <section class="comm-hubsec" id="incubate">
+      <div class="comm-hubhead">
+        <h2>Incubations</h2>
+        <a class="comm-seeall" href="../incubations/">See all incubations &rarr;</a>
+      </div>
+      <p class="sub">Some templates are still being shaped. Take an early build for a run against your own data, tell us what breaks, and help settle the metric definitions before it ships.</p>
+      <div class="comm-grid comm-oneup">
+        <article class="evt-card cw-inc-card" data-report="cowork-adoption" data-report-name="Cowork Adoption" aria-haspopup="dialog">
+          <div class="evt-top">
+            <span class="evt-badge evt-badge--inc">Incubating</span>
+            <span class="evt-level">Power BI template &middot; testing</span>
+          </div>
+          <div class="evt-title">Cowork Adoption</div>
+          <div class="evt-when">Purview audit export &middot; about 10 minutes on the sample data</div>
+          <p class="evt-summary">Nine pages on how Copilot Cowork is actually being adopted: activation, how consistently people come back, what work they delegate, and who is emerging as a champion.</p>
+          <div class="evt-actions">
+            <button type="button" class="evt-btn" data-viewdetails>View Details</button>
+            <a class="evt-btn evt-btn--ghost" data-incubate href="#">Incubate</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comm-hubsec" id="learning-feed">
+      <div class="comm-hubhead">
+        <h2>Learning Feed</h2>
+        <a class="comm-seeall" href="../learning-feed/">See all feeds &rarr;</a>
+      </div>
+      <p class="sub">Living trackers that follow how Microsoft Copilot guidance is changing.</p>
+      <div class="lf-grid comm-oneup">
+        <a class="lf-card" href="../cowork-document-monitor/">
+          <div class="lf-top"><span class="lf-badge">Doc tracker</span><span class="lf-live">Updated 15 Sep 2026</span></div>
+          <div class="lf-kpi"><span class="lf-num">17</span><span class="lf-unit">changes logged &middot; 20 pages watched</span></div>
+          <div class="lf-title">Cowork Document Monitor</div>
+          <p class="lf-desc">A plain-language change log of the Microsoft Learn pages behind Copilot Cowork Copilot Credit billing &mdash; what each page said before, what it says now, and the date it changed.</p>
+          <span class="lf-go">Open feed &rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="comm-hubsec" id="polls" hidden>
+      <div class="comm-hubhead">
+        <h2>Polls</h2>
+        <a class="comm-seeall" href="../polls/">See all polls &rarr;</a>
+      </div>
+      <p class="sub">Two-second answers that steer what we build next.</p>
+      <div class="comm-grid comm-oneup" id="poll-list"></div>
+    </section>
+
+    <section class="comm-hubsec" id="events" hidden>
+      <div class="comm-hubhead">
+        <h2>Events &amp; Trainings</h2>
+        <a class="comm-seeall" href="../events/">See all events &rarr;</a>
+      </div>
+      <p class="sub">Live sessions you can register for, plus on-demand recordings.</p>
+      <div class="comm-grid comm-oneup" id="events-upcoming"></div>
+    </section>
+
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../../faq/">FAQ</a> · <a href="../../glossary/">Glossary</a> · <a href="../../feedback/">Feedback</a> · <a href="../../demos/">Internal Demos</a></div>
+    <div class="footer-fine">
+      © Microsoft Corporation · MIT Licensed · <a href="../../">Analytics Hub home</a> · <a href="../">Community</a> · internal preview
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---- hero switcher ---- */
+(function () {
+  'use strict';
+  var NAMES = {
+    '1':'Reports-header treatment', '2':'Homepage section + two cards',
+    '3':'Homepage hero title (gradient)', '4':'Centered colored headline',
+    '5':'Section title + gradient metrics'
+  };
+  var btns = document.querySelectorAll('.lab-btn');
+  var name = document.getElementById('labName');
+  function show(n) {
+    document.querySelectorAll('.hv').forEach(function (v) { v.classList.toggle('is-active', v.getAttribute('data-hv') === n); });
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-hv') === n ? 'true' : 'false'); });
+    if (name) name.textContent = NAMES[n] || '';
+    try { history.replaceState(null, '', '#hv=' + n); } catch (e) {}
+  }
+  btns.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-hv')); }); });
+  var m = /hv=([1-5])/.exec(location.hash || '');
+  if (m) show(m[1]);
+})();
+</script>
+
+<script>
+/* ---- hub sections: surface one poll + one event (same as the live hub) ---- */
+(function () {
+  'use strict';
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function renderPolls() {
+    var section = document.getElementById('polls'), host = document.getElementById('poll-list');
+    if (!window.ahPolls) return;
+    window.ahPolls.openPolls().then(function (polls) {
+      polls = polls.filter(function (p) { return !window.ahPolls.responded(p.id); });
+      polls.sort(function (a, b) {
+        var ad = a.closesOn ? new Date(a.closesOn).getTime() : Infinity;
+        var bd = b.closesOn ? new Date(b.closesOn).getTime() : Infinity;
+        return ad - bd;
+      });
+      if (!polls.length) { section.hidden = true; return; }
+      host.innerHTML = '';
+      var card = document.createElement('div'); card.className = 'comm-poll-card';
+      host.appendChild(card); window.ahPolls.render(card, polls[0]);
+      section.hidden = false;
+    }).catch(function () { section.hidden = true; });
+  }
+  function fmtWhen(iso, mins){try{var d=new Date(iso);return d.toLocaleString(undefined,{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'})+(mins?' · '+mins+' min':'');}catch(e){return iso;}}
+  function eventCard(ev) {
+    var comingSoon = !!ev.comingSoon;
+    var soon = comingSoon ? '<span class="evt-badge evt-badge--soon">Coming soon</span>' : '';
+    var level = ev.level ? '<span class="evt-level">' + esc(ev.level) + '</span>' : '';
+    var when = comingSoon ? '<div class="evt-when">Webinar · date to be announced</div>' : '<div class="evt-when">' + esc(fmtWhen(ev.startsUtc, ev.durationMinutes)) + '</div>';
+    var note = ev.msftOnly ? '<p class="evt-note">Microsoft employees can register. Everyone can watch the recording afterwards.</p>' : '';
+    var actions = comingSoon ? '<span class="evt-btn" aria-disabled="true">Registration opening soon</span>'
+      : (ev.registerUrl ? '<a class="evt-btn" href="' + esc(ev.registerUrl) + '" target="_blank" rel="noopener">Register &#8599;</a>' : '<span class="evt-btn" aria-disabled="true">Registration soon</span>');
+    return '<article class="evt-card"><div class="evt-top"><span class="evt-badge">Training</span>' + level + soon + '</div>' +
+      '<div class="evt-title">' + esc(ev.title) + '</div>' + when +
+      (ev.summary ? '<p class="evt-summary">' + esc(ev.summary) + '</p>' : '') + note +
+      '<div class="evt-actions">' + actions + '</div></article>';
+  }
+  function renderEvents() {
+    var section = document.getElementById('events'), up = document.getElementById('events-upcoming');
+    fetch('../../data/events.json', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) {
+      var now = Date.now();
+      var upcoming = ((j && j.events) || []).filter(function (ev) { return ev.kind === 'training' && (ev.comingSoon || (ev.startsUtc && new Date(ev.startsUtc).getTime() > now)); });
+      upcoming.sort(function (a, b) { var ad = a.startsUtc ? new Date(a.startsUtc).getTime() : Infinity; var bd = b.startsUtc ? new Date(b.startsUtc).getTime() : Infinity; return ad - bd; });
+      if (!upcoming.length) { section.hidden = true; return; }
+      up.innerHTML = eventCard(upcoming[0]); section.hidden = false;
+    }).catch(function () { section.hidden = true; });
+  }
+  function boot() { renderPolls(); renderEvents(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+
+<script>
+/* ---- incubate flyout (real Reports flyout via iframe) ---- */
+(function () {
+  'use strict';
+  var section = document.getElementById('incubate');
+  if (!section) return;
+  var INCUBATE_TO = 'copilot-roi-advisory-team-gh@microsoft.com';
+  function incubateMailto(name) {
+    var body = ['Hello,', '', 'I would like to help incubate the ' + name + ' report.', '',
+      'How I would like to take part (delete what does not apply):',
+      '  - Run the template against my own tenant data and send findings back',
+      '  - Pressure-test the metric definitions', '  - Join a working session with the team', '',
+      'My team, and what we are trying to measure:', '  - ', ''].join('\r\n');
+    return 'mailto:' + INCUBATE_TO + '?subject=' + encodeURIComponent('Incubation: ' + name) + '&body=' + encodeURIComponent(body);
+  }
+  Array.prototype.forEach.call(section.querySelectorAll('.cw-inc-card'), function (card) {
+    var name = card.getAttribute('data-report-name') || 'this';
+    Array.prototype.forEach.call(card.querySelectorAll('[data-incubate]'), function (a) { a.setAttribute('href', incubateMailto(name)); });
+  });
+  var frame = null;
+  function openCard(id) {
+    if (!id || frame) return;
+    frame = document.createElement('iframe'); frame.className = 'cw-embed'; frame.title = 'Report details';
+    frame.setAttribute('allow', 'fullscreen'); frame.src = '../../choose-report/?embed=1#d=' + encodeURIComponent(id);
+    document.body.appendChild(frame); document.body.classList.add('cw-embed-open');
+  }
+  function closeCard() { if (!frame) return; frame.remove(); frame = null; document.body.classList.remove('cw-embed-open'); }
+  section.addEventListener('click', function (e) {
+    if (e.target.closest('[data-incubate]')) return;
+    var card = e.target.closest('.cw-inc-card'); if (!card) return;
+    e.preventDefault(); openCard(card.getAttribute('data-report'));
+  });
+  window.addEventListener('message', function (e) { if (e.data && e.data.type === 'ah-card-close') closeCard(); });
+})();
+</script>
+
+</body>
+</html>
