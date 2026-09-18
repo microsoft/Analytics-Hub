@@ -167,38 +167,64 @@
 <!-- =========================================================== COMMUNITY -->
 <section class="band community-band" id="community-home">
   <div class="wrap">
+    <span class="chome-logo" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="58" height="58" focusable="false">
+        <defs>
+          <linearGradient id="chomeGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0078D4"/>
+            <stop offset=".5" stop-color="#8B5CF6"/>
+            <stop offset="1" stop-color="#E24C8F"/>
+          </linearGradient>
+        </defs>
+        <circle cx="32" cy="32" r="32" fill="url(#chomeGrad)"/>
+        <g fill="#fff">
+          <circle cx="16.5" cy="27.5" r="5.3" opacity=".85"/>
+          <path d="M8 45c0-5.1 3.6-8.7 8.5-8.7 1.3 0 2.5.3 3.6.7-2.4 2.2-3.9 5.2-4 8H8z" opacity=".85"/>
+          <circle cx="47.5" cy="27.5" r="5.3" opacity=".85"/>
+          <path d="M56 45c0-5.1-3.6-8.7-8.5-8.7-1.3 0-2.5.3-3.6.7 2.4 2.2 3.9 5.2 4 8H56z" opacity=".85"/>
+          <circle cx="32" cy="23.5" r="7.2"/>
+          <path d="M19 46c0-7.3 5.8-11.5 13-11.5S45 38.7 45 46v1.4H19z"/>
+        </g>
+      </svg>
+    </span>
     <p class="eyebrow center">Community</p>
     <h2 class="section-title center">Shape what we build next</h2>
-    <div class="community-home-grid">
-      <div class="community-home-poll">
-        <p class="community-home-blurb">Answer our 30-second poll — it pops up in the bottom-right corner. Explore open ideas and tell us what to build next.</p>
-        <p class="community-home-more"><a href="community/#polls">More polls &amp; open ideas →</a></p>
-      </div>
-      <aside class="community-home-next" id="community-home-next" hidden>
-        <p class="eyebrow">Next live training</p>
-        <div class="chn-title" id="chn-title"></div>
-        <div class="chn-when" id="chn-when"></div>
-        <p class="chn-note" id="chn-note" hidden>Microsoft employees can register. Everyone can watch the recording afterwards.</p>
-        <div class="chn-actions">
-          <a class="chn-btn" id="chn-register" href="#" target="_blank" rel="noopener">Register ↗</a>
-          <a class="chn-btn chn-btn--ghost" href="community/#events">All events &amp; recordings →</a>
-        </div>
-      </aside>
+    <p class="section-lead center chome-lead">Follow the Learning Feed as Copilot guidance shifts, incubate a report with us before it ships, answer a quick poll, or join a live training.</p>
+    <div class="chome-cards">
+      <a class="chome-card" href="community/incubations/">
+        <span class="chome-t">Incubations</span>
+        <span class="chome-d">Take an early build for a run against your own data and help shape it before it ships.</span>
+      </a>
+      <a class="chome-card" href="community/learning-feed/">
+        <span class="chome-t">Learning Feed</span>
+        <span class="chome-d">Living trackers that follow how Microsoft Copilot guidance is changing.</span>
+      </a>
+      <a class="chome-card" href="community/polls/">
+        <span class="chome-t">Polls</span>
+        <span class="chome-d">Two-second, anonymous answers that steer what we build next.</span>
+      </a>
+      <a class="chome-card" href="community/events/">
+        <span class="chome-t">Events &amp; Trainings</span>
+        <span class="chome-d">Live setup sessions you can register for, plus on-demand recordings.</span>
+      </a>
     </div>
+    <p class="community-home-more center"><a href="community/">Explore the community &rarr;</a></p>
   </div>
 </section>
 <style>
-  .community-home-grid{display:grid;gap:1.4rem;grid-template-columns:1fr;align-items:start;max-width:960px;margin:1.4rem auto 0;}
-  @media (min-width:820px){.community-home-grid{grid-template-columns:1.1fr .9fr;}}
-  .community-home-more{margin:.7rem 0 0;font-size:.9rem;}
-  .community-home-blurb{margin:.2rem 0 0;color:var(--text-muted,#5a6470);font-size:.95rem;line-height:1.5;}
-  .community-home-next{border:1px solid var(--border,#e2e6ea);border-radius:12px;padding:1.1rem 1.2rem;background:var(--surface,#fff);}
-  .community-home-next .chn-title{font-weight:600;font-size:1.05rem;margin:.2rem 0 .3rem;}
-  .community-home-next .chn-when{font-size:.85rem;color:var(--text-muted,#5a6470);}
-  .community-home-next .chn-note{font-size:.8rem;color:var(--text-muted,#5a6470);border-left:2px solid var(--border,#e2e6ea);padding-left:.6rem;margin:.6rem 0;}
-  .chn-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.8rem;}
-  .chn-btn{padding:.5rem .9rem;border-radius:8px;font-weight:600;font-size:.88rem;text-decoration:none;border:1px solid var(--accent,#0078d4);color:#fff;background:var(--accent,#0078d4);}
-  .chn-btn--ghost{background:transparent;color:var(--accent,#0078d4);}
+  .community-band .chome-logo{display:flex;justify-content:center;margin:0 0 .6rem;}
+  .community-band .chome-logo svg{border-radius:50%;box-shadow:0 6px 18px -6px rgba(99,60,180,.5);}
+  .chome-lead{max-width:64ch;margin-left:auto;margin-right:auto;}
+  .chome-cards{display:grid;gap:1rem;grid-template-columns:1fr;max-width:1000px;margin:1.6rem auto 0;}
+  @media (min-width:720px){.chome-cards{grid-template-columns:repeat(2,1fr);}}
+  @media (min-width:1040px){.chome-cards{grid-template-columns:repeat(4,1fr);}}
+  .chome-card{display:flex;flex-direction:column;gap:.4rem;text-align:left;text-decoration:none;color:inherit;
+    border:1px solid var(--border,#e2e6ea);border-radius:14px;background:var(--surface,#fff);padding:1.2rem 1.25rem;
+    transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease;}
+  .chome-card:hover{border-color:var(--accent,#0078d4);box-shadow:0 8px 22px -12px rgba(15,18,28,.4);transform:translateY(-2px);}
+  .chome-card .chome-t{font-weight:700;font-size:1.15rem;}
+  .chome-card .chome-d{font-size:.95rem;line-height:1.5;color:var(--text-muted,#5a6470);}
+  .community-home-more{margin:1.2rem 0 0;font-size:1rem;}
 </style>
 
 <!-- Home quick-poll rail (bottom-right, mirrors the Consumption page) -->
