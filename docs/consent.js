@@ -12,12 +12,14 @@
    • ad_Storage is ALWAYS denied — the Hub runs no advertising, so the
      third-party MUID/ad cookies are never needed. Only first-party
      analytics (_clck / _clsk) power the pages-analytics metrics.
-   • Region-aware UX, matching how CMP-driven sites behave and Microsoft's
-     Oct-31-2025 consent policy for the EEA / UK / CH:
-       – Consent-required region  → opt-in banner, Clarity denied until accept.
-       – Everywhere else          → passive notice + opt-out, analytics on.
-   • Choice is remembered in localStorage; returning visitors are not
-     re-prompted. A persistent "Cookie preferences" footer link reopens it.
+   • No auto-prompt. Per manager request (the old banner/notice was too
+     intrusive), the privacy/cookie choice lives ONLY in a persistent
+     "Privacy notice" link in the site footer — nothing pops up on load.
+     Regional defaults for Clarity are still honored:
+       – Consent-required region (EEA/UK/CH) → Clarity denied until the visitor
+         opts in through the footer link.
+       – Everywhere else → analytics on by default; opt out via the footer link.
+   • Choice is remembered in localStorage and applied silently on return.
 
    Design rules
    ------------
@@ -310,7 +312,7 @@
       var link = document.createElement("a");
       link.href = "#";
       link.className = "ahc-foot-link";
-      link.textContent = "Cookie preferences";
+      link.textContent = "Privacy notice";
       link.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
 
       // Prefer an existing inline footer row so it sits with the other links.
@@ -336,13 +338,12 @@
       signalClarity(d.analytics === "granted");
       return;
     }
-    if (isConsentRequiredRegion()) {           // must opt in first
-      signalClarity(false);                    // deny until they choose
-      show(els.banner);
-    } else {                                   // US / rest — notice + opt-out
-      signalClarity(true);                     // analytics on by default
-      show(els.notice);
-    }
+    // No auto-prompt: the privacy/cookie choice is reachable only through the
+    // footer "Privacy notice" link. Nothing is shown on load. We still apply
+    // the regional default for Clarity — denied until opt-in in consent-required
+    // regions (EEA/UK/CH), on by default elsewhere — so a first-time visitor in
+    // a consent region never gets analytics cookies before choosing.
+    signalClarity(!isConsentRequiredRegion());
   }
 
   // Expose a global so any page element can reopen preferences if needed.
