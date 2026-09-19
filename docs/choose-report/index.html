@@ -3799,6 +3799,92 @@ html.mk-embed main.mk-page{ display:none !important; }
           ]
         }
       ]
+    },
+    {
+      "id": "ai-solutions-intelligence",
+      "incubating": true,
+      "question": "I want to see Copilot adoption next to third-party AI use, shadow AI and consent risk.",
+      "title": "AI Solutions Intelligence",
+      "icon": "\uD83D\uDD0D",
+      "accent": "#8a2be2",
+      "category": "usage-intelligence",
+      "tier": "specialty",
+      "measures": [
+        "adoption",
+        "audit"
+      ],
+      "source": "Defender Advanced Hunting + Purview audit + Microsoft Graph, as a 13-file CSV set",
+      "sourceKey": "Graph API",
+      "repo": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard",
+      "download": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/archive/refs/heads/main.zip",
+      "guide": "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/blob/main/DATA_SETUP_START_HERE.md",
+      "preview": "https://raw.githubusercontent.com/microsoft/AI-Solutions-Intelligence-Dashboard/main/images/report-preview.gif",
+      "demoVideos": ["https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/raw/main/media/AI-Solutions-Intelligence-Dashboard-Overview.mp4", "https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/raw/main/media/AI-Solutions-Dashboard-V27-In-Testing-Walkthrough.mp4"],
+      "blurb": "One Power BI report that puts Copilot adoption next to third-party AI activity, OAuth consent risk, off-hours and geo patterns, and optional Defender for Cloud Apps data. Ten pages, from an executive summary through shadow AI and a department breakdown to benchmarks and a tier comparison. V27 is In Testing: an investigation and planning aid, not a sole source of truth, and the risk scores are heuristic triage signals rather than proof of anything.",
+      "meta": {
+        "audience": "Security, IT and AI program owners",
+        "license": "Defender, Purview audit and Graph read access",
+        "time": "~10 min on the sample data"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Exchange Online View-Only Audit Logs",
+            "url": "https://learn.microsoft.com/purview/audit-get-started#step-2-assign-permissions-to-search-the-audit-log"
+          },
+          {
+            "label": "Purview Audit Reader",
+            "url": "https://learn.microsoft.com/purview/audit-solutions-overview"
+          },
+          {
+            "label": "Graph scopes: User.Read.All, LicenseAssignment.Read.All, AuditLog.Read.All, ThreatHunting.Read.All",
+            "url": "https://learn.microsoft.com/graph/api/security-security-runhuntingquery"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (latest)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "PowerShell 7+ with ExchangeOnlineManagement",
+            "url": "https://learn.microsoft.com/powershell/scripting/install/installing-powershell"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ai-in-one",
+          "title": "AI-in-One Dashboard",
+          "icon": "\uD83E\uDDE9",
+          "accent": "#0078d4",
+          "score": 7,
+          "shared": [
+            "adoption"
+          ]
+        },
+        {
+          "id": "pax",
+          "title": "PAX: Portable Audit eXporter",
+          "icon": "\uD83D\uDCE6",
+          "accent": "#107c10",
+          "score": 6,
+          "shared": [
+            "audit"
+          ]
+        },
+        {
+          "id": "chat-agent",
+          "title": "Copilot Chat & Agent Intelligence",
+          "icon": "\uD83D\uDCAC",
+          "accent": "#5c2e91",
+          "score": 5,
+          "shared": [
+            "adoption",
+            "audit"
+          ]
+        }
+      ]
     }
   ],
   "CATEGORIES": [
@@ -4253,6 +4339,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     'cowork-chargeback-app': ['chargeback', 'scenario modelling', 'what-if', 'credits', 'cowork', 'web app'],
     'cowork-team-report':   ['cowork', 'cowork skills', 'team cowork skills', 'skill', 'teams channel', 'hours saved', 'newsletter', 'team roi'],
     'cowork-adoption':      ['cowork', 'adoption', 'engagement', 'delegation', 'champions', 'purview', 'incubating'],
+    'ai-solutions-intelligence': ['shadow ai', 'third-party ai', 'defender', 'oauth', 'consent', 'risk', 'advanced hunting', 'kql', 'incubating'],
     'cowork-policy-helper-app': ['policy', 'spend limits', 'exceptions', 'governance', 'guardrails', 'cowork'],
     'finops-focus-app': ['finops', 'focus', 'cost', 'cloud finance', 'unit economics', 'cowork'],
     'cowork-roi-model-app': ['roi', 'scenario modelling', 'business case', 'forecasting', 'cowork'],
@@ -4360,6 +4447,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     'cowork-roi-model-app':       { p: ['cowork'],                 d: ['personal'],                     a: 'Finance, value teams' },
     'cowork-team-report':         { p: ['cowork'],                 d: ['personal'],                     a: 'Team leads, managers, ICs' },
     'cowork-adoption':            { p: ['cowork'],                 d: ['purview','m365admin'],          a: 'Cowork program & adoption leads' },
+    'ai-solutions-intelligence':  { p: ['m365','chat'],            d: ['defender','purview','m365admin'], a: 'Security, IT & AI program owners' },
     'pax':                        { p: ['m365','chat','studio'],   d: ['purview'],                      a: 'IT admins, data engineers' },
     'customize':                  { p: ['m365'],                   d: ['viva'],                         a: 'Report builders, analysts' }
   };
@@ -6288,6 +6376,71 @@ html.mk-embed main.mk-page{ display:none !important; }
         'not want included; removed sessions are never computed or published. Posts carry no names, ' +
         'prompts or raw filenames, and the manager skill only ever reads what teammates choose to ' +
         'post - never anyone\'s files.'
+    },
+    'ai-solutions-intelligence': {
+      reads: 'Thirteen CSV files in one local folder. They come from ' +
+        '<strong>Microsoft Defender</strong> Advanced Hunting, the <strong>Purview</strong> unified ' +
+        'audit log and <strong>Microsoft Graph</strong>, with Defender for Cloud Apps optional. ' +
+        'Every tenant loads the same report from the same thirteen files - the only choice is how ' +
+        'you generate them.',
+      easy: 'the repository ships a fabricated sample package, so you can load the template and ' +
+        'tour all ten pages with no tenant access and no permissions at all. Do that first. ' +
+        lk('https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/blob/main/AI-Solutions-Intelligence-Dashboard-V26-Sample-Data.zip', 'Download the sample ZIP') +
+        ' and point the template at the extracted folder.',
+      routeLead: 'For real data there are three supported ways to produce the thirteen files. They ' +
+        'all end in the same place, so pick on volume and how often you will repeat it.',
+      routes: [
+        {
+          label: 'Manual CSV export',
+          trade: 'Best for a one-time or smaller pull that fits portal export limits. No app ' +
+            'registration needed, but you are copying queries into the portal by hand.',
+          steps: [
+            'Follow ' + lk('https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/blob/main/DATA_SETUP_START_HERE.md', 'Start Here') +
+              ' for the ordered list, then the ' +
+              lk('https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/blob/main/INSTRUCTIONS_v26.md', 'full manual guide') + ' for each file.',
+            'Run the supplied KQL from ' +
+              lk('https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/blob/main/kql_queries_v22_E5V3.kql', 'the query pack') +
+              ' in Defender Advanced Hunting and export each result as CSV.',
+            'Use the bundled PowerShell collectors for the Graph and Exchange Online pieces. ' +
+              '<code>Search-UnifiedAuditLog</code> needs <strong>View-Only Audit Logs</strong>.'
+          ]
+        },
+        {
+          label: 'PAX exporter (automated)',
+          trade: 'Best for repeat or high-volume pulls. It partitions Advanced Hunting queries ' +
+            'adaptively so large ranges do not silently truncate, but it needs a token or an app ' +
+            'registration.',
+          steps: [
+            'Set up ' + lk('https://github.com/microsoft/AI-Solutions-Intelligence-Dashboard/blob/main/PAX_Exporter/README.md', 'PAX Exporter') +
+              ' and grant <code>User.Read.All</code>, <code>LicenseAssignment.Read.All</code>, ' +
+              '<code>AuditLog.Read.All</code> and <code>ThreatHunting.Read.All</code>.',
+            'Run the export and read the saturation warnings before trusting a range - a hit ' +
+              'against the row cap means the window was too wide, not that activity stopped.',
+            'Never commit tokens or client secrets. The repository guidance is explicit about this.'
+          ]
+        },
+        {
+          label: 'Sample data only',
+          trade: 'No tenant access, no permissions, about ten minutes. Fabricated data, so the ' +
+            'numbers mean nothing - it is for learning the report, not for decisions.',
+          steps: [
+            'Download and extract the sample ZIP, then set the folder parameter to it and refresh.'
+          ]
+        }
+      ],
+      tailLead: 'Whichever route you took, finish the same way:',
+      tail: [
+        'Put all thirteen CSVs in one Windows folder, for example <code>C:\\AI_Usage_Data\\</code>.',
+        'Open the V27 In Testing <code>.pbit</code>, set the folder parameter, and refresh.',
+        'Check coverage before reading anything into a gap. A source that is not licensed, ' +
+          'onboarded, connected or still retaining data shows as absence, not as zero activity.'
+      ],
+      note: 'Treat this one carefully. V27 is In Testing and the template says so: it is an ' +
+        'investigation and planning aid, not a sole source of truth for licensing, security, ' +
+        'legal, compliance, personnel or procurement decisions. Risk scores and anomalies are ' +
+        'heuristic triage signals, and file proximity is correlation - not proof of upload, ' +
+        'disclosure or misuse. Coverage depends on licensing, onboarding, connectors, retention ' +
+        'and the app and domain lists you configured.'
     },
     'cowork-adoption': {
       reads: 'One required export - <strong>Microsoft Purview</strong> audit records for the ' +
