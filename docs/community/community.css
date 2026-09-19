@@ -37,6 +37,9 @@
     .cw-inc-card:hover{border-color:var(--accent,#0078d4);box-shadow:0 6px 20px rgba(0,0,0,.06);transform:translateY(-2px);}
     /* Make the incubate card larger and roomier than a standard event card */
     #incubate .comm-grid{grid-template-columns:minmax(0,600px);}
+/* The community home shows both incubations side by side; the dedicated
+   /incubations/ page keeps one per row so it reads as a list. */
+#incubate .comm-grid.comm-twoup{grid-template-columns:repeat(auto-fit,minmax(330px,1fr));max-width:none;}
     .cw-inc-card{padding:1.7rem 1.9rem;gap:.85rem;border-radius:16px;}
     .cw-inc-card .evt-badge{font-size:.82rem;padding:.22rem .7rem;}
     .cw-inc-card .evt-level{font-size:.9rem;}
