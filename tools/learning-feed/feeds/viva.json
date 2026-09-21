@@ -1,0 +1,21 @@
+{
+  "id": "viva",
+  "title": "Viva Insights Watch",
+  "slug": "viva-insights-watch",
+  "blurb": "A running record of changes Microsoft has published to the Microsoft Learn pages behind Microsoft Viva Insights \u2014 the advanced (analyst) experience, org and team insights, the Copilot Dashboard and Copilot analytics reports, setup and environment requirements, licensing/roles, and the privacy model that governs what analysts and managers can see.",
+  "windowStart": "2026-07-01",
+  "docs": [
+    { "id": "advanced-intro", "tier": 1, "title": "Introduction to Viva Insights advanced insights", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/introduction-to-advanced-insights", "why": "The core analyst-experience page. Scope and capability changes here shape every advanced-insights report." },
+    { "id": "copilot-dashboard", "tier": 1, "title": "Microsoft Copilot Dashboard (Viva Insights)", "url": "https://learn.microsoft.com/en-us/viva/insights/org-team-insights/copilot-dashboard", "why": "THE Copilot adoption/impact dashboard surface in Viva Insights. Metric and capability changes here drive Copilot ROI reporting." },
+    { "id": "copilot-analytics-reports", "tier": 1, "title": "Copilot analytics reports in Viva Insights", "url": "https://learn.microsoft.com/en-us/viva/insights/org-team-insights/copilot-analytics-reports", "why": "The Copilot-specific analytics reports available to analysts \u2014 additions and changes affect what Copilot signal can be measured." },
+    { "id": "publish-reports", "tier": 1, "title": "Publish advanced insights (Power BI templates)", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/publish-reports", "why": "How analysts publish and share advanced-insights Power BI reports \u2014 the delivery mechanism for the templates the Hub builds on." },
+    { "id": "privacy", "tier": 1, "title": "Viva Insights advanced insights privacy", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/privacy/privacy", "why": "The privacy and de-identification model that governs what analysts can see \u2014 minimum group size, exclusions, and data handling." },
+    { "id": "assign-user-roles", "tier": 1, "title": "Assign user roles in advanced insights", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/setup-maint/assign-user-roles", "why": "Who can act as analyst, admin, or limited analyst \u2014 the access-control surface for the whole product." },
+    { "id": "environment-requirements", "tier": 2, "title": "Advanced insights environment requirements", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/setup-maint/environment-requirements", "why": "Prerequisites and environment setup for advanced insights \u2014 gating changes affect who can deploy it." },
+    { "id": "supported-environments", "tier": 2, "title": "Supported environments for advanced insights", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/setup-maint/supported-environments", "why": "Which tenant/region configurations are supported \u2014 availability changes surface here." },
+    { "id": "team-insights", "tier": 2, "title": "Team insights (manager experience)", "url": "https://learn.microsoft.com/en-us/viva/insights/org-team-insights/team-insights", "why": "The manager-facing team insights surface \u2014 what people leaders can see about their teams." },
+    { "id": "privacy-guide-admins", "tier": 2, "title": "Privacy guide for admins (personal insights)", "url": "https://learn.microsoft.com/en-us/viva/insights/personal/overview/privacy-guide-admins", "why": "Admin-side privacy controls for the personal insights experience \u2014 opt-out and data-handling policy." },
+    { "id": "feature-access-management", "tier": 2, "title": "Viva feature access management", "url": "https://learn.microsoft.com/en-us/viva/feature-access-management", "why": "Controls which Viva features (including Insights) users can access \u2014 the enablement gate across the Viva suite." },
+    { "id": "insights-intro", "tier": 2, "title": "Introduction to Microsoft Viva Insights", "url": "https://learn.microsoft.com/en-us/viva/insights/introduction", "why": "Top-level product framing for Viva Insights \u2014 naming and positioning changes surface here first." }
+  ]
+}
