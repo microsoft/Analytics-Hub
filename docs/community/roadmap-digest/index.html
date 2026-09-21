@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot Roadmap — What Shipped · Analytics Hub</title>
+  <meta name="description" content="A weekly, plain-language digest built from the public Microsoft 365 Roadmap feed — which Copilot items moved to Launched, which are Rolling out, and which are newly In development." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/community/roadmap-digest/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub" />
+  <meta property="og:title" content="Copilot Roadmap — What Shipped · Analytics Hub" />
+  <meta property="og:description" content="A weekly, plain-language digest built from the public Microsoft 365 Roadmap feed — which Copilot items moved to Launched, which are Rolling out, and which are newly In development." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="../../palette.css" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Copilot Roadmap — What Shipped" />
+  <script src="../../clarity-events.js?v=202609141210" defer></script>
+  <script src="../../consent.js?v=1" defer></script>
+  <script src="../../palette.js" defer></script>
+  <script src="../../nudges.js" defer></script>
+
+  <style>
+    .dm-hero { padding: 2.6rem 0 .6rem; }
+    .dm-crumb { font-size: .8rem; color: var(--text-soft, #5a6470); margin: 0 0 .8rem; }
+    .dm-crumb a { color: inherit; }
+    .dm-hero h1 { margin: 0 0 .5rem; }
+    .dm-hero .lede { max-width: 76ch; color: var(--text-soft, #5a6470); margin: 0 0 .4rem; }
+    .dm-meta { font-size: .82rem; color: var(--text-soft, #5a6470); opacity: .9; margin: .8rem 0 0; }
+    .dm-kpis { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1.4rem 0 .4rem; }
+    .dm-kpi { border: 1px solid var(--border, #e2e6ea); border-radius: 12px; background: var(--surface, #fff); padding: 1rem 1.1rem; }
+    .dm-kpi .v { font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
+    .dm-kpi .l { font-size: .8rem; color: var(--text-soft, #5a6470); margin-top: .25rem; }
+    .dm-summary { border: 1px solid var(--border, #e2e6ea); background: color-mix(in srgb, var(--accent, #0078d4) 6%, transparent); border-left: 4px solid var(--accent, #0078d4); border-radius: 12px; padding: 1rem 1.2rem; margin: 1.6rem 0 .6rem; }
+    .dm-summary h2 { margin: 0 0 .3rem; font-size: 1.05rem; }
+    .dm-summary p { margin: 0; font-size: .95rem; }
+    .dm-note { font-size: .85rem; color: var(--text-soft, #5a6470); background: color-mix(in srgb, currentColor 5%, transparent); border-radius: 10px; padding: .7rem 1rem; margin: 1rem 0; }
+    h2.dm-h { margin: 2.1rem 0 .4rem; font-size: 1.25rem; }
+    .dm-scroll { overflow-x: auto; }
+    table.dm-log { width: 100%; border-collapse: collapse; margin: 1.1rem 0 .6rem; font-size: .9rem; min-width: 720px; }
+    table.dm-log th, table.dm-log td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--border, #e2e6ea); }
+    table.dm-log th { position: sticky; top: 0; background: var(--surface, #fff); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-soft, #5a6470); }
+    table.dm-log td.dm-page { min-width: 190px; font-weight: 600; }
+    table.dm-log td.dm-date { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--text-soft, #5a6470); }
+    table.dm-log td.dm-prev, table.dm-log td.dm-new { max-width: 340px; }
+    .dm-badge-new { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; background: #107c10; color: #fff; }
+    .dm-badge-silent { display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; background: #5a5a5a; color: #fff; }
+    .dm-badge-status { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; color: #fff; }
+    .dm-quote { border-left: 2px solid var(--border, #e2e6ea); padding-left: 10px; margin: 4px 0; }
+    .dm-links { columns: 2; column-gap: 40px; margin: 12px 0 40px; font-size: .88rem; padding-left: 18px; }
+    .dm-links li { break-inside: avoid; margin: 0 0 7px; }
+    .dm-tier { font-size: .7rem; color: var(--text-soft, #5a6470); }
+    .dm-disclaimer { font-size: .8rem; color: var(--text-soft, #5a6470); border-top: 1px solid var(--border, #e2e6ea); margin-top: 1.4rem; padding-top: 1rem; }
+    .dm-alert { margin: 22px 0 8px; border: 1px solid color-mix(in srgb, #0067c0 32%, var(--border, #e2e6ea)); border-left: 4px solid #0067c0; background: color-mix(in srgb, #0067c0 8%, var(--surface, #fff)); border-radius: 12px; padding: 16px 20px 17px; }
+    .dm-alert__head { display: flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #0067c0; margin: 0 0 .5rem; }
+    .dm-alert__dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 999px; background: #0067c0; }
+    .dm-alert__title { margin: 0 0 .25rem; font-size: 1.05rem; font-weight: 700; }
+    .dm-alert__body { margin: 0 0 .7rem; font-size: .93rem; line-height: 1.5; }
+    .dm-alert__actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .dm-actbtn { display: inline-flex; align-items: center; gap: .35rem; font-size: .82rem; font-weight: 600; padding: .42rem .8rem; border-radius: 8px; text-decoration: none; border: 1px solid var(--border, #e2e6ea); background: var(--surface, #fff); color: inherit; white-space: nowrap; cursor: pointer; }
+    .dm-actbtn:hover { border-color: #0067c0; color: #0067c0; }
+    .dm-actbtn--mail { background: #0067c0; border-color: #0067c0; color: #fff; }
+    .dm-actbtn--mail:hover { background: #0058a8; border-color: #0058a8; color: #fff; }
+    .dm-emailbtn { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; padding: .34rem .62rem; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: #0067c0; text-decoration: none; white-space: nowrap; cursor: pointer; margin-top: 8px; }
+    .dm-emailbtn:hover { border-color: #0067c0; background: color-mix(in srgb, #0067c0 8%, transparent); }
+    @media (max-width: 780px) { .dm-links { columns: 1; } }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../../choose-report/">Reports</a>
+      <a href="../../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../../case-studies/">Case Studies</a>
+      <a href="../../community/" aria-current="page">Community</a>
+      <a class="nav-subscribe" href="../../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+  </div>
+</header>
+<main id="top">
+  <section class="dm-hero">
+    <div class="wrap">
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <h1>Copilot Roadmap — What Shipped</h1>
+      <p class="lede">A weekly, plain-language digest built from the public Microsoft 365 Roadmap feed — which Copilot items moved to Launched, which are Rolling out, and which are newly In development. Source data is the official Microsoft 365 Roadmap API; each item links back to its roadmap entry.</p>
+      <div class="dm-kpis">
+        <div class="dm-kpi"><div class="v">642</div><div class="l">Copilot roadmap items tracked</div></div>
+        <div class="dm-kpi"><div class="v">213</div><div class="l">updated since Jul 1, 2026</div></div>
+        <div class="dm-kpi"><div class="v">311</div><div class="l">Launched (all time)</div></div>
+      </div>
+      <p class="dm-meta">Reflects the roadmap feed pulled on Sep 21, 2026 &middot; Source: the official Microsoft 365 Roadmap API. Item titles, statuses and descriptions are reproduced verbatim from that feed.</p>
+
+      <div class="dm-alert" id="dmAlert" role="alert" aria-label="Roadmap update summary">
+        <p class="dm-alert__head"><span class="dm-alert__dot" aria-hidden="true"></span> Update summary</p>
+        <p class="dm-alert__title" id="dmBannerTitle">213 Copilot roadmap items updated since Jul 1, 2026 — 63 now Launched</p>
+        <p class="dm-alert__body" id="dmBannerBody">Built from the official Microsoft 365 Roadmap feed (642 Copilot items tracked in total: 311 Launched, 54 Rolling out, 268 In development). The digest below lists the 60 most recently updated, newest first.</p>
+        <div class="dm-alert__actions">
+          <a class="dm-actbtn dm-actbtn--mail" id="dmBannerEmail" href="#">&#9993; Email someone about this</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="dm-summary">
+      <h2>About this feed</h2>
+      <p>A plain-language digest of Copilot items on the public Microsoft 365 Roadmap. Each row links to the official roadmap entry. Titles, statuses and descriptions are reproduced verbatim from the Microsoft 365 Roadmap API — no interpretation is added.</p>
+    </div>
+
+    <div class="dm-note">
+      Showing the 60 Copilot items most recently created or modified on or after Jul 1, 2026. Status reflects the roadmap's own value on the day of the pull.
+    </div>
+
+    <h2 class="dm-h">Recently updated Copilot roadmap items</h2>
+    <div class="dm-scroll">
+    <table class="dm-log">
+      <thead><tr><th>Feature</th><th>Status</th><th>Description (verbatim)</th><th>Updated</th></tr></thead>
+      <tbody>
+
+        <tr id="change-1">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571637" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Copilot Cowork for Government Clouds</a> <span class="dm-tier">#571637</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot Cowork makes it easy to delegate work. Describe the outcome you want and Cowork automatically grounds the work in your emails, meetings, messages, files, and data.</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-2">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571306" target="_blank" rel="noopener">Microsoft Purview: Data Lifecycle Management-Legacy Teams retention policies covering Copilot will be treated as Teams-only</a> <span class="dm-tier">#571306</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Some existing retention policies scoped to Microsoft Teams may currently also apply to Microsoft 365 Copilot interactions. As part of an upcoming change, these legacy Teams retention policies will be converted to—and treated as—Teams-only policies. They will…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-3">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570846" target="_blank" rel="noopener">Microsoft Teams: Express face enrollment</a> <span class="dm-tier">#570846</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Express face enrollment makes it easier for users to create a face profile in Teams by using their camera during eligible meetings, after they opt in. Once enrolled, users can be recognized in supported Teams Rooms experiences, helping identify who is in the…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-4">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566702" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Edit your document with Copilot in PowerPoint in Government Clouds</a> <span class="dm-tier">#566702</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot in PowerPoint helps you create, edit, and refine presentations through natural language—right inside your deck. Start a new presentation or build on an existing one by asking Copilot to generate slides, update content, improve layouts, and polish…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-5">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566701" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Edit your document with Copilot in PowerPoint in Government Clouds</a> <span class="dm-tier">#566701</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot in PowerPoint helps you create, edit, and refine presentations through natural language—right inside your deck. Start a new presentation or build on an existing one by asking Copilot to generate slides, update content, improve layouts, and polish…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-6">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=561322" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Copilot in PowerPoint for Government clouds</a> <span class="dm-tier">#561322</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot in PowerPoint lets you create, edit, and refine presentations through natural conversation, directly in your presentation. You can start a new presentation or build on an existing one, asking Copilot to generate slides, update content, improve…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-7">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=500638" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Copilot Chat - Session Persistence Enhancement</a> <span class="dm-tier">#500638</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8a8886">Cancelled</span></td>
+          <td class="dm-new"><p class="dm-quote">This feature ensures that conversations are preserved even when users navigate away from a session. As soon as a prompt is submitted, an entry is immediately created in the navigation pane’s session history. This allows users to leave the session and return…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-8">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=496596" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Content Sources in Copilot Chat</a> <span class="dm-tier">#496596</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8a8886">Cancelled</span></td>
+          <td class="dm-new"><p class="dm-quote">Users will able to select content sources on Copilot Chat. When users select content sources the responses generated will be limited to content from the selected sources. Updated September 18, 2026: We are cancelling this Roadmap item at this time. We…</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-9">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=487852" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Realtime voice interactions in Word and PowerPoint</a> <span class="dm-tier">#487852</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Use your voice to talk with Copilot, interact in-real time, and understand the content within your document or presentation. Updated September 9, 2026: We will be re-releasing this feature with updates in October. Thank you for your patience.</p></td>
+          <td class="dm-date">Sep 19, 2026</td>
+        </tr>
+        <tr id="change-10">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566864" target="_blank" rel="noopener">Microsoft Edge: Ask Copilot about an image</a> <span class="dm-tier">#566864</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Ask Copilot about an image in Edge enables users to instantly analyze images from the web by sending them directly to Copilot from the Edge context menu, making it easy to ask questions, gain insights, and understand visual content without leaving their…</p></td>
+          <td class="dm-date">Sep 18, 2026</td>
+        </tr>
+        <tr id="change-11">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=562345" target="_blank" rel="noopener">Microsoft Purview: Archive SharePoint files under retention policies </a> <span class="dm-tier">#562345</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">With the introduction of file archiving support in SharePoint Online, administrators are looking to seamlessly include archiving actions within their existing data retention policies. This means that, in addition to keeping or deleting data, admins want to…</p></td>
+          <td class="dm-date">Sep 18, 2026</td>
+        </tr>
+        <tr id="change-12">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=500872" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Export Copilot metrics in the Copilot Dashboard </a> <span class="dm-tier">#500872</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">This enables users to export row-level Copilot metrics from the Copilot Dashboard for reporting and deeper analysis.</p></td>
+          <td class="dm-date">Sep 18, 2026</td>
+        </tr>
+        <tr id="change-13">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571299" target="_blank" rel="noopener">Microsoft Teams: Ask Copilot from Search on Mobile</a> <span class="dm-tier">#571299</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Get answers without leaving search. As you type in the Teams search bar, you'll see an option to ask Copilot alongside search results. You can also select Ask Copilot from the search results page to turn your query into a Copilot conversation, helping you…</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-14">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=569928" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Power BI reports as references in Copilot Notebooks</a> <span class="dm-tier">#569928</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot Notebooks now lets users add Power BI reports as references, bringing report data directly into their notebooks alongside files. Copilot uses this information to help generate more relevant summaries, presentations, and briefs grounded in the…</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-15">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=561209" target="_blank" rel="noopener">Microsoft Purview: Data Lifecycle Management – Insights and policy recommendations on Microsoft Copilot and AI Apps interactions for better Data Security and Compliance posture</a> <span class="dm-tier">#561209</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8a8886">Cancelled</span></td>
+          <td class="dm-new"><p class="dm-quote">Provide insights on Copilots and AI Apps usage and recommend retention policies for customers to govern their Copilots and AI App interactions. Updated September 15, 2026: We have decided not to move forward with this change at this time. We apologize for any…</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-16">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=560705" target="_blank" rel="noopener">Microsoft Viva: Copilot Analytics - Power user insights in Copilot dashboard</a> <span class="dm-tier">#560705</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Understand who is building a habit using Copilot with the new power user insights in Copilot dashboard</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-17">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=523223" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Deep citations in Copilot</a> <span class="dm-tier">#523223</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Deep citations let users quickly verify Copilot's results by linking directly to the relevant part of the reference, boosting trust. We're starting with Word and PPT files, then adding Meetings, Web, and PDF references.</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-18">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=510099" target="_blank" rel="noopener">Microsoft 365 app: Add references to your Copilot Notebooks from the Quick Access section in Search on the M365 Copilot app</a> <span class="dm-tier">#510099</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Users can quickly add references to a Copilot Notebook through the Quick Access section in Search on the M365 Copilot app.</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-19">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=516044" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Metadata understanding support for queries scoped to SharePoint document libraries or folders</a> <span class="dm-tier">#516044</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">We’re introducing column metadata support for queries in Microsoft 365 Copilot when a SharePoint library or folder is attached or its URL is provided. This enhancement improves contextual relevance by enabling Copilot to leverage additional metadata from the…</p></td>
+          <td class="dm-date">Sep 17, 2026</td>
+        </tr>
+        <tr id="change-20">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571196" target="_blank" rel="noopener">Microsoft Copilot Studio: Cost visibility in Monitor tab</a> <span class="dm-tier">#571196</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Now makers will have clear visibility into their consumption costs directly within Monitor tab at both a per-agent level and an estimated breakdown of those costs across the agents lifecylce. This will allow makers to see costs distributed across activities…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-21">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571195" target="_blank" rel="noopener">Microsoft Copilot Studio: Cost visibility in Agent Evaluations</a> <span class="dm-tier">#571195</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Now makers will have clear visibility into their consumption costs directly associated with their evaluations, including a breakdown of usage for eval generation, test runs and model grading/judgement. Makers can see the costs as they test, iterate, and…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-22">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571194" target="_blank" rel="noopener">Microsoft Copilot Studio: Cost visibility in Preview Chat and History</a> <span class="dm-tier">#571194</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Now makers will have clear visibility into their consumption costs directly within preview tab and agent history for their preview/testing usage as well as all every historical run. Makers can see the costs as they test, iterate, and review conversations,…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-23">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571157" target="_blank" rel="noopener">Microsoft Purview: DSPM-Copilot Readiness and Data Explorer</a> <span class="dm-tier">#571157</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">We’re introducing the new readiness for Microsoft Copilot and data explorer experiences in Microsoft Purview Data Security Posture Management (DSPM). These new capabilities provide data security teams with greater visibility into their organization’s data…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-24">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570438" target="_blank" rel="noopener">PowerPoint:  Async Notifications for PowerPoint Agent (Web)</a> <span class="dm-tier">#570438</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Enable users to leave PowerPoint, switch devices, go offline, or end their workday while remaining confident that Copilot will notify them when work is complete or requires attention.</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-25">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570437" target="_blank" rel="noopener">PowerPoint: Async Notifications for PowerPoint Agent (Windows Desktop)</a> <span class="dm-tier">#570437</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Enable users to leave PowerPoint, switch devices, go offline, or end their workday while remaining confident that Copilot will notify them when work is complete or requires attention.</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-26">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566703" target="_blank" rel="noopener">Microsoft Edge: Upgraded Copilot new tab page</a> <span class="dm-tier">#566703</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Search, chat, and explore the web from one search box with Copilot-suggested actions and curated work content to help your users get things done faster on the Copilot new tab page. Users will see upgraded Copilot new tab page functionality and features.</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-27">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=561325" target="_blank" rel="noopener">Microsoft Viva: Copilot Analytics: Copilot usage snapshot PBI at day level with fresh data</a> <span class="dm-tier">#561325</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">A day level Copilot adoption Power BI report reflecting the most recent copilot activity &amp; freshest insights.</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-28">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=560396" target="_blank" rel="noopener">Microsoft Purview: Endpoint Data Loss Prevention - Expand protection to Copilot + PC devices for Recall snapshots through custom policies</a> <span class="dm-tier">#560396</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Microsoft Purview Endpoint data loss prevention is expanding coverage to Copilot + PCs initially to support Recall snapshots and determining whether policies exist to prevent capture of windows containing restricted sensitivity labels and Sensitive…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-29">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=559613" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Copilot Chat can now better match search results from Scanned PDFs</a> <span class="dm-tier">#559613</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot Chat can now better match search results from Scanned PDFs on Copilot users' files they are working on — content that was previously difficult to search and find. This feature will work for new/updated user's working files on a go-forward basis.</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-30">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=537269" target="_blank" rel="noopener">Microsoft Teams: Express voice enrollment in Microsoft Teams</a> <span class="dm-tier">#537269</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Express voice enrollment makes registering your voice in Teams fast and easy. Your profile enables features like voice isolation, speaker recognition, identification in a meeting room and transcripts, and enhanced meeting recaps and insights from Microsoft…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-31">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=530577" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Microsoft 365 Copilot – Chat &amp; Search Browser Extension for Chrome</a> <span class="dm-tier">#530577</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8a8886">Cancelled</span></td>
+          <td class="dm-new"><p class="dm-quote">This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience. The Microsoft 365 Copilot browser extension for Chrome brings Copilot Chat and Search directly into the browser, enabling users to ask questions,…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-32">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=529864" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Semantic Goodbye word for voice in Microsoft 365 Copilot </a> <span class="dm-tier">#529864</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Now users can close a voice session on Windows by simply saying bye or goodbye when they want to close voice session. This, paired with &quot;Hey Copilot&quot; wake word, provides them with complete hands-free experience for voice in Microsoft 365 Copilot on Windows…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-33">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=502533" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): [Copilot Extensibility]​​[Search UX] Rich entity representation for connectors in Search results</a> <span class="dm-tier">#502533</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Rich entity representation for connectors in Search results.</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-34">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=480725" target="_blank" rel="noopener">SharePoint: AI citations analytics for documents and pages</a> <span class="dm-tier">#480725</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#0067c0">Rolling out</span></td>
+          <td class="dm-new"><p class="dm-quote">AI citations analytics will help you track the usage of SP documents, news and pages through copilot and AI agents. You will be able to see how often a page or a file is referenced in a copilot response. You can also get insights into SharePoint site content…</p></td>
+          <td class="dm-date">Sep 16, 2026</td>
+        </tr>
+        <tr id="change-35">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=567007" target="_blank" rel="noopener">Outlook: New Copilot entry point in Classic Outlook</a> <span class="dm-tier">#567007</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">We've introduced a new experience for Copilot in the apps—a consistent entry point across apps that sits above your work and understands the context beneath it. Rather than scattering touchpoints across the interface, it anchors Copilot as one connected…</p></td>
+          <td class="dm-date">Sep 15, 2026</td>
+        </tr>
+        <tr id="change-36">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566318" target="_blank" rel="noopener">Microsoft 365 app: New Copilot Notebooks design in the Microsoft 365 Copilot App (iOS)</a> <span class="dm-tier">#566318</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot Notebooks in the Microsoft 365 Copilot app (iOS) now lets users organize related chats, output creations, and references into a persistent AI workspace. Copilot uses the Notebook's accumulated context to ground responses, so work continues across…</p></td>
+          <td class="dm-date">Sep 15, 2026</td>
+        </tr>
+        <tr id="change-37">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=561491" target="_blank" rel="noopener">Outlook: Copilot Settings in classic Outlook for Windows</a> <span class="dm-tier">#561491</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">You will now be able to access different Copilot settings directly in classic Outlook for Windows.</p></td>
+          <td class="dm-date">Sep 15, 2026</td>
+        </tr>
+        <tr id="change-38">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=501111" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): [Copilot Extensibility] Users in GCC-M will able to use custom engine agents</a> <span class="dm-tier">#501111</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Users in GCC-M will be able to use custom engine agents.</p></td>
+          <td class="dm-date">Sep 15, 2026</td>
+        </tr>
+        <tr id="change-39">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570277" target="_blank" rel="noopener">Word: Copilot edit mode is available to users in Office 365 GCC</a> <span class="dm-tier">#570277</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Edit with Copilot in Word is now available to users in Office 365 GCC, enabling government customers to work with Copilot as a co-creator directly in your document to create, refine, and transform documents more efficiently.</p></td>
+          <td class="dm-date">Sep 12, 2026</td>
+        </tr>
+        <tr id="change-40">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=562353" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Session and Response Sharing in M365 Copilot</a> <span class="dm-tier">#562353</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#0067c0">Rolling out</span></td>
+          <td class="dm-new"><p class="dm-quote">Session and Response Sharing let Microsoft 365 Copilot users share Copilot chat content through a link. Session Sharing shares a full chat session, while Response Sharing shares a single Copilot response. The shared content opens as a read-only view, and…</p></td>
+          <td class="dm-date">Sep 12, 2026</td>
+        </tr>
+        <tr id="change-41">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=567005" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Insights: Copilot Analytics - Cowork adoption and impact</a> <span class="dm-tier">#567005</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Deeper insights into Cowork adoption and impact accessible from the new AI Cost dashboard and Copilot dashboard. Includes export capability. All metrics can be queried by analysts with the new AI cost query in advanced insights.</p></td>
+          <td class="dm-date">Sep 12, 2026</td>
+        </tr>
+        <tr id="change-42">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566870" target="_blank" rel="noopener">OneNote: Suggested Artifact Creation in Copilot Notebooks</a> <span class="dm-tier">#566870</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#0067c0">Rolling out</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot Notebooks in OneNote now suggests artifacts to create, such as Word documents, Excel workbooks, and PowerPoint presentations, based on Microsoft 365 knowledge and the content in your notebook. Select the suggestion and Copilot will generate the…</p></td>
+          <td class="dm-date">Sep 12, 2026</td>
+        </tr>
+        <tr id="change-43">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=564605" target="_blank" rel="noopener">Outlook: Co-Authoring Highlight and Rewrite</a> <span class="dm-tier">#564605</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Users can now collaborate with Copilot to make improvements to email drafts. Select a section of the draft and ask Copilot to make changes, like changing its length, tone, or structure.</p></td>
+          <td class="dm-date">Sep 12, 2026</td>
+        </tr>
+        <tr id="change-44">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=542181" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Edit with Copilot in Excel (Web, Win32, Mac) - GCC</a> <span class="dm-tier">#542181</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Edit with Copilot lets you build and edit workbooks side by side with Copilot. When you're updating budgets, creating financial models, or analyzing data, Copilot uses Excel's most powerful tools like tables, charts, PivotTables, and formulas to help you get…</p></td>
+          <td class="dm-date">Sep 12, 2026</td>
+        </tr>
+        <tr id="change-45">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570469" target="_blank" rel="noopener">Microsoft Copilot (Microsoft M365): Copilot Chat can now better match search results from text that appears inside images embedded in Word, Excel, and PowerPoint file</a> <span class="dm-tier">#570469</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot Chat can now better match search results from text that appears inside images embedded in Word, Excel, and PowerPoint files is user's working files — such as scanned contracts in Word, screenshots of tables in Excel, or whiteboard photos in PowerPoint…</p></td>
+          <td class="dm-date">Sep 11, 2026</td>
+        </tr>
+        <tr id="change-46">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=567008" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): New Rich Answer Cards</a> <span class="dm-tier">#567008</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#0067c0">Rolling out</span></td>
+          <td class="dm-new"><p class="dm-quote">Surface new model-driven, dynamically placed Answer Cards across top 7 segments: weather, sports, finance, images, video, places and news for Entra &amp; MSA users across all surfaces.</p></td>
+          <td class="dm-date">Sep 11, 2026</td>
+        </tr>
+        <tr id="change-47">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=553224" target="_blank" rel="noopener">Microsoft Viva: Copilot Enhanced Topic Assignment</a> <span class="dm-tier">#553224</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">We're upgrading our topic assignment pipeline to be powered by Copilot, delivering significantly improved accuracy in categorizing survey comments into relevant topics. Updated August 18, 2026: Rollout timing of this feature is now planned for end of August…</p></td>
+          <td class="dm-date">Sep 11, 2026</td>
+        </tr>
+        <tr id="change-48">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=472030" target="_blank" rel="noopener">Microsoft Purview compliance portal: Data Lifecycle Management - Retention based on Last Accessed for files in OneDrive and SharePoint</a> <span class="dm-tier">#472030</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">This creates the ability to apply Retention to each SharePoint or OneDrive item based on when it was last accessed by a user. #copilotcontrolsystem</p></td>
+          <td class="dm-date">Sep 11, 2026</td>
+        </tr>
+        <tr id="change-49">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570647" target="_blank" rel="noopener">SharePoint: Changes to the FAQ web part authoring experience</a> <span class="dm-tier">#570647</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">The SharePoint FAQ web part will provide a standard, non-AI experience for manually creating, editing, and managing FAQs. The AI-assisted FAQ creation and import will move to the Copilot in SharePoint authoring experience, where authors can use…</p></td>
+          <td class="dm-date">Sep 10, 2026</td>
+        </tr>
+        <tr id="change-50">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570440" target="_blank" rel="noopener">Outlook: Inline chat for email drafting</a> <span class="dm-tier">#570440</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Instead of opening Copilot Chat every time you want to use Copilot to draft a message, this change introduces an inline chat component that streamlines the process and lets you interact with Copilot without opening the sidebar.</p></td>
+          <td class="dm-date">Sep 10, 2026</td>
+        </tr>
+        <tr id="change-51">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=567895" target="_blank" rel="noopener">OneNote: Multimodal capture in Copilot Notebooks (Android)</a> <span class="dm-tier">#567895</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#0067c0">Rolling out</span></td>
+          <td class="dm-new"><p class="dm-quote">Multimodal capture enables users to transcribe audio, take images, and type notes in a single session. Copilot then creates a structured Copilot Page with insights and user-captured content, saved to a user-selected Copilot Notebook. Designed for capturing…</p></td>
+          <td class="dm-date">Sep 10, 2026</td>
+        </tr>
+        <tr id="change-52">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=522616" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Ask Copilot about highlighted response content</a> <span class="dm-tier">#522616</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Highlight a sentence, paragraph, or table from the response and ask Copilot to work only on that selection. Get focused explanations, concise summaries, quick translations, or next steps for the exact passage you’re reviewing—no more over broad answers. Your…</p></td>
+          <td class="dm-date">Sep 10, 2026</td>
+        </tr>
+        <tr id="change-53">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=472031" target="_blank" rel="noopener">Data Loss Prevention- DLP Policy Change Insights with Security Copilot</a> <span class="dm-tier">#472031</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Copilot for Security in DLP can summarize DLP policies. This enhancement enables DLP admins to gain insights on coverage of policies viz. location, classifiers and notifications, and more. DLP admins can get these insights on all the policies or on few…</p></td>
+          <td class="dm-date">Sep 10, 2026</td>
+        </tr>
+        <tr id="change-54">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=499153" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Enhanced personalization with memory in Copilot</a> <span class="dm-tier">#499153</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#0067c0">Rolling out</span></td>
+          <td class="dm-new"><p class="dm-quote">Microsoft 365 Copilot will improve memory in Copilot by increasing the relevance and quality of Copilot responses based on previous communications. This AI-powered capability improves the relevance and quality of Copilot responses by learning from previous…</p></td>
+          <td class="dm-date">Sep 10, 2026</td>
+        </tr>
+        <tr id="change-55">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570847" target="_blank" rel="noopener">Microsoft Viva: Copilot Analytics - Agent value insights in Agent 365 Dashboard</a> <span class="dm-tier">#570847</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Customers can now view value insights in the Agent 365 Dashboard in Microsoft Viva Insights (Copilot Analytics). These insights help business leaders and change and adoption specialists understand not only whether agents are being used, but also the estimated…</p></td>
+          <td class="dm-date">Sep 9, 2026</td>
+        </tr>
+        <tr id="change-56">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570845" target="_blank" rel="noopener">Microsoft Purview: Data Loss Prevention for Microsoft Cowork</a> <span class="dm-tier">#570845</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">Microsoft Purview Data Loss Prevention (DLP) is expanding to Microsoft Cowork, enabling data security admins to use a single policy across Microsoft 365 Copilot and Cowork. The integration helps protect sensitive AI interactions by preventing the use of…</p></td>
+          <td class="dm-date">Sep 9, 2026</td>
+        </tr>
+        <tr id="change-57">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=557560" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): AI Generated video drafts include text animations and new layout options</a> <span class="dm-tier">#557560</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Users will find updated layouts and text animations on video projects generated with Copilot.</p></td>
+          <td class="dm-date">Sep 9, 2026</td>
+        </tr>
+        <tr id="change-58">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=550513" target="_blank" rel="noopener">Microsoft Clipchamp: Upgraded music selection for Copilot AI Videos</a> <span class="dm-tier">#550513</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">With a Microsoft365 Copilot license, Copilot AI-generated video projects have improved audio with realistic AI voiceover, professional sound effects, and enhanced audio mixing.</p></td>
+          <td class="dm-date">Sep 9, 2026</td>
+        </tr>
+        <tr id="change-59">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=547749" target="_blank" rel="noopener">Microsoft Viva: Copilot Analytics - Export metrics in the Copilot Dashboard at Day Level</a> <span class="dm-tier">#547749</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#8661c5">In development</span></td>
+          <td class="dm-new"><p class="dm-quote">This feature enables users to export fresher row-level Copilot metrics from the Copilot Dashboard for reporting and deeper analysis at day level. #copilotcontrolsystem</p></td>
+          <td class="dm-date">Sep 9, 2026</td>
+        </tr>
+        <tr id="change-60">
+          <td class="dm-page"><a href="https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=553215" target="_blank" rel="noopener">Microsoft Copilot (Microsoft 365): Create Videos in the Clipchamp Start Page</a> <span class="dm-tier">#553215</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:#107c10">Launched</span></td>
+          <td class="dm-new"><p class="dm-quote">Users can use Copilot to create videos directly from the Clipchamp Start page. Turn a simple prompt or existing document into a polished video in minutes. Copilot will automatically draft a script, selects visuals, add narration, and assembles the video for…</p></td>
+          <td class="dm-date">Sep 5, 2026</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="dm-h">About the source</h2>
+    <ul class="dm-links">
+      <li>Source: <a href="https://www.microsoft.com/releasecommunications/api/v1/m365" target="_blank" rel="noopener">Microsoft 365 Roadmap API</a> — official public feed, filtered to Copilot items.</li>
+      <li>Roadmap statuses: <strong>In development</strong>, <strong>Rolling out</strong>, <strong>Launched</strong>, <strong>Cancelled</strong>.</li>
+    </ul>
+
+    <p class="dm-disclaimer">This is an independent, community-run digest published by the Analytics Hub, built from the public Microsoft 365 Roadmap feed. It is not an official Microsoft communication. Roadmap items are subject to change; always confirm status against the linked roadmap entry.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../../faq/">FAQ</a> · <a href="../../glossary/">Glossary</a> · <a href="../../feedback/">Feedback</a></div>
+    <div class="footer-fine">
+      © Microsoft Corporation · MIT Licensed · <a href="../../">Analytics Hub home</a> · <a href="../">Community</a> · <a href="../../feedback/">Send feedback</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Learning Feed — email-a-change actions. Builds neutral, informational
+   mailto: links. Each email carries a summary of the change, the source link,
+   and a link back to the exact row on this page. No framing, no sign-off. */
+(function () {
+  'use strict';
+  var MONITOR = "https://microsoft.github.io/Analytics-Hub/community/roadmap-digest/";
+  function encodeBody(lines) { return encodeURIComponent(lines.join('\r\n')); }
+  function mailto(subject, lines) { return 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeBody(lines); }
+  function firstText(cell) { if (!cell) return ''; for (var n = cell.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3 && n.nodeValue.trim()) return n.nodeValue.trim(); if (n.nodeType === 1) return n.textContent.trim(); } return cell.textContent.trim(); }
+  function summarise(cell) { if (!cell) return ''; var ps = Array.prototype.slice.call(cell.querySelectorAll('p')); var plain = ps.map(function (p) { return p.textContent.replace(/\s+/g, ' ').trim(); }).filter(Boolean); var text = plain.length ? plain.join(' ') : cell.textContent.replace(/\s+/g, ' ').trim(); if (text.length > 800) text = text.slice(0, 800).replace(/\s+\S*$/, '') + '\u2026'; return text; }
+  function bodyLines(title, date, summary, srcUrl, anchor) {
+    return ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', 'Page: ' + title, 'Date: ' + date, '', 'Summary:', summary, '', 'Source:', srcUrl, '', 'Tracked on the Learning Feed:', MONITOR + (anchor ? '#' + anchor : '')];
+  }
+  var rows = document.querySelectorAll('table.dm-log tbody tr');
+  Array.prototype.forEach.call(rows, function (tr, i) {
+    if (!tr.id) tr.id = 'change-' + (i + 1);
+    var link = tr.querySelector('.dm-page a'); var newCell = tr.querySelector('.dm-new'); var dateCell = tr.querySelector('.dm-date');
+    if (!link || !newCell) return;
+    var title = link.textContent.replace(/\s+/g, ' ').trim();
+    var srcUrl = link.href; var date = firstText(dateCell) || 'see page'; var summary = summarise(newCell);
+    var subject = 'Documentation update — ' + title + ' (' + date + ')';
+    var a = document.createElement('a'); a.className = 'dm-emailbtn'; a.href = mailto(subject, bodyLines(title, date, summary, srcUrl, tr.id)); a.innerHTML = '\u2709 Email this change';
+    newCell.appendChild(a);
+  });
+  var bannerBtn = document.getElementById('dmBannerEmail');
+  if (bannerBtn) {
+    var t = document.getElementById('dmBannerTitle'); var b = document.getElementById('dmBannerBody');
+    bannerBtn.href = mailto('Analytics Hub Learning Feed — ' + (t ? t.textContent.trim() : 'update'), ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', (t ? t.textContent.trim() : ''), '', (b ? b.textContent.replace(/\s+/g, ' ').trim() : ''), '', 'Tracked on the Learning Feed:', MONITOR]);
+  }
+})();
+</script>
+</body>
+</html>

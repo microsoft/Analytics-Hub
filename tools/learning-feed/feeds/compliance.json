@@ -1,0 +1,14 @@
+{
+  "id": "compliance",
+  "title": "Compliance, Data-Residency & EU Data Boundary Watch",
+  "slug": "compliance-data-residency-watch",
+  "blurb": "A running record of changes to the Microsoft Learn and Legal pages that govern where and how Copilot processes data \u2014 Microsoft 365 Copilot privacy and data protection, the EU Data Boundary, Microsoft 365 data-residency commitments, and Azure OpenAI data-handling terms. These are the pages compliance, privacy and GRC teams cite when certifying Copilot.",
+  "windowStart": "2026-07-01",
+  "docs": [
+    { "id": "m365-copilot-privacy", "tier": 1, "title": "Data, privacy, and security for Microsoft 365 Copilot", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy", "why": "The core privacy and data-protection statement for Microsoft 365 Copilot \u2014 what is processed, stored, and how." },
+    { "id": "eu-data-boundary", "tier": 1, "title": "Learn about the EU Data Boundary", "url": "https://learn.microsoft.com/en-us/privacy/eudb/eu-data-boundary-learn", "why": "Defines the EU Data Boundary commitments and scope \u2014 where EU customer data is processed and stored." },
+    { "id": "m365-dr-overview", "tier": 1, "title": "Microsoft 365 data residency overview", "url": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/m365-dr-overview", "why": "The tenant-boundary and data-residency commitments compliance teams rely on." },
+    { "id": "m365-dr-copilot", "tier": 1, "title": "Microsoft 365 Copilot data residency (advanced data residency)", "url": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/m365-dr-workload-copilot", "why": "Copilot-specific residency commitments \u2014 the workload page that says where Copilot data lives." },
+    { "id": "aoai-data-privacy", "tier": 2, "title": "Data, privacy, and security for Azure OpenAI Service", "url": "https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy", "why": "Azure OpenAI data-handling terms \u2014 abuse-monitoring retention, human review, and processing location clauses." }
+  ]
+}

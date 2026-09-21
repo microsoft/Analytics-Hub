@@ -1,0 +1,14 @@
+{
+  "id": "ghcopilot",
+  "title": "GitHub Copilot Billing & Premium-Request Watch",
+  "slug": "github-copilot-billing-watch",
+  "blurb": "A running record of changes to the GitHub documentation pages that define how GitHub Copilot is billed \u2014 premium-request multipliers, included monthly allowances by plan, and overage rules. GitHub docs do not publish a machine-readable \"last updated\" date, so changes here are detected from the page body itself and tracked from the day monitoring began.",
+  "windowStart": "2026-07-01",
+  "noMsDate": true,
+  "docs": [
+    { "id": "premium-requests", "tier": 1, "title": "About premium requests", "url": "https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests", "why": "Defines premium requests and the per-model multipliers \u2014 the unit that drives GitHub Copilot overage cost." },
+    { "id": "billing-copilot", "tier": 1, "title": "About billing for GitHub Copilot", "url": "https://docs.github.com/en/billing/managing-billing-for-your-products/about-billing-for-github-copilot", "why": "How GitHub Copilot is billed, allowances, and overage handling." },
+    { "id": "plans-copilot", "tier": 1, "title": "Plans for GitHub Copilot", "url": "https://docs.github.com/en/copilot/about-github-copilot/plans-for-github-copilot", "why": "Plan tiers and what each includes \u2014 the seat-level price and entitlement surface." },
+    { "id": "monitoring-usage", "tier": 2, "title": "Monitoring your Copilot usage and entitlements", "url": "https://docs.github.com/en/copilot/managing-copilot/understanding-and-managing-copilot-usage/monitoring-your-copilot-usage-and-entitlements", "why": "How usage and entitlement counting works \u2014 changes affect how allowances are consumed." }
+  ]
+}

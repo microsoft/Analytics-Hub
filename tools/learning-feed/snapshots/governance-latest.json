@@ -1,0 +1,149 @@
+{
+  "runAt": "2026-09-21T08:25:30.408Z",
+  "feed": "governance",
+  "windowStart": "2026-07-01",
+  "pages": [
+    {
+      "id": "management-controls",
+      "tier": 1,
+      "title": "Copilot controls for management",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/management-controls",
+      "why": "The top-level admin control surface for Copilot — DLP, agent and connector governance, lifecycle approvals.",
+      "ok": true,
+      "msDate": "2026-02-25T00:00:00Z",
+      "gitCommit": "cb7207a6f1793b9dea39c66e2183253b25b6fab7",
+      "wordCount": "831",
+      "bodyHash": "acc8338af2c0d307",
+      "bodyLen": 7126,
+      "sections": [
+        "Licensing and metering",
+        "Copilot and Copilot chat in the Microsoft 365 admin center",
+        "Copilot Studio in the Power Platform admin center",
+        "Agent lifecycle",
+        "Manage connectors",
+        "Limit agent sharing of coauthors or users",
+        "Disable publish by blocking certain channels",
+        "Define a lifecycle process to approve agents for production",
+        "Manage agent capabilities, data sources, and custom actions",
+        "Customization",
+        "Related content"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "discovery-setting",
+      "tier": 1,
+      "title": "Discovery setting for AI experiences enabled by usage-based billing",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/discovery-setting-ai-experiences",
+      "why": "Controls whether users can find and start consuming billable AI experiences at all — the gate on unplanned enablement.",
+      "ok": true,
+      "msDate": "2026-06-15T00:00:00Z",
+      "gitCommit": "64321e9bd174d4ab3a16b550963f23ffd7d14cdb",
+      "wordCount": "305",
+      "bodyHash": "2f23d650db6bf935",
+      "bodyLen": 3446,
+      "sections": [
+        "Before you begin",
+        "Turn on the setting",
+        "Related articles"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "copilot-ai-security",
+      "tier": 1,
+      "title": "Microsoft 365 Copilot AI security",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-ai-security",
+      "why": "The security-control guidance admins rely on; new or changed controls appear here.",
+      "ok": true,
+      "msDate": "2026-08-17T00:00:00Z",
+      "gitCommit": "64321e9bd174d4ab3a16b550963f23ffd7d14cdb",
+      "wordCount": "1079",
+      "bodyHash": "671caeb55f3093cb",
+      "bodyLen": 9306,
+      "sections": [
+        "Microsoft's defense-in-depth approach",
+        "Identity and access protection",
+        "Data protection and compliance",
+        "Enterprise data protection",
+        "Preventing oversharing",
+        "Security dashboard",
+        "Copilot security dashboard in the Microsoft 365 admin center",
+        "Microsoft Security Dashboard for AI",
+        "Compare the two dashboards",
+        "Related guidance"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "purview-ai",
+      "tier": 1,
+      "title": "Microsoft Purview data security and compliance for AI",
+      "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview",
+      "why": "How Purview governs Copilot data — the primary DLP/compliance control plane.",
+      "ok": true,
+      "msDate": "2026-05-27T00:00:00Z",
+      "gitCommit": "d97e409d50022299b253e6de9060f0641ba23d37",
+      "wordCount": "2164",
+      "bodyHash": "42f0cfacd48102bc",
+      "bodyLen": 16017,
+      "sections": [
+        "DSPM and DSPM for AI (classic)",
+        "Microsoft Purview strengthens information protection for AI apps",
+        "Sensitivity labels and AI interactions",
+        "Encryption without sensitivity labels and AI interactions",
+        "Data loss prevention and AI interactions",
+        "Insider Risk Management and AI interactions",
+        "Data classification and AI interactions",
+        "Microsoft Purview supports compliance management for AI apps",
+        "Auditing and AI interactions",
+        "Communication compliance and AI interactions",
+        "eDiscovery with content search and AI interactions",
+        "Data Lifecycle Management and AI interactions",
+        "Compliance Manager and AI interactions",
+        "Other documentation to help you secure and manage generative AI apps"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "dspm-for-ai",
+      "tier": 2,
+      "title": "Data Security Posture Management (DSPM) for AI",
+      "url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai",
+      "why": "The posture-management surface for AI usage; new detections and controls land here.",
+      "ok": true,
+      "msDate": "2025-12-15T00:00:00Z",
+      "gitCommit": "fa947f98128cb7875820006c21dad82452039581",
+      "wordCount": "3130",
+      "bodyHash": "2ae565b76c8f0ef0",
+      "bodyLen": 21616,
+      "sections": [
+        "How to use Data Security Posture Management for AI"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "purview-considerations",
+      "tier": 2,
+      "title": "Microsoft Purview considerations for AI",
+      "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview-considerations",
+      "why": "Caveats and boundaries of Purview AI coverage — what governance does and does not reach.",
+      "ok": true,
+      "msDate": "2026-05-01T00:00:00Z",
+      "gitCommit": "fa947f98128cb7875820006c21dad82452039581",
+      "wordCount": "2563",
+      "bodyHash": "f0656504f929f8c4",
+      "bodyLen": 18406,
+      "sections": [
+        "Prerequisites for Data Security Posture Management for AI",
+        "Prerequisites for Fabric data risk assessments",
+        "Prerequisites for Microsoft 365 item-level scanning for data risk assessments",
+        "One-click policies from Data Security Posture Management for AI",
+        "Default policies for data discovery using Data Security Posture Management for AI",
+        "Default policies from data security to help you protect sensitive data used in generative AI",
+        "Activity explorer events"
+      ],
+      "inWindow": false
+    }
+  ]
+}

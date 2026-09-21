@@ -1,0 +1,15 @@
+{
+  "id": "governance",
+  "title": "Copilot Admin Control & Governance Watch",
+  "slug": "admin-governance-watch",
+  "blurb": "A running record of changes to the Microsoft Learn pages that define the Copilot admin control surface \u2014 the management controls, discovery/opt-in settings, DLP and Purview data-security posture, and agent/extensibility governance that decide what an administrator can turn on, restrict, or turn off.",
+  "windowStart": "2026-07-01",
+  "docs": [
+    { "id": "management-controls", "tier": 1, "title": "Copilot controls for management", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-control-system/management-controls", "why": "The top-level admin control surface for Copilot \u2014 DLP, agent and connector governance, lifecycle approvals." },
+    { "id": "discovery-setting", "tier": 1, "title": "Discovery setting for AI experiences enabled by usage-based billing", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/discovery-setting-ai-experiences", "why": "Controls whether users can find and start consuming billable AI experiences at all \u2014 the gate on unplanned enablement." },
+    { "id": "copilot-ai-security", "tier": 1, "title": "Microsoft 365 Copilot AI security", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-ai-security", "why": "The security-control guidance admins rely on; new or changed controls appear here." },
+    { "id": "purview-ai", "tier": 1, "title": "Microsoft Purview data security and compliance for AI", "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview", "why": "How Purview governs Copilot data \u2014 the primary DLP/compliance control plane." },
+    { "id": "dspm-for-ai", "tier": 2, "title": "Data Security Posture Management (DSPM) for AI", "url": "https://learn.microsoft.com/en-us/purview/dspm-for-ai", "why": "The posture-management surface for AI usage; new detections and controls land here." },
+    { "id": "purview-considerations", "tier": 2, "title": "Microsoft Purview considerations for AI", "url": "https://learn.microsoft.com/en-us/purview/ai-microsoft-purview-considerations", "why": "Caveats and boundaries of Purview AI coverage \u2014 what governance does and does not reach." }
+  ]
+}

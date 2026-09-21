@@ -1,0 +1,16 @@
+{
+  "id": "pricing",
+  "title": "Copilot Pricing & Licensing Watch",
+  "slug": "pricing-licensing-watch",
+  "blurb": "A running record of changes Microsoft has published to the Microsoft Learn pages that govern what Microsoft Copilot costs and who is licensed to use it \u2014 list price, SKU and add-on rules, prerequisites, and Copilot Studio message/quota economics.",
+  "windowStart": "2026-07-01",
+  "docs": [
+    { "id": "m365-copilot-licensing", "tier": 1, "title": "Microsoft 365 Copilot licensing requirements", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing", "why": "Defines which base licenses qualify for Microsoft 365 Copilot and the prerequisites for purchase \u2014 the gate on who can buy and use it." },
+    { "id": "m365-copilot-requirements", "tier": 1, "title": "Microsoft 365 Copilot requirements", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-requirements", "why": "Technical and licensing prerequisites for enabling Copilot. Changes here change who is eligible." },
+    { "id": "studio-billing-licensing", "tier": 1, "title": "Copilot Studio billing and licensing", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing", "why": "How Copilot Studio is licensed and billed \u2014 message packs, tenant vs per-user, and prerequisites." },
+    { "id": "studio-requirements-quotas", "tier": 1, "title": "Copilot Studio requirements and quotas", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-quotas", "why": "Published quotas and limits that shape effective cost per tenant." },
+    { "id": "studio-message-rates", "tier": 1, "title": "Copilot Studio message and credit rates", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management", "why": "The published per-action credit/message consumption rates \u2014 the unit economics of Copilot Studio." },
+    { "id": "usage-billing-overview", "tier": 2, "title": "Usage-Based Billing and Cost Management for Copilot Credits", "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits", "why": "Which services are in scope for usage-based billing \u2014 the boundary of what the credit price applies to." },
+    { "id": "m365-copilot-page", "tier": 2, "title": "Microsoft 365 Copilot overview (product page)", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page", "why": "Top-level product framing; add-on and plan naming changes surface here first." }
+  ]
+}
