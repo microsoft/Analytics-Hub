@@ -135,6 +135,17 @@
         .agg-detail-empty { padding: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; }
         .bulk-hint { align-self: center; color: var(--text-secondary); font-size: 0.85rem; }
         button:disabled, select:disabled { opacity: 0.5; cursor: not-allowed; }
+        .fit-band { padding: 0.9rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-raised); margin-bottom: 1rem; }
+        .fit-band-head { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.75rem; }
+        .fit-band-title { font-weight: 700; color: var(--text-primary); font-size: 0.95rem; }
+        .fit-band-note { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }
+        .fit-band-note strong { color: var(--text-primary); }
+        .fit-band-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem 1.5rem; }
+        .fit-slider { display: flex; flex-direction: column; gap: 0.35rem; }
+        .fit-slider label { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: baseline; gap: 0.4rem; }
+        .fit-slider output { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--copilot-cyan); }
+        .fit-slider input[type="range"] { width: 100%; accent-color: var(--copilot-blue); cursor: pointer; }
+        .fit-slider-hint { font-size: 0.76rem; color: var(--text-secondary); line-height: 1.35; }
         .forecast-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
         .forecast-head h3 { margin: 0; }
         .forecast-growth { min-width: 160px; }
@@ -316,6 +327,12 @@
         <div class="instructions-section cb-changelog">
             <h2>Changelog</h2>
             <div class="cl-entry">
+                <div class="cl-date">2026-09-21 &middot; v1.3</div>
+                <ul class="cl-list">
+                    <li><span class="cl-tag add">Added</span> An <strong>Auto-fit range</strong> control on the Policy Manager tab. Two marks set when <strong>Auto-adjust to fit</strong> moves a user to another policy: below the low mark (default 25%) a lightly-used person is right-sized down, and at or above the high mark (default 90%) a heavy user is bumped up a tier so they keep headroom. Slide the marks to tune sizing, forecasting and budgeting on the fly &mdash; recommendations, utilization, fit and projected cost all update live.</li>
+                </ul>
+            </div>
+            <div class="cl-entry">
                 <div class="cl-date">2026-08-17 &middot; v1.2</div>
                 <ul class="cl-list">
                     <li><span class="cl-tag chg">Changed</span> Policy tiers are now numbered <strong>Tier 1, Tier 2, Tier 3&hellip;</strong> instead of Light / Standard / Advanced / Power / Frontier / Elite. Numbered tiers are easier to read at a glance, avoid implying a judgement about the user, and scale to any number of policies. Tiers derived from your own upload are numbered in ascending allowance order, and every tier can still be renamed.</li>
@@ -438,6 +455,25 @@
                     <button class="btn-secondary" id="btnClearSel">Clear selection</button>
                     <button class="btn-secondary btn-danger" id="btnResetPolicies">Reset changes</button>
                     <span class="bulk-hint" id="bulkHint" hidden>Switch to <strong>Individual</strong> view to select and bulk-assign users.</span>
+                </div>
+
+                <div class="fit-band" id="fitBand">
+                    <div class="fit-band-head">
+                        <span class="fit-band-title">Auto-fit range</span>
+                        <span class="fit-band-note">Sets when <strong>Auto-adjust to fit</strong> moves someone to another policy. Drop the low mark to keep light users where they are; raise the high mark to leave more headroom before bumping a heavy user up a tier.</span>
+                    </div>
+                    <div class="fit-band-controls">
+                        <div class="fit-slider">
+                            <label for="fitDown">Move down below <output id="fitDownVal">25%</output></label>
+                            <input type="range" id="fitDown" min="0" max="90" step="5" value="25" aria-describedby="fitBandNote">
+                            <span class="fit-slider-hint">Uses under this share of a tier &rarr; right-sized down.</span>
+                        </div>
+                        <div class="fit-slider">
+                            <label for="fitUp">Move up at or above <output id="fitUpVal">90%</output></label>
+                            <input type="range" id="fitUp" min="10" max="100" step="5" value="90" aria-describedby="fitBandNote">
+                            <span class="fit-slider-hint">Uses this share of a tier or more &rarr; moved up for headroom.</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="changeImpact" class="impact-bar impact-neutral"></div>

@@ -24,6 +24,8 @@
         deptFilter: 'All',
         cohortFilter: 'All',
         growthPct: 0,
+        fitDownPct: 0.25, // Auto-fit band: below this utilization a user drops a tier.
+        fitUpPct: 0.90,   // Auto-fit band: at/above this utilization a user moves up a tier.
         ownedCredits: null,
         packSize: 25000,
         packPrice: 200,
@@ -337,19 +339,45 @@
         sorted.forEach(function (u, i) { u.cohort = cohortForP((i + 1) / n); });
     }
 
-    // Consumption fit: smallest non-zero tier whose allowance covers current usage.
+    // Consumption fit within the auto-fit band. The band's upper mark
+    // (state.fitUpPct) reserves headroom: pick the smallest non-zero tier whose
+    // allowance keeps the user at or below that utilization, so anyone sitting
+    // at/above the mark is bumped up a tier. Because it takes the *smallest*
+    // such tier, lightly-loaded users are pulled down as far as coverage allows
+    // (the lower mark, state.fitDownPct, then flags whoever is still under it).
     function recommendPolicy(u) {
         if (!u.licensed || u.used <= 0) return 'unassigned';
+        var up = state.fitUpPct > 0 ? state.fitUpPct : 1;
         var ordered = POLICIES.filter(function (p) { return p.allowance > 0; })
             .slice().sort(function (a, b) { return a.allowance - b.allowance; });
         for (var i = 0; i < ordered.length; i++) {
-            if (ordered[i].allowance >= u.used) return ordered[i].id;
+            if (u.used <= ordered[i].allowance * up) return ordered[i].id;
         }
         return ordered.length ? ordered[ordered.length - 1].id : 'unassigned';
     }
 
     function recomputeRecommendations() {
         state.users.forEach(function (u) { u.recommended = recommendPolicy(u); });
+    }
+
+    // Read the auto-fit band sliders into state, keeping a 5-point gap between
+    // the low (move-down) and high (move-up) marks, then re-fit and re-render.
+    function setFitBand() {
+        var down = $('fitDown'), up = $('fitUp');
+        if (!down || !up) return;
+        var dv = parseInt(down.value, 10); if (!isFinite(dv)) dv = 25;
+        var uv = parseInt(up.value, 10); if (!isFinite(uv)) uv = 90;
+        if (uv - dv < 5) {
+            if (document.activeElement === up) dv = Math.max(0, uv - 5);
+            else uv = Math.min(100, dv + 5);
+        }
+        down.value = dv; up.value = uv;
+        state.fitDownPct = dv / 100;
+        state.fitUpPct = uv / 100;
+        $('fitDownVal').textContent = dv + '%';
+        $('fitUpVal').textContent = uv + '%';
+        recomputeRecommendations();
+        refreshAll();
     }
 
     // Baseline "current" policy from the user's existing monthly credit limit
@@ -379,7 +407,7 @@
         var util = allowance > 0 ? u.used / allowance : 0;
         var fit;
         if (u.used > allowance) fit = 'Over-allowance';
-        else if (allowance > 0 && u.used < allowance * 0.4) fit = 'Over-provisioned';
+        else if (allowance > 0 && u.used < allowance * state.fitDownPct) fit = 'Over-provisioned';
         else fit = 'OK';
         return { pid: pid, pol: pol, allowance: allowance, util: util, fit: fit, cost: allowance * state.rate };
     }
@@ -1749,8 +1777,8 @@ function exportAdjustedOverages() {
         var s8 = pptx.addSlide(); bg(s8);
         heading(s8, 'Methodology & Notes');
         var method = [
-            'Recommended policy = the smallest non-zero tier whose allowance covers actual monthly consumption (unassigned if unlicensed or zero usage).',
-            'Fit status: Over-allowance = using more than the assigned tier allows; Over-provisioned = using under 40% of the allowance; otherwise OK.',
+            'Recommended policy = the smallest non-zero tier that keeps the user at or below the auto-fit upper mark (' + Math.round(state.fitUpPct * 100) + '% utilization), so heavy users are bumped up for headroom and light users are pulled down as far as coverage allows (unassigned if unlicensed or zero usage).',
+            'Fit status: Over-allowance = using more than the assigned tier allows; Over-provisioned = using under the auto-fit lower mark (' + Math.round(state.fitDownPct * 100) + '% of the allowance); otherwise OK.',
             'Projected cost = policy allowance x rate per credit (' + fmtMoney(state.rate) + ').',
             'Rules assign tiers by attribute (top to bottom, first match wins); the exception queue lists users the rules or manual choices mis-fit.',
             'Single-month snapshot; the budget forecast applies the expected-growth knob only.',
@@ -2005,6 +2033,12 @@ function exportAdjustedOverages() {
             renderForecast();
         });
 
+        var fitDownEl = $('fitDown'), fitUpEl = $('fitUp');
+        if (fitDownEl && fitUpEl) {
+            fitDownEl.addEventListener('input', setFitBand);
+            fitUpEl.addEventListener('input', setFitBand);
+        }
+
         var bmSel = $('billingModelSelect');
         if (bmSel) {
             bmSel.value = state.billingModel;
@@ -2040,6 +2074,13 @@ function exportAdjustedOverages() {
             : '100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.1';
         $('rbacRate').value = state.rate;
         $('growthInput').value = state.growthPct;
+        var fitDownEl = $('fitDown'), fitUpEl = $('fitUp');
+        if (fitDownEl && fitUpEl) {
+            fitDownEl.value = Math.round(state.fitDownPct * 100);
+            fitUpEl.value = Math.round(state.fitUpPct * 100);
+            $('fitDownVal').textContent = Math.round(state.fitDownPct * 100) + '%';
+            $('fitUpVal').textContent = Math.round(state.fitUpPct * 100) + '%';
+        }
         switchTab('manager');
         buildControls();
         switchView('individual');
