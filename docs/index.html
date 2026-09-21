@@ -474,10 +474,10 @@
   .measurables-band .rf-cta{background:var(--accent,#0078d4);color:#fff;border-color:var(--accent,#0078d4);}
   .measurables-band .rf-cta:hover{background:#0067c0;border-color:#0067c0;color:#fff;}
   /* Two-column intro: copy left, duplicate catalog CTA top-right */
-  .measurables-band .rf-intro{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap;}
+  .measurables-band .rf-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;}
   .measurables-band .rf-intro-copy{flex:1 1 520px;min-width:0;}
-  .measurables-band .rf-intro-cta{flex:0 0 auto;padding-top:10px;}
-  @media (max-width:720px){ .measurables-band .rf-intro-cta{padding-top:0;width:100%;} .measurables-band .rf-intro-cta .rf-cta{width:100%;justify-content:center;} }
+  .measurables-band .rf-intro-cta{flex:0 0 auto;margin-right:max(0px, calc((100% - 1000px) / 2));}
+  @media (max-width:720px){ .measurables-band .rf-intro-cta{width:100%;margin-right:0;} .measurables-band .rf-intro-cta .rf-cta{width:100%;justify-content:center;} }
   @media (max-width:640px){ .measurables-band .rf-preview-cta{margin-top:-24px;} }
 </style>
 <section class="band measurables-band" id="measurables">
