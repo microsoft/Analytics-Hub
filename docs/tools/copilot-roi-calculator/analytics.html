@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - M365 Copilot ROI Calculator</title>
+    <script>(function(){try{var t=localStorage.getItem('cri_theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+    <link rel="stylesheet" href="styles.css?v=57">
+    
+    <!-- Microsoft Clarity Analytics -->
+    <script type="text/javascript">
+        // Analytics run only on the hosted site; local and offline copies stay request-free.
+        if (location.protocol !== 'file:' && /(^|\.)github\.io$/i.test(location.hostname)) {
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","wxb0r23ozh");
+        }
+    </script>
+    <style>
+        .analytics-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .analytics-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .analytics-header h1 {
+            color: var(--copilot-cyan);
+            margin-bottom: 0.5rem;
+        }
+        
+        .analytics-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .metric-box {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .metric-box:hover {
+            border-color: var(--copilot-cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+        }
+        
+        .metric-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--copilot-cyan);
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: var(--gray);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .clarity-section {
+            background: var(--surface);
+            border: 2px solid var(--copilot-blue);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .clarity-section h2 {
+            color: var(--copilot-cyan);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .clarity-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--copilot-cyan), var(--copilot-blue));
+            color: var(--dark-bg);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 1rem 0;
+        }
+        
+        .clarity-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+        }
+        
+        .events-list {
+            background: var(--surface-raised, #253449);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .events-list h3 {
+            color: var(--copilot-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .event-icon {
+            font-size: 1.5rem;
+        }
+        
+        .event-name {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .event-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .setup-warning {
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.1), rgba(249, 115, 22, 0.05));
+            border: 2px solid var(--warn);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .setup-warning h3 {
+            color: var(--warn);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .setup-warning p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .setup-warning code {
+            background: var(--dark-bg);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            color: var(--copilot-cyan);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--copilot-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-bottom: 2rem;
+        }
+        
+        .back-link:hover {
+            background: var(--card-alt);
+            transform: translateX(-4px);
+        }
+        
+        .iframe-container {
+            width: 100%;
+            height: 800px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="analytics-container">
+        <nav class="nav-buttons" id="nav"></nav>
+        <a href="index.html" class="back-link">
+            ← Back to Calculator
+        </a>
+        
+        <div class="analytics-header">
+            <h1>Analytics Dashboard</h1>
+            <p>Track visitor engagement and tool usage</p>
+        </div>
+
+        <!-- Setup Warning (if not configured) -->
+        <div class="setup-warning" id="setupWarning">
+            <h3>Analytics Setup Required</h3>
+            <p>
+                To view analytics data, you need to replace <code>YOUR_CLARITY_PROJECT_ID</code> with your actual Microsoft Clarity Project ID.
+            </p>
+            <p style="margin-top: 0.75rem;">
+                <strong>Quick Setup:</strong>
+            </p>
+            <ol style="margin-top: 0.5rem; padding-left: 1.5rem; color: var(--text-secondary);">
+                <li>Go to <a href="https://clarity.microsoft.com" target="_blank" style="color: var(--copilot-cyan); text-decoration: underline;">Microsoft Clarity</a> and sign in</li>
+                <li>Create a new project for your website</li>
+                <li>Copy the Project ID from your dashboard</li>
+                <li>Replace <code>YOUR_CLARITY_PROJECT_ID</code> in all HTML files</li>
+                <li>Wait 15-30 minutes for data to start appearing</li>
+            </ol>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="metrics-grid">
+            <div class="metric-box">
+                <div class="metric-value" id="totalVisitors">-</div>
+                <div class="metric-label">Total Visitors</div>
+            </div>
+            
+            <div class="metric-box">
+                <div class="metric-value" id="totalSessions">-</div>
+                <div class="metric-label">Total Sessions</div>
+            </div>
+            
+            <div class="metric-box">
+                <div class="metric-value" id="totalDownloads">-</div>
+                <div class="metric-label">Total Downloads</div>
+            </div>
+            
+            <div class="metric-box">
+                <div class="metric-value" id="demoViews">-</div>
+                <div class="metric-label">Demo Reports Viewed</div>
+            </div>
+        </div>
+
+        <!-- Microsoft Clarity Dashboard -->
+        <div class="clarity-section">
+            <h2>
+                Microsoft Clarity Dashboard
+            </h2>
+            <p style="color: var(--gray); margin-bottom: 1rem;">
+                View detailed analytics including heatmaps, session recordings, and user behavior insights directly in Microsoft Clarity.
+            </p>
+            <a href="https://clarity.microsoft.com" target="_blank" class="clarity-link">
+                Open Clarity Dashboard
+            </a>
+            
+            <div class="events-list">
+                <h3>Tracked Events</h3>
+                
+                <div class="event-item">
+                    <div>
+                        <div class="event-name">download_executive_deck</div>
+                        <div class="event-desc">User downloaded the Executive Deck PowerPoint</div>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div>
+                        <div class="event-name">download_powerpoint_analysis</div>
+                        <div class="event-desc">User downloaded the Full Analysis PowerPoint</div>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div>
+                        <div class="event-name">download_local_package</div>
+                        <div class="event-desc">User downloaded the offline ZIP package</div>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div>
+                        <div class="event-name">demo_report_loaded</div>
+                        <div class="event-desc">User viewed the demonstration report</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clarity Features -->
+        <div class="clarity-section">
+            <h2>
+                Available Insights
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                <div style="background: var(--surface-raised, #253449); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                    <h3 style="color: var(--copilot-cyan); margin-bottom: 0.75rem; font-size: 1.1rem;">Heatmaps</h3>
+                    <p style="color: var(--gray); line-height: 1.6;">
+                        See where users click, scroll, and spend time on your pages. Identify popular features and optimization opportunities.
+                    </p>
+                </div>
+                
+                <div style="background: var(--surface-raised, #253449); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                    <h3 style="color: var(--copilot-cyan); margin-bottom: 0.75rem; font-size: 1.1rem;">Session Recordings</h3>
+                    <p style="color: var(--gray); line-height: 1.6;">
+                        Watch real user sessions to understand how people interact with the calculator and where they encounter issues.
+                    </p>
+                </div>
+                
+                <div style="background: var(--surface-raised, #253449); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                    <h3 style="color: var(--copilot-cyan); margin-bottom: 0.75rem; font-size: 1.1rem;">Dashboards</h3>
+                    <p style="color: var(--gray); line-height: 1.6;">
+                        Track key metrics over time including sessions, page views, engagement rates, and conversion funnels.
+                    </p>
+                </div>
+                
+                <div style="background: var(--surface-raised, #253449); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                    <h3 style="color: var(--copilot-cyan); margin-bottom: 0.75rem; font-size: 1.1rem;">Performance</h3>
+                    <p style="color: var(--gray); line-height: 1.6;">
+                        Monitor page load times, JavaScript errors, and performance bottlenecks affecting user experience.
+                    </p>
+                </div>
+                
+                <div style="background: var(--surface-raised, #253449); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                    <h3 style="color: var(--copilot-cyan); margin-bottom: 0.75rem; font-size: 1.1rem;">Custom Events</h3>
+                    <p style="color: var(--gray); line-height: 1.6;">
+                        Track specific user actions like downloads, demo views, and feature usage to measure engagement.
+                    </p>
+                </div>
+                
+                <div style="background: var(--surface-raised, #253449); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+                    <h3 style="color: var(--copilot-cyan); margin-bottom: 0.75rem; font-size: 1.1rem;">Geography</h3>
+                    <p style="color: var(--gray); line-height: 1.6;">
+                        See where your users are located and identify regions with the highest engagement and adoption.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--surface); border-radius: 12px;">
+            <p style="color: var(--gray); margin-bottom: 1rem;">
+                <strong>Need help setting up analytics?</strong>
+            </p>
+            <p style="color: var(--gray);">
+                Contact: <a href="mailto:jordanking@microsoft.com" style="color: var(--copilot-cyan); text-decoration: none;">jordanking@microsoft.com</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Check if Clarity is configured
+        const clarityId = "wxb0r23ozh";
+        const setupWarning = document.getElementById('setupWarning');
+        
+        if (clarityId !== "YOUR_CLARITY_PROJECT_ID") {
+            setupWarning.style.display = 'none';
+        }
+        
+        // Metrics are populated by Microsoft Clarity directly via its dashboard widgets.
+        // The text below acts as a placeholder until Clarity API integration is enabled.
+        
+        // Simulate loading message
+        setTimeout(() => {
+            if (clarityId === "YOUR_CLARITY_PROJECT_ID") {
+                document.getElementById('totalVisitors').textContent = 'Setup Required';
+                document.getElementById('totalSessions').textContent = 'Setup Required';
+                document.getElementById('totalDownloads').textContent = 'Setup Required';
+                document.getElementById('demoViews').textContent = 'Setup Required';
+            } else {
+                document.getElementById('totalVisitors').textContent = 'View in Clarity';
+                document.getElementById('totalSessions').textContent = 'View in Clarity';
+                document.getElementById('totalDownloads').textContent = 'View in Clarity';
+                document.getElementById('demoViews').textContent = 'View in Clarity';
+            }
+        }, 500);
+    </script>
+    <script src="insights-shared.js?v=57"></script>
+    <script>
+        (function(){
+            const nav = document.getElementById('nav');
+            if (nav && window.InsightsShared) {
+                nav.outerHTML = window.InsightsShared.renderNav('analytics.html');
+            }
+        })();
+    </script>
+</body>
+</html>

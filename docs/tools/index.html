@@ -73,11 +73,11 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
-          <a href="../tools/" aria-current="page" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
-          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../tools/" aria-current="page" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Web Tools for Cost Analysis and Planning</span></span></a>
+          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who operates the Hub</span></span></a>
           <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
-          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
-          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Terms this site and the reports found here use</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Requests &middot; Suggestions &middot; Thanks</span></span></a>
           <hr class="menu-sep" />
           <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
           <a href="../community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
@@ -106,6 +106,16 @@
   </section>
 
   <!-- =========================================================== TOOLS -->
+  <style>
+    /* Tools grid: let cards grow to fit full text (no clamp / no run-off),
+       keep them equal height, and make the whole card clickable. */
+    #toolsGrid .rf-card{position:relative;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
+    #toolsGrid .rf-card:hover{transform:translateY(-2px);}
+    #toolsGrid .rf-blurb{-webkit-line-clamp:unset;display:block;overflow:visible;}
+    /* Stretched-link overlay: the existing "Open" link covers the whole card. */
+    #toolsGrid .rf-cta::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1;}
+    #toolsGrid .rf-card a:not(.rf-cta),#toolsGrid .rf-card button{position:relative;z-index:2;}
+  </style>
   <section class="band">
     <div class="wrap">
       <p class="eyebrow">Available now</p>
@@ -114,7 +124,7 @@
         Each tool answers one question end to end and hands you something you can send on.
       </p>
 
-      <div class="rf-grid">
+      <div class="rf-grid" id="toolsGrid">
         <article class="rf-card" style="--c:#0078d4">
           <div class="rf-top">
             <span class="rf-chip">Planning</span><span class="rf-new">New</span>
@@ -124,6 +134,18 @@
           <div class="rf-foot">
             <span class="rf-src">Runs entirely in your browser</span>
             <a class="rf-cta" href="../work-request/">Open <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </article>
+
+        <article class="rf-card" style="--c:#00B294">
+          <div class="rf-top">
+            <span class="rf-chip">Impact &amp; ROI</span>
+          </div>
+          <h3 class="rf-title">M365 Copilot Productivity ROI Calculator</h3>
+          <p class="rf-blurb">Turn a Viva Insights person-query export into a defensible ROI story &mdash; sweep assumptions and generate exec-ready value slides. Browser-only; no tenant data leaves the page.</p>
+          <div class="rf-foot">
+            <span class="rf-src">Viva Insights (person query CSV)</span>
+            <a class="rf-cta" href="./copilot-roi-calculator/">Open <span aria-hidden="true">&#8599;</span></a>
           </div>
         </article>
       </div>

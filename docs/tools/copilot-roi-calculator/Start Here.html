@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copilot Adoption Journey - Productivity ROI Over Time</title>
+    <script>(function(){try{var t=localStorage.getItem('cri_theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+    <link rel="stylesheet" href="styles.css?v=57">
+    
+    <!-- Microsoft Clarity Analytics -->
+    <script type="text/javascript">
+        // Analytics run only on the hosted site; local and offline copies stay request-free.
+        if (location.protocol !== 'file:' && /(^|\.)github\.io$/i.test(location.hostname)) {
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","wxb0r23ozh");
+        }
+    </script>
+    <style>
+        .journey-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .timeline-visual {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline-visual::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 15%;
+            right: 15%;
+            height: 1px;
+            background: var(--rule-strong);
+            z-index: 0;
+        }
+
+        .phase-card {
+            flex: 1;
+            background: var(--ink-700);
+            border-radius: 10px;
+            padding: 1.75rem;
+            box-shadow: none;
+            border: 1px solid var(--rule);
+            position: relative;
+            z-index: 1;
+            border-top: 2px solid var(--rule-strong);
+        }
+
+        .phase-card.baseline {
+            border-top-color: var(--rule-strong);
+        }
+
+        .phase-card.growth {
+            border-top-color: var(--accent-line);
+        }
+
+        .phase-card.maturity {
+            border-top-color: var(--accent);
+        }
+
+        .phase-header {
+            text-align: left;
+            margin-bottom: 1.25rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-secondary);
+            background: var(--ink-500);
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-card.baseline .phase-badge {
+            background: var(--ink-500);
+            color: var(--text-secondary);
+        }
+
+        .phase-card.growth .phase-badge {
+            background: var(--ink-500);
+            color: var(--text-primary);
+        }
+
+        .phase-card.maturity .phase-badge {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .phase-timeframe {
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
+        }
+
+        .phase-metrics {
+            margin: 1.25rem 0;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.5625rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-row .metric-label {
+            font-family: var(--font-sans);
+            font-size: 0.8125rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
+            color: var(--text-secondary);
+        }
+
+        .metric-row .metric-value {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .monthly-projection {
+            background: var(--ink-700);
+            padding: 1.75rem 2rem 2rem;
+            border-radius: 10px;
+            box-shadow: none;
+            border: 1px solid var(--rule);
+            margin: 1.5rem 0;
+        }
+
+        .monthly-projection h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .month-card {
+            background: var(--ink-600);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+            transition: border-color 0.18s ease;
+            border: 1px solid var(--rule);
+        }
+
+        .month-card:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: var(--rule-strong);
+        }
+
+        .month-number {
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-tertiary);
+            margin-bottom: 0.5rem;
+        }
+
+        .month-value {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            font-size: 1.125rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--value);
+        }
+
+        .month-roi {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
+            margin-top: 0.375rem;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .insight-card {
+            background: var(--ink-700);
+            padding: 1.375rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: none;
+            border: 1px solid var(--rule);
+            border-left: 2px solid var(--accent);
+        }
+
+        .insight-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-placeholder {
+            background: var(--ink-600);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--text-secondary, #94A3B8);
+            margin: 2rem 0;
+        }
+
+        /* Collapsible Important Box */
+        .important-box-wrapper {
+            margin-bottom: 2rem;
+        }
+
+        .important-box-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 0.875rem 1.25rem;
+            background: var(--ink-700);
+            border: 1px solid var(--rule);
+            border-left: 2px solid var(--warn);
+            border-radius: 8px;
+            transition: background-color 0.18s ease;
+        }
+
+        .important-box-header:hover {
+            background: var(--ink-600);
+        }
+
+        .important-box-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+        }
+
+        .important-box-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            font-size: 0.8125rem;
+        }
+
+        .important-box-toggle-icon {
+            font-size: 0.75rem;
+            transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .important-box-toggle-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .important-box-content {
+            padding: 1.5rem;
+            background: var(--ink-700);
+            border: 1px solid var(--rule);
+            border-left: 2px solid var(--warn);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            margin-top: -8px;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            overflow: hidden;
+            color: var(--text-secondary);
+        }
+
+        .important-box-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            padding: 0 1.5rem;
+        }
+
+        .important-box-content p {
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container journey-container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>M365 Copilot Productivity ROI Projections</h1>
+                    <p class="subtitle">Understanding the path to productivity growth and value realization</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="downloadLocalPackage(event)" class="action-btn" title="Download &amp; Run Locally">
+                        <span class="action-text">Download Local</span>
+                    </button>
+                    <button onclick="exportToPDF()" class="action-btn" title="Export to PDF">
+                        <span class="action-text">Export PDF</span>
+                    </button>
+                    <button onclick="emailReport()" class="action-btn" title="Share via Email">
+                        <span class="action-text">Email</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">
+                <span class="nav-text">Full Data Analysis</span>
+            </a>
+            <a href="roi-calculator.html" class="nav-btn">
+                <span class="nav-text">ROI Calculator</span>
+            </a>
+            <a href="Start Here.html" class="nav-btn nav-btn-active">
+                <span class="nav-text">Adoption Journey</span>
+            </a>
+            <a href="changelog.html" class="nav-btn">
+                <span class="nav-text">What's New</span>
+            </a>
+        </nav>
+
+        <main>
+            <div class="important-box-wrapper">
+                <div class="important-box-header" onclick="toggleImportantBox()">
+                    <div class="important-box-title">Important: Productivity ROI Realizes Over Time</div>
+                    <div class="important-box-toggle">
+                        <span id="toggle-text">Hide</span>
+                        <span class="important-box-toggle-icon" id="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="important-box-content" id="important-content">
+                    <p>
+                        Successful Copilot deployments follow a predictable pattern. Value doesn't appear instantly—it grows as users progress from initial trial to deep integration. This journey typically takes 6-9 months to reach full maturity. Understanding this timeline helps set realistic expectations and plan for sustained growth.<br><br>
+
+                        <strong>Understanding This Calculator Suite:</strong><br>
+                        • <strong>Full Data Analysis:</strong> Upload and analyze your actual Copilot usage data from a Viva Insights person query<br>
+                        • <strong>ROI Calculator:</strong> Project potential ROI based on estimated user counts and adoption rates<br>
+                        • <strong>Adoption Journey:</strong> View realistic timeline of value realization over 6-9 months<br><br>
+
+                        <strong>Your Privacy &amp; Data Security:</strong><br>
+                        • All calculations are processed locally in your browser<br>
+                        • No data is transmitted to any server or cloud service<br>
+                        • All data is stored temporarily in browser memory only<br>
+                        • Data is automatically deleted when you close this window or tab<br>
+                        • No logs are kept on your computer<br><br>
+
+                        <strong>Note on ROI Calculations:</strong><br>
+                        • <strong>Copilot Actions:</strong> Saves configured minutes per action<br>
+                        • <strong>Intelligent Recap (Optional):</strong> Each action saves 0.5 hours (30 min median meeting duration)<br>
+                        • Use the ROI Calculator to include Intelligent Recap in your projections
+                    </p>
+                </div>
+            </div>
+
+            <section>
+                <h2 class="page-section-title">Microsoft 365 Copilot Adoption Journey</h2>
+                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 0.95rem;">
+                    Based on <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Microsoft's official Copilot adoption framework</a>
+                </p>
+
+                <div class="timeline-visual">
+                    <div class="phase-card baseline">
+                        <div class="phase-header">
+                            <div class="phase-badge">NOVICE USERS</div>
+                            <div class="phase-timeframe">Early Adoption Phase</div>
+                        </div>
+
+                        <div class="phase-metrics">
+                            <div class="metric-row">
+                                <span class="metric-label">Actions/User/Week</span>
+                                <span class="metric-value">&lt;15</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Consistency</span>
+                                <span class="metric-value">&lt;9 of 12 weeks</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Target</span>
+                                <span class="metric-value" style="color: var(--copilot-cyan);">Build habit</span>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 1rem;">
+                            <strong>Characteristics:</strong> Initial rollout, awareness building, trial usage. Users exploring features but haven't yet used Copilot consistently (less than 3 out of 4 weeks).
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                            Source: <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption#novice-groups" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Microsoft Copilot Adoption Report</a>
+                        </p>
+                    </div>
+
+                    <div class="phase-card growth">
+                        <div class="phase-header">
+                            <div class="phase-badge">HABITUAL USERS</div>
+                            <div class="phase-timeframe">Consistent Usage Phase</div>
+                        </div>
+
+                        <div class="phase-metrics">
+                            <div class="metric-row">
+                                <span class="metric-label">Actions/User/Week</span>
+                                <span class="metric-value">1-14</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Consistency</span>
+                                <span class="metric-value">≥9 of 12 weeks</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Frequency</span>
+                                <span class="metric-value" style="color: var(--copilot-orange);">3+ weeks/month</span>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 1rem;">
+                            <strong>Characteristics:</strong> Habit formed. Users integrate Copilot into regular workflows and return consistently—using it at least 3 out of every 4 weeks.
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                            Source: <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption#habitual-groups" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Microsoft Copilot Adoption Report</a>
+                        </p>
+                    </div>
+
+                    <div class="phase-card maturity">
+                        <div class="phase-header">
+                            <div class="phase-badge">POWER USERS</div>
+                            <div class="phase-timeframe">Advanced Adoption Phase</div>
+                        </div>
+
+                        <div class="phase-metrics">
+                            <div class="metric-row">
+                                <span class="metric-label">Actions/User/Week</span>
+                                <span class="metric-value">≥15</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Consistency</span>
+                                <span class="metric-value">≥9 of 12 weeks</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Frequency</span>
+                                <span class="metric-value" style="color: var(--green);">3+ weeks/month</span>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 1rem;">
+                            <strong>Characteristics:</strong> Deep integration with frequent, consistent use. Advanced features adopted. Driving high-value AI scenarios and workflow transformation.
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                            Source: <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption#power-groups" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Microsoft Copilot Adoption Report</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <strong>About These Definitions</strong>
+                    <p>
+                        These user classifications come directly from Microsoft's official <strong>Copilot Adoption Report</strong> methodology, used by thousands of organizations to measure Copilot adoption. The thresholds (15+ actions/week, 75%+ active weeks) are based on Microsoft's research showing that users who reach these levels have a high likelihood of becoming consistent long-term Copilot users.
+                    </p>
+                </div>
+            </section>
+
+            <section class="monthly-projection">
+                <h3 class="page-section-title">Illustrative ROI Projection Calculator</h3>
+                
+                <div class="info-box" style="margin-bottom: 1.5rem; border-left-color: var(--warn);">
+                    <strong>Important Note</strong>
+                    <p style="margin: 0.5rem 0 0 0;">
+                        The projections below are <strong>illustrative examples</strong> based on observed customer patterns and are <strong>not official Microsoft data</strong>. Actual ROI varies significantly by organization, use case, and adoption strategy. Use the <a href="roi-calculator.html" style="color: var(--copilot-cyan); text-decoration: none;">ROI Calculator</a> to customize projections based on your specific data.
+                    </p>
+                </div>
+
+                <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: var(--surface-raised, #253449); border-radius: 10px; border: 1px solid var(--border, rgba(255,255,255,0.08));">
+                    <span style="font-weight: 600; color: var(--text-primary, #F1F5F9);">Estimate Type:</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="estimateToggle" onchange="updateProjectionEstimate()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="estimateLabel" style="font-weight: 600; color: var(--copilot-blue);">Base Estimate (6 min/action)</span>
+                </div>
+
+                <p id="projectionDescription" style="color: var(--gray); margin-bottom: 1.5rem;">
+                    Example based on 1,000 licensed users, $32/user/month, $78/hr professional rate, 6 min/action
+                </p>
+
+                <div class="month-grid" id="monthlyGrid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div style=Microsoft's Adoption Target</h4>
+                    <p>
+                        Microsoft research shows that users who achieve <strong>3 days of active use per week</strong> have a high likelihood of becoming consistent long-term Copilot users. This threshold (12 days per 28-day period) is used in Microsoft's official AI Adoption Score calculation.
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                        Source: <a href="https://learn.microsoft.com/microsoft-365/admin/adoption/ai-adoption-score" target="_blank" style="color: var(--copilot-cyan);">AI Adoption Score Methodology</a>
+                    </p>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Power User Threshold</h4>
+                    <p>
+                        Microsoft defines Power Users as those taking <strong>15+ Copilot actions per week</strong> and using Copilot consistently—meaning they're active <strong>at least 9 out of the past 12 weeks</strong>. These users demonstrate deep integration and high-value AI scenario adoption across Microsoft 365 apps.
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                        Source: <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption#copilot-usage-level-overview" target="_blank" style="color: var(--copilot-cyan);">Copilot Usage Level Overview</a>
+                    </p>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Measuring What Matters</h4>
+                    <p>
+                        Microsoft recommends tracking: percentage of active Copilot users, actions per user per week, percentage of power users, and feature adoption by app. Use the <strong>Copilot Dashboard</strong> in Viva Insights to compare your organization to industry benchmarks.
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                        Source: <a href="https://learn.microsoft.com/viva/insights/org-team-insights/copilot-dashboard" target="_blank" style="color: var(--copilot-cyan);">Copilot Dashboard</a>
+                    </p>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Watch for Stalled Adoption</h4>
+                    <p>
+                        Focus interventions on Novice users—those who aren't yet using Copilot consistently (less than 9 out of 12 weeks active). Microsoft's framework identifies these users as needing guided learning experiences, training sessions, and manager-led examples to build confidence and regular usage habits.
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                        Source: <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption#novice-groups" target="_blank" style="color: var(--copilot-cyan);">Novice Groups Guidance</a>
+                    </p>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Learn from Power Groups</h4>
+                    <p>
+                        Microsoft recommends identifying Power Groups (15+ actions/week, 75%+ active weeks) and showcasing their wins. Share their proven Copilot workflows through demos, repeatable prompts, and playbooks to scale success across the organization.
+                    </p>Customer Conversations</strong>
+                <p>
+                    <strong>Use this page to:</strong><br>
+                    • Reference Microsoft's official adoption framework and definitions<br>
+                    • Explain the path from Novice → Habitual → Power User with specific thresholds<br>
+                    • Show that 15+ actions/week and 75%+ active weeks are Microsoft's benchmarks for success<br>
+                    • Position the 3-day/week target as the research-backed tipping point for habit formation<br>
+                    • Link customers to Microsoft's Copilot Dashboard for their own adoption tracking<br>
+                    • Demonstrate that these metrics are used by thousands of Microsoft 365 organizations globally<br><br>
+                    <strong>Key message:</strong> "These aren't arbitrary numbers—they're Microsoft's official adoption framework used by organizations worldwide to measure and accelerate Copilot success."
+                </p>
+            </div>
+
+            <div class="info-box" style="margin-top: 1.5rem; border-left-color: var(--positive);">
+                <strong>Official Microsoft Resources</strong>
+                <p style="margin-bottom: 0.5rem;"><strong>Deep-Dive Documentation:</strong></p>
+                <ul style="margin: 0; padding-left: 1.5rem; color: var(--gray);">
+                    <li><a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/microsoft-365-copilot-adoption" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Microsoft 365 Copilot Adoption Report</a> - Official methodology and definitions</li>
+                    <li><a href="https://learn.microsoft.com/viva/insights/org-team-insights/copilot-dashboard" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Copilot Dashboard in Viva Insights</a> - Strategic adoption insights with benchmarks</li>
+                    <li><a href="https://learn.microsoft.com/microsoft-365/admin/adoption/ai-adoption-score" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">AI Adoption Score</a> - How Microsoft calculates adoption success (3 days/week target)</li>
+                    <li><a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/copilot-business-impact" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Copilot Business Impact Report</a> - Advanced ROI measurement framework</li>
+                    <li><a href="https://learn.microsoft.com/microsoft-365/copilot/copilot-control-system/measurement-reporting" target="_blank" style="color: var(--copilot-cyan); text-decoration: none;">Copilot Control System: Measurement & Reporting</a> - Complete analytics overview</li>
+                </ul </p>
+                    <p style="font-size: 0.85rem; color: var(--gray); margin-top: 0.5rem; font-style: italic;">
+                        Source: <a href="https://learn.microsoft.com/viva/insights/advanced/analyst/templates/copilot-business-impact" target="_blank" style="color: var(--copilot-cyan);">Business Impact Report</a>
+                    </p>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Post-Maturity</h4>
+                    <p>
+                        After month 6, focus shifts from adoption to optimization: Advanced feature enablement, custom plugins/extensions, cross-department best practices, and continuous improvement. ROI can grow to 25-30x in mature deployments.
+                    </p>
+                </div>
+            </section>
+
+            <div class="info-box" style="margin-top: 2rem;">
+                <strong>For Sales Conversations</strong>
+                <p>
+                    <strong>Use this page to:</strong><br>
+                    • Set realistic expectations about adoption timelines<br>
+                    • Show that ROI doesn't happen instantly but builds predictably<br>
+                    • Demonstrate that 6-9 months is normal and expected<br>
+                    • Position month-1 ROI (3-5x) as the baseline, not the ceiling<br>
+                    • Explain that the journey requires investment in training and change management<br>
+                    • Show examples of real customer progressions<br><br>
+                    <strong>Key message:</strong> "Copilot isn't a one-time productivity boost—it's a transformation journey that delivers increasing returns over 6-9 months."
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem; margin-bottom: 2rem;">
+                <a href="roi-calculator.html" class="btn-primary" style="text-decoration: none; margin-right: 1rem;">Calculate Projected ROI →</a>
+                <a href="index.html" class="btn-secondary" style="text-decoration: none;">← Back to Data Analysis</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>M365 Copilot Productivity ROI Calculator Suite | Understanding the path to value realization | Support: <a href="mailto:jordanking@microsoft.com">jordanking@microsoft.com</a></p>
+            <p class="footer-nav"><a href="run-locally.html">Run Locally</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Generate monthly projection data
+        function generateMonthlyData(minsPerAction = 6) {
+            const licensedUsers = 1000;
+            const licenseCost = 32;
+            const professionalRate = 78;
+
+            const months = [];
+
+            for (let month = 1; month <= 12; month++) {
+                let activationRate, actionsPerWeek;
+
+                // Phase-based progression
+                if (month <= 2) {
+                    // Baseline
+                    activationRate = 0.35 + (month * 0.075); // 42.5% to 50%
+                    actionsPerWeek = 9 + (month * 1.5); // 10.5 to 12
+                } else if (month <= 4) {
+                    // Growth
+                    activationRate = 0.50 + ((month - 2) * 0.10); // 60% to 70%
+                    actionsPerWeek = 12 + ((month - 2) * 3); // 15 to 18
+                } else if (month <= 6) {
+                    // Maturity
+                    activationRate = 0.70 + ((month - 4) * 0.10); // 80% to 90%
+                    actionsPerWeek = 18 + ((month - 4) * 5); // 23 to 28
+                } else {
+                    // Sustained maturity
+                    activationRate = 0.90 + Math.min((month - 6) * 0.01, 0.05); // 90-95%
+                    actionsPerWeek = 28 + Math.min((month - 6) * 2, 10); // 28-38
+                }
+
+                const activeUsers = Math.round(licensedUsers * activationRate);
+                const weeklyActions = Math.round(activeUsers * actionsPerWeek);
+                const monthlyActions = Math.round(weeklyActions * 4.33);
+                const monthlyHours = (monthlyActions * minsPerAction) / 60;
+                const monthlyValue = monthlyHours * professionalRate;
+                const monthlyCost = licensedUsers * licenseCost;
+                const roiMultiple = monthlyValue / monthlyCost;
+
+                months.push({
+                    month,
+                    activeUsers,
+                    activationRate: activationRate * 100,
+                    weeklyActions,
+                    monthlyValue,
+                    roiMultiple
+                });
+            }
+
+            return months;
+        }
+
+        // Render monthly grid
+        function renderMonthlyGrid(minsPerAction = 6) {
+            const months = generateMonthlyData(minsPerAction);
+            const grid = document.getElementById('monthlyGrid');
+
+            grid.innerHTML = months.map(m => `
+                <div class="month-card">
+                    <div class="month-number">Month ${m.month}</div>
+                    <div class="month-value">$${(m.monthlyValue / 1000).toFixed(0)}K</div>
+                    <div class="month-roi">${m.roiMultiple.toFixed(1)}x ROI</div>
+                    <div style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">
+                        ${m.activationRate.toFixed(0)}% active<br>
+                        ${(m.weeklyActions / 1000).toFixed(1)}K actions/wk
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update projection estimate based on toggle
+        function updateProjectionEstimate() {
+            const toggle = document.getElementById('estimateToggle');
+            const label = document.getElementById('estimateLabel');
+            const description = document.getElementById('projectionDescription');
+
+            if (toggle.checked) {
+                // Conservative estimate (3 min/action)
+                label.textContent = 'Conservative Estimate (3 min/action - 50%)';
+                label.style.color = 'var(--copilot-orange)';
+                description.textContent = 'Based on 1,000 licensed users, $32/user/month, $78/hr professional rate, 3 min/action (conservative 50% estimate)';
+                renderMonthlyGrid(3);
+            } else {
+                // Base estimate (6 min/action)
+                label.textContent = 'Base Estimate (6 min/action)';
+                label.style.color = 'var(--copilot-blue)';
+                description.textContent = 'Based on 1,000 licensed users, $32/user/month, $78/hr professional rate, 6 min/action';
+                renderMonthlyGrid(6);
+            }
+        }
+
+        // Customize projection
+        function customizeProjection() {
+            window.location.href = 'roi-calculator.html';
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => renderMonthlyGrid(6));
+
+        // Export to PDF function
+        function exportToPDF() {
+            const element = document.querySelector('.container');
+            const opt = {
+                margin: 0.5,
+                filename: 'M365_Copilot_Adoption_Journey.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'letter',
+                    orientation: 'portrait'
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy'],
+                    avoid: ['.phase-card', '.month-card', '.insight-card', '.scenario-card', 'img', '.timeline-visual', '.month-grid', '.metric-card']
+                }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Email report function
+        function emailReport() {
+            const subject = encodeURIComponent('M365 Copilot Adoption Journey & ROI Timeline');
+            const body = encodeURIComponent('I wanted to share insights about the M365 Copilot adoption journey and how productivity ROI builds over time.\n\nKey insights:\n- ROI builds over 6-9 months from initial deployment\n- Month 1: 3-5x ROI, building to 12-20x by month 6\n- Proper planning and realistic expectations are crucial for success\n\nFor the full interactive timeline, please visit: [Your URL Here]');
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        function toggleImportantBox() {
+            const content = document.getElementById('important-content');
+            const icon = document.getElementById('toggle-icon');
+            const text = document.getElementById('toggle-text');
+
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.classList.remove('collapsed');
+                text.textContent = 'Hide';
+            } else {
+                content.classList.add('collapsed');
+                icon.classList.add('collapsed');
+                text.textContent = 'Show';
+            }
+        }
+    </script>
+    <script src="lib/jszip.min.js?v=57"></script>
+    <script src="lib/html2pdf.bundle.min.js?v=57"></script>
+    <script src="insights-shared.js?v=57"></script>
+    <script>
+        (function(){
+            const nav = document.querySelector('.nav-buttons');
+            if (nav && window.InsightsShared) {
+                nav.outerHTML = window.InsightsShared.renderNav('Start Here.html');
+            }
+        })();
+    </script>
+</body>
+</html>

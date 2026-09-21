@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cowork Chargeback — Bill Copilot credits back to the department · Analytics Hub</title>
+  <meta name="description" content="Turn Microsoft Copilot Cowork credit consumption into a departmental bill. The RLS-ready Chargeback Power BI report, plus browser tools — and a 30-second poll to shape what we build next." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/chargeback/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Analytics Hub" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/chargeback/" />
+  <meta property="og:title" content="Cowork Chargeback · Analytics Hub" />
+  <meta property="og:description" content="Bill Microsoft Copilot Cowork credits back to the department. RLS-ready Power BI report plus browser tools." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="stylesheet" href="../styles.css?v=8b17c1de" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Chargeback" />
+  <script src="../clarity-events.js?v=202609141210" defer></script>
+  <script src="../consent.js?v=1" defer></script>
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <script src="../poll.js" defer></script>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Web Tools for Cost Analysis and Planning</span></span></a>
+          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who operates the Hub</span></span></a>
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Terms this site and the reports found here use</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Requests &middot; Suggestions &middot; Thanks</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+          <a href="../community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
+        </div>
+      </div>
+      <a class="nav-subscribe" href="../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<style>
+  /* ---- Chargeback landing (cbx-) : self-contained, theme-var driven ---- */
+  .cbx-page{--cbx-a:var(--accent,#0078d4);--cbx-b:var(--accent-2,#8661c5);--cbx-c:var(--accent-3,#00B294);}
+
+  /* HERO ---------------------------------------------------------------- */
+  .cbx-hero{position:relative;overflow:hidden;padding:clamp(3.5rem,8vw,6.5rem) 0 clamp(3rem,6vw,5rem);
+    background:radial-gradient(1100px 520px at 12% -8%,color-mix(in srgb,var(--cbx-b) 26%,transparent),transparent 60%),
+               radial-gradient(1000px 520px at 92% 0%,color-mix(in srgb,var(--cbx-c) 24%,transparent),transparent 58%),
+               var(--bg-band,#fff);}
+  .cbx-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--cbx-a) 45%,transparent),transparent);}
+  .cbx-hero .wrap{position:relative;z-index:2;max-width:960px;}
+  .cbx-eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.74rem;font-weight:800;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--cbx-a);margin:0 0 1.1rem;}
+  .cbx-eyebrow::before{content:"";width:26px;height:2px;border-radius:2px;background:var(--cbx-a);}
+  .cbx-h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.02;letter-spacing:-.02em;font-weight:800;
+    margin:0 0 1.2rem;color:var(--text,#12121a);}
+  .cbx-h1 .grad{background:linear-gradient(105deg,var(--cbx-a),var(--cbx-b) 48%,var(--cbx-c));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:220% 100%;animation:cbxSheen 9s ease-in-out infinite;}
+  @keyframes cbxSheen{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+  @media (prefers-reduced-motion:reduce){.cbx-h1 .grad{animation:none;}}
+  .cbx-lede{font-size:clamp(1.05rem,2.2vw,1.32rem);line-height:1.55;color:var(--text-soft,#4a4a60);
+    max-width:44ch;margin:0 0 2rem;}
+  .cbx-cta-row{display:flex;flex-wrap:wrap;gap:.8rem;margin:0 0 2.4rem;}
+  .cbx-btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:1rem;
+    padding:.85rem 1.4rem;border-radius:12px;text-decoration:none;border:1px solid transparent;transition:transform .12s ease,box-shadow .2s ease,background .2s ease;}
+  .cbx-btn:hover{transform:translateY(-2px);}
+  .cbx-btn-primary{color:#fff;background:linear-gradient(105deg,var(--cbx-a),var(--cbx-b));
+    box-shadow:0 12px 30px -12px color-mix(in srgb,var(--cbx-b) 70%,transparent);}
+  .cbx-btn-ghost{color:var(--text,#12121a);background:var(--surface,#fff);border-color:var(--border-strong,#d0d0dc);}
+  .cbx-btn-ghost:hover{border-color:var(--cbx-a);color:var(--cbx-a);}
+  .cbx-proof{display:flex;flex-wrap:wrap;gap:1.6rem 2.4rem;padding-top:1.6rem;
+    border-top:1px solid color-mix(in srgb,var(--border,#e6e6ee) 90%,transparent);}
+  .cbx-proof div{min-width:120px;}
+  .cbx-proof b{display:block;font-size:1.7rem;font-weight:800;letter-spacing:-.02em;
+    background:linear-gradient(105deg,var(--cbx-a),var(--cbx-c));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .cbx-proof span{font-size:.86rem;color:var(--text-muted,#6b6b85);}
+
+  /* SECTION SHELL ------------------------------------------------------- */
+  .cbx-sec{padding:clamp(2.6rem,5vw,4rem) 0;}
+  .cbx-sec .wrap{max-width:1080px;}
+  .cbx-kicker{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--cbx-a);margin:0 0 .55rem;display:flex;align-items:center;gap:.5rem;}
+  .cbx-h2{font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1.1;letter-spacing:-.015em;font-weight:800;margin:0 0 .7rem;color:var(--text,#12121a);}
+  .cbx-sublede{font-size:1.05rem;line-height:1.55;color:var(--text-soft,#4a4a60);max-width:60ch;margin:0 0 1.6rem;}
+
+  /* POLL BLOCK (top) ---------------------------------------------------- */
+  .cbx-pollband{background:
+      linear-gradient(180deg,color-mix(in srgb,var(--cbx-a) 6%,transparent),transparent 70%),var(--bg-alt,#f7f7fb);}
+  .cbx-pollgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.4rem,3vw,2.6rem);align-items:center;}
+  @media (max-width:820px){.cbx-pollgrid{grid-template-columns:1fr;}}
+  .cbx-pollcopy h2{font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.12;letter-spacing:-.015em;font-weight:800;margin:.3rem 0 .6rem;color:var(--text,#12121a);}
+  .cbx-pollcopy p{font-size:1.02rem;line-height:1.55;color:var(--text-soft,#4a4a60);margin:0 0 1.2rem;max-width:46ch;}
+  .cbx-pollcopy .cbx-inlinelink{display:inline-flex;align-items:center;gap:.4rem;font-weight:700;color:var(--cbx-a);text-decoration:none;border-bottom:2px solid color-mix(in srgb,var(--cbx-a) 45%,transparent);}
+  .cbx-pollcopy .cbx-inlinelink:hover{border-bottom-color:var(--cbx-a);}
+  .cbx-pollcard{border:1px solid var(--border,#e6e6ee);border-radius:16px;background:var(--surface,#fff);
+    box-shadow:0 20px 50px -26px rgba(15,18,28,.4);padding:1.2rem 1.35rem 1.4rem;}
+  .cbx-pollcard__label{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--cbx-a);margin:0 0 .3rem;display:flex;align-items:center;gap:.5rem;}
+  .cbx-pollcard__label::after{content:"~30 sec";margin-left:auto;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--text-muted,#6b6b85);}
+  .cbx-pollcard .ah-poll{border:0;padding:0;max-width:none;background:transparent;}
+  .cbx-pollcard .cbx-pollreport{margin:.9rem 0 0;padding-top:.85rem;border-top:1px dashed var(--border,#e6e6ee);
+    font-size:.9rem;color:var(--text-muted,#6b6b85);}
+  .cbx-pollcard .cbx-pollreport a{color:var(--cbx-a);font-weight:700;text-decoration:none;}
+  .cbx-pollcard .cbx-pollreport a:hover{text-decoration:underline;}
+
+  /* REPORT SHOWCASE ----------------------------------------------------- */
+  .cbx-report{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(1.6rem,3.5vw,3rem);align-items:center;}
+  @media (max-width:900px){.cbx-report{grid-template-columns:1fr;}}
+  .cbx-report ul{list-style:none;padding:0;margin:0 0 1.6rem;display:grid;gap:.7rem;}
+  .cbx-report li{position:relative;padding-left:1.7rem;font-size:1rem;line-height:1.5;color:var(--text-soft,#4a4a60);}
+  .cbx-report li::before{content:"";position:absolute;left:0;top:.5em;width:.7rem;height:.7rem;border-radius:3px;
+    background:linear-gradient(135deg,var(--cbx-a),var(--cbx-c));}
+  .cbx-report li strong{color:var(--text,#12121a);}
+  .cbx-media{border-radius:16px;overflow:hidden;border:1px solid var(--border,#e6e6ee);
+    background:var(--surface-2,#f3f3f7);box-shadow:0 24px 60px -30px rgba(15,18,28,.5);}
+  .cbx-media video,.cbx-media img{display:block;width:100%;height:auto;}
+  .cbx-mediacap{font-size:.86rem;color:var(--text-muted,#6b6b85);margin:.7rem 0 0;}
+  .cbx-req{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem;}
+  .cbx-req span{font-size:.8rem;font-weight:600;color:var(--text-soft,#4a4a60);background:var(--surface-2,#f3f3f7);
+    border:1px solid var(--border,#e6e6ee);border-radius:999px;padding:.32rem .7rem;}
+
+  /* TOOLS GRID ---------------------------------------------------------- */
+  .cbx-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
+  .cbx-tool{display:block;text-decoration:none;border:1px solid var(--border,#e6e6ee);border-radius:14px;
+    background:var(--surface,#fff);padding:1.2rem 1.25rem;transition:transform .12s ease,border-color .2s ease,box-shadow .2s ease;}
+  .cbx-tool:hover{transform:translateY(-3px);border-color:var(--cbx-a);box-shadow:0 18px 40px -24px rgba(15,18,28,.4);}
+  .cbx-tool h3{margin:0 0 .4rem;font-size:1.08rem;color:var(--text,#12121a);}
+  .cbx-tool p{margin:0 0 .6rem;font-size:.92rem;line-height:1.5;color:var(--text-soft,#4a4a60);}
+  .cbx-tool .cbx-tool-meta{font-size:.76rem;color:var(--text-muted,#6b6b85);}
+
+  /* FINAL CTA ----------------------------------------------------------- */
+  .cbx-final{text-align:center;background:
+      radial-gradient(700px 300px at 50% 0%,color-mix(in srgb,var(--cbx-b) 16%,transparent),transparent 60%),var(--bg-alt,#f7f7fb);}
+  .cbx-final .wrap{max-width:720px;}
+  .cbx-final .cbx-kicker,.cbx-final .cbx-cta-row{justify-content:center;}
+  .cbx-final .cbx-sublede{margin-left:auto;margin-right:auto;}
+</style>
+
+<main id="top" class="cbx-page">
+
+  <!-- ================================================= HERO -->
+  <section class="cbx-hero">
+    <div class="wrap">
+      <p class="cbx-eyebrow">Copilot Cowork &middot; Chargeback</p>
+      <h1 class="cbx-h1">Bill Copilot credits<br>back to <span class="grad">whoever spent them.</span></h1>
+      <p class="cbx-lede">Turn Microsoft Copilot Cowork credit consumption into a clean, defensible departmental bill — from exports you already own, with row-level security so every leader sees only their own line.</p>
+      <div class="cbx-cta-row">
+        <a class="cbx-btn cbx-btn-primary" href="#report">See the report &darr;</a>
+        <a class="cbx-btn cbx-btn-ghost" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Get the template &#8599;</a>
+      </div>
+      <div class="cbx-proof">
+        <div><b>3</b><span>billing models priced side by side</span></div>
+        <div><b>RLS</b><span>each leader sees only their line</span></div>
+        <div><b>~45 min</b><span>from export to a finished bill</span></div>
+        <div><b>$0</b><span>sample data ships in the box</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= POLL (top) -->
+  <section class="cbx-sec cbx-pollband" id="poll">
+    <div class="wrap">
+      <div class="cbx-pollgrid">
+        <div class="cbx-pollcopy">
+          <p class="cbx-kicker">Shape what we build</p>
+          <h2>Used the Chargeback report? Tell us in 30 seconds.</h2>
+          <p>Your answer steers the roadmap — what stays, what gets fixed, and what we build next. Anonymous, no customer data stored.</p>
+          <a class="cbx-inlinelink" href="#report">Jump to the report &darr;</a>
+        </div>
+        <aside class="cbx-pollcard" aria-label="Chargeback report poll">
+          <p class="cbx-pollcard__label">Quick poll</p>
+          <div data-poll="chargeback-usage-2026"></div>
+          <p class="cbx-pollreport">Haven&rsquo;t tried it yet? <a href="#report">Open the Chargeback report below</a> or <a href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">get it on GitHub &#8599;</a></p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= THE REPORT -->
+  <section class="cbx-sec" id="report">
+    <div class="wrap">
+      <div class="cbx-report">
+        <div>
+          <p class="cbx-kicker">Power BI report</p>
+          <h2 class="cbx-h2">Cowork Credit Chargeback</h2>
+          <p class="cbx-sublede">Reads the Microsoft 365 admin center credit export plus your Entra user list, and turns raw consumption into a departmental bill you can defend in a budget meeting.</p>
+          <ul>
+            <li><strong>Three billing models priced side by side</strong> — pay-as-you-go, prepaid, hybrid, with the cheapest flagged</li>
+            <li><strong>Prepaid pool allocation</strong> — split by usage, by headcount, or by budgeted allowance</li>
+            <li><strong>Per-user limits and an over-limit watchlist</strong> — who needs their allowance adjusted</li>
+            <li><strong>Row-level security</strong> — department heads see only their own line</li>
+            <li><strong>FOCUS cost view</strong> — the chargeback in FinOps Open Cost &amp; Usage Specification columns</li>
+          </ul>
+          <div class="cbx-req">
+            <span>M365 Admin Reports Reader</span>
+            <span>Entra Reports Reader</span>
+            <span>Power BI Desktop (May 2024+)</span>
+          </div>
+          <div class="cbx-cta-row">
+            <a class="cbx-btn cbx-btn-primary" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Get the template &#8599;</a>
+            <a class="cbx-btn cbx-btn-ghost" href="../choose-report/#r=cowork-billing-report" target="_blank" rel="noopener">Enablement guide &#8599;</a>
+          </div>
+        </div>
+        <div>
+          <div class="cbx-media">
+            <video controls preload="metadata" playsinline aria-label="Cowork Credit Chargeback two-minute demo">
+              <source src="https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4" type="video/mp4" />
+              <p>Your browser cannot play this video.
+                <a href="https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4">Download it instead</a>.</p>
+            </video>
+          </div>
+          <p class="cbx-mediacap">Two-minute walkthrough — Consumption, Chargeback, Billing Models, Prepaid Allocation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= COMPANION TOOLS -->
+  <section class="cbx-sec cbx-pollband">
+    <div class="wrap">
+      <p class="cbx-kicker">No install &middot; runs in your browser</p>
+      <h2 class="cbx-h2">Companion chargeback tools</h2>
+      <p class="cbx-sublede">Each runs entirely in your browser on exports you already own. Nothing is uploaded anywhere — try them on the built-in sample data first.</p>
+      <div class="cbx-tools">
+        <a class="cbx-tool" href="../cowork-billing/cowork-chargeback/app/index.html" target="_blank" rel="noopener">
+          <h3>Cowork Chargeback &#8599;</h3>
+          <p>Who owes what, in dollars. Feed it your consumption and org exports and get a finance-ready, invoice-reconciled bill per cost center and per person.</p>
+          <span class="cbx-tool-meta">Analytics Hub &middot; cowork-chargeback</span>
+        </a>
+        <a class="cbx-tool" href="../cowork-billing/multi-budget-chargeback/app/index.html" target="_blank" rel="noopener">
+          <h3>Multi-Budget Chargeback &#8599;</h3>
+          <p>Credit entitlements settled back to whoever funded them — for divisions, subsidiaries or districts that share one tenant but hold separate budgets.</p>
+          <span class="cbx-tool-meta">Analytics Hub &middot; multi-budget-chargeback</span>
+        </a>
+        <a class="cbx-tool" href="../cowork-billing/cowork-roi-model/app/index.html" target="_blank" rel="noopener">
+          <h3>Cowork ROI Model &#8599;</h3>
+          <p>Interactive value model with no tenant payload. Enter your own task counts and assumptions; research-based minutes-per-task defaults are preloaded by category.</p>
+          <span class="cbx-tool-meta">Analytics Hub &middot; cowork-roi-model</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================= FINAL CTA -->
+  <section class="cbx-sec cbx-final">
+    <div class="wrap">
+      <p class="cbx-kicker">Start now</p>
+      <h2 class="cbx-h2">Go from raw credit exports to a defensible bill.</h2>
+      <p class="cbx-sublede">Grab the template, run it on the sample data, then point it at your own tenant. The enablement guide walks you through every step.</p>
+      <div class="cbx-cta-row">
+        <a class="cbx-btn cbx-btn-primary" href="https://github.com/microsoft/CreditUsage" target="_blank" rel="noopener">Get the template &#8599;</a>
+        <a class="cbx-btn cbx-btn-ghost" href="../choose-report/#r=cowork-billing-report" target="_blank" rel="noopener">Open the enablement guide &#8599;</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../updates/">What's new</a> · <a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <p>Built by the Analytics Hub Advisory Team ·
+      <a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">View on GitHub ↗</a> ·
+      <a href="../feedback/">Feedback</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

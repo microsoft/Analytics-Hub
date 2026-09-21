@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Locally - M365 Copilot ROI Calculator</title>
+    <script>(function(){try{var t=localStorage.getItem('cri_theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+    <link rel="stylesheet" href="styles.css?v=57">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>M365 Copilot Productivity ROI Projections</h1>
+                    <p class="subtitle">Run the calculator locally on your computer</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="downloadLocalPackage(event)" class="action-btn" title="Download &amp; Run Locally">
+                        <span class="action-text">Download Local</span>
+                    </button>
+                    <button onclick="exportToPDF()" class="action-btn" title="Export to PDF">
+                        <span class="action-text">Export PDF</span>
+                    </button>
+                    <button onclick="emailReport()" class="action-btn" title="Share via Email">
+                        <span class="action-text">Email</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">
+                <span class="nav-text">Full Data Analysis</span>
+            </a>
+            <a href="roi-calculator.html" class="nav-btn">
+                <span class="nav-text">ROI Calculator</span>
+            </a>
+            <a href="Start Here.html" class="nav-btn">
+                <span class="nav-text">Adoption Journey</span>
+            </a>
+            <a href="changelog.html" class="nav-btn">
+                <span class="nav-text">What's New</span>
+            </a>
+        </nav>
+
+        <main style="max-width: 1000px; margin: 0 auto;">
+            <section class="instructions-section">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="margin-bottom: 0.5rem;">Run Locally</h1>
+                    <p class="subtitle">
+                        Downloaded the ZIP file? Follow these steps to run the calculator on your own computer:
+                    </p>
+                </div>
+                
+                <div class="info-box" style="border-left-color: var(--negative); margin-bottom: 2rem;">
+                    <strong>Important:</strong>
+                    <p style="margin: 0.5rem 0 0;">
+                        The calculator <strong>will NOT work directly from the ZIP file</strong>. You must extract all files first!
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <p style="margin-bottom: 1rem;">
+                        Don't have the ZIP file yet? Download it now:
+                    </p>
+                    <button onclick="downloadLocalPackage(event)" class="btn-primary">Download ZIP Package</button>
+                    <p style="font-size: 0.8125rem; color: var(--text-tertiary); margin-top: 0.75rem;">
+                        ~2MB &middot; 18 files &middot; Everything you need to run offline
+                    </p>
+                </div>
+
+                <div style="display: grid; gap: 1rem;">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Extract the ZIP File</h3>
+                            <p style="margin: 0;">
+                                Right-click the downloaded <code style="color: var(--text-primary);">M365_Copilot_ROI_Calculator_Local.zip</code> and select <strong>"Extract All..."</strong> or use your preferred extraction tool. Choose a location you can easily find (like your Desktop or Documents folder).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Open the Extracted Folder</h3>
+                            <p style="margin: 0;">
+                                Navigate to the folder where you extracted the files. You should see all the HTML files, a <code style="color: var(--text-primary);">lib</code> folder, and the launcher scripts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Run the Launcher</h3>
+                            <p style="margin: 0 0 1rem;">
+                                Double-click the launcher file for your operating system:
+                            </p>
+                            <div style="display: grid; gap: 0.5rem;">
+                                <div style="background: var(--ink-700); border: 1px solid var(--rule); border-radius: 8px; padding: 0.875rem 1rem;">
+                                    <strong>Windows:</strong>
+                                    <p style="margin: 0.25rem 0 0;">
+                                        Double-click <code style="color: var(--text-primary);">RUN_LOCAL_SERVER.bat</code>
+                                    </p>
+                                </div>
+                                <div style="background: var(--ink-700); border: 1px solid var(--rule); border-radius: 8px; padding: 0.875rem 1rem;">
+                                    <strong>Mac / Linux:</strong>
+                                    <p style="margin: 0.25rem 0 0;">
+                                        Double-click <code style="color: var(--text-primary);">RUN_LOCAL_SERVER.sh</code>
+                                    </p>
+                                </div>
+                            </div>
+                            <p style="margin: 1rem 0 0; font-size: 0.8125rem; color: var(--text-tertiary);">
+                                The launcher will start a local web server and automatically open the calculator in your browser at <code style="color: var(--text-secondary);">http://localhost:8000</code>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 0.5rem;">
+                        <strong>Alternative: Open index.html Directly</strong>
+                        <p style="margin: 0.5rem 0 0;">
+                            You can also simply double-click <code style="color: var(--text-primary);">index.html</code> to open it directly in your browser, though the launcher method is recommended for the best experience (it avoids potential <code>file://</code> protocol restrictions).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <strong>Need Help?</strong>
+                    <p style="margin: 0.5rem 0 0;">
+                        For detailed instructions, troubleshooting tips, and system requirements, see <code style="color: var(--text-primary);">README_LOCAL.md</code> in the extracted folder.
+                    </p>
+                </div>
+
+                <div class="info-box" style="margin-top: 1rem; border-left-color: var(--positive);">
+                    <strong>Privacy &amp; Security</strong>
+                    <p style="margin: 0.5rem 0 0;">
+                        The local version runs entirely on your computer with <strong>no internet connection required</strong>. All your data stays private and secure on your machine. Nothing is uploaded, tracked, or stored on external servers.
+                    </p>
+                </div>
+
+                <div class="info-box" style="margin-top: 1rem;">
+                    <strong>Browser Version (Online)</strong>
+                    <p style="margin: 0.5rem 0 0;">
+                        The browser version at <code style="color: var(--text-primary);">microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator</code> works the same way &mdash; <strong>all processing happens in your browser</strong>. Your data is stored locally in your browser's storage and <strong>your CSV file is never uploaded</strong>. The differences are that you need an internet connection to load the page initially, and the hosted site loads Microsoft Clarity for product analytics (see <a href="PRIVACY.md">PRIVACY.md</a>). The local version loads no analytics and makes zero external requests.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <footer style="text-align: center; padding: 2.5rem 1rem 1rem; margin-top: 3rem; border-top: 1px solid var(--rule);">
+            <p style="margin: 0; color: var(--text-tertiary); font-size: 0.8125rem;">
+                M365 Copilot Productivity ROI Calculator
+            </p>
+            <p class="footer-nav"><a href="index.html">Back to Calculator</a></p>
+        </footer>
+    </div>
+
+    <script src="lib/jszip.min.js?v=57"></script>
+    <script src="script.js?v=57"></script>
+    <script src="lib/html2pdf.bundle.min.js?v=57"></script>
+    <script src="insights-shared.js?v=57"></script>
+    <script>
+        (function(){
+            const nav = document.querySelector('.nav-buttons');
+            if (nav && window.InsightsShared) {
+                nav.outerHTML = window.InsightsShared.renderNav('run-locally.html');
+            }
+        })();
+    </script>
+</body>
+</html>

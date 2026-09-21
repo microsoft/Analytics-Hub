@@ -111,7 +111,7 @@ const RESOURCES = {
     { kind: "email",    label: "Contact the Analytics Hub team", url: "mailto:copilot-roi-advisory-team-gh@microsoft.com?subject=Copilot%20Adoption%20%26%20Sentiment%20Report" },
   ],
   "roi-calc": [
-    { kind: "app",      label: "Open the ROI Calculator", url: "https://jordankingisalive.github.io/CopilotROICalculator/" },
+    { kind: "app",      label: "Open the ROI Calculator", url: "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/" },
     { kind: "doc",      label: "Pairs with: Decoding Super Usage", url: "https://github.com/microsoft/DecodingSuperUsage" },
   ],
   customize: [

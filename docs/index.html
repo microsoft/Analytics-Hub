@@ -76,12 +76,12 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
-          <a href="tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
+          <a href="tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Web Tools for Cost Analysis and Planning</span></span></a>
 
-          <a href="team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who operates the Hub</span></span></a>
           <a href="faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
-          <a href="glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
-          <a href="feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <a href="glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Terms this site and the reports found here use</span></span></a>
+          <a href="feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Requests &middot; Suggestions &middot; Thanks</span></span></a>
           <hr class="menu-sep" />
           <a href="demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
           <a href="community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
@@ -123,6 +123,25 @@
 </script>
 
 <!-- =========================================================== HERO -->
+<style>
+  /* Split hero: copy left, trust points as icon feature rows (not cards). */
+  .hero-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:2.6rem;align-items:center;}
+  .hero-copy{min-width:0;}
+  .hero-visual{min-width:0;}
+  .hero-feats{display:flex;flex-direction:column;max-width:560px;}
+  .hero-feat{display:flex;align-items:center;gap:13px;padding:13px 0;}
+  .hero-feat + .hero-feat{border-top:1px solid color-mix(in srgb,var(--border,#e6e6ee) 80%,transparent);}
+  .hero-feat .hf-ico{width:34px;height:34px;border-radius:9px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#0078d4,#8B5CF6);box-shadow:0 4px 12px -6px rgba(99,60,180,.6);}
+  .hero-feat .hf-ico svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+  .hero-feat .hf-lead{font-size:15px;font-weight:800;letter-spacing:-.01em;
+    background:linear-gradient(100deg,#0078d4,#8B5CF6);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero-feat .hf-sub{font-size:13px;line-height:1.4;color:var(--text-soft,#5a6470);}
+  @media (max-width:900px){
+    .hero-wrap{grid-template-columns:1fr;gap:1.4rem;}
+    .hero-feats{max-width:none;}
+  }
+</style>
 <section class="hero" id="top">
   <div class="hero-bg" aria-hidden="true">
     <div class="orb orb-1"></div>
@@ -130,36 +149,40 @@
     <div class="orb orb-3"></div>
   </div>
   <div class="wrap hero-wrap">
-    <div class="hero-eyebrow">Open source</div>
-    <h1 class="hero-title">
-      Measure how your people <em>actually</em> adopt
-      <span class="grad">Microsoft Copilot &amp; AI</span>
-    </h1>
-    <p class="hero-sub">
-      Production-ready Power BI reports, add-ons, and exporters that turn your tenant's own data into a complete picture of Copilot adoption, impact, and cost — including what you are spending and whether it is working.
-    </p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="choose-report/">Find My Report →</a>
-      <a class="btn btn-ghost" href="#explore">Explore the Hub</a>
-      <a class="btn btn-subscribe" href="updates/?from=hero">Stay Up To Date</a>
+    <div class="hero-copy">
+      <div class="hero-eyebrow">Open source</div>
+      <h1 class="hero-title">
+        Measure how your people <em>actually</em> adopt
+        <span class="grad">Microsoft Copilot &amp; agents</span>
+      </h1>
+      <p class="hero-sub">
+        Production-ready Power BI reports, add-ons, and exporters that turn your tenant's own data into a complete picture of Copilot and agent adoption, impact, and cost — including what you are spending and whether it is working.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="choose-report/">Find My Report →</a>
+        <a class="btn btn-ghost" href="#measurables">Explore the Hub</a>
+        <a class="btn btn-subscribe" href="updates/?from=hero">Stay Up To Date</a>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- =========================================================== VALUE PROPS -->
-<section class="band vp-band" id="trust">
-  <div class="wrap vp-row">
-    <div class="vp">
-      <h2>Runs in your own tenant</h2>
-      <p>Every template reads your data where it already lives. Nothing is uploaded, and no telemetry leaves with it.</p>
-    </div>
-    <div class="vp">
-      <h2>Free and open source</h2>
-      <p>MIT licensed, on GitHub. Fork it, change the measures, ship your own version — no licence to buy.</p>
-    </div>
-    <div class="vp">
-      <h2>Look before you build</h2>
-      <p>Most templates ship a synthetic sample dataset, so you can see the whole report before touching a tenant.</p>
+    <div class="hero-visual">
+      <div class="hero-feats">
+        <div class="hero-feat">
+          <span class="hf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <span><span class="hf-lead">Secure</span> <span class="hf-sub">Runs in your own tenant</span></span>
+        </div>
+        <div class="hero-feat">
+          <span class="hf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg></span>
+          <span><span class="hf-lead">Open Source</span> <span class="hf-sub">Free — MIT licensed, on GitHub</span></span>
+        </div>
+        <div class="hero-feat">
+          <span class="hf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z" fill="#fff" stroke="none"/></svg></span>
+          <span><span class="hf-lead">Video Previews</span> <span class="hf-sub">Look before you build</span></span>
+        </div>
+        <div class="hero-feat">
+          <span class="hf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span><span class="hf-lead">Full Coverage</span> <span class="hf-sub">Microsoft Copilot, Copilot Studio agents, GitHub Copilot, Cowork &amp; Azure AI</span></span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -167,6 +190,7 @@
 <!-- =========================================================== COMMUNITY -->
 <section class="band community-band" id="community-home">
   <div class="wrap">
+    <div class="chome-head">
     <span class="chome-logo" aria-hidden="true">
       <svg viewBox="0 0 64 64" width="58" height="58" focusable="false">
         <defs>
@@ -187,8 +211,11 @@
         </g>
       </svg>
     </span>
-    <p class="eyebrow center">Community</p>
-    <h2 class="section-title center">Shape what we build next</h2>
+      <div class="chome-headtext">
+        <p class="eyebrow center">Community</p>
+        <h2 class="section-title center">Shape what we build next</h2>
+      </div>
+    </div>
     <p class="section-lead center chome-lead">Follow the Learning Feed as Copilot guidance shifts, incubate a report with us before it ships, answer a quick poll, or join a live training.</p>
     <div class="chome-cards">
       <a class="chome-card" href="community/incubations/">
@@ -212,10 +239,15 @@
   </div>
 </section>
 <style>
-  .community-band .chome-logo{display:flex;justify-content:center;margin:0 0 .6rem;}
-  .community-band .chome-logo svg{border-radius:50%;box-shadow:0 6px 18px -6px rgba(99,60,180,.5);}
-  .chome-lead{max-width:64ch;margin-left:auto;margin-right:auto;}
-  .chome-cards{display:grid;gap:1rem;grid-template-columns:1fr;max-width:1000px;margin:1.6rem auto 0;}
+  /* Horizontal lockup: icon LEFT-aligned, beside the eyebrow+title (shorter than stacked) */
+  .community-band .chome-head{display:flex;align-items:center;justify-content:flex-start;gap:16px;margin:0 0 .2rem;}
+  .community-band .chome-logo{display:block;margin:0;flex:0 0 auto;line-height:0;}
+  .community-band .chome-logo svg{width:52px;height:52px;border-radius:50%;box-shadow:0 6px 18px -6px rgba(99,60,180,.5);}
+  .community-band .chome-headtext{text-align:left;}
+  .community-band .chome-head .eyebrow.center{display:block;text-align:left;margin:0 0 2px;}
+  .community-band .chome-head .section-title.center{text-align:left;margin:0;}
+  .community-band .section-lead.center.chome-lead{text-align:left;max-width:74ch;margin:.7rem 0 1.4rem;}
+  .chome-cards{display:grid;gap:1.1rem;grid-template-columns:1fr;max-width:none;margin:1.4rem 0 0;}
   @media (min-width:720px){.chome-cards{grid-template-columns:repeat(2,1fr);}}
   @media (min-width:1040px){.chome-cards{grid-template-columns:repeat(4,1fr);}}
   .chome-card{display:flex;flex-direction:column;gap:.4rem;text-align:left;text-decoration:none;color:inherit;
@@ -224,7 +256,9 @@
   .chome-card:hover{border-color:var(--accent,#0078d4);box-shadow:0 8px 22px -12px rgba(15,18,28,.4);transform:translateY(-2px);}
   .chome-card .chome-t{font-weight:700;font-size:1.15rem;}
   .chome-card .chome-d{font-size:.95rem;line-height:1.5;color:var(--text-muted,#5a6470);}
-  .community-home-more{margin:1.2rem 0 0;font-size:1rem;}
+  .community-home-more{margin:1.4rem 0 0;font-size:1rem;}
+  .community-band .community-home-more.center{text-align:left;}
+  @media (max-width:520px){.community-band .chome-head{flex-direction:column;align-items:flex-start;gap:8px;}}
 </style>
 
 <!-- Home quick-poll rail (bottom-right, mirrors the Consumption page) -->
@@ -267,10 +301,42 @@
 </script>
 
 <!-- =========================================================== FLAGSHIP -->
+<style>
+  /* Horizontal lockup: sparkle icon LEFT-aligned, beside the eyebrow+title */
+  .flagship-band .flagship-head{display:flex;align-items:center;justify-content:flex-start;gap:16px;margin:0 0 .2rem;}
+  .flagship-band .flagship-logo{display:block;margin:0;flex:0 0 auto;line-height:0;}
+  .flagship-band .flagship-logo svg{width:52px;height:52px;border-radius:50%;box-shadow:0 6px 18px -6px rgba(99,60,180,.5);}
+  .flagship-band .flagship-headtext{text-align:left;}
+  .flagship-band .flagship-head .eyebrow.center{display:block;text-align:left;margin:0 0 2px;}
+  .flagship-band .flagship-head .section-title.center{text-align:left;margin:0;}
+  .flagship-band .section-lead.center{text-align:left;max-width:74ch;margin:.7rem 0 0;}
+  @media (max-width:520px){.flagship-band .flagship-head{flex-direction:column;align-items:flex-start;gap:8px;}}
+</style>
 <section class="band flagship-band" id="flagship">
   <div class="wrap">
-    <p class="eyebrow center">Recently added</p>
-    <h2 class="section-title center">Three new dashboards, built to work together</h2>
+    <div class="flagship-head">
+    <span class="flagship-logo" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="58" height="58" focusable="false">
+        <defs>
+          <linearGradient id="flagshipGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0078D4"/>
+            <stop offset=".5" stop-color="#8B5CF6"/>
+            <stop offset="1" stop-color="#E24C8F"/>
+          </linearGradient>
+        </defs>
+        <circle cx="32" cy="32" r="32" fill="url(#flagshipGrad)"/>
+        <g fill="#fff">
+          <path d="M32 13l3.2 11.9a4 4 0 0 0 2.9 2.9L50 31l-11.9 3.2a4 4 0 0 0-2.9 2.9L32 49l-3.2-11.9a4 4 0 0 0-2.9-2.9L14 31l11.9-3.2a4 4 0 0 0 2.9-2.9z"/>
+          <circle cx="47" cy="18" r="2.4" opacity=".85"/>
+          <circle cx="19" cy="45" r="1.8" opacity=".7"/>
+        </g>
+      </svg>
+    </span>
+      <div class="flagship-headtext">
+        <p class="eyebrow center">Recently added</p>
+        <h2 class="section-title center">Three new dashboards, built to work together</h2>
+      </div>
+    </div>
     <p class="section-lead center">One measures whether Copilot is landing. One tracks what it costs. One goes deep on the agents you have built in Copilot Studio. Run any on its own, or together for value, spend and agent quality side by side. Sample data ships with each, so you can look before setting anything up.</p>
 
     <div class="flagship-grid">
@@ -365,10 +431,60 @@
 </section>
 
 <!-- =========================================================== MEASURABLES -->
+<style>
+  /* Reports section (mockup #3): left-aligned gradient icon lockup header,
+     segmented category filter, category colour-coded pills. Card left-accent
+     stripes are applied by report-badges.js (Option B). */
+  .measurables-band .rf-head{display:flex;align-items:center;justify-content:flex-start;gap:16px;margin:0 0 .2rem;}
+  .measurables-band .rf-logo{display:block;flex:0 0 auto;line-height:0;}
+  .measurables-band .rf-logo svg{width:52px;height:52px;border-radius:50%;box-shadow:0 6px 18px -6px rgba(99,60,180,.5);}
+  .measurables-band .rf-headtext{text-align:left;}
+  .measurables-band .rf-head .eyebrow.center{display:block;text-align:left;margin:0 0 2px;}
+  .measurables-band .rf-head .section-title.center{text-align:left;margin:0;}
+  .measurables-band .section-lead.center{text-align:left;max-width:80ch;margin:.7rem 0 0;}
+  /* Segmented filter */
+  .measurables-band .rf-pills{display:inline-flex;flex-wrap:wrap;align-items:center;align-content:center;gap:7px 3px;padding:8px 12px;margin:18px 0 22px;
+    background:var(--surface,#fff);border:1px solid var(--border,#e2e6ea);border-radius:20px;}
+  .measurables-band .rf-pill{border:0;background:transparent;border-radius:100px;padding:7px 13px;}
+  .measurables-band .rf-pill:hover{background:color-mix(in srgb,var(--text,#1b1b1b) 6%,transparent);}
+  .measurables-band .rf-pill.is-on{background:var(--accent,#0078d4);color:#fff;}
+  /* Category colour dots on the filter, so the pill row is the stripe legend */
+  .measurables-band .rf-pill[data-cat]:not([data-cat="all"])::before{content:"";width:8px;height:8px;border-radius:50%;
+    margin-right:7px;display:inline-block;vertical-align:middle;background:var(--pill-c,var(--accent));}
+  .measurables-band .rf-pill[data-cat="usage-intelligence"]{--pill-c:#8661c5;}
+  .measurables-band .rf-pill[data-cat="adoption-behavior"]{--pill-c:#0078d4;}
+  .measurables-band .rf-pill[data-cat="impact-roi"]{--pill-c:#00B294;}
+  .measurables-band .rf-pill[data-cat="readiness"]{--pill-c:#FFB900;}
+  .measurables-band .rf-pill[data-cat="developer"]{--pill-c:#24292f;}
+  .measurables-band .rf-pill[data-cat="tooling-extension"]{--pill-c:#4cc2ff;}
+  .measurables-band .rf-pill.is-on::before{background:#fff;}
+</style>
 <section class="band measurables-band" id="measurables">
   <div class="wrap">
-    <p class="eyebrow center">Browse the catalog</p>
-    <h2 class="section-title center">Explore reports by category</h2>
+    <div class="rf-head">
+      <span class="rf-logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="52" height="52" focusable="false">
+          <defs>
+            <linearGradient id="rfGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0078D4"/>
+              <stop offset=".5" stop-color="#8B5CF6"/>
+              <stop offset="1" stop-color="#E24C8F"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="32" fill="url(#rfGrad)"/>
+          <g fill="#fff">
+            <rect x="15" y="15" width="15.5" height="15.5" rx="3.2"/>
+            <rect x="33.5" y="15" width="15.5" height="15.5" rx="3.2" opacity=".62"/>
+            <rect x="15" y="33.5" width="15.5" height="15.5" rx="3.2" opacity=".62"/>
+            <rect x="33.5" y="33.5" width="15.5" height="15.5" rx="3.2" opacity=".85"/>
+          </g>
+        </svg>
+      </span>
+      <div class="rf-headtext">
+        <p class="eyebrow center">Browse the catalog</p>
+        <h2 class="section-title center">Explore reports by category</h2>
+      </div>
+    </div>
     <p class="section-lead center">Every report, add-on, and exporter grouped into clear categories. Click a topic to filter the matrix, or open a report directly.</p>
 
         <div class="rf-pills" role="group" aria-label="Filter reports by category">
@@ -456,7 +572,7 @@
         <p class="rf-blurb">Browser-only ROI modeler that runs on the same Viva Insights person query CSV as Super Usage Adoption and Super User Impact. Reuse the export you already </p>
         <div class="rf-foot">
           <span class="rf-src">Viva Insights (person query CSV)</span>
-          <a class="rf-cta" href="https://jordankingisalive.github.io/CopilotROICalculator/" target="_blank" rel="noopener">View <span aria-hidden="true">↗</span><span class="sr-only"> M365 Copilot Productivity ROI Calculator</span></a>
+          <a class="rf-cta" href="tools/copilot-roi-calculator/">View <span aria-hidden="true">↗</span><span class="sr-only"> M365 Copilot Productivity ROI Calculator</span></a>
         </div>
       </article>
       <article class="rf-card" data-cat="adoption-behavior" style="--c:#0078d4">
@@ -646,48 +762,65 @@
   </div>
 </section>
 
-<!-- =========================================================== EXPLORE HUB -->
-<section class="band hub-band" id="explore">
-  <div class="wrap">
-    <p class="eyebrow center">Where to next</p>
-    <h2 class="section-title center">Pick your path through the Hub</h2>
-    <p class="section-lead center">Two ways in. Every page is standalone, interactive, and links back here.</p>
-
-    <div class="hub-grid">
-      <a class="hub-card" href="choose-report/" style="--c:#0078d4;--c2:#8661c5;">
-        <div class="hub-card-glow" aria-hidden="true"></div>
-        <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></div>
-        <div class="hub-card-eyebrow">Searchable report matrix</div>
-        <h3 class="hub-card-title">Explore Reports</h3>
-        <p class="hub-card-desc">Searchable matrix of every dashboard, add-on, and exporter. Click a row to expand the preview, jump to the repo, grab the zip, or open a pre-filled admin email.</p>
-        <span class="hub-card-cta">Browse all reports <span class="arrow">→</span></span>
-      </a>
-
-      <a class="hub-card" href="case-studies/" style="--c:#8661c5;--c2:#e3008c;">
-        <div class="hub-card-glow" aria-hidden="true"></div>
-        <div class="hub-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12.5h6M9 16.5h3.5"/></svg></div>
-        <div class="hub-card-eyebrow">6 published stories · $1.5M+ saved</div>
-        <h3 class="hub-card-title">Case Studies</h3>
-        <p class="hub-card-desc">Real outcomes from real deployments. EPAM, Wipro, NHS, Allegis Group, Lloyds Banking Group — filter by industry, see the metrics, read the published source.</p>
-        <span class="hub-card-cta">Read the stories <span class="arrow">→</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- =========================================================== TEAM + CONTACT (merged) -->
+<style>
+  /* Team card: left-aligned gradient people-icon lockup, matching the
+     Community / Recently Added sections. Copy left, CTAs right. */
+  .team-contact-card .tc-head{display:flex;align-items:center;gap:16px;margin:0 0 1rem;}
+  .team-contact-card .tc-logo{flex:0 0 auto;line-height:0;}
+  .team-contact-card .tc-logo svg{width:52px;height:52px;border-radius:50%;box-shadow:0 6px 18px -6px rgba(99,60,180,.5);}
+  .team-contact-card .tc-headtext .eyebrow{margin:0 0 3px;}
+  .team-contact-card .tc-headtext h2{margin:0;font-size:1.55rem;letter-spacing:-.02em;line-height:1.2;}
+  .team-contact-card .tc-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+  .team-contact-card .tc-copy{flex:1 1 440px;}
+  .team-contact-card .tc-former{display:inline-flex;align-items:center;gap:7px;margin-top:.8rem;
+    font-size:12px;font-weight:600;color:var(--text-muted,#6b6b85);background:var(--surface-2,#f3f3f7);
+    border:1px solid var(--border,#e6e6ee);border-radius:999px;padding:6px 11px;}
+  .team-contact-card .tc-former b{color:var(--text-soft,#5a6470);font-weight:700;}
+  @media (max-width:820px){
+    .team-contact-card .tc-headtext h2{font-size:1.3rem;}
+  }
+</style>
 <section class="band team-contact-band">
   <div class="wrap">
     <div class="team-contact-card">
-      <div class="tc-left">
-        <div class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3V20"/><circle cx="9.5" cy="7.5" r="3"/><path d="M21 20v-1.5a3 3 0 0 0-2.3-2.9M15.5 4.7a3 3 0 0 1 0 5.6"/></svg></div>
-        <p class="eyebrow">Microsoft Growth &amp; Incubation</p>
-        <h2>Meet the team — and tell us what's working.</h2>
-        <p class="tc-sub">People Scientists, Business Value Advisors, and Solutions Architects behind every report in the Hub. We read every issue, reply to every email, and feed your friction back into the next release. If a report helped you ship something, we'd love to amplify it.</p>
-      </div>
-      <div class="tc-right">
-        <a class="btn btn-primary" href="team/">Meet the Team →</a>
-        <a class="btn btn-ghost" href="https://github.com/microsoft/Analytics-Hub/issues" target="_blank" rel="noopener">Open an Issue ↗</a>
+      <div class="tc-left" style="grid-column:1 / -1;">
+        <div class="tc-head">
+          <span class="tc-logo" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="52" height="52" focusable="false">
+              <defs>
+                <linearGradient id="teamGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#0078D4"/>
+                  <stop offset=".5" stop-color="#8B5CF6"/>
+                  <stop offset="1" stop-color="#E24C8F"/>
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="32" fill="url(#teamGrad)"/>
+              <g fill="#fff">
+                <circle cx="16.5" cy="27.5" r="5.3" opacity=".85"/>
+                <path d="M8 45c0-5.1 3.6-8.7 8.5-8.7 1.3 0 2.5.3 3.6.7-2.4 2.2-3.9 5.2-4 8H8z" opacity=".85"/>
+                <circle cx="47.5" cy="27.5" r="5.3" opacity=".85"/>
+                <path d="M56 45c0-5.1-3.6-8.7-8.5-8.7-1.3 0-2.5.3-3.6.7 2.4 2.2 3.9 5.2 4 8H56z" opacity=".85"/>
+                <circle cx="32" cy="23.5" r="7.2"/>
+                <path d="M19 46c0-7.3 5.8-11.5 13-11.5S45 38.7 45 46v1.4H19z"/>
+              </g>
+            </svg>
+          </span>
+          <div class="tc-headtext">
+            <p class="eyebrow">Microsoft &middot; Compete &amp; Business Value</p>
+            <h2>The Measurement Team</h2>
+          </div>
+        </div>
+        <div class="tc-row">
+          <div class="tc-copy">
+            <p class="tc-sub">People Scientists, Business Value Advisors, and Solutions Architects behind every report in the Hub. We read every issue, reply to every email, and feed your friction back into the next release. If a report helped you ship something, we'd love to amplify it.</p>
+            <span class="tc-former">Formerly the <b>Copilot Analytics Team</b> &middot; Microsoft Growth &amp; Incubation</span>
+          </div>
+          <div class="tc-right">
+            <a class="btn btn-primary" href="team/">Meet the Team →</a>
+            <a class="btn btn-ghost" href="https://github.com/microsoft/Analytics-Hub/issues" target="_blank" rel="noopener">Open an Issue ↗</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -718,7 +851,7 @@
         <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener">PAX</a>
         <a href="https://github.com/microsoft/customizecopilot" target="_blank" rel="noopener">CustomizeCopilot</a>
         <a href="https://github.com/olivierpecheux/copilot-adoption-sentiment-report" target="_blank" rel="noopener">Adoption &amp; Sentiment</a>
-        <a href="https://jordankingisalive.github.io/CopilotROICalculator/" target="_blank" rel="noopener">ROI Calculator</a>
+        <a href="tools/copilot-roi-calculator/">ROI Calculator</a>
       </div>
       <div>
         <div class="footer-heading">Resources</div>
@@ -734,7 +867,10 @@
   </div>
 </footer>
 
-<script src="app.js"></script><script>
+<script src="app.js"></script>
+<script src="report-badges.js" defer></script>
+<script src="report-sort.js" defer></script>
+<script>
   // Report filter. Progressive enhancement: without JS every card is
   // already visible, so nothing is lost - the pills just narrow it down.
   (function () {

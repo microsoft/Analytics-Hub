@@ -302,7 +302,7 @@ const TOOLS = [
     measures: ["roi","impact"],
     source: "Viva Insights (person query CSV)",
     sourceKey: "Viva Insights",
-    repo: "https://jordankingisalive.github.io/CopilotROICalculator/",
+    repo: "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/",
     download: "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
     blurb: "Browser-only ROI modeler that runs on the same Viva Insights person query CSV as Super Usage Adoption and Super User Impact. If you already run either report, reuse that export — drop it in, sweep assumptions, and generate a defensible value story with real Power/Habitual/Novice/Low/Non-user cohorts. No heatmap export needed, and no install for the calculator itself.",
     meta: { audience: "BVAs, finance partners, exec sponsors", license: "Calc is browser-only; the export needs Viva Insights Analyst", time: "~10 min once the person query CSV is downloaded" },

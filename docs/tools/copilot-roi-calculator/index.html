@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M365 Copilot Productivity ROI Calculator</title>
+    <script>(function(){try{var t=localStorage.getItem('cri_theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+    <link rel="stylesheet" href="styles.css?v=57">
+    
+    <!-- Microsoft Clarity Analytics -->
+    <script type="text/javascript">
+        // Analytics run only on the hosted site; local and offline copies stay request-free.
+        if (location.protocol !== 'file:' && /(^|\.)github\.io$/i.test(location.hostname)) {
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","wxb0r23ozh");
+        }
+    </script>
+    <script>
+        // Force service worker update and reload when new version is available
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                reg.onupdatefound = () => {
+                    const installingWorker = reg.installing;
+                    installingWorker.onstatechange = () => {
+                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New service worker available, reload to activate
+                            window.location.reload();
+                        }
+                    };
+                };
+            });
+        }
+    </script>
+    <style>
+        details summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>M365 Copilot Productivity ROI Projections</h1>
+                    <p class="subtitle">Transform your usage data into actionable insights</p>
+                    <p style="margin-top: 0.5rem;"><a href="https://aka.ms/Analytics-Hub" target="_blank" style="color: var(--accent); font-weight: 500; text-decoration: none; font-size: 0.875rem;">View more reports on the Analytics Hub &rarr;</a></p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="downloadLocalPackage(event)" class="action-btn" title="Download &amp; Run Locally">
+                        <span class="action-text">Download Local</span>
+                    </button>
+                    <button onclick="emailReport()" class="action-btn" title="Share via Email">
+                        <span class="action-text">Email</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn nav-btn-active">
+                <span class="nav-text">Full Data Analysis</span>
+            </a>
+            <a href="roi-calculator.html" class="nav-btn">
+                <span class="nav-text">ROI Calculator</span>
+            </a>
+            <a href="Start Here.html" class="nav-btn">
+                <span class="nav-text">Adoption Journey</span>
+            </a>
+            <a href="changelog.html" class="nav-btn">
+                <span class="nav-text">What's New</span>
+            </a>
+        </nav>
+
+        <!-- Demo Button Section -->
+        <div style="margin: 0 0 2rem;">
+            <a href="demo.html" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.625rem;">
+                <span>View Demo Report</span>
+                <span style="font-size: 0.75rem; font-weight: 400; opacity: 0.85;">Demo dataset &middot; 300 people &middot; 7 organizations &middot; 14 weeks</span>
+            </a>
+        </div>
+
+        <main>
+            <section class="instructions-section">
+                <h2>Getting Started</h2>
+
+                <div class="step-card" id="step-export-data">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Export Your Viva Insights Data</h3>
+                        <p>The calculator accepts a single file format: a <strong>Viva Insights person query</strong> export. It is the only export with one row per person per week, which is what true <strong>Usage Threshold</strong> cohorts require.</p>
+
+                        <details open style="background: var(--surface-raised, #253449); border-radius: 10px; border: 1px solid var(--border, rgba(255,255,255,0.08)); border-left: 2px solid var(--accent); margin: 0.75rem 0; overflow: hidden;">
+                            <summary style="padding: 0.875rem 1.125rem; cursor: pointer; font-weight: 600; font-size: 0.9375rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; list-style: none;">
+                                <span style="transition: transform 0.2s; display: inline-block; font-size: 0.7rem; color: var(--text-tertiary);">&#9654;</span> Export directly from Viva Insights
+                            </summary>
+                            <div style="padding: 0 1.25rem 1.25rem;">
+                                <p style="margin-top: 0;">Gives one row per person per week, so the calculator can compute true <strong>Usage Threshold</strong> cohorts (Power, Habitual, Novice, Low, Non-users) using the same 12-week rolling average and 9-of-12-weeks habit rule as the Super User Adoption report.</p>
+                                <ol style="padding-left: 1.25rem; margin: 0;">
+                                    <li>Go to <a href="https://analysis.insights.cloud.microsoft" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600;">analysis.insights.cloud.microsoft</a> and open the <strong>Analysis results</strong> page</li>
+                                    <li>Click <strong>Create analysis</strong>, select <strong>Person query</strong>, then <strong>Set up analysis</strong></li>
+                                    <li>Configure the query &mdash; <strong>Time period:</strong> Last 6 months (rolling) &middot; <strong>Group by:</strong> Week &middot; <strong>Filter:</strong> Is Active = True</li>
+                                    <li>Add <strong>Attributes:</strong> Organization, FunctionType, TimeZone (these become your grouping options)</li>
+                                    <li>Under metrics, select <strong>Microsoft 365 Copilot &mdash; all metrics</strong> (Collaboration network, working-hours and focus metrics are optional)</li>
+                                    <li>Run the query, then download the result as <strong>CSV</strong> from <strong>Analysis results</strong></li>
+                                </ol>
+                                <div style="background: var(--ink-600); border: 1px solid var(--rule); border-left: 2px solid var(--warn); border-radius: 8px; padding: 0.75rem 1rem; margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+                                    <strong>Group by Week is required.</strong> Cohort tiers need at least 12 consecutive weekly rows per person, so keep the 6-month rolling window rather than shortening it.
+                                </div>
+                            </div>
+                        </details>
+
+                        <div class="info-box">
+                            <strong>Expected columns:</strong> <code>PersonId</code>, <code>MetricDate</code>, <code>Total Copilot actions taken</code> are required; Organization, FunctionType, Region, active/enabled days, assisted hours and per-app action columns are used when present.<br>
+                            <span style="display:inline-block; margin-top:0.5rem; color: var(--text-tertiary);">British and Spanish column headers are translated automatically.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Configure Your Analysis</h3>
+                        <p>Set your organization's parameters for Productivity ROI calculation:</p>
+
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label for="industry">Industry</label>
+                                <select id="industry" onchange="updateProfessionalRate()">
+                                    <option value="78">Pharmaceutical ($78/hr)</option>
+                                    <option value="85">Finance ($85/hr)</option>
+                                    <option value="72">Technology ($72/hr)</option>
+                                    <option value="68">Healthcare ($68/hr)</option>
+                                    <option value="65">Manufacturing ($65/hr)</option>
+                                    <option value="70">Professional Services ($70/hr)</option>
+                                    <option value="custom">Custom Rate</option>
+                                </select>
+                            </div>
+
+                            <div class="config-item">
+                                <label for="licenseCost">License Cost per User/Month (USD)</label>
+                                <input type="number" id="licensesCost" value="30" min="0" step="0.01">
+                            </div>
+
+                            <div class="config-item">
+                                <label for="totalPurchasedLicenses">Total Purchased Licenses</label>
+                                <input type="number" id="totalPurchasedLicenses" value="0" min="0" step="1">
+                                <small>Total licenses procured (including unassigned). Leave 0 to use enabled count from data.</small>
+                            </div>
+
+                            <div class="config-item">
+                                <label for="professionalRate">Professional Hourly Rate (USD)</label>
+                                <input type="number" id="professionalRate" value="78" min="0" step="1">
+                                <small>Average fully-loaded cost per employee hour</small>
+                            </div>
+
+                            <div class="config-item">
+                                <label for="minutesPerAction">Minutes Saved per Action</label>
+                                <input type="range" id="minutesPerAction" value="6" min="1" max="15" step="0.5">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                                    <small style="margin: 0;">1 min</small>
+                                    <output id="minutesValue" style="font-weight: bold; font-size: 1.1rem; color: var(--copilot-blue);">6 min</output>
+                                    <small style="margin: 0;">15 min</small>
+                                </div>
+                                <small>Average time saved per Copilot action</small>
+                            </div>
+
+                            <div class="config-item">
+                                <label for="intelligentRecapActions">Intelligent Recap Actions per Month</label>
+                                <input type="number" id="intelligentRecapActions" value="0" min="0" step="100">
+                                <small>Optional - Additional productivity from Intelligent Recap feature</small>
+                            </div>
+                        </div>
+
+                        <div class="info-box" style="margin-top: 1rem;">
+                            <strong>Intelligent Recap Usage Guidance</strong>
+                            <p>
+                                Microsoft does not publish an industry-wide benchmark for Intelligent Recap actions per 1,000 employees. However, observed usage shows active users average ~1.6 Intelligent Recap actions per week. When normalized by adoption rate, this typically equates to ~700–2,000 recap actions per 1,000 employees per month, depending on enablement and meeting load.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Upload Your Data</h3>
+                        <p>Select your exported CSV file below. Your CSV is parsed entirely in your browser - the file and its contents are never uploaded.</p>
+
+                        <div class="info-box" style="margin-bottom: 1rem;">
+                            <strong>Set your configuration first.</strong> Adjust your Industry, License Cost, Hourly Rate, and Minutes Saved in Step 2 above before uploading your file.
+                            <br><br>
+                            <strong>Dropping the file is not the last step.</strong> Once it is loaded, click <strong>Calculate Productivity ROI</strong> to build your report. Larger exports hold a lot of history, so give it a few seconds to work through every person and week &mdash; your results will appear as soon as it finishes.
+                        </div>
+
+                        <div class="upload-area" id="uploadArea">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p><strong>Drop your CSV file here</strong></p>
+                            <p>or</p>
+                            <button class="btn-primary" id="fileSelectBtn">Choose File</button>
+                            <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                        </div>
+
+                        <div class="info-box privacy-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <div>
+                                <strong>Your Privacy is Protected</strong>
+                                <p>• All data processing happens locally in your browser<br>
+                                • Your CSV file and its contents are never uploaded<br>
+                                • Data is stored temporarily in browser memory only<br>
+                                • All data is cleared when you close this tab<br>
+                                • This hosted site uses Microsoft Clarity for product analytics — the <a href="run-locally.html">local version</a> makes zero external requests (<a href="PRIVACY.md">privacy details</a>)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="loadingState" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Processing your data...</p>
+            </div>
+
+            <div id="errorState" style="display: none;">
+                <div class="error-box">
+                    <h3>Unable to Process File</h3>
+                    <div id="errorMessage"></div>
+                    <button class="btn-secondary" onclick="location.reload()">Try Again</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>M365 Copilot Productivity ROI Calculator Suite | All data processed locally in your browser | Support: <a href="mailto:jordanking@microsoft.com">jordanking@microsoft.com</a></p>
+            <p class="footer-nav"><a href="run-locally.html">Run Locally</a></p>
+        </footer>
+    </div>
+
+    <script src="lib/jspdf.umd.min.js?v=57"></script>
+    <script src="lib/html2canvas.min.js?v=57"></script>
+    <script src="lib/docx.umd.js?v=57"></script>
+    <script src="lib/pptxgen.bundle.js?v=57"></script>
+    <script src="lib/jszip.min.js?v=57"></script>
+    <script src="insights-shared.js?v=57"></script>
+    <script src="insights-tabs.js?v=57"></script>
+    <script src="header-mapping.js?v=57"></script>
+    <script src="script.js?v=57"></script>
+    <script>
+        function emailReport() {
+            const subject = encodeURIComponent('M365 Copilot Productivity ROI Analysis');
+            const body = encodeURIComponent('Please find attached the M365 Copilot Productivity ROI analysis. This report provides insights into productivity gains and return on investment.\n\nTo view the full interactive report, please visit: [Your URL Here]');
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        function updateProfessionalRate() {
+            const industrySelect = document.getElementById('industry');
+            const professionalRateInput = document.getElementById('professionalRate');
+
+            if (industrySelect.value !== 'custom') {
+                professionalRateInput.value = industrySelect.value;
+            }
+        }
+
+        // Global tooltip system — positions tooltip above-left of the ? icon using fixed positioning
+        (function() {
+            const tip = document.createElement('div');
+            tip.id = 'global-tooltip';
+            document.body.appendChild(tip);
+
+            document.addEventListener('mouseenter', function(e) {
+                if (!(e.target instanceof Element)) return;
+                const infoTip = e.target.closest('.info-tip');
+                if (!infoTip) return;
+                const textEl = infoTip.querySelector('.tip-text');
+                if (!textEl) return;
+
+                tip.textContent = textEl.textContent;
+                tip.classList.add('visible');
+
+                const rect = infoTip.getBoundingClientRect();
+                // Position: above and to the left of the ? icon
+                let top = rect.top - tip.offsetHeight - 8;
+                let left = rect.left - tip.offsetWidth + rect.width;
+
+                // Keep on screen
+                if (top < 8) top = rect.bottom + 8;
+                if (left < 8) left = 8;
+                if (left + tip.offsetWidth > window.innerWidth - 8) left = window.innerWidth - tip.offsetWidth - 8;
+
+                tip.style.top = top + 'px';
+                tip.style.left = left + 'px';
+            }, true);
+
+            document.addEventListener('mouseleave', function(e) {
+                if (!(e.target instanceof Element)) return;
+                const infoTip = e.target.closest('.info-tip');
+                if (!infoTip) return;
+                tip.classList.remove('visible');
+            }, true);
+        })();
+
+    </script>
+</body>
+</html>

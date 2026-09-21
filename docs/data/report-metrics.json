@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 2,
+  "generatedBy": "scripts/build_report_metrics.js",
+  "generatedAt": "2026-09-21T06:49:35.019Z",
+  "note": "stars/views/clones per report id. views & clones = daily counts summed. week=7d, month=30d. popWeek/popMonth/popTotal = popularity = unique visits + clone count over the window (overall traffic, NOT stars). Reports without a GitHub repo carry nulls and sort last.",
+  "reports": {
+    "super-usage": {
+      "stars": 47,
+      "viewsTotal": 4663,
+      "viewsWeek": 150,
+      "clonesTotal": 1096,
+      "clonesWeek": 31,
+      "popWeek": 127,
+      "popMonth": 1021,
+      "popTotal": 3715
+    },
+    "super-user-impact": {
+      "stars": 11,
+      "viewsTotal": 1384,
+      "viewsWeek": 53,
+      "clonesTotal": 917,
+      "clonesWeek": 26,
+      "popWeek": 60,
+      "popMonth": 390,
+      "popTotal": 1860
+    },
+    "ai-in-one": {
+      "stars": 86,
+      "viewsTotal": 31561,
+      "viewsWeek": 2073,
+      "clonesTotal": 2572,
+      "clonesWeek": 79,
+      "popWeek": 1070,
+      "popMonth": 5125,
+      "popTotal": 17201
+    },
+    "chat-agent": {
+      "stars": 21,
+      "viewsTotal": 1198,
+      "viewsWeek": 75,
+      "clonesTotal": 785,
+      "clonesWeek": 40,
+      "popWeek": 78,
+      "popMonth": 447,
+      "popTotal": 1520
+    },
+    "ghcp-impact": {
+      "stars": 9,
+      "viewsTotal": 1269,
+      "viewsWeek": 32,
+      "clonesTotal": 815,
+      "clonesWeek": 25,
+      "popWeek": 46,
+      "popMonth": 310,
+      "popTotal": 1628
+    },
+    "what-i-did": {
+      "stars": 49,
+      "viewsTotal": 4889,
+      "viewsWeek": 188,
+      "clonesTotal": 10021,
+      "clonesWeek": 338,
+      "popWeek": 479,
+      "popMonth": 2592,
+      "popTotal": 12491
+    },
+    "cowork-impact": {
+      "stars": 28,
+      "viewsTotal": 10486,
+      "viewsWeek": 859,
+      "clonesTotal": 753,
+      "clonesWeek": 211,
+      "popWeek": 572,
+      "popMonth": 2200,
+      "popTotal": 6391
+    },
+    "m365-readiness": {
+      "stars": 13,
+      "viewsTotal": 4488,
+      "viewsWeek": 217,
+      "clonesTotal": 1418,
+      "clonesWeek": 48,
+      "popWeek": 137,
+      "popMonth": 760,
+      "popTotal": 3233
+    },
+    "adoption-sentiment": {
+      "stars": 2,
+      "viewsTotal": 0,
+      "viewsWeek": 0,
+      "clonesTotal": 0,
+      "clonesWeek": 0,
+      "popWeek": 0,
+      "popMonth": 0,
+      "popTotal": 0
+    },
+    "pax": {
+      "stars": 26,
+      "viewsTotal": 7988,
+      "viewsWeek": 625,
+      "clonesTotal": 2696,
+      "clonesWeek": 59,
+      "popWeek": 314,
+      "popMonth": 2101,
+      "popTotal": 6157
+    },
+    "roi-calc": {
+      "stars": 1,
+      "viewsTotal": 56,
+      "viewsWeek": 0,
+      "clonesTotal": 1138,
+      "clonesWeek": 2,
+      "popWeek": 2,
+      "popMonth": 57,
+      "popTotal": 1181
+    },
+    "cowork-billing-report": {
+      "stars": 13,
+      "viewsTotal": 6948,
+      "viewsWeek": 391,
+      "clonesTotal": 917,
+      "clonesWeek": 36,
+      "popWeek": 280,
+      "popMonth": 2027,
+      "popTotal": 4862
+    },
+    "cowork-chargeback-app": {
+      "stars": null,
+      "viewsTotal": null,
+      "viewsWeek": null,
+      "clonesTotal": null,
+      "clonesWeek": null,
+      "popWeek": null,
+      "popMonth": null,
+      "popTotal": null
+    },
+    "cowork-policy-helper-app": {
+      "stars": null,
+      "viewsTotal": null,
+      "viewsWeek": null,
+      "clonesTotal": null,
+      "clonesWeek": null,
+      "popWeek": null,
+      "popMonth": null,
+      "popTotal": null
+    },
+    "finops-focus-app": {
+      "stars": null,
+      "viewsTotal": null,
+      "viewsWeek": null,
+      "clonesTotal": null,
+      "clonesWeek": null,
+      "popWeek": null,
+      "popMonth": null,
+      "popTotal": null
+    },
+    "cowork-roi-model-app": {
+      "stars": null,
+      "viewsTotal": null,
+      "viewsWeek": null,
+      "clonesTotal": null,
+      "clonesWeek": null,
+      "popWeek": null,
+      "popMonth": null,
+      "popTotal": null
+    },
+    "customize": {
+      "stars": 6,
+      "viewsTotal": 309,
+      "viewsWeek": 26,
+      "clonesTotal": 870,
+      "clonesWeek": 27,
+      "popWeek": 36,
+      "popMonth": 236,
+      "popTotal": 1064
+    },
+    "personal-copilot-dashboard": {
+      "stars": 1,
+      "viewsTotal": 474,
+      "viewsWeek": 126,
+      "clonesTotal": 215,
+      "clonesWeek": 26,
+      "popWeek": 80,
+      "popMonth": 371,
+      "popTotal": 413
+    },
+    "ess-insights": {
+      "stars": 5,
+      "viewsTotal": 1215,
+      "viewsWeek": 181,
+      "clonesTotal": 458,
+      "clonesWeek": 23,
+      "popWeek": 76,
+      "popMonth": 665,
+      "popTotal": 806
+    },
+    "value-lens": {
+      "stars": 23,
+      "viewsTotal": 10079,
+      "viewsWeek": 1201,
+      "clonesTotal": 1100,
+      "clonesWeek": 313,
+      "popWeek": 710,
+      "popMonth": 3601,
+      "popTotal": 4456
+    },
+    "consumption-central": {
+      "stars": 18,
+      "viewsTotal": 16580,
+      "viewsWeek": 2387,
+      "clonesTotal": 978,
+      "clonesWeek": 238,
+      "popWeek": 1040,
+      "popMonth": 5333,
+      "popTotal": 6582
+    },
+    "agent-evaluator": {
+      "stars": 11,
+      "viewsTotal": 1032,
+      "viewsWeek": 196,
+      "clonesTotal": 245,
+      "clonesWeek": 45,
+      "popWeek": 115,
+      "popMonth": 554,
+      "popTotal": 554
+    }
+  }
+}

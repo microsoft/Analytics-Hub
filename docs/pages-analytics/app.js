@@ -11,7 +11,7 @@ const KNOWN_LABELS = {
     url: "https://microsoft.github.io/Analytics-Hub/",
   },
   "jordan-homepage": {
-    title: "Jordan Homepage (incl. Copilot ROI Calculator)",
+    title: "Jordan Homepage",
     url: "https://jordankingisalive.github.io/",
   },
 };
@@ -20,16 +20,13 @@ const KNOWN_LABELS = {
 // different Clarity project. When the row is expanded we surface the linked
 // site's metrics so visitors see *real* traffic (the GitHub repo row alone
 // would only show repo-page views, which dramatically understates reach).
-const LINKED_SITES = {
-  "jordankingisalive/CopilotROICalculator": {
-    siteKey: "jordan-homepage",
-    siteTitle: "Copilot ROI Calculator (live site)",
-    siteUrl: "https://jordankingisalive.github.io/CopilotROICalculator/",
-    // Optional regex/prefix used to filter page titles + referrers down to
-    // just the ROI Calculator subset of the host site.
-    pageTitleMatch: /ROI Calculator|ROI Projections|Adoption Journey|Changelog/i,
-  },
-};
+//
+// The Copilot ROI Calculator used to live here (jordankingisalive.github.io,
+// tracked by the jordan-homepage Clarity project). It now ships natively inside
+// this hub at /tools/copilot-roi-calculator/ and reports into the analytics-hub
+// Clarity project, so it is no longer a linked external site — its traffic shows
+// up in the sub-app rankings below like any other hub tool.
+const LINKED_SITES = {};
 
 // Cache for sites snapshots, populated on load.
 let SITES_CACHE = {};
@@ -173,6 +170,7 @@ function aggregateClarity(site, days) {
 // dimension, case-insensitive. Order matters — the first match wins so
 // list the more-specific patterns before broader ones.
 const SUB_APP_FAMILIES = [
+  { label: "Copilot ROI Calculator", needle: "tools/copilot-roi-calculator" },
   { label: "Cowork Chargeback",    needle: "cowork-chargeback" },
   { label: "Cowork Policy Helper", needle: "cowork-policy-helper" },
   { label: "Cowork Usage Tracker", needle: "cowork-usage-tracker" },
@@ -269,7 +267,11 @@ function previewLinkedSiteNumbers(linked) {
   const slice = resolveLinkedSiteSlice(linked);
   if (!slice) return null;
   const traffic = slice.metrics.find(m => m.metricName === "Traffic")?.information?.[0] || {};
-  const sessions = parseInt(traffic.totalSessionCount, 10);
+  // Keep this teaser consistent with the full detail panel: net out bot
+  // sessions rather than showing Clarity's raw (bot-inclusive) total.
+  const rawSessions = parseInt(traffic.totalSessionCount, 10);
+  const bots        = parseInt(traffic.totalBotSessionCount, 10) || 0;
+  const sessions = isNaN(rawSessions) ? NaN : Math.max(rawSessions - bots, 0);
   const users    = parseInt(traffic.distinctUserCount, 10);
   return {
     syncedAt:   slice.syncedAt,
@@ -706,6 +708,13 @@ function renderLinkedSiteDetail(linked) {
 
   const findMetric = (name) => latest.find(m => m.metricName === name);
   const traffic       = findMetric("Traffic")?.information?.[0] || {};
+  // Clarity's totalSessionCount includes sessions it has itself flagged as bot
+  // traffic (totalBotSessionCount). Netting them out here, once, keeps every
+  // KPI and detail panel below in agreement instead of quietly overstating
+  // human traffic on the days bot share spikes (seen as high as ~44%).
+  const rawSessions  = parseIntSafe(traffic.totalSessionCount);
+  const botSessions  = Math.min(parseIntSafe(traffic.totalBotSessionCount), rawSessions);
+  const humanSessions = rawSessions - botSessions;
   const engagement    = findMetric("EngagementTime")?.information?.[0] || {};
   const scrollDepth   = findMetric("ScrollDepth")?.information?.[0]?.averageScrollDepth;
   const deadClicks    = findMetric("DeadClickCount")?.information?.[0] || {};
@@ -767,12 +776,12 @@ function renderLinkedSiteDetail(linked) {
       </div>
 
       <div class="linked-kpi-grid">
-        <div class="linked-kpi"><span class="linked-kpi-label">Sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalSessionCount, 10))}</span></div>
+        <div class="linked-kpi" title="Clarity's totalSessionCount minus totalBotSessionCount, so bot/crawler traffic is not counted as real visits."><span class="linked-kpi-label">Sessions (human)</span><span class="linked-kpi-value">${fmt(humanSessions)}</span></div>
         <div class="linked-kpi"${slice.aggregated ? ' title="Upper bound. Clarity reports distinct users per snapshot and cannot de-duplicate across them, so anyone who visited in more than one 3-day block is counted more than once."' : ''}><span class="linked-kpi-label">Distinct users${slice.aggregated ? ' (max)' : ''}</span><span class="linked-kpi-value">${slice.aggregated ? '\u2264 ' : ''}${fmt(parseInt(traffic.distinctUserCount, 10))}</span></div>
         ${linked.pageTitleMatch ? `<div class="linked-kpi"><span class="linked-kpi-label">${linked.focusedLabel || 'Filtered sessions'}</span><span class="linked-kpi-value">${fmt(focusedSessions)}</span></div>` : ''}
         <div class="linked-kpi"><span class="linked-kpi-label">Avg scroll depth</span><span class="linked-kpi-value">${scrollDepth != null ? Math.round(scrollDepth) + "%" : "—"}</span></div>
         <div class="linked-kpi"><span class="linked-kpi-label">Active time</span><span class="linked-kpi-value">${fmtTime(engagement.activeTime)}</span></div>
-        <div class="linked-kpi"><span class="linked-kpi-label">Bot sessions</span><span class="linked-kpi-value">${fmt(parseInt(traffic.totalBotSessionCount, 10))}</span></div>
+        <div class="linked-kpi" title="Already excluded from the Sessions (human) figure above."><span class="linked-kpi-label">Bot sessions (excluded)</span><span class="linked-kpi-value">${fmt(botSessions)}</span></div>
       </div>
 
       <div class="linked-detail-grid">
@@ -2012,8 +2021,12 @@ function renderCoworkBilling(repos, sites) {
   }
 
   const webRows = [...webAgg.values()].sort((a, b) => b.sessions - a.sessions).slice(0, 40);
-  const webSessionsTotal = webRows.reduce((s, r) => s + r.sessions, 0);
+  const webSessionsRaw = webRows.reduce((s, r) => s + r.sessions, 0);
   const webUsersTotal = webRows.reduce((s, r) => s + r.users, 0);
+  const botTotal = webRows.reduce((s, r) => s + (r.bots || 0), 0);
+  // Net out Clarity's own bot flag so the headline figure is human traffic,
+  // matching what the "bot sessions excluded" footnote below already claims.
+  const webSessionsTotal = Math.max(webSessionsRaw - botTotal, 0);
 
   /* Depth and dwell are per-URL averages, so a plain mean would let a page with
      three sessions swing the headline as hard as one with two thousand. Weight
@@ -2031,9 +2044,8 @@ function renderCoworkBilling(repos, sites) {
   const avgScroll = weighted(webRows, "scroll");
   const avgActive = weighted(webRows, "activeTime");
   const avgTotal = weighted(webRows, "totalTime");
-  const botTotal = webRows.reduce((s, r) => s + (r.bots || 0), 0);
   const frictionTotal = webRows.reduce((s, r) => s + (r.signals || 0), 0);
-  // Friction per 100 sessions, because the raw count only ever tracks traffic.
+  // Friction per 100 (human) sessions, because the raw count only ever tracks traffic.
   const frictionRate = webSessionsTotal ? (frictionTotal / webSessionsTotal) * 100 : null;
 
   const secs = (v) => (v == null ? "—" : (v >= 60 ? `${Math.floor(v / 60)}m ${Math.round(v % 60)}s` : `${Math.round(v)}s`));
@@ -2054,7 +2066,7 @@ function renderCoworkBilling(repos, sites) {
   const btFoot = document.getElementById("cowork-kpi-web-users-foot");
   if (btFoot) {
     btFoot.textContent = botTotal
-      ? `Clarity · ${fmt(botTotal)} bot session${botTotal === 1 ? "" : "s"} excluded`
+      ? `Clarity · ${fmt(botTotal)} bot session${botTotal === 1 ? "" : "s"} excluded from sessions above (distinct users still Clarity's raw figure)`
       : "Clarity · distinct users";
   }
 

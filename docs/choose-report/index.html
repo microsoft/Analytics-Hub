@@ -1742,12 +1742,12 @@ html.mk-embed main.mk-page{ display:none !important; }
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
-          <a href="../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
+          <a href="../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Web Tools for Cost Analysis and Planning</span></span></a>
 
-          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who operates the Hub</span></span></a>
           <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
-          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
-          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Terms this site and the reports found here use</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Requests &middot; Suggestions &middot; Thanks</span></span></a>
           <hr class="menu-sep" />
           <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
           <a href="../community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
@@ -2731,8 +2731,8 @@ html.mk-embed main.mk-page{ display:none !important; }
       ],
       "source": "Power BI export (Super Usage Heatmap CSV)",
       "sourceKey": "Viva Insights",
-      "repo": "https://jordankingisalive.github.io/CopilotROICalculator/",
-      "download": "https://github.com/jordankingisalive/CopilotROICalculator/archive/refs/heads/main.zip",
+      "repo": "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/",
+      "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
       "blurb": "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
       "meta": {
         "audience": "BVAs, finance partners, exec sponsors",
@@ -4053,11 +4053,11 @@ html.mk-embed main.mk-page{ display:none !important; }
       "viewsTotal": 6598
     },
     "roi-calc": {
-      "repo": null,
-      "stars": null,
-      "created": null,
-      "viewsWeek": null,
-      "viewsTotal": null
+      "repo": "jordankingisalive/CopilotROICalculator",
+      "stars": 1,
+      "created": "2026-05-08T00:00:00Z",
+      "viewsWeek": 0,
+      "viewsTotal": 56
     },
     "cowork-billing-report": {
       "repo": "microsoft/CreditUsage",
@@ -4212,10 +4212,9 @@ html.mk-embed main.mk-page{ display:none !important; }
       "fetchedAt": "2026-09-10T15:39:39Z"
     },
     "roi-calc": {
-      "repo": null,
-      "stars": null,
-      "stale": false,
-      "reason": "no-github-repo"
+      "repo": "jordankingisalive/CopilotROICalculator",
+      "stars": 1,
+      "stale": false
     },
     "cowork-billing-report": {
       "repo": "microsoft/CreditUsage",
@@ -6545,8 +6544,8 @@ html.mk-embed main.mk-page{ display:none !important; }
     'roi-calc': {
       reads: 'A <strong>Viva Insights person query</strong> export as CSV - one row per person ' +
         'per week.',
-      easy: 'the repo ships <code>sample-data.csv</code>. Drop ' +
-        lk('https://github.com/jordankingisalive/CopilotROICalculator', 'that file from the repo') +
+      easy: 'the app ships <code>sample-data.csv</code>. Drop ' +
+        lk('https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/', 'that file from the calculator') +
         ' into the upload area and the whole calculator runs with no tenant data at all.',
       steps: VIVA_QUERY.concat([
         'Under metrics choose <strong>Microsoft 365 Copilot - all metrics</strong>, then run the ' +
@@ -7186,5 +7185,54 @@ html.mk-embed main.mk-page{ display:none !important; }
 
 }());
 </script>
+
+<!-- Enablement-guide quick-poll rail (bottom-right, mirrors the homepage).
+     Only visible while the guided "enablement guide" view is on screen. -->
+<script src="../poll.js" defer></script>
+<style>
+  .cr-poll-rail{max-width:520px;margin:1.6rem auto;border:1px solid var(--border,#e2e6ea);border-radius:14px;
+    background:var(--surface,#fff);box-shadow:0 8px 24px -14px rgba(15,18,28,.35);padding:.9rem 1rem 1rem;position:relative;}
+  .cr-poll-rail[hidden]{display:none;}
+  .cr-poll-rail__label{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent,#0078d4);margin:0 0 .5rem;}
+  .cr-poll-rail__close{position:absolute;top:.5rem;right:.55rem;border:0;background:transparent;
+    color:var(--text-muted,#5a6470);font-size:1.15rem;line-height:1;cursor:pointer;padding:.2rem .4rem;border-radius:6px;}
+  .cr-poll-rail__close:hover{background:color-mix(in srgb,var(--text,#1b1b1b) 8%,transparent);color:var(--text,#1b1b1b);}
+  .cr-poll-rail .ah-poll{border:0;padding:0;max-width:none;background:transparent;}
+  @media (min-width:1200px){
+    .cr-poll-rail{position:fixed;right:20px;bottom:20px;width:340px;margin:0;z-index:60;
+      max-height:calc(100vh - 40px);overflow:auto;}
+  }
+  @media (min-width:1200px) and (prefers-reduced-motion:no-preference){
+    .cr-poll-rail:not([hidden]){animation:crPollIn .35s ease-out;}
+  }
+  @keyframes crPollIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+</style>
+<aside class="cr-poll-rail" id="crPollRail" aria-label="Quick poll" hidden>
+  <button type="button" class="cr-poll-rail__close" aria-label="Dismiss poll">&times;</button>
+  <p class="cr-poll-rail__label">Quick poll</p>
+  <div data-poll="chargeback-usage-2026"></div>
+</aside>
+<script>
+(function () {
+  var rail = document.getElementById('crPollRail');
+  var guided = document.getElementById('mkPanelGuided');
+  if (!rail || !guided) return;
+  var POLL = 'chargeback-usage-2026';
+  function has(key, obj) { try { return obj ? !!(JSON.parse(localStorage.getItem(key) || '{}')[POLL]) : localStorage.getItem(key) === '1'; } catch (e) { return false; } }
+  // Never show if this browser already responded or dismissed it. On-device flag only — no user data stored.
+  if (has('ah_poll_voted', true) || has('ah:pollrail:' + POLL, false)) { rail.remove(); return; }
+  rail.querySelector('.cr-poll-rail__close').addEventListener('click', function () {
+    try { localStorage.setItem('ah:pollrail:' + POLL, '1'); } catch (e) {}
+    rail.remove();
+  });
+  // Mirror the guided (enablement guide) view: show the rail only while it is on screen.
+  function sync() { rail.hidden = !!guided.hidden; }
+  sync();
+  new MutationObserver(sync).observe(guided, { attributes: true, attributeFilter: ['hidden'] });
+})();
+</script>
+<script src="../report-badges.js" defer></script>
+<script src="../report-sort.js" defer></script>
 </body>
 </html>

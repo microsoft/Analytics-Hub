@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - M365 Copilot ROI Calculator</title>
+    <script>(function(){try{var t=localStorage.getItem('cri_theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();</script>
+    <link rel="stylesheet" href="styles.css?v=57">
+    
+    <!-- Microsoft Clarity Analytics -->
+    <script type="text/javascript">
+        // Analytics run only on the hosted site; local and offline copies stay request-free.
+        if (location.protocol !== 'file:' && /(^|\.)github\.io$/i.test(location.hostname)) {
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script","wxb0r23ozh");
+        }
+    </script>
+    <style>
+        .changelog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .changelog-header {
+            text-align: left;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .changelog-header h1 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .changelog-header p {
+            color: var(--text-secondary);
+            font-size: 1.0625rem;
+        }
+        
+        .version-entry {
+            background: var(--ink-700);
+            border: 1px solid var(--rule);
+            border-radius: 10px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .version-entry.latest {
+            border: 1px solid var(--rule);
+            border-left: 2px solid var(--accent);
+            box-shadow: none;
+        }
+        
+        .version-header {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.875rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .version-number {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            font-size: 1.375rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            background: none;
+            -webkit-text-fill-color: currentColor;
+        }
+        
+        .version-badge {
+            padding: 0.1875rem 0.5rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        
+        .version-badge.latest {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+        
+        .version-badge.major {
+            background: var(--value-soft);
+            color: var(--value);
+        }
+        
+        .version-date {
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            color: var(--text-tertiary);
+            font-size: 0.8125rem;
+            margin-left: auto;
+        }
+        
+        .change-category {
+            margin-bottom: 1.5rem;
+        }
+        
+        .change-category:last-child {
+            margin-bottom: 0;
+        }
+        
+        .category-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.75rem;
+            padding: 0.1875rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .category-title.new {
+            background: rgba(70, 183, 127, 0.12);
+            color: var(--positive);
+        }
+        
+        .category-title.improved {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+        
+        .category-title.fixed {
+            background: var(--value-soft);
+            color: var(--value);
+        }
+        
+        .change-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .change-list li {
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            font-size: 0.9375rem;
+            position: relative;
+        }
+        
+        .change-list li:before {
+            content: "\2192";
+            position: absolute;
+            left: 0;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.875rem;
+            background: transparent;
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .back-link:hover {
+            background: var(--ink-600);
+            border-color: var(--rule-strong);
+            color: var(--text-primary);
+            transform: none;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="changelog-container">
+        <nav class="nav-buttons" id="nav"></nav>
+        <a href="index.html" class="back-link">
+            ← Back to Calculator
+        </a>
+        
+        <div class="changelog-header">
+            <h1>Changelog</h1>
+            <p>Track updates, improvements, and new features</p>
+        </div>
+
+        <!-- Version 31 -->
+        <div class="version-entry latest">
+            <div class="version-header">
+                <span class="version-number">v31</span>
+                <span class="version-badge latest">Latest</span>
+                <span class="version-date">September 8, 2026</span>
+            </div>
+
+            <div class="change-category">
+                <div class="category-title improved">Improvements</div>
+                <ul class="change-list">
+                    <li>The Viva Insights person query is now the only supported upload format &mdash; it is the only export with per-person weekly rows, which true Usage Threshold cohorts require</li>
+                    <li>Super Usage Report heatmap exports are no longer accepted; uploading one now shows on-screen guidance naming the format and the three required columns (PersonId, MetricDate, Total Copilot actions taken)</li>
+                    <li>Step 1 rewritten as a single Viva Insights export path &mdash; the two Power BI heatmap options have been removed</li>
+                    <li>Demo dataset switched to Viva Insights data (300 people, 7 organizations, 14 weeks), so the demo now shows real Power/Habitual/Novice/Low/Non-user cohorts instead of approximated percentile buckets</li>
+                    <li><code>sample-data.csv</code> replaced with a Viva Insights person-query example</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Version 30 -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v30</span>
+                <span class="version-date">May 15, 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title new">New Features</div>
+                <ul class="change-list">
+                    <li>Added prominent Demo Report button at top of page for instant exploration</li>
+                    <li>Demo auto-loads demonstration dataset with 1,323 rows (27 organizations, 49 weeks of adoption metrics)</li>
+                    <li>Pre-configured demo settings: 4,000 licenses at $30/mo, 6 min/action, $80/hr rate, 2,000 recap actions</li>
+                    <li>One-click access to fully calculated ROI analysis without manual upload</li>
+                </ul>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title improved">Improvements</div>
+                <ul class="change-list">
+                    <li>Enhanced Intelligent Recap UI with high-contrast colors for dark theme</li>
+                    <li>Updated toggle and value box backgrounds from light blue to dark surface tones</li>
+                    <li>Changed text colors: white/cyan primary text, light gray subtexts (was dark blue on light blue)</li>
+                    <li>Improved readability and professional appearance across dark theme</li>
+                </ul>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title fixed">Bug Fixes</div>
+                <ul class="change-list">
+                    <li>Fixed JavaScript null reference error in demo button (corrected input field ID from 'licenseCost' to 'licensesCost')</li>
+                    <li>Resolved "Cannot set properties of null" error when loading demo data</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Version 29 -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v29</span>
+                <span class="version-date">May 15, 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title new">New Features</div>
+                <ul class="change-list">
+                    <li>Created dedicated Changelog page to track version history and updates</li>
+                    <li>Added "What's New" navigation button linking to changelog</li>
+                    <li>Implemented version entries with categorized changes (Features, Improvements, Bug Fixes)</li>
+                    <li>Color-coded badges for Latest, Major Update, and standard releases</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Version 28 -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v28</span>
+                <span class="version-date">May 14, 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title new">New Features</div>
+                <ul class="change-list">
+                    <li>Integrated Microsoft Clarity analytics for visitor tracking and download monitoring</li>
+                    <li>Added automatic event tracking for PowerPoint and ZIP package downloads</li>
+                    <li>Session recordings and heatmaps now available for UX insights</li>
+                </ul>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title improved">Improvements</div>
+                <ul class="change-list">
+                    <li>Removed multiple hypothetical pricing scenarios from Executive Deck export</li>
+                    <li>Deck now shows only user's actual license cost for cleaner presentation</li>
+                    <li>Increased ROI display font size from 18pt to 24pt for better visibility</li>
+                </ul>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title fixed">Bug Fixes</div>
+                <ul class="change-list">
+                    <li>Fixed invisible phase badge text on Adoption Journey page (dark text on bright backgrounds)</li>
+                    <li>Corrected badge text color from matching background to high-contrast dark navy</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Version 27 -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v27</span>
+                <span class="version-date">May 14, 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title fixed">Bug Fixes</div>
+                <ul class="change-list">
+                    <li>Fixed phase card badge visibility issue in Adoption Journey page</li>
+                    <li>Corrected CSS specificity conflicts between inline and external stylesheets</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Version 26 -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v26</span>
+                <span class="version-badge major">Major Update</span>
+                <span class="version-date">May 14, 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title new">New Features</div>
+                <ul class="change-list">
+                    <li>Complete redesign of Adoption Journey page with Microsoft-backed data only</li>
+                    <li>Added 5 direct links to official Microsoft Learn documentation sources</li>
+                    <li>Integrated official user classifications: Novice, Habitual, and Power Users</li>
+                    <li>Added prominent warning box for illustrative ROI projections disclaimer</li>
+                </ul>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title improved">Improvements</div>
+                <ul class="change-list">
+                    <li>Replaced confusing "% active weeks" terminology with clear "X of 12 weeks" format</li>
+                    <li>Updated phase cards with official Microsoft thresholds (15+ actions/week, 9 of 12 weeks consistency)</li>
+                    <li>Replaced 6 generic insight cards with Microsoft-backed adoption guidance</li>
+                    <li>Enhanced credibility with direct citations to Microsoft 365 Copilot Adoption Report</li>
+                    <li>Added dedicated CSS for phase cards with proper font sizing (1.5rem values, 0.75rem labels)</li>
+                    <li>Implemented color-coded borders: Cyan (Novice), Orange (Habitual), Green (Power)</li>
+                    <li>Added hover effects and responsive grid layout for phase cards</li>
+                </ul>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title fixed">Bug Fixes</div>
+                <ul class="change-list">
+                    <li>Fixed janky font sizing on adoption journey cards (reduced from clamp max 2.5rem to fixed 1.5rem)</li>
+                    <li>Corrected typography hierarchy across phase cards</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Version 25 -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v25</span>
+                <span class="version-date">May 13, 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title improved">Improvements</div>
+                <ul class="change-list">
+                    <li>Enhanced Executive Deck export with refined visual design</li>
+                    <li>Improved break-even analysis presentation</li>
+                    <li>Updated color scheme for better readability in dark mode</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Earlier Versions Summary -->
+        <div class="version-entry">
+            <div class="version-header">
+                <span class="version-number">v1-24</span>
+                <span class="version-date">Feb - May 2026</span>
+            </div>
+            
+            <div class="change-category">
+                <div class="category-title new">Initial Features</div>
+                <ul class="change-list">
+                    <li>Core ROI Calculator engine with CSV upload support</li>
+                    <li>Executive Deck PowerPoint export (9-slide professional deck)</li>
+                    <li>Full Analysis PowerPoint export with detailed metrics</li>
+                    <li>Adoption Journey visualization page</li>
+                    <li>Team performance analysis and tier ranking</li>
+                    <li>Break-even analysis and pricing scenarios</li>
+                    <li>Offline ZIP package download for local usage</li>
+                    <li>Dark theme with Copilot branding</li>
+                    <li>Service Worker for PWA support</li>
+                    <li>Responsive design for mobile and desktop</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; padding: 1.5rem 1.75rem; background: var(--ink-700); border: 1px solid var(--rule); border-radius: 10px;">
+            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                <strong>Have feedback or feature requests?</strong>
+            </p>
+            <p style="color: var(--text-secondary);">
+                Contact: <a href="mailto:jordanking@microsoft.com">jordanking@microsoft.com</a>
+            </p>
+        </div>
+
+        <footer>
+            <p>M365 Copilot Productivity ROI Calculator Suite</p>
+            <p class="footer-nav"><a href="run-locally.html">Run Locally</a></p>
+        </footer>
+    </div>
+    <script src="insights-shared.js?v=57"></script>
+    <script>
+        (function(){
+            const nav = document.getElementById('nav');
+            if (nav && window.InsightsShared) {
+                nav.outerHTML = window.InsightsShared.renderNav('changelog.html');
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -65,6 +65,25 @@
     .dm-tier { font-size: .7rem; color: var(--text-soft, #5a6470); }
     .dm-disclaimer { font-size: .8rem; color: var(--text-soft, #5a6470); border-top: 1px solid var(--border, #e2e6ea); margin-top: 1.4rem; padding-top: 1rem; }
     @media (max-width: 780px) { .dm-links { columns: 1; } }
+
+    /* Major-change alert banner (client-impacting changes) */
+    .dm-alert { margin: 1.4rem 0 .4rem; border: 1px solid color-mix(in srgb, #d83b01 32%, var(--border, #e2e6ea)); border-left: 4px solid #d83b01; background: color-mix(in srgb, #d83b01 8%, var(--surface, #fff)); border-radius: 12px; padding: 1rem 1.2rem 1.1rem; }
+    .dm-alert__head { display: flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #b7300a; margin: 0 0 .5rem; }
+    .dm-alert__dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 999px; background: #d83b01; }
+    .dm-alert__item + .dm-alert__item { margin-top: .9rem; padding-top: .9rem; border-top: 1px dashed color-mix(in srgb, #d83b01 24%, var(--border, #e2e6ea)); }
+    .dm-alert__title { margin: 0 0 .25rem; font-size: 1.02rem; font-weight: 700; }
+    .dm-alert__body { margin: 0 0 .6rem; font-size: .92rem; line-height: 1.5; color: var(--text, #1a1a25); }
+    .dm-alert__actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .dm-actbtn { display: inline-flex; align-items: center; gap: .35rem; font-size: .82rem; font-weight: 600; padding: .42rem .8rem; border-radius: 8px; text-decoration: none; border: 1px solid var(--border, #e2e6ea); background: var(--surface, #fff); color: var(--text, #1a1a25); white-space: nowrap; cursor: pointer; }
+    .dm-actbtn:hover { border-color: #d83b01; color: #b7300a; }
+    .dm-actbtn--mail { background: #d83b01; border-color: #d83b01; color: #fff; }
+    .dm-actbtn--mail:hover { background: #b7300a; border-color: #b7300a; color: #fff; }
+
+    /* Per-change "email this change" button */
+    .dm-rowmail { margin-top: 10px; }
+    .dm-emailbtn { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; padding: .34rem .62rem; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: var(--accent, #0078d4); text-decoration: none; white-space: nowrap; }
+    .dm-emailbtn:hover { border-color: var(--accent, #0078d4); background: color-mix(in srgb, var(--accent, #0078d4) 8%, transparent); }
+    table.dm-log td.dm-date { min-width: 118px; }
   </style>
 </head>
 <body>
@@ -85,11 +104,11 @@
       <div class="nav-dropdown" data-open="false">
         <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
         <div class="nav-dropdown-menu" role="menu">
-          <a href="../../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Browser tools for planning and costing</span></span></a>
-          <a href="../../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who builds the hub</span></span></a>
+          <a href="../../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Web Tools for Cost Analysis and Planning</span></span></a>
+          <a href="../../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who operates the Hub</span></span></a>
           <a href="../../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
-          <a href="../../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Copilot reporting terms</span></span></a>
-          <a href="../../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Problem &middot; suggestion &middot; praise</span></span></a>
+          <a href="../../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Terms this site and the reports found here use</span></span></a>
+          <a href="../../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Requests &middot; Suggestions &middot; Thanks</span></span></a>
           <hr class="menu-sep" />
           <a href="../../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
           <a href="../../community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
@@ -102,6 +121,26 @@
 </header>
 
 <main id="top">
+  <section class="wrap">
+    <div class="dm-alert" id="dmAlert" role="alert" aria-label="Major documentation changes">
+      <p class="dm-alert__head"><span class="dm-alert__dot" aria-hidden="true"></span> Major change</p>
+      <div class="dm-alert__item">
+        <p class="dm-alert__title">Required minimum spending limits added &mdash; 1,000 credits per user</p>
+        <p class="dm-alert__body">
+          Microsoft&rsquo;s Copilot Credit billing documentation now sets <strong>required minimum spending limits</strong>.
+          The policy-level minimum is <strong>1,000 credits per user</strong> (recommended 2,500) and the individual
+          user monthly minimum is <strong>2,000 credits</strong> (recommended 7,000). If a per-user limit is set below the
+          required minimum, a warning is shown and the policy <strong>cannot be saved</strong>. Detected 10 Sep 2026.
+        </p>
+        <div class="dm-alert__actions">
+          <a class="dm-actbtn" href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Read it on Microsoft Learn &#8599;</a>
+          <a class="dm-actbtn" href="#change-min-limits">See the logged change &darr;</a>
+          <a class="dm-actbtn dm-actbtn--mail" id="dmBannerEmail" href="#">&#9993; Email someone about this change</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="dm-hero">
     <div class="wrap">
       <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
@@ -194,7 +233,7 @@
           <td class="dm-date">10 Sep 2026<br><span style="opacity:.7">published date 11 Aug &rarr; 10 Sep</span></td>
         </tr>
 
-        <tr>
+        <tr id="change-min-limits">
           <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits" target="_blank" rel="noopener">Managing AI experiences enabled by usage-based billing</a> <span class="dm-tier">+ billing overview</span></td>
           <td class="dm-prev">Part of the same 10 Sep update (core page grew 4,204 &rarr; 5,376 words, +8,299 characters).</td>
           <td class="dm-new">
@@ -407,6 +446,97 @@
     </p>
   </div>
 </footer>
+
+<script>
+/* Cowork Document Monitor — email-a-change actions.
+   Builds neutral, informational mailto: links (opens the user's default mail
+   app; the client appends the user's own signature). Each email carries a
+   summary of the change, the Microsoft Learn source link, and a link back to
+   the exact row on this page. No framing, no sign-off. */
+(function () {
+  'use strict';
+  var MONITOR = 'https://microsoft.github.io/Analytics-Hub/community/cowork-document-monitor/';
+
+  function encodeBody(lines) { return encodeURIComponent(lines.join('\r\n')); }
+  function mailto(subject, lines) {
+    return 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeBody(lines);
+  }
+  function firstText(cell) {
+    if (!cell) return '';
+    for (var n = cell.firstChild; n; n = n.nextSibling) {
+      if (n.nodeType === 3 && n.nodeValue.trim()) return n.nodeValue.trim();
+      if (n.nodeType === 1) return n.textContent.trim();
+    }
+    return cell.textContent.trim();
+  }
+  function summarise(newCell) {
+    if (!newCell) return '';
+    // Prefer the plain-language description paragraphs over verbatim quotes.
+    var ps = Array.prototype.slice.call(newCell.querySelectorAll('p'));
+    var plain = ps.filter(function (p) { return !p.classList.contains('dm-quote'); })
+                  .map(function (p) { return p.textContent.replace(/\s+/g, ' ').trim(); })
+                  .filter(Boolean);
+    var text = plain.length ? plain.join(' ') : newCell.textContent.replace(/\s+/g, ' ').trim();
+    if (text.length > 800) text = text.slice(0, 800).replace(/\s+\S*$/, '') + '\u2026';
+    return text;
+  }
+
+  function bodyLines(title, date, summary, learnUrl, anchor) {
+    return [
+      'Sharing an update to Microsoft\u2019s published Copilot Credit billing documentation, tracked on the Cowork Document Monitor.',
+      '',
+      'Page: ' + title,
+      'Date detected: ' + date,
+      '',
+      'Summary of the change:',
+      summary,
+      '',
+      'Microsoft Learn source:',
+      learnUrl,
+      '',
+      'Tracked on the Cowork Document Monitor:',
+      MONITOR + (anchor ? '#' + anchor : '')
+    ];
+  }
+
+  var rows = document.querySelectorAll('table.dm-log tbody tr');
+  Array.prototype.forEach.call(rows, function (tr, i) {
+    if (!tr.id) tr.id = 'change-' + (i + 1);
+    var link = tr.querySelector('.dm-page a');
+    var newCell = tr.querySelector('.dm-new');
+    var dateCell = tr.querySelector('.dm-date');
+    if (!link || !newCell) return;
+
+    var title = link.textContent.replace(/\s+/g, ' ').trim();
+    var learnUrl = link.href;
+    var date = firstText(dateCell) || 'see page';
+    var summary = summarise(newCell);
+    var subject = 'Microsoft Copilot billing documentation update \u2014 ' + title + ' (' + date + ')';
+
+    var a = document.createElement('a');
+    a.className = 'dm-emailbtn';
+    a.href = mailto(subject, bodyLines(title, date, summary, learnUrl, tr.id));
+    a.innerHTML = '\u2709 Email this change';
+    var wrap = document.createElement('div');
+    wrap.className = 'dm-rowmail';
+    wrap.appendChild(a);
+    newCell.appendChild(wrap);
+  });
+
+  // Banner: same neutral template, keyed to the required-minimum-limits change.
+  var bannerBtn = document.getElementById('dmBannerEmail');
+  if (bannerBtn) {
+    var learn = 'https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits';
+    var summary = 'Microsoft\u2019s Copilot Credit billing documentation now specifies required minimum spending limits for spending policies. '
+      + 'The policy-level required minimum is 1,000 credits per user (recommended 2,500), and the individual user monthly required minimum is 2,000 credits (recommended 7,000). '
+      + 'If a per-user limit is set below the required minimum, a warning is shown and the policy cannot be saved.';
+    bannerBtn.href = mailto(
+      'Microsoft Copilot Credit billing documentation update \u2014 required minimum spending limits',
+      bodyLines('Managing AI experiences enabled by usage-based billing', '10 Sep 2026', summary, learn, 'change-min-limits')
+    );
+  }
+})();
+</script>
 
 </body>
 </html>
