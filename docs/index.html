@@ -470,11 +470,21 @@
   .measurables-band .rf-stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0 0;}
   .measurables-band .rf-stat{border:1px solid var(--border,#e2e6ea);background:var(--surface,#fff);border-radius:999px;padding:7px 15px;font-size:.85rem;color:var(--text-soft,#5a6470);}
   .measurables-band .rf-stat b{color:var(--text,#1a1a25);font-weight:800;}
+  /* Blue clickable CTA (scoped to this section so other site buttons stay dark) */
+  .measurables-band .rf-cta{background:var(--accent,#0078d4);color:#fff;border-color:var(--accent,#0078d4);}
+  .measurables-band .rf-cta:hover{background:#0067c0;border-color:#0067c0;color:#fff;}
+  /* Two-column intro: copy left, duplicate catalog CTA top-right */
+  .measurables-band .rf-intro{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap;}
+  .measurables-band .rf-intro-copy{flex:1 1 520px;min-width:0;}
+  .measurables-band .rf-intro-cta{flex:0 0 auto;padding-top:10px;}
+  @media (max-width:720px){ .measurables-band .rf-intro-cta{padding-top:0;width:100%;} .measurables-band .rf-intro-cta .rf-cta{width:100%;justify-content:center;} }
   @media (max-width:640px){ .measurables-band .rf-preview-cta{margin-top:-24px;} }
 </style>
 <section class="band measurables-band" id="measurables">
   <div class="wrap">
-    <div class="rf-head">
+    <div class="rf-intro">
+      <div class="rf-intro-copy">
+      <div class="rf-head">
       <span class="rf-logo" aria-hidden="true">
         <svg viewBox="0 0 64 64" width="52" height="52" focusable="false">
           <defs>
@@ -499,6 +509,11 @@
       </div>
     </div>
     <p class="section-lead center">Twenty-three open-source report templates &mdash; ROI narratives, adoption deep-dives, credit-cost chargeback, agent quality and developer leverage &mdash; each built alongside the customer who first needed it.</p>
+      </div>
+      <div class="rf-intro-cta">
+        <a class="btn btn-primary rf-cta" href="choose-report/">Open the full report catalog &rarr;</a>
+      </div>
+    </div>
 
 <div class="rf-preview">
       <div class="rf-preview-inner">
@@ -506,7 +521,7 @@
         <div class="rf-preview-fade" aria-hidden="true"></div>
       </div>
       <div class="rf-preview-cta">
-        <a class="btn btn-primary" href="choose-report/">Open the full report catalog &rarr;</a>
+        <a class="btn btn-primary rf-cta" href="choose-report/">Open the full report catalog &rarr;</a>
         <div class="rf-stats">
           <span class="rf-stat"><b>23</b> reports</span>
           <span class="rf-stat"><b>6</b> categories</span>
