@@ -221,6 +221,11 @@ tbody td {
 tbody td:first-child { text-align: left; }
 .bucket-name { font-weight: 600; }
 .bucket-src { font-size: 11px; color: var(--cp-text-soft); }
+.bucket-src a.src-link, a.src-link { color: var(--cp-accent); text-decoration: underline; text-underline-offset: 2px; }
+.bucket-src a.src-link:hover, a.src-link:hover { color: var(--cp-accent-hover); }
+.refs-list { margin: 8px 0 0; padding-left: 18px; }
+.refs-list li { margin: 6px 0; font-size: 12.5px; line-height: 1.5; }
+.refs-list .ref-note { color: var(--cp-text-soft); }
 td.out { font-weight: 600; }
 td.dollars { color: var(--cp-accent); font-weight: 700; }
 tfoot td {
@@ -391,6 +396,7 @@ tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
 }
 .grand .k { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 800; color: var(--cp-text-muted); }
 .grand .v { font-size: 44px; font-weight: 800; color: var(--cp-accent); letter-spacing: -0.02em; margin-top: 4px; }
+.combined-cols .grand .v { font-size: 34px; }
 
 .matrix-wrap { overflow-x: auto; margin-top: 10px; }
 table.matrix { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
@@ -435,6 +441,27 @@ table.matrix tbody tr.persona-row.excluded td { color: var(--cp-text-soft); text
 .flows-panel li { margin: 7px 0; font-size: 13.5px; line-height: 1.5; color: var(--cp-text); }
 table.matrix tbody tr.persona-row.excluded td:first-child::before { content: none; }
 
+/* ===== Import-from-deck panel ===== */
+.import-card { border: 1px solid var(--cp-border); border-radius: 12px; padding: 16px 20px; margin-top: 16px; background: var(--cp-surface-soft); }
+.import-card .import-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.import-card h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.import-card .import-sub { margin: 4px 0 12px; font-size: 12.5px; color: var(--cp-text-muted); }
+.import-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--cp-accent); color: var(--cp-accent-fg); border: none; border-radius: 8px; padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.import-btn:hover { background: var(--cp-accent-hover); }
+.import-status { margin-top: 12px; font-size: 13px; }
+.import-status.err { color: var(--cp-accent); font-weight: 600; }
+.import-preview { display: none; margin-top: 14px; border-top: 1px dashed var(--cp-border); padding-top: 14px; }
+.import-preview.show { display: block; }
+.import-preview table { width: 100%; }
+.import-preview th, .import-preview td { text-align: left; padding: 5px 8px; font-size: 12.5px; }
+.import-preview td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.import-preview .found { color: #1a7f37; font-weight: 600; }
+.import-preview .missing { color: var(--cp-accent); font-weight: 600; }
+.import-apply-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.import-apply-row .ctrl { max-width: 220px; }
+.import-apply-row .ctrl label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--cp-text-muted); margin-bottom: 4px; }
+.import-apply-row .ctrl input { width: 120px; }
+
 @media (max-width: 760px) {
   .summary { grid-template-columns: repeat(2, 1fr); }
   .controls { grid-template-columns: 1fr; }
@@ -446,7 +473,7 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
 <div class="wrap">
   <header>
     <h1>Cowork ROI Model</h1>
-    <p>Measure the assistance you can observe today, then model the downstream business impact of redeploying that capacity - by persona, across revenue, cost, and risk.</p>
+    <p>Estimate the capacity Cowork gives back from your usage today, then model the downstream business impact of redeploying that capacity - by persona, across revenue, cost, and risk.</p>
   </header>
 
   <div class="tabs" id="tabs">
@@ -465,6 +492,30 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
       </div>
     </header>
 
+    <div class="import-card">
+      <div class="import-head">
+        <h3>📊 Import from a Cowork Value Story deck (.pptx)</h3>
+        <button type="button" class="import-btn" id="importBtn">Choose PowerPoint…</button>
+        <input type="file" id="deckFile" accept=".pptx" style="display:none" />
+      </div>
+      <p class="import-sub">Reads the deck locally in your browser (nothing is uploaded) and automatically fills what it finds: <b>credit users (MAU)</b>, the <b>task breakdown by category</b>, and <b>credits consumed → dollars</b>. Values map to a 28-day window used here as ~one month.</p>
+      <div class="import-status" id="importStatus"></div>
+      <div class="import-apply-row" id="creditPriceRow" style="display:none">
+        <div class="ctrl">
+          <label>$ per credit <span class="hint">(assumption - edit to your rate)</span></label>
+          <div class="slider-row"><span>$</span><input type="number" id="creditPrice" value="0.01" min="0" step="0.001" /></div>
+        </div>
+        <div class="import-sub" id="creditDollarPreview" style="margin:0"></div>
+      </div>
+      <div class="import-preview" id="importPreview">
+        <div class="import-sub" id="importSuggest" style="margin:0 0 10px"></div>
+        <table>
+          <thead><tr><th>Field</th><th style="text-align:right">Value from deck</th><th>Status</th></tr></thead>
+          <tbody id="importPreviewBody"></tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="summary">
       <div class="stat card">
         <div class="k">Assisted hrs / mo (post Productivity Recapture)</div>
@@ -477,7 +528,7 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
         <div class="sub" id="sumDollarsRange">Range $0 - $0</div>
       </div>
       <div class="stat card">
-        <div class="k">ROI multiple (post Productivity Recapture)</div>
+        <div class="k">Net Benefit/Cost (post Productivity Recapture)</div>
         <div class="v accent" id="sumRoi">-</div>
         <div class="sub" id="sumRoiRange">Enter monthly cost</div>
       </div>
@@ -573,6 +624,27 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
           <p><b>How to verify:</b> Open browser DevTools then <code>Network</code>. Enable <code>Preserve log</code>. Filter by <code>Fetch/XHR</code>, then refresh and edit fields in the model. You should see no new API calls tied to your edits. You can also filter for <code>clarity.ms</code>; this page should show no matching requests.</p>
         </details>
       </div>
+      <div class="disclosure">
+        <details>
+          <summary>References &amp; methodology (research sources)</summary>
+          <p>Minutes-saved bands are anchored to the following external research. Links open in a new tab.</p>
+          <ul class="refs-list">
+            <li><a class="src-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5136877" target="_blank" rel="noopener">Stanford-World Bank GenAI Time Use 2025</a> <span class="ref-note">- Analysis &amp; research; Write or debug code</span></li>
+            <li><a class="src-link" href="https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier" target="_blank" rel="noopener">McKinsey - Economic potential of generative AI (2023)</a> <span class="ref-note">- Analysis &amp; research</span></li>
+            <li><a class="src-link" href="https://microsoft.github.io/nfw-reader/posts/causal-impact-copilot" target="_blank" rel="noopener">Microsoft Research 2026 (Verma, Suri, Counts; n=72,186)</a> <span class="ref-note">- Document &amp; content creation</span></li>
+            <li><a class="src-link" href="https://www.gov.uk/government/publications/microsoft-365-copilot-experiment-cross-government-findings-report/microsoft-365-copilot-experiment-cross-government-findings-report" target="_blank" rel="noopener">UK GDS M365 Copilot Experiment / Cross-Government 2025</a> <span class="ref-note">- Document &amp; content creation; Specialized workflows</span></li>
+            <li><a class="src-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4945566" target="_blank" rel="noopener">Cui et al., CACM 2024 (n=4,867)</a> <span class="ref-note">- Write or debug code</span></li>
+            <li><a class="src-link" href="https://arxiv.org/abs/2302.06590" target="_blank" rel="noopener">Peng et al. 2023 (GitHub Copilot RCT)</a> <span class="ref-note">- Write or debug code</span></li>
+            <li><a class="src-link" href="https://www.science.org/doi/10.1126/science.adh2586" target="_blank" rel="noopener">Noy &amp; Zhang, Science 2023</a> <span class="ref-note">- Email workflows</span></li>
+            <li><a class="src-link" href="https://www.nber.org/papers/w33795" target="_blank" rel="noopener">NBER w33795 (Dillon et al. 2025)</a> <span class="ref-note">- Email &amp; communication workflows</span></li>
+            <li><a class="src-link" href="https://www.microsoft.com/en-us/research/publication/early-llm-based-tools-for-enterprise-information-workers-likely-provide-meaningful-boosts-to-productivity/" target="_blank" rel="noopener">Cambon et al., MSR 2024</a> <span class="ref-note">- Meeting workflows</span></li>
+            <li><a class="src-link" href="https://info.microsoft.com/ww-landing-the-tei-of-power-automate-2024.html" target="_blank" rel="noopener">Forrester TEI of Power Automate 2024</a> <span class="ref-note">- Meeting &amp; specialized workflows</span></li>
+            <li><a class="src-link" href="https://www.microsoft.com/en-us/worklab/work-trend-index/" target="_blank" rel="noopener">Microsoft Work Trend Index 2024</a> <span class="ref-note">- Communication workflows; General assistance</span></li>
+            <li><a class="src-link" href="https://www.nber.org/papers/w31161" target="_blank" rel="noopener">Brynjolfsson et al., QJE 2025 / NBER w31161</a> <span class="ref-note">- General assistance / Other</span></li>
+          </ul>
+          <p><b>Full methodology:</b> <a class="src-link" href="https://microsoft.github.io/CopilotAnalyticsLabs/Cowork_Methodology.pdf" target="_blank" rel="noopener">Cowork Methodology (PDF)</a></p>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -637,19 +709,19 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
 
   <section class="tab-panel" id="tab-combined">
     <header style="margin-top:18px">
-      <h2>Combined ROI - measured assistance + modeled impact</h2>
-      <p>Two complementary views of value: the assistance you can <b>measure</b> today from usage, and the downstream business impact you can <b>model</b> from redeploying that capacity.</p>
+      <h2>Combined view - estimated capacity value and modeled impact</h2>
+      <p>Two complementary views, shown <b>side by side and never added</b>: the capacity value <b>estimated</b> from your usage, and the downstream business impact <b>modeled</b> from redeploying that capacity.</p>
     </header>
 
     <div class="combined-cols">
       <div class="card">
-        <div class="badge" style="color:var(--cp-accent);background:var(--cp-accent-soft)">Measured</div>
-        <h3 style="margin:8px 0 10px">Time-savings assistance <span class="hint">(annualized)</span></h3>
+        <div class="badge" style="color:var(--cp-accent);background:var(--cp-accent-soft)">Estimated</div>
+        <h3 style="margin:8px 0 10px">Estimated capacity value <span class="hint">(derived from usage)</span></h3>
         <div class="mini-row"><span>Assisted hours / year (post-recapture)</span><b id="cbHours">0</b></div>
         <div class="mini-row"><span>Tasks / year</span><b id="cbTasks">0</b></div>
         <div class="mini-row"><span>Labor-value / year</span><b id="cbTimeVal">$0</b></div>
-        <div class="mini-row total"><span>Measured annual value</span><b id="cbTimeTotal">$0</b></div>
-        <div class="hint" style="margin-top:10px">From Tab 1 (monthly figures x 12). Directly attributable, usage-observed labor recapture.</div>
+        <div class="mini-row total"><span>Estimated capacity value / year</span><b id="cbTimeTotal">$0</b></div>
+        <div class="hint" style="margin-top:10px">From Tab 1 (monthly x 12). Dollar value of recaptured capacity: usage x assumed minutes saved x labor rate. An estimate of freed capacity - not automatically booked cash savings.</div>
       </div>
       <div class="card">
         <div class="badge rev">Modeled</div>
@@ -658,7 +730,7 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
         <div class="mini-row"><span style="color:var(--cp-cost)">Reduce cost</span><b id="cbCost">$0</b></div>
         <div class="mini-row"><span style="color:var(--cp-risk)">Manage risk</span><b id="cbRisk">$0</b></div>
         <div class="mini-row total"><span>Modeled annual value</span><b id="cbImpactTotal">$0</b></div>
-        <div class="hint" style="margin-top:10px">Sum across all included personas (Tab 2). Downstream impact of redeployed capacity and quality gains. Exclude a persona or strategy on Tab 2 to remove it here.</div>
+        <div class="hint" style="margin-top:10px">Sum across all included personas (Tab 2). Downstream impact of redeployed capacity and quality gains. Cross-persona totals are an <b>upper bound</b> that can double count - exclude personas/strategies on Tab 2 to narrow scope.</div>
       </div>
     </div>
 
@@ -680,7 +752,7 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
           <tbody id="matrixBody"></tbody>
           <tfoot>
             <tr>
-              <td>All personas</td>
+              <td>All personas (upper bound)</td>
               <td id="mxRev">$0</td>
               <td id="mxCost">$0</td>
               <td id="mxRisk">$0</td>
@@ -689,20 +761,28 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
           </tfoot>
         </table>
       </div>
-      <div class="hint" style="margin-top:10px">The <b>All personas</b> row is a portfolio view (sum across functions). Treat it as an upper bound - some assumptions (e.g. gross margin, attrition, redeployed capacity) overlap across personas, so cross-persona totals can double count. Use a single persona for the most defensible figure.</div>
+      <div class="hint" style="margin-top:10px">The <b>All personas</b> row is an <b>upper bound</b> - some assumptions (e.g. gross margin, attrition, redeployed capacity) overlap across personas, and some revenue lines within a persona draw on the same revenue, so cross-persona totals can double count. Use a single persona for the most defensible figure.</div>
     </div>
 
-    <div class="grand card">
-      <div class="k">Combined annual value - measured + modeled</div>
-      <div class="v" id="cbGrand">$0</div>
-      <div class="hint" style="margin-top:6px" id="cbRoiLine">Enter a monthly Copilot cost on Tab 1 to see a blended ROI multiple.</div>
+    <div class="combined-cols">
+      <div class="grand card">
+        <div class="k">Estimated capacity value / year</div>
+        <div class="v" id="cbGrandCap">$0</div>
+        <div class="hint" style="margin-top:6px" id="cbRoiCap">Enter a monthly Copilot cost on Tab 1 for Net Benefit/Cost.</div>
+      </div>
+      <div class="grand card">
+        <div class="k">Modeled business impact / year <span id="cbGrandModeledScope"></span></div>
+        <div class="v" id="cbGrandModeled">$0</div>
+        <div class="hint" style="margin-top:6px" id="cbRoiModeled">Enter a monthly Copilot cost on Tab 1 for Net Benefit/Cost.</div>
+      </div>
     </div>
+    <div class="hint" style="text-align:center;margin:-6px 4px 16px">Shown separately by design - these two views overlap (modeled impact is one way the estimated capacity gets spent), so <b>do not add them</b> into a single number.</div>
 
     <div class="card">
       <div class="note">
-        <b>Reading the two numbers:</b> The <b>measured</b> value is the labor time Cowork gives back, observed from your own usage. The <b>modeled</b> value is what the business could realize if that recaptured capacity - plus in-task quality, faster ramp, and better work composition - is redirected into the outcomes on Tab 2.
+        <b>Reading the two numbers:</b> The <b>estimated capacity value</b> is the labor time Cowork gives back, valued from your usage x assumed minutes saved x labor rate. The <b>modeled</b> value is what the business could realize if that recaptured capacity - plus in-task quality, faster ramp, and better work composition - is redirected into the outcomes on Tab 2.
         <br><br>
-        <b>Avoid double counting:</b> The two views overlap conceptually (modeled impact is one way the measured capacity gets spent). Treat the measured value as the floor you can defend from usage data, and the modeled value as the upside case, rather than simply adding both for a single headline figure. The combined total above is shown for completeness.
+        <b>Avoid double counting:</b> The two views overlap (modeled impact is one way the estimated capacity gets spent), so they are shown side by side and are <b>not</b> added. Treat the estimated capacity value as the conservative view you can defend from usage, and the modeled value as the upside case. <b>Net Benefit/Cost = (benefits - costs) / costs</b>, using the annual Copilot credit + license cost from Tab 1.
       </div>
     </div>
   </section>
@@ -720,6 +800,159 @@ const BUCKETS = [
   { name: "Write or debug code", tasks: 0, low: 30, mid: 56, high: 96, src: "Cui CACM 2024; Peng et al. 2023; Stanford World Bank GenAI Time Use 2025" },
   { name: "General assistance / Other", tasks: 0, low: 2, mid: 5, high: 8, src: "Brynjolfsson QJE 2025; NBER w31161" }
 ];
+
+// Research sources with clickable links (URLs sourced from the Cowork Value Story deck).
+const SRC_LINKS = [
+  [/stanford[- ]?world bank/i, "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5136877"],
+  [/mckinsey/i, "https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier"],
+  [/microsoft research 2026/i, "https://microsoft.github.io/nfw-reader/posts/causal-impact-copilot"],
+  [/uk gds/i, "https://www.gov.uk/government/publications/microsoft-365-copilot-experiment-cross-government-findings-report/microsoft-365-copilot-experiment-cross-government-findings-report"],
+  [/cui cacm/i, "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4945566"],
+  [/peng et al/i, "https://arxiv.org/abs/2302.06590"],
+  [/forrester tei/i, "https://info.microsoft.com/ww-landing-the-tei-of-power-automate-2024.html"],
+  [/noy/i, "https://www.science.org/doi/10.1126/science.adh2586"],
+  [/nber w33795/i, "https://www.nber.org/papers/w33795"],
+  [/cambon/i, "https://www.microsoft.com/en-us/research/publication/early-llm-based-tools-for-enterprise-information-workers-likely-provide-meaningful-boosts-to-productivity/"],
+  [/microsoft wti/i, "https://www.microsoft.com/en-us/worklab/work-trend-index/"],
+  [/brynjolfsson|nber w31161/i, "https://www.nber.org/papers/w31161"]
+];
+
+// Turn a "; "-separated source string into clickable links where a known reference is matched.
+function linkifySrc(src) {
+  return src.split(";").map(part => {
+    const t = part.trim();
+    for (const [re, url] of SRC_LINKS) {
+      if (re.test(t)) return '<a href="' + url + '" target="_blank" rel="noopener" class="src-link">' + t + '</a>';
+    }
+    return t;
+  }).join("; ");
+}
+
+/* ===== Business Impact research links (URLs sourced from the Cowork BVA deck appendix, slides 26-36) =====
+   The same publisher (McKinsey, Forrester, Gartner, ...) maps to different studies depending on the
+   persona and the specific claim, so the URL is resolved from the citation text plus the active persona. */
+const IMPACT_URLS = {
+  DIST: "https://www.mckinsey.com/industries/industrials/our-insights/where-value-is-won-and-lost-in-distribution",
+  POWERPRICE: "https://www.mckinsey.com/~/media/McKinsey/Business%20Functions/Marketing%20and%20Sales/Our%20Insights/The%20power%20of%20pricing/The%20power%20of%20pricing.pdf",
+  B2BPRICE: "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/b2b-pricing-navigating-the-next-phase-of-the-ai-revolution",
+  AIOPS: "https://www.mckinsey.com/capabilities/operations/our-insights/ai-driven-operations-forecasting-in-data-light-environments",
+  O2C: "https://www.mckinsey.com/capabilities/operations/our-insights/finding-hidden-value-with-order-to-cash-optimization",
+  PREDFCST: "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/predictive-sales-forecasting-is-your-finance-function-up-to-code",
+  BADDEBT: "https://www.mckinsey.com/industries/electric-power-and-natural-gas/our-insights/getting-a-grip-on-bad-debt-practical-steps-to-help-utilities-boost-their-resilience",
+  PERS: "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-value-of-getting-personalization-right-or-wrong-is-multiplying",
+  MKTROI: "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/how-we-help-clients/marketing-return-on-investment/en",
+  AIBANK: "https://www.mckinsey.com/industries/financial-services/our-insights/the-ai-powered-bank-rewiring-for-excellence-in-customer-care",
+  NEXTBEST: "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/next-best-experience-how-ai-can-power-every-customer-interaction",
+  COPILOTSALES: "https://tei.forrester.com/go/Microsoft/CopilotforSales/",
+  D365CS: "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/The-TEI-Of-Microsoft-Dynamics-365-Customer-Service-2024.pdf",
+  FIVE9: "https://tei.forrester.com/go/five9/cxplatform/",
+  FIELDSVC: "https://aka.ms/FieldServiceTEI",
+  FORRMKT: "https://www.forrester.com/blogs/does-measuring-marketing-sourcing-still-matter/",
+  CMOSPEND: "https://www.gartner.com/en/articles/cmo-spend",
+  CMO2025: "https://www.gartner.com/en/newsroom/press-releases/2025-05-12-gartner-2025-cmo-spend-survey-reveals-marketing-budgets-have-flatlined-at-seven-percent-of-overall-company-revenue",
+  GARTSELF: "https://www.gartner.com/en/newsroom/press-releases/2024-08-19-gartner-survey-finds-only-14-percent-of-customer-service-issues-are-fully-resolved-in-self-service",
+  GART5164231: "https://www.gartner.com/en/documents/5164231",
+  MERCER: "https://www.imercer.com/articleinsights/workforce-turnover-trends",
+  GALLUPQ12: "https://www.gallup.com/file/workplace/645380/Q12%202024%20Q12%20Meta-Analysis.pdf",
+  GALLUPTURN: "https://www.gallup.com/workplace/646538/employee-turnover-preventable-often-ignored.aspx",
+  BLS: "https://www.bls.gov/news.release/pdf/ecec.pdf",
+  HACKETT: "https://www.thehackettgroup.com/2025-working-capital-survey-payables-rebound-receivables-inventory-lag/",
+  SQMFCR: "https://www.sqmgroup.com/resources/library/blog/what-good-first-call-resolution-rate",
+  SQMATTR: "https://www.sqmgroup.com/resources/library/blog/call-center-attrition-rate",
+  TSIA: "https://www.tsia.com/blog/top-field-services-questions-answered",
+  BAININD: "https://www.bain.com/contentassets/8853a6ead82f4626a7c58a88cf40075b/bain_brief_winning_in_industrial_service_us.pdf",
+  BAINRAD: "https://www.bain.com/contentassets/ac8b082d1940429fbe5668d4cf66af7d/bain_brief_radical-thought.pdf",
+  BCG: "https://www.bcg.com/publications/2025/aftermarket-services-drive-growth-for-industrial-manufacturers",
+  PWC: "https://www.pwc.com/us/en/services/consulting/commercial-excellence/marketing-in-the-ai-era/to-matter-more-or-cost-less.html",
+  DELADOBE: "https://www.deloitte.com/content/dam/assets-shared/docs/alliances/adobe/2023/deloitte-digital-adobe-content-supply-chain.pdf",
+  DELFIN: "https://www.deloitte.com/ca/en/Industries/financial-services/perspectives/content-supply-chain-financial-services.html",
+  SFDC: "https://www.salesforce.com/news/stories/sales-ai-statistics-2024"
+};
+
+function escHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Resolve one publisher token to a URL using the surrounding citation text + active persona.
+function resolveImpactUrl(pub, s, persona) {
+  const U = IMPACT_URLS;
+  switch (pub) {
+    case "McKinsey & Company":
+    case "McKinsey":
+      if (/b2b pricing/.test(s)) return U.B2BPRICE;
+      if (/pricing/.test(s)) return U.POWERPRICE;
+      if (/order-to-cash|credit-memo|write-off recovery/.test(s)) return U.O2C;
+      if (/credit-and-collections/.test(s)) return U.BADDEBT;
+      if (/personalization/.test(s)) return U.PERS;
+      if (/marketing roi/.test(s)) return U.MKTROI;
+      if (/proactive service/.test(s)) return U.NEXTBEST;
+      if (/handling-time/.test(s)) return U.AIBANK;
+      if (/forecasting cases/.test(s)) return U.PREDFCST;
+      if (/forecast|20-50%|20\u201350%/.test(s)) return U.AIOPS;
+      return U.DIST;
+    case "Forrester Consulting":
+    case "Forrester":
+      if (/field|technician|truck|repeat visit|admin hr|recaptured/.test(s)) return U.FIELDSVC;
+      if (persona === "sales") return U.COPILOTSALES;
+      if (persona === "marketing") return U.FORRMKT;
+      if (persona === "cs") {
+        if (/containment|\$15k|\(40%\)/.test(s)) return U.FIVE9;
+        return U.D365CS;
+      }
+      return U.COPILOTSALES;
+    case "Gartner":
+      if (/\$13\.50|\$1\.84|\$20 |escalation|assisted contact|assisted vs/.test(s)) return U.GART5164231;
+      if (/14%|self-service/.test(s)) return U.GARTSELF;
+      if (/pwc|deloitte/.test(s)) return U.CMO2025;
+      return U.CMOSPEND;
+    case "Gallup":
+      if (/replacement-cost/.test(s)) return U.GALLUPTURN;
+      return U.GALLUPQ12;
+    case "BLS": return U.BLS;
+    case "Mercer": return U.MERCER;
+    case "SQM Group":
+      if (/attrition|turnover|28%/.test(s)) return U.SQMATTR;
+      return U.SQMFCR;
+    case "TSIA": return U.TSIA;
+    case "The Hackett Group": return U.HACKETT;
+    case "Bain & Company":
+    case "Bain":
+      if (/cx research|radical|nonrenewal/.test(s)) return U.BAINRAD;
+      return U.BAININD;
+    case "BCG": return U.BCG;
+    case "PwC": return U.PWC;
+    case "Deloitte + Adobe": return U.DELADOBE;
+    case "Deloitte": return U.DELFIN;
+    default: return null;
+  }
+}
+
+const IMPACT_PUB_RE = /(McKinsey & Company|The Hackett Group|Deloitte \+ Adobe|Bain & Company|SQM Group|Forrester Consulting|Forrester|McKinsey|Gartner|Mercer|Gallup|BLS|TSIA|Bain|BCG|PwC|Deloitte)/g;
+
+// Turn a Business Impact citation into HTML with each recognized source wrapped in a clickable link.
+function linkifyImpactSrc(src) {
+  const persona = (typeof activePersona !== "undefined") ? activePersona : "sales";
+  const s = src.toLowerCase();
+  let html = "", last = 0, m, matched = false;
+  IMPACT_PUB_RE.lastIndex = 0;
+  while ((m = IMPACT_PUB_RE.exec(src)) !== null) {
+    const url = resolveImpactUrl(m[0], s, persona);
+    html += escHtml(src.slice(last, m.index));
+    if (url) {
+      matched = true;
+      html += '<a href="' + url + '" target="_blank" rel="noopener" class="src-link">' + escHtml(m[0]) + '</a>';
+    } else {
+      html += escHtml(m[0]);
+    }
+    last = m.index + m[0].length;
+  }
+  html += escHtml(src.slice(last));
+  // Fallback: citation names no publisher but the deck links it (e.g. Salesforce sales-AI research).
+  if (!matched && /external sales turnover research/i.test(src)) {
+    html = escHtml(src).replace(/research/i, '<a href="' + IMPACT_URLS.SFDC + '" target="_blank" rel="noopener" class="src-link">research</a>');
+  }
+  return html;
+}
 
 const BASELINE = BUCKETS.map(b => ({ tasks: b.tasks, minutes: b.mid }));
 let state = BASELINE.map(s => ({ tasks: s.tasks, minutes: s.minutes }));
@@ -744,7 +977,7 @@ function buildRows() {
   BUCKETS.forEach((b, i) => {
     const tr = document.createElement("tr");
     tr.innerHTML =
-      '<td><div class="bucket-name">' + b.name + '</div><div class="bucket-src">' + b.src + '</div></td>' +
+      '<td><div class="bucket-name">' + b.name + '</div><div class="bucket-src">' + linkifySrc(b.src) + '</div></td>' +
       '<td><input class="cell" type="number" min="0" step="1" data-i="' + i + '" data-f="tasks" value="' + state[i].tasks + '"></td>' +
       '<td><input class="cell" type="number" min="0" step="1" data-i="' + i + '" data-f="minutes" value="' + state[i].minutes + '"></td>' +
       '<td class="out" id="hrs' + i + '">0</td>' +
@@ -799,7 +1032,7 @@ function recompute() {
   const users = +$("mau").value || 0;
   const denom = cost + (usl * users);
   if (denom > 0) {
-    const roi = x => (x / denom).toFixed(1) + "x";
+    const roi = x => ((x - denom) / denom).toFixed(1) + "x";
     $("sumRoi").textContent = roi(postD);
     $("sumRoiRange").textContent = "Pre-recapture " + roi(totD) + " | Range " + roi(postHlow * rate) + " - " + roi(postHhigh * rate);
   } else {
@@ -1375,7 +1608,7 @@ function renderAssumpBase(line, R) {
   row.appendChild(top);
   const src = document.createElement("div");
   src.className = "assump-src";
-  src.textContent = (b.fixed ? "" : pctOfRev + " - ") + b.source;
+  src.innerHTML = (b.fixed ? "" : escHtml(pctOfRev + " - ")) + linkifyImpactSrc(b.source);
   row.appendChild(src);
   return row;
 }
@@ -1413,7 +1646,7 @@ function renderAssumpFactor(line, idx, f) {
   row.appendChild(top);
   const src = document.createElement("div");
   src.className = "assump-src";
-  src.textContent = f.source;
+  src.innerHTML = linkifyImpactSrc(f.source);
   row.appendChild(src);
   return row;
 }
@@ -1514,19 +1747,253 @@ function renderCombined() {
     $("cbRisk").textContent = fmtMoney(port.risk);
     $("cbImpactTotal").textContent = fmtMoney(port.total);
     const totalPersonas = Object.keys(IMPACT).length;
-    $("cbPersonaLabel").textContent = includedCount === totalPersonas
+    const scopeLabel = includedCount === totalPersonas
       ? "(all " + totalPersonas + " personas)"
       : "(" + includedCount + " of " + totalPersonas + " personas)";
-    const grand = timeValYr + port.total;
-    $("cbGrand").textContent = fmtMoney(grand);
-    const denomYr = timeResult.roiDenomMo * 12;
-    if (denomYr > 0) {
-      $("cbRoiLine").textContent = "Blended ROI vs annual Copilot cost (" + fmtMoney(denomYr) + "): measured " + (timeValYr / denomYr).toFixed(1) + "x - combined " + (grand / denomYr).toFixed(1) + "x";
-    } else {
-      $("cbRoiLine").textContent = "Enter a monthly Copilot cost on Tab 1 to see a blended ROI multiple.";
+    $("cbPersonaLabel").textContent = scopeLabel;
+    if ($("cbGrandCap")) {
+      $("cbGrandCap").textContent = fmtMoney(timeValYr);
+      $("cbGrandModeled").textContent = fmtMoney(port.total);
+      $("cbGrandModeledScope").textContent = scopeLabel + " \u00b7 upper bound";
+      const denomYr = timeResult.roiDenomMo * 12;
+      if (denomYr > 0) {
+        const nbc = x => ((x - denomYr) / denomYr).toFixed(1) + "x";
+        $("cbRoiCap").textContent = "Net Benefit/Cost " + nbc(timeValYr) + " vs annual cost " + fmtMoney(denomYr);
+        $("cbRoiModeled").textContent = "Net Benefit/Cost " + nbc(port.total) + " vs annual cost " + fmtMoney(denomYr);
+      } else {
+        $("cbRoiCap").textContent = "Enter a monthly Copilot cost on Tab 1 for Net Benefit/Cost.";
+        $("cbRoiModeled").textContent = "Enter a monthly Copilot cost on Tab 1 for Net Benefit/Cost.";
+      }
     }
   }
 }
+
+/* ===== IMPORT FROM COWORK VALUE STORY DECK (.pptx) ===== */
+// Category aliases aligned to BUCKETS order (index 0..7).
+const DECK_CATEGORY_RE = [
+  /analysis\s*&?\s*research/i,          // 0 Analysis & Research
+  /document\s*&?\s*content/i,           // 1 Document & content creation
+  /email workflows/i,                   // 2 Email workflows
+  /meeting workflows/i,                 // 3 Meeting workflows
+  /communication workflows/i,           // 4 Communication workflows
+  /specialized workflows/i,             // 5 Specialized workflows
+  /write or debug code/i,               // 6 Write or debug code
+  /general assistance/i                 // 7 General assistance / Other
+];
+
+let lastImport = null;
+
+function xmlDecode(s) {
+  return s.replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'");
+}
+
+async function inflateRaw(bytes) {
+  const ds = new DecompressionStream("deflate-raw");
+  const ab = await new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer();
+  return new Uint8Array(ab);
+}
+
+// Minimal ZIP reader: pull ppt/slides/slideN.xml text runs. No external libraries.
+async function readPptxText(arrayBuffer) {
+  const dv = new DataView(arrayBuffer);
+  const bytes = new Uint8Array(arrayBuffer);
+  let eocd = -1;
+  const minScan = Math.max(0, bytes.length - 22 - 65536);
+  for (let i = bytes.length - 22; i >= minScan; i--) {
+    if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error("This does not look like a valid .pptx file.");
+  const cdCount = dv.getUint16(eocd + 10, true);
+  let p = dv.getUint32(eocd + 16, true);
+  const entries = [];
+  for (let n = 0; n < cdCount; n++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) break;
+    const method = dv.getUint16(p + 10, true);
+    const compSize = dv.getUint32(p + 20, true);
+    const nameLen = dv.getUint16(p + 28, true);
+    const extraLen = dv.getUint16(p + 30, true);
+    const commentLen = dv.getUint16(p + 32, true);
+    const lho = dv.getUint32(p + 42, true);
+    const name = new TextDecoder().decode(bytes.subarray(p + 46, p + 46 + nameLen));
+    entries.push({ name, method, compSize, lho });
+    p += 46 + nameLen + extraLen + commentLen;
+  }
+  const slides = entries
+    .filter(f => /^ppt\/slides\/slide\d+\.xml$/.test(f.name))
+    .sort((a, b) => (+a.name.match(/(\d+)\.xml$/)[1]) - (+b.name.match(/(\d+)\.xml$/)[1]));
+  if (!slides.length) throw new Error("No slides were found inside the file.");
+  let xml = "";
+  for (const f of slides) {
+    const lnameLen = dv.getUint16(f.lho + 26, true);
+    const lextraLen = dv.getUint16(f.lho + 28, true);
+    const start = f.lho + 30 + lnameLen + lextraLen;
+    const comp = bytes.subarray(start, start + f.compSize);
+    let data;
+    if (f.method === 0) data = comp;
+    else if (f.method === 8) data = await inflateRaw(comp);
+    else throw new Error("Unsupported compression in the .pptx (method " + f.method + ").");
+    xml += "\n" + new TextDecoder().decode(data);
+  }
+  const runs = (xml.match(/<a:t>[\s\S]*?<\/a:t>/g) || []).map(xmlDecode);
+  return runs.join("\n");
+}
+
+function toNumber(s) { return parseFloat(String(s).replace(/,/g, "")); }
+function parseKMB(s) {
+  const v = toNumber(s);
+  if (/k/i.test(s)) return v * 1e3;
+  if (/m/i.test(s)) return v * 1e6;
+  return v;
+}
+
+function parseDeck(text) {
+  const T = text.replace(/[\u2012-\u2015\u2212]/g, "-"); // normalize dashes
+  const out = { creditUsers: null, credits: null, tasks: new Array(8).fill(null), customer: null };
+
+  // Credit users (monthly active users)
+  let m = T.match(/all users[\s\S]{0,40}?([\d][\d,]{2,})/i);
+  if (m) out.creditUsers = toNumber(m[1]);
+  if (out.creditUsers == null) {
+    m = T.match(/credit users[^\n]*\n+\s*([\d.,]+\s*[KM]?)/i);
+    if (m) out.creditUsers = Math.round(parseKMB(m[1]));
+  }
+
+  // Credits consumed (28 days)
+  m = T.match(/([\d][\d,]{5,}(?:\.\d+)?)\s*credits/i);
+  if (m) out.credits = toNumber(m[1]);
+  if (out.credits == null) {
+    m = T.match(/credits\s*\/\s*28\s*days[^\n]*\n+\s*([\d.,]+\s*[KM]?)/i);
+    if (m) out.credits = Math.round(parseKMB(m[1]));
+  }
+
+  // Task breakdown - scope to the references/methodology table when present
+  const scopeM = T.match(/references?\s*&?\s*methodology[\s\S]*?(?:estimation notes|full methodology|$)/i);
+  const scope = scopeM ? scopeM[0] : T;
+  DECK_CATEGORY_RE.forEach((re, i) => {
+    const mm = scope.match(new RegExp(re.source + "[\\s\\S]{0,25}?([\\d][\\d,]*)", "i"));
+    if (mm) out.tasks[i] = toNumber(mm[1]);
+  });
+
+  // Customer name (best effort, from the title slide)
+  m = T.match(/copilot cowork value story\s*\n+\s*([^\n]+)/i);
+  if (m && m[1].trim().length < 60) out.customer = m[1].trim();
+
+  return out;
+}
+
+function fmtCreditDollars(parsed, price) {
+  if (parsed.credits == null || !(price > 0)) return "";
+  const dollars = parsed.credits * price;
+  return fmtInt(parsed.credits) + " credits x $" + price + " = " + fmtMoneyFull(Math.round(dollars)) + " / mo (28-day window)";
+}
+
+function renderImportTable(parsed) {
+  const body = $("importPreviewBody");
+  const rows = [];
+  const stat = v => v != null
+    ? '<span class="found">&#10003; found</span>'
+    : '<span class="missing">not found</span>';
+
+  rows.push('<tr><td>Credit users (MAU)</td><td class="num">' + (parsed.creditUsers != null ? fmtInt(parsed.creditUsers) : "-") + "</td><td>" + stat(parsed.creditUsers) + "</td></tr>");
+  rows.push('<tr><td>Credits consumed / 28 days</td><td class="num">' + (parsed.credits != null ? fmtInt(parsed.credits) : "-") + "</td><td>" + stat(parsed.credits) + "</td></tr>");
+  BUCKETS.forEach((b, i) => {
+    rows.push('<tr><td>&nbsp;&nbsp;Tasks - ' + b.name + '</td><td class="num">' + (parsed.tasks[i] != null ? fmtInt(parsed.tasks[i]) : "-") + "</td><td>" + stat(parsed.tasks[i]) + "</td></tr>");
+  });
+  body.innerHTML = rows.join("");
+}
+
+// Human-readable list of the expected fields the deck did not yield.
+function missingFields(p) {
+  const miss = [];
+  if (p.creditUsers == null) miss.push("credit users (MAU)");
+  if (p.credits == null) miss.push("credits consumed");
+  const missingCats = BUCKETS.filter((b, i) => p.tasks[i] == null).map(b => b.name);
+  if (missingCats.length) miss.push("task counts for " + missingCats.join(", "));
+  return miss;
+}
+
+function applyImport() {
+  if (!lastImport) return [];
+  const p = lastImport;
+  const price = +$("creditPrice").value || 0;
+  const applied = [];
+
+  if (p.tasks.some(t => t != null)) {
+    p.tasks.forEach((t, i) => { if (t != null) state[i].tasks = t; });
+    applied.push("task breakdown");
+  }
+  if (p.creditUsers != null) { $("mau").value = p.creditUsers; applied.push("credit users (MAU)"); }
+  if (p.credits != null && price > 0) {
+    $("cost").value = Math.round(p.credits * price);
+    applied.push("monthly credit cost");
+  }
+  if (p.customer && !$("scenario").value.trim()) $("scenario").value = p.customer;
+
+  buildRows();
+  recompute();
+  return applied;
+}
+
+async function handleDeckFile(file) {
+  const st = $("importStatus");
+  st.classList.remove("err");
+  st.textContent = "Reading " + file.name + "\u2026";
+  $("importPreview").classList.remove("show");
+  $("creditPriceRow").style.display = "none";
+  try {
+    const buf = await file.arrayBuffer();
+    const text = await readPptxText(buf);
+    const parsed = parseDeck(text);
+    const anything = parsed.creditUsers != null || parsed.credits != null || parsed.tasks.some(t => t != null);
+    if (!anything) {
+      lastImport = null;
+      st.classList.add("err");
+      st.textContent = "No suitable data was found in this deck. Expected credit users, a task breakdown by category, and credits consumed.";
+      return;
+    }
+    lastImport = parsed;
+
+    // Auto-apply whatever was found, no confirmation modal.
+    const applied = applyImport();
+    $("creditPriceRow").style.display = "flex";
+    $("creditDollarPreview").textContent = fmtCreditDollars(parsed, +$("creditPrice").value || 0);
+
+    const miss = missingFields(parsed);
+    if (miss.length) {
+      // Only surface the panel when something expected is missing.
+      renderImportTable(parsed);
+      $("importSuggest").innerHTML = "&#9888; Applied: " + applied.join(", ") + ". Some expected data was <b>not found</b> in this deck: " + miss.join("; ") + ". Enter those values manually below.";
+      $("importPreview").classList.add("show");
+      st.textContent = "";
+    } else {
+      $("importPreview").classList.remove("show");
+      st.innerHTML = "&#10003; Imported and applied from " + file.name + ": " + applied.join(", ") + ". Adjust the $ per credit if needed.";
+    }
+  } catch (err) {
+    lastImport = null;
+    st.classList.add("err");
+    st.textContent = "Could not read this file: " + err.message;
+  }
+}
+
+$("importBtn").addEventListener("click", () => $("deckFile").click());
+$("deckFile").addEventListener("change", e => {
+  const f = e.target.files && e.target.files[0];
+  if (f) handleDeckFile(f);
+  e.target.value = "";
+});
+// Editing the $/credit assumption re-applies the derived monthly cost live.
+$("creditPrice").addEventListener("input", () => {
+  if (!lastImport) return;
+  $("creditDollarPreview").textContent = fmtCreditDollars(lastImport, +$("creditPrice").value || 0);
+  if (lastImport.credits != null) {
+    const price = +$("creditPrice").value || 0;
+    $("cost").value = price > 0 ? Math.round(lastImport.credits * price) : 0;
+    recompute();
+  }
+});
 
 /* ===== TAB SWITCHING ===== */
 document.querySelectorAll(".tab-btn").forEach(btn => {
