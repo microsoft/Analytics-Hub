@@ -1219,6 +1219,31 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
 .mk-noprev-title{ font-size:0.875rem; color:var(--mk-soft); }
 .mk-noprev-note{ font-size:0.75rem; letter-spacing:.09em; text-transform:uppercase; color:var(--mk-muted); }
 
+/* Click-through executive-deck viewer (shared by flyout + guided view) */
+.mk-deck{ display:flex; flex-direction:column; gap:8px; }
+.mk-deck-stage{ position:relative; display:flex; align-items:center; justify-content:center; }
+.mk-deck-img{
+  display:block; margin:0 auto; max-width:100%;
+  max-height:max(160px, min(calc(var(--mk-fh) - 22rem), 46vh));
+  width:auto; height:auto; object-fit:contain;
+  background:var(--mk-surface-2); cursor:pointer;
+  border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
+}
+.mk-deck-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--mk-border); background:var(--mk-surface,#fff);
+  color:var(--mk-text,#1a1a25); font-size:22px; line-height:1; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.14); opacity:.92;
+}
+.mk-deck-nav:hover{ opacity:1; background:var(--mk-accent,#0078d4); color:#fff; border-color:transparent; }
+.mk-deck-prev{ left:8px; } .mk-deck-next{ right:8px; }
+.mk-deck-bar{ display:flex; align-items:center; justify-content:center; gap:16px; }
+.mk-deck-count{ font-size:.75rem; letter-spacing:.06em; color:var(--mk-muted); font-variant-numeric:tabular-nums; }
+.mk-deck-dl{ font-size:.8rem; font-weight:600; color:var(--mk-accent-strong,#005a9e); text-decoration:none; }
+.mk-deck-dl:hover{ text-decoration:underline; }
+
 .mk-sub{ margin-top:30px; }
 .mk-sub h3{
   font-size:0.6875rem; font-weight:600; letter-spacing:.11em;
@@ -2733,6 +2758,23 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "Viva Insights",
       "repo": "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+      "preview": "../tools/copilot-roi-calculator/preview/roi-preview.gif",
+      "demoUrl": "../tools/copilot-roi-calculator/demo.html",
+      "deck": {
+        "title": "Executive deck (9 slides)",
+        "download": "../tools/copilot-roi-calculator/preview/Copilot-ROI-Executive-Deck.pptx",
+        "slides": [
+          "../tools/copilot-roi-calculator/preview/deck/slide-1.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-2.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-3.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-4.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-5.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-6.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-7.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-8.png",
+          "../tools/copilot-roi-calculator/preview/deck/slide-9.png"
+        ]
+      },
       "blurb": "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
       "meta": {
         "audience": "BVAs, finance partners, exec sponsors",
@@ -4506,6 +4548,20 @@ html.mk-embed main.mk-page{ display:none !important; }
     var u = safeUrl(v);
     return u ? u.replace(/[&<>"']/g, function (c) { return ESC[c]; }) : '';
   }
+  /* Same-origin asset URLs (preview GIF, deck slides, hosted-tool demo) may be
+     given as repo-relative paths so they resolve on both the local mirror and
+     the live project Pages base. Allow http(s) or a relative path, but never a
+     scheme like javascript:/data: and never markup characters. */
+  function safeAsset(v) {
+    var u = String(v == null ? '' : v).trim();
+    if (/^https?:\/\//i.test(u)) return u;
+    if (!u || /^[a-z][a-z0-9+.\-]*:/i.test(u) || /[<>"'\s]/.test(u)) return '';
+    return (/^(?:\.{0,2}\/)/.test(u) || /^[\w.\-]+\//.test(u)) ? u : '';
+  }
+  function escAsset(v) {
+    var u = safeAsset(v);
+    return u ? u.replace(/[&<>"']/g, function (c) { return ESC[c]; }) : '';
+  }
   /* Accent values are injected into a style attribute, so they are allowlisted
      to a plain hex literal and nothing else. Anything odd renders uncoloured. */
   function safeColor(v) {
@@ -4527,7 +4583,7 @@ html.mk-embed main.mk-page{ display:none !important; }
   }
 
   function mediaKind(preview) {
-    var u = safeUrl(preview);
+    var u = safeAsset(preview);
     if (!u) return 'none';
     return /\.gif(?:[?#].*)?$/i.test(u) ? 'animated' : 'still';
   }
@@ -4958,10 +5014,38 @@ html.mk-embed main.mk-page{ display:none !important; }
       decodeEnt(titleOf(t));
   }
   function imageSlot(t) {
-    var u = escUrl(previewOf(t));
+    var u = escAsset(previewOf(t));
     return u
       ? '<img class="mk-shot" id="mkShot" src="' + u + '" alt="' + esc(imageAlt(t)) + '" loading="lazy">'
       : placeholderHtml(titleOf(t));
+  }
+  /* A click-through slide deck (the executive PPTX export rendered to images).
+     Slides are carried in a data-slides attribute so a single delegated nav
+     listener drives it in both the flyout and the guided view, even after the
+     panel HTML is re-rendered on a tab switch. */
+  function deckOf(t) {
+    var d = t && t.deck;
+    return (d && d.slides && d.slides.length) ? d : null;
+  }
+  function deckSlotHtml(t) {
+    var d = deckOf(t);
+    if (!d) return placeholderHtml(titleOf(t));
+    var slides = d.slides.map(function (s) { return safeAsset(s); }).filter(Boolean);
+    if (!slides.length) return placeholderHtml(titleOf(t));
+    var first = escAsset(slides[0]);
+    var jsonAttr = esc(JSON.stringify(slides));
+    var dl = escAsset(d.download);
+    return '<div class="mk-deck" data-slide="0" data-slides="' + jsonAttr + '">' +
+        '<div class="mk-deck-stage">' +
+          '<button type="button" class="mk-deck-nav mk-deck-prev" aria-label="Previous slide">\u2039</button>' +
+          '<img class="mk-deck-img" src="' + first + '" alt="Executive deck slide 1 of ' + slides.length +
+            '" loading="lazy">' +
+          '<button type="button" class="mk-deck-nav mk-deck-next" aria-label="Next slide">\u203a</button>' +
+        '</div>' +
+        '<div class="mk-deck-bar"><span class="mk-deck-count">1 / ' + slides.length + '</span>' +
+          (dl ? '<a class="mk-deck-dl" href="' + dl + '" download>Download .pptx</a>' : '') +
+        '</div>' +
+      '</div>';
   }
   /* preload="metadata" only: these files are 1-5 MB and live on
      raw.githubusercontent / github.io. Opening a flyout must not pull them.
@@ -4994,7 +5078,8 @@ html.mk-embed main.mk-page{ display:none !important; }
       items.push({ key: 'v' + i, kind: 'video', url: v.url,
         label: v.label || (vids.length > 1 ? 'Video ' + (i + 1) : 'Video') });
     });
-    if (safeUrl(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
+    if (safeAsset(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
+    if (deckOf(t)) items.push({ key: 'd', kind: 'deck', label: 'Executive deck' });
     return items;
   }
   function itemByKey(t, key) {
@@ -5005,12 +5090,16 @@ html.mk-embed main.mk-page{ display:none !important; }
   function mediaSlot(t, key) {
     var it = itemByKey(t, key);
     if (!it) return placeholderHtml(titleOf(t));
-    return it.kind === 'video' ? videoSlotUrl(it.url) : imageSlot(t);
+    if (it.kind === 'video') return videoSlotUrl(it.url);
+    if (it.kind === 'deck') return deckSlotHtml(t);
+    return imageSlot(t);
   }
   function mediaCap(t, key) {
     var it = itemByKey(t, key);
     if (!it) return 'Preview';
-    return it.kind === 'video' ? it.label : imageCap(t);
+    if (it.kind === 'video') return it.label;
+    if (it.kind === 'deck') return it.label;
+    return imageCap(t);
   }
   function mediaFigure(t) {
     var items = mediaItems(t);
@@ -5154,7 +5243,7 @@ html.mk-embed main.mk-page{ display:none !important; }
        an absent download simply leaves the header slot empty rather than
        rendering a dead button. */
     var dl = escUrl(t.download);
-    var repo = escUrl(t.repo);
+    var repo = escAsset(t.repo);
     /* v9: the corners are swapped. GitHub takes the top-right slot, the
        download drops to the footer. Same destinations, same components. */
     /* Roles are a prerequisite, so they are loud - but several reports need
@@ -5182,9 +5271,24 @@ html.mk-embed main.mk-page{ display:none !important; }
        the setup-guide link and the admin-template footnote all left - the
        video plays in the pane above and the guide covers the rest. */
     var actions = [];
+    /* A hosted browser tool (repo is a live site, not a github.com repo) is
+       opened, not downloaded - so it gets a "launch" label and, where present,
+       a one-click live demo and a preview of the executive deck export. */
+    var isHostedApp = !!t.repo && !/^https?:\/\/github\.com\//i.test(t.repo);
     if (repo) {
       actions.push('<a class="mk-ghbtn" href="' + repo +
-        '" target="_blank" rel="noopener noreferrer">Download this template on GitHub</a>');
+        '" target="_blank" rel="noopener noreferrer">' +
+        (isHostedApp ? 'Open the tool \u2197' : 'Download this template on GitHub') + '</a>');
+    }
+    var demo = escAsset(t.demoUrl);
+    if (demo) {
+      actions.push('<a class="mk-ghbtn" href="' + demo +
+        '" target="_blank" rel="noopener">Open the live demo \u2197</a>');
+    }
+    var deckRec = deckOf(t);
+    if (deckRec && escAsset(deckRec.download)) {
+      actions.push('<a class="mk-ghbtn" href="' + escAsset(deckRec.download) +
+        '" download>Download the executive deck (PPTX)</a>');
     }
     /* v32: the guide opens in its own tab instead of taking over this page,
        so it is a real link - middle-click, ctrl-click and "open in new tab"
@@ -5713,6 +5817,28 @@ html.mk-embed main.mk-page{ display:none !important; }
     if (slot) slot.innerHTML = gxSlot(t, it);
   });
 
+  /* Click-through deck navigation. One delegated listener drives every
+     .mk-deck instance - flyout and guided view alike - and survives panel
+     re-renders because the slide list rides in the data-slides attribute.
+     Clicking the slide image advances; the arrows step either way. */
+  document.addEventListener('click', function (e) {
+    var nav = e.target.closest('.mk-deck-nav, .mk-deck-img');
+    if (!nav) return;
+    var deck = nav.closest('.mk-deck');
+    if (!deck) return;
+    var slides;
+    try { slides = JSON.parse(deck.getAttribute('data-slides') || '[]'); } catch (_) { slides = []; }
+    if (!slides.length) return;
+    var i = parseInt(deck.getAttribute('data-slide'), 10) || 0;
+    i += nav.classList.contains('mk-deck-prev') ? -1 : 1;
+    i = (i % slides.length + slides.length) % slides.length;
+    deck.setAttribute('data-slide', i);
+    var img = deck.querySelector('.mk-deck-img');
+    if (img) { img.src = slides[i]; img.alt = 'Executive deck slide ' + (i + 1) + ' of ' + slides.length; }
+    var c = deck.querySelector('.mk-deck-count');
+    if (c) c.textContent = (i + 1) + ' / ' + slides.length;
+  });
+
   var gdSel = [];
   var gdOnlySel = false;
   var gdListEl = document.getElementById('mkGdList');
@@ -5801,7 +5927,8 @@ html.mk-embed main.mk-page{ display:none !important; }
     if (it.kind === 'video') {
       return '<video src="' + escUrl(it.url) + '" controls preload="metadata" playsinline></video>';
     }
-    return '<img src="' + escUrl(previewOf(t)) + '" alt="Preview of ' + esc(titleOf(t)) + '" loading="lazy">';
+    if (it.kind === 'deck') return deckSlotHtml(t);
+    return '<img src="' + escAsset(previewOf(t)) + '" alt="Preview of ' + esc(titleOf(t)) + '" loading="lazy">';
   }
   function gxMedia(t) {
     var items = mediaItems(t);
@@ -6869,8 +6996,11 @@ html.mk-embed main.mk-page{ display:none !important; }
 
   function gxSteps(t) {    var req = t.requirements || {};
     var meta = t.meta || {};
-    var dl = escUrl(t.download), repo = escUrl(t.repo), guide = escUrl(t.guide);
+    var dl = escUrl(t.download), repo = escAsset(t.repo), guide = escUrl(t.guide);
     var watch = escUrl(watchUrl(t.demoVideo));
+    var demo = escAsset(t.demoUrl);
+    var deckRec = deckOf(t);
+    var deckDl = deckRec ? escAsset(deckRec.download) : '';
     var media = gxMedia(t);
     var n = 0, out = '';
     function step(head, inner) {
@@ -6881,8 +7011,11 @@ html.mk-embed main.mk-page{ display:none !important; }
     out += step('See what you are building',
       '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
       (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
-      (watch ? '<div class="gx-links"><a href="' + watch +
-        '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a></div>' : ''));
+      ((watch || demo) ? '<div class="gx-links">' +
+        (demo ? '<a href="' + demo + '" target="_blank" rel="noopener">Open the live demo on its own page</a>' : '') +
+        (watch ? '<a href="' + watch +
+          '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a>' : '') +
+        '</div>' : ''));
     out += step('Get the access you need',
       '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>' +
       (gxChecks(req.roles) || '<p class="gx-hint">No special roles required.</p>'));
@@ -6918,7 +7051,10 @@ html.mk-embed main.mk-page{ display:none !important; }
            'so there is nothing to open in Power BI Desktop.</p>');
     var refs = [];
     if (repo) refs.push('<a href="' + repo +
-      '" target="_blank" rel="noopener noreferrer">Full README and setup notes</a>');
+      '" target="_blank" rel="noopener noreferrer">' +
+      (isRepo ? 'Full README and setup notes' : 'Open the tool') + '</a>');
+    if (deckDl) refs.push('<a href="' + deckDl +
+      '" download>Download the executive deck (PPTX)</a>');
     if (guide) refs.push('<a href="' + guide +
       '" target="_blank" rel="noopener noreferrer">Setup guide</a>');
     refs.push('<a href="mailto:copilot-roi-advisory-team-gh@microsoft.com">' +
