@@ -1,6 +1,6 @@
 # Copilot Admin Control & Governance Watch - 2026-09-21
 
-Run: 2026-09-21T08:25:30.408Z
+Run: 2026-09-21T11:16:27.126Z
 
-_Baseline run - snapshot recorded, no comparison performed._
+**No changes detected.** 6 pages checked, 1 updated within window (since 2026-07-01).
 
