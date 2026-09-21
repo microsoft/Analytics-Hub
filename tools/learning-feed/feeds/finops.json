@@ -1,0 +1,15 @@
+{
+  "id": "finops",
+  "title": "FinOps & FOCUS Cost Watch",
+  "slug": "finops-focus-watch",
+  "blurb": "A running record of the Microsoft Learn pages and the versioned FOCUS specification behind Copilot cost reporting in FinOps terms \u2014 the FinOps Framework, the FOCUS open standard, and the Azure Cost Management FOCUS export schema. These are the definitions the Hub's FinOps & FOCUS Cost Report and Consumption Central conform to.",
+  "windowStart": "2026-07-01",
+  "releasesSource": { "repo": "FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec", "label": "FOCUS specification releases" },
+  "docs": [
+    { "id": "what-is-focus", "tier": 1, "title": "What is FOCUS?", "url": "https://learn.microsoft.com/en-us/cloud-computing/finops/focus/what-is-focus", "why": "Microsoft's overview of the FOCUS open cost-and-usage standard. Definition changes here change what FOCUS-aligned reports must conform to." },
+    { "id": "focus-schema", "tier": 1, "title": "FOCUS cost and usage details (dataset schema)", "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/dataset-schema/cost-usage-details-focus", "why": "THE column-level FOCUS export schema in Azure Cost Management. Any column rename or definition change directly affects the FinOps & FOCUS Cost Report." },
+    { "id": "improved-exports", "tier": 1, "title": "Create exports with FOCUS (Cost Management)", "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-improved-exports", "why": "How FOCUS-format cost exports are produced \u2014 the pipeline the Cowork cost reports read from." },
+    { "id": "schema-index", "tier": 2, "title": "Cost Management dataset schema index", "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/dataset-schema/schema-index", "why": "The index of all Cost Management export schemas \u2014 new dataset versions appear here first." },
+    { "id": "finops-framework", "tier": 2, "title": "The FinOps Framework", "url": "https://learn.microsoft.com/en-us/cloud-computing/finops/framework/finops-framework", "why": "Microsoft's mapping to the FinOps Foundation framework capabilities \u2014 the conceptual model the reports align to." }
+  ]
+}

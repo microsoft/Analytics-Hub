@@ -1,0 +1,13 @@
+{
+  "id": "purview",
+  "title": "Purview Copilot Audit Watch",
+  "slug": "purview-copilot-audit-watch",
+  "blurb": "A running record of the Microsoft Learn pages behind Microsoft Purview auditing of Copilot \u2014 the Copilot audit events, the audit-log activities catalog, and the search and retention model. Purview audit logs are the primary data source for several of the Hub's reports, so a change to the Copilot audit schema can silently break them.",
+  "windowStart": "2026-07-01",
+  "docs": [
+    { "id": "audit-copilot", "tier": 1, "title": "Audit logs for Copilot and AI activities", "url": "https://learn.microsoft.com/en-us/purview/audit-copilot", "why": "THE definition of the Copilot audit events (what is logged for each Copilot interaction). Reports reading from Purview audit logs depend on this schema." },
+    { "id": "audit-log-activities", "tier": 1, "title": "Audited activities (audit log activities catalog)", "url": "https://learn.microsoft.com/en-us/purview/audit-log-activities", "why": "The full catalog of audited activities and their record types. New or renamed Copilot activities appear here and change what can be measured." },
+    { "id": "audit-new-search", "tier": 1, "title": "Search the audit log", "url": "https://learn.microsoft.com/en-us/purview/audit-new-search", "why": "How analysts query the audit log \u2014 the retrieval surface the report pipelines rely on." },
+    { "id": "audit-solutions-overview", "tier": 2, "title": "Learn about auditing solutions in Microsoft Purview", "url": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview", "why": "Standard vs Premium audit, retention windows, and licensing \u2014 gating on how far back Copilot activity can be analysed." }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "runAt": "2026-09-21T20:30:47.980Z",
+  "feed": "finops",
+  "windowStart": "2026-07-01",
+  "pages": [
+    {
+      "id": "what-is-focus",
+      "tier": 1,
+      "title": "What is FOCUS?",
+      "url": "https://learn.microsoft.com/en-us/cloud-computing/finops/focus/what-is-focus",
+      "why": "Microsoft's overview of the FOCUS open cost-and-usage standard. Definition changes here change what FOCUS-aligned reports must conform to.",
+      "ok": true,
+      "msDate": "2025-06-16T00:00:00Z",
+      "gitCommit": "a74e7c72db9bbdc44d6f3307194cad5e78348cc9",
+      "wordCount": "2733",
+      "bodyHash": "380518c0ffc72013",
+      "bodyLen": 19174,
+      "sections": [
+        "What is FOCUS?",
+        "Why FOCUS?",
+        "Benefits",
+        "Get started",
+        "Learning FOCUS blog series",
+        "Important notes about FOCUS columns",
+        "Feedback about FOCUS columns",
+        "Learn more at the FinOps Foundation",
+        "Give feedback",
+        "Related content"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "focus-schema",
+      "tier": 1,
+      "title": "FOCUS cost and usage details (dataset schema)",
+      "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/dataset-schema/cost-usage-details-focus",
+      "why": "THE column-level FOCUS export schema in Azure Cost Management. Any column rename or definition change directly affects the FinOps & FOCUS Cost Report.",
+      "ok": true,
+      "msDate": "2025-06-26T00:00:00Z",
+      "gitCommit": "81437ec1b2d6dfe3f3a30f515609c1dc914e2d74",
+      "wordCount": "4801",
+      "bodyHash": "4fad161c06758119",
+      "bodyLen": 34250,
+      "sections": [
+        "Changelog",
+        "Version 1.2-preview",
+        "Version 1.0",
+        "Version 1.0-preview(v1)"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "improved-exports",
+      "tier": 1,
+      "title": "Create exports with FOCUS (Cost Management)",
+      "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-improved-exports",
+      "why": "How FOCUS-format cost exports are produced — the pipeline the Cowork cost reports read from.",
+      "ok": true,
+      "msDate": "2025-06-26T00:00:00Z",
+      "gitCommit": "981d4c7a114a9026e67c1ac75226043c035d2ab5",
+      "wordCount": "5115",
+      "bodyHash": "efa014a2b434f55c",
+      "bodyLen": 34490,
+      "sections": [
+        "Updated functionality",
+        "Create exports",
+        "Choose a scope and navigate to Exports",
+        "Create new exports",
+        "Select the export template",
+        "Optional - Add more exports",
+        "Define the export destination",
+        "Review and create",
+        "Configure exports for storage accounts with a firewall",
+        "Manage exports",
+        "Understand schedule frequency",
+        "Optional - Create an export for multiple subscriptions",
+        "File partitioning for large datasets",
+        "Manifest file",
+        "Verify that data is collected",
+        "Download an exported data file",
+        "View export run history",
+        "Cost export runs twice a day for the first five days of the month",
+        "Understand export data types",
+        "Limitations",
+        "FAQ",
+        "Understanding file partitioning in Cost Management Exports",
+        "How does the enhanced export experience handle missing attributes like subscription IDs?",
+        "How much historical data can I retrieve using exports?",
+        "Which datasets support Parquet format and compression?",
+        "Why do I get the 'Unauthorized' error while trying to create an Export?",
+        "What is the maximum number of subscriptions allowed within a management group (MG) when creating an export?",
+        "How are the exported files organized in the blob storage folders?",
+        "Why do I see garbled characters when I open exported cost files with Microsoft Excel?",
+        "Why does the aggregated cost from the exported file differ from the cost displayed in Cost Analysis?"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "schema-index",
+      "tier": 2,
+      "title": "Cost Management dataset schema index",
+      "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/dataset-schema/schema-index",
+      "why": "The index of all Cost Management export schemas — new dataset versions appear here first.",
+      "ok": true,
+      "msDate": "2025-06-26T00:00:00Z",
+      "gitCommit": "981d4c7a114a9026e67c1ac75226043c035d2ab5",
+      "wordCount": "467",
+      "bodyHash": "9da9785bf77af065",
+      "bodyLen": 5496,
+      "sections": [
+        "Dataset schema files",
+        "Latest dataset schema files",
+        "Older versions of dataset schema files"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "finops-framework",
+      "tier": 2,
+      "title": "The FinOps Framework",
+      "url": "https://learn.microsoft.com/en-us/cloud-computing/finops/framework/finops-framework",
+      "why": "Microsoft's mapping to the FinOps Foundation framework capabilities — the conceptual model the reports align to.",
+      "ok": true,
+      "msDate": "2025-04-25T00:00:00Z",
+      "gitCommit": "a74e7c72db9bbdc44d6f3307194cad5e78348cc9",
+      "wordCount": "1395",
+      "bodyHash": "89c5b0fa56484fb1",
+      "bodyLen": 11000,
+      "sections": [
+        "Principles",
+        "Scopes",
+        "Stakeholders",
+        "Lifecycle",
+        "Capabilities",
+        "Maturity model",
+        "Learn more at the FinOps Foundation",
+        "Give feedback",
+        "Related content"
+      ],
+      "inWindow": false
+    }
+  ],
+  "releases": [
+    {
+      "tag": "v1.4",
+      "name": "v1.4",
+      "published": "2026-06-04",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.4",
+      "prerelease": false
+    },
+    {
+      "tag": "latest-draft",
+      "name": "Latest Working Draft",
+      "published": "2026-04-07",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/latest-draft",
+      "prerelease": true
+    },
+    {
+      "tag": "v1.3",
+      "name": "v1.3",
+      "published": "2025-12-08",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.3",
+      "prerelease": false
+    },
+    {
+      "tag": "v1.2",
+      "name": "v1.2",
+      "published": "2025-05-29",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.2",
+      "prerelease": false
+    },
+    {
+      "tag": "v1.1",
+      "name": "v1.1",
+      "published": "2024-11-07",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.1",
+      "prerelease": false
+    },
+    {
+      "tag": "v1.0",
+      "name": "v1.0",
+      "published": "2024-06-14",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.0",
+      "prerelease": false
+    },
+    {
+      "tag": "v1.0-preview",
+      "name": "v1.0-preview",
+      "published": "2024-06-14",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.0-preview",
+      "prerelease": false
+    },
+    {
+      "tag": "v0.5",
+      "name": "v0.5",
+      "published": "2024-05-12",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v0.5",
+      "prerelease": false
+    }
+  ]
+}

@@ -161,7 +161,28 @@ async function scanHtmlFeed(feed) {
     }
   }
 
-  return persist(feed, pages, changes);
+  // Optional: track releases of a versioned spec via the GitHub Releases API.
+  let releases = null;
+  if (feed.releasesSource) {
+    process.stdout.write('  [' + feed.id + '] releases ' + feed.releasesSource.repo + ' ... ');
+    const rr = await get('https://api.github.com/repos/' + feed.releasesSource.repo + '/releases?per_page=10');
+    if (rr.ok) {
+      try {
+        releases = JSON.parse(rr.body).filter(x => !x.draft).map(x => ({
+          tag: x.tag_name, name: x.name || x.tag_name,
+          published: (x.published_at || '').slice(0, 10),
+          url: x.html_url, prerelease: !!x.prerelease
+        }));
+        console.log('ok (' + releases.length + ' releases, latest ' + (releases[0] ? releases[0].tag : '?') + ')');
+        if (prev && prev.releases && !BASELINE) {
+          const prevTags = new Set(prev.releases.map(r => r.tag));
+          releases.forEach(r => { if (!prevTags.has(r.tag)) changes.push({ sev: 'critical', id: 'release', title: feed.releasesSource.label || 'Specification release', url: r.url, detail: 'NEW RELEASE: ' + r.tag + (r.name && r.name !== r.tag ? ' (' + r.name + ')' : '') + ' published ' + r.published }); });
+        }
+      } catch (e) { console.log('parse fail'); }
+    } else { console.log('FAILED (' + rr.error + ')'); }
+  }
+
+  return persist(feed, pages, changes, releases);
 }
 
 async function scanRoadmapFeed(feed) {
@@ -205,14 +226,15 @@ async function scanRoadmapFeed(feed) {
   return { feed: feed.id, ok: true, changes };
 }
 
-function persist(feed, pages, changes) {
+function persist(feed, pages, changes, releases) {
   ensure(SNAP_DIR); ensure(REPORT_DIR);
   const runAt = new Date().toISOString(); const stamp = runAt.slice(0, 10);
   const snapshot = { runAt, feed: feed.id, windowStart: feed.windowStart, pages };
+  if (releases) snapshot.releases = releases;
   fs.writeFileSync(path.join(SNAP_DIR, feed.id + '-snapshot-' + stamp + '.json'), JSON.stringify(snapshot, null, 2));
   fs.writeFileSync(path.join(SNAP_DIR, feed.id + '-latest.json'), JSON.stringify(snapshot, null, 2));
   const okc = pages.filter(p => p.ok).length;
-  writeReport(feed, stamp, runAt, changes, okc + ' pages checked, ' + pages.filter(p => p.inWindow).length + ' updated within window (since ' + feed.windowStart + ').');
+  writeReport(feed, stamp, runAt, changes, okc + ' pages checked, ' + pages.filter(p => p.inWindow).length + ' updated within window (since ' + feed.windowStart + ')' + (releases ? ', ' + releases.length + ' spec releases tracked' : '') + '.');
   return { feed: feed.id, ok: true, changes, pages };
 }
 

@@ -237,12 +237,41 @@ function buildDocFeed(feed, snap, canonical) {
     return `      <li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a>${date}${badge}</li>`;
   }).join('\n');
 
+  let releasesBlock = '';
+  if (snap.releases && snap.releases.length) {
+    const relRows = snap.releases.map(r => `
+        <tr>
+          <td class="dm-page"><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.tag)}</a>${r.prerelease ? ' <span class="dm-tier">(pre-release)</span>' : ''}</td>
+          <td>${esc(r.name && r.name !== r.tag ? r.name : '\u2014')}</td>
+          <td class="dm-date">${fmtDate(r.published)}</td>
+        </tr>`).join('');
+    const relLabel = (feed.releasesSource && feed.releasesSource.label) || 'Specification releases';
+    releasesBlock = `
+    <h2 class="dm-h">${esc(relLabel)}</h2>
+    <p class="dm-note">Published releases of the versioned specification these reports conform to, newest first, taken verbatim from the source repository's releases. A new release can change column definitions or naming that the reports depend on.</p>
+    <div class="dm-scroll">
+    <table class="dm-log">
+      <thead><tr><th>Version</th><th>Name</th><th>Published</th></tr></thead>
+      <tbody>${relRows}
+      </tbody>
+    </table>
+    </div>
+`;
+  }
+
   const bannerTitle = noMsDate
     ? `${pages.length} GitHub Copilot billing pages now under daily watch`
     : `${inWindow.length} of ${pages.length} watched pages were updated by Microsoft since ${winLabel}`;
-  const bannerBody = noMsDate
+  let bannerBody = noMsDate
     ? `This feed records the current published state of each page today and reports any change detected on the daily scan. GitHub documentation does not expose a machine-readable last-updated date, so changes are detected from the page body itself.`
     : `Each was updated on or after ${winLabel}, based on Microsoft's own published "last updated" date. The change log below lists them newest first, with a link to the source page and to the exact row for sharing.`;
+  let bannerTitleFinal = bannerTitle;
+  if (snap.releases && snap.releases.length) {
+    const latest = snap.releases.find(r => !r.prerelease) || snap.releases[0];
+    const relLabel = (feed.releasesSource && feed.releasesSource.label) || 'specification';
+    if (!inWindow.length) bannerTitleFinal = `Latest ${relLabel.replace(/ releases$/i, '')} release: ${latest.tag} (${fmtDate(latest.published)})`;
+    bannerBody += ` The versioned specification these reports conform to is tracked below \u2014 latest release ${latest.tag}, published ${fmtDate(latest.published)}.`;
+  }
 
   return head(feed, canonical) + `
   <section class="dm-hero">
@@ -259,7 +288,7 @@ function buildDocFeed(feed, snap, canonical) {
 
       <div class="dm-alert" id="dmAlert" role="alert" aria-label="Documentation update summary">
         <p class="dm-alert__head"><span class="dm-alert__dot" aria-hidden="true"></span> Update summary</p>
-        <p class="dm-alert__title" id="dmBannerTitle">${esc(bannerTitle)}</p>
+        <p class="dm-alert__title" id="dmBannerTitle">${esc(bannerTitleFinal)}</p>
         <p class="dm-alert__body" id="dmBannerBody">${esc(bannerBody)}</p>
         <div class="dm-alert__actions">
           <a class="dm-actbtn dm-actbtn--mail" id="dmBannerEmail" href="#">&#9993; Email someone about this</a>
@@ -287,7 +316,7 @@ ${rows}
       </tbody>
     </table>
     </div>
-
+${releasesBlock}
     <h2 class="dm-h">Pages we watch</h2>
     <ul class="dm-links">
 ${watchList}

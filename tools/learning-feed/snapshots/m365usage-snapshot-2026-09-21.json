@@ -1,0 +1,81 @@
+{
+  "runAt": "2026-09-21T20:30:49.524Z",
+  "feed": "m365usage",
+  "windowStart": "2026-07-01",
+  "pages": [
+    {
+      "id": "copilot-usage",
+      "tier": 1,
+      "title": "Microsoft 365 Copilot usage report",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/microsoft-365-copilot-usage",
+      "why": "THE admin-center Copilot usage/adoption report. Metric and field changes here affect every adoption report that reads from the M365 admin center.",
+      "ok": true,
+      "msDate": "2026-07-14T00:00:00Z",
+      "gitCommit": "64321e9bd174d4ab3a16b550963f23ffd7d14cdb",
+      "wordCount": "2948",
+      "bodyHash": "f0dcc25ea39a0222",
+      "bodyLen": 19387,
+      "sections": [
+        "View the Microsoft Copilot usage report in the Microsoft 365 admin center",
+        "Interpret the Microsoft Copilot usage report",
+        "User last activity table",
+        "FAQ",
+        "How is a user considered active in Microsoft Copilot usage?",
+        "What's the difference between the user activity table and audit log?",
+        "What's the scope of the user-level table?",
+        "I assigned the Microsoft Copilot license to users, but why is the 'last activity date' for users empty in rare cases?",
+        "How do the numbers in this report compare to what is shown in the Microsoft Copilot Dashboard in Viva Insights?"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "copilot-readiness",
+      "tier": 1,
+      "title": "Microsoft 365 Copilot readiness report",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/microsoft-365-copilot-readiness",
+      "why": "Who is licensed and ready for Copilot — the readiness signal behind the Copilot Readiness report.",
+      "ok": true,
+      "msDate": "2026-04-03T00:00:00Z",
+      "gitCommit": "64321e9bd174d4ab3a16b550963f23ffd7d14cdb",
+      "wordCount": "1138",
+      "bodyHash": "dc071ea28788ccd4",
+      "bodyLen": 8501,
+      "sections": [
+        "View the Microsoft Copilot Readiness and usage report in the Microsoft 365 admin center",
+        "Interpret the Readiness section in the Microsoft Copilot report",
+        "User activity table",
+        "Extra details for the \"Suggested candidate for Copilot\" column",
+        "Related content"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "activity-reports",
+      "tier": 2,
+      "title": "Microsoft 365 admin center activity reports",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/admin/activity-reports/activity-reports",
+      "why": "The parent index of admin-center activity reports — new report types and de-identification/privacy toggles surface here.",
+      "ok": true,
+      "msDate": "2026-08-28T00:00:00Z",
+      "gitCommit": "ba9ba4d29de58f539398d77d31b972d52bbe4b05",
+      "wordCount": "1606",
+      "bodyHash": "7fc1cd5851a3dad6",
+      "bodyLen": 10816,
+      "sections": [
+        "Watch: Act on a usage report in Microsoft 365",
+        "Before you begin",
+        "View the Reports dashboard",
+        "Available usage reports in the Microsoft 365 admin center",
+        "View licensing information",
+        "View usage information for a specific user",
+        "Show user, group, or site details in usage reports",
+        "Use the Microsoft 365 admin center to show user, group, or site details",
+        "Use adminReportSettings to show user, group, or site details",
+        "What happens to usage data when I delete a user account?",
+        "How do I interpret the last activity date in user, group, or site details in the usage reports?",
+        "Related content"
+      ],
+      "inWindow": true
+    }
+  ]
+}
