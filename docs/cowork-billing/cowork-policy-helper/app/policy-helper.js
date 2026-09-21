@@ -541,7 +541,10 @@
     function computeImpact() {
         var rate = state.rate;
         var baseAllow = 0, curAllow = 0, used = 0, changed = 0;
-        state.users.forEach(function (u) {
+        var dep = state.deptFilter;
+        var users = dep === 'All' ? state.users
+            : state.users.filter(function (u) { return (u.department || 'Unknown') === dep; });
+        users.forEach(function (u) {
             var bid = state.baseline[u.upn] || 'unassigned';
             var cid = state.assignments[u.upn] || 'unassigned';
             baseAllow += policyById(bid).allowance;
@@ -653,8 +656,9 @@
         var im = computeImpact();
         var changed = im.changed > 0;
 
+        var scopeLabel = state.deptFilter === 'All' ? 'All up' : state.deptFilter;
         var today = impactGroup(
-            'impact-today', 'Where you stand today',
+            'impact-today', 'Where you stand today &middot; ' + esc(scopeLabel),
             im.baseAllow, im.used, im.baseUnused, im.baseCost, im.baseUtil,
             'current tiers', unusedSubText(im.baseUnused, im.rate), 'committed if fully used',
             im.baseUnused < 0 ? 'stat-warn' : '');
@@ -1145,7 +1149,7 @@
         deptSel.innerHTML = '<option value="All">All departments</option>' +
             deptList.map(function (d) { return '<option value="' + esc(d) + '">' + esc(d) + '</option>'; }).join('');
         var cohSel = $('cohortFilter');
-        cohSel.innerHTML = '<option value="All">All cohorts</option>' +
+        cohSel.innerHTML = '<option value="All">All Policies</option>' +
             COHORT_ORDER.map(function (c) { return '<option value="' + esc(c) + '">' + esc(c) + '</option>'; }).join('');
 
         var bulkSel = $('bulkPolicy');
@@ -1946,7 +1950,7 @@ function exportAdjustedOverages() {
         });
 
         $('rbacSearch').addEventListener('input', function () { state.search = this.value; renderRoster(); });
-        $('deptFilter').addEventListener('change', function () { state.deptFilter = this.value; renderRoster(); });
+        $('deptFilter').addEventListener('change', function () { state.deptFilter = this.value; renderRoster(); renderImpact(); });
         $('cohortFilter').addEventListener('change', function () { state.cohortFilter = this.value; renderRoster(); });
         $('viewIndividual').addEventListener('click', function () { switchView('individual'); });
         var vg = $('viewGrouped'); if (vg) vg.addEventListener('click', function () { switchView('grouped'); });
