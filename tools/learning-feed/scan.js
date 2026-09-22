@@ -35,17 +35,35 @@ const BASELINE = args.includes('--baseline');
 const ALL = args.includes('--all');
 const feedArg = args.find(a => !a.startsWith('--'));
 
+/* Host allowlist: the scanner may ONLY fetch from these official public
+   sources. Enforced on every request AND on every redirect target, so a
+   mistyped registry URL or a redirect to an off-domain host can never cause
+   the tool to fetch (or publish) anything other than public documentation. */
+const ALLOWED_HOSTS = [
+  'learn.microsoft.com',
+  'docs.github.com',
+  'www.microsoft.com',            // M365 public Roadmap API (releasecommunications)
+  'api.github.com'                // public FOCUS_Spec releases API
+];
+function hostAllowed(url) {
+  let h; try { h = new URL(url).hostname.toLowerCase(); } catch (e) { return false; }
+  return ALLOWED_HOSTS.includes(h);
+}
+
 function get(url, redirects) {
   redirects = redirects || 0;
   return new Promise((resolve) => {
     if (redirects > 5) return resolve({ ok: false, error: 'too many redirects' });
+    if (!hostAllowed(url)) return resolve({ ok: false, error: 'blocked host (not on allowlist): ' + url });
     const req = https.get(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) LearningFeedWatch/1.0', 'Accept': 'text/html,application/xhtml+xml,application/json' },
       timeout: 45000
     }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         res.resume();
-        return resolve(get(new URL(res.headers.location, url).toString(), redirects + 1));
+        const next = new URL(res.headers.location, url).toString();
+        if (!hostAllowed(next)) return resolve({ ok: false, error: 'blocked redirect to off-allowlist host' });
+        return resolve(get(next, redirects + 1));
       }
       if (res.statusCode !== 200) { res.resume(); return resolve({ ok: false, error: 'HTTP ' + res.statusCode }); }
       let body = ''; res.setEncoding('utf8');
@@ -138,7 +156,16 @@ async function scanHtmlFeed(feed) {
     const r = await get(doc.url);
     if (!r.ok) {
       console.log('FAILED (' + r.error + ')');
-      pages.push({ id: doc.id, tier: doc.tier, title: doc.title, url: doc.url, why: doc.why, ok: false, error: r.error });
+      // Carry-forward: preserve the last known-good snapshot for this page so a
+      // transient fetch failure does not erase its baseline (which would hide a
+      // real change when the page recovers). The record is marked stale so the
+      // report/page can surface that it was not re-verified today.
+      const prevRec = prevById[doc.id];
+      if (prevRec && prevRec.ok) {
+        pages.push(Object.assign({}, prevRec, { staleSince: (prevRec.staleSince || (prev && prev.runAt) || null), fetchFailed: true, lastError: r.error, inWindow: prevRec.inWindow }));
+      } else {
+        pages.push({ id: doc.id, tier: doc.tier, title: doc.title, url: doc.url, why: doc.why, discovered: !!doc.discovered, ok: false, error: r.error });
+      }
       continue;
     }
     const text = stripTags(r.body);
@@ -256,9 +283,11 @@ function persist(feed, pages, changes, releases) {
   if (releases) snapshot.releases = releases;
   fs.writeFileSync(path.join(SNAP_DIR, feed.id + '-snapshot-' + stamp + '.json'), JSON.stringify(snapshot, null, 2));
   fs.writeFileSync(path.join(SNAP_DIR, feed.id + '-latest.json'), JSON.stringify(snapshot, null, 2));
-  const okc = pages.filter(p => p.ok).length;
-  writeReport(feed, stamp, runAt, changes, okc + ' pages checked, ' + pages.filter(p => p.inWindow).length + ' updated within window (since ' + feed.windowStart + ')' + (releases ? ', ' + releases.length + ' spec releases tracked' : '') + '.');
-  return { feed: feed.id, ok: true, changes, pages };
+  const okc = pages.filter(p => p.ok && !p.fetchFailed).length;
+  const failedc = pages.filter(p => p.fetchFailed || (!p.ok)).length;
+  const failNote = failedc ? ' \u26a0 ' + failedc + ' page(s) could not be fetched today; their last known-good snapshot was carried forward (not re-verified).' : '';
+  writeReport(feed, stamp, runAt, changes, okc + ' pages verified, ' + pages.filter(p => p.inWindow).length + ' updated within window (since ' + feed.windowStart + ')' + (releases ? ', ' + releases.length + ' spec releases tracked' : '') + '.' + failNote);
+  return { feed: feed.id, ok: true, changes, pages, failed: failedc };
 }
 
 function writeReport(feed, stamp, runAt, changes, summary) {
