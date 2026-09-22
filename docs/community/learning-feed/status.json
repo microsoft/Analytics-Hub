@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T15:34:32.554Z",
+  "generatedAt": "2026-09-22T17:43:11.895Z",
   "feeds": {
     "compliance-data-residency-watch": {
       "feedId": "compliance",
@@ -94,6 +94,22 @@
         "severity": "minor",
         "date": "2026-09-01",
         "count": 8,
+        "seeded": true
+      }
+    },
+    "message-center-watch": {
+      "feedId": "messagecenter",
+      "title": "Message Center Watch — Copilot Cost & Cowork",
+      "windowStart": "2026-06-01",
+      "noMsDate": false,
+      "mode": "roadmap",
+      "lastScan": "2026-09-22T17:39:29.692Z",
+      "pagesWatched": 4,
+      "updatedInWindow": 4,
+      "lastChange": {
+        "severity": "minor",
+        "date": "2026-09-14",
+        "count": 4,
         "seeded": true
       }
     },

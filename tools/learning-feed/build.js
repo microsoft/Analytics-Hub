@@ -253,6 +253,7 @@ const FOOTER = `
 </footer>`;
 
 const STATUS_COLOR = { 'Launched': '#107c10', 'Rolling out': '#0067c0', 'In development': '#8661c5', 'Cancelled': '#8a8886' };
+const MC_COLOR = { 'Plan for change': '#8661c5', 'Stay informed': '#0067c0', 'Prevent or fix issues': '#c50f1f' };
 
 function buildDocFeed(feed, snap, canonical) {
   const pages = (snap.pages || []).filter(p => p.ok);
@@ -545,13 +546,134 @@ ${roadmapFilterScript()}
 </html>`;
 }
 
+function buildMessageCenterFeed(feed, snap, canonical) {
+  const items = (snap.items || []).slice();
+  const win = feed.windowStart || '2026-06-01';
+  const byDate = (a, b) => (b.modified || b.created || '').localeCompare(a.modified || a.created || '');
+  const inWin = items.filter(i => (i.modified || i.created || '') >= win).sort(byDate);
+  const counts = {};
+  items.forEach(i => { counts[i.status] = (counts[i.status] || 0) + 1; });
+  const majorCount = items.filter(i => i.isMajor).length;
+  const winLabel = fmtDate(win);
+  const all = items.slice().sort(byDate);
+
+  const rows = all.map((it, i) => {
+    const color = MC_COLOR[it.status] || '#5a5a6e';
+    const svc = (it.services || []).join(', ');
+    const svcShort = svc.length > 90 ? svc.slice(0, 90).replace(/,?\s+\S*$/, '') + '\u2026' : svc;
+    const dateISO = (it.modified || it.created || '').slice(0, 10);
+    const searchKey = esc((it.title + ' ' + it.id + ' ' + svc).toLowerCase());
+    const major = it.isMajor ? ' <span class="dm-badge-status" style="background:#c50f1f">Major</span>' : '';
+    return `
+        <tr id="change-${i + 1}" data-status="${esc(it.status)}" data-date="${esc(dateISO)}" data-search="${searchKey}">
+          <td class="dm-page"><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a> <span class="dm-tier">${esc(it.id)}</span></td>
+          <td class="dm-prev"><span class="dm-badge-status" style="background:${color}">${esc(it.status)}</span>${major}</td>
+          <td class="dm-new"><p class="dm-quote">${esc(svcShort)}</p></td>
+          <td class="dm-date">${fmtDate(it.modified || it.created)}</td>
+        </tr>`;
+  }).join('');
+
+  const chipOrder = ['Plan for change', 'Stay informed', 'Prevent or fix issues'];
+  const statusChips = chipOrder.filter(s => counts[s]).map(s =>
+    `<button type="button" class="rm-chip" data-status="${esc(s)}" aria-pressed="true" style="--rmc:${MC_COLOR[s] || '#5a5a6e'}">${esc(s)} <span class="rm-c">${counts[s]}</span></button>`
+  ).join('\n        ');
+  const filterBar = `
+    <div class="rm-filter" role="group" aria-label="Filter Message center posts">
+      <span class="rm-flabel">Category</span>
+      <div class="rm-chips" id="rmChips">
+        <button type="button" class="rm-chip" data-status="__all__" aria-pressed="true" style="--rmc:#0067c0">All <span class="rm-c">${all.length}</span></button>
+        ${statusChips}
+      </div>
+      <div class="rm-tools">
+        <input id="rmSearch" class="rm-search" type="search" placeholder="Search post, MC ID or service\u2026" aria-label="Search Message center posts" />
+        <select id="rmRange" class="rm-range" aria-label="Filter by timeframe">
+          <option value="all" selected>All tracked</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="win">Since ${winLabel}</option>
+          <option value="365">Last 12 months</option>
+        </select>
+        <span class="rm-count" id="rmCount"></span>
+      </div>
+    </div>`;
+
+  const attr = feed.attribution || {};
+  const watchNote = `      <li>Source: <a href="${esc(attr.url || feed.source)}" target="_blank" rel="noopener">${esc(attr.repo || 'merill/mc')}</a> \u2014 the public, ${esc(attr.license || 'MIT')}-licensed M365 Message Center Archive, filtered to Copilot cost &amp; Cowork posts.</li>
+      <li>Categories: <strong>Plan for change</strong>, <strong>Stay informed</strong>. Each row links to its Message center post on the public mirror.</li>`;
+
+  const bannerTitle = `${inWin.length} Copilot cost &amp; Cowork Message center posts since ${winLabel} \u2014 ${majorCount} major`;
+  const bannerBody = `Built from the public merill/mc Message Center Archive, filtered to Copilot Cowork, Copilot Credits, usage-based billing and Cost management. All ${items.length} tracked posts are listed below (${counts['Plan for change'] || 0} Plan for change, ${counts['Stay informed'] || 0} Stay informed), newest first. Message center content varies by tenant \u2014 always confirm against your own tenant's Message center.`;
+
+  return head(feed, canonical) + `
+  <section class="dm-hero">
+    <div class="wrap">
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <h1>${esc(feed.title)}</h1>
+      <p class="lede">${esc(feed.blurb)}</p>
+      <p class="dm-scope">Message center posts vary by tenant. This digest is built from a public archive for reference &mdash; always use your own tenant's Message center as the source of truth.</p>
+      <div class="dm-kpis">
+        <div class="dm-kpi"><div class="v">${items.length}</div><div class="l">Copilot cost/Cowork posts tracked</div></div>
+        <div class="dm-kpi"><div class="v">${inWin.length}</div><div class="l">since ${winLabel}</div></div>
+        <div class="dm-kpi"><div class="v">${majorCount}</div><div class="l">major changes</div></div>
+      </div>
+      <p class="dm-meta">Reflects the archive pulled on ${fmtDate(snap.runAt)} &middot; Source: ${esc(attr.repo || 'merill/mc')} (${esc(attr.license || 'MIT')}). Titles, categories and dates are reproduced from that archive.</p>
+
+      <div class="dm-alert" id="dmAlert" role="alert" aria-label="Message center update summary">
+        <p class="dm-alert__head"><span class="dm-alert__dot" aria-hidden="true"></span> Update summary</p>
+        <p class="dm-alert__title" id="dmBannerTitle">${bannerTitle}</p>
+        <p class="dm-alert__body" id="dmBannerBody">${bannerBody}</p>
+        <div class="dm-alert__actions">
+          <a class="dm-actbtn dm-actbtn--mail" id="dmBannerEmail" href="#">&#9993; Email someone about this</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="dm-summary">
+      <h2>About this feed</h2>
+      <p>A plain-language index of Microsoft 365 Message center posts touching Copilot Cowork, Copilot Credits, usage-based billing and Cost management. Each row links to the full post on the public Message Center Archive. This is not an official Microsoft communication.</p>
+    </div>
+
+    <div class="dm-note">
+      Every tracked post is listed, newest first. Use the <strong>Category</strong> chips, the timeframe menu, or search by title, MC ID or service. Message center rollout dates and availability vary by tenant.
+    </div>
+${filterBar}
+
+    <h2 class="dm-h">Copilot cost &amp; Cowork Message center posts</h2>
+    <div class="dm-scroll">
+    <table class="dm-log">
+      <thead><tr><th>Post</th><th>Category</th><th>Services</th><th>Updated</th></tr></thead>
+      <tbody>
+${rows}
+      </tbody>
+    </table>
+    </div>
+
+    <h2 class="dm-h">About the source</h2>
+    <ul class="dm-links">
+${watchNote}
+    </ul>
+
+    <p class="dm-disclaimer">This is an independent, community-run index published by the Analytics Hub, built from the public, MIT-licensed <a href="${esc(attr.url || 'https://github.com/merill/mc')}" target="_blank" rel="noopener">${esc(attr.repo || 'merill/mc')}</a> Message Center Archive. It is not an official Microsoft communication. Message center posts vary by tenant and are subject to change; always confirm against your own tenant's Message center.</p>
+  </section>
+</main>
+${FOOTER}
+${emailScript(canonical)}
+${roadmapFilterScript()}
+</body>
+</html>`;
+}
+
 function buildOne(id) {
   const feed = loadJson(path.join(FEED_DIR, id + '.json'), null);
   if (!feed) { console.error('feed not found: ' + id); return; }
   const snap = loadJson(path.join(SNAP_DIR, id + '-latest.json'), null);
   if (!snap) { console.error('no snapshot for ' + id + ' - run scan.js first'); return; }
   const canonical = 'https://microsoft.github.io/Analytics-Hub/community/' + feed.slug + '/';
-  const html = feed.mode === 'roadmap' ? buildRoadmapFeed(feed, snap, canonical) : buildDocFeed(feed, snap, canonical);
+  const html = feed.mode === 'roadmap' ? buildRoadmapFeed(feed, snap, canonical)
+    : feed.mode === 'messagecenter' ? buildMessageCenterFeed(feed, snap, canonical)
+    : buildDocFeed(feed, snap, canonical);
   const outDir = path.join(DOCS, feed.slug);
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'index.html'), html);

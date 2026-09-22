@@ -43,7 +43,8 @@ const ALLOWED_HOSTS = [
   'learn.microsoft.com',
   'docs.github.com',
   'www.microsoft.com',            // M365 public Roadmap API (releasecommunications)
-  'api.github.com'                // public FOCUS_Spec releases API
+  'api.github.com',               // public FOCUS_Spec releases API
+  'raw.githubusercontent.com'     // public merill/mc Message Center Archive (MIT)
 ];
 function hostAllowed(url) {
   let h; try { h = new URL(url).hostname.toLowerCase(); } catch (e) { return false; }
@@ -276,6 +277,84 @@ async function scanRoadmapFeed(feed) {
   return { feed: feed.id, ok: true, changes };
 }
 
+/* Message Center feed. Reads the public, MIT-licensed merill/mc archive
+   (metadata only: Id, Title, Services, dates, Category, IsMajorChange), filters
+   to the feed's Copilot cost/Cowork match set and window, and snapshots each
+   post as an item. Bodies are NOT fetched or re-hosted — each item links out to
+   its Message center post on the public mirror. Security/incident advisories
+   (excludeCategories) are dropped. Item shape mirrors the roadmap feed so the
+   status-manifest delta logic and renderer can be reused. */
+async function scanMessageCenterFeed(feed) {
+  const latestPath = path.join(SNAP_DIR, feed.id + '-latest.json');
+  const prev = loadJson(latestPath, null);
+  const prevById = {};
+  if (prev && prev.items) prev.items.forEach(i => { prevById[i.id] = i; });
+
+  process.stdout.write('  [messagecenter] fetching merill/mc archive ... ');
+  const r = await get(feed.source);
+  if (!r.ok) { console.log('FAILED (' + r.error + ')'); return { feed: feed.id, ok: false, error: r.error, changes: [] }; }
+  let all; try { all = JSON.parse(r.body); } catch (e) { console.log('parse fail'); return { feed: feed.id, ok: false, error: 'json parse', changes: [] }; }
+
+  const match = (feed.match || []).map(s => s.toLowerCase());
+  const billingMatch = (feed.billingMatch || []).map(s => s.toLowerCase());
+  const matchServices = (feed.matchServices || []);
+  const excludeCats = (feed.excludeCategories || []).map(s => s.toLowerCase());
+  const win = feed.windowStart || '2026-01-01';
+  const urlBase = feed.messageUrlBase || 'https://mc.merill.net/message/';
+
+  const catLabel = { planforchange: 'Plan for change', stayinformed: 'Stay informed', preventorfixissues: 'Prevent or fix issues' };
+  const items = all.filter(x => {
+    // The index carries both Message center and Roadmap rows; keep MC only.
+    if (x.Source && x.Source !== 'messageCenter') return false;
+    const cat = String(x.Category || '').toLowerCase();
+    if (excludeCats.includes(cat)) return false;
+    const modified = (x.LastModifiedDateTime || x.StartDateTime || '').slice(0, 10);
+    if (modified && modified < win) return false;
+    const svc = Array.isArray(x.Services) ? x.Services : [];
+    const title = (x.Title || '').toLowerCase();
+    const hay = (title + ' ' + svc.join(' ')).toLowerCase();
+    // (a) a Copilot-specific term anywhere, OR (b) a Copilot/Viva service paired
+    // with a billing term in the title. Keeps the feed on the Copilot FinOps
+    // surface and drops generic pay-as-you-go/consumption posts for other products.
+    const copilotHit = match.some(m => hay.includes(m));
+    const billingServiceHit = svc.some(s => matchServices.includes(s)) && billingMatch.some(m => title.includes(m));
+    return copilotHit || billingServiceHit;
+  }).map(x => {
+    const cat = String(x.Category || '').toLowerCase();
+    return {
+      id: String(x.Id),
+      title: x.Title || '',
+      status: catLabel[cat] || (x.Category || ''),
+      category: x.Category || '',
+      services: Array.isArray(x.Services) ? x.Services : [],
+      isMajor: !!x.IsMajorChange,
+      created: x.StartDateTime || '',
+      modified: x.LastModifiedDateTime || x.StartDateTime || '',
+      url: x.Url || (urlBase + String(x.Id)),
+      descHash: sha((x.Title || '') + '|' + (x.Category || '') + '|' + (x.IsMajorChange ? '1' : '0'))
+    };
+  }).sort((a, b) => (b.modified || '').localeCompare(a.modified || ''));
+  console.log('ok (' + items.length + ' Copilot cost/Cowork posts of ' + all.length + ' archived)');
+
+  const changes = [];
+  if (prev && !BASELINE) {
+    for (const it of items) {
+      const b = prevById[it.id];
+      if (!b) { changes.push({ sev: 'new', id: it.id, title: it.title, url: it.url, detail: 'New Message center post (' + it.status + ')' }); continue; }
+      if (it.status !== b.status) changes.push({ sev: 'major', id: it.id, title: it.title, url: it.url, detail: 'Category: ' + b.status + ' -> ' + it.status });
+      else if (it.descHash !== b.descHash) changes.push({ sev: 'info', id: it.id, title: it.title, url: it.url, detail: 'Post updated' });
+    }
+  }
+
+  ensure(SNAP_DIR); ensure(REPORT_DIR);
+  const runAt = new Date().toISOString(); const stamp = runAt.slice(0, 10);
+  const snap = { runAt, feed: feed.id, items };
+  fs.writeFileSync(path.join(SNAP_DIR, feed.id + '-snapshot-' + stamp + '.json'), JSON.stringify(snap, null, 2));
+  fs.writeFileSync(latestPath, JSON.stringify(snap, null, 2));
+  writeReport(feed, stamp, runAt, changes, items.length + ' Copilot cost/Cowork Message center posts tracked.');
+  return { feed: feed.id, ok: true, changes };
+}
+
 function persist(feed, pages, changes, releases) {
   ensure(SNAP_DIR); ensure(REPORT_DIR);
   const runAt = new Date().toISOString(); const stamp = runAt.slice(0, 10);
@@ -314,7 +393,9 @@ async function main() {
   for (const id of feedIds) {
     const feed = loadJson(path.join(FEED_DIR, id + '.json'), null);
     if (!feed) { console.error('feed not found: ' + id); continue; }
-    const res = feed.mode === 'roadmap' ? await scanRoadmapFeed(feed) : await scanHtmlFeed(feed);
+    const res = feed.mode === 'roadmap' ? await scanRoadmapFeed(feed)
+      : feed.mode === 'messagecenter' ? await scanMessageCenterFeed(feed)
+      : await scanHtmlFeed(feed);
     results.push(res);
   }
   console.log('\n' + '-'.repeat(60));

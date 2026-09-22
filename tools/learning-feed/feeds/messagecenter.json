@@ -1,0 +1,15 @@
+{
+  "id": "messagecenter",
+  "title": "Message Center Watch \u2014 Copilot Cost & Cowork",
+  "slug": "message-center-watch",
+  "blurb": "A filtered, plain-language digest of Microsoft 365 Message center posts that touch Copilot Cowork, Copilot Credits, usage-based billing and Cost management \u2014 the official admin change notices behind the FinOps surface. Built from the public, MIT-licensed merill/mc Message Center Archive; each item links to its Message center post. Message center content varies by tenant \u2014 always use your own tenant's Message center as the source of truth.",
+  "windowStart": "2026-06-01",
+  "mode": "messagecenter",
+  "source": "https://raw.githubusercontent.com/merill/mc/main/%40data/messages-index.json",
+  "messageUrlBase": "https://mc.merill.net/message/",
+  "attribution": { "repo": "merill/mc", "url": "https://github.com/merill/mc", "license": "MIT" },
+  "match": ["cowork", "copilot credit", "copilot cost", "work iq"],
+  "billingMatch": ["usage-based billing", "usage based billing", "cost management", "spending polic", "credit request", "prepaid capacity", "capacity pack", "pay-as-you-go", "pay as you go", "metered", "consumption-based", "usage-based"],
+  "matchServices": ["Microsoft Copilot (Microsoft 365)", "Microsoft 365 Copilot Chat", "Microsoft Copilot Studio", "Microsoft Viva"],
+  "excludeCategories": ["preventOrFixIssues"]
+}

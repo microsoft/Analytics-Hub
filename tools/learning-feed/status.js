@@ -151,7 +151,7 @@ function generate() {
     const curr = loadJson(path.join(SNAP_DIR, feed.id + '-latest.json'), null);
     if (!curr) continue;
     const runDate = dstr(curr.runAt) || dstr(new Date().toISOString());
-    const isRoadmap = feed.mode === 'roadmap';
+    const isRoadmap = feed.mode === 'roadmap' || feed.mode === 'messagecenter';
     const noMsDate = !!feed.noMsDate;
 
     // 1) Day-over-day delta from the two most recent snapshots.
