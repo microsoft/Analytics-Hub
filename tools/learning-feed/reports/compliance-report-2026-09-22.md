@@ -1,6 +1,6 @@
 # Compliance, Data-Residency & EU Data Boundary Watch - 2026-09-22
 
-Run: 2026-09-22T02:44:51.111Z
+Run: 2026-09-22T11:15:35.101Z
 
-_Baseline run - snapshot recorded, no comparison performed._
+**No changes detected.** 33 pages verified, 9 updated within window (since 2026-07-01).
 
