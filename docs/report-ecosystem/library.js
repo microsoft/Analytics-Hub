@@ -104,6 +104,13 @@ const RESOURCES = {
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/GitHubCopilotImpact#readme" },
     { kind: "download", label: "Download the repo (.zip)", url: "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip" },
   ],
+  "ghcp-panel": [
+    { kind: "video",    label: "Watch the 2-minute intro", url: "https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4" },
+    { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/GitHubCopilotPanel#readme" },
+    { kind: "doc",      label: "Data sources — Viva query or local CSV", url: "https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/DATA-SOURCES.md" },
+    { kind: "doc",      label: "Interpreting the value model", url: "https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/INTERPRETING.md" },
+    { kind: "download", label: "Download the repo (.zip)", url: "https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip" },
+  ],
   "adoption-sent": [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#readme" },
     { kind: "download", label: "Download .pbit template", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/raw/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit" },

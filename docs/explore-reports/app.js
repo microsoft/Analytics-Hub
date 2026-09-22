@@ -153,6 +153,36 @@ const TOOLS = [
     },
   },
   {
+    id: 'ghcp-panel',
+    tags: ["developer","github copilot","engineering","adoption","depth","delegation","value","roi","viva insights"],
+    question: "Are our developers moving from autocomplete to delegation — and what is that worth?",
+    title: "GitHub Copilot Panel",
+    icon: "🎛️",
+    accent: "#24292f",
+    category: "developer",
+    tier: "specialty",
+    measures: ["developer","adoption","impact"],
+    source: "Viva Insights",
+    sourceKey: "Viva Insights",
+    repo: "https://github.com/microsoft/GitHubCopilotPanel",
+    download: "https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip",
+    demoVideo: "https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4",
+    demoVideoLabel: "Watch the 2-minute intro",
+    preview: "https://raw.githubusercontent.com/microsoft/GitHubCopilotPanel/main/Images/GitHubCopilotPanel-Preview.gif",
+    blurb: "Power BI template on the Viva Insights GitHub Copilot query. Seven pages walking Licensed → Active → Habitual → Deep → Valued, with every value assumption in one editable table rather than buried in DAX. Ships synthetic sample data, so you can open it before connecting a tenant.",
+    meta: { audience: "Eng leaders, developer productivity leads, BVAs", license: "Viva Insights (GitHub Copilot query) — or a local CSV export", time: "~10 min with the bundled sample data" },
+    requirements: {
+      roles: [
+        { label: "Viva Insights Analyst", url: "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap" },
+        { label: "None for the sample-data run" }
+      ],
+      software: [
+        { label: "Power BI Desktop (May 2024+)", url: "https://www.microsoft.com/download/details.aspx?id=58494" },
+        { label: "Viva Insights GitHub Copilot query output (or the bundled CSVs)", url: "https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/DATA-SOURCES.md" }
+      ]
+    },
+  },
+  {
     id: 'what-i-did',
     tags: ["developer","github copilot","personal","weekly","individual","leverage"],
     question: "What did I personally build with GitHub Copilot this week — and what's the leverage?",

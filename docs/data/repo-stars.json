@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "generatedBy": "scripts/sync_stars.py",
   "fetchedAt": "2026-09-10T15:39:39Z",
-  "reportCount": 22,
-  "repoCount": 17,
-  "okCount": 17,
+  "reportCount": 23,
+  "repoCount": 18,
+  "okCount": 18,
   "staleCount": 0,
   "noRepoCount": 5,
   "failures": [],
@@ -36,6 +36,12 @@
     "ghcp-impact": {
       "repo": "microsoft/GitHubCopilotImpact",
       "stars": 9,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "ghcp-panel": {
+      "repo": "microsoft/GitHubCopilotPanel",
+      "stars": 0,
       "stale": false,
       "fetchedAt": "2026-09-10T15:39:39Z"
     },

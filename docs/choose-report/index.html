@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Which report should I use? &mdash; Reports &middot; Analytics Hub</title>
-  <meta name="description" content="Filter twenty-three open-source Microsoft Copilot reporting templates by goal, by Copilot surface, or both. Every report carries a setup guide and a downloadable template on GitHub." />
+  <meta name="description" content="Filter twenty-four open-source Microsoft Copilot reporting templates by goal, by Copilot surface, or both. Every report carries a setup guide and a downloadable template on GitHub." />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
@@ -1825,7 +1825,7 @@ html.mk-embed main.mk-page{ display:none !important; }
           <p class="pk-lead-eyebrow">Which report should I use?</p>
           <h1 class="pk-lead2-h">Filter by <span class="pk-hl-a">goal</span>,
             <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h1>
-          <p class="pk-lead2-p">Twenty-three open-source templates, each built alongside the customer
+          <p class="pk-lead2-p">Twenty-four open-source templates, each built alongside the customer
             who needed it first.</p>
         </div>
 
@@ -2342,6 +2342,16 @@ html.mk-embed main.mk-page{ display:none !important; }
       },
       "related": [
         {
+          "id": "ghcp-panel",
+          "title": "GitHub Copilot Panel",
+          "icon": "🎛️",
+          "accent": "#24292f",
+          "score": 3,
+          "shared": [
+            "developer"
+          ]
+        },
+        {
           "id": "what-i-did",
           "title": "What I Did: Copilot Impact Report",
           "icon": "📝",
@@ -2369,6 +2379,86 @@ html.mk-embed main.mk-page{ display:none !important; }
           "score": 2,
           "shared": [
             "adoption"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ghcp-panel",
+      "question": "Are our developers moving from autocomplete to delegation — and what is that worth?",
+      "title": "GitHub Copilot Panel",
+      "icon": "🎛️",
+      "accent": "#24292f",
+      "category": "developer",
+      "tier": "specialty",
+      "measures": [
+        "developer",
+        "adoption",
+        "impact"
+      ],
+      "source": "Viva Insights",
+      "sourceKey": "Viva Insights",
+      "repo": "https://github.com/microsoft/GitHubCopilotPanel",
+      "download": "https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip",
+      "demoVideo": "https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4",
+      "demoVideoLabel": "Watch the 2-minute intro",
+      "preview": "https://raw.githubusercontent.com/microsoft/GitHubCopilotPanel/main/Images/GitHubCopilotPanel-Preview.gif",
+      "blurb": "Power BI template on the Viva Insights GitHub Copilot query. Seven pages walking Licensed → Active → Habitual → Deep → Valued, with every value assumption in one editable table rather than buried in DAX. Ships synthetic sample data, so you can open it before connecting a tenant.",
+      "meta": {
+        "audience": "Eng leaders, developer productivity leads, BVAs",
+        "license": "Viva Insights (GitHub Copilot query) — or a local CSV export",
+        "time": "~10 min with the bundled sample data"
+      },
+      "requirements": {
+        "roles": [
+          {
+            "label": "Viva Insights Analyst",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+          },
+          {
+            "label": "None for the sample-data run"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "Viva Insights GitHub Copilot query output (or the bundled CSVs)",
+            "url": "https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/DATA-SOURCES.md"
+          }
+        ]
+      },
+      "related": [
+        {
+          "id": "ghcp-impact",
+          "title": "GitHub Copilot Impact",
+          "icon": "⚙️",
+          "accent": "#24292f",
+          "score": 3,
+          "shared": [
+            "developer"
+          ]
+        },
+        {
+          "id": "what-i-did",
+          "title": "What I Did: Copilot Impact Report",
+          "icon": "📝",
+          "accent": "#4cc2ff",
+          "score": 2,
+          "shared": [
+            "developer"
+          ]
+        },
+        {
+          "id": "value-lens",
+          "title": "ValueLens for Microsoft Copilot",
+          "icon": "💠",
+          "accent": "#00B294",
+          "score": 2,
+          "shared": [
+            "impact"
           ]
         }
       ]
@@ -4061,6 +4151,13 @@ html.mk-embed main.mk-page{ display:none !important; }
       "viewsWeek": 29,
       "viewsTotal": 1197
     },
+    "ghcp-panel": {
+      "repo": "microsoft/GitHubCopilotPanel",
+      "stars": 0,
+      "created": "2026-08-21T09:23:28Z",
+      "viewsWeek": 0,
+      "viewsTotal": 0
+    },
     "what-i-did": {
       "repo": "microsoft/What-I-Did-Copilot",
       "stars": 49,
@@ -4188,9 +4285,9 @@ html.mk-embed main.mk-page{ display:none !important; }
   "schemaVersion": 1,
   "generatedBy": "scripts/sync_stars.py",
   "fetchedAt": "2026-09-10T15:39:39Z",
-  "reportCount": 22,
-  "repoCount": 17,
-  "okCount": 17,
+  "reportCount": 23,
+  "repoCount": 18,
+  "okCount": 18,
   "staleCount": 0,
   "noRepoCount": 5,
   "failures": [],
@@ -4222,6 +4319,12 @@ html.mk-embed main.mk-page{ display:none !important; }
     "ghcp-impact": {
       "repo": "microsoft/GitHubCopilotImpact",
       "stars": 9,
+      "stale": false,
+      "fetchedAt": "2026-09-10T15:39:39Z"
+    },
+    "ghcp-panel": {
+      "repo": "microsoft/GitHubCopilotPanel",
+      "stars": 0,
       "stale": false,
       "fetchedAt": "2026-09-10T15:39:39Z"
     },
@@ -4372,6 +4475,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     'ai-in-one': ['executive', 'single pane', 'overview', 'adoption', 'chat', 'agents', 'licences', 'monthly review'],
     'chat-agent': ['chat', 'agents', 'prompts', 'usage', 'departments', 'maturity'],
     'ghcp-impact': ['developer', 'github copilot', 'engineering', 'adoption', 'code'],
+    'ghcp-panel': ['developer', 'github copilot', 'engineering', 'adoption', 'depth', 'delegation', 'value', 'roi', 'viva insights'],
     'what-i-did': ['developer', 'github copilot', 'personal', 'weekly', 'individual', 'leverage'],
     'cowork-impact': ['cowork', 'business process', 'impact', 'personal', 'time saved'],
     'm365-readiness': ['readiness', 'enablement', 'onboarding', 'champions', 'licences', 'who to enable next'],
@@ -4428,6 +4532,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     'chat-agent':                 { agents: 2, adoption: 2 },
     'm365-readiness':             { adoption: 2 },
     'ghcp-impact':                { developer: 1, adoption: 2 },
+    'ghcp-panel':                 { developer: 1, impact: 2, adoption: 2 },
     'what-i-did':                 { individual: 1, impact: 2, developer: 2 },
     'cowork-impact':              { impact: 2, individual: 1 },
     'personal-copilot-dashboard': { individual: 1 },
@@ -4447,6 +4552,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     'cowork-billing-report': 'Low', 'cowork-chargeback-app': 'Low',
     'agent-evaluator': 'Medium', 'chat-agent': 'Medium', 'm365-readiness': 'Medium',
     'ghcp-impact': 'Medium', 'what-i-did': 'Low', 'cowork-impact': 'Low',
+    'ghcp-panel': 'Low',
     'personal-copilot-dashboard': 'Low'
   };
 
@@ -4481,6 +4587,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     'chat-agent':                 { p: ['chat','studio'],          d: ['purview'],                      a: 'Analysts, CCMs' },
     'm365-readiness':             { p: ['m365'],                   d: ['m365admin'],                    a: 'Adoption & license owners' },
     'ghcp-impact':                { p: ['github'],                 d: ['github'],                       a: 'Eng leaders, platform teams' },
+    'ghcp-panel':                 { p: ['github'],                 d: ['viva','sample'],                a: 'Eng leaders, dev productivity, BVAs' },
     'what-i-did':                 { p: ['github'],                 d: ['personal'],                     a: 'Individual developers' },
     'cowork-impact':              { p: ['cowork'],                 d: ['personal'],                     a: 'Cowork users, IC leads, execs' },
     'personal-copilot-dashboard': { p: ['m365','cowork'],          d: ['viva'],                         a: 'Individual users, IC leads' },

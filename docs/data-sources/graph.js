@@ -61,6 +61,10 @@ const NODES = [
   { id: "adoption-sent",    kind: "report", label: "Adoption & Sentiment",     sub: "Usage trends + survey data",     icon: "💚", color: "#FFB900", col: 2, row: 6,
     topics: ["adoption","sentiment","engagement"],
     repo: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report" },
+  { id: "ghcp-panel",       kind: "report", label: "GitHub Copilot Panel",     sub: "Depth · delegation · realised value", icon: "🎛️", color: "#00B294", col: 2, row: 7, isNew: true,
+    topics: ["developer","adoption","impact","roi"],
+    detail: "Power BI template on the Viva Insights GitHub Copilot query. Takes developers through Licensed → Active → Habitual → Deep → Valued, and prices the move from autocomplete to delegation with every assumption in one editable table. Runs on the bundled synthetic sample data before you connect a tenant.",
+    repo: "https://github.com/microsoft/GitHubCopilotPanel" },
 
   // ---- column 3 : ADD-ONS (spawn off reports) ----
   { id: "roi-calc",         kind: "addon",  label: "ROI Calculator",           sub: "Shares the Super Usage export", icon: "🧮", color: "#e3008c", col: 3, row: 3,
@@ -104,6 +108,8 @@ const EDGES = [
   { from: "viva", to: "super-impact" },
   // GitHub straight into ghcp impact
   { from: "github", to: "ghcp-impact" },
+  // Viva's GitHub Copilot query feeds the Panel (local CSV export is the other path)
+  { from: "viva", to: "ghcp-panel" },
   // M365 admin & surveys into adoption
   { from: "m365admin", to: "adoption-sent" },
   // Add-ons spawn off reports

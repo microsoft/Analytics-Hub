@@ -311,6 +311,50 @@ Built specifically for engineering orgs, this template connects GitHub Enterpris
 
 ---
 
+### 🎛️ [GitHub Copilot Panel](https://github.com/microsoft/GitHubCopilotPanel) &nbsp;`NEW`
+
+[![Data Source](https://img.shields.io/badge/Data-Viva%20Insights-0F6CBD?style=flat-square)](https://learn.microsoft.com/viva/insights/introduction)
+[![Data Source](https://img.shields.io/badge/Data-Local%20CSV-6e7781?style=flat-square)](https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/DATA-SOURCES.md)
+[![Type](https://img.shields.io/badge/Type-Power%20BI%20Template-F2C811?style=flat-square&logo=powerbi&logoColor=black)](https://github.com/microsoft/GitHubCopilotPanel)
+[![Download](https://img.shields.io/badge/📥%20Download-All%20Files-success?style=flat-square)](https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip)
+
+**Are developers moving from autocomplete to delegation, and what is that movement worth?**
+
+Built on the Viva Insights **GitHub Copilot** query output, with a local CSV path for anyone
+who cannot run the connector yet. Seven pages follow one arc — **Licensed → Active →
+Habitual → Deep → Valued** — each narrowing the population the page before it established.
+Every value assumption lives in one editable `config` table rather than buried in DAX, so the
+number you quote is auditable. Synthetic sample data ships with it, so the whole report
+renders before you connect a tenant.
+
+<details>
+<summary><strong>What you can explore</strong></summary>
+
+<br>
+
+- **Reach:** Who holds a licence, who actually turned it on, and where the gap sits by org
+- **Depth:** Autocomplete vs. chat vs. agent delegation — the engagement ladder, per person
+- **Value:** Realised value priced from your own seat cost and loaded engineering cost
+- **Models & stacks:** Where work is routed and which languages and stacks it lands in
+- **Method:** Glossary, provenance banner and every assumption stated on the page
+
+</details>
+
+<details>
+<summary><strong>Dashboard preview</strong></summary>
+
+<br>
+
+![GitHub Copilot Panel Preview](https://raw.githubusercontent.com/microsoft/GitHubCopilotPanel/main/Images/GitHubCopilotPanel-Preview.gif)
+
+</details>
+
+*Full setup instructions and prerequisites are available in the repository.*
+
+→ **[View Repository](https://github.com/microsoft/GitHubCopilotPanel)** &nbsp;|&nbsp; **[🎬 Watch the 2-minute intro](https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4)** &nbsp;|&nbsp; **[⭐ Star](https://github.com/microsoft/GitHubCopilotPanel/stargazers)**
+
+---
+
 ### 📝 [What I Did — GitHub Copilot Impact Report](https://github.com/microsoft/What-I-Did-Copilot)
 
 [![Data Source](https://img.shields.io/badge/Data-Local%20Copilot%20Sessions-24292f?style=flat-square&logo=github&logoColor=white)](https://github.com/microsoft/What-I-Did-Copilot)
