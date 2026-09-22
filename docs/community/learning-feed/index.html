@@ -29,6 +29,12 @@
     .lf-jump { margin: 14px 0 0; }
     .lf-jump a { font-weight: 600; font-size: .95rem; color: var(--accent, #0078d4); text-decoration: none; }
     .lf-jump a:hover { text-decoration: underline; }
+    .lf-hsearch { display: flex; align-items: center; gap: 8px; max-width: 560px; margin: 18px 0 4px; position: relative; }
+    .lf-hsearch__ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted, #6b7280); pointer-events: none; }
+    .lf-hsearch__in { flex: 1; box-sizing: border-box; font-size: 1rem; padding: 12px 14px 12px 42px; border: 1.5px solid var(--border-strong, #cbd2da); border-radius: 10px; background: var(--surface, #fff); color: inherit; }
+    .lf-hsearch__in:focus { outline: none; border-color: var(--accent, #0078d4); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #0078d4) 18%, transparent); }
+    .lf-hsearch__btn { font-size: .92rem; font-weight: 700; padding: 12px 18px; border: none; border-radius: 10px; background: var(--accent, #0078d4); color: #fff; cursor: pointer; white-space: nowrap; }
+    .lf-hsearch__btn:hover { background: #0067c0; }
     .lf-how { border-top: 1px solid var(--border, #e6e6ee); margin-top: 20px; padding: 44px 0 20px; }
     .lf-how h2 { font-size: 1.6rem; margin: 0 0 6px; letter-spacing: -.01em; }
     .lf-how .lf-how-lead { color: var(--text-soft, #5a5a72); max-width: 78ch; margin: 0 0 24px; font-size: 1rem; }
@@ -109,6 +115,11 @@
       <p class="eyebrow"><a href="../" style="color:inherit;text-decoration:none;opacity:.85">&larr; Community</a></p>
       <h1>Learning Feed</h1>
       <p>Living trackers that follow how Microsoft Copilot guidance is changing &mdash; so the advice, tooling and claims that depend on it stay current. More feeds coming soon.</p>
+      <form class="lf-hsearch" action="search/" method="get" role="search">
+        <span class="lf-hsearch__ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <input type="search" name="q" class="lf-hsearch__in" placeholder="Search all changes across every feed&hellip;" aria-label="Search all tracked changes across every feed" />
+        <button type="submit" class="lf-hsearch__btn">Search</button>
+      </form>
       <p class="lf-jump"><a href="#how-it-works">How the Learning Feed works &darr;</a></p>
     </div>
   </section>

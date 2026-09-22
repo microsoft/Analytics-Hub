@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search all changes — Learning Feed · Analytics Hub</title>
+  <meta name="description" content="Search every documentation change tracked across all Analytics Hub Learning Feed trackers at once, then refine by feed, status and timeframe." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/community/learning-feed/search/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../../../favicon.svg" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="stylesheet" href="../../../styles.css" />
+  <link rel="stylesheet" href="../../../palette.css" />
+  <link rel="stylesheet" href="../../community.css" />
+  <script src="../../../clarity-events.js?v=202609141210" defer></script>
+  <script src="../../../consent.js?v=1" defer></script>
+  <script src="../../../palette.js" defer></script>
+  <script src="../../../nudges.js" defer></script>
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Learning Feed Search" />
+  <style>
+    .fs-hero { padding-bottom: .4rem; }
+    .fs-searchwrap { position: relative; margin: 6px 0 2px; max-width: 720px; }
+    .fs-search { width: 100%; box-sizing: border-box; font-size: 1.1rem; padding: 14px 44px 14px 44px; border: 1.5px solid var(--border-strong, #cbd2da); border-radius: 12px; background: var(--surface, #fff); color: inherit; }
+    .fs-search:focus { outline: none; border-color: var(--accent, #0078d4); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #0078d4) 18%, transparent); }
+    .fs-search::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+    .fs-searchwrap .fs-ico { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted, #6b7280); pointer-events: none; }
+    .fs-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: transparent; font-size: 1.2rem; line-height: 1; color: var(--text-muted, #6b7280); cursor: pointer; padding: 4px 8px; border-radius: 6px; display: none; }
+    .fs-clear:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+    .fs-controls { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; margin: 14px 0 4px; }
+    .fs-group { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+    .fs-label { font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--text-soft, #5a6470); margin-right: 1px; }
+    .fs-chip { font-size: .76rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; cursor: pointer; user-select: none; color: var(--fsc, #5a6470); border: 1px solid color-mix(in srgb, var(--fsc, #8a8a99) 42%, var(--border, #e2e6ea)); background: var(--surface, #fff); display: inline-flex; align-items: center; gap: 6px; transition: background .12s, color .12s; }
+    .fs-chip:hover { border-color: var(--fsc, #8a8a99); }
+    .fs-chip[aria-pressed="true"] { background: var(--fsc, #0067c0); color: #fff; border-color: transparent; }
+    .fs-chip .fs-c { font-weight: 600; font-size: .72rem; opacity: .72; }
+    .fs-chip[aria-pressed="true"] .fs-c { opacity: .85; }
+    .fs-select { font-size: .85rem; padding: 6px 10px; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: inherit; }
+    .fs-toggle { display: inline-flex; align-items: center; gap: 7px; font-size: .84rem; font-weight: 600; cursor: pointer; user-select: none; }
+    .fs-toggle input { width: 16px; height: 16px; accent-color: var(--accent, #0078d4); }
+    .fs-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 14px 0 2px; }
+    .fs-count { font-size: .9rem; font-weight: 700; color: var(--text, #1a1a25); }
+    .fs-reset { font-size: .82rem; color: var(--accent, #0078d4); background: none; border: none; cursor: pointer; padding: 0; }
+    .fs-reset:hover { text-decoration: underline; }
+    .fs-list { list-style: none; padding: 0; margin: 10px 0 30px; display: flex; flex-direction: column; gap: 10px; }
+    .fs-item { border: 1px solid var(--border, #e2e6ea); border-radius: 12px; background: var(--surface, #fff); padding: 13px 15px; transition: border-color .12s, box-shadow .12s; }
+    .fs-item:hover { border-color: color-mix(in srgb, var(--accent, #0078d4) 55%, var(--border, #e2e6ea)); box-shadow: 0 4px 16px rgba(0,0,0,.05); }
+    .fs-item__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .fs-badge { font-size: .66rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--accent, #0078d4) 12%, transparent); color: var(--accent, #0078d4); white-space: nowrap; }
+    .fs-status { font-size: .66rem; font-weight: 800; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; color: #fff; white-space: nowrap; }
+    .fs-tag { font-size: .66rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+    .fs-tag--new { background: #107c10; color: #fff; }
+    .fs-tag--win { background: color-mix(in srgb, #b3261e 12%, transparent); color: #b3261e; }
+    .fs-date { margin-left: auto; font-size: .78rem; color: var(--text-soft, #5a6470); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .fs-item__title { font-size: 1rem; font-weight: 700; margin: 0 0 3px; line-height: 1.35; }
+    .fs-item__title a { color: inherit; text-decoration: none; }
+    .fs-item__title a:hover { color: var(--accent, #0078d4); text-decoration: underline; }
+    .fs-item__desc { font-size: .87rem; color: var(--text-soft, #5a6470); margin: 2px 0 0; line-height: 1.5; }
+    .fs-item__foot { font-size: .76rem; color: var(--text-muted, #6b7280); margin-top: 6px; }
+    .fs-item__foot a { color: var(--text-muted, #6b7280); }
+    .fs-hl { background: color-mix(in srgb, #ffd23f 55%, transparent); border-radius: 3px; padding: 0 1px; }
+    .fs-empty { text-align: center; color: var(--text-soft, #5a6470); padding: 40px 20px; font-size: .95rem; }
+    .fs-more { text-align: center; margin: 8px 0 30px; }
+    .fs-morebtn { font-size: .85rem; font-weight: 600; padding: 9px 18px; border: 1px solid var(--border, #e2e6ea); border-radius: 9px; background: var(--surface, #fff); color: var(--accent, #0078d4); cursor: pointer; }
+    .fs-morebtn:hover { border-color: var(--accent, #0078d4); }
+    @media (max-width: 620px) { .fs-date { margin-left: 0; width: 100%; } }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../../../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by">Open source toolkit</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../../../choose-report/">Reports</a>
+      <a href="../../../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../../../case-studies/">Case Studies</a>
+      <a href="../../../community/" aria-current="page">Community</a>
+      <a class="nav-subscribe" href="../../../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="comm-hero fs-hero">
+    <div class="wrap">
+      <p class="eyebrow"><a href="../" style="color:inherit;text-decoration:none;opacity:.85">&larr; Learning Feed</a></p>
+      <h1>Search all changes</h1>
+      <p>One search across every page and roadmap item tracked by all Learning Feed trackers &mdash; then refine by feed, status and timeframe. Results link straight to the source documentation.</p>
+
+      <div class="fs-searchwrap">
+        <span class="fs-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <input id="fsSearch" class="fs-search" type="search" autocomplete="off" autofocus
+               placeholder="Search e.g. &ldquo;credits&rdquo;, &ldquo;retirement&rdquo;, &ldquo;audit&rdquo;, &ldquo;data residency&rdquo;&hellip;"
+               aria-label="Search all tracked documentation changes" />
+        <button id="fsClear" class="fs-clear" type="button" aria-label="Clear search">&times;</button>
+      </div>
+
+      <div class="fs-controls">
+        <div class="fs-group" id="fsFeeds" aria-label="Filter by feed">
+          <span class="fs-label">Feed</span>
+        </div>
+      </div>
+      <div class="fs-controls">
+        <div class="fs-group" id="fsStatus" aria-label="Filter by roadmap status">
+          <span class="fs-label">Status</span>
+        </div>
+        <div class="fs-group">
+          <span class="fs-label">When</span>
+          <select id="fsRange" class="fs-select" aria-label="Filter by timeframe">
+            <option value="all" selected>Any time</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="win">Since 1 Jul 2026</option>
+            <option value="365">Last 12 months</option>
+          </select>
+        </div>
+        <label class="fs-toggle"><input type="checkbox" id="fsChanged" /> Changed since 1 Jul only</label>
+      </div>
+
+      <div class="fs-meta">
+        <span class="fs-count" id="fsCount">Loading&hellip;</span>
+        <button class="fs-reset" id="fsReset" type="button">Reset filters</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="comm-section">
+    <div class="wrap">
+      <ul class="fs-list" id="fsList" aria-live="polite"></ul>
+      <div class="fs-more" id="fsMoreWrap" style="display:none">
+        <button class="fs-morebtn" id="fsMore" type="button">Show more results</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <p style="margin:0;color:var(--text-soft,#5a6470);font-size:.85rem">
+        &copy; Microsoft Corporation &middot; MIT Licensed &middot;
+        <a href="../">Learning Feed</a> &middot;
+        <a href="../../">Community</a> &middot;
+        <a href="../../../">Analytics Hub home</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Cross-feed change search. Loads ../search-index.json (built by the daily scan)
+   and filters entirely client-side: full-text over title + description + feed +
+   roadmap #ID, refinable by feed, roadmap status, timeframe, and changed-only. */
+(function () {
+  'use strict';
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var STATUS_COLOR = { 'Launched':'#107c10', 'Rolling out':'#0067c0', 'In development':'#8661c5', 'Cancelled':'#8a8886' };
+  var PAGE = 40;
+
+  var el = {
+    search: document.getElementById('fsSearch'),
+    clear: document.getElementById('fsClear'),
+    feeds: document.getElementById('fsFeeds'),
+    status: document.getElementById('fsStatus'),
+    range: document.getElementById('fsRange'),
+    changed: document.getElementById('fsChanged'),
+    count: document.getElementById('fsCount'),
+    reset: document.getElementById('fsReset'),
+    list: document.getElementById('fsList'),
+    moreWrap: document.getElementById('fsMoreWrap'),
+    more: document.getElementById('fsMore')
+  };
+  var DATA = null, shown = PAGE;
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function fmt(d) { if (!d) return ''; var p = String(d).slice(0,10).split('-'); if (p.length < 3) return String(d); return parseInt(p[2],10)+' '+MONTHS[parseInt(p[1],10)-1]+' '+p[0]; }
+  function pad(n){ return (n<10?'0':'')+n; }
+  function daysAgo(n){ var d=new Date(); d.setDate(d.getDate()-n); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+  function cutoff(){ var v=el.range.value; if(v==='30')return daysAgo(30); if(v==='90')return daysAgo(90); if(v==='365')return daysAgo(365); if(v==='win')return '2026-07-01'; return null; }
+
+  function highlight(text, q) {
+    var t = esc(text);
+    if (!q) return t;
+    try { return t.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'ig'), '<span class="fs-hl">$1</span>'); }
+    catch (e) { return t; }
+  }
+
+  function feedActive() { var s = {}; el.feeds.querySelectorAll('.fs-chip').forEach(function(c){ s[c.dataset.feed] = c.getAttribute('aria-pressed')==='true'; }); return s; }
+  function statusActive() { var s = {}; el.status.querySelectorAll('.fs-chip').forEach(function(c){ s[c.dataset.status] = c.getAttribute('aria-pressed')==='true'; }); return s; }
+  function allOn(container) { var chips = container.querySelectorAll('.fs-chip'); for (var i=0;i<chips.length;i++){ if(chips[i].getAttribute('aria-pressed')!=='true') return false; } return true; }
+
+  function buildChips() {
+    var feedCounts = {};
+    DATA.entries.forEach(function(e){ feedCounts[e.f] = (feedCounts[e.f]||0)+1; });
+    var feedHtml = '';
+    Object.keys(DATA.feeds).forEach(function(slug){
+      var f = DATA.feeds[slug];
+      feedHtml += '<button type="button" class="fs-chip" data-feed="'+esc(slug)+'" aria-pressed="true" style="--fsc:#0067c0" title="'+esc(f.title)+'">'+esc(f.badge)+' <span class="fs-c">'+(feedCounts[slug]||0)+'</span></button>';
+    });
+    el.feeds.insertAdjacentHTML('beforeend', feedHtml);
+
+    var stCounts = {};
+    DATA.entries.forEach(function(e){ if(e.s) stCounts[e.s] = (stCounts[e.s]||0)+1; });
+    var order = ['In development','Rolling out','Launched','Cancelled'];
+    var stHtml = '';
+    order.filter(function(s){ return stCounts[s]; }).forEach(function(s){
+      stHtml += '<button type="button" class="fs-chip" data-status="'+esc(s)+'" aria-pressed="true" style="--fsc:'+(STATUS_COLOR[s]||'#5a5a6e')+'">'+esc(s)+' <span class="fs-c">'+stCounts[s]+'</span></button>';
+    });
+    el.status.insertAdjacentHTML('beforeend', stHtml);
+  }
+
+  function currentResults() {
+    var q = el.search.value.trim().toLowerCase();
+    var fset = feedActive(), sset = statusActive(), cut = cutoff(), changedOnly = el.changed.checked;
+    var feedAll = allOn(el.feeds), statusAll = allOn(el.status);
+    return DATA.entries.filter(function(e){
+      if (!feedAll && !fset[e.f]) return false;
+      if (changedOnly && !e.w) return false;
+      if (cut && (!e.d || e.d < cut)) return false;
+      if (!statusAll && e.s && !sset[e.s]) return false;
+      if (q) {
+        var hay = (e.t + ' ' + (e.y||'') + ' ' + (DATA.feeds[e.f] ? DATA.feeds[e.f].title : '') + ' ' + (e.id||'')).toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+  }
+
+  function render() {
+    var q = el.search.value.trim();
+    el.clear.style.display = q ? 'block' : 'none';
+    var res = currentResults();
+    el.count.textContent = res.length + ' result' + (res.length===1?'':'s') + (q ? ' for \u201c' + q + '\u201d' : '') + ' \u00b7 ' + DATA.entryCount + ' tracked';
+    var slice = res.slice(0, shown);
+    if (!res.length) {
+      el.list.innerHTML = '<li class="fs-empty">No tracked change matches these filters. Try a broader term or reset the filters.</li>';
+      el.moreWrap.style.display = 'none';
+      return;
+    }
+    el.list.innerHTML = slice.map(function(e){
+      var f = DATA.feeds[e.f] || {};
+      var statusPill = e.s ? '<span class="fs-status" style="background:'+(STATUS_COLOR[e.s]||'#5a5a6e')+'">'+esc(e.s)+'</span>' : '';
+      var newPill = e.n ? '<span class="fs-tag fs-tag--new">New page</span>' : '';
+      var winPill = (e.w && !e.n && e.k==='doc') ? '<span class="fs-tag fs-tag--win">Updated since 1 Jul</span>' : '';
+      return '<li class="fs-item">' +
+        '<div class="fs-item__top">' +
+          '<a class="fs-badge" href="../../'+esc(e.f)+'/" style="text-decoration:none">'+esc(f.badge||'Feed')+'</a>' +
+          statusPill + newPill + winPill +
+          (e.d ? '<span class="fs-date">'+fmt(e.d)+'</span>' : '<span class="fs-date">baseline</span>') +
+        '</div>' +
+        '<p class="fs-item__title"><a href="'+esc(e.u)+'" target="_blank" rel="noopener">'+highlight(e.t, q)+'</a></p>' +
+        (e.y ? '<p class="fs-item__desc">'+highlight(e.y, q)+'</p>' : '') +
+        '<p class="fs-item__foot">'+esc(f.title||e.f)+' &middot; <a href="../../'+esc(e.f)+'/">open feed</a></p>' +
+      '</li>';
+    }).join('');
+    el.moreWrap.style.display = res.length > shown ? 'block' : 'none';
+  }
+
+  function syncUrl() {
+    var q = el.search.value.trim();
+    var u = new URL(window.location.href);
+    if (q) u.searchParams.set('q', q); else u.searchParams.delete('q');
+    history.replaceState(null, '', u.toString());
+  }
+
+  function onChange(resetPage) { if (resetPage !== false) shown = PAGE; render(); }
+
+  fetch('../search-index.json', { cache: 'no-store' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){
+      if (!data || !data.entries) { el.count.textContent = 'Search index unavailable.'; return; }
+      DATA = data;
+      buildChips();
+      var q0 = new URL(window.location.href).searchParams.get('q');
+      if (q0) el.search.value = q0;
+      el.search.addEventListener('input', function(){ onChange(); syncUrl(); });
+      el.clear.addEventListener('click', function(){ el.search.value=''; el.search.focus(); onChange(); syncUrl(); });
+      el.range.addEventListener('change', function(){ onChange(); });
+      el.changed.addEventListener('change', function(){ onChange(); });
+      el.more.addEventListener('click', function(){ shown += PAGE; render(); });
+      el.feeds.addEventListener('click', function(ev){ var c=ev.target.closest('.fs-chip'); if(!c)return; c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true'); onChange(); });
+      el.status.addEventListener('click', function(ev){ var c=ev.target.closest('.fs-chip'); if(!c)return; c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true'); onChange(); });
+      el.reset.addEventListener('click', function(){
+        el.search.value=''; el.range.value='all'; el.changed.checked=false;
+        el.feeds.querySelectorAll('.fs-chip').forEach(function(c){ c.setAttribute('aria-pressed','true'); });
+        el.status.querySelectorAll('.fs-chip').forEach(function(c){ c.setAttribute('aria-pressed','true'); });
+        onChange(); syncUrl(); el.search.focus();
+      });
+      onChange();
+    })
+    .catch(function(){ el.count.textContent = 'Search index could not be loaded.'; });
+})();
+</script>
+
+</body>
+</html>

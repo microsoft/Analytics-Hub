@@ -328,6 +328,11 @@ async function main() {
   // that the job ran). Never fatal — a manifest error must not fail the scan.
   try { require('./status.js').generate(); console.log('status.json regenerated.'); }
   catch (e) { console.error('status.json generation skipped: ' + e.message); }
+
+  // Regenerate the cross-feed search index that powers the dedicated search page
+  // (docs/community/learning-feed/search/). Also non-fatal.
+  try { const m = require('./search-index.js').generate(); console.log('search-index.json regenerated (' + m.entryCount + ' entries).'); }
+  catch (e) { console.error('search-index.json generation skipped: ' + e.message); }
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
