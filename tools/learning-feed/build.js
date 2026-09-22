@@ -103,6 +103,20 @@ const STYLE = `
     .dm-emailbtn { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; padding: .34rem .62rem; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: #0067c0; text-decoration: none; white-space: nowrap; cursor: pointer; margin-top: 8px; }
     .dm-emailbtn:hover { border-color: #0067c0; background: color-mix(in srgb, #0067c0 8%, transparent); }
     @media (max-width: 780px) { .dm-links { columns: 1; } }
+    /* Roadmap filter bar (status chips + timeframe + search) */
+    .rm-filter { position: sticky; top: 0; z-index: 6; background: var(--surface, #fff); border: 1px solid var(--border, #e2e6ea); border-radius: 12px; padding: 11px 13px; margin: 1.1rem 0 .4rem; display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: center; }
+    .rm-flabel { font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--text-soft, #5a6470); margin-right: -6px; }
+    .rm-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .rm-chip { font-size: .76rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; user-select: none; color: var(--rmc, #5a6470); border: 1px solid color-mix(in srgb, var(--rmc, #8a8a99) 45%, var(--border, #e2e6ea)); background: var(--surface, #fff); transition: background .12s ease, color .12s ease; }
+    .rm-chip:hover { border-color: var(--rmc, #8a8a99); }
+    .rm-chip[aria-pressed="true"] { background: var(--rmc, #0067c0); color: #fff; border-color: transparent; }
+    .rm-chip .rm-c { font-weight: 600; font-size: .72rem; opacity: .7; }
+    .rm-chip[aria-pressed="true"] .rm-c { opacity: .85; }
+    .rm-tools { display: flex; gap: 10px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+    .rm-search { font-size: .85rem; padding: 6px 10px; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; min-width: 170px; background: var(--surface, #fff); color: inherit; }
+    .rm-range { font-size: .85rem; padding: 6px 10px; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: inherit; }
+    .rm-count { font-size: .82rem; color: var(--text-soft, #5a6470); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .rm-empty { text-align: center; color: var(--text-soft, #5a6470); padding: 22px; font-size: .9rem; }
   </style>`;
 
 function emailScript(monitorUrl) {
@@ -137,6 +151,54 @@ function emailScript(monitorUrl) {
     var t = document.getElementById('dmBannerTitle'); var b = document.getElementById('dmBannerBody');
     bannerBtn.href = mailto('Analytics Hub Learning Feed \u2014 ' + (t ? t.textContent.trim() : 'update'), ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', (t ? t.textContent.trim() : ''), '', (b ? b.textContent.replace(/\\s+/g, ' ').trim() : ''), '', 'Tracked on the Learning Feed:', MONITOR]);
   }
+})();
+</script>`;
+}
+
+function roadmapFilterScript() {
+  return `
+<script>
+/* Roadmap digest — client-side status / timeframe / text filtering over the full
+   set of tracked Copilot items (no server needed). Every row carries data-status,
+   data-date and data-search; this shows/hides rows and keeps a live count. */
+(function () {
+  'use strict';
+  var chips = Array.prototype.slice.call(document.querySelectorAll('#rmChips .rm-chip'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('table.dm-log tbody tr[data-status]'));
+  var search = document.getElementById('rmSearch');
+  var range = document.getElementById('rmRange');
+  var count = document.getElementById('rmCount');
+  var tbody = rows.length ? rows[0].parentNode : null;
+  var allChip = chips.filter(function (c) { return c.dataset.status === '__all__'; })[0];
+  var statusChips = chips.filter(function (c) { return c.dataset.status !== '__all__'; });
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function daysAgo(n) { var d = new Date(); d.setDate(d.getDate() - n); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function cutoff() { var v = range ? range.value : 'all'; if (v === '30') return daysAgo(30); if (v === '90') return daysAgo(90); if (v === '365') return daysAgo(365); if (v === 'win') return '2026-07-01'; return null; }
+  function activeSet() { var s = {}; statusChips.forEach(function (c) { s[c.dataset.status] = c.getAttribute('aria-pressed') === 'true'; }); return s; }
+  function syncAll() { if (!allChip) return; var all = statusChips.every(function (c) { return c.getAttribute('aria-pressed') === 'true'; }); allChip.setAttribute('aria-pressed', all ? 'true' : 'false'); }
+  function apply() {
+    var set = activeSet(); var cut = cutoff(); var q = (search ? search.value : '').trim().toLowerCase(); var shown = 0;
+    rows.forEach(function (tr) {
+      var ok = !!set[tr.dataset.status];
+      if (ok && cut) ok = (tr.dataset.date || '') >= cut;
+      if (ok && q) ok = (tr.dataset.search || '').indexOf(q) >= 0;
+      tr.style.display = ok ? '' : 'none';
+      if (ok) shown++;
+    });
+    if (count) count.textContent = 'Showing ' + shown + ' of ' + rows.length + ' item' + (rows.length === 1 ? '' : 's');
+    var er = document.getElementById('rmEmptyRow');
+    if (shown === 0) { if (!er && tbody) { er = document.createElement('tr'); er.id = 'rmEmptyRow'; er.innerHTML = '<td colspan="4" class="rm-empty">No roadmap items match these filters.</td>'; tbody.appendChild(er); } }
+    else if (er && er.parentNode) { er.parentNode.removeChild(er); }
+  }
+  statusChips.forEach(function (c) { c.addEventListener('click', function () { c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); syncAll(); apply(); }); });
+  if (allChip) allChip.addEventListener('click', function () {
+    var turnOn = allChip.getAttribute('aria-pressed') !== 'true' || statusChips.some(function (c) { return c.getAttribute('aria-pressed') !== 'true'; });
+    statusChips.forEach(function (c) { c.setAttribute('aria-pressed', turnOn ? 'true' : 'false'); });
+    allChip.setAttribute('aria-pressed', turnOn ? 'true' : 'false'); apply();
+  });
+  if (search) search.addEventListener('input', apply);
+  if (range) range.addEventListener('change', apply);
+  apply();
 })();
 </script>`;
 }
@@ -363,15 +425,17 @@ ${emailScript(canonical)}
 function buildRoadmapFeed(feed, snap, canonical) {
   const items = (snap.items || []).slice();
   const win = feed.windowStart || '2026-07-01';
-  const inWin = items.filter(i => (i.modified || i.created || '') >= win)
-    .sort((a, b) => (b.modified || b.created || '').localeCompare(a.modified || a.created || ''));
+  const byDate = (a, b) => (b.modified || b.created || '').localeCompare(a.modified || a.created || '');
+  const inWin = items.filter(i => (i.modified || i.created || '') >= win).sort(byDate);
   const counts = {};
   items.forEach(i => { counts[i.status] = (counts[i.status] || 0) + 1; });
   const launchedInWin = inWin.filter(i => i.status === 'Launched').length;
   const winLabel = fmtDate(win);
-  const show = inWin.slice(0, 60);
+  // Render the COMPLETE tracked set, newest first — the table is filtered
+  // client-side by status / timeframe / text, so no history is thrown away.
+  const all = items.slice().sort(byDate);
 
-  const rows = show.map((it, i) => {
+  const rows = all.map((it, i) => {
     const color = STATUS_COLOR[it.status] || '#5a5a6e';
     const desc = (it.description || '')
       .replace(/<[^>]+>/g, ' ')
@@ -379,8 +443,10 @@ function buildRoadmapFeed(feed, snap, canonical) {
       .replace(/&quot;/g, '"').replace(/&#39;|&rsquo;|&#8217;/g, "'").replace(/&mdash;|&#8212;/g, '\u2014')
       .replace(/\s+/g, ' ').trim();
     const shortDesc = desc.length > 260 ? desc.slice(0, 260).replace(/\s+\S*$/, '') + '\u2026' : desc;
+    const dateISO = (it.modified || it.created || '').slice(0, 10);
+    const searchKey = esc((it.title + ' #' + it.id).toLowerCase());
     return `
-        <tr id="change-${i + 1}">
+        <tr id="change-${i + 1}" data-status="${esc(it.status)}" data-date="${esc(dateISO)}" data-search="${searchKey}">
           <td class="dm-page"><a href="${esc(roadmapUrl(it.id))}" target="_blank" rel="noopener">${esc(it.title)}</a> <span class="dm-tier">#${esc(it.id)}</span></td>
           <td class="dm-prev"><span class="dm-badge-status" style="background:${color}">${esc(it.status)}</span></td>
           <td class="dm-new"><p class="dm-quote">${esc(shortDesc)}</p></td>
@@ -388,11 +454,36 @@ function buildRoadmapFeed(feed, snap, canonical) {
         </tr>`;
   }).join('');
 
+  // Status filter chips, ordered by lifecycle, each coloured to match its badge.
+  const chipOrder = ['In development', 'Rolling out', 'Launched', 'Cancelled'];
+  const statusChips = chipOrder.filter(s => counts[s]).map(s =>
+    `<button type="button" class="rm-chip" data-status="${esc(s)}" aria-pressed="true" style="--rmc:${STATUS_COLOR[s] || '#5a5a6e'}">${esc(s)} <span class="rm-c">${counts[s]}</span></button>`
+  ).join('\n        ');
+  const filterBar = `
+    <div class="rm-filter" role="group" aria-label="Filter roadmap items">
+      <span class="rm-flabel">Status</span>
+      <div class="rm-chips" id="rmChips">
+        <button type="button" class="rm-chip" data-status="__all__" aria-pressed="true" style="--rmc:#0067c0">All <span class="rm-c">${all.length}</span></button>
+        ${statusChips}
+      </div>
+      <div class="rm-tools">
+        <input id="rmSearch" class="rm-search" type="search" placeholder="Search feature or #ID\u2026" aria-label="Search roadmap items by title or ID" />
+        <select id="rmRange" class="rm-range" aria-label="Filter by timeframe">
+          <option value="all" selected>All time (since 2024)</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="win">Since ${winLabel}</option>
+          <option value="365">Last 12 months</option>
+        </select>
+        <span class="rm-count" id="rmCount"></span>
+      </div>
+    </div>`;
+
   const watchNote = `      <li>Source: <a href="${esc(feed.source)}" target="_blank" rel="noopener">Microsoft 365 Roadmap API</a> \u2014 official public feed, filtered to Copilot items.</li>
       <li>Roadmap statuses: <strong>In development</strong>, <strong>Rolling out</strong>, <strong>Launched</strong>, <strong>Cancelled</strong>.</li>`;
 
   const bannerTitle = `${inWin.length} Copilot roadmap items updated since ${winLabel} \u2014 ${launchedInWin} now Launched`;
-  const bannerBody = `Built from the official Microsoft 365 Roadmap feed (${items.length} Copilot items tracked in total: ${counts['Launched'] || 0} Launched, ${counts['Rolling out'] || 0} Rolling out, ${counts['In development'] || 0} In development). The digest below lists the ${Math.min(60, inWin.length)} most recently updated, newest first.`;
+  const bannerBody = `Built from the official Microsoft 365 Roadmap feed. All ${items.length} tracked Copilot items are listed below (${counts['Launched'] || 0} Launched, ${counts['Rolling out'] || 0} Rolling out, ${counts['In development'] || 0} In development, ${counts['Cancelled'] || 0} Cancelled), newest first \u2014 filter by status or timeframe to go back as far as ${fmtDate(all[all.length - 1] ? (all[all.length - 1].modified || all[all.length - 1].created) : win)}.`;
 
   return head(feed, canonical) + `
   <section class="dm-hero">
@@ -425,10 +516,11 @@ function buildRoadmapFeed(feed, snap, canonical) {
     </div>
 
     <div class="dm-note">
-      Showing the ${Math.min(60, inWin.length)} Copilot items most recently created or modified on or after ${winLabel}. Status reflects the roadmap's own value on the day of the pull.
+      Every tracked Copilot item is listed, newest first. Use the <strong>Status</strong> chips to show only <em>In development</em>, <em>Rolling out</em>, <em>Launched</em> or <em>Cancelled</em> items, the timeframe menu to reach further back, or search by feature name or roadmap #ID. Status reflects the roadmap's own value on the day of the pull.
     </div>
+${filterBar}
 
-    <h2 class="dm-h">Recently updated Copilot roadmap items</h2>
+    <h2 class="dm-h">Copilot roadmap items</h2>
     <div class="dm-scroll">
     <table class="dm-log">
       <thead><tr><th>Feature</th><th>Status</th><th>Description (verbatim)</th><th>Updated</th></tr></thead>
@@ -448,6 +540,7 @@ ${watchNote}
 </main>
 ${FOOTER}
 ${emailScript(canonical)}
+${roadmapFilterScript()}
 </body>
 </html>`;
 }
