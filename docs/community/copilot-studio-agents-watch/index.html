@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Copilot Studio &amp; Agents Watch · Analytics Hub</title>
-  <meta name="description" content="A running record of the Microsoft Learn pages behind Microsoft Copilot Studio and the agents it builds — how agents are billed (message packs, capacity, credit consumption), the ag" />
+  <meta name="description" content="A running record of the Microsoft Learn pages behind Microsoft Copilot Studio agents — the agent analytics and agent-evaluation surface that measures agent quality, cost-savings an" />
   <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/community/copilot-studio-agents-watch/" />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Analytics Hub" />
   <meta property="og:title" content="Copilot Studio &amp; Agents Watch · Analytics Hub" />
-  <meta property="og:description" content="A running record of the Microsoft Learn pages behind Microsoft Copilot Studio and the agents it builds — how agents are billed (message packs, capacity, credit consumption), the ag" />
+  <meta property="og:description" content="A running record of the Microsoft Learn pages behind Microsoft Copilot Studio agents — the agent analytics and agent-evaluation surface that measures agent quality, cost-savings an" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="stylesheet" href="../../styles.css" />
   <link rel="stylesheet" href="../../palette.css" />
@@ -35,6 +35,7 @@
     .dm-crumb a { color: inherit; }
     .dm-hero h1 { margin: 0 0 .5rem; }
     .dm-hero .lede { max-width: 76ch; color: var(--text-soft, #5a6470); margin: 0 0 .4rem; }
+    .dm-scope { max-width: 76ch; font-size: .84rem; color: var(--text-soft, #5a6470); background: color-mix(in srgb, var(--accent, #0078d4) 5%, transparent); border-left: 3px solid var(--accent, #0078d4); border-radius: 8px; padding: .5rem .7rem; margin: .2rem 0 .2rem; }
     .dm-meta { font-size: .82rem; color: var(--text-soft, #5a6470); opacity: .9; margin: .8rem 0 0; }
     .dm-kpis { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1.4rem 0 .4rem; }
     .dm-kpi { border: 1px solid var(--border, #e2e6ea); border-radius: 12px; background: var(--surface, #fff); padding: 1rem 1.1rem; }
@@ -100,18 +101,19 @@
     <div class="wrap">
       <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
       <h1>Copilot Studio &amp; Agents Watch</h1>
-      <p class="lede">A running record of the Microsoft Learn pages behind Microsoft Copilot Studio and the agents it builds — how agents are billed (message packs, capacity, credit consumption), the agent analytics and agent-evaluation surface that measures agent quality and cost, the admin governance controls (DLP, transcript and sharing controls, agent inventory), and licensing, quotas and data residency. These are the sources the Hub's Agent Evaluator, Studio Agents, and ESS Insights reports depend on.</p>
+      <p class="lede">A running record of the Microsoft Learn pages behind Microsoft Copilot Studio agents — the agent analytics and agent-evaluation surface that measures agent quality, cost-savings and consumption; the admin governance controls (DLP, transcript and sharing controls, agent inventory); and agent data residency. These are the sources the Hub's Agent Evaluator, Studio Agents, and ESS Insights reports depend on. Copilot Studio licensing, message-pack pricing and quota economics are tracked in the Pricing &amp; Licensing Watch.</p>
+      <p class="dm-scope">Scope: agent analytics, evaluation, governance and residency. Copilot Studio pricing, licensing and message/quota economics are tracked in the Pricing &amp; Licensing Watch.</p>
       <div class="dm-kpis">
-        <div class="dm-kpi"><div class="v">61</div><div class="l">Microsoft Learn pages watched</div></div>
-        <div class="dm-kpi"><div class="v">25</div><div class="l">updated since Jul 1, 2026</div></div>
+        <div class="dm-kpi"><div class="v">49</div><div class="l">Microsoft Learn pages watched</div></div>
+        <div class="dm-kpi"><div class="v">17</div><div class="l">updated since Jul 1, 2026</div></div>
         <div class="dm-kpi"><div class="v">Sep 16, 2026</div><div class="l">Most recent update</div></div>
       </div>
       <p class="dm-meta">Reflects the scan run on Sep 22, 2026 &middot; Source: Microsoft's own published documentation metadata (the "last updated" date on each page). Where an archived capture is unavailable, a change is reported from the available signal (published date, length, section) rather than quoted.</p>
 
       <div class="dm-alert" id="dmAlert" role="alert" aria-label="Documentation update summary">
         <p class="dm-alert__head"><span class="dm-alert__dot" aria-hidden="true"></span> Update summary</p>
-        <p class="dm-alert__title" id="dmBannerTitle">25 of 61 watched pages were updated by Microsoft since Jul 1, 2026</p>
-        <p class="dm-alert__body" id="dmBannerBody">The change log below leads with the 12 curated, highest-stakes pages, and the full watched set of 61 pages (auto-discovered daily from the product's documentation tree) is listed under &quot;Pages we watch.&quot;</p>
+        <p class="dm-alert__title" id="dmBannerTitle">17 of 49 watched pages were updated by Microsoft since Jul 1, 2026</p>
+        <p class="dm-alert__body" id="dmBannerBody">The change log below leads with the 7 curated, highest-stakes pages, and the full watched set of 49 pages (auto-discovered daily from the product's documentation tree) is listed under &quot;Pages we watch.&quot;</p>
         <div class="dm-alert__actions">
           <a class="dm-actbtn dm-actbtn--mail" id="dmBannerEmail" href="#">&#9993; Email someone about this</a>
         </div>
@@ -148,30 +150,6 @@
           <td class="dm-date">Sep 16, 2026</td>
         </tr>
         <tr id="change-2">
-          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview" target="_blank" rel="noopener">Copilot Studio billing and credit overview</a></td>
-          <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>Aug 27, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
-            
-          </td>
-          <td class="dm-new">
-            <p>How Copilot Studio agents consume credits — the core billing model for the agent surface.</p>
-            <p class="dm-tier">Source signal: ms.date 2026-08-27 · git commit 2d003488 · current length 415 words.</p>
-          </td>
-          <td class="dm-date">Aug 27, 2026</td>
-        </tr>
-        <tr id="change-3">
-          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-manage-buy-credits" target="_blank" rel="noopener">Manage and buy Copilot Studio credits</a></td>
-          <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>Aug 18, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
-            
-          </td>
-          <td class="dm-new">
-            <p>How credits are purchased and managed — the capacity/prepay mechanics behind agent cost.</p>
-            <p class="dm-tier">Source signal: ms.date 2026-08-18 · git commit c1af6484 · current length 338 words.</p>
-          </td>
-          <td class="dm-date">Aug 18, 2026</td>
-        </tr>
-        <tr id="change-4">
           <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance" target="_blank" rel="noopener">Copilot Studio security and governance</a></td>
           <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
             <p>Microsoft's published "last updated" date for this page is <strong>Aug 4, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
@@ -183,42 +161,13 @@
           </td>
           <td class="dm-date">Aug 4, 2026</td>
         </tr>
-        <tr id="change-5">
-          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener">Copilot Studio message and credit rates</a></td>
-          <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>Aug 3, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
-            
-          </td>
-          <td class="dm-new">
-            <p>The published per-action credit/message consumption rates — the unit economics of Copilot Studio agents.</p>
-            <p class="dm-tier">Source signal: ms.date 2026-08-03 · git commit c1af6484 · current length 2316 words.</p>
-          </td>
-          <td class="dm-date">Aug 3, 2026</td>
-        </tr>
-        <tr id="change-6">
-          <td class="dm-page"><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Copilot Studio billing and licensing</a></td>
-          <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>Aug 3, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
-            
-          </td>
-          <td class="dm-new">
-            <p>How Copilot Studio is licensed and billed — message packs, tenant vs per-user, and prerequisites.</p>
-            <p class="dm-tier">Source signal: ms.date 2026-08-03 · git commit d3dd478d · current length 911 words.</p>
-          </td>
-          <td class="dm-date">Aug 3, 2026</td>
-        </tr>
       </tbody>
     </table>
     </div>
 
     <h2 class="dm-h">Pages we watch</h2>
-    <p class="dm-note">The complete set of 61 pages under daily watch for this area — 12 curated (highest-stakes, listed first) and 49 auto-discovered from the product's documentation tree. Pages updated since Jul 1, 2026 are badged. A page appearing or disappearing here is itself a tracked signal.</p>
+    <p class="dm-note">The complete set of 49 pages under daily watch for this area — 7 curated (highest-stakes, listed first) and 42 auto-discovered from the product's documentation tree. Pages updated since Jul 1, 2026 are badged. A page appearing or disappearing here is itself a tracked signal.</p>
     <ul class="dm-links">
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview" target="_blank" rel="noopener">Copilot Studio billing and credit overview</a> <span class="dm-tier">(updated Aug 27, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-manage-buy-credits" target="_blank" rel="noopener">Manage and buy Copilot Studio credits</a> <span class="dm-tier">(updated Aug 18, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener">Copilot Studio message and credit rates</a> <span class="dm-tier">(updated Aug 3, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-quotas" target="_blank" rel="noopener">Copilot Studio requirements and quotas</a> <span class="dm-tier">(updated Jun 18, 2026)</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing" target="_blank" rel="noopener">Copilot Studio billing and licensing</a> <span class="dm-tier">(updated Aug 3, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview" target="_blank" rel="noopener">Copilot Studio analytics overview</a> <span class="dm-tier">(updated Jun 1, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro" target="_blank" rel="noopener">Agent evaluation (introduction)</a> <span class="dm-tier">(updated Sep 16, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-cost-savings" target="_blank" rel="noopener">Copilot Studio cost savings analytics</a> <span class="dm-tier">(updated Sep 18, 2025)</span></li>
@@ -238,13 +187,9 @@
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-logging-copilot-studio" target="_blank" rel="noopener">Admin Logging Copilot Studio</a> <span class="dm-tier">(updated Aug 18, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-results" target="_blank" rel="noopener">Analytics Agent Evaluation Results</a> <span class="dm-tier">(updated Aug 11, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-intro" target="_blank" rel="noopener">Analytics Agent Evaluation Intro</a> <span class="dm-tier">(updated Aug 3, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/faq-billing-licensing" target="_blank" rel="noopener">Faq Billing Licensing</a> <span class="dm-tier">(updated Aug 3, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-licensing-subscriptions" target="_blank" rel="noopener">Requirements Licensing Subscriptions</a> <span class="dm-tier">(updated Aug 3, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-share-bots" target="_blank" rel="noopener">Admin Share Bots</a> <span class="dm-tier">(updated Jul 30, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-sharing-controls-limits" target="_blank" rel="noopener">Admin Sharing Controls Limits</a> <span class="dm-tier">(updated Jul 20, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-licensing-gcc" target="_blank" rel="noopener">Requirements Licensing Gcc</a> <span class="dm-tier">(updated Jul 20, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-api-quarantine" target="_blank" rel="noopener">Admin Api Quarantine</a> <span class="dm-tier">(updated Jul 14, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-send-message" target="_blank" rel="noopener">Authoring Send Message</a> <span class="dm-tier">(updated Jul 2, 2026)</span> <span class="dm-badge-new" style="font-size:.6rem">since Jul 1, 2026</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-create" target="_blank" rel="noopener">Analytics Agent Evaluation Create</a> <span class="dm-tier">(updated Jun 23, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-results" target="_blank" rel="noopener">Analytics Agent Evaluation Results</a> <span class="dm-tier">(updated Jun 23, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-view" target="_blank" rel="noopener">Analytics Agent Evaluation View</a> <span class="dm-tier">(updated Jun 23, 2026)</span></li>
@@ -256,7 +201,6 @@
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/faqs-analytics" target="_blank" rel="noopener">Faqs Analytics</a> <span class="dm-tier">(updated May 19, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-rest-api" target="_blank" rel="noopener">Analytics Agent Evaluation Rest Api</a> <span class="dm-tier">(updated May 13, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-custom-metrics" target="_blank" rel="noopener">Analytics Custom Metrics</a> <span class="dm-tier">(updated May 5, 2026)</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-licensing" target="_blank" rel="noopener">Requirements Licensing</a> <span class="dm-tier">(updated May 4, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-network-isolation-vnet" target="_blank" rel="noopener">Admin Network Isolation Vnet</a> <span class="dm-tier">(updated Apr 29, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/data-location" target="_blank" rel="noopener">Data Location</a> <span class="dm-tier">(updated Apr 29, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-drill-down-lists" target="_blank" rel="noopener">Analytics Drill Down Lists</a> <span class="dm-tier">(updated Apr 17, 2026)</span></li>
@@ -266,12 +210,10 @@
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-network-isolation-firewall" target="_blank" rel="noopener">Admin Network Isolation Firewall</a> <span class="dm-tier">(updated Apr 6, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-edit-cases" target="_blank" rel="noopener">Analytics Agent Evaluation Edit Cases</a> <span class="dm-tier">(updated Mar 19, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-multi-turn" target="_blank" rel="noopener">Analytics Agent Evaluation Multi Turn</a> <span class="dm-tier">(updated Mar 12, 2026)</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-proactive-message" target="_blank" rel="noopener">Advanced Proactive Message</a> <span class="dm-tier">(updated Feb 23, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-block-viral-signups" target="_blank" rel="noopener">Admin Block Viral Signups</a> <span class="dm-tier">(updated Jan 28, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/geo-data-residency-security" target="_blank" rel="noopener">Geo Data Residency Security</a> <span class="dm-tier">(updated Jan 6, 2026)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-customer-managed-keys" target="_blank" rel="noopener">Admin Customer Managed Keys</a> <span class="dm-tier">(updated Nov 19, 2025)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/manage-activity-data-m365" target="_blank" rel="noopener">Manage Activity Data M365</a> <span class="dm-tier">(updated Sep 18, 2025)</span></li>
-      <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-sessions-management" target="_blank" rel="noopener">Requirements Sessions Management</a> <span class="dm-tier">(updated Aug 22, 2025)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-viva-insights" target="_blank" rel="noopener">Analytics Viva Insights</a> <span class="dm-tier">(updated Jan 26, 2025)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-certification" target="_blank" rel="noopener">Admin Certification</a> <span class="dm-tier">(updated Dec 20, 2024)</span></li>
       <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/manage-data-movement-outside-us" target="_blank" rel="noopener">Manage Data Movement Outside Us</a> <span class="dm-tier">(updated Oct 16, 2024)</span></li>

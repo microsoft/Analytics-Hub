@@ -10,8 +10,8 @@
       "https://learn.microsoft.com/en-us/copilot/microsoft-365/toc.json",
       "https://learn.microsoft.com/en-us/microsoft-copilot-studio/toc.json"
     ],
-    "include": ["licens", "requirement", "/plans", "pricing", "billing", "message", "quota", "purchase", "seat", "add-on", "usage-based", "subscription", "prepay", "prepaid", "credit"],
-    "exclude": ["/troubleshoot", "quickstart", "/authoring/", "/analytics/"]
+    "include": ["licens", "requirement", "/plans", "pricing", "billing", "message", "quota", "capacity", "purchase", "seat", "add-on", "usage-based", "subscription", "prepay", "prepaid", "credit"],
+    "exclude": ["/troubleshoot", "quickstart", "/authoring/", "/analytics/", "advanced-proactive-message", "authoring-send-message"]
   },
   "docs": [
     { "id": "m365-copilot-licensing", "tier": 1, "title": "Microsoft 365 Copilot licensing requirements", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing", "why": "Defines which base licenses qualify for Microsoft 365 Copilot and the prerequisites for purchase \u2014 the gate on who can buy and use it." },

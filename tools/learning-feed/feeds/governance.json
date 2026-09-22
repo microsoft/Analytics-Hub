@@ -4,6 +4,7 @@
   "slug": "admin-governance-watch",
   "blurb": "A running record of changes to the Microsoft Learn pages that define the Copilot admin control surface \u2014 the management controls, discovery/opt-in settings, DLP and Purview data-security posture, and agent/extensibility governance that decide what an administrator can turn on, restrict, or turn off.",
   "windowStart": "2026-07-01",
+  "scopeNote": "Scope: what an admin can control. What Copilot activity gets logged is in the Purview Copilot Audit Watch; where Copilot data is processed and stored is in the Compliance, Data-Residency & EU Data Boundary Watch.",
   "discovery": {
     "tocs": [
       "https://learn.microsoft.com/en-us/microsoft-365/copilot/toc.json",

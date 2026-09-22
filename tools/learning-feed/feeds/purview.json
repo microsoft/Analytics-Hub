@@ -4,6 +4,7 @@
   "slug": "purview-copilot-audit-watch",
   "blurb": "A running record of the Microsoft Learn pages behind Microsoft Purview auditing of Copilot \u2014 the Copilot audit events, the audit-log activities catalog, and the search and retention model. Purview audit logs are the primary data source for several of the Hub's reports, so a change to the Copilot audit schema can silently break them.",
   "windowStart": "2026-07-01",
+  "scopeNote": "Scope: what Copilot activity gets logged and audited. What an admin can control is in the Admin Control & Governance Watch; where Copilot data is processed and stored is in the Compliance, Data-Residency & EU Data Boundary Watch.",
   "discovery": {
     "tocs": ["https://learn.microsoft.com/en-us/purview/toc.json"],
     "include": ["audit", "copilot"],

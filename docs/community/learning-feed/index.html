@@ -46,6 +46,8 @@
     .lf-how .lf-cadence td, .lf-how .lf-cadence th { text-align: left; padding: 6px 12px 6px 0; vertical-align: top; }
     .lf-how .lf-cadence th { color: var(--text-muted, #6b6b85); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
     .lf-how .lf-fine { font-size: .82rem; color: var(--text-muted, #6b6b85); margin-top: 18px; }
+    .lf-scope { font-size: .8rem; color: var(--text-muted, #6b6b85); margin: 8px 0 0; padding-top: 8px; border-top: 1px dashed var(--border, #e6e6ee); }
+    .lf-scope b { color: var(--text-soft, #5a5a72); }
     /* Hoverable / focusable acronym definitions */
     .lf-term { border-bottom: 1px dotted var(--accent, #0078d4); cursor: help; position: relative; font-weight: 600; }
     .lf-term:focus { outline: 2px solid color-mix(in srgb, var(--accent, #0078d4) 55%, transparent); outline-offset: 2px; border-radius: 3px; }
@@ -111,7 +113,7 @@
         </a>
         <a class="lf-card" href="../pricing-licensing-watch/">
           <div class="lf-top"><span class="lf-badge">Price tracker</span><span class="lf-live">Updated 21 Sep 2026</span></div>
-          <div class="lf-kpi"><span class="lf-num">27</span><span class="lf-unit">updated since 1 Jul &middot; 42 pages watched</span></div>
+          <div class="lf-kpi"><span class="lf-num">26</span><span class="lf-unit">updated since 1 Jul &middot; 43 pages watched</span></div>
           <div class="lf-title">Pricing &amp; Licensing Watch</div>
           <p class="lf-desc">A running record of the Microsoft Learn pages that set what Microsoft Copilot costs and who is licensed to use it &mdash; list price, SKU and add-on rules, prerequisites, and Copilot Studio message/quota economics.</p>
           <span class="lf-go">Open feed &rarr;</span>
@@ -135,6 +137,7 @@
           <div class="lf-kpi"><span class="lf-num">113</span><span class="lf-unit">pages watched &middot; 23 updated since 1 Jul</span></div>
           <div class="lf-title">Admin Control &amp; Governance Watch</div>
           <p class="lf-desc">Follows the Copilot admin control surface &mdash; management controls, discovery and opt-in settings, DLP and Purview data-security posture, and agent governance &mdash; so admins see when a control is added, renamed, or changes default.</p>
+          <p class="lf-scope"><b>Scope:</b> what you can control. Logging &rarr; Purview Audit &middot; Data location &rarr; Compliance.</p>
           <span class="lf-go">Open feed &rarr;</span>
         </a>
         <a class="lf-card" href="../github-copilot-billing-watch/">
@@ -149,6 +152,7 @@
           <div class="lf-kpi"><span class="lf-num">9</span><span class="lf-unit">updated since 1 Jul &middot; 31 pages watched</span></div>
           <div class="lf-title">Compliance, Data-Residency &amp; EU Data Boundary Watch</div>
           <p class="lf-desc">Tracks the Microsoft Learn and Legal pages that govern where and how Copilot processes data &mdash; privacy, the EU Data Boundary, Microsoft 365 data residency, and Azure OpenAI data-handling terms.</p>
+          <p class="lf-scope"><b>Scope:</b> where data lives. Control &rarr; Governance &middot; Logging &rarr; Purview Audit.</p>
           <span class="lf-go">Open feed &rarr;</span>
         </a>
         <a class="lf-card" href="../viva-insights-watch/">
@@ -170,6 +174,7 @@
           <div class="lf-kpi"><span class="lf-num">52</span><span class="lf-unit">pages watched &middot; 2 updated since 1 Jul</span></div>
           <div class="lf-title">Purview Copilot Audit Watch</div>
           <p class="lf-desc">Watches the Microsoft Purview pages that define the Copilot audit events, the audited-activities catalog, and audit search and retention &mdash; the primary data source behind several of the Hub's reports.</p>
+          <p class="lf-scope"><b>Scope:</b> what gets logged. Control &rarr; Governance &middot; Data location &rarr; Compliance.</p>
           <span class="lf-go">Open feed &rarr;</span>
         </a>
         <a class="lf-card" href="../m365-copilot-usage-reports-watch/">
@@ -181,9 +186,10 @@
         </a>
         <a class="lf-card" href="../copilot-studio-agents-watch/">
           <div class="lf-top"><span class="lf-badge">Agents tracker</span><span class="lf-live">Updated 21 Sep 2026</span></div>
-          <div class="lf-kpi"><span class="lf-num">61</span><span class="lf-unit">pages watched &middot; 25 updated since 1 Jul</span></div>
+          <div class="lf-kpi"><span class="lf-num">49</span><span class="lf-unit">pages watched &middot; 17 updated since 1 Jul</span></div>
           <div class="lf-title">Copilot Studio &amp; Agents Watch</div>
-          <p class="lf-desc">Watches the Microsoft Copilot Studio pages behind how agents are billed (message packs, credits, quotas), the agent analytics and evaluation surface that measures agent quality and cost, and the admin governance controls &mdash; the sources behind the Hub's Agent Evaluator, Studio Agents, and ESS Insights reports.</p>
+          <p class="lf-desc">Watches the Microsoft Copilot Studio pages behind the agent analytics and evaluation surface that measures agent quality, cost-savings and consumption, the admin governance controls (DLP, transcript and sharing controls, agent inventory), and agent data residency &mdash; the sources behind the Hub's Agent Evaluator, Studio Agents, and ESS Insights reports.</p>
+          <p class="lf-scope"><b>Scope:</b> agent analytics, evaluation &amp; governance. Pricing, licensing &amp; message/quota economics &rarr; Pricing &amp; Licensing Watch.</p>
           <span class="lf-go">Open feed &rarr;</span>
         </a>
       </div>

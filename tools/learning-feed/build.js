@@ -64,6 +64,7 @@ const STYLE = `
     .dm-crumb a { color: inherit; }
     .dm-hero h1 { margin: 0 0 .5rem; }
     .dm-hero .lede { max-width: 76ch; color: var(--text-soft, #5a6470); margin: 0 0 .4rem; }
+    .dm-scope { max-width: 76ch; font-size: .84rem; color: var(--text-soft, #5a6470); background: color-mix(in srgb, var(--accent, #0078d4) 5%, transparent); border-left: 3px solid var(--accent, #0078d4); border-radius: 8px; padding: .5rem .7rem; margin: .2rem 0 .2rem; }
     .dm-meta { font-size: .82rem; color: var(--text-soft, #5a6470); opacity: .9; margin: .8rem 0 0; }
     .dm-kpis { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1.4rem 0 .4rem; }
     .dm-kpi { border: 1px solid var(--border, #e2e6ea); border-radius: 12px; background: var(--surface, #fff); padding: 1rem 1.1rem; }
@@ -305,6 +306,7 @@ function buildDocFeed(feed, snap, canonical) {
       <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
       <h1>${esc(feed.title)}</h1>
       <p class="lede">${esc(feed.blurb)}</p>
+      ${feed.scopeNote ? `<p class="dm-scope">${esc(feed.scopeNote)}</p>` : ''}
       <div class="dm-kpis">
         <div class="dm-kpi"><div class="v">${pages.length}</div><div class="l">${noMsDate ? 'GitHub' : 'Microsoft Learn'} pages watched</div></div>
         <div class="dm-kpi"><div class="v">${noMsDate ? 'Baseline' : inWindow.length}</div><div class="l">${noMsDate ? 'recorded ' + fmtDate(snap.runAt) : 'updated since ' + winLabel}</div></div>
