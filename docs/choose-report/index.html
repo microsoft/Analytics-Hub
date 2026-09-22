@@ -5654,11 +5654,27 @@ html.mk-embed main.mk-page{ display:none !important; }
     }
     return best;
   }
+  /* Curated shelf order for the unfiltered "All reports" list. Stars alone
+     decide the tail of that list, which buries a template that is too new to
+     have collected any — so the newest headline templates are pinned in front
+     of it. The pin is dropped the moment a goal, a product or a search is in
+     play, because from then on the ranking below reflects a stated need and
+     nothing should jump it. */
+  var PK_PIN = ['value-lens', 'consumption-central', 'ghcp-panel'];
+  function pinRank(id) {
+    var i = PK_PIN.indexOf(id);
+    return i === -1 ? PK_PIN.length : i;
+  }
   function pkIds() {
+    var unfiltered = !pkState.goal && !pkState.prods.length && !pkState.q;
     return TOOLS.filter(function (t) { return pkMatches(t.id); })
       .map(function (t) { return t.id; })
       .sort(function (a, b) {
-        var d = pkRank(a) - pkRank(b);      if (d) return d;
+        var d;
+        if (unfiltered) {
+          d = pinRank(a) - pinRank(b);      if (d) return d;
+        }
+        d = pkRank(a) - pkRank(b);          if (d) return d;
         d = prodHits(b) - prodHits(a);      if (d) return d;
         d = starCount(b) - starCount(a);    if (d) return d;
         return BASE[a] - BASE[b];

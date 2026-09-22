@@ -430,6 +430,75 @@
   </div>
 </section>
 
+<!-- =========================================================== ALSO NEW -->
+<style>
+  /* A single-card band for the newest template that sits outside the trio
+     above: same card language as the flagship cards, but its own section so
+     the "three dashboards, built to work together" story stays intact and
+     this one is not promoted past them. Video beside the copy, matching the
+     wide third flagship card. */
+  .spotlight-band{border-top:1px solid var(--border);}
+  .spotlight-band .spotlight-head{display:flex;align-items:center;justify-content:flex-start;gap:16px;margin:0 0 .2rem;}
+  .spotlight-band .spotlight-headtext{text-align:left;}
+  .spotlight-band .eyebrow.center{display:block;text-align:left;margin:0 0 2px;}
+  .spotlight-band .section-title.center{text-align:left;margin:0;}
+  .spotlight-band .section-lead.center{text-align:left;max-width:78ch;margin:.7rem 0 0;}
+  .spotlight-band .spotlight-grid{display:grid;grid-template-columns:1fr;gap:1.6rem;margin-top:1.6rem;}
+  @media (min-width:1100px){
+    .spotlight-band .flagship-card{flex-direction:row;align-items:stretch;}
+    .spotlight-band .flagship-media{flex:0 0 50%;aspect-ratio:auto;}
+    .spotlight-band .flagship-body{flex:1 1 50%;justify-content:center;padding:1.6rem 1.8rem;}
+  }
+  /* GitHub's near-black reads as an accent in light mode but disappears on a
+     dark ground, so the dark theme takes a lifted grey instead. Set here
+     rather than inline on the card, or the inline value would win over the
+     dark rule. */
+  .spotlight-band .flagship-card{--c:#24292f;}
+  [data-theme="dark"] .spotlight-band .flagship-card{--c:#9aa4b2;}
+</style>
+<div class="band spotlight-band" id="also-new">
+  <div class="wrap">
+    <div class="spotlight-head">
+      <div class="spotlight-headtext">
+        <p class="eyebrow center">Also new</p>
+        <h2 class="section-title center">And one for the engineering side of the house</h2>
+      </div>
+    </div>
+    <p class="section-lead center">The three above measure Microsoft 365 Copilot and the agents built on Copilot Studio. This one covers GitHub Copilot — the same adoption, depth and value questions, asked of your developers.</p>
+
+    <div class="spotlight-grid">
+      <article class="flagship-card">
+        <div class="flagship-media">
+          <video controls preload="metadata" playsinline aria-label="GitHub Copilot Panel two-minute intro">
+            <source src="https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4" type="video/mp4" />
+            <p>Your browser cannot play this video.
+              <a href="https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4">Download it instead</a>.</p>
+          </video>
+        </div>
+        <div class="flagship-body">
+          <p class="flagship-eyebrow">New &middot; developer productivity</p>
+          <h3>GitHub Copilot Panel</h3>
+          <p class="flagship-desc">
+            Asks whether your developers have moved past autocomplete into real
+            delegation — and what that is worth. Seven pages walk one funnel,
+            Licensed &rarr; Active &rarr; Habitual &rarr; Deep &rarr; Valued, with
+            every value assumption in one editable table rather than buried in DAX.
+          </p>
+          <ul class="flagship-points">
+            <li>Engagement depth, not just seats used</li>
+            <li>Value you can defend, with the assumptions on the page</li>
+            <li>Viva Insights GitHub Copilot query, or a local CSV export</li>
+          </ul>
+          <div class="flagship-ctas">
+            <a class="btn btn-primary" href="https://github.com/microsoft/GitHubCopilotPanel" target="_blank" rel="noopener">Get GitHub Copilot Panel ↗</a>
+            <a class="btn btn-ghost" href="choose-report/#d=ghcp-panel">See the detail →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+
 <!-- =========================================================== MEASURABLES -->
 <style>
   /* Reports section (mockup #3): left-aligned gradient icon lockup header,
