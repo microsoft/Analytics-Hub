@@ -322,6 +322,12 @@ async function main() {
     const n = r.changes ? r.changes.length : 0;
     console.log(r.feed + ': ' + (r.ok ? (n + ' change(s)') : 'FAILED ' + r.error) + (BASELINE ? ' (baseline)' : ''));
   });
+
+  // Regenerate the landing-page change-status manifest from the snapshots just
+  // written, so every card's pill reflects the latest real change (not just
+  // that the job ran). Never fatal — a manifest error must not fail the scan.
+  try { require('./status.js').generate(); console.log('status.json regenerated.'); }
+  catch (e) { console.error('status.json generation skipped: ' + e.message); }
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
