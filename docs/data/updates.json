@@ -7,6 +7,18 @@
   },
   "updates": [
     {
+      "id": "2026-09-22-github-copilot-panel",
+      "tool": "GitHub Copilot Panel",
+      "link": "choose-report/#d=ghcp-panel",
+      "tags": [
+        "Added"
+      ],
+      "title": "A new template for GitHub Copilot depth and realised value",
+      "summary": "GitHub Copilot Panel joins the catalog. It runs on the Viva Insights GitHub Copilot query output, or a local CSV export if you cannot run the connector yet, and follows one arc across seven pages: Licensed, Active, Habitual, Deep, Valued. The point is behaviour change rather than output change — the move from autocomplete to delegation, priced from your own seat cost and loaded engineering cost. Every assumption sits in one editable config table instead of inside DAX, so the number you quote can be audited. Synthetic sample data ships with it, so the whole report renders before you connect a tenant. There is a two-minute intro on the card.",
+      "status": "published",
+      "date": "2026-09-22"
+    },
+    {
       "id": "2026-09-09-ai-work-request",
       "tool": "Scope AI Tasks",
       "link": "work-request/",

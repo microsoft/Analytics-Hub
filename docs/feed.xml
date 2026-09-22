@@ -6,9 +6,17 @@
     <link>https://microsoft.github.io/Analytics-Hub/</link>
     <description>Release notes for the Copilot Analytics Hub: chargeback and consumption reporting, cost management tools, and Power BI templates.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Sep 2026 16:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2026 16:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
     <atom:link href="https://microsoft.github.io/Analytics-Hub/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitHub Copilot Panel — A new template for GitHub Copilot depth and realised value</title>
+      <link>https://microsoft.github.io/Analytics-Hub/choose-report/#d=ghcp-panel</link>
+      <description>[Added] GitHub Copilot Panel joins the catalog. It runs on the Viva Insights GitHub Copilot query output, or a local CSV export if you cannot run the connector yet, and follows one arc across seven pages: Licensed, Active, Habitual, Deep, Valued. The point is behaviour change rather than output change — the move from autocomplete to delegation, priced from your own seat cost and loaded engineering cost. Every assumption sits in one editable config table instead of inside DAX, so the number you quote can be audited. Synthetic sample data ships with it, so the whole report renders before you connect a tenant. There is a two-minute intro on the card.</description>
+      <pubDate>Tue, 22 Sep 2026 16:00:00 GMT</pubDate>
+      <guid isPermaLink="false">analytics-hub:2026-09-22-github-copilot-panel</guid>
+      <category>Added</category>
+    </item>
     <item>
       <title>Scope AI Tasks — Plan and cost a Cowork run before you commit to it</title>
       <link>https://microsoft.github.io/Analytics-Hub/work-request/</link>
