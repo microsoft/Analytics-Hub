@@ -13,6 +13,10 @@
      7. Engaged dwell            → "engaged 30s"
      8. Video plays              → "video play: <file>"
       9. Video watch-time          → collector beacon (plays + seconds)
+     10. Feed filter chips         → "filter: <status>"      (bounded set)
+     11. Feed timeframe menu       → "timeframe: <value>"    (bounded set)
+     12. Email-a-change intent     → "share: email"          (no content sent)
+     13. Tracked item opened       → "item: <feed>/<id>"     (bounded to tracked set)
 
    Design rules:
      - Event names carry WHAT was clicked, not just that something was.
@@ -116,16 +120,54 @@
     } catch (e) { return ""; }
   }
 
+  /* The current feed page's own slug, used to attribute item/filter events to a
+   * feed. "/Analytics-Hub/community/message-center-watch/" -> "message-center-watch". */
+  function feedSlug() {
+    try {
+      var parts = window.location.pathname
+        .replace(/\/index\.html?$/i, "/")
+        .split("/").filter(Boolean);
+      return parts.length ? parts[parts.length - 1] : "";
+    } catch (e) { return ""; }
+  }
+
+  /* A bounded, safe identifier for a tracked row: the visible #ID / MC-ID badge
+   * when present (a page-controlled identifier, not user input), else the
+   * destination file slug. Never free text; capped and character-filtered. */
+  function itemToken(a, row) {
+    try {
+      var tier = row.querySelector(".dm-tier");
+      var t = tier ? String(tier.textContent || "").replace(/[^A-Za-z0-9#_-]/g, "").replace(/^#/, "").slice(0, 24) : "";
+      if (t) return t;
+      var f = fileOf(a.getAttribute("href") || "");
+      return f ? f.replace(/\.[a-z0-9]+$/i, "").slice(0, 32) : "";
+    } catch (e) { return ""; }
+  }
+
   document.addEventListener("click", function (ev) {
     var a = ev.target && ev.target.closest && ev.target.closest("a[href]");
 
     // ---- buttons that are not links (exports etc. are handled per-app)
     if (!a) {
       var btn = ev.target && ev.target.closest && ev.target.closest("button");
-      if (btn && btn.matches && btn.matches(CTA_SEL)) {
-        var bl = cleanLabel(btn.textContent);
-        if (bl) safeEvent("cta: " + bl);
+      if (btn && btn.matches) {
+        // Learning Feed status / category filter chips: which facets get used.
+        if (btn.matches(".rm-chip")) {
+          var st = String(btn.getAttribute("data-status") || "")
+            .replace("__all__", "all").replace(/[^A-Za-z0-9 -]/g, "").slice(0, 24);
+          if (st) safeEvent("filter: " + st);
+        } else if (btn.matches(CTA_SEL)) {
+          var bl = cleanLabel(btn.textContent);
+          if (bl) safeEvent("cta: " + bl);
+        }
       }
+      return;
+    }
+
+    // ---- share intent: the "Email this change" / banner email buttons build a
+    //      mailto: link. Record only that a share was started — never its content.
+    if (a.classList && (a.classList.contains("dm-emailbtn") || a.id === "dmBannerEmail")) {
+      safeEvent("share: email");
       return;
     }
 
@@ -138,6 +180,18 @@
       var f = fileOf(href);
       safeEvent(f ? "download: " + f : "download");
       return; // a download is one intent; do not double count
+    }
+
+    // ---- tracked item opened: name it feed/id so we know WHICH row drew the
+    //      click. Takes precedence over the generic outbound host below (every
+    //      MC post is mc.merill.net, every roadmap item is microsoft.com, so the
+    //      host alone can't tell them apart). One event, no double count.
+    var itemRow = a.closest && a.closest("table.dm-log tbody tr");
+    if (itemRow && a.closest(".dm-page")) {
+      var tok = itemToken(a, itemRow);
+      var fs = feedSlug();
+      safeEvent("item: " + (fs ? fs + "/" : "") + (tok || "item"));
+      return;
     }
 
     var target = originOf(href);
@@ -200,6 +254,16 @@
       safeEvent("search used");
     }, { passive: true });
   })();
+
+  // ---------------------------------------------------- timeframe menu
+  /* The Learning Feed timeframe dropdown (Last 30 days / Since window / etc.).
+   * Values are a fixed, bounded set, so it is safe to name which one is chosen. */
+  document.addEventListener("change", function (ev) {
+    var el = ev.target;
+    if (!el || el.id !== "rmRange") return;
+    var v = String(el.value || "").replace(/[^a-z0-9]/gi, "").slice(0, 8);
+    if (v) safeEvent("timeframe: " + v);
+  }, { passive: true });
 
   // ---------------------------------------------------- video plays
   /* Native <video> play buttons live INSIDE the element, so they never reach

@@ -230,7 +230,7 @@ function head(feed, canonical) {
     })(window, document, "clarity", "script", "wxb0r23ozh");
   </script>
   <meta name="clarity-page" content="${esc(feed.title)}" />
-  <script src="../../clarity-events.js?v=202609141210" defer></script>
+  <script src="../../clarity-events.js?v=202609221630" defer></script>
   <script src="../../consent.js?v=1" defer></script>
   <script src="../../palette.js" defer></script>
   <script src="../../nudges.js" defer></script>
