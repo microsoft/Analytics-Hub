@@ -74,6 +74,20 @@
     .dm-emailbtn { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; font-weight: 600; padding: .34rem .62rem; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: #0067c0; text-decoration: none; white-space: nowrap; cursor: pointer; margin-top: 8px; }
     .dm-emailbtn:hover { border-color: #0067c0; background: color-mix(in srgb, #0067c0 8%, transparent); }
     @media (max-width: 780px) { .dm-links { columns: 1; } }
+    /* Roadmap filter bar (status chips + timeframe + search) */
+    .rm-filter { position: sticky; top: 0; z-index: 6; background: var(--surface, #fff); border: 1px solid var(--border, #e2e6ea); border-radius: 12px; padding: 11px 13px; margin: 1.1rem 0 .4rem; display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: center; }
+    .rm-flabel { font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--text-soft, #5a6470); margin-right: -6px; }
+    .rm-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .rm-chip { font-size: .76rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; user-select: none; color: var(--rmc, #5a6470); border: 1px solid color-mix(in srgb, var(--rmc, #8a8a99) 45%, var(--border, #e2e6ea)); background: var(--surface, #fff); transition: background .12s ease, color .12s ease; }
+    .rm-chip:hover { border-color: var(--rmc, #8a8a99); }
+    .rm-chip[aria-pressed="true"] { background: var(--rmc, #0067c0); color: #fff; border-color: transparent; }
+    .rm-chip .rm-c { font-weight: 600; font-size: .72rem; opacity: .7; }
+    .rm-chip[aria-pressed="true"] .rm-c { opacity: .85; }
+    .rm-tools { display: flex; gap: 10px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+    .rm-search { font-size: .85rem; padding: 6px 10px; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; min-width: 170px; background: var(--surface, #fff); color: inherit; }
+    .rm-range { font-size: .85rem; padding: 6px 10px; border: 1px solid var(--border, #e2e6ea); border-radius: 8px; background: var(--surface, #fff); color: inherit; }
+    .rm-count { font-size: .82rem; color: var(--text-soft, #5a6470); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .rm-empty { text-align: center; color: var(--text-soft, #5a6470); padding: 22px; font-size: .9rem; }
   </style>
 </head>
 <body>
@@ -152,8 +166,8 @@
         <tr id="change-2">
           <td class="dm-page"><a href="https://learn.microsoft.com/en-us/privacy/eudb/eu-data-boundary-learn" target="_blank" rel="noopener">Learn about the EU Data Boundary</a></td>
           <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>Jul 21, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
-            
+            <p>Microsoft's published "last updated" date for this page is <strong>Jul 21, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026.</p>
+            <p class="dm-quote" style="opacity:.8"><strong>Archived Jun 21, 2026</strong> (before the change), via the <a href="https://web.archive.org/web/20260621211445/https://learn.microsoft.com/en-us/privacy/eudb/eu-data-boundary-learn" target="_blank" rel="noopener">Internet Archive</a>: “What is the EU Data Boundary? - Microsoft Privacy | Microsoft Learn Skip to main content Skip to Ask Learn chat experience This browser is no longer supported. Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support. Download Microsoft Edge More info about Internet Explorer and Microsoft Edge Table of contents Exit editor mode Ask Learn Ask Learn Reading mode Table of contents Read in English Add Add to plan Copy Markdown…”</p>
           </td>
           <td class="dm-new">
             <p>Defines the EU Data Boundary commitments and scope — where EU customer data is processed and stored.</p>
@@ -164,8 +178,8 @@
         <tr id="change-3">
           <td class="dm-page"><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Data, privacy, and security for Microsoft 365 Copilot</a></td>
           <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>Jul 9, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
-            
+            <p>Microsoft's published "last updated" date for this page is <strong>Jul 9, 2026</strong>, which falls within the tracking window that begins Jul 1, 2026.</p>
+            <p class="dm-quote" style="opacity:.8"><strong>Archived Mar 30, 2026</strong> (before the change), via the <a href="https://web.archive.org/web/20260330184237/https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" rel="noopener">Internet Archive</a>: “Data, Privacy, and Security for Microsoft 365 Copilot | Microsoft Learn Skip to main content Skip to Ask Learn chat experience This browser is no longer supported. Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support. Download Microsoft Edge More info about Internet Explorer and Microsoft Edge Table of contents Exit editor mode Ask Learn Ask Learn Focus mode Table of contents Read in English Add Add to plan Share via…”</p>
           </td>
           <td class="dm-new">
             <p>The core privacy and data-protection statement for Microsoft 365 Copilot — what is processed, stored, and how.</p>
