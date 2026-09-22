@@ -197,6 +197,14 @@ function buildDocFeed(feed, snap, canonical) {
   const mostRecent = inWindow[0] ? inWindow[0].msDate : (pages.map(p => p.msDate).filter(Boolean).sort().pop());
   const noMsDate = !!feed.noMsDate;
   const winLabel = fmtDate(feed.windowStart);
+  // Optional Wayback "before" enrichment (from backfill-wayback.js).
+  const wayback = (function () { try { return JSON.parse(fs.readFileSync(path.join(FEED_DIR, feed.id + '.wayback.json'), 'utf8')).pages || {}; } catch (e) { return {}; } })();
+  function beforeSnippet(pageId) {
+    const w = wayback[pageId];
+    if (!w || !w.beforeText) return '';
+    const snippet = w.beforeText.length > 480 ? w.beforeText.slice(0, 480).replace(/\s+\S*$/, '') + '\u2026' : w.beforeText;
+    return `<p class="dm-quote" style="opacity:.8"><strong>Archived ${fmtDate(w.archivedDate)}</strong> (before the change), via the <a href="${esc(w.archivedUrl)}" target="_blank" rel="noopener">Internet Archive</a>: \u201c${esc(snippet)}\u201d</p>`;
+  }
 
   const curated = pages.filter(p => !p.discovered);
   const discoveredPages = pages.filter(p => p.discovered);
@@ -230,7 +238,8 @@ function buildDocFeed(feed, snap, canonical) {
         <tr id="change-${i + 1}">
           <td class="dm-page"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>${p.isNew ? ' <span class="dm-badge-new">NEW PAGE</span>' : ''}</td>
           <td class="dm-prev"><span class="dm-badge-new">${p.isNew ? 'NEWLY DISCOVERED' : 'UPDATED IN WINDOW'}</span>
-            <p>${p.isNew ? 'This page newly appeared in the documentation tree for this product area and has been added to the watch. ' : ''}Microsoft's published "last updated" date for this page is <strong>${fmtDate(p.msDate)}</strong>, which falls within the tracking window that begins ${winLabel}. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
+            <p>${p.isNew ? 'This page newly appeared in the documentation tree for this product area and has been added to the watch. ' : ''}Microsoft's published "last updated" date for this page is <strong>${fmtDate(p.msDate)}</strong>, which falls within the tracking window that begins ${winLabel}.${beforeSnippet(p.id) ? '' : ' Verbatim before/after text will be added from an archived capture as one becomes available.'}</p>
+            ${beforeSnippet(p.id)}
           </td>
           <td class="dm-new">
             <p>${esc(p.why)}</p>
