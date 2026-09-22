@@ -14,7 +14,7 @@
         "roles": [
           {
             "label": "Viva Insights Analyst",
-            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+            "url": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/user-roles"
           },
           {
             "label": "Power BI workspace Member or Viewer"
@@ -70,7 +70,7 @@
         "roles": [
           {
             "label": "Viva Insights Analyst",
-            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+            "url": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/user-roles"
           },
           {
             "label": "Power BI workspace Member or Viewer"
@@ -109,12 +109,12 @@
         },
         {
           "label": "Download .pbit (CSV)",
-          "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20CSV%20-v8.pbit",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20CSV%20-v13.pbit",
           "kind": "download"
         },
         {
           "label": "Download .pbit (DirectQuery)",
-          "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v8.pbit",
+          "url": "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v13.pbit",
           "kind": "download"
         },
         {
@@ -169,27 +169,27 @@
         },
         {
           "label": "Interpretation Guide (PDF)",
-          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20-%20Interpretation%20Guide.pdf",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Interpretation%20Guide.pdf",
           "kind": "download"
         },
         {
           "label": "Download Storyboard (.pptx)",
-          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIinOne_Storyboard_2601.pptx",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Storyboard.pptx",
           "kind": "download"
         },
         {
           "label": "Download .pbit (SharePoint)",
-          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2028%2004%20-%20Sharepoint%20Refresh.pbit",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Rollup%20Edition%20-%20PBI-SharePoint%20-%202026-06-25.pbit",
           "kind": "download"
         },
         {
           "label": "Download .pbit (CSV)",
-          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AI-in-One%20Dashboard%20-%2027%2004%20-%20csv%20only.pbit",
+          "url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Rollup%20Edition%20-%202026-06-25.pbit",
           "kind": "download"
         },
         {
           "label": "Admin email template",
-          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/01_AI_in_One_Dashboard_Admin_Email.md",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/docs/email-templates/01_AI_in_One_Dashboard_Admin_Email.txt",
           "kind": "email"
         }
       ]
@@ -235,7 +235,7 @@
         },
         {
           "label": "Admin email template",
-          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/02_Chat_Intelligence_Admin_Email.md",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/docs/email-templates/02_Chat_Intelligence_Admin_Email.txt",
           "kind": "email"
         }
       ]
@@ -285,7 +285,7 @@
         },
         {
           "label": "Admin email template",
-          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/03_Agent_Intelligence_Admin_Email.md",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/docs/email-templates/03_Agent_Intelligence_Admin_Email.txt",
           "kind": "email"
         }
       ]
@@ -453,7 +453,7 @@
         },
         {
           "label": "Admin email template",
-          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/Email%20Templates/07_M365_Copilot_Readiness_Admin_Email.md",
+          "url": "https://github.com/microsoft/Analytics-Hub/blob/main/docs/email-templates/07_M365_Copilot_Readiness_Admin_Email.txt",
           "kind": "email"
         }
       ]
@@ -470,7 +470,7 @@
         "roles": [
           {
             "label": "Viva Insights Analyst",
-            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+            "url": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/user-roles"
           },
           {
             "label": "Power BI workspace Member"
@@ -515,7 +515,7 @@
           },
           {
             "label": "Viva Insights Analyst (only if exporting heatmap CSV from Super Usage)",
-            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/analyst"
+            "url": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/user-roles"
           }
         ],
         "software": [
@@ -596,7 +596,7 @@
         },
         {
           "label": "Interpretation Guide (.pptx)",
-          "url": "https://github.com/microsoft/CreditUsage/raw/main/Chargebacks%20Interpretation%20Guide.pptx",
+          "url": "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback%20-%20Report%20Reading%20Guide.pptx",
           "kind": "download"
         }
       ]
@@ -642,7 +642,7 @@
         },
         {
           "label": "Sample data — run it with no tenant setup",
-          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/sample-data",
+          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data",
           "kind": "download"
         },
         {
@@ -664,7 +664,7 @@
         "roles": [
           {
             "label": "Viva Insights Analyst (Cowork consumption)",
-            "url": "https://learn.microsoft.com/viva/insights/advanced/admin/add-users-ap"
+            "url": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/assign-user-roles"
           },
           {
             "label": "Power Platform Administrator (Copilot Studio credits)",
