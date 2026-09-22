@@ -4,6 +4,18 @@
   "slug": "compliance-data-residency-watch",
   "blurb": "A running record of changes to the Microsoft Learn and Legal pages that govern where and how Copilot processes data \u2014 Microsoft 365 Copilot privacy and data protection, the EU Data Boundary, Microsoft 365 data-residency commitments, and Azure OpenAI data-handling terms. These are the pages compliance, privacy and GRC teams cite when certifying Copilot.",
   "windowStart": "2026-07-01",
+  "discovery": {
+    "tocs": [
+      "https://learn.microsoft.com/en-us/copilot/microsoft-365/toc.json",
+      "https://learn.microsoft.com/en-us/privacy/eudb/toc.json"
+    ],
+    "crawlSeeds": [
+      "https://learn.microsoft.com/en-us/privacy/eudb/eu-data-boundary-learn",
+      "https://learn.microsoft.com/en-us/microsoft-365/enterprise/m365-dr-overview"
+    ],
+    "include": ["privacy", "residency", "data-boundary", "eudb", "eu-ai-act", "compliance", "data-protection", "gdpr", "m365-dr", "data-residency", "sovereign", "trust"],
+    "exclude": ["/troubleshoot", "quickstart"]
+  },
   "docs": [
     { "id": "m365-copilot-privacy", "tier": 1, "title": "Data, privacy, and security for Microsoft 365 Copilot", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy", "why": "The core privacy and data-protection statement for Microsoft 365 Copilot \u2014 what is processed, stored, and how." },
     { "id": "eu-data-boundary", "tier": 1, "title": "Learn about the EU Data Boundary", "url": "https://learn.microsoft.com/en-us/privacy/eudb/eu-data-boundary-learn", "why": "Defines the EU Data Boundary commitments and scope \u2014 where EU customer data is processed and stored." },

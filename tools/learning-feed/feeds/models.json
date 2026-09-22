@@ -4,6 +4,11 @@
   "slug": "model-deprecation-tracker",
   "blurb": "A running record of changes to the Microsoft Learn pages that publish Azure OpenAI and Azure AI Foundry model retirement dates and lifecycle status \u2014 which models are being retired, the stated cut-off date, and the recommended replacement.",
   "windowStart": "2026-07-01",
+  "discovery": {
+    "tocs": ["https://learn.microsoft.com/en-us/azure/foundry/toc.json"],
+    "include": ["model-retirement", "model-lifecycle", "api-version-lifecycle", "deprecat", "/concepts/models", "models-featured", "model-version", "retirement", "models-sold", "model-inference", "provisioned"],
+    "exclude": ["how-to/configure", "fireworks", "langchain", "claude-code", "claude-desktop", "/quickstart"]
+  },
   "docs": [
     { "id": "aoai-model-retirements", "tier": 1, "title": "Azure OpenAI Service model retirements", "url": "https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-retirements", "why": "THE retirement-date table. A moved date here can force an unplanned migration on a fixed deadline." },
     { "id": "foundry-model-lifecycle", "tier": 1, "title": "Azure AI Foundry model lifecycle and retirement", "url": "https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-lifecycle-retirement", "why": "Foundry-wide lifecycle policy and retirement schedule across model providers." },

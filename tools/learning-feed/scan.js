@@ -117,8 +117,23 @@ async function scanHtmlFeed(feed) {
   if (prev && prev.pages) prev.pages.forEach(p => { prevById[p.id] = p; });
   const winStart = feed.windowStart || '2026-07-01';
 
+  // Merge curated registry docs with auto-discovered pages (deduped by URL).
+  // Curated docs keep their tier/why; discovered pages are tier 3 with a
+  // generic note. This makes the feed watch a product's whole surface, not
+  // just the hand-picked subset.
+  const discovered = loadJson(path.join(FEED_DIR, feed.id + '.discovered.json'), { pages: [], newPages: [] });
+  const newUrlSet = new Set(discovered.newPages || []);
+  const byUrl = {};
+  const norm = u => u.replace(/\/$/, '');
+  (feed.docs || []).forEach(d => { byUrl[norm(d.url)] = { id: d.id, tier: d.tier, title: d.title, url: d.url, why: d.why }; });
+  (discovered.pages || []).forEach(p => {
+    const key = norm(p.url);
+    if (!byUrl[key]) byUrl[key] = { id: p.id, tier: 3, title: p.title, url: p.url, why: 'Auto-discovered from the documentation tree for this product area.', discovered: true, isNew: newUrlSet.has(norm(p.url)) };
+  });
+  const docList = Object.values(byUrl);
+
   const pages = [];
-  for (const doc of feed.docs) {
+  for (const doc of docList) {
     process.stdout.write('  [' + feed.id + '] ' + doc.id + ' ... ');
     const r = await get(doc.url);
     if (!r.ok) {
@@ -130,6 +145,7 @@ async function scanHtmlFeed(feed) {
     const msDate = meta(r.body, 'ms.date') || meta(r.body, 'updated_at');
     const rec = {
       id: doc.id, tier: doc.tier, title: doc.title, url: doc.url, why: doc.why, ok: true,
+      discovered: !!doc.discovered, isNew: !!doc.isNew,
       msDate: msDate,
       gitCommit: meta(r.body, 'git_commit_id'),
       wordCount: meta(r.body, 'word_count'),
@@ -138,13 +154,20 @@ async function scanHtmlFeed(feed) {
       inWindow: msDate ? (msDate.slice(0, 10) >= winStart) : null
     };
     pages.push(rec);
-    console.log('ok (ms.date ' + (rec.msDate ? rec.msDate.slice(0, 10) : '?') + ', ' + (rec.wordCount || '?') + ' words' + (rec.inWindow ? ', IN-WINDOW' : '') + ')');
+    console.log('ok (ms.date ' + (rec.msDate ? rec.msDate.slice(0, 10) : '?') + ', ' + (rec.wordCount || '?') + ' words' + (rec.inWindow ? ', IN-WINDOW' : '') + (rec.isNew ? ', NEW PAGE' : '') + ')');
   }
 
+  // Newly discovered pages are a first-class signal: a page that did not exist
+  // (or was not referenced) before now appears in the product's doc tree.
+  // Suppressed on baseline runs (on first discovery every page looks "new").
   const changes = [];
+  if (prev && !BASELINE) {
+    pages.filter(p => p.isNew).forEach(p => changes.push({ sev: 'critical', id: p.id, title: p.title, url: p.url, detail: 'NEW PAGE discovered in the documentation tree \u2014 triage into the curated watch list.' }));
+  }
   if (prev && !BASELINE) {
     for (const p of pages) {
       const b = prevById[p.id];
+      if (p.isNew) continue; // already reported above as NEW PAGE
       if (!b) { changes.push({ sev: 'new', id: p.id, title: p.title, detail: 'Newly added to the watch list.' }); continue; }
       if (!p.ok) { changes.push({ sev: 'warn', id: p.id, title: p.title, detail: 'Fetch failed: ' + p.error }); continue; }
       if (!b.ok) { changes.push({ sev: 'info', id: p.id, title: p.title, detail: 'Fetch recovered.' }); continue; }
@@ -254,7 +277,7 @@ function writeReport(feed, stamp, runAt, changes, summary) {
 
 async function main() {
   let feedIds;
-  if (ALL) feedIds = fs.readdirSync(FEED_DIR).filter(f => f.endsWith('.json')).map(f => f.replace('.json', ''));
+  if (ALL) feedIds = fs.readdirSync(FEED_DIR).filter(f => f.endsWith('.json') && !f.endsWith('.discovered.json')).map(f => f.replace('.json', ''));
   else if (feedArg) feedIds = [feedArg];
   else { console.error('Usage: node scan.js <feedId>|--all [--baseline]'); process.exit(1); }
 

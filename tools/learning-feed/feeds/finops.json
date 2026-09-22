@@ -4,6 +4,14 @@
   "slug": "finops-focus-watch",
   "blurb": "A running record of the Microsoft Learn pages and the versioned FOCUS specification behind Copilot cost reporting in FinOps terms \u2014 the FinOps Framework, the FOCUS open standard, and the Azure Cost Management FOCUS export schema. These are the definitions the Hub's FinOps & FOCUS Cost Report and Consumption Central conform to.",
   "windowStart": "2026-07-01",
+  "discovery": {
+    "tocs": [
+      "https://learn.microsoft.com/en-us/cloud-computing/finops/toc.json",
+      "https://learn.microsoft.com/en-us/azure/cost-management-billing/toc.json"
+    ],
+    "include": ["/finops/", "focus", "dataset-schema", "/exports", "cost-usage-details", "/costs/tutorial", "/costs/automation-", "improved-export"],
+    "exclude": ["/troubleshoot", "quickstart", "/benefits/", "manage-azure", "-faq", "/scope-", "assign-access", "conditional-credit", "azure-credits"]
+  },
   "releasesSource": { "repo": "FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec", "label": "FOCUS specification releases" },
   "docs": [
     { "id": "what-is-focus", "tier": 1, "title": "What is FOCUS?", "url": "https://learn.microsoft.com/en-us/cloud-computing/finops/focus/what-is-focus", "why": "Microsoft's overview of the FOCUS open cost-and-usage standard. Definition changes here change what FOCUS-aligned reports must conform to." },

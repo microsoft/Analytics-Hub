@@ -4,6 +4,11 @@
   "slug": "viva-insights-watch",
   "blurb": "A running record of changes Microsoft has published to the Microsoft Learn pages behind Microsoft Viva Insights \u2014 including how metrics are defined and computed in person queries (the metric reference, metric rules, person query and query results), the advanced (analyst) experience, org and team insights, the Copilot Dashboard and Copilot analytics reports, setup and roles, and the privacy model that governs what analysts and managers can see.",
   "windowStart": "2026-07-01",
+  "discovery": {
+    "tocs": ["https://learn.microsoft.com/en-us/viva/insights/toc.json"],
+    "include": ["/viva/insights/"],
+    "exclude": ["/viva/insights/personal/tips/", "/viva/insights/personal/use/", "/viva/insights/dashboards-old/"]
+  },
   "docs": [
     { "id": "metrics-reference", "tier": 1, "title": "Advanced insights metric reference (metric definitions)", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/reference/metrics", "why": "THE definitions of how every advanced-insights metric is computed. A change here changes what a metric means in a person query \u2014 the exact silent-edit risk. Catches body changes even when the published date does not move." },
     { "id": "metric-rules", "tier": 1, "title": "Metric rules (how metrics are calculated in queries)", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/metric-rules", "why": "How metrics are filtered and calculated when a query runs \u2014 signal-hour rules, exclusions, and thresholds that alter person-query metric values." },

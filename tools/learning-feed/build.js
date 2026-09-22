@@ -198,6 +198,12 @@ function buildDocFeed(feed, snap, canonical) {
   const noMsDate = !!feed.noMsDate;
   const winLabel = fmtDate(feed.windowStart);
 
+  const curated = pages.filter(p => !p.discovered);
+  const discoveredPages = pages.filter(p => p.discovered);
+  const curatedInWindow = inWindow.filter(p => !p.discovered);
+  const discoveredInWindow = inWindow.filter(p => p.discovered);
+  const newPages = pages.filter(p => p.isNew);
+
   let rows = '';
   if (noMsDate) {
     // GitHub docs: no published date. Establish baseline; track forward.
@@ -213,12 +219,18 @@ function buildDocFeed(feed, snap, canonical) {
           </td>
           <td class="dm-date">${fmtDate(snap.runAt)}<br><span style="opacity:.7">baseline</span></td>
         </tr>`).join('');
-  } else if (inWindow.length) {
-    rows = inWindow.map((p, i) => `
+  } else {
+    // Change log leads with the curated (highest-stakes) pages and any newly
+    // discovered pages. The complete watched set is listed under "Pages we watch".
+    const logPages = curatedInWindow.slice();
+    newPages.forEach(p => { if (!logPages.find(x => x.id === p.id)) logPages.push(p); });
+    logPages.sort((a, b) => (b.msDate || '').localeCompare(a.msDate || ''));
+    if (logPages.length) {
+      rows = logPages.map((p, i) => `
         <tr id="change-${i + 1}">
-          <td class="dm-page"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a></td>
-          <td class="dm-prev"><span class="dm-badge-new">UPDATED IN WINDOW</span>
-            <p>Microsoft's published "last updated" date for this page is <strong>${fmtDate(p.msDate)}</strong>, which falls within the tracking window that begins ${winLabel}. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
+          <td class="dm-page"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>${p.isNew ? ' <span class="dm-badge-new">NEW PAGE</span>' : ''}</td>
+          <td class="dm-prev"><span class="dm-badge-new">${p.isNew ? 'NEWLY DISCOVERED' : 'UPDATED IN WINDOW'}</span>
+            <p>${p.isNew ? 'This page newly appeared in the documentation tree for this product area and has been added to the watch. ' : ''}Microsoft's published "last updated" date for this page is <strong>${fmtDate(p.msDate)}</strong>, which falls within the tracking window that begins ${winLabel}. Verbatim before/after text will be added from an archived capture as one becomes available.</p>
           </td>
           <td class="dm-new">
             <p>${esc(p.why)}</p>
@@ -226,16 +238,21 @@ function buildDocFeed(feed, snap, canonical) {
           </td>
           <td class="dm-date">${fmtDate(p.msDate)}</td>
         </tr>`).join('');
-  } else {
-    rows = `<tr><td colspan="4">No tracked page has a Microsoft-published update dated on or after ${winLabel}. The daily scan will log changes as they occur.</td></tr>`;
+    } else {
+      rows = `<tr><td colspan="4">No curated page has a Microsoft-published update dated on or after ${winLabel}. The daily scan will log changes as they occur across all ${pages.length} watched pages.</td></tr>`;
+    }
   }
 
-  const watchList = feed.docs.map(d => {
-    const p = pages.find(x => x.id === d.id);
-    const badge = p && p.inWindow ? ' <span class="dm-badge-new" style="font-size:.6rem">since ' + winLabel + '</span>' : '';
-    const date = p && p.msDate ? ' <span class="dm-tier">(updated ' + fmtDate(p.msDate) + ')</span>' : (noMsDate ? '' : ' <span class="dm-tier">(date unknown)</span>');
-    return `      <li><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a>${date}${badge}</li>`;
-  }).join('\n');
+  // "Pages we watch" = the COMPLETE footprint (curated + auto-discovered),
+  // so readers can see exactly what is and isn't covered.
+  const renderWatchItem = (p) => {
+    const badge = p.inWindow ? ' <span class="dm-badge-new" style="font-size:.6rem">since ' + winLabel + '</span>' : '';
+    const date = p.msDate ? ' <span class="dm-tier">(updated ' + fmtDate(p.msDate) + ')</span>' : (noMsDate ? '' : '');
+    return `      <li><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>${date}${badge}</li>`;
+  };
+  const curatedList = curated.slice().sort((a, b) => (a.tier || 9) - (b.tier || 9)).map(renderWatchItem).join('\n');
+  const discoveredList = discoveredPages.slice().sort((a, b) => (b.msDate || '').localeCompare(a.msDate || '')).map(renderWatchItem).join('\n');
+  const watchList = curatedList + (discoveredPages.length ? '\n' + discoveredList : '');
 
   let releasesBlock = '';
   if (snap.releases && snap.releases.length) {
@@ -264,7 +281,7 @@ function buildDocFeed(feed, snap, canonical) {
     : `${inWindow.length} of ${pages.length} watched pages were updated by Microsoft since ${winLabel}`;
   let bannerBody = noMsDate
     ? `This feed records the current published state of each page today and reports any change detected on the daily scan. GitHub documentation does not expose a machine-readable last-updated date, so changes are detected from the page body itself.`
-    : `Each was updated on or after ${winLabel}, based on Microsoft's own published "last updated" date. The change log below lists them newest first, with a link to the source page and to the exact row for sharing.`;
+    : `The change log below leads with the ${curated.length} curated, highest-stakes pages${discoveredPages.length ? `, and the full watched set of ${pages.length} pages (auto-discovered daily from the product's documentation tree) is listed under "Pages we watch."` : '.'}${newPages.length ? ` ${newPages.length} page(s) newly appeared in the documentation tree this run.` : ''}`;
   let bannerTitleFinal = bannerTitle;
   if (snap.releases && snap.releases.length) {
     const latest = snap.releases.find(r => !r.prerelease) || snap.releases[0];
@@ -318,6 +335,7 @@ ${rows}
     </div>
 ${releasesBlock}
     <h2 class="dm-h">Pages we watch</h2>
+    <p class="dm-note">The complete set of ${pages.length} pages under daily watch for this area${discoveredPages.length ? ` \u2014 ${curated.length} curated (highest-stakes, listed first) and ${discoveredPages.length} auto-discovered from the product's documentation tree` : ''}. Pages updated since ${winLabel} are badged. A page appearing or disappearing here is itself a tracked signal.</p>
     <ul class="dm-links">
 ${watchList}
     </ul>
@@ -436,6 +454,6 @@ function buildOne(id) {
   console.log('built ' + feed.slug + '/index.html (' + html.length + ' bytes)');
 }
 
-if (ALL) fs.readdirSync(FEED_DIR).filter(f => f.endsWith('.json')).forEach(f => buildOne(f.replace('.json', '')));
+if (ALL) fs.readdirSync(FEED_DIR).filter(f => f.endsWith('.json') && !f.endsWith('.discovered.json')).forEach(f => buildOne(f.replace('.json', '')));
 else if (feedArg) buildOne(feedArg);
 else { console.error('Usage: node build.js <feedId>|--all'); process.exit(1); }
