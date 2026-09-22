@@ -17,6 +17,8 @@
     "exclude": ["/troubleshoot", "quickstart"]
   },
   "docs": [
+    { "id": "studio-geo-residency", "tier": 2, "title": "Copilot Studio geo and data residency", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/geo-data-residency", "why": "Where Copilot Studio agents process and store data \u2014 the residency commitment for the agent surface the Hub's Studio reports depend on." },
+    { "id": "studio-data-location", "tier": 2, "title": "Copilot Studio data location", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/data-location", "why": "The data-location page for Copilot Studio \u2014 tenant-boundary detail for agents." },
     { "id": "m365-copilot-privacy", "tier": 1, "title": "Data, privacy, and security for Microsoft 365 Copilot", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy", "why": "The core privacy and data-protection statement for Microsoft 365 Copilot \u2014 what is processed, stored, and how." },
     { "id": "eu-data-boundary", "tier": 1, "title": "Learn about the EU Data Boundary", "url": "https://learn.microsoft.com/en-us/privacy/eudb/eu-data-boundary-learn", "why": "Defines the EU Data Boundary commitments and scope \u2014 where EU customer data is processed and stored." },
     { "id": "m365-dr-overview", "tier": 1, "title": "Microsoft 365 data residency overview", "url": "https://learn.microsoft.com/en-us/microsoft-365/enterprise/m365-dr-overview", "why": "The tenant-boundary and data-residency commitments compliance teams rely on." },

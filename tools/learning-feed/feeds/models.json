@@ -6,7 +6,7 @@
   "windowStart": "2026-07-01",
   "discovery": {
     "tocs": ["https://learn.microsoft.com/en-us/azure/foundry/toc.json"],
-    "include": ["model-retirement", "model-lifecycle", "api-version-lifecycle", "deprecat", "/concepts/models", "models-featured", "model-version", "retirement", "models-sold", "model-inference", "provisioned"],
+    "include": ["model-retirement", "model-lifecycle", "api-version-lifecycle", "deprecat", "/concepts/models", "models-featured", "model-version", "retirement", "retired", "models-sold", "model-inference", "provisioned"],
     "exclude": ["how-to/configure", "fireworks", "langchain", "claude-code", "claude-desktop", "/quickstart"]
   },
   "docs": [

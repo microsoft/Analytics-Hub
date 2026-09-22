@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-09-22T01:41:22.403Z",
+  "runAt": "2026-09-22T02:44:26.519Z",
   "feed": "models",
   "windowStart": "2026-07-01",
   "pages": [
@@ -658,6 +658,36 @@
         "Transition from monthly commitments",
         "Request fungible PTU quota",
         "Continue with provisioned throughput guidance"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "azure-foundry-openai-concepts-retired-models",
+      "tier": 3,
+      "title": "Retired Models",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/retired-models",
+      "why": "Auto-discovered from the documentation tree for this product area.",
+      "ok": true,
+      "discovered": true,
+      "isNew": false,
+      "msDate": "2026-07-27T00:00:00Z",
+      "gitCommit": "15fe0d2c32be7c171ab42037570a50adeadae82f",
+      "wordCount": "769",
+      "bodyHash": "5645e22c523ebf1d",
+      "bodyLen": 7934,
+      "sections": [
+        "Azure OpenAI",
+        "AI21 Labs",
+        "Bria",
+        "Cohere",
+        "Core42",
+        "DeepSeek",
+        "Gretel",
+        "Meta",
+        "Microsoft",
+        "Mistral AI",
+        "Moonshot AI",
+        "xAI"
       ],
       "inWindow": true
     },

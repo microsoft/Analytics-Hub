@@ -1,8 +1,54 @@
 {
-  "runAt": "2026-09-22T01:39:44.441Z",
+  "runAt": "2026-09-22T02:44:51.111Z",
   "feed": "compliance",
   "windowStart": "2026-07-01",
   "pages": [
+    {
+      "id": "studio-geo-residency",
+      "tier": 2,
+      "title": "Copilot Studio geo and data residency",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/geo-data-residency",
+      "why": "Where Copilot Studio agents process and store data — the residency commitment for the agent surface the Hub's Studio reports depend on.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2024-09-18T00:00:00Z",
+      "gitCommit": "dddf595b0e6291cbe0644739b5d566e7efdcf09c",
+      "wordCount": "865",
+      "bodyHash": "aa100402d016d3c7",
+      "bodyLen": 7384,
+      "sections": [
+        "Security",
+        "Privacy",
+        "General Data Protection Regulation (GDPR)",
+        "Data locations",
+        "EU Data Boundary (EUDB) compliance",
+        "Compliance",
+        "Data Flows Using Connectors"
+      ],
+      "inWindow": false
+    },
+    {
+      "id": "studio-data-location",
+      "tier": 2,
+      "title": "Copilot Studio data location",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/data-location",
+      "why": "The data-location page for Copilot Studio — tenant-boundary detail for agents.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-04-29T00:00:00Z",
+      "gitCommit": "dddf595b0e6291cbe0644739b5d566e7efdcf09c",
+      "wordCount": "628",
+      "bodyHash": "17031ecd7410b576",
+      "bodyLen": 5886,
+      "sections": [
+        "Data locations",
+        "Customer data",
+        "Related content"
+      ],
+      "inWindow": false
+    },
     {
       "id": "m365-copilot-privacy",
       "tier": 1,

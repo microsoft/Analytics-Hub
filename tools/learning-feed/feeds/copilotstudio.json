@@ -1,0 +1,26 @@
+{
+  "id": "copilotstudio",
+  "title": "Copilot Studio & Agents Watch",
+  "slug": "copilot-studio-agents-watch",
+  "blurb": "A running record of the Microsoft Learn pages behind Microsoft Copilot Studio and the agents it builds \u2014 how agents are billed (message packs, capacity, credit consumption), the agent analytics and agent-evaluation surface that measures agent quality and cost, the admin governance controls (DLP, transcript and sharing controls, agent inventory), and licensing, quotas and data residency. These are the sources the Hub's Agent Evaluator, Studio Agents, and ESS Insights reports depend on.",
+  "windowStart": "2026-07-01",
+  "discovery": {
+    "tocs": ["https://learn.microsoft.com/en-us/microsoft-copilot-studio/toc.json"],
+    "include": ["billing", "licens", "requirement", "message", "quota", "capacity", "consumption", "analytics", "agent-evaluation", "admin-", "security-and-governance", "data-loss", "/dlp", "geo-data", "data-location", "manage-data-movement", "manage-activity-data"],
+    "exclude": ["/troubleshoot", "quickstart", "tutorial", "how-to-", "voice-", "manage-date-and-time", "random-message", "agents-migrate", "multi-tenant-best-practices", "dlp-troubleshooting"]
+  },
+  "docs": [
+    { "id": "billing-credit-overview", "tier": 1, "title": "Copilot Studio billing and credit overview", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview", "why": "How Copilot Studio agents consume credits \u2014 the core billing model for the agent surface." },
+    { "id": "billing-manage-buy-credits", "tier": 1, "title": "Manage and buy Copilot Studio credits", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-manage-buy-credits", "why": "How credits are purchased and managed \u2014 the capacity/prepay mechanics behind agent cost." },
+    { "id": "requirements-messages", "tier": 1, "title": "Copilot Studio message and credit rates", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management", "why": "The published per-action credit/message consumption rates \u2014 the unit economics of Copilot Studio agents." },
+    { "id": "requirements-quotas", "tier": 1, "title": "Copilot Studio requirements and quotas", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-quotas", "why": "Published quotas and limits that shape effective cost and capacity per tenant." },
+    { "id": "billing-licensing", "tier": 1, "title": "Copilot Studio billing and licensing", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing", "why": "How Copilot Studio is licensed and billed \u2014 message packs, tenant vs per-user, and prerequisites." },
+    { "id": "analytics-overview", "tier": 1, "title": "Copilot Studio analytics overview", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview", "why": "THE analytics surface for Copilot Studio agents \u2014 the metrics the Hub's agent reports read from." },
+    { "id": "agent-evaluation-intro", "tier": 1, "title": "Agent evaluation (introduction)", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro", "why": "How agent quality is evaluated \u2014 the methodology behind the Agent Evaluator report. Recently and actively updated." },
+    { "id": "analytics-cost-savings", "tier": 1, "title": "Copilot Studio cost savings analytics", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-cost-savings", "why": "How Copilot Studio reports cost savings / ROI \u2014 directly relevant to the value narrative reports." },
+    { "id": "analytics-consumption", "tier": 1, "title": "Copilot Studio consumption analytics", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-consumption", "why": "How consumption/usage is reported for agents \u2014 the credit-consumption measurement surface." },
+    { "id": "security-and-governance", "tier": 1, "title": "Copilot Studio security and governance", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance", "why": "The top-level governance surface for Copilot Studio agents \u2014 what admins can control and restrict." },
+    { "id": "admin-dlp", "tier": 2, "title": "Data loss prevention for Copilot Studio", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-data-loss-prevention", "why": "DLP controls for agents \u2014 governance of what agents can access." },
+    { "id": "geo-data-residency", "tier": 2, "title": "Copilot Studio geo and data residency", "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/geo-data-residency", "why": "Where Copilot Studio agents process and store data \u2014 residency commitment for the agent surface." }
+  ]
+}
