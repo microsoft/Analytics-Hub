@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Analytics · Detailed breakdown · Analytics Hub</title>
+  <meta name="description" content="Detailed traffic and engagement breakdown for a hosted Analytics Hub site." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/pages-analytics/site.html" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../styles.css?v=7a506cda" />
+  <link rel="stylesheet" href="styles.css?v=ed972d61" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Site Analytics Detail" />
+  <script src="../clarity-events.js?v=202609141210" defer></script>
+  <script src="../consent.js?v=1" defer></script>
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <style>
+    .sd-hero{padding:2rem 0 1rem}
+    .sd-crumb{font-size:.82rem;color:var(--text-muted,#6b6b85);margin:0 0 .5rem}
+    .sd-crumb a{color:inherit;text-decoration:none}
+    .sd-crumb a:hover{text-decoration:underline}
+    .sd-title-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .sd-hero h1{margin:0;font-size:1.9rem;letter-spacing:-.02em}
+    .sd-src{font-size:.85rem;color:var(--text-muted,#6b6b85);margin:.4rem 0 0}
+    .sd-src code{font-family:ui-monospace,Consolas,monospace;font-size:.9em}
+    .sd-openlive{font-size:.86rem;font-weight:600;color:var(--accent,#0078d4);text-decoration:none;white-space:nowrap;border:1px solid color-mix(in srgb,var(--accent,#0078d4) 30%,var(--border,#e6e6ee));border-radius:8px;padding:6px 12px}
+    .sd-openlive:hover{border-color:var(--accent,#0078d4)}
+    .sd-winrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:1.2rem 0 .4rem}
+    .sd-win{display:inline-flex;gap:2px;background:#eef1f6;border-radius:8px;padding:3px}
+    .sd-win button{appearance:none;border:0;background:none;font:inherit;font-size:.82rem;font-weight:600;color:var(--text-soft,#5a5a72);padding:6px 13px;border-radius:6px;cursor:pointer}
+    .sd-win button[aria-pressed="true"]{background:#fff;color:var(--accent,#0078d4);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+    .sd-winnote{font-size:.82rem;color:var(--text-muted,#6b6b85)}
+    .sd-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:1.2rem 0 1.6rem}
+    .sd-kpi{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:var(--surface,#fff);padding:1rem 1.1rem;box-shadow:0 1px 3px rgba(20,20,40,.05)}
+    .sd-kpi .l{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#6b6b85);line-height:1.3}
+    .sd-kpi .v{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;color:var(--text,#1a1a25);margin-top:5px;font-variant-numeric:tabular-nums}
+    .sd-kpi .v.accent{color:var(--accent,#0078d4)}
+    .sd-chart-card{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:var(--surface,#fff);padding:1.3rem 1.4rem;box-shadow:0 1px 3px rgba(20,20,40,.05);margin-bottom:1.6rem}
+    .sd-chart-card h2{margin:0 0 .2rem;font-size:1.15rem;letter-spacing:-.01em}
+    .sd-chart-card .sub{margin:0 0 1rem;font-size:.85rem;color:var(--text-muted,#6b6b85)}
+    .sd-chart{width:100%;height:200px;display:block}
+    .sd-chart .spark-line{fill:none;stroke:var(--accent,#0078d4);stroke-width:2}
+    .sd-chart .spark-area{fill:color-mix(in srgb,var(--accent,#0078d4) 10%,transparent);stroke:none}
+    .sd-chart .grid{stroke:var(--border,#e6e6ee);stroke-width:1}
+    .sd-chart .lbl{fill:var(--text-muted,#6b6b85);font-size:11px}
+    .sd-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:1.6rem}
+    .sd-panel{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:var(--surface,#fff);padding:1.2rem 1.3rem;box-shadow:0 1px 3px rgba(20,20,40,.05)}
+    .sd-panel h3{margin:0 0 .1rem;font-size:1.02rem;letter-spacing:-.01em}
+    .sd-panel .note{margin:0 0 .8rem;font-size:.78rem;color:var(--text-muted,#6b6b85)}
+    .sd-bars{list-style:none;margin:0;padding:0}
+    .sd-bars li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:6px 0;position:relative}
+    .sd-bars li+li{border-top:1px solid #f0f1f6}
+    .sd-bars .bar-label{font-size:.88rem;color:var(--text,#1a1a25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative;z-index:1}
+    .sd-bars .bar-val{font-size:.86rem;font-weight:700;color:var(--text,#1a1a25);font-variant-numeric:tabular-nums;z-index:1}
+    .sd-bars .bar-fill{position:absolute;left:-1.3rem;right:-1.3rem;top:2px;bottom:2px;background:color-mix(in srgb,var(--accent,#0078d4) 8%,transparent);border-radius:6px;z-index:0}
+    .sd-empty{color:var(--text-muted,#6b6b85);font-size:.88rem;padding:8px 0}
+    .sd-health li .warn{color:#c50f1f}
+    .sd-loading{padding:60px;text-align:center;color:var(--text-muted,#6b6b85)}
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
+      <a class="nav-cta" href="./">&larr; Pages Analytics</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="sd-hero">
+    <div class="wrap">
+      <p class="sd-crumb"><a href="./">&larr; Pages Analytics</a></p>
+      <div class="sd-title-row">
+        <div>
+          <h1 id="sd-title">Site Analytics</h1>
+          <p class="sd-src" id="sd-src">Loading&hellip;</p>
+        </div>
+        <a class="sd-openlive" id="sd-openlive" href="#" target="_blank" rel="noopener" hidden>Open live site &#8599;</a>
+      </div>
+      <div class="sd-winrow">
+        <div class="sd-win" id="sd-win" role="group" aria-label="Time window">
+          <button type="button" data-win="3" aria-pressed="false">3d</button>
+          <button type="button" data-win="7" aria-pressed="false">7d</button>
+          <button type="button" data-win="14" aria-pressed="true">14d</button>
+          <button type="button" data-win="30" aria-pressed="false">30d</button>
+        </div>
+        <span class="sd-winnote" id="sd-winnote"></span>
+      </div>
+      <div class="sd-kpis" id="sd-kpis"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="sd-chart-card">
+      <h2>Sessions over time</h2>
+      <p class="sub">Human sessions per stored snapshot (each point is a 3-day rolling total from Clarity). The deepest real trend we hold.</p>
+      <div id="sd-chart"><p class="sd-loading">Loading&hellip;</p></div>
+    </div>
+
+    <div class="sd-cols">
+      <div class="sd-panel"><h3>Top pages viewed</h3><p class="note" id="sd-pages-note"></p><ul class="sd-bars" id="sd-pages"></ul></div>
+      <div class="sd-panel"><h3>How people find us &mdash; external referrers</h3><p class="note">Internal Analytics Hub / GitHub navigation excluded so real discovery sources stand out.</p><ul class="sd-bars" id="sd-referrers"></ul></div>
+    </div>
+
+    <div class="sd-cols">
+      <div class="sd-panel"><h3>Country</h3><p class="note">Where visitors are.</p><ul class="sd-bars" id="sd-country"></ul></div>
+      <div class="sd-panel"><h3>Browser</h3><p class="note">Client mix.</p><ul class="sd-bars" id="sd-browser"></ul></div>
+      <div class="sd-panel"><h3>Device &amp; OS</h3><p class="note">Platform mix.</p><ul class="sd-bars" id="sd-deviceos"></ul></div>
+    </div>
+
+    <div class="sd-cols">
+      <div class="sd-panel sd-health"><h3>UX health signals</h3><p class="note">Friction indicators from Clarity &mdash; lower is better.</p><ul class="sd-bars" id="sd-health"></ul></div>
+      <div class="sd-panel"><h3>Engagement quality</h3><p class="note">How deep and how long visits run.</p><ul class="sd-bars" id="sd-engagement"></ul></div>
+      <div class="sd-panel" id="sd-perf-panel" hidden><h3>Performance (Core Web Vitals)</h3><p class="note">Real-user page performance.</p><ul class="sd-bars" id="sd-perf"></ul></div>
+    </div>
+
+    <div class="sd-chart-card">
+      <details>
+        <summary>All referrers &mdash; internal vs external split</summary>
+        <div style="padding:.8rem 0" id="sd-refsplit"></div>
+      </details>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <p>Built by Microsoft · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

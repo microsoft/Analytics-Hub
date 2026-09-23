@@ -31,6 +31,18 @@ const LINKED_SITES = {};
 // Cache for sites snapshots, populated on load.
 let SITES_CACHE = {};
 
+/* Shared internal-referrer test. A referral from the hub's own Pages domain or
+   from GitHub's own domains is internal navigation, not discovery — excluded
+   from every "how do people find us" view so real external sources stand out. */
+const INTERNAL_REFERRER_HOSTS = ["microsoft.github.io", "github.com", "githubusercontent.com", "github.io"];
+function isInternalReferrer(name) {
+  let host = String(name || "");
+  try { host = new URL(host).hostname; } catch (_) { /* already a host or blank */ }
+  host = host.toLowerCase();
+  if (!host) return false; // keep "(direct)" / blank
+  return INTERNAL_REFERRER_HOSTS.some((h) => host === h || host.endsWith("." + h) || host.includes(h));
+}
+
 /* Clarity's Data Export API caps numOfDays at 3, so every snapshot we store is
    a 3-day rolling total and consecutive snapshots overlap by two days. Adding
    them up would count most days three times, which is why this card was stuck
@@ -761,6 +773,9 @@ function renderLinkedSiteDetail(linked) {
     try { return new URL(url).hostname + new URL(url).pathname.replace(/\/$/, ""); }
     catch { return url; }
   };
+  // External discovery only — drop the hub's own domain and GitHub's own UI so
+  // referrers show how people FIND us, not internal page-to-page navigation.
+  const externalRefs = referrerUrls.filter((r) => !isInternalReferrer(r.name || r.Url));
 
   return `
     <div class="linked-site-panel">
@@ -771,7 +786,7 @@ function renderLinkedSiteDetail(linked) {
         </div>
         <div class="linked-site-controls">
           ${winToggle}
-          <a class="linked-site-cta" href="${linked.siteUrl}" target="_blank" rel="noopener">Open live site ↗</a>
+          <a class="linked-site-cta" href="site.html?site=${encodeURIComponent(linked.siteKey)}">View detailed analytics &rarr;</a>
         </div>
       </div>
 
@@ -790,8 +805,9 @@ function renderLinkedSiteDetail(linked) {
           <ul>${list(filteredTitles.length ? filteredTitles : pageTitles)}</ul>
         </div>
         <div>
-          <h4>Top referrers</h4>
-          <ul>${list(referrerUrls.slice(0, 8), "name", "sessionsCount", 8, cleanRef)}</ul>
+          <h4>Top external referrers</h4>
+          <ul>${list(externalRefs.slice(0, 8), "name", "sessionsCount", 8, cleanRef)}</ul>
+          <p class="linked-site-source" style="margin:.3rem 0 0;font-size:.75rem">Internal Analytics Hub / GitHub navigation excluded.</p>
         </div>
         ${smartEvents.length ? `<div>
           <h4>Smart events (engagement signals)</h4>
