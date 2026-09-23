@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T17:43:11.895Z",
+  "generatedAt": "2026-09-23T11:17:33.856Z",
   "feeds": {
     "compliance-data-residency-watch": {
       "feedId": "compliance",
@@ -7,7 +7,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:15:35.101Z",
+      "lastScan": "2026-09-23T11:15:50.168Z",
       "pagesWatched": 33,
       "updatedInWindow": 9,
       "lastChange": {
@@ -23,7 +23,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:15:40.945Z",
+      "lastScan": "2026-09-23T11:15:56.961Z",
       "pagesWatched": 49,
       "updatedInWindow": 17,
       "lastChange": {
@@ -39,7 +39,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:15:54.838Z",
+      "lastScan": "2026-09-23T11:16:12.394Z",
       "pagesWatched": 123,
       "updatedInWindow": 0,
       "lastChange": {
@@ -55,14 +55,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": true,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:16:07.645Z",
+      "lastScan": "2026-09-23T11:16:23.839Z",
       "pagesWatched": 30,
       "updatedInWindow": 0,
       "lastChange": {
-        "severity": "minor",
-        "date": "2026-09-22",
-        "count": 3,
-        "detectedAt": "2026-09-22"
+        "severity": "major",
+        "date": "2026-09-23",
+        "count": 29,
+        "detectedAt": "2026-09-23"
       }
     },
     "admin-governance-watch": {
@@ -71,14 +71,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:16:27.427Z",
+      "lastScan": "2026-09-23T11:16:44.600Z",
       "pagesWatched": 113,
       "updatedInWindow": 23,
       "lastChange": {
         "severity": "minor",
         "date": "2026-09-21",
-        "count": 23,
-        "seeded": true
+        "count": 1,
+        "detectedAt": "2026-09-23"
       }
     },
     "m365-copilot-usage-reports-watch": {
@@ -87,7 +87,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:16:40.336Z",
+      "lastScan": "2026-09-23T11:16:57.476Z",
       "pagesWatched": 51,
       "updatedInWindow": 8,
       "lastChange": {
@@ -103,14 +103,14 @@
       "windowStart": "2026-06-01",
       "noMsDate": false,
       "mode": "roadmap",
-      "lastScan": "2026-09-22T17:39:29.692Z",
-      "pagesWatched": 4,
-      "updatedInWindow": 4,
+      "lastScan": "2026-09-23T11:16:58.534Z",
+      "pagesWatched": 5,
+      "updatedInWindow": 5,
       "lastChange": {
         "severity": "minor",
-        "date": "2026-09-14",
-        "count": 4,
-        "seeded": true
+        "date": "2026-09-22",
+        "count": 1,
+        "detectedAt": "2026-09-23"
       }
     },
     "model-deprecation-tracker": {
@@ -119,14 +119,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:16:43.291Z",
+      "lastScan": "2026-09-23T11:17:03.200Z",
       "pagesWatched": 23,
       "updatedInWindow": 17,
       "lastChange": {
         "severity": "major",
-        "date": "2026-09-22",
-        "count": 1,
-        "detectedAt": "2026-09-22"
+        "date": "2026-09-23",
+        "count": 4,
+        "detectedAt": "2026-09-23"
       }
     },
     "pricing-licensing-watch": {
@@ -135,7 +135,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:16:47.426Z",
+      "lastScan": "2026-09-23T11:17:09.538Z",
       "pagesWatched": 43,
       "updatedInWindow": 26,
       "lastChange": {
@@ -151,7 +151,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:16:53.866Z",
+      "lastScan": "2026-09-23T11:17:15.390Z",
       "pagesWatched": 52,
       "updatedInWindow": 2,
       "lastChange": {
@@ -167,14 +167,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "roadmap",
-      "lastScan": "2026-09-22T11:16:56.825Z",
-      "pagesWatched": 642,
-      "updatedInWindow": 216,
+      "lastScan": "2026-09-23T11:17:17.280Z",
+      "pagesWatched": 643,
+      "updatedInWindow": 218,
       "lastChange": {
         "severity": "major",
-        "date": "2026-09-21",
-        "count": 5,
-        "detectedAt": "2026-09-22"
+        "date": "2026-09-22",
+        "count": 4,
+        "detectedAt": "2026-09-23"
       }
     },
     "viva-insights-watch": {
@@ -183,7 +183,7 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-09-22T11:17:12.977Z",
+      "lastScan": "2026-09-23T11:17:32.900Z",
       "pagesWatched": 121,
       "updatedInWindow": 75,
       "lastChange": {
