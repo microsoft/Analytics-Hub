@@ -177,15 +177,18 @@
         </div>
         <a class="comm-seeall" href="./learning-feed/">See all feeds &rarr;</a>
       </div>
-      <p class="sub">Twelve living trackers that follow how Microsoft Copilot, Copilot Studio agents, Viva Insights, and the cost, audit and usage sources behind the Hub's reports are changing.</p>
-      <div class="lf-grid comm-oneup">
-        <a class="lf-card" href="./cowork-document-monitor/">
-          <div class="lf-top"><span class="lf-badge">Doc tracker</span><span class="lf-live">Updated 15 Sep 2026</span></div>
-          <div class="lf-kpi"><span class="lf-num">17</span><span class="lf-unit">changes logged &middot; 20 pages watched</span></div>
-          <div class="lf-title">Cowork Document Monitor</div>
-          <p class="lf-desc">A plain-language change log of the Microsoft Learn pages behind Copilot Cowork Copilot Credit billing &mdash; what each page said before, what it says now, and the date it changed, with verbatim quotes from the source pages.</p>
-          <span class="lf-go">Open feed &rarr;</span>
-        </a>
+      <p class="sub">Living trackers that follow how the Microsoft guidance behind the Hub's reports is changing &mdash; Cowork, Copilot Credits &amp; billing, model deprecations, agents &amp; Copilot Studio, pricing &amp; licensing, Purview audit, Viva Insights, data residency, and the M365 roadmap.</p>
+      <div class="mlw-overview comm-oneup" id="mlwOverview">
+        <div class="mlw-kpis">
+          <div class="mlw-kpi"><span class="mlw-num" id="mlwPages">&mdash;</span><span class="mlw-lbl">Pages watched</span></div>
+          <div class="mlw-kpi"><span class="mlw-num" id="mlwTopics">&mdash;</span><span class="mlw-lbl">Topics followed</span></div>
+          <div class="mlw-kpi"><span class="mlw-num" id="mlwWeek">&mdash;</span><span class="mlw-lbl">Changes this week</span></div>
+          <div class="mlw-kpi"><span class="mlw-num mlw-num--major" id="mlwMajor">&mdash;</span><span class="mlw-lbl">Major this week</span></div>
+        </div>
+        <div class="mlw-foot">
+          <span class="mlw-updated" id="mlwUpdated"></span>
+          <a class="mlw-open" href="./learning-feed/">Open feed &rarr;</a>
+        </div>
       </div>
     </section>
 
@@ -316,7 +319,38 @@
       .catch(function () { section.hidden = true; });
   }
 
-  function boot() { renderPolls(); renderEvents(); }
+  // -------------------------------------------------- MS Learn Watcher overview
+  function renderMlw() {
+    var host = document.getElementById('mlwOverview');
+    if (!host) return;
+    fetch('learning-feed/feed-data.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.changes) { host.style.display = 'none'; return; }
+        function iso(dt) { var x = new Date(dt); x.setUTCHours(0, 0, 0, 0); return x.toISOString().slice(0, 10); }
+        var weekAgo = (function () { var x = new Date(); x.setUTCHours(0, 0, 0, 0); x.setUTCDate(x.getUTCDate() - 7); return x.toISOString().slice(0, 10); })();
+        var pages = (d.feeds || []).reduce(function (s, f) { return s + (f.pagesWatched || 0); }, 0);
+        var topics = (d.products || []).length;
+        var week = 0, majorWeek = 0;
+        d.changes.forEach(function (c) {
+          if (c.date >= weekAgo) { week++; if (c.severity === 'major') majorWeek++; }
+        });
+        function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+        set('mlwPages', pages.toLocaleString());
+        set('mlwTopics', topics.toLocaleString());
+        set('mlwWeek', week.toLocaleString());
+        set('mlwMajor', majorWeek.toLocaleString());
+        var gen = (d.about && d.about.generatedAt) || d.generatedAt;
+        if (gen) {
+          var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          var p = String(gen).slice(0, 10).split('-');
+          set('mlwUpdated', 'Last updated ' + parseInt(p[2], 10) + ' ' + M[parseInt(p[1], 10) - 1] + ' ' + p[0]);
+        }
+      })
+      .catch(function () { host.style.display = 'none'; });
+  }
+
+  function boot() { renderPolls(); renderEvents(); renderMlw(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();

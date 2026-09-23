@@ -89,9 +89,24 @@
   background:var(--comm-ico-grad,linear-gradient(140deg,#3b86dd 0%,#6b5ad9 55%,#9a4fc4 100%));
   box-shadow:0 8px 18px -6px rgba(107,90,217,.5);}
 .comm-hubhead-ico svg{width:27px;height:27px;color:#fff;}
-.comm-hubhead h2{margin:0;font-size:30px;font-weight:800;line-height:1;letter-spacing:-.03em;background:linear-gradient(135deg,#00b7c3 0%,#2b88d8 32%,#6b5ad9 60%,#9a4fc4 82%,#d05fb0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.comm-hubhead h2{margin:0;font-size:30px;font-weight:700;line-height:1.05;letter-spacing:-.025em;color:var(--text,#1a1a25);}
 .comm-seeall{font-weight:600;font-size:.98rem;white-space:nowrap;}
 .comm-oneup{max-width:640px;}
+/* MS Learn Watcher overview KPI card */
+.mlw-overview{max-width:720px;border:1px solid var(--border,#e6e6ee);border-radius:16px;background:var(--surface,#fff);
+  padding:1.5rem 1.6rem;box-shadow:0 1px 3px rgba(20,20,40,.05),0 4px 16px rgba(20,20,40,.04);}
+.mlw-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.mlw-kpi{display:flex;flex-direction:column;gap:5px;padding:2px 0;}
+.mlw-num{font-size:2rem;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--accent,#0078d4);font-variant-numeric:tabular-nums;}
+.mlw-num--major{color:#c50f1f;}
+.mlw-lbl{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#6b6b85);line-height:1.25;}
+.mlw-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.3rem;padding-top:1.1rem;border-top:1px solid var(--border,#e6e6ee);}
+.mlw-updated{font-size:.85rem;color:var(--text-muted,#6b6b85);}
+.mlw-open{display:inline-flex;align-items:center;gap:.4rem;font-size:.95rem;font-weight:700;text-decoration:none;
+  color:#fff;background:var(--accent,#0078d4);padding:.7rem 1.4rem;border-radius:10px;white-space:nowrap;
+  transition:background .15s ease,transform .15s ease;}
+.mlw-open:hover{background:#0067c0;transform:translateY(-1px);}
+@media (max-width:620px){.mlw-kpis{grid-template-columns:repeat(2,1fr);}.mlw-num{font-size:1.7rem;}}
 
 /* ===== Community hero (Reports-header treatment, shipped from hero-lab option 1) ===== */
 .comm-lead{
