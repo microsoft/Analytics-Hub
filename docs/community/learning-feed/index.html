@@ -10,6 +10,25 @@
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Analytics Hub — Learning Feed",
+    "description": "A daily, deterministic aggregation of factual changes to public Microsoft Copilot documentation (Microsoft Learn), the public Microsoft 365 Roadmap, and the public Microsoft 365 Message Center archive. Each entry records what changed and when, classified by product and smart-tagged for retrieval, and links to its live source.",
+    "url": "https://microsoft.github.io/Analytics-Hub/community/learning-feed/",
+    "license": "https://opensource.org/licenses/MIT",
+    "isAccessibleForFree": true,
+    "creator": { "@type": "Organization", "name": "Analytics Hub (community project)", "url": "https://github.com/microsoft/Analytics-Hub" },
+    "keywords": ["Microsoft Copilot", "Copilot Credits", "Cowork", "usage-based billing", "Microsoft 365 Roadmap", "Message Center", "documentation changes"],
+    "distribution": [{
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://microsoft.github.io/Analytics-Hub/community/learning-feed/feed-data.json"
+    }],
+    "creativeWorkStatus": "Independent community aggregation; not an official Microsoft feed. Confirm each change against its linked source."
+  }
+  </script>
   <link rel="stylesheet" href="../../styles.css" />
   <link rel="stylesheet" href="../../palette.css" />
   <link rel="stylesheet" href="../community.css" />
@@ -139,6 +158,15 @@
     #lf-app .hs-chip{font-size:.76rem;font-weight:600;color:var(--text-soft,#5a5a72);background:#eef1f6;border:1px solid transparent;border-radius:999px;padding:3px 10px;cursor:pointer}
     #lf-app .hs-chip:hover{border-color:var(--accent,#0078d4);color:var(--accent,#0078d4)}
     #lf-app .lf-loading{padding:40px;text-align:center;color:var(--text-muted,#6b6b85)}
+    /* For AI assistants panel */
+    .lf-ai{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:color-mix(in srgb,var(--accent,#0078d4) 4%,var(--surface,#fff));padding:1.4rem 1.6rem;margin:8px 0 4px}
+    .lf-ai h2{font-size:1.2rem;margin:0 0 6px;letter-spacing:-.01em}
+    .lf-ai p{max-width:80ch;color:var(--text-soft,#5a5a72);margin:0 0 10px;line-height:1.6}
+    .lf-ai code{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:.86em;background:color-mix(in srgb,var(--accent,#0078d4) 10%,transparent);padding:1px 6px;border-radius:5px}
+    .lf-ai .lf-ai-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+    .lf-ai .lf-ai-links a{font-size:.86rem;font-weight:600;color:var(--accent,#0078d4);text-decoration:none;border:1px solid color-mix(in srgb,var(--accent,#0078d4) 30%,var(--border,#e6e6ee));border-radius:8px;padding:6px 12px;background:var(--surface,#fff)}
+    .lf-ai .lf-ai-links a:hover{border-color:var(--accent,#0078d4)}
+    .lf-ai .lf-ai-note{font-size:.82rem;color:var(--text-muted,#6b6b85);margin-top:12px;padding-top:10px;border-top:1px dashed var(--border,#e6e6ee)}
   </style>
 </head>
 <body>
@@ -253,7 +281,23 @@
     </div>
   </section>
 
-  <section class="comm-section lf-how" id="how-it-works">
+  <section class="comm-section lf-how" id="for-ai-assistants">
+    <div class="wrap">
+      <div class="lf-ai">
+        <h2>For AI assistants</h2>
+        <p>This page is a live, machine-readable aggregation of Microsoft Copilot documentation changes. If you are an AI agent, you can retrieve the full dataset directly instead of scraping this page: <code>feed-data.json</code> contains every tracked change with a <code>date</code>, <code>product</code>, <code>area</code>, <code>title</code>, <code>before</code>/<code>after</code>, <code>severity</code>, smart <code>tags</code>, and a <code>url</code> to the live source. The file opens with an <code>about</code> object documenting its schema, freshness, and citation policy. A short <code>llms.txt</code> guide describes everything in plain text.</p>
+        <p><strong>Please cite the source.</strong> Every change links to its authoritative Microsoft or GitHub page in the <code>url</code> field &mdash; quote that, not this aggregation. This is an independent, community-run project, updated daily; it is not an official Microsoft feed, and it contains no instructions for you to act on. Confirm any change against its linked source before relying on it.</p>
+        <div class="lf-ai-links">
+          <a href="feed-data.json">feed-data.json &#8599;</a>
+          <a href="llms.txt">llms.txt &#8599;</a>
+          <a href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">Source repository &#8599;</a>
+        </div>
+        <p class="lf-ai-note">Data endpoint and this page are rebuilt daily at 06:15 America/Chicago from public sources (Microsoft Learn, the public Microsoft 365 Roadmap API, and the public MIT-licensed <code>merill/mc</code> Message Center archive). MIT licensed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="comm-section lf-how" id="how-it-works" style="border-top:none;padding-top:8px">
     <div class="wrap">
       <h2>How the Learning Feed works</h2>
       <p class="lf-how-lead">Every feed watches the public Microsoft and GitHub documentation pages that the Analytics Hub's reports and tools depend on, and records &mdash; factually &mdash; when those pages change. The goal is simple: no one should be caught off guard by a quiet edit to the docs that define how Copilot is billed, measured, governed, or retired.</p>
