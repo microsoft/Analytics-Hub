@@ -84,17 +84,27 @@
     <div class="wrap">
       <p class="comm-lead-eyebrow">Community &amp; Incubation</p>
       <h1 class="comm-lead-h">Shape what we <span class="comm-hl-a">build</span>,<br>and help ship <span class="comm-hl-c">what&rsquo;s next</span></h1>
-      <p class="comm-lead-p">Two ways in. Steer the roadmap with the community, or take an early build for a run and help settle it before it ships.</p>
+      <p class="comm-lead-p">A few ways in. Answer a poll or send feedback, take an early build for a run, follow the Learning Feed, or join a live training.</p>
       <div class="comm-how">
         <div class="comm-step">
-          <div class="comm-sn">Community</div>
-          <h2 class="comm-st">Follow, answer, attend</h2>
-          <p class="comm-sp">Track the Learning Feed, answer a 30-second poll, and join live trainings or catch the recordings.</p>
+          <div class="comm-sn">Polls &amp; Feedback</div>
+          <h2 class="comm-st">We thrive on feedback</h2>
+          <p class="comm-sp">Tell us what to build next. Answer a 30-second poll, or send a request, a suggestion, or a plain what is not working. Every response shapes the roadmap. <a href="./polls/">Answer a poll &rarr;</a> &middot; <a href="../feedback/">Send feedback &rarr;</a></p>
         </div>
         <div class="comm-step">
-          <div class="comm-sn">Incubation</div>
+          <div class="comm-sn">Incubations</div>
           <h2 class="comm-st">Take an early build for a run</h2>
-          <p class="comm-sp">Run a testing-stage template against your own data and help settle the metric definitions. <a href="./incubations/">See incubations &rarr;</a></p>
+          <p class="comm-sp">Run a testing-stage template against your own data and help settle the metric definitions before it ships. <a href="./incubations/">See incubations &rarr;</a></p>
+        </div>
+        <div class="comm-step">
+          <div class="comm-sn">Learning Feed</div>
+          <h2 class="comm-st">Follow what&rsquo;s changing</h2>
+          <p class="comm-sp">Living trackers that follow how Microsoft Copilot guidance and billing docs are changing. <a href="./learning-feed/">See the feeds &rarr;</a></p>
+        </div>
+        <div class="comm-step">
+          <div class="comm-sn">Events &amp; Training</div>
+          <h2 class="comm-st">Join a live session</h2>
+          <p class="comm-sp">Register for live trainings or catch the on-demand recordings. <a href="./events/">See events &rarr;</a></p>
         </div>
       </div>
       <div class="comm-bar">
@@ -107,6 +117,15 @@
 
 
   <div class="wrap">
+
+    <section class="comm-hubsec" id="polls" hidden>
+      <div class="comm-hubhead">
+        <h2>Polls</h2>
+        <a class="comm-seeall" href="./polls/">See all polls &rarr;</a>
+      </div>
+      <p class="sub">Two-second answers that steer what we build next.</p>
+      <div class="comm-grid comm-oneup" id="poll-list"></div>
+    </section>
 
     <section class="comm-hubsec" id="incubate">
       <div class="comm-hubhead">
@@ -124,20 +143,6 @@
           <div class="evt-when">Purview audit export &middot; about 10 minutes on the sample data</div>
           <p class="evt-summary">Ten pages on how Copilot Cowork is actually being adopted: activation, how consistently people come back, what work they delegate, and who is emerging as a champion. The metric definitions are the part we most want challenged.</p>
           <p class="evt-note">Taking part means running it against your own tenant data and telling us what does not hold up. Open the card for the walkthrough, the roles you will need, and the way in.</p>
-          <div class="evt-actions">
-            <button type="button" class="evt-btn" data-viewdetails>View Details</button>
-            <a class="evt-btn evt-btn--ghost" data-incubate href="#">Incubate</a>
-          </div>
-        </article>
-        <article class="evt-card cw-inc-card" data-report="ai-solutions-intelligence" data-report-name="AI Solutions Intelligence" aria-haspopup="dialog">
-          <div class="evt-top">
-            <span class="evt-badge evt-badge--inc">Incubating</span>
-            <span class="evt-level">Power BI template &middot; V27 in testing</span>
-          </div>
-          <div class="evt-title">AI Solutions Intelligence</div>
-          <div class="evt-when">Defender &amp; Purview exports &middot; about 10 minutes on the sample data</div>
-          <p class="evt-summary">Ten pages putting Copilot adoption next to third-party AI activity, shadow AI, OAuth consent risk and off-hours patterns. Built on Defender Advanced Hunting and the Purview audit log, so it sees what the Copilot-only reports cannot.</p>
-          <p class="evt-note">The risk scores are heuristic triage signals, not proof of anything &mdash; which is exactly the part we want challenged. Tour it on the fabricated sample data first; that needs no tenant access at all.</p>
           <div class="evt-actions">
             <button type="button" class="evt-btn" data-viewdetails>View Details</button>
             <a class="evt-btn evt-btn--ghost" data-incubate href="#">Incubate</a>
@@ -161,15 +166,6 @@
           <span class="lf-go">Open feed &rarr;</span>
         </a>
       </div>
-    </section>
-
-    <section class="comm-hubsec" id="polls" hidden>
-      <div class="comm-hubhead">
-        <h2>Polls</h2>
-        <a class="comm-seeall" href="./polls/">See all polls &rarr;</a>
-      </div>
-      <p class="sub">Two-second answers that steer what we build next.</p>
-      <div class="comm-grid comm-oneup" id="poll-list"></div>
     </section>
 
     <section class="comm-hubsec" id="events" hidden>
