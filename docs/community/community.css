@@ -1,4 +1,16 @@
 /* Shared Community styles — used by community/ hub and its sub-pages (incubations, learning-feed, polls, events). */
+    /* Section header with gradient icon badge (Polls / Learning Feed / Incubations / Events). */
+    .comm-head{display:flex;flex-direction:column;gap:0;}
+    .comm-head-row{display:flex;align-items:center;gap:18px;}
+    .comm-head-ico{flex:0 0 auto;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;
+      background:var(--comm-ico-grad,linear-gradient(140deg,#3b86dd 0%,#6b5ad9 55%,#9a4fc4 100%));
+      box-shadow:0 8px 20px -6px rgba(107,90,217,.5);}
+    .comm-head-ico svg{width:30px;height:30px;color:#fff;}
+    .comm-head-eyebrow{margin:0 0 3px;font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+      color:var(--accent,#0078d4);text-decoration:none;display:inline-block;}
+    .comm-head-eyebrow:hover{text-decoration:underline;}
+    .comm-head h1{margin:0;font-size:2rem;line-height:1.05;letter-spacing:-.025em;font-weight:700;}
+    .comm-head-p{margin:14px 0 0;font-size:1rem;line-height:1.6;color:var(--text-muted,#5a6470);max-width:78ch;}
     .comm-hero{padding:2.6rem 0 1rem;}
     .comm-hero h1{margin:0 0 .5rem;}
     .comm-hero p{max-width:60ch;color:var(--text-muted,#5a6470);}
