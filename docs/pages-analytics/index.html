@@ -144,6 +144,7 @@
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="engagement">Engagement</button>
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="comparisons">Comparisons</button>
       <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="cowork-billing">Cowork Billing</button>
+      <button type="button" class="page-tab" role="tab" aria-selected="false" data-tab="community">Community</button>
     </div>
   </nav>
 
@@ -367,8 +368,8 @@
 
     <section class="referrers-rollup-section">
       <div class="wrap">
-        <h2>Top referrers · portfolio-wide</h2>
-        <p class="section-sub">Where visitors come from across <em>every</em> tracked repo. Aggregated from each repo's <code>/popular/referrers</code> snapshot.</p>
+        <h2>Top external referrers · portfolio-wide</h2>
+        <p class="section-sub">Where visitors <em>discover</em> us from across every tracked repo &mdash; search engines, social, Teams, AI assistants. Internal Analytics Hub and GitHub navigation is excluded so real discovery sources stand out. Aggregated from each repo's <code>/popular/referrers</code> snapshot.</p>
         <div class="table-wrap">
           <table class="repo-table" id="referrers-rollup-table">
             <thead>
@@ -384,6 +385,7 @@
             </tbody>
           </table>
         </div>
+        <p class="section-sub" id="referrers-rollup-note" style="margin-top:.6rem"></p>
       </div>
     </section>
 
@@ -702,6 +704,92 @@
       </div>
     </section>
   </div><!-- /tab-cowork-billing -->
+
+  <div class="tab-panel" id="tab-community" role="tabpanel" aria-labelledby="community" hidden>
+    <section class="cowork-hero-section">
+      <div class="wrap">
+        <h2>Community &middot; MS Learn Watcher signal collector</h2>
+        <p class="section-sub">A quiet read on what customers and colleagues care about most. Which topics they check, which community features they engage with, and how they find us &mdash; to surface pain points and steer what we build next. Human sessions only; bots excluded.</p>
+        <div class="window-switcher window-switcher--repeat" role="tablist" aria-label="Time window — Community">
+          <button type="button" class="win-btn" role="tab" data-comm-window="3">3d</button>
+          <button type="button" class="win-btn" role="tab" data-comm-window="7">7d</button>
+          <button type="button" class="win-btn active" role="tab" aria-selected="true" data-comm-window="14">14d</button>
+          <button type="button" class="win-btn" role="tab" data-comm-window="30">30d</button>
+        </div>
+        <p class="section-sub" id="community-window-note" style="margin-top:.5rem"></p>
+        <div class="linked-kpi-grid" id="community-kpis" style="margin-top:1.1rem"></div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h3>Topic interest &mdash; which MS Learn Watcher feeds they check most</h3>
+        <p class="section-sub">The core signal: every feed page ranked by human sessions in the window. What people come to watch = what they're worried about.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="community-topics-table">
+            <thead>
+              <tr>
+                <th>Topic / feed</th>
+                <th class="num">Sessions</th>
+                <th class="num">Unique visitors</th>
+                <th class="num">Pages / session</th>
+                <th class="num">Share</th>
+              </tr>
+            </thead>
+            <tbody id="community-topics-tbody"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h3>Community feature engagement</h3>
+        <p class="section-sub">How the four community surfaces compare &mdash; MS Learn Watcher, Incubations, Events &amp; Trainings, and Polls &mdash; by human sessions reaching each.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="community-features-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th class="num">Sessions</th>
+                <th class="num">Unique visitors</th>
+                <th class="num">Share of community</th>
+              </tr>
+            </thead>
+            <tbody id="community-features-tbody"><tr><td colspan="4" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <h3>How people find the community</h3>
+        <p class="section-sub">External discovery sources into the site. <em>Note:</em> Clarity reports referrers site-wide, not per page, so this is where hub visitors come from overall &mdash; a directional read on channels, not isolated to MS Learn Watcher.</p>
+        <div class="table-wrap">
+          <table class="repo-table" id="community-referrers-table">
+            <thead>
+              <tr><th>Source</th><th class="num">Sessions</th></tr>
+            </thead>
+            <tbody id="community-referrers-tbody"><tr><td colspan="2" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="cowork-table-section">
+      <div class="wrap">
+        <details>
+          <summary>What this can and can't see</summary>
+          <div style="padding:.6rem 0">
+            <p><strong>Measurable and shown above:</strong> which feed pages get visited (topic interest), how the four community features compare, pages-per-session as a depth proxy, and site-wide external discovery sources. All from Clarity's URL-dimension export, human sessions only.</p>
+            <p><strong>Not directly measurable:</strong> what a visitor clicks on <em>as they leave</em>, and referrers isolated to a single page &mdash; Clarity's Data Export API returns per-URL traffic but not per-URL exit clicks or per-URL referrers. The topic-interest ranking is the honest proxy: the page someone navigates to is the topic they came for. Poll answers are inline (no URL) so they surface as engagement with the Polls surface, not per-question results.</p>
+            <p><strong>Signal-collection intent:</strong> a rising topic here (e.g. a spike on the Purview or Pricing feed) is an early tell on customer concern &mdash; a candidate for the next report, a proactive comm, or a talking point before it shows up in support tickets.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </div><!-- /tab-community -->
 
   <section class="footnote-section">
     <div class="wrap">

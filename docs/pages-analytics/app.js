@@ -1678,10 +1678,27 @@ function renderEngagement(repos) {
   // Aggregated referrers
   const refTbody = document.getElementById("referrers-rollup-tbody");
   if (refTbody) {
+    // Manager ask: surface EXTERNAL discovery sources (Google, LinkedIn, Teams,
+    // ChatGPT…), not internal navigation. Anyone arriving from the hub's own
+    // Pages domain or from GitHub's own domains (repo-to-repo browsing) is
+    // already "inside" — those referrals tell us nothing about how people find
+    // us, so they're excluded here.
+    const INTERNAL_REFERRERS = [
+      "microsoft.github.io",            // the Analytics Hub site itself
+      "github.com",                     // GitHub UI navigation between the repos
+      "githubusercontent.com",          // raw / notebook / avatar GitHub content
+      "github.io",                      // any GitHub Pages self-referral
+    ];
+    const isInternalRef = (name) => {
+      const s = String(name || "").toLowerCase();
+      return INTERNAL_REFERRERS.some((h) => s === h || s.endsWith("." + h) || s.includes(h));
+    };
     const agg = new Map(); // name -> { count, uniques, repos:Set }
+    let internalCount = 0;
     for (const [repoName, repo] of Object.entries(repos)) {
       for (const r of (repo.referrers || [])) {
         const key = r.referrer || r.name || "(unknown)";
+        if (isInternalRef(key)) { internalCount += r.count || 0; continue; }
         const e = agg.get(key) || { count: 0, uniques: 0, repos: new Set() };
         e.count   += r.count   || 0;
         e.uniques += r.uniques || 0;
@@ -1697,7 +1714,11 @@ function renderEngagement(repos) {
           <td class="num">${fmt(e.uniques)}</td>
           <td class="num">${e.repos.size}</td>
         </tr>`).join("")
-      : `<tr><td colspan="4" class="empty">No referrer data yet.</td></tr>`;
+      : `<tr><td colspan="4" class="empty">No external referrer data yet.</td></tr>`;
+    const refNote = document.getElementById("referrers-rollup-note");
+    if (refNote) refNote.textContent = internalCount
+      ? `External sources only. ${fmt(internalCount)} internal Analytics Hub / GitHub navigation referrals are excluded.`
+      : "External sources only (internal Analytics Hub / GitHub navigation excluded).";
   }
 
   // Aggregated paths.
@@ -1888,6 +1909,200 @@ function renderWebTrend(points) {
       ${dots}
     </svg>
     <div class="spark-axis"><span>${first.day}</span><span>peak ${max}</span><span>${last.day}</span></div>`;
+}
+
+/* ============================================================
+   Community · MS Learn Watcher signal collector
+   Reads Clarity per-URL traffic (snapshotsByUrl) for the /community/
+   surfaces. Non-overlapping 3-day-step window assembly, same as the
+   Cowork feed-reach table. Human sessions = totalSessionCount - bots.
+   ============================================================ */
+let communityWindowDays = 14;
+
+// The MS Learn Watcher feed pages, labeled as topics.
+const COMMUNITY_FEEDS = [
+  { needle: "/community/learning-feed/",              label: "MS Learn Watcher (overview)" },
+  { needle: "/community/roadmap-digest/",             label: "Copilot Roadmap — What Shipped" },
+  { needle: "/community/message-center-watch/",       label: "Message Center — Cost & Cowork" },
+  { needle: "/community/pricing-licensing-watch/",    label: "Pricing & Licensing" },
+  { needle: "/community/admin-governance-watch/",     label: "Admin Control & Governance" },
+  { needle: "/community/viva-insights-watch/",        label: "Viva Insights" },
+  { needle: "/community/copilot-studio-agents-watch/",label: "Copilot Studio & Agents" },
+  { needle: "/community/model-deprecation-tracker/",  label: "Model Deprecation & Retirement" },
+  { needle: "/community/purview-copilot-audit-watch/",label: "Purview Copilot Audit" },
+  { needle: "/community/compliance-data-residency-watch/", label: "Compliance & Data Residency" },
+  { needle: "/community/m365-copilot-usage-reports-watch/", label: "M365 Copilot Usage Reports" },
+  { needle: "/community/github-copilot-billing-watch/",label: "GitHub Copilot Billing" },
+  { needle: "/community/finops-focus-watch/",         label: "FinOps & FOCUS Cost" },
+  { needle: "/community/cowork-document-monitor/",     label: "Cowork Document Monitor" },
+];
+
+// The four community surfaces (feature engagement).
+const COMMUNITY_FEATURES = [
+  { key: "watcher",     label: "MS Learn Watcher", test: (u) => /\/community\/(learning-feed|roadmap-digest|message-center-watch|pricing-licensing-watch|admin-governance-watch|viva-insights-watch|copilot-studio-agents-watch|model-deprecation-tracker|purview-copilot-audit-watch|compliance-data-residency-watch|m365-copilot-usage-reports-watch|github-copilot-billing-watch|finops-focus-watch|cowork-document-monitor)\//.test(u) },
+  { key: "incubations", label: "Incubations",         test: (u) => /\/community\/incubations\//.test(u) },
+  { key: "events",      label: "Events & Trainings",  test: (u) => /\/community\/events\//.test(u) },
+  { key: "polls",       label: "Polls",               test: (u) => /\/community\/polls\//.test(u) },
+];
+
+function communityProdUrl(raw) {
+  const u = String(raw || "").toLowerCase();
+  if (!u) return null;
+  if (u.includes("localhost") || u.includes("127.0.0.1") || u.includes("azurewebsites.net")) return null;
+  if (!u.includes("/community/")) return null;
+  return u;
+}
+
+/* Assemble non-overlapping 3-day snapshots for the chosen window, returning a
+   per-URL map of { sessions, bots, users, ppsWeighted }. Clarity repeats the
+   session total across metric rows, so take the max per URL within a day. */
+function communityWindowByUrl(sites, wantDays) {
+  const stepsWanted = Math.max(1, Math.floor(wantDays / 3));
+  // collect all days present, newest first, step by 3
+  const allDays = new Set();
+  for (const site of Object.values(sites || {})) {
+    for (const day of Object.keys(site?.snapshotsByUrl || {})) allDays.add(day);
+  }
+  const sortedDays = [...allDays].sort();
+  const picked = [];
+  for (let i = 0; i < stepsWanted; i++) {
+    const idx = sortedDays.length - 1 - i * 3;
+    if (idx < 0) break;
+    picked.push(sortedDays[idx]);
+  }
+  const pickedSet = new Set(picked);
+  const perUrl = new Map(); // url -> {sessions,bots,users,ppsSum,ppsW}
+  for (const site of Object.values(sites || {})) {
+    const byUrl = site?.snapshotsByUrl || {};
+    for (const day of picked) {
+      const groups = byUrl[day];
+      if (!groups) continue;
+      // Per day, dedupe per URL by taking the max across metric groups.
+      const dayMax = new Map();
+      for (const g of groups) {
+        for (const row of (g?.information || [])) {
+          const url = communityProdUrl(row?.Url || row?.url);
+          if (!url) continue;
+          const sess = Math.max(parseIntSafe(row.totalSessionCount), parseIntSafe(row.sessionsCount));
+          const bots = parseIntSafe(row.totalBotSessionCount);
+          const users = parseIntSafe(row.distinctUserCount);
+          const pps = Number(row.pagesPerSessionPercentage) || 0;
+          const cur = dayMax.get(url) || { sessions: 0, bots: 0, users: 0, pps: 0 };
+          cur.sessions = Math.max(cur.sessions, sess);
+          cur.bots = Math.max(cur.bots, bots);
+          cur.users = Math.max(cur.users, users);
+          cur.pps = Math.max(cur.pps, pps);
+          dayMax.set(url, cur);
+        }
+      }
+      for (const [url, v] of dayMax) {
+        const e = perUrl.get(url) || { sessions: 0, bots: 0, users: 0, ppsW: 0, ppsN: 0 };
+        e.sessions += v.sessions;
+        e.bots += v.bots;
+        e.users += v.users;
+        if (v.pps > 0) { e.ppsW += v.pps * v.sessions; e.ppsN += v.sessions; }
+        perUrl.set(url, e);
+      }
+    }
+  }
+  return { perUrl, covered: picked.length * 3, picked };
+}
+
+function renderCommunity(repos, sites) {
+  const { perUrl, covered } = communityWindowByUrl(sites, communityWindowDays);
+  const note = document.getElementById("community-window-note");
+  if (note) note.textContent = covered
+    ? `Assembled from ${covered / 3} non-overlapping Clarity snapshot${covered / 3 === 1 ? "" : "s"} (~${covered} days). Each snapshot is a 3-day rolling total.`
+    : "No Clarity URL snapshots available yet.";
+
+  // Sum for a matcher over perUrl.
+  const sumWhere = (test) => {
+    let sessions = 0, bots = 0, users = 0;
+    for (const [url, e] of perUrl) if (test(url)) { sessions += e.sessions; bots += e.bots; users += e.users; }
+    return { human: Math.max(0, sessions - bots), users, sessions };
+  };
+
+  // ---- KPIs ----
+  const watcher = sumWhere(COMMUNITY_FEATURES[0].test);
+  const allComm = sumWhere(() => true);
+  const searches = (() => { let n = 0; for (const [url, e] of perUrl) if (/\/community\/learning-feed\/search\//.test(url)) n += Math.max(0, e.sessions - e.bots); return n; })();
+  const kpis = document.getElementById("community-kpis");
+  if (kpis) {
+    const feedRows = COMMUNITY_FEEDS.map((f) => sumWhere((u) => u.includes(f.needle)).human);
+    const topicsWithTraffic = feedRows.filter((n) => n > 0).length;
+    kpis.innerHTML = [
+      ["MS Learn Watcher sessions", fmt(watcher.human), "Human sessions reaching any Watcher feed page in the window."],
+      ["Distinct visitors (max)", "≤ " + fmt(watcher.users), "Upper bound — Clarity can't de-duplicate visitors across snapshots."],
+      ["Topics with traffic", fmt(topicsWithTraffic) + " / " + COMMUNITY_FEEDS.length, "How many of the tracked feed topics saw at least one visit."],
+      ["In-feed searches", fmt(searches), "Sessions that ran a search inside the Watcher — an explicit interest signal."],
+      ["All community sessions", fmt(allComm.human), "Human sessions across every /community/ surface."],
+    ].map(([label, val, tip]) => `<div class="linked-kpi" title="${tip}"><span class="linked-kpi-label">${label}</span><span class="linked-kpi-value">${val}</span></div>`).join("");
+  }
+
+  // ---- Topic interest ranking ----
+  const tb = document.getElementById("community-topics-tbody");
+  if (tb) {
+    const rows = COMMUNITY_FEEDS.map((f) => {
+      let sessions = 0, bots = 0, users = 0, ppsW = 0, ppsN = 0;
+      for (const [url, e] of perUrl) if (url.includes(f.needle)) { sessions += e.sessions; bots += e.bots; users += e.users; ppsW += e.ppsW; ppsN += e.ppsN; }
+      return { label: f.label, human: Math.max(0, sessions - bots), users, pps: ppsN ? ppsW / ppsN : 0 };
+    }).filter((r) => r.human > 0).sort((a, b) => b.human - a.human);
+    const total = rows.reduce((s, r) => s + r.human, 0) || 1;
+    tb.innerHTML = rows.length
+      ? rows.map((r) => `<tr>
+          <td>${r.label}</td>
+          <td class="num">${fmt(r.human)}</td>
+          <td class="num">≤ ${fmt(r.users)}</td>
+          <td class="num">${r.pps ? r.pps.toFixed(1) : "—"}</td>
+          <td class="num">${Math.round((r.human / total) * 100)}%</td>
+        </tr>`).join("")
+      : `<tr><td colspan="5" class="empty">No feed-page traffic in this window yet.</td></tr>`;
+  }
+
+  // ---- Feature engagement ----
+  const fb = document.getElementById("community-features-tbody");
+  if (fb) {
+    const rows = COMMUNITY_FEATURES.map((f) => { const s = sumWhere(f.test); return { label: f.label, human: s.human, users: s.users }; });
+    const total = rows.reduce((s, r) => s + r.human, 0) || 1;
+    rows.sort((a, b) => b.human - a.human);
+    fb.innerHTML = rows.some((r) => r.human > 0)
+      ? rows.map((r) => `<tr>
+          <td>${r.label}</td>
+          <td class="num">${fmt(r.human)}</td>
+          <td class="num">≤ ${fmt(r.users)}</td>
+          <td class="num">${Math.round((r.human / total) * 100)}%</td>
+        </tr>`).join("")
+      : `<tr><td colspan="4" class="empty">No community traffic in this window yet.</td></tr>`;
+  }
+
+  // ---- External referrers (site-wide, honest) ----
+  const rb = document.getElementById("community-referrers-tbody");
+  if (rb) {
+    const INTERNAL = ["microsoft.github.io", "github.com", "githubusercontent.com", "github.io"];
+    const isInternal = (n) => { const s = String(n || "").toLowerCase(); return INTERNAL.some((h) => s === h || s.endsWith("." + h) || s.includes(h)); };
+    let refs = [];
+    for (const site of Object.values(sites || {})) {
+      const snaps = site?.snapshots || {};
+      const days = Object.keys(snaps).sort();
+      const latest = days[days.length - 1];
+      const snap = latest ? snaps[latest] : null;
+      const metric = Array.isArray(snap) ? snap.find((m) => m.metricName === "ReferrerUrl") : null;
+      for (const row of (metric?.information || [])) {
+        const name = row.name || row.Url || "(direct)";
+        let host = name;
+        try { host = new URL(name).hostname; } catch (_) {}
+        if (isInternal(host)) continue;
+        refs.push({ name: host || "(direct)", sessions: parseIntSafe(row.sessionsCount) });
+      }
+    }
+    // fold by host
+    const agg = new Map();
+    for (const r of refs) agg.set(r.name, (agg.get(r.name) || 0) + r.sessions);
+    const rows = [...agg.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
+    rb.innerHTML = rows.length
+      ? rows.map(([name, n]) => `<tr><td>${name}</td><td class="num">${fmt(n)}</td></tr>`).join("")
+      : `<tr><td colspan="2" class="empty">No external referrer data in the latest snapshot.</td></tr>`;
+  }
 }
 
 function renderCoworkBilling(repos, sites) {
@@ -2872,6 +3087,7 @@ async function load() {
     engagement:  document.getElementById("tab-engagement"),
     comparisons: document.getElementById("tab-comparisons"),
     "cowork-billing": document.getElementById("tab-cowork-billing"),
+    community: document.getElementById("tab-community"),
   };
   const activateTab = (key) => {
     if (!tabPanels[key]) return;
@@ -2888,9 +3104,9 @@ async function load() {
     // Persist + sync hash so the choice survives a reload and is shareable.
     try { localStorage.setItem("pages-analytics-tab", key); } catch (_) {}
     if (key !== "summary") {
-      history.replaceState(null, "", `#${key}`);
+      window.history.replaceState(null, "", `#${key}`);
     } else if (location.hash) {
-      history.replaceState(null, "", location.pathname + location.search);
+      window.history.replaceState(null, "", location.pathname + location.search);
     }
     // SVG charts need a re-render when they become visible (clientWidth is 0 while hidden).
     if (key === "comparisons") {
@@ -2899,9 +3115,21 @@ async function load() {
       requestAnimationFrame(() => renderPortfolioStack(reposData));
     } else if (key === "cowork-billing") {
       requestAnimationFrame(() => renderCoworkBilling(reposData, history.sites || {}));
+    } else if (key === "community") {
+      requestAnimationFrame(() => renderCommunity(reposData, history.sites || {}));
     }
   };
   tabBtns.forEach(b => b.addEventListener("click", () => activateTab(b.dataset.tab)));
+
+  // Community window switcher (3/7/14/30d)
+  document.querySelectorAll("[data-comm-window]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-comm-window]").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+      btn.classList.add("active"); btn.setAttribute("aria-selected", "true");
+      communityWindowDays = parseInt(btn.dataset.commWindow, 10) || 14;
+      renderCommunity(reposData, history.sites || {});
+    });
+  });
 
   // Portfolio stacked-chart controls
   document.querySelectorAll(".port-window-btn").forEach(btn => {
