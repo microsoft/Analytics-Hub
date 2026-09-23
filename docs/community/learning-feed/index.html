@@ -259,9 +259,9 @@
           <div class="fbar">
             <div class="tf" id="ctf">
               <button data-range="1" aria-pressed="false">Today</button>
-              <button data-range="7" aria-pressed="true">This week</button>
+              <button data-range="7" aria-pressed="false">This week</button>
               <button data-range="30" aria-pressed="false">This month</button>
-              <button data-range="all" aria-pressed="false">All</button>
+              <button data-range="all" aria-pressed="true">All</button>
             </div>
             <span class="lbl">Product</span>
             <select id="fProduct"><option value="">All products</option></select>
@@ -439,7 +439,7 @@
     }
 
     // ---- Changes ----
-    var cRange='7',cPage=1,PER=25,heroQ='',drillFeedArea=null;
+    var cRange='all',cPage=1,PER=25,heroQ='',drillFeedArea=null;
     var FEED_AREA={'pricing-licensing-watch':'Pricing & Licensing','model-deprecation-tracker':'Model Deprecations','roadmap-digest':'Roadmap','admin-governance-watch':'Admin & Governance','github-copilot-billing-watch':'GitHub Copilot Billing','compliance-data-residency-watch':'Compliance & Residency','viva-insights-watch':'Viva Insights','finops-focus-watch':'FinOps / FOCUS','purview-copilot-audit-watch':'Purview Audit','m365-copilot-usage-reports-watch':'M365 Usage Reports','copilot-studio-agents-watch':'Copilot Studio','message-center-watch':'Message Center'};
     function setTf(id,r){Array.prototype.forEach.call(document.getElementById(id).children,function(x){x.setAttribute('aria-pressed',x.dataset.range===r?'true':'false');});}
     function openDrill(type,key,label){document.querySelector('.vtab[data-view="changes"]').click();setTf('ctf','all');cRange='all';fArea.value='';fProduct.value='';drillFeedArea=null;heroQ='';document.getElementById('drill').classList.add('on');

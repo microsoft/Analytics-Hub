@@ -185,6 +185,10 @@
           <div class="mlw-kpi"><span class="mlw-num" id="mlwWeek">&mdash;</span><span class="mlw-lbl">Changes this week</span></div>
           <div class="mlw-kpi"><span class="mlw-num mlw-num--major" id="mlwMajor">&mdash;</span><span class="mlw-lbl">Major this week</span></div>
         </div>
+        <div class="mlw-value" id="mlwValue" hidden>
+          <span class="mlw-value-ico" aria-hidden="true">&#9201;</span>
+          <p id="mlwValueText"></p>
+        </div>
         <div class="mlw-foot">
           <span class="mlw-updated" id="mlwUpdated"></span>
           <a class="mlw-open" href="./learning-feed/">Open feed &rarr;</a>
@@ -340,6 +344,23 @@
         set('mlwTopics', topics.toLocaleString());
         set('mlwWeek', week.toLocaleString());
         set('mlwMajor', majorWeek.toLocaleString());
+        // "What this saves you" — modeled, honest: a by-hand monthly sweep of the
+        // watched pages at ~2 min/page, plus the count of major changes surfaced
+        // in the last 30 days (silent edits, status flips, new pages).
+        var month = (function () { var x = new Date(); x.setUTCHours(0, 0, 0, 0); x.setUTCDate(x.getUTCDate() - 30); return x.toISOString().slice(0, 10); })();
+        var majorMonth = 0;
+        d.changes.forEach(function (c) { if (c.date >= month && c.severity === 'major') majorMonth++; });
+        var hrs = Math.round(pages * 2 / 60 / 5) * 5; // ~2 min/page, rounded to nearest 5 hrs
+        var vt = document.getElementById('mlwValueText');
+        var vhost = document.getElementById('mlwValue');
+        if (vt && vhost) {
+          vt.innerHTML = '<b>What this saves you:</b> keeping up with these ' + pages.toLocaleString() +
+            ' Microsoft pages by hand would take roughly <b>' + hrs + ' hours a month</b>' +
+            ' (<abbr title="Estimate: ' + pages.toLocaleString() + ' watched pages \u00d7 ~2 minutes each for a monthly manual review.">est.</abbr>). ' +
+            'In the last 30 days it caught <b>' + majorMonth + ' major change' + (majorMonth === 1 ? '' : 's') +
+            '</b> \u2014 silent edits, status flips and new pages \u2014 so the guidance behind your reports, decisions and stakeholder conversations stays current, whether you\u2019re briefing your own leadership or a customer.';
+          vhost.hidden = false;
+        }
         var gen = (d.about && d.about.generatedAt) || d.generatedAt;
         if (gen) {
           var M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
