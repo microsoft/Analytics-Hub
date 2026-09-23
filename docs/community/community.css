@@ -1,5 +1,5 @@
 /* Shared Community styles — used by community/ hub and its sub-pages (incubations, learning-feed, polls, events). */
-    /* Section header with gradient icon badge (Polls / Learning Feed / Incubations / Events). */
+    /* Section header with gradient icon badge (Polls / MS Learn Watcher / Incubations / Events). */
     .comm-head{display:flex;flex-direction:column;gap:0;}
     .comm-head-row{display:flex;align-items:center;gap:18px;}
     .comm-head-ico{flex:0 0 auto;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;
@@ -63,7 +63,7 @@
     .cw-inc-card .evt-btn{font-size:1.02rem;padding:.7rem 1.3rem;border-radius:10px;}
     .cw-embed{position:fixed;inset:0;width:100%;height:100%;border:0;z-index:1000;background:transparent;}
     body.cw-embed-open{overflow:hidden;}
-    /* Learning Feed */
+    /* MS Learn Watcher */
     .lf-grid{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));}
     .lf-card{display:flex;flex-direction:column;gap:.65rem;border:1px solid var(--border,#e2e6ea);border-radius:14px;
       background:var(--surface,#fff);padding:1.5rem 1.6rem;text-decoration:none;color:inherit;

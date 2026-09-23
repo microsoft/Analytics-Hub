@@ -113,7 +113,7 @@
 <main id="top">
   <section class="dm-hero">
     <div class="wrap">
-      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; MS Learn Watcher</p>
       <h1>FinOps &amp; FOCUS Cost Watch</h1>
       <p class="lede">A running record of the Microsoft Learn pages and the versioned FOCUS specification behind Copilot cost reporting in FinOps terms — the FinOps Framework, the FOCUS open standard, and the Azure Cost Management FOCUS export schema. These are the definitions the Hub's FinOps &amp; FOCUS Cost Report and Consumption Central conform to.</p>
       
@@ -347,7 +347,7 @@
 </footer>
 
 <script>
-/* Learning Feed — email-a-change actions. Builds neutral, informational
+/* MS Learn Watcher — email-a-change actions. Builds neutral, informational
    mailto: links. Each email carries a summary of the change, the source link,
    and a link back to the exact row on this page. No framing, no sign-off. */
 (function () {
@@ -358,7 +358,7 @@
   function firstText(cell) { if (!cell) return ''; for (var n = cell.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3 && n.nodeValue.trim()) return n.nodeValue.trim(); if (n.nodeType === 1) return n.textContent.trim(); } return cell.textContent.trim(); }
   function summarise(cell) { if (!cell) return ''; var ps = Array.prototype.slice.call(cell.querySelectorAll('p')); var plain = ps.map(function (p) { return p.textContent.replace(/\s+/g, ' ').trim(); }).filter(Boolean); var text = plain.length ? plain.join(' ') : cell.textContent.replace(/\s+/g, ' ').trim(); if (text.length > 800) text = text.slice(0, 800).replace(/\s+\S*$/, '') + '\u2026'; return text; }
   function bodyLines(title, date, summary, srcUrl, anchor) {
-    return ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', 'Page: ' + title, 'Date: ' + date, '', 'Summary:', summary, '', 'Source:', srcUrl, '', 'Tracked on the Learning Feed:', MONITOR + (anchor ? '#' + anchor : '')];
+    return ['Sharing an update tracked on the Analytics Hub MS Learn Watcher.', '', 'Page: ' + title, 'Date: ' + date, '', 'Summary:', summary, '', 'Source:', srcUrl, '', 'Tracked on the MS Learn Watcher:', MONITOR + (anchor ? '#' + anchor : '')];
   }
   var rows = document.querySelectorAll('table.dm-log tbody tr');
   Array.prototype.forEach.call(rows, function (tr, i) {
@@ -374,7 +374,7 @@
   var bannerBtn = document.getElementById('dmBannerEmail');
   if (bannerBtn) {
     var t = document.getElementById('dmBannerTitle'); var b = document.getElementById('dmBannerBody');
-    bannerBtn.href = mailto('Analytics Hub Learning Feed — ' + (t ? t.textContent.trim() : 'update'), ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', (t ? t.textContent.trim() : ''), '', (b ? b.textContent.replace(/\s+/g, ' ').trim() : ''), '', 'Tracked on the Learning Feed:', MONITOR]);
+    bannerBtn.href = mailto('Analytics Hub MS Learn Watcher — ' + (t ? t.textContent.trim() : 'update'), ['Sharing an update tracked on the Analytics Hub MS Learn Watcher.', '', (t ? t.textContent.trim() : ''), '', (b ? b.textContent.replace(/\s+/g, ' ').trim() : ''), '', 'Tracked on the MS Learn Watcher:', MONITOR]);
   }
 })();
 </script>

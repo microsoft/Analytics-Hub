@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* build.js - Learning Feed page renderer.
+/* build.js - MS Learn Watcher page renderer.
  *
  * Reads a feed registry (./feeds/<id>.json) and its latest snapshot
  * (./snapshots/<id>-latest.json) and renders the public HTML feed page at
@@ -122,7 +122,7 @@ const STYLE = `
 function emailScript(monitorUrl) {
   return `
 <script>
-/* Learning Feed \u2014 email-a-change actions. Builds neutral, informational
+/* MS Learn Watcher \u2014 email-a-change actions. Builds neutral, informational
    mailto: links. Each email carries a summary of the change, the source link,
    and a link back to the exact row on this page. No framing, no sign-off. */
 (function () {
@@ -133,7 +133,7 @@ function emailScript(monitorUrl) {
   function firstText(cell) { if (!cell) return ''; for (var n = cell.firstChild; n; n = n.nextSibling) { if (n.nodeType === 3 && n.nodeValue.trim()) return n.nodeValue.trim(); if (n.nodeType === 1) return n.textContent.trim(); } return cell.textContent.trim(); }
   function summarise(cell) { if (!cell) return ''; var ps = Array.prototype.slice.call(cell.querySelectorAll('p')); var plain = ps.map(function (p) { return p.textContent.replace(/\\s+/g, ' ').trim(); }).filter(Boolean); var text = plain.length ? plain.join(' ') : cell.textContent.replace(/\\s+/g, ' ').trim(); if (text.length > 800) text = text.slice(0, 800).replace(/\\s+\\S*$/, '') + '\\u2026'; return text; }
   function bodyLines(title, date, summary, srcUrl, anchor) {
-    return ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', 'Page: ' + title, 'Date: ' + date, '', 'Summary:', summary, '', 'Source:', srcUrl, '', 'Tracked on the Learning Feed:', MONITOR + (anchor ? '#' + anchor : '')];
+    return ['Sharing an update tracked on the Analytics Hub MS Learn Watcher.', '', 'Page: ' + title, 'Date: ' + date, '', 'Summary:', summary, '', 'Source:', srcUrl, '', 'Tracked on the MS Learn Watcher:', MONITOR + (anchor ? '#' + anchor : '')];
   }
   var rows = document.querySelectorAll('table.dm-log tbody tr');
   Array.prototype.forEach.call(rows, function (tr, i) {
@@ -149,7 +149,7 @@ function emailScript(monitorUrl) {
   var bannerBtn = document.getElementById('dmBannerEmail');
   if (bannerBtn) {
     var t = document.getElementById('dmBannerTitle'); var b = document.getElementById('dmBannerBody');
-    bannerBtn.href = mailto('Analytics Hub Learning Feed \u2014 ' + (t ? t.textContent.trim() : 'update'), ['Sharing an update tracked on the Analytics Hub Learning Feed.', '', (t ? t.textContent.trim() : ''), '', (b ? b.textContent.replace(/\\s+/g, ' ').trim() : ''), '', 'Tracked on the Learning Feed:', MONITOR]);
+    bannerBtn.href = mailto('Analytics Hub MS Learn Watcher \u2014 ' + (t ? t.textContent.trim() : 'update'), ['Sharing an update tracked on the Analytics Hub MS Learn Watcher.', '', (t ? t.textContent.trim() : ''), '', (b ? b.textContent.replace(/\\s+/g, ' ').trim() : ''), '', 'Tracked on the MS Learn Watcher:', MONITOR]);
   }
 })();
 </script>`;
@@ -366,7 +366,7 @@ function buildDocFeed(feed, snap, canonical) {
   return head(feed, canonical) + `
   <section class="dm-hero">
     <div class="wrap">
-      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; MS Learn Watcher</p>
       <h1>${esc(feed.title)}</h1>
       <p class="lede">${esc(feed.blurb)}</p>
       ${feed.scopeNote ? `<p class="dm-scope">${esc(feed.scopeNote)}</p>` : ''}
@@ -489,7 +489,7 @@ function buildRoadmapFeed(feed, snap, canonical) {
   return head(feed, canonical) + `
   <section class="dm-hero">
     <div class="wrap">
-      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; MS Learn Watcher</p>
       <h1>${esc(feed.title)}</h1>
       <p class="lede">${esc(feed.blurb)}</p>
       <div class="dm-kpis">
@@ -607,7 +607,7 @@ function buildMessageCenterFeed(feed, snap, canonical) {
   return head(feed, canonical) + `
   <section class="dm-hero">
     <div class="wrap">
-      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; Learning Feed</p>
+      <p class="dm-crumb"><a href="../">&larr; Community</a> &middot; MS Learn Watcher</p>
       <h1>${esc(feed.title)}</h1>
       <p class="lede">${esc(feed.blurb)}</p>
       <p class="dm-scope">Message center posts vary by tenant. This digest is built from a public archive for reference &mdash; always use your own tenant's Message center as the source of truth.</p>

@@ -1,5 +1,5 @@
 /*
- * status.js — Change-status manifest generator for the Learning Feed landing page.
+ * status.js — Change-status manifest generator for the MS Learn Watcher landing page.
  *
  * The landing page (docs/community/learning-feed/index.html) shows a card per
  * feed. Each card's top-right pill used to read "Updated <date>", which only

@@ -1,5 +1,5 @@
 /*
- * taxonomy.js — deterministic smart-tagging for the Learning Feed.
+ * taxonomy.js — deterministic smart-tagging for the MS Learn Watcher.
  *
  * Assigns a bounded set of searchable tags to each change/entry from its text
  * (title + description + area + product). Rules-based on purpose: it runs in the

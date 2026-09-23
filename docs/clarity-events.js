@@ -151,7 +151,7 @@
     if (!a) {
       var btn = ev.target && ev.target.closest && ev.target.closest("button");
       if (btn && btn.matches) {
-        // Learning Feed status / category filter chips: which facets get used.
+        // MS Learn Watcher status / category filter chips: which facets get used.
         if (btn.matches(".rm-chip")) {
           var st = String(btn.getAttribute("data-status") || "")
             .replace("__all__", "all").replace(/[^A-Za-z0-9 -]/g, "").slice(0, 24);
@@ -256,7 +256,7 @@
   })();
 
   // ---------------------------------------------------- timeframe menu
-  /* The Learning Feed timeframe dropdown (Last 30 days / Since window / etc.).
+  /* The MS Learn Watcher timeframe dropdown (Last 30 days / Since window / etc.).
    * Values are a fixed, bounded set, so it is safe to name which one is chosen. */
   document.addEventListener("change", function (ev) {
     var el = ev.target;

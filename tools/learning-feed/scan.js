@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* scan.js - Learning Feed multi-feed documentation scanner.
+/* scan.js - MS Learn Watcher multi-feed documentation scanner.
  *
  * Generalizes the Cowork Document Monitor's scanner to any number of feeds.
  * Each feed is a registry in ./feeds/<id>.json. For HTML feeds it fetches every

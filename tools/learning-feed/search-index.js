@@ -1,5 +1,5 @@
 /*
- * search-index.js — Cross-feed change search index for the Learning Feed.
+ * search-index.js — Cross-feed change search index for the MS Learn Watcher.
  *
  * The landing page lists 12 feeds, each of which watches dozens–hundreds of
  * Microsoft/GitHub documentation pages (plus the 642-item roadmap). There was no

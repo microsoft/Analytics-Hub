@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * build-feed-data.js — Learning Feed unified data + smart-tag builder.
+ * build-feed-data.js — MS Learn Watcher unified data + smart-tag builder.
  *
  * Reads the snapshots scan.js already wrote and produces a single
  * docs/community/learning-feed/feed-data.json that the redesigned landing page
@@ -187,7 +187,7 @@ function generate() {
   // Microsoft/GitHub source so the agent cites the source, not this aggregation.
   const BASE = 'https://microsoft.github.io/Analytics-Hub';
   const about = {
-    name: 'Analytics Hub — Learning Feed',
+    name: 'Analytics Hub — MS Learn Watcher',
     description: 'A daily, deterministic aggregation of factual changes to public Microsoft Copilot documentation (Microsoft Learn), the public Microsoft 365 Roadmap, and the public Microsoft 365 Message Center archive. Each entry records what changed and when, classified by product and smart-tagged for retrieval.',
     homepage: BASE + '/community/learning-feed/',
     repository: 'https://github.com/microsoft/Analytics-Hub',
@@ -243,7 +243,7 @@ function writeLlmsTxt(about, facets, changes) {
   const topTags = facets.slice(0, 20).map(f => f.tag).join(', ');
   const recent = changes.slice(0, 8).map(c => '- [' + c.date + '] ' + c.product + ': ' + c.title.replace(/\s+/g, ' ').slice(0, 100) + ' — ' + c.url).join('\n');
   const md = [
-    '# Analytics Hub — Learning Feed',
+    '# Analytics Hub — MS Learn Watcher',
     '',
     '> ' + about.description,
     '',

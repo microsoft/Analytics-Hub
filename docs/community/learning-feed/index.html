@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Learning Feed — Community · Analytics Hub</title>
+  <title>MS Learn Watcher — Community · Analytics Hub</title>
   <meta name="description" content="Living trackers that follow how Microsoft Copilot guidance is changing, so your advice and tooling stay current." />
   <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/community/learning-feed/" />
   <meta name="theme-color" content="#0078d4" />
@@ -14,7 +14,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    "name": "Analytics Hub — Learning Feed",
+    "name": "Analytics Hub — MS Learn Watcher",
     "description": "A daily, deterministic aggregation of factual changes to public Microsoft Copilot documentation (Microsoft Learn), the public Microsoft 365 Roadmap, and the public Microsoft 365 Message Center archive. Each entry records what changed and when, classified by product and smart-tagged for retrieval, and links to its live source.",
     "url": "https://microsoft.github.io/Analytics-Hub/community/learning-feed/",
     "license": "https://opensource.org/licenses/MIT",
@@ -43,7 +43,7 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "wxb0r23ozh");
   </script>
-  <meta name="clarity-page" content="Learning Feed" />
+  <meta name="clarity-page" content="MS Learn Watcher" />
   <style>
     .lf-jump { margin: 14px 0 0; }
     .lf-jump a { font-weight: 600; font-size: .95rem; color: var(--accent, #0078d4); text-decoration: none; }
@@ -208,7 +208,7 @@
           <div class="comm-head-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4.3" width="16" height="4.4" rx="1"/><rect x="4" y="10" width="16" height="4.4" rx="1"/><rect x="4" y="15.7" width="16" height="4.4" rx="1"/><line x1="7.6" y1="4.3" x2="7.6" y2="8.7"/><line x1="7.6" y1="15.7" x2="7.6" y2="20.1"/></svg></div>
           <div>
             <a class="comm-head-eyebrow" href="../">&larr; Community</a>
-            <h1>Learning Feed</h1>
+            <h1>MS Learn Watcher</h1>
           </div>
         </div>
         <p class="comm-head-p">Living trackers that follow how Microsoft Copilot guidance is changing &mdash; so the advice, tooling and claims that depend on it stay current. More feeds coming soon.</p>
@@ -218,7 +218,7 @@
         <input type="search" name="q" id="lfHeroSearch" class="lf-hsearch__in" placeholder="Search every change &mdash; try &ldquo;paygo gcc&rdquo;, &ldquo;deprecated models&rdquo;, &ldquo;dlp cowork&rdquo;&hellip;" aria-label="Search all tracked changes across every feed" />
         <button type="submit" class="lf-hsearch__btn">Search</button>
       </form>
-      <p class="lf-jump"><a href="#how-it-works">How the Learning Feed works &darr;</a></p>
+      <p class="lf-jump"><a href="#how-it-works">How the MS Learn Watcher works &darr;</a></p>
     </div>
   </section>
 
@@ -302,7 +302,7 @@
 
   <section class="comm-section lf-how" id="how-it-works" style="border-top:none;padding-top:8px">
     <div class="wrap">
-      <h2>How the Learning Feed works</h2>
+      <h2>How the MS Learn Watcher works</h2>
       <p class="lf-how-lead">Every feed watches the public Microsoft and GitHub documentation pages that the Analytics Hub's reports and tools depend on, and records &mdash; factually &mdash; when those pages change. The goal is simple: no one should be caught off guard by a quiet edit to the docs that define how Copilot is billed, measured, governed, or retired.</p>
 
       <h3>What each feed does, step by step</h3>
@@ -326,7 +326,7 @@
       <div class="lf-cadence">
         <table>
           <tr><th>Job</th><th>Runs</th><th>What it does</th></tr>
-          <tr><td>Learning Feed daily scan</td><td>Every day, 6:15&nbsp;AM <span class="lf-term" tabindex="0">CT<span class="lf-tip"><b>CT &mdash; Central Time</b>The U.S. Central time zone (America/Chicago), where this project is operated.</span></span></td><td>Discovers pages, scans the full footprint, rebuilds every feed page, and publishes.</td></tr>
+          <tr><td>MS Learn Watcher daily scan</td><td>Every day, 6:15&nbsp;AM <span class="lf-term" tabindex="0">CT<span class="lf-tip"><b>CT &mdash; Central Time</b>The U.S. Central time zone (America/Chicago), where this project is operated.</span></span></td><td>Discovers pages, scans the full footprint, rebuilds every feed page, and publishes.</td></tr>
           <tr><td>Cowork Document Monitor</td><td>Every day, 7:30&nbsp;AM CT</td><td>The original billing-docs watch, on its own dedicated schedule.</td></tr>
         </table>
       </div>
@@ -359,7 +359,7 @@
 </footer>
 
 <script>
-/* Learning Feed app — fetches feed-data.json (built nightly) and renders the
+/* MS Learn Watcher app — fetches feed-data.json (built nightly) and renders the
    By Product / By Feed / Changes views with smart-tag search. Graceful: if the
    fetch fails, a message is shown and the How-it-works section still stands. */
 (function(){

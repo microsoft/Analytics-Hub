@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* discover.js - exhaustive page discovery for Learning Feed feeds.
+/* discover.js - exhaustive page discovery for MS Learn Watcher feeds.
  *
  * For each feed with a "discovery" block, this enumerates the authoritative
  * documentation tree(s) and records EVERY relevant page, so a feed watches a
