@@ -154,9 +154,6 @@
     #lf-app .back{appearance:none;border:1px solid var(--border,#e6e6ee);background:#fff;font:inherit;font-size:.82rem;padding:6px 12px;border-radius:8px;cursor:pointer}
     #lf-app .drill h2{font-size:1.4rem;letter-spacing:-.02em}
     #lf-app .drill .dsub{color:var(--text-muted,#6b6b85);font-size:.85rem}
-    #lf-app .hs-chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 2px}
-    #lf-app .hs-chip{font-size:.76rem;font-weight:600;color:var(--text-soft,#5a5a72);background:#eef1f6;border:1px solid transparent;border-radius:999px;padding:3px 10px;cursor:pointer}
-    #lf-app .hs-chip:hover{border-color:var(--accent,#0078d4);color:var(--accent,#0078d4)}
     #lf-app .lf-loading{padding:40px;text-align:center;color:var(--text-muted,#6b6b85)}
     /* For AI assistants panel */
     .lf-ai{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:color-mix(in srgb,var(--accent,#0078d4) 4%,var(--surface,#fff));padding:1.4rem 1.6rem;margin:8px 0 4px}
@@ -214,7 +211,6 @@
         <input type="search" name="q" id="lfHeroSearch" class="lf-hsearch__in" placeholder="Search every change &mdash; try &ldquo;paygo gcc&rdquo;, &ldquo;deprecated models&rdquo;, &ldquo;dlp cowork&rdquo;&hellip;" aria-label="Search all tracked changes across every feed" />
         <button type="submit" class="lf-hsearch__btn">Search</button>
       </form>
-      <div class="hs-chips" id="lfHeroChips" style="max-width:820px"></div>
       <p class="lf-jump"><a href="#how-it-works">How the Learning Feed works &darr;</a></p>
     </div>
   </section>
@@ -468,10 +464,6 @@
       else{renderChanges();}}
     if(hsForm)hsForm.addEventListener('submit',function(e){e.preventDefault();runHero();});
     if(hsInput)hsInput.addEventListener('input',function(){if(hsInput.value.trim().length>=2||hsInput.value===''){heroQ=hsInput.value.trim();if(heroQ)runHero();else{heroQ='';renderChanges();}}});
-    var chipWrap=document.getElementById('lfHeroChips');
-    if(chipWrap){chipWrap.innerHTML='<span style="font-size:.74rem;color:var(--text-muted,#6b6b85);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-right:2px">Popular:</span>'+
-      facets.slice(0,10).map(function(f){return '<button class="hs-chip" data-tag="'+esc(f.tag)+'">'+esc(f.tag.replace(/-/g,' '))+' <span style="opacity:.6">'+f.count+'</span></button>';}).join('');
-      chipWrap.addEventListener('click',function(e){var b=e.target.closest('.hs-chip');if(!b)return;hsInput.value=b.dataset.tag;runHero();hsInput.focus();});}
 
     renderProducts();renderFeeds();renderChanges();
   }
