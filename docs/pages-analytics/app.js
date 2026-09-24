@@ -75,6 +75,36 @@ function blockSessions(metrics) {
   return parseInt(t?.information?.[0]?.totalSessionCount, 10) || 0;
 }
 
+/* A capture is physically impossible when Clarity reports more bot sessions than
+   total sessions: it means that day's export was partial or mismatched (seen on
+   the daily series' first run, 2026-09-18, where 778 bots > 557 total produced
+   -221 "human" sessions). Such a row injects negative human counts and phantom
+   bots into every window that includes it, flattening the 3d->7d step while the
+   14d/30d rolling series stays clean. Drop it before any window is assembled. */
+function isCorruptTraffic(metrics) {
+  const t = (metrics || []).find((m) => m.metricName === "Traffic")?.information?.[0];
+  if (!t) return false;
+  const tot = parseInt(t.totalSessionCount, 10);
+  const bot = parseInt(t.totalBotSessionCount, 10);
+  return Number.isFinite(tot) && Number.isFinite(bot) && bot > tot;
+}
+
+/* Strip corrupt captures from every stored series so a single bad snapshot can
+   never poison a combined window. Returns how many were dropped. */
+function sanitizeSiteSnapshots(sites) {
+  let dropped = 0;
+  for (const site of Object.values(sites || {})) {
+    for (const key of ["dailySnapshots", "snapshots"]) {
+      const series = site[key];
+      if (!series) continue;
+      for (const date of Object.keys(series)) {
+        if (isCorruptTraffic(series[date])) { delete series[date]; dropped++; }
+      }
+    }
+  }
+  return dropped;
+}
+
 /* Combine N non-overlapping snapshots into one payload shaped exactly like a
    single snapshot, so every consumer downstream keeps working unchanged.
    stride is how many days each stored snapshot covers: 1 for dailySnapshots,
@@ -2909,6 +2939,7 @@ async function load() {
 
   const reposData = history.repos || {};
   SITES_CACHE = history.sites || {};
+  sanitizeSiteSnapshots(SITES_CACHE);
   renderLastUpdated(history.lastUpdated);
 
   const rerenderAll = () => {

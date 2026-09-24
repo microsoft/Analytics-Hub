@@ -26,6 +26,15 @@ function isInternalRef(name) {
   return INTERNAL_HOSTS.some((h) => host === h || host.endsWith("." + h) || host.includes(h));
 }
 const intSafe = (v) => { const n = parseInt(v, 10); return isNaN(n) ? 0 : n; };
+/* Drop physically-impossible captures (more bots than total sessions) so one bad
+   snapshot can't inject negative human counts or phantom bots into a window. */
+function isCorruptArr(arr) {
+  if (!Array.isArray(arr)) return false;
+  const t = (arr.find((m) => m.metricName === "Traffic")?.information || [])[0];
+  if (!t) return false;
+  const tot = parseInt(t.totalSessionCount, 10), bot = parseInt(t.totalBotSessionCount, 10);
+  return Number.isFinite(tot) && Number.isFinite(bot) && bot > tot;
+}
 const fmt = (n) => (n == null || isNaN(n)) ? "—" : Number(n).toLocaleString("en-US");
 const fmtTime = (s) => { const n = intSafe(s); if (!n) return "—"; if (n < 60) return n + "s"; const m = Math.floor(n / 60), r = n % 60; return r ? `${m}m ${r}s` : `${m}m`; };
 const esc = (s) => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -47,7 +56,7 @@ function assembleWindow(site, wantDays) {
   let scrollSum = 0, scrollN = 0;
   let dead = 0, rage = 0, scriptErr = 0, quickback = 0;
   for (const day of picked) {
-    const arr = snaps[day]; if (!Array.isArray(arr)) continue;
+    const arr = snaps[day]; if (!Array.isArray(arr) || isCorruptArr(arr)) continue;
     for (const m of arr) {
       const info = m.information || [];
       if (m.metricName === "Traffic") {
@@ -83,7 +92,7 @@ function sessionTrend(site) {
   const snaps = site.snapshots || {};
   const out = [];
   for (const day of Object.keys(snaps).sort()) {
-    const arr = snaps[day]; if (!Array.isArray(arr)) continue;
+    const arr = snaps[day]; if (!Array.isArray(arr) || isCorruptArr(arr)) continue;
     const t = (arr.find((m) => m.metricName === "Traffic")?.information || [])[0] || {};
     const human = Math.max(0, intSafe(t.totalSessionCount) - intSafe(t.totalBotSessionCount));
     out.push({ day, human });
