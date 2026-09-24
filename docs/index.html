@@ -137,9 +137,25 @@
   .hero-feat .hf-lead{font-size:15px;font-weight:800;letter-spacing:-.01em;
     background:linear-gradient(100deg,#0078d4,#8B5CF6);-webkit-background-clip:text;background-clip:text;color:transparent;}
   .hero-feat .hf-sub{font-size:13px;line-height:1.4;color:var(--text-soft,#5a6470);}
+  /* Tour video card sits at the top of the upper-right panel; badges move below. */
+  .hero-video{margin:0 0 18px;border-radius:14px;overflow:hidden;position:relative;
+    box-shadow:0 18px 44px -18px rgba(40,48,90,.55),0 2px 8px -2px rgba(40,48,90,.25);
+    border:1px solid color-mix(in srgb,var(--border,#e6e6ee) 70%,transparent);background:#0b1020;}
+  .hero-video-el{display:block;width:100%;aspect-ratio:16/9;background:#0b1020;}
+  .hero-video-cap{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;
+    color:var(--text-soft,#5a6470);margin-top:9px;letter-spacing:-.01em;}
+  .hero-video-cap .tour-dot{display:inline-flex;align-items:center;justify-content:center;
+    width:18px;height:18px;border-radius:50%;color:#fff;font-size:9px;
+    background:linear-gradient(135deg,#0078d4,#8B5CF6);}
+  /* Compact badges: 2x2 grid, no divider rules, tighter padding. */
+  .hero-feats.is-compact{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;max-width:none;}
+  .hero-feats.is-compact .hero-feat{padding:7px 0;}
+  .hero-feats.is-compact .hero-feat + .hero-feat{border-top:0;}
+  .hero-feats.is-compact .hf-sub{font-size:12px;}
   @media (max-width:900px){
     .hero-wrap{grid-template-columns:1fr;gap:1.4rem;}
     .hero-feats{max-width:none;}
+    .hero-feats.is-compact{grid-template-columns:1fr;}
   }
 </style>
 <section class="hero" id="top">
@@ -165,7 +181,14 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-feats">
+      <figure class="hero-video">
+        <video class="hero-video-el" controls preload="metadata" playsinline
+               poster="media/Analytics_Hub_Tour_poster.jpg">
+          <source src="media/Analytics_Hub_Tour.mp4" type="video/mp4">
+        </video>
+      </figure>
+      <p class="hero-video-cap"><span class="tour-dot" aria-hidden="true">▶</span> Take the tour — a guided walkthrough of the Hub</p>
+      <div class="hero-feats is-compact">
         <div class="hero-feat">
           <span class="hf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
           <span><span class="hf-lead">Secure</span> <span class="hf-sub">Runs in your own tenant</span></span>
