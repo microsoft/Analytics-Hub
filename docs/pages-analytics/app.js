@@ -2044,7 +2044,12 @@ function communityWindowByUrl(sites, wantDays) {
       for (const [url, v] of dayMax) {
         const e = perUrl.get(url) || { sessions: 0, bots: 0, users: 0, ppsW: 0, ppsN: 0 };
         e.sessions += v.sessions;
-        e.bots += v.bots;
+        // Clamp bots to this URL-day's own sessions before summing. Clarity's
+        // per-URL export can report more bots than sessions for a mostly-crawled
+        // page; unclamped, those phantom bots would subtract from other pages'
+        // human sessions in a feature sum (seen understating the 14d Watcher KPI
+        // by ~145%: 93 shown vs 228 real).
+        e.bots += Math.min(v.bots, v.sessions);
         e.users += v.users;
         if (v.pps > 0) { e.ppsW += v.pps * v.sessions; e.ppsN += v.sessions; }
         perUrl.set(url, e);
@@ -2284,9 +2289,12 @@ function renderCoworkBilling(repos, sites) {
   const webRows = [...webAgg.values()].sort((a, b) => b.sessions - a.sessions).slice(0, 40);
   const webSessionsRaw = webRows.reduce((s, r) => s + r.sessions, 0);
   const webUsersTotal = webRows.reduce((s, r) => s + r.users, 0);
-  const botTotal = webRows.reduce((s, r) => s + (r.bots || 0), 0);
+  const botTotal = webRows.reduce((s, r) => s + Math.min(r.bots || 0, r.sessions), 0);
   // Net out Clarity's own bot flag so the headline figure is human traffic,
   // matching what the "bot sessions excluded" footnote below already claims.
+  // Each URL's bots are clamped to its own sessions first: Clarity can report
+  // more bots than sessions for a mostly-crawled page, and an unclamped sum
+  // would let those phantom bots subtract from other pages' human sessions.
   const webSessionsTotal = Math.max(webSessionsRaw - botTotal, 0);
 
   /* Depth and dwell are per-URL averages, so a plain mean would let a page with
