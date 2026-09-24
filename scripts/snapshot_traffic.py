@@ -309,6 +309,39 @@ def fetch_clarity(
     return None
 
 
+def clarity_traffic_corrupt(data) -> str | None:
+    """Return a reason string when a Clarity payload is physically impossible,
+    else None.
+
+    Clarity's Traffic metric reports totalSessionCount (all sessions, bots
+    included) and totalBotSessionCount. A capture where bots exceed the total
+    cannot be real - it means that export was partial or mismatched (seen on the
+    daily series' first run, 2026-09-18: 778 bots vs 557 total). Storing it would
+    inject negative "human" sessions and phantom bots into every summed window
+    that includes it, which is exactly what flattened a 3d->7d step while the
+    clean 3-day rolling series scaled normally. Reject such payloads at write
+    time so a single bad capture can never reach the file.
+    """
+    if not isinstance(data, list):
+        return None
+    for group in data:
+        if (group or {}).get("metricName") != "Traffic":
+            continue
+        info = group.get("information") or []
+        if not info:
+            return None
+        row = info[0] or {}
+        try:
+            tot = int(row.get("totalSessionCount"))
+            bot = int(row.get("totalBotSessionCount"))
+        except (TypeError, ValueError):
+            return None
+        if bot > tot:
+            return f"totalBotSessionCount={bot} > totalSessionCount={tot}"
+        return None
+    return None
+
+
 # ---------------------------------------------------------------- main
 
 
@@ -339,6 +372,9 @@ def main() -> int:
 
     # Per-repo health: maps repo -> list[(endpoint, http_status)] of non-200s.
     repo_failures: dict[str, list[tuple[str, int]]] = {}
+    # Clarity captures rejected at write time for being physically impossible
+    # (bots > total sessions). Collected here and raised as a health gate below.
+    clarity_corrupt: list[str] = []
 
     # --- GitHub ---
     for repo in REPOS:
@@ -429,7 +465,14 @@ def main() -> int:
         # Aggregate metrics (existing behaviour — whole-site totals)
         data = fetch_clarity(token)
         if data is not None:
-            site.setdefault("snapshots", {})[today_key] = data
+            reason = clarity_traffic_corrupt(data)
+            if reason:
+                print(f"  ! clarity ({label}) 3-day snapshot rejected: {reason}",
+                      file=sys.stderr)
+                clarity_corrupt.append(
+                    f"clarity[{label}].snapshots[{today_key}]: {reason}")
+            else:
+                site.setdefault("snapshots", {})[today_key] = data
         # Per-URL breakdown (new) — stored under a separate key so any
         # existing consumers of `snapshots` keep working. Costs one extra
         # Clarity API call per site per day; the free tier allows 10/day.
@@ -445,7 +488,14 @@ def main() -> int:
         # and bury a real PAT expiry.
         data_1d = fetch_clarity(token, num_days=1)
         if data_1d is not None:
-            site.setdefault("dailySnapshots", {})[today_key] = data_1d
+            reason = clarity_traffic_corrupt(data_1d)
+            if reason:
+                print(f"  ! clarity ({label}) 1-day snapshot rejected: {reason}",
+                      file=sys.stderr)
+                clarity_corrupt.append(
+                    f"clarity[{label}].dailySnapshots[{today_key}]: {reason}")
+            else:
+                site.setdefault("dailySnapshots", {})[today_key] = data_1d
 
     history["lastUpdated"] = now.isoformat().replace("+00:00", "Z")
 
@@ -521,6 +571,13 @@ def main() -> int:
                 f"Possible causes: Clarity token expired, URL dimension renamed, "
                 f"or a Clarity outage."
             )
+
+    # Gate 4: corrupt Clarity captures. A payload where bots exceed total
+    # sessions is physically impossible and was already refused storage above;
+    # surface it so the run goes red and someone checks the Clarity export.
+    # Unlike a missing daily call, this only fires on data we actually received
+    # and proved impossible, so it can't mask a token/PAT expiry.
+    hard_errors.extend(clarity_corrupt)
 
     if hard_errors:
         print("\n" + "=" * 60, file=sys.stderr)
