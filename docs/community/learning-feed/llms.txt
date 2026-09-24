@@ -18,7 +18,7 @@ A daily, deterministic aggregation of factual changes to public Microsoft Copilo
 
 ## Data shape
 
-Each change has: `date, product, area, title, change, before, after, severity, url, kind, tags`. The `url` is the authoritative source to cite. Filter by `tags` for topic retrieval (top tags: ga, worldwide, launched, agent, in-development, admin-center, preview, insights, copilot-chat, licensing, teams, viva, powerpoint, gcc, compliance, copilot-studio, sharepoint, purview, model, gcc-high).
+Each change has: `date, product, area, title, change, before, after, severity, url, kind, tags`. The `url` is the authoritative source to cite. Filter by `tags` for topic retrieval (top tags: ga, worldwide, launched, agent, in-development, admin-center, preview, insights, copilot-chat, licensing, teams, viva, powerpoint, gcc, compliance, copilot-studio, sharepoint, model, purview, gcc-high).
 
 ## Sources
 
@@ -28,16 +28,16 @@ Each change has: `date, product, area, title, change, before, after, severity, u
 - docs.github.com (GitHub Copilot docs)
 - FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec (FOCUS releases)
 
-## Most recent changes (sample — see the data endpoint for all 1256)
+## Most recent changes (sample — see the data endpoint for all 1257)
 
+- [2026-09-23] Models: Provisioned Throughput Sizing — https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/provisioned-throughput-sizing
+- [2026-09-23] Copilot in PowerPoint: PowerPoint: Skills in Brand Kit — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=569018
+- [2026-09-23] Microsoft 365 Copilot (general): Microsoft Copilot (Microsoft 365): Local inferencing — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571886
+- [2026-09-23] Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): Reference files saved in SharePoint libraries and OneDrive folder — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=555897
 - [2026-09-22] Microsoft 365 Copilot (general): Microsoft Copilot (Microsoft 365): Federated Copilot Connectors will support write, update and delet — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570964
 - [2026-09-22] Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): Attach and reference an image when creating a presentation with C — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=555890
 - [2026-09-22] Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): Attach and reference an image when creating a presentation with C — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=555881
 - [2026-09-22] Microsoft 365 Copilot (general): Microsoft Copilot (Microsoft 365): Ask Copilot about highlighted response content — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=522616
-- [2026-09-22] Cowork: Microsoft Purview: Data Loss Prevention for Microsoft Cowork (MC1477182) — https://mc.merill.net/message/MC1477182
-- [2026-09-21] Models: Models From Partners — https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-from-partners
-- [2026-09-21] Microsoft 365 admin center (MAC): Agent Registry — https://learn.microsoft.com/microsoft-365/admin/manage/agent-registry
-- [2026-09-21] Microsoft 365 admin center (MAC): Connector Agent — https://learn.microsoft.com/microsoft-365/copilot/connectors/connector-agent
 
 ## Links
 
@@ -45,4 +45,4 @@ Each change has: `date, product, area, title, change, before, after, severity, u
 - Data endpoint: https://microsoft.github.io/Analytics-Hub/community/learning-feed/feed-data.json
 - Repository (MIT): https://github.com/microsoft/Analytics-Hub
 
-_Generated 2026-09-23T19:53:29.237Z. Confirm any change against its linked source before acting._
+_Generated 2026-09-24T11:17:59.496Z. Confirm any change against its linked source before acting._
