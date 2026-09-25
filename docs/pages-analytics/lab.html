@@ -140,6 +140,16 @@
     .anom-chart .winband{fill:color-mix(in srgb,var(--accent,#0078d4) 7%,transparent)}
     .bot-chart .winband{fill:color-mix(in srgb,#000 4%,transparent)}
     td.num .movesign{font-weight:700}
+    /* enablement event markers + type badges */
+    .anom-chart .ev-line{stroke-width:1.5;stroke-dasharray:3 3;opacity:.55}
+    .anom-chart .ev-tri{stroke:none}
+    .ev-badge{display:inline-block;font-size:.64rem;font-weight:800;letter-spacing:.03em;padding:2px 7px;border-radius:999px;white-space:nowrap}
+    .ev-cowork-enablement{background:#e5f1fb;color:#0060c0}
+    .ev-enablement{background:#e3f5f3;color:#0a7d6c}
+    .ev-org-learning{background:#efe9fb;color:#6b40c0}
+    .ev-demo{background:#fff1cc;color:#8a5a00}
+    .ev-launch{background:#e3f5e9;color:#0a7d33}
+    .ev-flag{color:#c98a00}
   </style>
 </head>
 <body>
@@ -200,10 +210,22 @@
           <span><i style="border-color:var(--accent,#0078d4)"></i>Actual human sessions</span>
           <span><i style="border-color:color-mix(in srgb,var(--accent,#0078d4) 55%,transparent);border-top-style:dashed"></i>Expected (same weekday last week)</span>
           <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#c50f1f;vertical-align:middle;margin-right:5px"></span>Anomaly</span>
+          <span><span style="display:inline-block;width:2px;height:12px;background:#0a7d33;vertical-align:middle;margin-right:5px"></span>Enablement event (hover for details)</span>
         </div>
         <p class="cmp-caption" id="anom-cmp"></p>
         <p class="lab-note" id="anom-note"></p>
       </div>
+    </section>
+
+    <!-- B2: Impact of enablement -->
+    <section class="lab-mod" id="impact-mod">
+      <h2><span class="tag">B+</span> Impact of enablement <span class="tag" style="color:#0a7d33;background:#e3f5e9">events &rarr; traffic</span></h2>
+      <p class="lab-desc">Enablement sessions, workshops and launches from the calendar, overlaid on the traffic above and measured here: average human sessions in the week <strong>before</strong> vs the week <strong>after</strong> each event. The mid-August surge lines up with the Go+ Cowork LevelUp and the DPG learning sessions.</p>
+      <div class="card">
+        <table class="lab-tbl"><thead><tr><th>Date</th><th>Event</th><th class="num">Reach</th><th>Type</th><th class="num">Before &rarr; after (daily sessions)</th><th class="num">Lift</th></tr></thead><tbody id="impact-tbody"></tbody></table>
+        <p class="lab-note" id="impact-note"></p>
+      </div>
+      <p class="lab-note">To log a new event, message Jordan's assistant with the <strong>title, date, attendee count and type</strong> (cowork-enablement, enablement, org-learning, demo, or launch) and it's added to <code>events.json</code> and charted here.</p>
     </section>
 
     <!-- C: Signals feed -->

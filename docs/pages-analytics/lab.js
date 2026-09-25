@@ -18,8 +18,18 @@
 
 const DATA_URL = "../data/traffic-history.json";
 let RAW = null;
+let EVENTS = [];
 let SITEKEY = "analytics-hub";
 let WINDOW = 14;
+
+const EVENT_COLORS = {
+  "cowork-enablement": "#0078d4",
+  "enablement": "#0a7d6c",
+  "org-learning": "#6b40c0",
+  "demo": "#c98a00",
+  "launch": "#0a7d33",
+};
+const eventColor = (t) => EVENT_COLORS[t] || "#0a7d33";
 
 // ---------- small helpers ----------
 const I = (x) => { const n = parseInt(x, 10); return isNaN(n) ? 0 : n; };
@@ -515,8 +525,24 @@ function renderAnomaly(series) {
     const x0 = x(startK) - (W - pad.l - pad.r) / Math.max(1, view.length - 1) / 2;
     winBand = `<rect class="winband" x="${Math.max(pad.l, x0).toFixed(1)}" y="${pad.t}" width="${(W - pad.r - Math.max(pad.l, x0)).toFixed(1)}" height="${H - pad.t - pad.b}"><title>Selected ${win.covered}-day window</title></rect>`;
   }
+  // enablement-event markers: a dashed vertical line + top triangle at each
+  // event date that falls inside the visible window, with a native hover tip.
+  let evMarks = "";
+  const dayIndex = new Map(view.map((s, k) => [s.day, k]));
+  const firstDay = view[0].day, lastDay = view[view.length - 1].day;
+  for (const ev of EVENTS) {
+    if (!ev.date || ev.date < firstDay || ev.date > lastDay) continue;
+    // snap to the nearest snapshot day at or after the event
+    let k = dayIndex.get(ev.date);
+    if (k == null) { for (let j = 0; j < view.length; j++) { if (view[j].day >= ev.date) { k = j; break; } } }
+    if (k == null) continue;
+    const xx = x(k), col = eventColor(ev.type);
+    const star = ev.attendees >= 300 ? " \u2605" : "";
+    evMarks += `<line class="ev-line" x1="${xx.toFixed(1)}" y1="${pad.t}" x2="${xx.toFixed(1)}" y2="${(H - pad.b).toFixed(1)}" stroke="${col}"/>` +
+      `<polygon class="ev-tri" points="${(xx - 4).toFixed(1)},${pad.t} ${(xx + 4).toFixed(1)},${pad.t} ${xx.toFixed(1)},${(pad.t + 6).toFixed(1)}" fill="${col}"><title>${esc(ev.date)}${star} \u2014 ${esc(ev.title)} (${fmt(ev.attendees)} reach)</title></polygon>`;
+  }
   host.innerHTML = `<svg class="anom-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-    ${grid}${winBand}${bandPath}
+    ${grid}${winBand}${bandPath}${evMarks}
     <path class="expected" d="${expLine}"/>
     <path class="actual" d="${actLine}"/>
     ${dots}
@@ -750,6 +776,52 @@ function renderReferrers() {
   }).join("") || `<tr><td colspan="4" class="muted">No external referrers in window.</td></tr>`;
 }
 
+/* Impact events: for each enablement event, average human sessions in the week
+   before vs the week after, as a first-order read on its effect on hub traffic. */
+function renderImpactEvents(series) {
+  const tb = document.getElementById("impact-tbody");
+  const note = document.getElementById("impact-note");
+  if (!tb) return;
+  const byDay = new Map(series.map((s) => [s.day, s.human]));
+  const days = series.map((s) => s.day);
+  const firstDay = days[0], lastDay = days[days.length - 1];
+  const meanBetween = (loDate, hiDate) => {
+    let sum = 0, n = 0;
+    for (const s of series) { if (s.day >= loDate && s.day <= hiDate) { sum += s.human; n++; } }
+    return n ? sum / n : null;
+  };
+  const shift = (iso, d) => { const x = new Date(iso + "T00:00:00Z"); x.setUTCDate(x.getUTCDate() + d); return x.toISOString().slice(0, 10); };
+  const badge = (t) => `<span class="ev-badge ev-${t}">${(t || "").replace(/-/g, " ")}</span>`;
+
+  const rows = [...EVENTS].sort((a, b) => (b.date || "").localeCompare(a.date || "")).map((ev) => {
+    const before = meanBetween(shift(ev.date, -7), shift(ev.date, -1));
+    const after = meanBetween(ev.date, shift(ev.date, 6));
+    let liftHtml = '<span class="muted">n/a</span>', beforeAfter = '<span class="muted">outside data range</span>';
+    if (ev.date < firstDay || ev.date > shift(lastDay, 0)) {
+      // event predates the series or is in the future
+    }
+    if (before != null && after != null) {
+      const abs = after - before, rel = before ? (abs / before) * 100 : null;
+      const cls = abs >= 0 ? "up" : "down";
+      liftHtml = `<span class="movesign ${cls}">${abs >= 0 ? "+" : ""}${rel != null ? Math.round(rel) + "%" : fmt(abs)}</span>`;
+      beforeAfter = `${fmt(before)} &rarr; ${fmt(after)}`;
+    } else if (after != null && before == null) {
+      beforeAfter = `— &rarr; ${fmt(after)}`;
+      liftHtml = '<span class="muted">no baseline</span>';
+    }
+    const star = ev.attendees >= 300 ? ' <span class="ev-flag" title="Large-audience session">\u2605</span>' : "";
+    return `<tr>
+      <td>${esc(ev.date)}</td>
+      <td title="${esc(ev.note || "")}">${esc(ev.title)}${star}</td>
+      <td class="num">${fmt(ev.attendees)}</td>
+      <td>${badge(ev.type)}</td>
+      <td class="num">${beforeAfter}</td>
+      <td class="num">${liftHtml}</td></tr>`;
+  }).join("");
+  tb.innerHTML = rows || `<tr><td colspan="6" class="muted">No events logged yet.</td></tr>`;
+  note.innerHTML = "Lift = average daily human sessions in the 7 days after vs the 7 days before. It's a directional read, not attribution \u2014 when sessions cluster (e.g. mid-August) their windows overlap, so a later event's \u201cbefore\u201d already includes an earlier event's lift.";
+}
+
 function renderHealth(series) {
   const site = RAW.sites[SITEKEY] || {};
   const grid = document.getElementById("health-grid");
@@ -801,6 +873,7 @@ function renderAll() {
   LAST_CARD = null;
   renderScorecards(series);
   renderAnomaly(series);
+  renderImpactEvents(series);
   renderSignals(series);
   renderMovers();
   renderBot(series);
@@ -831,7 +904,12 @@ function boot() {
   let t; window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(renderAll, 200); });
 }
 
-fetch(DATA_URL, { cache: "no-store" })
-  .then((r) => r.ok ? r.json() : null)
-  .then((d) => { if (d) { RAW = d; boot(); } else document.getElementById("lab-src").textContent = "Could not load data."; })
-  .catch(() => { document.getElementById("lab-src").textContent = "Could not load data."; });
+const EVENTS_URL = "events.json";
+Promise.all([
+  fetch(DATA_URL, { cache: "no-store" }).then((r) => r.ok ? r.json() : null).catch(() => null),
+  fetch(EVENTS_URL, { cache: "no-store" }).then((r) => r.ok ? r.json() : null).catch(() => null),
+]).then(([d, ev]) => {
+  if (ev && Array.isArray(ev.events)) EVENTS = ev.events;
+  if (d) { RAW = d; boot(); }
+  else document.getElementById("lab-src").textContent = "Could not load data.";
+});
