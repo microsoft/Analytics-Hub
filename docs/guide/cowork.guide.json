@@ -1,0 +1,138 @@
+{
+  "id": "cowork-credits",
+  "title": "Stand up Cowork / Copilot Credits reporting",
+  "product": "cowork",
+  "reportId": "consumption-central",
+  "audience": "FinOps, IT admins, finance partners",
+  "summary": "Get Cowork / Work IQ credit consumption and cost into Power BI. Start on sample data in ~10 minutes; wire up your own tenant when you're ready. Cowork totals work for everyone \u2014 department and per-person views need one extra admin switch.",
+  "estMinutes": 25,
+  "version": "0.1.0",
+  "updated": "2026-09-25",
+  "heroPreview": "https://raw.githubusercontent.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/main/Images/ConsumptionCentral-Preview.gif",
+
+  "roles": [
+    {
+      "key": "powerBiDesktop",
+      "label": "Power BI Desktop (May 2024+)",
+      "checkType": "selfAttest",
+      "assignUrl": "https://www.microsoft.com/download/details.aspx?id=58494",
+      "learnUrl": "https://learn.microsoft.com/power-bi/fundamentals/desktop-get-the-desktop"
+    },
+    {
+      "key": "vivaAnalyst",
+      "label": "Viva Insights Analyst",
+      "checkType": "selfAttest",
+      "assignUrl": "https://analysis.insights.cloud.microsoft/",
+      "learnUrl": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/assign-user-roles"
+    },
+    {
+      "key": "globalAdmin",
+      "label": "Global Administrator",
+      "checkType": "graphDirectoryRole",
+      "match": "Global Administrator",
+      "assignUrl": "https://entra.microsoft.com",
+      "learnUrl": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#global-administrator"
+    },
+    {
+      "key": "aiAdmin",
+      "label": "AI Administrator",
+      "checkType": "graphDirectoryRole",
+      "match": "AI Administrator",
+      "assignUrl": "https://entra.microsoft.com",
+      "learnUrl": "https://learn.microsoft.com/entra/identity/role-based-access-control/permissions-reference#ai-administrator"
+    }
+  ],
+
+  "paths": [
+    { "id": "local-csv", "label": "Local CSV", "tagline": "~10 minutes \u00b7 Power BI Pro \u00b7 no Fabric capacity", "bestWhen": "You want to see it working today." },
+    { "id": "fabric", "label": "Fabric", "tagline": "An afternoon \u00b7 needs Fabric capacity", "bestWhen": "You want it refreshing weekly on its own." },
+    { "id": "viva-direct", "label": "Viva Direct", "tagline": "~10 minutes \u00b7 self-refreshing", "bestWhen": "You want Cowork data with no files at all." }
+  ],
+
+  "steps": [
+    {
+      "id": "see-it",
+      "title": "See what you're building",
+      "body": "Two minutes here saves an hour later. This is the finished report running on sample data \u2014 credit consumption, cost, spending-policy budgets and a forecast for Cowork / Work IQ.",
+      "optional": true,
+      "estMinutes": 2,
+      "status": "stable"
+    },
+    {
+      "id": "sample-first",
+      "title": "Try it on sample data first",
+      "body": "Before touching your tenant, run the <strong>Local CSV</strong> path against the bundled synthetic dataset. It proves the numbers are worth automating and needs no permissions at all.",
+      "optional": true,
+      "estMinutes": 10,
+      "requires": ["powerBiDesktop"],
+      "requiresMode": "all",
+      "portal": { "label": "Sample data folder on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
+      "verify": "The report opens with every Cowork page populated from synthetic data.",
+      "status": "stable"
+    },
+    {
+      "id": "enable-identification",
+      "title": "Turn on Viva identification",
+      "body": "Viva Insights ships Copilot data <strong>de-identified</strong> \u2014 the person arrives as a hashed <code>PersonId</code>. Cowork totals and cost are correct either way, but <strong>department, cost-centre, manager and per-person views need this on</strong>. Create a policy: App <strong>Viva Insights</strong>, Feature <strong>Identification</strong>, Access <strong>On</strong>. Not retroactive \u2014 only exports taken after the policy carry real UPNs.",
+      "optional": true,
+      "estMinutes": 5,
+      "requires": ["globalAdmin", "aiAdmin"],
+      "requiresMode": "any",
+      "portal": { "label": "M365 admin center \u2192 Feature access management", "url": "https://admin.cloud.microsoft/?#/viva/featureAccessManagement" },
+      "verify": "Wait up to 24h, re-run your export; the person column shows UserPrincipalName, not a hash.",
+      "pitfall": "It is not retroactive \u2014 existing exports keep their hashes; only new runs are identified.",
+      "ifMissing": {
+        "message": "You need Global Administrator or AI Administrator to turn identification on, and you don't hold either. Without it you still get Cowork totals and cost \u2014 just not department or per-person breakdowns.",
+        "delegateToRoleKey": "globalAdmin",
+        "emailSubject": "2-minute admin task: turn on Viva identification for Copilot cost reporting",
+        "emailBody": "Hi,\n\nI'm standing up Cowork / Copilot credit reporting and need identification turned on in Viva Insights so we can break spend down by department. It's a ~2 minute change and only a Global Admin or AI Admin can do it:\n\n1. Go to https://admin.cloud.microsoft/?#/viva/featureAccessManagement\n2. Settings > Viva > Feature access management\n3. Create a policy: App = Viva Insights, Feature = Identification, Access = On (everyone, or a named analyst group)\n4. It takes up to 24 hours to apply, and only affects exports taken after it's on.\n\nNote: this processes personal data, so please apply whatever privacy/works-council review we normally would.\n\nThanks!"
+      },
+      "source": { "url": "https://learn.microsoft.com/viva/insights/identification-copilot-analytics", "msDate": "2026-08-03" },
+      "status": "stable"
+    },
+    {
+      "id": "build-query",
+      "title": "Build the Cowork credit query in Viva",
+      "body": "In Viva Insights \u2192 <strong>Analysis</strong>, build a custom query with the Copilot credit metrics. For the self-refreshing paths, turn on <strong>Auto-refresh</strong> and copy the Partition + Query identifiers from <strong>Analysis results</strong>.",
+      "estMinutes": 8,
+      "requires": ["vivaAnalyst"],
+      "requiresMode": "all",
+      "portal": { "label": "Viva Insights \u2192 Analysis", "url": "https://insights.viva.office.com/" },
+      "verify": "The query returns rows with credit metrics and, if identification is on, a UserPrincipalName column.",
+      "pitfall": "Leave the GitHub Copilot credit metric out \u2014 it makes the Cowork query fail in Viva before Power BI is even involved.",
+      "ifMissing": {
+        "message": "Building a Viva query needs the Viva Insights Analyst role, which is assigned inside Viva (not Entra), so we can't auto-detect it. If you don't have it, an admin assigns it in the Viva Insights admin experience.",
+        "delegateToRoleKey": "globalAdmin",
+        "emailSubject": "Please assign me the Viva Insights Analyst role",
+        "emailBody": "Hi,\n\nTo build the Copilot credit query for our cost reporting I need the Viva Insights Analyst role. Assignment steps are here: https://learn.microsoft.com/viva/insights/advanced/setup-maint/assign-user-roles\n\nThanks!"
+      },
+      "source": { "url": "https://learn.microsoft.com/viva/insights/advanced/analyst/export-query-data-microsoft-fabric", "msDate": "2026-03-06" },
+      "status": "stable"
+    },
+    {
+      "id": "open-local",
+      "title": "Open the Local CSV template",
+      "body": "Download your Viva export, drop it in a folder, open <code>Consumption Central - Local CSV.pbit</code>, paste the folder path into <code>DataFolder</code>, click Load.",
+      "pathId": "local-csv",
+      "estMinutes": 5,
+      "requires": ["powerBiDesktop"],
+      "requiresMode": "all",
+      "portal": { "label": "Local CSV template on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/Consumption%20Central%20-%20Local%20CSV.pbit" },
+      "verify": "The Cowork pages fill in from your own export.",
+      "status": "stable"
+    },
+    {
+      "id": "open-viva-direct",
+      "title": "Open the Viva Direct template",
+      "body": "Paste the Partition + Query identifiers from your auto-refreshing query into <code>Consumption Central - Viva Direct.pbit</code> and click Load \u2014 no files at all.",
+      "pathId": "viva-direct",
+      "estMinutes": 5,
+      "requires": ["powerBiDesktop"],
+      "requiresMode": "all",
+      "portal": { "label": "Viva Direct template on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/3.%20Viva%20Direct/Consumption%20Central%20-%20Viva%20Direct.pbit" },
+      "verify": "The report refreshes straight from Viva with no download.",
+      "pitfall": "If it returns (500) Internal Server Error, your identifiers point at the multi-table Consumption Dashboard export instead of a custom Analysis query.",
+      "status": "stable"
+    }
+  ]
+}

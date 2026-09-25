@@ -1,0 +1,283 @@
+{
+  "id": "consumption-central",
+  "title": "Stand up Consumption Central",
+  "product": "consumption-central",
+  "reportId": "consumption-central",
+  "audience": "FinOps, IT admins, platform owners, finance partners",
+  "summary": "One Power BI report for Copilot credit consumption and cost across Cowork/Work IQ, Copilot Studio, GitHub Copilot and Azure AI Foundry. Bring whichever products you have; each leaves its pages empty if you skip it. Start on sample data in ~10 minutes.",
+  "estMinutes": 45,
+  "version": "0.1.0",
+  "updated": "2026-09-25",
+  "heroPreview": "https://raw.githubusercontent.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/main/Images/ConsumptionCentral-Preview.gif",
+
+  "products": [
+    { "id": "cowork",  "label": "Cowork / Work IQ", "short": "Cowork" },
+    { "id": "studio",  "label": "Copilot Studio",   "short": "Studio" },
+    { "id": "github",  "label": "GitHub Copilot",   "short": "GitHub" },
+    { "id": "azure",   "label": "Azure AI Foundry",  "short": "Azure AI" }
+  ],
+
+  "paths": [
+    { "id": "local-csv",   "label": "Local CSV",   "tagline": "~10 min \u00b7 Power BI Pro \u00b7 no Fabric", "bestWhen": "See it working today." },
+    { "id": "fabric",      "label": "Fabric",      "tagline": "An afternoon \u00b7 needs Fabric capacity",   "bestWhen": "Refreshes weekly on its own, keeps history." },
+    { "id": "viva-direct", "label": "Viva Direct", "tagline": "~10 min \u00b7 self-refreshing",             "bestWhen": "Cowork data with no files at all." },
+    { "id": "pa-dataverse","label": "Power Automate + Dataverse", "tagline": "An afternoon \u00b7 no Fabric", "bestWhen": "Auto-refresh without Fabric." }
+  ],
+
+  "roles": [
+    { "key": "powerBiDesktop", "label": "Power BI Desktop (May 2024+)", "checkType": "selfAttest", "assignUrl": "https://www.microsoft.com/download/details.aspx?id=58494" },
+    { "key": "fabricCapacity", "label": "Fabric capacity (F SKU or trial)", "checkType": "selfAttest", "learnUrl": "https://learn.microsoft.com/fabric/enterprise/licenses" },
+    { "key": "vivaAnalyst", "label": "Viva Insights Analyst", "checkType": "selfAttest", "assignUrl": "https://analysis.insights.cloud.microsoft/", "learnUrl": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/assign-user-roles" },
+    { "key": "globalAdmin", "label": "Global Administrator", "checkType": "graphDirectoryRole", "match": "Global Administrator", "assignUrl": "https://entra.microsoft.com" },
+    { "key": "aiAdmin", "label": "AI Administrator", "checkType": "graphDirectoryRole", "match": "AI Administrator", "assignUrl": "https://entra.microsoft.com" },
+    { "key": "powerPlatformAdmin", "label": "Power Platform Administrator", "checkType": "graphDirectoryRole", "match": "Power Platform Administrator", "assignUrl": "https://entra.microsoft.com", "learnUrl": "https://learn.microsoft.com/power-platform/admin/use-service-admin-role-manage-tenant" },
+    { "key": "githubBillingAdmin", "label": "GitHub enterprise admin or billing manager", "checkType": "selfAttest", "learnUrl": "https://docs.github.com/billing" },
+    { "key": "appAdmin", "label": "Application Administrator (to register an Entra app)", "checkType": "graphDirectoryRole", "match": "Application Administrator", "assignUrl": "https://entra.microsoft.com" },
+    { "key": "costMgmtReader", "label": "Azure Cost Management Reader", "checkType": "selfAttest", "learnUrl": "https://learn.microsoft.com/azure/cost-management-billing/costs/understand-work-scopes" },
+    { "key": "dataverseSysAdmin", "label": "Dataverse System Administrator", "checkType": "selfAttest", "learnUrl": "https://learn.microsoft.com/power-platform/admin/database-security" },
+    { "key": "reportsReader", "label": "Entra Reports Reader (org attributes)", "checkType": "graphDirectoryRole", "match": "Reports Reader", "assignUrl": "https://entra.microsoft.com" }
+  ],
+
+  "steps": [
+    {
+      "id": "see-it",
+      "title": "See what you're building",
+      "body": "Fifteen pages: consumption, cost, optimisation and forecast per product, plus a combined overview. Two minutes here saves an hour later.",
+      "optional": true, "estMinutes": 2, "status": "stable"
+    },
+    {
+      "id": "pick-products",
+      "title": "Decide which products you're reporting on",
+      "body": "No product is required \u2014 one is enough. Tick the ones you have in the tailor bar above; the rest just leave their pages empty and the steps disappear from this guide.",
+      "estMinutes": 1, "status": "stable"
+    },
+    {
+      "id": "sample-first",
+      "title": "Try it on sample data first",
+      "body": "Run the <strong>Local CSV</strong> path against the bundled synthetic dataset covering all four products. Proves the numbers before you wire up a tenant \u2014 no permissions needed.",
+      "optional": true, "estMinutes": 10,
+      "requires": ["powerBiDesktop"], "requiresMode": "all",
+      "portal": { "label": "Sample data on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
+      "verify": "The report opens with every page populated from synthetic data.",
+      "status": "stable"
+    },
+    {
+      "id": "enable-identification",
+      "title": "Turn on Viva identification",
+      "body": "Viva ships Copilot data <strong>de-identified</strong> (hashed <code>PersonId</code>). Cowork totals and cost are fine either way, but <strong>department / cost-centre / manager / per-person views need this on</strong>. Not retroactive.",
+      "products": ["cowork"], "optional": true, "estMinutes": 5,
+      "requires": ["globalAdmin", "aiAdmin"], "requiresMode": "any",
+      "portal": { "label": "M365 admin \u2192 Feature access management", "url": "https://admin.cloud.microsoft/?#/viva/featureAccessManagement" },
+      "verify": "After ~24h, a fresh export shows UserPrincipalName instead of a hash.",
+      "pitfall": "Not retroactive \u2014 only exports taken after the policy carry UPNs.",
+      "ifMissing": {
+        "message": "Turning identification on needs Global Administrator or AI Administrator, and you hold neither. Without it you still get Cowork totals and cost \u2014 just not department or per-person breakdowns.",
+        "delegateToRoleKey": "globalAdmin",
+        "emailSubject": "2-minute admin task: turn on Viva identification for Copilot cost reporting",
+        "emailBody": "Hi,\n\nI'm standing up Copilot credit reporting and need identification turned on in Viva Insights so we can break spend down by department. Only a Global Admin or AI Admin can do it, ~2 minutes:\n\n1. https://admin.cloud.microsoft/?#/viva/featureAccessManagement\n2. Settings > Viva > Feature access management\n3. Create a policy: App = Viva Insights, Feature = Identification, Access = On\n4. Takes up to 24h; only affects exports taken after it's on.\n\nThis processes personal data, so please apply our normal privacy review.\n\nThanks!"
+      },
+      "source": { "url": "https://learn.microsoft.com/viva/insights/identification-copilot-analytics", "msDate": "2026-08-03" },
+      "status": "stable"
+    },
+
+    {
+      "id": "cowork-query",
+      "title": "Build the Cowork credit query in Viva",
+      "body": "Viva Insights \u2192 <strong>Analysis</strong> \u2192 custom query with the Copilot credit metrics. For self-refreshing paths turn on <strong>Auto-refresh</strong> and copy the Partition + Query identifiers.",
+      "products": ["cowork"], "estMinutes": 8,
+      "requires": ["vivaAnalyst"], "requiresMode": "all",
+      "portal": { "label": "Viva Insights \u2192 Analysis", "url": "https://insights.viva.office.com/" },
+      "verify": "The query returns credit rows (and a UPN column if identification is on).",
+      "pitfall": "Leave the GitHub Copilot credit metric out \u2014 it makes the Cowork query fail in Viva.",
+      "ifMissing": {
+        "message": "Building a Viva query needs the Viva Insights Analyst role, assigned inside Viva (not Entra) so we can't auto-detect it. An admin assigns it.",
+        "delegateToRoleKey": "globalAdmin",
+        "emailSubject": "Please assign me the Viva Insights Analyst role",
+        "emailBody": "Hi,\n\nFor Copilot cost reporting I need the Viva Insights Analyst role. Steps: https://learn.microsoft.com/viva/insights/advanced/setup-maint/assign-user-roles\n\nThanks!"
+      },
+      "source": { "url": "https://learn.microsoft.com/viva/insights/advanced/analyst/export-query-data-microsoft-fabric", "msDate": "2026-03-06" },
+      "status": "stable"
+    },
+    {
+      "id": "studio-export",
+      "title": "Export the Copilot Studio usage reports",
+      "body": "Power Platform admin center \u2192 Licensing \u2192 Copilot Studio \u2192 export the three reports (Tenant, Per-agent, Per-user). PPAC is download-only.",
+      "products": ["studio"], "estMinutes": 6,
+      "requires": ["powerPlatformAdmin"], "requiresMode": "all",
+      "portal": { "label": "Power Platform admin center", "url": "https://admin.powerplatform.microsoft.com/" },
+      "verify": "You have StudioTenantDaily / StudioPerAgent / StudioPerUser CSVs.",
+      "ifMissing": {
+        "message": "Exporting Studio usage needs the Power Platform Administrator role, which you don't hold.",
+        "delegateToRoleKey": "powerPlatformAdmin",
+        "emailSubject": "Please export Copilot Studio usage (or grant me Power Platform Admin)",
+        "emailBody": "Hi,\n\nFor our Copilot cost report I need the three Copilot Studio usage exports from the Power Platform admin center (Licensing > Copilot Studio): Tenant, Per-agent and Per-user. Either export them for me, or grant me Power Platform Administrator so I can pull them myself.\n\nThanks!"
+      },
+      "source": { "url": "https://learn.microsoft.com/power-platform/admin/manage-copilot-studio-messages-capacity", "msDate": "2026-08-04" },
+      "status": "stable"
+    },
+    {
+      "id": "github-usage",
+      "title": "Get the GitHub Copilot AI usage report",
+      "body": "GitHub \u2192 your enterprise \u2192 Billing &amp; Licensing \u2192 Usage \u2192 <strong>AI usage</strong> \u2192 email the report. For the Fabric path you can automate it with a classic PAT instead.",
+      "products": ["github"], "estMinutes": 5,
+      "requires": ["githubBillingAdmin"], "requiresMode": "all",
+      "portal": { "label": "GitHub billing", "url": "https://github.com/settings/billing" },
+      "verify": "You receive the AI usage CSV by email (or the API notebook pulls it).",
+      "pitfall": "The billing endpoints need a CLASSIC PAT \u2014 fine-grained tokens are rejected.",
+      "ifMissing": {
+        "message": "The GitHub AI usage report needs an enterprise admin or billing manager on your GitHub enterprise \u2014 that's a GitHub role, not an Entra one, so we can't detect it here.",
+        "delegateToRoleKey": "githubBillingAdmin",
+        "emailSubject": "Need the GitHub Copilot AI usage report for cost reporting",
+        "emailBody": "Hi,\n\nFor our Copilot cost report I need the GitHub Copilot AI usage report. From GitHub > enterprise > Billing & Licensing > Usage > AI usage > Get usage report (up to 31 days) > Email me the report. If we want it automated, I'll need a classic PAT with read:enterprise or manage_billing:copilot.\n\nThanks!"
+      },
+      "source": { "url": "https://docs.github.com/en/billing/how-tos/products/view-productlicense-use", "msDate": "2026-08-04" },
+      "status": "stable"
+    },
+    {
+      "id": "azure-app",
+      "title": "Set up Azure AI Foundry collection",
+      "body": "Azure spend + tokens come from Cost Management + Monitor. For the Fabric path this needs an Entra app registration, a Key Vault secret, and Cost Management Reader on the billing scope. For Local CSV you can just export from Cost Analysis.",
+      "products": ["azure"], "estMinutes": 12,
+      "requires": ["appAdmin", "costMgmtReader"], "requiresMode": "all",
+      "portal": { "label": "Azure Cost Management", "url": "https://portal.azure.com/#view/Microsoft_Azure_CostManagement" },
+      "verify": "Cost Analysis shows the Copilot / Foundry meters; the app can read them.",
+      "pitfall": "Fabric's getToken audiences don't include ARM \u2014 the notebook needs an explicit app secret from Key Vault, not a managed identity.",
+      "ifMissing": {
+        "message": "Automated Azure collection needs both the ability to register an Entra app (Application Administrator) and Cost Management Reader on the billing scope. If you can't get these, skip Azure \u2014 the Foundry page just stays empty (supported), or export Cost Analysis CSVs by hand for the Local CSV path.",
+        "delegateToRoleKey": "appAdmin",
+        "emailSubject": "Need an app registration + Cost Management Reader for Copilot Azure cost reporting",
+        "emailBody": "Hi,\n\nTo pull Azure AI Foundry / Copilot credit spend into our cost report (Fabric path) I need:\n1. An Entra app registration with a client secret in Key Vault (Application Administrator can create it), and\n2. Cost Management Reader on the billing account/subscription scope.\n\nSetup detail: https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/ADVANCED-SETUP.md#azure-ingestion-in-fabric\n\nThanks!"
+      },
+      "source": { "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/ADVANCED-SETUP.md", "msDate": "2026-09-02" },
+      "status": "stable"
+    },
+
+    {
+      "id": "local-open",
+      "title": "Load it: drop files in a folder, open the template",
+      "body": "Put every export in one folder (names are auto-recognised), open <code>Consumption Central - Local CSV.pbit</code>, paste the folder into <code>DataFolder</code>, click Load.",
+      "pathId": "local-csv", "estMinutes": 5,
+      "requires": ["powerBiDesktop"], "requiresMode": "all",
+      "portal": { "label": "Local CSV template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/Consumption%20Central%20-%20Local%20CSV.pbit" },
+      "verify": "Every product you loaded fills its pages.",
+      "status": "stable"
+    },
+
+    {
+      "id": "fabric-lakehouse",
+      "title": "Create a Lakehouse",
+      "body": "Fabric portal \u2192 your workspace \u2192 New \u2192 Lakehouse. Everything below writes into this one. PPU alone is not Fabric capacity.",
+      "pathId": "fabric", "estMinutes": 4,
+      "requires": ["fabricCapacity"], "requiresMode": "all",
+      "portal": { "label": "Fabric portal", "url": "https://app.fabric.microsoft.com/" },
+      "verify": "The Lakehouse exists and has a SQL analytics endpoint.",
+      "ifMissing": {
+        "message": "The Fabric path needs a workspace on Fabric capacity (F SKU or eligible trial). If you only have Power BI Pro, use the Local CSV or Power Automate path instead.",
+        "delegateToRoleKey": "globalAdmin",
+        "emailSubject": "Need Fabric capacity for Copilot cost reporting",
+        "emailBody": "Hi,\n\nThe scheduled-refresh version of our Copilot cost report needs a Fabric-capacity workspace (F SKU or trial). Could we get one assigned, or should I use the non-Fabric path?\n\nThanks!"
+      },
+      "status": "stable"
+    },
+    {
+      "id": "fabric-dataflow",
+      "title": "Wire Viva in via Dataflow Gen2",
+      "body": "The preferred Cowork route, no notebook: a certified Dataflow Gen2 writes your Viva query straight into the Lakehouse table <code>viva_credits_weekly</code> on a schedule.",
+      "pathId": "fabric", "products": ["cowork"], "estMinutes": 8,
+      "requires": ["fabricCapacity"], "requiresMode": "all",
+      "portal": { "label": "Microsoft's Dataflow Gen2 guide", "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/export-query-data-microsoft-fabric" },
+      "verify": "The table populates on the schedule you set (Tue ~8am PST works).",
+      "pitfall": "Leaving Query Name blank only works against a custom Analysis query, and you must also turn on Auto-refresh for the query itself.",
+      "status": "stable"
+    },
+    {
+      "id": "fabric-notebooks",
+      "title": "Import the ingestion notebooks",
+      "body": "From the repo's <code>2. Fabric/notebooks/</code>, import only the ones for your products, <strong>set your Lakehouse as each notebook's default</strong> (Explorer pane \u2192 pin \u2192 star \u2014 there is no Lakehouse variable to edit), fill the top cell, run.",
+      "pathId": "fabric", "estMinutes": 15,
+      "requires": ["fabricCapacity"], "requiresMode": "all",
+      "portal": { "label": "Fabric notebooks folder", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/2.%20Fabric/notebooks" },
+      "verify": "Each notebook writes its tables; the SQL endpoint shows them.",
+      "pitfall": "Notebooks target their ATTACHED default Lakehouse, not a variable. Azure & Studio-API notebooks need an explicit Key Vault secret \u2014 a managed identity is not enough.",
+      "source": { "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/README.md", "msDate": "2026-09-03" },
+      "status": "stable"
+    },
+    {
+      "id": "fabric-open",
+      "title": "Open the Fabric template and schedule",
+      "body": "Copy the Lakehouse SQL endpoint, paste it + the Lakehouse name into <code>Consumption Central - Fabric.pbit</code>, Load. Then schedule ingestion BEFORE the semantic-model refresh, on success only.",
+      "pathId": "fabric", "estMinutes": 6,
+      "requires": ["powerBiDesktop", "fabricCapacity"], "requiresMode": "all",
+      "portal": { "label": "Fabric template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/Consumption%20Central%20-%20Fabric.pbit" },
+      "verify": "Report refreshes from the Lakehouse on schedule.",
+      "status": "stable"
+    },
+
+    {
+      "id": "vd-open",
+      "title": "Open the Viva Direct template",
+      "body": "Paste the Partition + Query identifiers from your auto-refreshing Cowork query into <code>Consumption Central - Viva Direct.pbit</code>, Load. Cowork with no files at all; other products optional via a folder.",
+      "pathId": "viva-direct", "products": ["cowork"], "estMinutes": 5,
+      "requires": ["powerBiDesktop"], "requiresMode": "all",
+      "portal": { "label": "Viva Direct template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/3.%20Viva%20Direct/Consumption%20Central%20-%20Viva%20Direct.pbit" },
+      "verify": "Cowork pages refresh straight from Viva.",
+      "pitfall": "(500) Internal Server Error = identifiers point at the multi-table Consumption Dashboard export, not a custom Analysis query.",
+      "status": "stable"
+    },
+
+    {
+      "id": "pa-schema",
+      "title": "Deploy the Dataverse tables",
+      "body": "Run <code>Deploy-DataverseSchema.py</code> (dry-run first, then --execute) to create the 11 tables. Needs System Administrator on the Dataverse environment.",
+      "pathId": "pa-dataverse", "estMinutes": 10,
+      "requires": ["dataverseSysAdmin"], "requiresMode": "all",
+      "portal": { "label": "Dataverse scripts", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/4.%20Power%20Automate%20%2B%20Dataverse/scripts" },
+      "verify": "The 11 cc_ tables exist in your environment.",
+      "ifMissing": {
+        "message": "Creating the Dataverse tables needs System Administrator on the environment, which you don't hold.",
+        "delegateToRoleKey": "dataverseSysAdmin",
+        "emailSubject": "Need System Admin on a Dataverse environment for Copilot cost reporting",
+        "emailBody": "Hi,\n\nTo stand up the Power Automate + Dataverse path for our Copilot cost report I need System Administrator on the target Dataverse environment so I can deploy 11 tables (a script does it, dry-run first). Could you grant that, or run the deploy for me?\n\nThanks!"
+      },
+      "status": "preview"
+    },
+    {
+      "id": "pa-flows",
+      "title": "Import and run the flows",
+      "body": "Import the flow package, set the connection variables, run each Backfill once, then switch on the four daily flows. Only the four API-backed feeds automate; the rest load by hand.",
+      "pathId": "pa-dataverse", "estMinutes": 20,
+      "requires": ["dataverseSysAdmin"], "requiresMode": "all",
+      "portal": { "label": "Flows folder", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/4.%20Power%20Automate%20%2B%20Dataverse/flows" },
+      "verify": "Daily flows show green runs; Dataverse tables fill.",
+      "pitfall": "The Studio flows currently 403 even for a Global Admin \u2014 this path is in testing.",
+      "status": "preview"
+    },
+    {
+      "id": "pa-open",
+      "title": "Open the Power Automate + Dataverse template",
+      "body": "Fill DataverseServer / Database / Prefix in <code>Consumption Central - Power Automate + Dataverse.pbit</code>, Load, publish, schedule.",
+      "pathId": "pa-dataverse", "estMinutes": 6,
+      "requires": ["powerBiDesktop"], "requiresMode": "all",
+      "portal": { "label": "Power Automate template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20%2B%20Dataverse/Consumption%20Central%20-%20Power%20Automate%20%2B%20Dataverse.pbit" },
+      "verify": "Report reads the Dataverse tables and refreshes on schedule.",
+      "status": "preview"
+    },
+
+    {
+      "id": "org-attributes",
+      "title": "Add department breakdowns (optional)",
+      "body": "For department / cost-centre grouping beyond what Viva carries, an Entra org export helps. Reports Reader can pull it.",
+      "optional": true, "estMinutes": 5,
+      "requires": ["reportsReader"], "requiresMode": "all",
+      "verify": "org_attributes / entra_org.csv joins to your consumption on UPN.",
+      "ifMissing": {
+        "message": "A directory export for richer org attributes needs Entra Reports Reader. It's optional \u2014 identified Viva data already carries department, so skip this unless you need extra attributes.",
+        "delegateToRoleKey": "reportsReader",
+        "emailSubject": "Need an Entra directory export (Reports Reader) for cost chargeback",
+        "emailBody": "Hi,\n\nFor department-level Copilot chargeback I'd like an Entra directory export (UPN + department + cost centre). Reports Reader can pull it. Could you help, or grant me the role?\n\nThanks!"
+      },
+      "source": { "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/ORG-DATA.md", "msDate": "2026-09-03" },
+      "status": "stable"
+    }
+  ]
+}

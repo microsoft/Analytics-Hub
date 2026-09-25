@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Guided setup — Analytics Hub</title>
+<meta name="description" content="A guided, step-by-step setup for Microsoft Copilot reporting templates. Tailor it to the products you have and the way you want it to run, and see exactly which role each step needs." />
+<meta name="color-scheme" content="light" />
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#fff; --fg:#1f2328; --muted:#59636e; --border:#d1d9e0;
+    --accent:#0969da; --accent-soft:#ddf4ff;
+    --green:#1a7f37; --green-bg:#dafbe1; --green-bd:#4ac26b;
+    --amber:#9a6700; --amber-bg:#fff8c5; --amber-bd:#d4a72c;
+    --purple:#8250df;
+  }
+  *{box-sizing:border-box}
+  body{font-family:"Segoe UI Variable","Segoe UI",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    color:var(--fg);background:var(--bg);margin:0;padding:0 0 70px;line-height:1.55}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  code{background:#eef1f4;border-radius:4px;padding:1px 5px;font-size:85%;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+
+  /* hero */
+  .hero{background:linear-gradient(160deg,#1f2430 0%,#2b3a55 60%,#4F73B8 100%);color:#fff;
+    text-align:center;padding:40px 30px 34px;margin:0 0 8px}
+  .hero .eyebrow{font-size:11.5px;font-weight:700;letter-spacing:1.2px;color:#9db4de;text-transform:uppercase;margin:0 0 10px}
+  .hero h1{font-size:2rem;margin:0 0 6px;font-weight:800}
+  .hero .tag{font-size:15px;color:#dbe6ff;font-weight:600;max-width:66ch;margin:0 auto}
+  .hero .oneliner{font-size:13px;color:#c3d2ee;margin:12px 0 16px}
+  .hero .badges span{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:5px;padding:5px 11px;margin:0 4px}
+  .hero img{max-width:74%;border-radius:8px;margin:18px auto 0;display:block;border:1px solid rgba(255,255,255,.2)}
+
+  /* access check (coming-soon, honest) */
+  .access{background:var(--card);border:1px solid var(--border);border-radius:14px;margin:18px 0;padding:22px 24px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .access .ah{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .access h2{font-size:1.15rem;margin:0}
+  .soon{font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--purple);background:#f3eefe;border:1px solid #d0bcf0;border-radius:20px;padding:3px 10px}
+  .access .adesc{color:var(--muted);font-size:13.5px;margin:10px 0 0;max-width:74ch}
+  .checkbtn{position:relative;font:inherit;font-size:14.5px;font-weight:700;border:1px solid var(--border);border-radius:10px;
+    background:#f6f8fa;color:var(--muted);padding:12px 20px;margin:14px 0 0;cursor:not-allowed;display:inline-flex;align-items:center;gap:9px}
+  .checkbtn .lock{font-size:15px}
+  .whatcheck{margin:14px 0 0;background:#f6f8fa;border:1px solid var(--border);border-radius:9px;padding:12px 15px}
+  .whatcheck .wl{font-size:11px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .whatcheck ul{margin:0;padding-left:2px;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:2px 18px}
+  .whatcheck li{font-size:12.5px;padding:3px 0;display:flex;align-items:center;gap:8px}
+  .whatcheck .dot{width:6px;height:6px;border-radius:50%;background:#c8d1da;flex:0 0 auto}
+  .whatcheck .how{margin-left:auto;font-size:10.5px;color:var(--muted);background:#eef1f4;border:1px solid var(--border);border-radius:5px;padding:1px 7px}
+  .privacy{font-size:12px;color:var(--muted);margin:11px 0 0;display:flex;align-items:center;gap:7px}
+  .privacy .info{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;background:#eef1f4;color:var(--muted);font-size:10px;font-weight:700;cursor:help;position:relative;border:1px solid var(--border)}
+  .privacy .info:hover .tip,.privacy .info:focus .tip{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+  .tip{position:absolute;bottom:150%;left:50%;transform:translateX(-50%) translateY(6px);width:290px;
+    background:#1b1f24;color:#e6edf3;font-size:12px;font-weight:400;text-align:left;line-height:1.5;
+    padding:11px 13px;border-radius:9px;opacity:0;visibility:hidden;transition:.14s;z-index:30;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .tip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1b1f24}
+  .tip b{color:#79c0ff}
+
+  /* tailor bar */
+  .tailor{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:15px 17px;margin:14px 0 4px}
+  .tailor .tl{font-size:11.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .tailor .trow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-bottom:14px}
+  .tailor .trow:last-child{margin-bottom:0}
+  .tgl{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--border);background:#f6f8fa;color:var(--muted);border-radius:20px;padding:7px 14px;cursor:pointer}
+  .tgl.on{background:var(--accent-soft);color:var(--accent);border-color:#7cc0ff}
+  .prad{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--border);background:#f6f8fa;color:var(--muted);border-radius:9px;padding:8px 14px;cursor:pointer;text-align:left}
+  .prad.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .prad small{display:block;font-weight:500;font-size:10.5px;opacity:.85;margin-top:1px}
+
+  .countline{color:var(--muted);font-size:13px;margin:16px 0 2px}
+  h2.sh{font-size:1.15rem;margin:20px 0 4px}
+
+  .step{background:var(--card);border:1px solid var(--border);border-radius:11px;margin:12px 0;overflow:hidden}
+  .step-h{display:flex;align-items:flex-start;gap:13px;padding:15px 18px}
+  .badge{flex:0 0 auto;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;margin-top:1px;background:#eef1f4;color:var(--muted);border:1px solid var(--border)}
+  .step-hh{flex:1;min-width:0}
+  .step-t{font-size:15.5px;font-weight:650;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .chip{font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;letter-spacing:.2px}
+  .chip.role{background:var(--accent-soft);color:var(--accent);border:1px solid #7cc0ff}
+  .chip.any{background:#eef1f4;color:var(--muted);border:1px solid var(--border)}
+  .chip.prod{background:#eef1f4;color:var(--muted);border:1px solid var(--border)}
+  .chip.opt{background:#f3eefe;color:var(--purple);border:1px solid #d0bcf0}
+  .chip.time{background:#eef1f4;color:var(--muted);border:1px solid var(--border)}
+  .chip.preview{background:#fff4e5;color:#9a6700;border:1px solid #f0c778}
+  .step-meta{font-size:12px;color:var(--muted);margin-top:3px}
+  .step-body{padding:2px 18px 18px 58px;font-size:14px;color:#33393f}
+  .step-body p{margin:8px 0}
+  .kv{font-size:13px;margin:9px 0}
+  .kv .k{font-weight:700}
+  .verify .k{color:var(--green)}.pitfall .k{color:#9a6700}
+  .portal-btn{display:inline-block;margin:8px 0 2px;font-size:13px;font-weight:600;background:var(--accent);color:#fff;border-radius:7px;padding:8px 14px}
+  .portal-btn:hover{text-decoration:none;background:#0a5cc7}
+  .getrole{font-size:12.5px;margin:8px 0 0}
+
+  /* hand-off */
+  details.deleg{border:1px solid var(--amber-bd);background:var(--amber-bg);border-radius:9px;margin:12px 0 2px}
+  details.deleg>summary{cursor:pointer;padding:11px 14px;font-weight:700;font-size:13.5px;list-style:none;display:flex;align-items:center;gap:8px}
+  details.deleg>summary::-webkit-details-marker{display:none}
+  details.deleg>summary::before{content:"\25B8";color:var(--amber);font-size:11px;transition:transform .15s}
+  details.deleg[open]>summary::before{transform:rotate(90deg)}
+  .deleg-body{padding:2px 14px 13px}
+  .deleg-body p{margin:6px 0;font-size:13px}
+  .email-card{background:#fff;border:1px solid var(--border);border-radius:8px;margin:10px 0 0;font-size:12.5px}
+  .email-card .es{padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600}
+  .email-card pre{margin:0;padding:11px 12px;white-space:pre-wrap;font-family:inherit;color:#33393f;max-height:170px;overflow:auto}
+  .email-actions{display:flex;gap:10px;padding:9px 12px;border-top:1px solid var(--border)}
+  .mini-btn{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--border);background:#f6f8fa;border-radius:6px;padding:6px 11px;cursor:pointer}
+  .mini-btn:hover{background:#eef1f4}
+
+  details.design{background:#fff;border:1px solid var(--border);border-radius:11px;margin:28px 0 0;padding:0}
+  details.design>summary{cursor:pointer;padding:15px 18px;font-weight:700;font-size:15px;list-style:none;display:flex;align-items:center;gap:9px}
+  details.design>summary::-webkit-details-marker{display:none}
+  details.design>summary::before{content:"\25B8";color:var(--accent);transition:transform .15s}
+  details.design[open]>summary::before{transform:rotate(90deg)}
+  .design-body{padding:0 20px 20px;border-top:1px solid var(--border);font-size:13.5px;color:#33393f}
+  .design-body h4{margin:16px 0 4px}
+  .design-body ul{padding-left:20px}.design-body li{margin:5px 0}
+
+  .foot{color:var(--muted);font-size:12px;text-align:center;margin:34px 0 0}
+  .foot a{color:var(--muted);text-decoration:underline}
+  .err{background:#fff;border:1px solid var(--border);border-radius:11px;padding:24px;margin:20px 0;text-align:center;color:var(--muted)}
+  @media(max-width:640px){ .whatcheck ul{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<div class="hero" id="hero">
+  <div class="eyebrow">Analytics Hub · Guided setup</div>
+  <h1>Loading…</h1>
+</div>
+
+<div class="wrap">
+
+  <!-- honest access check placeholder -->
+  <div class="access" id="access">
+    <div class="ah">
+      <h2>Check what you can do</h2>
+      <span class="soon">Coming soon</span>
+    </div>
+    <p class="adesc">Soon you'll be able to sign in with your own Microsoft account and this guide will validate your access automatically — showing only the steps you can do now, and handing off the ones that need someone else. Until then, every step below lists the role it needs and who to ask if you don't have it.</p>
+    <button class="checkbtn" disabled title="Available once the sign-in app is connected"><span class="lock">🔐</span> Check my access and permissions</button>
+    <div class="privacy">
+      <span class="info" tabindex="0">i
+        <span class="tip"><b>Read-only, and private by design.</b> When this turns on, you'll sign in with your own Microsoft account and it runs <b>entirely in your browser</b> — Microsoft / Analytics&nbsp;Hub never sees, stores, or touches your data. It only reads which roles and licenses you have; it never changes anything.</span>
+      </span>
+      <span>When enabled, it will read (not change) only the items listed here:</span>
+    </div>
+    <div class="whatcheck" id="whatcheck"></div>
+  </div>
+
+  <div id="tailor" class="tailor" style="display:none"></div>
+
+  <p class="countline" id="countline"></p>
+  <div id="steps"></div>
+
+  <details class="design">
+    <summary>How this guide works</summary>
+    <div class="design-body">
+      <h4>Tailored to you</h4>
+      <p>Pick the products you actually have and how you want it to run — the guide collapses to just the steps that apply. Nothing to read that you don't need.</p>
+      <h4>Every step is honest about access</h4>
+      <p>Each step shows the exact role it needs. If you don't hold it, open <b>Who can do this?</b> for a plain-English explanation and a ready-to-send email to the right person. You're never stuck; you just know who to loop in.</p>
+      <h4>Kept current</h4>
+      <p>Each step names the Microsoft doc it's based on, so the guidance can be checked against the source and refreshed when Microsoft changes it.</p>
+      <h4>Coming next: personalized access check</h4>
+      <p>A one-click <b>Check my access and permissions</b> that signs you into your own tenant (read-only, in your browser) and marks each step green — you can do it — or amber — hand it off. That needs a Microsoft sign-in app to be connected first.</p>
+    </div>
+  </details>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script>
+var CHECK_LABEL = {
+  graphDirectoryRole: "auto-detected", graphLicense: "auto-detected",
+  graphAppRole: "auto-detected", graphDirectoryRoleAdmin: "auto (admin consent)", selfAttest: "we'll ask you"
+};
+var GUIDE = (new URLSearchParams(location.search).get('guide') || 'consumption-central');
+var FEED=null, ROLES={}, SEL_PRODUCTS=null, SEL_PATH=null;
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+fetch(GUIDE + '.guide.json').then(function(r){
+  if(!r.ok) throw new Error('not found'); return r.json();
+}).then(function(f){
+  FEED=f; (f.roles||[]).forEach(function(r){ ROLES[r.key]=r; });
+  SEL_PRODUCTS = new Set((f.products||[]).map(function(p){return p.id;}));
+  SEL_PATH = (f.paths && f.paths.length) ? f.paths[0].id : null;
+  renderHero(); renderWhatCheck(); renderTailor(); render(); renderFoot();
+}).catch(function(){
+  document.getElementById('hero').innerHTML = '<div class="eyebrow">Analytics Hub · Guided setup</div><h1>Guide not found</h1>';
+  document.getElementById('access').style.display='none';
+  document.getElementById('steps').innerHTML = '<div class="err">No guide matched <code>?guide='+esc(GUIDE)+'</code>. Try <a href="?guide=consumption-central">Consumption Central</a> or <a href="?guide=cowork">Cowork</a>.</div>';
+});
+
+function renderHero(){
+  document.getElementById('hero').innerHTML =
+    '<div class="eyebrow">Analytics Hub · Guided setup</div>'+
+    '<h1>'+esc(FEED.title)+'</h1>'+
+    '<div class="tag">'+esc(FEED.summary)+'</div>'+
+    '<div class="oneliner">Tailored to your products and setup · ~'+esc(FEED.estMinutes)+' min happy path</div>'+
+    '<div class="badges"><span>BUILT BY MICROSOFT</span><span>ANALYTICS HUB</span></div>'+
+    (FEED.heroPreview ? '<img src="'+esc(FEED.heroPreview)+'" alt="Report preview" loading="lazy" onerror="this.style.display=\'none\'">' : '');
+}
+
+function renderWhatCheck(){
+  var used={};
+  FEED.steps.forEach(function(s){ (s.requires||[]).forEach(function(k){ used[k]=1; }); });
+  var keys = Object.keys(used);
+  if(!keys.length){ document.getElementById('access').style.display='none'; return; }
+  var items = keys.map(function(k){
+    var r=ROLES[k]||{label:k,checkType:'selfAttest'};
+    return '<li><span class="dot"></span>'+esc(r.label)+'<span class="how">'+esc(CHECK_LABEL[r.checkType]||r.checkType)+'</span></li>';
+  }).join('');
+  document.getElementById('whatcheck').innerHTML =
+    '<div class="wl">What it will check (nothing else)</div><ul>'+items+'</ul>';
+}
+
+function renderTailor(){
+  var el = document.getElementById('tailor');
+  var hasProducts = FEED.products && FEED.products.length;
+  var hasPaths = FEED.paths && FEED.paths.length > 1;
+  if(!hasProducts && !hasPaths){ el.style.display='none'; return; }
+  el.style.display='block';
+  var html='';
+  if(hasProducts){
+    html += '<div class="tl">Which products are you reporting on?</div><div class="trow">'+
+      FEED.products.map(function(p){
+        return '<button class="tgl '+(SEL_PRODUCTS.has(p.id)?'on':'')+'" data-prod="'+esc(p.id)+'" aria-pressed="'+(SEL_PRODUCTS.has(p.id))+'">'+esc(p.label)+'</button>';
+      }).join('')+'</div>';
+  }
+  if(hasPaths){
+    html += '<div class="tl">How do you want it to run?</div><div class="trow">'+
+      FEED.paths.map(function(p){
+        return '<button class="prad '+(SEL_PATH===p.id?'on':'')+'" data-path="'+esc(p.id)+'">'+esc(p.label)+
+          (p.tagline?'<small>'+esc(p.tagline)+'</small>':'')+'</button>';
+      }).join('')+'</div>';
+  }
+  el.innerHTML = html;
+  Array.prototype.forEach.call(el.querySelectorAll('[data-prod]'), function(b){
+    b.addEventListener('click', function(){
+      var id=b.getAttribute('data-prod');
+      if(SEL_PRODUCTS.has(id)){ if(SEL_PRODUCTS.size>1) SEL_PRODUCTS.delete(id); } else SEL_PRODUCTS.add(id);
+      renderTailor(); render();
+    });
+  });
+  Array.prototype.forEach.call(el.querySelectorAll('[data-path]'), function(b){
+    b.addEventListener('click', function(){ SEL_PATH=b.getAttribute('data-path'); renderTailor(); render(); });
+  });
+}
+
+function stepVisible(s){
+  if(s.products && s.products.length){
+    var hit=false; for(var i=0;i<s.products.length;i++){ if(SEL_PRODUCTS.has(s.products[i])){hit=true;break;} }
+    if(!hit) return false;
+  }
+  if(s.pathId && SEL_PATH && s.pathId!==SEL_PATH) return false;
+  return true;
+}
+function roleLabels(keys){ return keys.map(function(k){ return (ROLES[k]&&ROLES[k].label)||k; }); }
+
+function render(){
+  var visible = FEED.steps.filter(stepVisible);
+  document.getElementById('countline').innerHTML =
+    '<b>'+visible.length+'</b> steps for your selection'+
+    (FEED.paths && FEED.paths.length>1 ? ' · path: <b>'+esc((FEED.paths.filter(function(p){return p.id===SEL_PATH;})[0]||{}).label||'')+'</b>' : '')+
+    '. Each step shows the role it needs; open <b>Who can do this?</b> if you don\u2019t have it.';
+  document.getElementById('steps').innerHTML = visible.map(renderStep).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(b){
+    b.addEventListener('click', function(){
+      var pre=b.closest('.email-card').querySelector('pre');
+      if(navigator.clipboard) navigator.clipboard.writeText(pre.textContent);
+      b.textContent='Copied ✓'; setTimeout(function(){b.textContent='Copy';},1400);
+    });
+  });
+}
+
+function renderStep(s, i){
+  var chips='';
+  var req = s.requires||[];
+  if(req.length) chips+='<span class="chip role">Needs '+esc(roleLabels(req).join(s.requiresMode==='all'?' + ':' or '))+'</span>';
+  else chips+='<span class="chip any">Anyone</span>';
+  if(s.optional) chips+='<span class="chip opt">Optional</span>';
+  if(typeof s.estMinutes==='number') chips+='<span class="chip time">~'+s.estMinutes+' min</span>';
+  (s.products||[]).forEach(function(pid){ var p=(FEED.products||[]).filter(function(x){return x.id===pid;})[0]; if(p) chips+='<span class="chip prod">'+esc(p.short||p.label)+'</span>'; });
+  if(s.pathId){ var pp=(FEED.paths||[]).filter(function(x){return x.id===s.pathId;})[0]; if(pp) chips+='<span class="chip prod">'+esc(pp.label)+' path</span>'; }
+  if(s.status==='preview') chips+='<span class="chip preview">In testing</span>';
+
+  var body='';
+  if(s.body) body+='<p>'+s.body+'</p>';
+  if(s.portal) body+='<a class="portal-btn" href="'+esc(s.portal.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.portal.label)+' →</a>';
+  if(s.verify) body+='<div class="kv verify"><span class="k">✓ How you know it worked:</span> '+esc(s.verify)+'</div>';
+  if(s.pitfall) body+='<div class="kv pitfall"><span class="k">⚠ Watch out:</span> '+esc(s.pitfall)+'</div>';
+
+  /* "get this role" for self-attest software/licenses with an assign url and no delegation email */
+  if(req.length && !s.ifMissing){
+    var links = req.map(function(k){ var r=ROLES[k]; return (r&&r.assignUrl)?'<a href="'+esc(r.assignUrl)+'" target="_blank" rel="noopener">'+esc(r.label)+'</a>':''; }).filter(Boolean);
+    if(links.length) body+='<div class="getrole">Don\u2019t have it yet? Get '+links.join(', ')+'.</div>';
+  }
+
+  /* hand-off, always available (not gated on a fake verdict) */
+  if(s.ifMissing){
+    var im=s.ifMissing;
+    var mailto='mailto:?subject='+encodeURIComponent(im.emailSubject||'')+'&body='+encodeURIComponent(im.emailBody||'');
+    body+='<details class="deleg"><summary>🤝 Who can do this? (if it\u2019s not you)</summary><div class="deleg-body">'+
+      '<p>'+esc(im.message||'')+'</p>'+
+      (im.emailBody?'<div class="email-card"><div class="es">Subject: '+esc(im.emailSubject||'')+'</div>'+
+        '<pre>'+esc(im.emailBody)+'</pre>'+
+        '<div class="email-actions"><button class="mini-btn copy-btn" type="button">Copy</button>'+
+        '<a class="mini-btn" href="'+mailto+'">Open in email</a></div></div>':'')+
+    '</div></details>';
+  }
+
+  return '<div class="step"><div class="step-h">'+
+    '<div class="badge">'+((i||0)+1)+'</div>'+
+    '<div class="step-hh"><div class="step-t">'+esc(s.title)+' '+chips+'</div>'+
+      (s.source?'<div class="step-meta">Source: '+esc(s.source.url.replace(/^https?:\/\//,''))+' · ms.date '+esc(s.source.msDate)+'</div>':'')+
+    '</div></div>'+
+    '<div class="step-body">'+body+'</div></div>';
+}
+
+function renderFoot(){
+  var f='';
+  if(FEED.reportId) f += 'Part of <a href="../choose-report/#r='+esc(FEED.reportId)+'">the '+esc(FEED.title)+' report</a> on Analytics Hub. ';
+  f += 'Not supported through Microsoft support channels — open an issue on the report\u2019s GitHub repo. Guide version '+esc(FEED.version||'')+(FEED.updated?' · reviewed '+esc(FEED.updated):'')+'.';
+  document.getElementById('foot').innerHTML = f;
+}
+</script>
+</body>
+</html>

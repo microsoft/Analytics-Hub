@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://microsoft.github.io/Analytics-Hub/schemas/guide-feed.schema.json",
+  "title": "Analytics Hub Guided Implementation Feed",
+  "description": "A tenant-aware-ready implementation guide for one report or product. The SAME feed powers two surfaces: (1) the static Analytics Hub setup guide, and (2) a personalized 'smart link' a customer opens in their own tenant, which reads their real Entra roles/licenses and shows only the path that applies to them. The feed is content + gating rules only; it never contains secrets, tenant data, or executable actions.",
+  "type": "object",
+  "required": ["id", "title", "product", "version", "steps"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "Stable slug, e.g. 'cowork-credits'." },
+    "title": { "type": "string" },
+    "product": {
+      "type": "string",
+      "description": "Which Copilot surface this guide is for.",
+      "enum": ["cowork", "copilot-studio", "github-copilot", "azure-ai-foundry", "consumption-central", "other"]
+    },
+    "reportId": {
+      "type": "string",
+      "description": "Optional link to a choose-report catalog id, so the smart link and the report card stay in sync."
+    },
+    "products": {
+      "type": "array",
+      "description": "For multi-product guides (e.g. Consumption Central spans Cowork + Studio + GitHub + Azure). Steps tagged with a productId only show when the visitor has said they use that product. Steps with no productId are common to all.",
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "short": { "type": "string", "description": "Short chip label." }
+        }
+      }
+    },
+    "audience": { "type": "string", "description": "Plain-English who-this-is-for, e.g. 'FinOps + M365 admin'." },
+    "summary": { "type": "string", "description": "One or two sentences shown at the top." },
+    "estMinutes": { "type": "integer", "description": "Rough total for the happy path.", "minimum": 0 },
+    "version": { "type": "string", "description": "Feed version, bumped when steps change." },
+    "updated": { "type": "string", "format": "date", "description": "When this feed was last hand-reviewed." },
+    "heroPreview": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional preview GIF/image URL for the gradient hero."
+    },
+    "roles": {
+      "type": "array",
+      "description": "The catalog of roles/licenses this guide references, defined once and referenced by key from steps. Keeping them here means the smart link knows exactly what to check and how.",
+      "items": { "$ref": "#/definitions/roleDef" }
+    },
+    "paths": {
+      "type": "array",
+      "description": "Optional mutually-exclusive deployment paths (e.g. Local CSV / Fabric / Viva Direct). When present, a step may be tagged with a pathId so it only shows for that path.",
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "tagline": { "type": "string", "description": "e.g. '~10 minutes - Power BI Pro - no Fabric capacity'." },
+          "bestWhen": { "type": "string" }
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/step" }
+    }
+  },
+  "definitions": {
+    "roleDef": {
+      "type": "object",
+      "description": "One capability the guide can require. checkType tells the smart link HOW to verify it in the visitor's tenant. Not everything is Graph-readable, and the schema is honest about that.",
+      "required": ["key", "label", "checkType"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string", "description": "Referenced from step.requires[], e.g. 'globalAdmin'." },
+        "label": { "type": "string", "description": "Human name, e.g. 'Global Administrator'." },
+        "checkType": {
+          "type": "string",
+          "description": "How the smart link verifies this. 'graphDirectoryRole' and 'graphLicense' auto-check via delegated Graph with user consent. 'graphDirectoryRoleAdmin' needs one-time admin consent (Directory.Read.All) to see OTHER people. 'selfAttest' cannot be read by Graph at all (e.g. Viva Insights Analyst is managed in Viva, not Entra) so the link simply asks the person yes/no.",
+          "enum": ["graphDirectoryRole", "graphLicense", "graphAppRole", "graphDirectoryRoleAdmin", "selfAttest"]
+        },
+        "match": {
+          "type": "string",
+          "description": "The value to match for the checkType, e.g. the directory role template name 'Global Administrator', or a license SKU part number / service plan for graphLicense."
+        },
+        "assignUrl": { "type": "string", "format": "uri", "description": "Where an admin assigns this role/license." },
+        "learnUrl": { "type": "string", "format": "uri", "description": "Microsoft Learn reference for the role." }
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["id", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string", "description": "HTML-safe instructional text. Links allowed." },
+        "pathId": { "type": "string", "description": "If set, this step only applies to that deployment path." },
+        "products": {
+          "type": "array",
+          "description": "If set, this step only shows when the visitor uses at least one of these products (ids from top-level products[]). Absent = common step, always shown.",
+          "items": { "type": "string" }
+        },
+        "optional": { "type": "boolean", "default": false, "description": "True = skippable; the guide explains what you lose by skipping." },
+        "estMinutes": { "type": "integer", "minimum": 0 },
+        "requires": {
+          "type": "array",
+          "description": "Role keys (from top-level roles[]) needed to DO this step yourself. Empty/absent = anyone can do it. The smart link turns this into a green/amber verdict per visitor.",
+          "items": { "type": "string" }
+        },
+        "requiresMode": {
+          "type": "string",
+          "description": "Whether the visitor needs ALL listed roles or just ANY one of them.",
+          "enum": ["all", "any"],
+          "default": "any"
+        },
+        "portal": {
+          "type": "object",
+          "description": "Deep link that drops the person on the exact portal setting for this step.",
+          "additionalProperties": false,
+          "properties": {
+            "label": { "type": "string" },
+            "url": { "type": "string", "format": "uri" }
+          }
+        },
+        "verify": { "type": "string", "description": "How the person confirms the step actually worked." },
+        "pitfall": { "type": "string", "description": "The single most common way this step goes wrong." },
+        "ifMissing": {
+          "type": "object",
+          "description": "What the smart link shows when the visitor LACKS the required role. This is the 'guide, don't execute' delegation: it never grants anything; it tells them who to loop in and hands them a ready-to-send ask.",
+          "additionalProperties": false,
+          "properties": {
+            "message": { "type": "string", "description": "Plain-English 'you can't do this yourself because...'." },
+            "delegateToRoleKey": { "type": "string", "description": "Which role to hand this off to (key from roles[]). The smart link can name the actual holders if admin consent is granted." },
+            "emailSubject": { "type": "string" },
+            "emailBody": { "type": "string", "description": "Pre-written ask the visitor can forward, with the exact steps and portal link inlined." }
+          }
+        },
+        "source": {
+          "type": "object",
+          "description": "The Microsoft doc this step is grounded in. The Learn Watcher diffs this to flag the step when the underlying doc changes.",
+          "additionalProperties": false,
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "msDate": { "type": "string", "description": "The ms.date of the source doc at last review." }
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Freshness. 'review-needed' is set by the watcher when source doc content/date drifts from what was last reviewed.",
+          "enum": ["stable", "review-needed", "preview", "deprecated"],
+          "default": "stable"
+        }
+      }
+    }
+  }
+}
