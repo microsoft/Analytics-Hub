@@ -68,10 +68,12 @@
     var sel = window.getSelection && window.getSelection();
     if (sel && String(sel).trim().length) return;
 
-    var el = target.closest(".metric-value, td.num, .kpi-value, .metric-card");
+    var el = target.closest(".metric-value, td.num, .kpi-value, .metric-card, .dm-kpi");
     if (!el) return;
     // On a card, copy the value it holds rather than the label/whitespace.
-    var valEl = el.classList.contains("metric-card") ? el.querySelector(".metric-value") : el;
+    var valEl = el;
+    if (el.classList.contains("metric-card")) valEl = el.querySelector(".metric-value") || el;
+    else if (el.classList.contains("dm-kpi")) valEl = el.querySelector(".v") || el;
     var text = (valEl && valEl.textContent || "").replace(/\s+/g, " ").trim();
     if (!text) return;
     copyText(text);
@@ -80,7 +82,7 @@
 
   // Honest affordance: a "copy" cursor on the figures so the click is invited.
   var style = document.createElement("style");
-  style.textContent = ".metric-value,td.num,.kpi-value{cursor:copy}" +
+  style.textContent = ".metric-value,td.num,.kpi-value,.dm-kpi{cursor:copy}" +
     ".metric-card{cursor:copy}.metric-card .metric-label,.metric-card .metric-info{cursor:default}";
   document.head.appendChild(style);
 })();
