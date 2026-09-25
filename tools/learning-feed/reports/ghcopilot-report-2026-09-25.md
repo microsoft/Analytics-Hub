@@ -1,0 +1,271 @@
+# GitHub Copilot Billing & Premium-Request Watch - 2026-09-25
+
+Run: 2026-09-25T11:16:54.167Z
+
+**131 change(s) detected.** 30 pages verified, 0 updated within window (since 2026-07-01).
+
+
+## CRITICAL
+
+- **About premium requests** ([link](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Plans for GitHub Copilot** ([link](https://docs.github.com/en/copilot/about-github-copilot/plans-for-github-copilot))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Monitoring your Copilot usage and entitlements** ([link](https://docs.github.com/en/copilot/managing-copilot/understanding-and-managing-copilot-usage/monitoring-your-copilot-usage-and-entitlements))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - Body changed (-14336 chars) ** DATE UNCHANGED **
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Articles"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Data available in Copilot usage metrics"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Example schema for Copilot usage metrics"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "GitHub Copilot usage metrics"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Interpreting usage and adoption metrics for GitHub Copilot"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Lines of Code metrics"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Measuring the success of a GitHub Copilot trial"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Reconciling Copilot usage metrics across dashboards, APIs, and reports"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Tracking license activation and initial usage with Copilot usage metrics"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION ADDED: "Viewing the code generation dashboard"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Up next"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "About Copilot usage metrics"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Which usage is included?"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Why Copilot usage metrics may differ across API resources"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "How are metrics attributed across organizations?"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Supported IDEs"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Data freshness"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "What does the data measure?"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Understanding adoption cohorts"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Estimating potential return on investment"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "Interpreting pull request lifecycle metrics across scopes"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics))
+  - SECTION REMOVED: "How can I use these metrics?"
+- **Copilot Metrics** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics/copilot-metrics))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Usage Limits** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/usage-limits))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - Body changed (+2602 chars) ** DATE UNCHANGED **
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION ADDED: "What are GitHub AI Credits?"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION ADDED: "What is billed in AI credits?"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION ADDED: "How do AI credits work?"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION ADDED: "What happens if I exceed my included AI credits?"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION ADDED: "How can I control costs with budgets?"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION ADDED: "Update your IDE, client, and extension"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION REMOVED: "Available plans"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION REMOVED: "GitHub AI Credits"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION REMOVED: "Seat assignment"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION REMOVED: "Billing cycles"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION REMOVED: "Managing costs"
+- **Billing** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing))
+  - SECTION REMOVED: "Reference"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - Body changed (+12789 chars) ** DATE UNCHANGED **
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "Understanding budget controls"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "User-level budget"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "Cost center budget"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "Included usage controls for cost centers"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "Organization budget"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "Enterprise budget"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "How the controls compare"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "How billing flows through budgets"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "How user-level budgets and spending limits interact"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "Cost center exclusion"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION ADDED: "What happens when a user is blocked"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION REMOVED: "Available plans"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION REMOVED: "GitHub AI Credits"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION REMOVED: "Seat assignment"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION REMOVED: "Billing cycles"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION REMOVED: "Managing costs"
+- **Budgets** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets))
+  - SECTION REMOVED: "Reference"
+- **Seats And Billing Cycles** ([link](https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/seats-and-billing-cycles))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Plans** ([link](https://docs.github.com/en/copilot/get-started/plans))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Copilot Billing** ([link](https://docs.github.com/en/copilot/reference/copilot-billing))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Azure Billing** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/azure-billing))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Billing Cycle** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/billing-cycle))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **License Changes** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/license-changes))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Models And Pricing** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - Body changed (-1139 chars) ** DATE UNCHANGED **
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION ADDED: "What changed with Copilot billing (legacy)"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION ADDED: "Requests in GitHub Copilot (legacy)"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION ADDED: "Overview of request-based billing (legacy)"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION ADDED: "Monitoring your GitHub Copilot usage and entitlements (legacy)"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION ADDED: "Model multipliers for annual plans on request-based billing (legacy)"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION REMOVED: "What changed with Copilot billing?"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION REMOVED: "What are my options as a Copilot Pro and Copilot Pro+ user on an existing annual plan?"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION REMOVED: "What happens if I keep my annual plan?"
+- **Request Based Billing Legacy** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy))
+  - SECTION REMOVED: "Further reading"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - Body changed (+3050 chars) ** DATE UNCHANGED **
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "What is a request?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "What are premium requests?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "Premium features"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "How do request allowances work per plan?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "What happens to unused requests at the end of the month?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "What if I run out of premium requests?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION ADDED: "Model multipliers"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION REMOVED: "What changed with Copilot billing?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION REMOVED: "What are my options as a Copilot Pro and Copilot Pro+ user on an existing annual plan?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION REMOVED: "What happens if I keep my annual plan?"
+- **Copilot Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests))
+  - SECTION REMOVED: "Further reading"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - Body changed (+2310 chars) ** DATE UNCHANGED **
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "What are premium requests?"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "How usage of premium requests is measured"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Monthly allowance"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Usage by premium models"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Usage by Copilot cloud agent"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Using more than your included premium requests"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Paying for premium requests"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Managing your budget for premium requests"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION ADDED: "Monitoring usage"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION REMOVED: "What changed with Copilot billing?"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION REMOVED: "What are my options as a Copilot Pro and Copilot Pro+ user on an existing annual plan?"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION REMOVED: "What happens if I keep my annual plan?"
+- **Github Copilot Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests))
+  - SECTION REMOVED: "Further reading"
+- **Model Multipliers For Annual Plans** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans))
+  - Body changed (-4 chars) ** DATE UNCHANGED **
+- **Model Multipliers For Annual Plans** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans))
+  - SECTION ADDED: "Model multipliers"
+- **Model Multipliers For Annual Plans** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans))
+  - SECTION ADDED: "Model multiplier for Copilot code review"
+- **Model Multipliers For Annual Plans** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans))
+  - SECTION REMOVED: "What changed with Copilot billing?"
+- **Model Multipliers For Annual Plans** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans))
+  - SECTION REMOVED: "What are my options as a Copilot Pro and Copilot Pro+ user on an existing annual plan?"
+- **Model Multipliers For Annual Plans** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans))
+  - SECTION REMOVED: "What happens if I keep my annual plan?"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - Body changed (+1194 chars) ** DATE UNCHANGED **
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION ADDED: "Viewing premium request usage"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION ADDED: "Viewing usage in your IDE"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION ADDED: "Viewing an overview in your Billing and licensing settings"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION ADDED: "Viewing detailed analytics of your usage"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION ADDED: "Downloading a usage report"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION ADDED: "Optimizing usage of premium requests"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION REMOVED: "What changed with Copilot billing?"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION REMOVED: "What are my options as a Copilot Pro and Copilot Pro+ user on an existing annual plan?"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION REMOVED: "What happens if I keep my annual plan?"
+- **Monitor Premium Requests** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/monitor-premium-requests))
+  - SECTION REMOVED: "Further reading"
+- **What Changed With Billing** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/what-changed-with-billing))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Seat Assignment** ([link](https://docs.github.com/en/copilot/reference/copilot-billing/seat-assignment))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics))
+  - Body changed (+3489 chars) ** DATE UNCHANGED **
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics))
+  - SECTION ADDED: "Report identification fields"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics))
+  - SECTION ADDED: "VS Code Agents-window metrics fields"
+- **Copilot Usage Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics))
+  - SECTION REMOVED: "Report identification and partition fields"
+- **Example Schema** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/example-schema))
+  - Body changed (+545 chars) ** DATE UNCHANGED **
+- **Interpret Copilot Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/interpret-copilot-metrics))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Lines Of Code Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/lines-of-code-metrics))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Reconciling Usage Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/reconciling-usage-metrics))
+  - Body changed (+48 chars) ** DATE UNCHANGED **
+- **Team Level Metrics** ([link](https://docs.github.com/en/copilot/reference/copilot-usage-metrics/team-level-metrics))
+  - Body changed (+48 chars) ** DATE UNCHANGED **

@@ -18,7 +18,7 @@ A daily, deterministic aggregation of factual changes to public Microsoft Copilo
 
 ## Data shape
 
-Each change has: `date, product, area, title, change, before, after, severity, url, kind, tags`. The `url` is the authoritative source to cite. Filter by `tags` for topic retrieval (top tags: ga, worldwide, launched, agent, in-development, admin-center, preview, insights, copilot-chat, licensing, teams, viva, powerpoint, gcc, compliance, copilot-studio, sharepoint, model, purview, gcc-high).
+Each change has: `date, product, area, title, change, before, after, severity, url, kind, tags`. The `url` is the authoritative source to cite. Filter by `tags` for topic retrieval (top tags: ga, worldwide, launched, agent, in-development, admin-center, preview, insights, copilot-chat, licensing, teams, viva, powerpoint, gcc, compliance, copilot-studio, sharepoint, purview, model, gcc-high).
 
 ## Sources
 
@@ -28,16 +28,16 @@ Each change has: `date, product, area, title, change, before, after, severity, u
 - docs.github.com (GitHub Copilot docs)
 - FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec (FOCUS releases)
 
-## Most recent changes (sample — see the data endpoint for all 1257)
+## Most recent changes (sample — see the data endpoint for all 1258)
 
+- [2026-09-25] Microsoft 365 admin center (MAC): Billing Credit Overview — https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/billing-credit-overview
+- [2026-09-24] Microsoft 365 admin center (MAC): Microsoft 365 Copilot requirements — https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-requirements
+- [2026-09-24] Microsoft 365 admin center (MAC): Microsoft 365 Copilot Requirements — https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-requirements
+- [2026-09-24] Microsoft 365 Copilot (general): Dynamics 365 Field Service: Microsoft Copilot in Field Service Mobile app — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571663
+- [2026-09-24] Purview: Microsoft Purview: DSPM-Copilot Readiness and Data Explorer — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571157
+- [2026-09-24] Copilot in OneNote: OneNote: Multimodal capture in Copilot Notebooks (Windows) — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566322
+- [2026-09-24] Copilot in Outlook: Microsoft Copilot (Microsoft 365): Copilot Chat in Outlook expands to reason over inbox, calendar, a — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=554934
 - [2026-09-23] Models: Provisioned Throughput Sizing — https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/provisioned-throughput-sizing
-- [2026-09-23] Copilot in PowerPoint: PowerPoint: Skills in Brand Kit — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=569018
-- [2026-09-23] Microsoft 365 Copilot (general): Microsoft Copilot (Microsoft 365): Local inferencing — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=571886
-- [2026-09-23] Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): Reference files saved in SharePoint libraries and OneDrive folder — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=555897
-- [2026-09-22] Microsoft 365 Copilot (general): Microsoft Copilot (Microsoft 365): Federated Copilot Connectors will support write, update and delet — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=570964
-- [2026-09-22] Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): Attach and reference an image when creating a presentation with C — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=555890
-- [2026-09-22] Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): Attach and reference an image when creating a presentation with C — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=555881
-- [2026-09-22] Microsoft 365 Copilot (general): Microsoft Copilot (Microsoft 365): Ask Copilot about highlighted response content — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=522616
 
 ## Links
 
@@ -45,4 +45,4 @@ Each change has: `date, product, area, title, change, before, after, severity, u
 - Data endpoint: https://microsoft.github.io/Analytics-Hub/community/learning-feed/feed-data.json
 - Repository (MIT): https://github.com/microsoft/Analytics-Hub
 
-_Generated 2026-09-24T11:17:59.496Z. Confirm any change against its linked source before acting._
+_Generated 2026-09-25T11:18:12.870Z. Confirm any change against its linked source before acting._
