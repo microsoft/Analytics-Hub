@@ -26,6 +26,7 @@ const EVENT_COLORS = {
   "cowork-enablement": "#0078d4",
   "enablement": "#0a7d6c",
   "org-learning": "#6b40c0",
+  "office-hours": "#8a8a9c",
   "demo": "#c98a00",
   "launch": "#0a7d33",
 };
