@@ -4988,6 +4988,164 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </div>
 </template>
 
+<style id="ae-connect-styles">
+/* ===== Agent Evaluator: gradient hero + clickthrough player + tabbed Step 4 ===== */
+.cc-hero.ae{background:linear-gradient(160deg,#1f2430 0%,#4a2340 55%,#c81e83 100%)}
+.cc-hero.ae .cc-tag{color:#ffe0f2}
+.cc-hero.ae .cc-oneliner{color:#f2d2e6}
+.ae-hero-card{position:relative}
+.ae-player{max-width:82%;margin:18px auto 0}
+.ae-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0;cursor:zoom-in}
+.ae-img{display:block;width:100%;height:auto}
+.ae-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.ae-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.ae-btn:hover{background:rgba(255,255,255,.22)}
+.ae-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.ae-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.ae-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.ae-dot:hover{background:rgba(255,255,255,.55)}
+.ae-dot[aria-selected="true"]{background:#fff}
+.ae-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.ae-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.ae-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.ae-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.ae-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.ae-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.ae-player:fullscreen .ae-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.ae-player:fullscreen .ae-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.ae-player:fullscreen .ae-controls,.ae-player:fullscreen .ae-dots{flex:0 0 auto;margin:0}
+.ae-player:fullscreen .ae-hint{display:none}
+.ae-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.ae-player:-webkit-full-screen .ae-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.ae-player:-webkit-full-screen .ae-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.ae-player:-webkit-full-screen .ae-hint{display:none}
+</style>
+
+<template id="aeHero">
+  <div class="cc-hero ae ae-hero-card">
+    <h2>Agent Evaluator</h2>
+    <div class="cc-tag">for Copilot Studio, one Power BI template for deep agent performance and evaluation</div>
+    <div class="cc-oneliner">What your agents resolve &middot; what people ask for &middot; what it costs</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT BVA</span><span>POWER BI TEMPLATE</span></div>
+    <div class="ae-player" data-frames="9" data-base="ae-frames">
+      <div class="ae-stage"><img class="ae-img" src="ae-frames/frame_00.jpg" alt="Agent Evaluator page 1 of 9"></div>
+      <div class="ae-controls">
+        <button class="ae-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="ae-btn" type="button" data-act="play" aria-label="Play or pause"><span class="ae-playico">&#10074;&#10074;</span></button>
+        <button class="ae-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="ae-counter">1 / 9</span>
+      </div>
+      <div class="ae-dots">
+        <button class="ae-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="ae-dot" type="button" data-idx="1" aria-selected="false" aria-label="Page 2"></button>
+        <button class="ae-dot" type="button" data-idx="2" aria-selected="false" aria-label="Page 3"></button>
+        <button class="ae-dot" type="button" data-idx="3" aria-selected="false" aria-label="Page 4"></button>
+        <button class="ae-dot" type="button" data-idx="4" aria-selected="false" aria-label="Page 5"></button>
+        <button class="ae-dot" type="button" data-idx="5" aria-selected="false" aria-label="Page 6"></button>
+        <button class="ae-dot" type="button" data-idx="6" aria-selected="false" aria-label="Page 7"></button>
+        <button class="ae-dot" type="button" data-idx="7" aria-selected="false" aria-label="Page 8"></button>
+        <button class="ae-dot" type="button" data-idx="8" aria-selected="false" aria-label="Page 9"></button>
+      </div>
+      <div class="ae-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="ae-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="aeStep4">
+  <p class="gx-reads">One template, three ways to feed it. The first prompt, <strong>Source Mode</strong>, is the only answer that matters: it decides which of the other parameters apply. Every page works on every path. Start on <strong>Local CSV</strong> with the bundled sample data to see the whole report in about two minutes.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Turn on Copilot Studio credit exports</strong> <span class="cc-small"><em>(only for the Credit Consumption pages)</em></span></summary>
+    <div class="cc-idbody">
+      <p>The Credit Consumption pages read the Power Platform Admin Center per-message credit reports. Every other page works without them, so skip this unless you want the credit view.</p>
+      <p>A <strong>Global Administrator</strong> or <strong>Billing Administrator</strong>, once a month: open the <a href="https://admin.powerplatform.microsoft.com/" target="_blank" rel="noopener noreferrer">Power Platform Admin Center</a> &rarr; <strong>Billing &rarr; Licensing</strong> (Copilot Studio messages) and download the three reports.</p>
+      <table class="cc-nb">
+        <tr><th>File name starts with</th><th>What it contains</th></tr>
+        <tr><td><code>EntitlementConsumptionTenantDetailsReport_MCSMessages</code></td><td>credits per environment, per day</td></tr>
+        <tr><td><code>EntitlementConsumptionTenantPerAgentDetailsReport_MCSMessages</code></td><td>credits per agent</td></tr>
+        <tr><td><code>EntitlementConsumptionTenantPerUserDetailsReport_MCSMessages</code></td><td>credits per user</td></tr>
+      </table>
+      <p>There is no API for these reports, so it is a manual monthly download. On the Fabric path you can automate the drop with the ready-made <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/tree/main/fabric/flows" target="_blank" rel="noopener noreferrer">email or SharePoint landing flows</a>.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/credit-consumption.md" target="_blank" rel="noopener noreferrer">Full credit-consumption setup &rarr;</a></p>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Local CSV</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Dataverse</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Fabric</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~2 minutes on sample data &middot; Power BI Pro &middot; no tenant, no capacity</span>
+      <p>The template reads Copilot Studio transcripts from CSV files in one folder. Bundled sample data means it runs out of the box.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/Agent%20Evaluator.pbit" target="_blank" rel="noopener noreferrer"><code>Agent Evaluator.pbit</code></a> in Power BI Desktop. Leave <strong>Source Mode</strong> on <code>TranscriptCSV</code>.</p>
+        <h5><span class="cc-num">2</span> Point it at a folder of CSVs</h5>
+        <p>Set <strong>CSV Folder Path</strong> to a folder holding the files below. The template finds them by name, so keep the names as shipped.</p>
+        <table class="cc-nb">
+          <tr><th>File</th><th>What it feeds</th></tr>
+          <tr><td><code>conversationtranscripts.csv</code></td><td>every transcript page</td></tr>
+          <tr><td><code>copilot_org_data.csv</code></td><td>the org filter on every page</td></tr>
+        </table>
+        <p class="cc-small">Point it at the bundled <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/tree/main/data" target="_blank" rel="noopener noreferrer">data/ folder</a> to fill the whole report with synthetic sample data first.</p>
+        <h5><span class="cc-num">3</span> Load</h5>
+        <p>Click <strong>Load</strong>. Every page renders.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Publishing to the Service?</span>A SharePoint document library URL in <strong>CSV Folder Path</strong> refreshes cloud to cloud with no gateway. A local or network folder needs an on-premises data gateway.</div>
+      <p class="cc-small"><strong>Credit Consumption pages (optional):</strong> add <code>credit_consumption_tenant.csv</code>, <code>credit_consumption_agent.csv</code> and <code>credit_consumption_user.csv</code> to the same folder, using the column names the <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/credit-consumption.md" target="_blank" rel="noopener noreferrer">ingester writes</a>. Leave them out and those pages just stay empty.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/local-csv.md" target="_blank" rel="noopener noreferrer">Full Local CSV guide &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~10 minutes &middot; a Dataverse environment &middot; live, refreshes itself</span>
+      <p>The template reads Copilot Studio transcripts straight from Dataverse and parses them in the model. No Fabric, no notebooks, no app registration.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the template and switch mode</h5>
+        <p>Open <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/Agent%20Evaluator.pbit" target="_blank" rel="noopener noreferrer"><code>Agent Evaluator.pbit</code></a> and set <strong>Source Mode</strong> to <code>Dataverse</code>.</p>
+        <h5><span class="cc-num">2</span> Set your environment</h5>
+        <p>Set <strong>Dataverse Url</strong> to your environment URL, e.g. <code>https://yourorg.crm.dynamics.com</code>. Find it in the <a href="https://admin.powerplatform.microsoft.com/" target="_blank" rel="noopener noreferrer">Power Platform Admin Center</a> &rarr; Environments &rarr; your env &rarr; Environment URL. One environment per report.</p>
+        <h5><span class="cc-num">3</span> Set the org folder</h5>
+        <p>Set <strong>CSV Folder Path</strong> to a folder holding <code>copilot_org_data.csv</code>, which drives the org filter. A SharePoint library URL or a local folder both work.</p>
+        <h5><span class="cc-num">4</span> Load and sign in</h5>
+        <p>Click <strong>Load</strong>. On first refresh choose <strong>Organizational account</strong> and sign in with a login that can <strong>read the Conversation Transcript table</strong>. The native connector uses that login, so there is no app registration or client secret.</p>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Dataverse keeps about 30 days</span>Reading Dataverse directly, the report only ever sees the last month of transcripts, for one environment. For longer history or several environments in one report, use the <strong>Fabric</strong> tab.</div>
+      <p class="cc-small"><strong>Credit Consumption pages (optional):</strong> as on Local CSV, add the three <code>credit_consumption_*.csv</code> files to the CSV folder.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/dataverse.md" target="_blank" rel="noopener noreferrer">Full Dataverse guide &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; An afternoon &middot; Fabric capacity (F2+ or trial) + Lakehouse &middot; scheduled</span>
+      <p>Notebooks land your data as Delta tables in a Lakehouse and the template reads them over the SQL endpoint. This is the path for large volumes, history beyond 30 days, several environments at once, and the turnkey Credit Consumption pages.</p>
+      <div class="cc-callout cc-warn"><span class="ct">Attach your Lakehouse before running a notebook</span>For each notebook: Explorer pane &rarr; add your Lakehouse &rarr; set it as the default (the star). That is what points the notebook at your data.</div>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
+        <p><a href="https://app.fabric.microsoft.com/" target="_blank" rel="noopener noreferrer">Fabric portal</a> &rarr; your workspace &rarr; <strong>New &rarr; Lakehouse</strong>. Note its <strong>SQL analytics endpoint</strong> (Lakehouse &rarr; Settings).</p>
+        <h5><span class="cc-num">2</span> Land the transcripts</h5>
+        <p>Import <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/fabric/notebooks/Copilot_Agent_Transcript_Parser.ipynb" target="_blank" rel="noopener noreferrer"><code>Copilot_Agent_Transcript_Parser.ipynb</code></a>, fill the <code># === CONFIG ===</code> cell, run. Two ways to source transcripts:</p>
+        <table class="cc-nb">
+          <tr><th>In the CONFIG cell</th><th>What it does</th></tr>
+          <tr><td><code>SOURCE_MODE = 'dataverse'</code></td><td>Pulls live from one or many environments (<code>DATAVERSE_URL</code> or <code>DATAVERSE_URLS</code>). Needs an Entra app added as an <strong>Application User</strong> in each environment, with <code>TENANT_ID</code>, <code>CLIENT_ID</code> and a <code>CLIENT_SECRET</code> read from Key Vault. Each run accumulates history past the 30-day window.</td></tr>
+          <tr><td><code>SOURCE_MODE = 'files'</code></td><td>Reads a <code>conversationtranscripts.csv</code> you drop in <code>Files/copilot_transcripts</code>. Nothing else to set.</td></tr>
+        </table>
+        <p>Writes <code>agent_sessions</code>, <code>agent_turns</code>, <code>agent_errors</code>, <code>agent_subagents</code>, <code>agent_catalogue</code>, <code>agent_performance</code>.</p>
+        <h5><span class="cc-num">3</span> Credit Consumption pages (optional)</h5>
+        <p>Turn on the credit exports (see the callout above the tabs), drop the three files in <code>Files/credit_consumption</code>, then run <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/fabric/notebooks/Copilot_Credit_Consumption_Ingester.ipynb" target="_blank" rel="noopener noreferrer"><code>Copilot_Credit_Consumption_Ingester.ipynb</code></a>. It writes <code>credit_consumption_tenant</code>, <code>_agent</code> and <code>_user</code>. To automate the monthly drop, import an <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/tree/main/fabric/flows" target="_blank" rel="noopener noreferrer">email or SharePoint landing flow</a>.</p>
+        <h5><span class="cc-num">4</span> Org data (optional)</h5>
+        <p>Land <code>copilot_org_data</code> for department breakdowns. The join uses the <strong>AAD object ID</strong>, so the export must include the <code>id</code> column, which a Graph <code>/users</code> call returns. Without it, org breakdowns come back blank.</p>
+        <h5><span class="cc-num">5</span> Connect and schedule</h5>
+        <p>Open <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/Agent%20Evaluator.pbit" target="_blank" rel="noopener noreferrer"><code>Agent Evaluator.pbit</code></a>, set <strong>Source Mode</strong> to <code>Fabric</code>, then <strong>Fabric SQL Endpoint</strong> and <strong>Lakehouse Name</strong>. <strong>Load</strong>, <strong>Publish</strong>, then schedule the notebooks to run before the dataset refresh.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">No consumption switch to set</span>The Credit Consumption pages fill in on their own once the credit tables hold data, and stay empty when they do not. There is no parameter to toggle.</div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/blob/main/docs/fabric.md" target="_blank" rel="noopener noreferrer">Full Fabric guide &rarr;</a></p>
+    </section>
+  </div>
+</template>
+
 <script>
 (function () {
   'use strict';
@@ -7635,6 +7793,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _ccStep4 = document.getElementById('ccStep4');
       if (_ccStep4) return _ccStep4.innerHTML;
     }
+    if (t.id === 'agent-evaluator') {
+      var _aeStep4 = document.getElementById('aeStep4');
+      if (_aeStep4) return _aeStep4.innerHTML;
+    }
     if (t.id === 'ai-in-one') {
       var _aioStep4 = document.getElementById('aioStep4');
       if (_aioStep4) return _aioStep4.innerHTML;
@@ -7792,6 +7954,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       return '<section class="gx-panel" id="gx-p-' + esc(t.id) + '" role="tabpanel" ' +
         'aria-labelledby="gx-tab-' + esc(t.id) + '"' + (i === 0 ? '' : ' hidden') + '>' +
         (t.id === 'consumption-central' && document.getElementById('ccHero') ? document.getElementById('ccHero').innerHTML : '') +
+        (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         '<div class="gx-rhead">' +
@@ -8218,6 +8381,61 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   }
   if (document.readyState !== 'loading') scan();
   else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
+<script id="ae-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+      base: el.getAttribute('data-base') || 'ae-frames', playing:false, timer:null,
+      img: el.querySelector('.ae-img'), counter: el.querySelector('.ae-counter'),
+      dots: el.querySelectorAll('.ae-dot'), playIco: el.querySelector('.ae-playico') };
+    reg.push(st); show(st,0); play(st);
+  }
+  function scan(){ var l=document.querySelectorAll('.ae-player'); for (var i=0;i<l.length;i++) init(l[i]); }
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){ try { var r=req.call(el); if (r&&r.catch) r.catch(function(){}); } catch(e){} }
+  }
+  document.addEventListener('click', function (e){
+    var btn = e.target && e.target.closest ? e.target.closest('.ae-btn, .ae-dot, .ae-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen'){
+      var host = btn.closest('.ae-hero-card') || document;
+      var pl = host.querySelector ? host.querySelector('.ae-player') : null;
+      if (!pl) pl = btn.closest('.ae-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.ae-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev'){ pause(st); show(st, st.i-1); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    else if (act === 'play'){ st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('ae-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+  });
+  document.addEventListener('click', function (e){
+    var img = e.target && e.target.closest ? e.target.closest('.ae-stage .ae-img') : null;
+    if (!img) return; var el = img.closest('.ae-player'); if (el) toggleFs(el);
+  });
+  if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
 })();
 </script>
 <script id="cc-connect-tabs">
