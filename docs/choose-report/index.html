@@ -6173,6 +6173,102 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </div>
 </template>
 
+<template id="cbrHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>&#129534; Cowork Chargeback and Billing Report</h2>
+    <div class="cc-tag">RLS-ready Power BI report for Cowork credit consumption, chargeback, optimization and billing</div>
+    <div class="cc-oneliner">Who is consuming credits &middot; what each department owes &middot; who is over limit &middot; what next quarter looks like</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="cbr-player" data-frames="5" data-base="cbr-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cbr-frames/frame_00.jpg" alt="Cowork Chargeback and Billing Report page 1 of 5"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 5</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="cbrStep4">
+  <p class="gx-reads">This report is powered by <strong>two CSV exports</strong> joined on user principal name: your <strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory. No database connection &mdash; both files load through Power Query parameters. Wire up your own data, or explore the shipped demo dataset first.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Demo data (no tenant)</button>
+    </div>
+
+    <!-- TAB 1: YOUR OWN DATA -->
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~45 minutes &middot; Power BI Desktop &middot; two admin exports</span>
+      <p>Produce the two CSV exports, point the template at them, refresh.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Export 1 &mdash; Copilot credit consumption</h5>
+        <p><a href="https://admin.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; <strong>Copilot</strong> &rarr; <strong>Cost management</strong> &rarr; <strong>Consumption</strong> tab &rarr; <strong>Export CSV</strong>. One row per user with the monthly credit limit, credits used, session count, % used and last activity date.</p>
+        <h5><span class="cc-num">2</span> Export 2 &mdash; Microsoft Entra org directory</h5>
+        <p><a href="https://entra.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Entra admin center</a> &rarr; <strong>Identity</strong> &rarr; <strong>Users</strong> &rarr; <strong>All users</strong> &rarr; <strong>Download users</strong> (or Microsoft Graph <code>GET /users</code>). Supplies <code>department</code>, <code>jobTitle</code>, <code>city</code>, <code>country</code> and <code>manager</code> &mdash; the org context the credit export doesn&rsquo;t carry.</p>
+        <details class="cc-idbox">
+          <summary><strong>Exact fields required</strong> <span class="cc-small"><em>(don&rsquo;t rename columns &mdash; a missing one produces blank visuals with no error)</em></span></summary>
+          <div class="cc-idbody">
+            <p><strong>Export 1 (credit consumption):</strong> <code>Display Name</code>, <code>User Principal Name</code> (join key), <code>Monthly credit limit</code>, <code>Monthly credits used</code>, <code>User ID</code>, <code>Microsoft 365 Copilot license</code>, <code>Last activity date</code>, <code>Session Count</code>, <code>% Used</code>.</p>
+            <p><strong>Export 2 (Entra directory):</strong> <code>userPrincipalName</code> (join key), <code>displayName</code>, <code>department</code>, <code>jobTitle</code>, <code>jobFamily</code>, <code>city</code>, <code>country</code>, <code>costCenter</code>, <code>manager</code>, <code>businessUnit</code>.</p>
+            <blockquote><code>jobFamily</code>, <code>costCenter</code> and <code>businessUnit</code> are <strong>not</strong> standard Entra fields &mdash; an admin maps them in (for example from an HR feed), or those slicers stay blank. Every user in the credit export needs a matching directory row, or their credits aren&rsquo;t attributed to a department.</blockquote>
+          </div>
+        </details>
+        <h5><span class="cc-num">3</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback.pbit</code></a>, set <code>CreditCsvPath</code> to the credit CSV and <code>EntraCsvPath</code> to the directory CSV, click <strong>Load</strong>.</p>
+        <h5><span class="cc-num">4</span> Refresh and verify</h5>
+        <p>Click <strong>Refresh</strong> and confirm the Consumption visuals populate (total credits used, allowance, utilization %, top user) and all six pages render.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Refresh is manual on the CSV path</span>
+        Re-export the two CSVs on your cadence (for example monthly), overwrite the files at the same paths, and refresh the report. There is no scheduled-refresh edition for this template.</div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/CreditUsage#instructions" target="_blank" rel="noopener noreferrer">Full setup guide, roles and field list &rarr;</a></p>
+    </section>
+
+    <!-- TAB 2: DEMO -->
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~5 minutes &middot; Power BI Desktop &middot; no exports, no tenant</span>
+      <p>Want to see all six pages before you collect anything real? The repo ships a synthetic dataset in the exact format the template expects.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback.pbit</code></a> in Power BI Desktop.</p>
+        <h5><span class="cc-num">2</span> Point the two parameters at the demo files</h5>
+        <p>When prompted, set the parameters to the two files in the <a href="https://github.com/microsoft/CreditUsage/tree/main/demo%20data" target="_blank" rel="noopener noreferrer">demo data</a> folder, then click <strong>Load</strong>:</p>
+        <table class="cc-kv">
+          <tr><th><code>CreditCsvPath</code></th><td>Path to <code>cowork_billing_synthetic.csv</code></td></tr>
+          <tr><th><code>EntraCsvPath</code></th><td>Path to <code>entra_org.csv</code></td></tr>
+        </table>
+        <h5><span class="cc-num">3</span> Explore</h5>
+        <p>All six pages render on synthetic data: Consumption, Chargeback (PayGo), Prepaid Allocation, Optimization, Forecast, and Glossary.</p>
+      </div>
+    </section>
+  </div>
+
+  <details class="cc-idbox">
+    <summary><strong>Row-Level Security</strong> <span class="cc-small"><em>(optional &mdash; show each department lead only their own data)</em></span></summary>
+    <div class="cc-idbody">
+      <p>The report ships two roles: <strong>All Org (Admin)</strong> (unrestricted, for finance and program leads) and <strong>Department Admin</strong> (only the viewer&rsquo;s own department, via a <code>USERPRINCIPALNAME()</code> filter). Set it up in two places:</p>
+      <ol>
+        <li><strong>Power BI Desktop</strong> &mdash; define the roles (Modeling &rarr; Manage roles).</li>
+        <li><strong>Power BI Service / Fabric</strong> &mdash; assign members to each role after publishing.</li>
+      </ol>
+      <p class="cc-glink"><a href="https://github.com/microsoft/CreditUsage#instructions" target="_blank" rel="noopener noreferrer">Full RLS steps &rarr;</a></p>
+    </div>
+  </details>
+</template>
+
+
 <script>
 (function () {
   'use strict';
@@ -6190,7 +6286,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      These are NOT fixed on the live site yet - see the findings panel. */
   var PENDING_DATA_FIXES = {
     'cowork-billing-report': {
-      title: 'Cowork Chargeback Report Power BI',
+      title: 'Cowork Chargeback and Billing Report',
       /* images/dashboard-preview.gif exists in microsoft/CreditUsage but the
          live record carries no preview, so the flyout showed a placeholder. */
       preview: 'https://raw.githubusercontent.com/microsoft/CreditUsage/main/images/dashboard-preview.gif'
@@ -6923,13 +7019,21 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     if (!out.length && isEmbeddableVideo(t.demoVideo)) out.push({ url: t.demoVideo, label: '' });
     return out;
   }
+  /* Reports whose preview gif/still images live in the gradient hero card.
+     For these, the preview is NOT repeated as a "Preview" tab in the Step 1
+     media, and if the report has no video at all, the whole "See what you are
+     building" step is dropped (the hero already shows it). */
+  var HERO_GIF_IDS = {
+    'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
+    'ai-in-one': 1, 'cowork-billing-report': 1
+  };
   function mediaItems(t) {
     var vids = videosOf(t), items = [];
     vids.forEach(function (v, i) {
       items.push({ key: 'v' + i, kind: 'video', url: v.url,
-        label: v.label || (vids.length > 1 ? 'Video ' + (i + 1) : 'Video') });
+        label: v.label || (vids.length > 1 ? 'Video ' + (i + 1) : 'Overview') });
     });
-    if (safeAsset(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
+    if (!HERO_GIF_IDS[t.id] && safeAsset(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
     if (deckOf(t)) items.push({ key: 'd', kind: 'deck', label: 'Executive deck' });
     return items;
   }
@@ -8844,6 +8948,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _ccStep4 = document.getElementById('ccStep4');
       if (_ccStep4) return _ccStep4.innerHTML;
     }
+    if (t.id === 'cowork-billing-report') {
+      var _cbrStep4 = document.getElementById('cbrStep4');
+      if (_cbrStep4) return _cbrStep4.innerHTML;
+    }
     if (t.id === 'ess-insights') {
       var _essStep4 = document.getElementById('essStep4');
       if (_essStep4) return _essStep4.innerHTML;
@@ -8947,11 +9055,12 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       return '<section class="gx-step"><span class="gx-num">' + n + '</span>' +
         '<div class="gx-body"><h4>' + head + '</h4>' + inner + '</div></section>';
     }
-    /* Super User Adoption and Super User Impact carry the interactive
-       clickthrough preview in their gradient hero, so the separate
-       "See what you are building" step is redundant for them and is
-       dropped. The step counter bumps the rest up by one. */
-    var heroHasPreview = (t.id === 'super-usage' || t.id === 'super-user-impact' || t.id === 'ess-insights');
+    /* If a report's gradient hero already carries the interactive preview and
+       the report has no video, the separate "See what you are building" step
+       is redundant and is dropped (the step counter bumps the rest up by one).
+       Reports WITH a video keep the step, but its media shows only the video
+       (labelled Overview) since the gif now lives in the hero. */
+    var heroHasPreview = !!HERO_GIF_IDS[t.id] && videosOf(t).length === 0;
     if (!heroHasPreview) {
       out += step('See what you are building',
         '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
@@ -9044,6 +9153,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'ess-insights' && document.getElementById('essHero') ? document.getElementById('essHero').innerHTML : '') +
         (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
+        (t.id === 'cowork-billing-report' && document.getElementById('cbrHero') ? document.getElementById('cbrHero').innerHTML : '') +
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         (t.id === 'cowork-team-report' && document.getElementById('cwtHero') ? document.getElementById('cwtHero').innerHTML : '') +
@@ -9377,6 +9487,90 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   document.addEventListener('click', function (e){
     var img = e.target && e.target.closest ? e.target.closest('.vl-stage .vl-img') : null;
     if (!img) return; var el = img.closest('.vl-player'); if (el) toggleFs(el);
+  });
+  if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
+<style id="cbr-player-styles">
+.cbr-hero-card{position:relative}
+.cbr-player{max-width:82%;margin:18px auto 0}
+.cbr-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0;cursor:zoom-in}
+.cbr-img{display:block;width:100%;height:auto}
+.cbr-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.cbr-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.cbr-btn:hover{background:rgba(255,255,255,.22)}
+.cbr-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.cbr-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.cbr-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.cbr-dot:hover{background:rgba(255,255,255,.55)}
+.cbr-dot[aria-selected="true"]{background:#fff}
+.cbr-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.cbr-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.cbr-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.cbr-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.cbr-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.cbr-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.cbr-player:fullscreen .cbr-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.cbr-player:fullscreen .cbr-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.cbr-player:fullscreen .cbr-controls,.cbr-player:fullscreen .cbr-dots{flex:0 0 auto;margin:0}
+.cbr-player:fullscreen .cbr-hint{display:none}
+.cbr-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.cbr-player:-webkit-full-screen .cbr-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.cbr-player:-webkit-full-screen .cbr-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.cbr-player:-webkit-full-screen .cbr-hint{display:none}
+</style>
+
+<script id="cbr-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+      base: el.getAttribute('data-base') || 'cbr-frames', playing:false, timer:null,
+      img: el.querySelector('.cbr-img'), counter: el.querySelector('.cbr-counter'),
+      dots: el.querySelectorAll('.cbr-dot'), playIco: el.querySelector('.cbr-playico') };
+    reg.push(st); show(st,0); play(st);
+  }
+  function scan(){ var l=document.querySelectorAll('.cbr-player'); for (var i=0;i<l.length;i++) init(l[i]); }
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){ try { var r=req.call(el); if (r&&r.catch) r.catch(function(){}); } catch(e){} }
+  }
+  document.addEventListener('click', function (e){
+    var btn = e.target && e.target.closest ? e.target.closest('.cbr-btn, .cbr-dot, .cbr-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen'){
+      var host = btn.closest('.cbr-hero-card') || document;
+      var pl = host.querySelector ? host.querySelector('.cbr-player') : null;
+      if (!pl) pl = btn.closest('.cbr-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.cbr-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev'){ pause(st); show(st, st.i-1); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    else if (act === 'play'){ st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('cbr-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+  });
+  document.addEventListener('click', function (e){
+    var img = e.target && e.target.closest ? e.target.closest('.cbr-stage .cbr-img') : null;
+    if (!img) return; var el = img.closest('.cbr-player'); if (el) toggleFs(el);
   });
   if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
   if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
