@@ -4433,6 +4433,226 @@ html.mk-embed main.mk-page{ display:none !important; }
   }
 }</script>
 
+<style id="cc-connect-styles">
+/* ===== Consumption Central: gradient hero + tabbed Step 4 (Connect your data) ===== */
+.cc-hero{background:linear-gradient(160deg,#1f2430 0%,#2b3a55 60%,#4F73B8 100%);color:#fff;
+  text-align:center;padding:34px 30px 30px;border-radius:14px;margin:0 0 6px}
+.cc-hero h2{font-size:1.9rem;margin:0 0 6px;font-weight:800;letter-spacing:-.01em;color:#fff}
+.cc-hero .cc-tag{font-size:15px;color:#dbe6ff;font-weight:600}
+.cc-hero .cc-oneliner{font-size:13px;color:#c3d2ee;margin:12px 0 16px}
+.cc-badges span{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:5px;padding:5px 11px;margin:0 4px;color:#fff}
+.cc-gif{max-width:82%;border-radius:8px;margin:20px auto 0;display:block;border:1px solid rgba(255,255,255,.2)}
+.cc-idbox{border:1px solid #c297e0;border-radius:8px;margin:14px 0;background:color-mix(in srgb,#8250df 7%,var(--mk-surface))}
+.cc-idbox summary{cursor:pointer;padding:11px 15px;font-size:14px;list-style:none;display:flex;align-items:center;gap:8px;color:var(--mk-text)}
+.cc-idbox summary::-webkit-details-marker{display:none}
+.cc-idbox summary::before{content:"\25B8";color:#8250df;font-size:12px;transition:transform .15s}
+.cc-idbox[open] summary::before{transform:rotate(90deg)}
+.cc-idbox .cc-idbody{padding:2px 15px 14px;border-top:1px solid color-mix(in srgb,#8250df 22%,var(--mk-border));font-size:13.5px;color:var(--mk-soft)}
+.cc-idbox .cc-idbody ol{margin:8px 0;padding-left:20px}
+.cc-idbox .cc-idbody blockquote{border-left:3px solid var(--mk-border);margin:12px 0 2px;padding:2px 14px;color:var(--mk-muted);font-size:12.5px}
+.ccyd{border:1px solid var(--mk-border);border-radius:10px;padding:6px 18px 18px;margin:12px 0 2px;background:var(--mk-surface)}
+.cc-tablist{display:flex;flex-wrap:wrap;gap:2px;border-bottom:2px solid var(--mk-border)}
+.cc-tab{appearance:none;border:none;background:transparent;font:inherit;font-size:13.5px;font-weight:600;
+  color:var(--mk-muted);padding:11px 16px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:7px}
+.cc-tab .n{display:inline-flex;width:19px;height:19px;border-radius:50%;background:var(--mk-surface-2);color:var(--mk-muted);
+  align-items:center;justify-content:center;font-size:11.5px;font-weight:700}
+.cc-tab:hover{color:var(--mk-text)}
+.cc-tab[aria-selected="true"]{color:var(--mk-accent);border-bottom-color:var(--mk-accent)}
+.cc-tab[aria-selected="true"] .n{background:color-mix(in srgb,var(--mk-accent) 15%,transparent);color:var(--mk-accent)}
+.cc-panel{display:none;padding:18px 2px 2px}
+.cc-panel.active{display:block}
+.cc-panel p{margin:8px 0;color:var(--mk-soft);font-size:14px}
+.cc-time{display:inline-block;font-size:12px;color:var(--mk-muted);background:var(--mk-surface-2);border:1px solid var(--mk-border);border-radius:20px;padding:2px 12px;margin:2px 0 8px}
+.cc-steps h5{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:650;margin:18px 0 4px;color:var(--mk-text)}
+.cc-steps h5 .cc-num{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--mk-accent-strong);color:var(--mk-on-accent);align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:0 0 auto}
+.ccyd ol,.ccyd ul{padding-left:20px;margin:8px 0}
+.ccyd ol li,.ccyd ul li{margin:6px 0;color:var(--mk-soft);font-size:14px}
+.cc-callout{border-radius:7px;padding:11px 15px;margin:14px 0;font-size:13.5px;border:1px solid}
+.cc-callout .ct{font-weight:700;margin-bottom:3px;display:block;color:var(--mk-text)}
+.cc-warn{background:color-mix(in srgb,#d4a72c 12%,var(--mk-surface));border-color:#d4a72c}
+.cc-info{background:color-mix(in srgb,var(--mk-accent) 9%,var(--mk-surface));border-color:color-mix(in srgb,var(--mk-accent) 45%,var(--mk-border))}
+.cc-good{background:color-mix(in srgb,#4ac26b 13%,var(--mk-surface));border-color:#4ac26b}
+table.cc-nb{width:100%;border-collapse:collapse;margin:11px 0;font-size:12.5px}
+table.cc-nb th,table.cc-nb td{border:1px solid var(--mk-border);padding:7px 9px;text-align:left;vertical-align:top;color:var(--mk-soft)}
+table.cc-nb th{background:var(--mk-surface-2);font-weight:600;color:var(--mk-text)}
+.cc-kv{width:100%;border-collapse:collapse;margin:9px 0;font-size:13px}
+.cc-kv th,.cc-kv td{border:1px solid var(--mk-border);padding:7px 10px;text-align:left;color:var(--mk-soft)}
+.cc-kv th{background:var(--mk-surface-2);width:34%;color:var(--mk-text)}
+.cc-pill{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 7px;letter-spacing:.2px}
+.cc-pill.pref{background:color-mix(in srgb,#4ac26b 18%,transparent);color:#1a7f37;border:1px solid #4ac26b}
+.cc-pill.fallback{background:var(--mk-surface-2);color:var(--mk-muted);border:1px solid var(--mk-border)}
+.cc-pill.exp{background:color-mix(in srgb,#e0662f 18%,transparent);color:#a2481f;border:1px solid #ffb59a}
+.cc-small{font-size:12px;color:var(--mk-muted)}
+.cc-glink{font-size:12.5px}.cc-glink::before{content:"\1F517  ";}
+.ccyd code{background:var(--mk-surface-2);border-radius:4px;padding:1px 5px;font-size:85%}
+.ccyd pre{background:var(--mk-surface-2);border:1px solid var(--mk-border);border-radius:6px;padding:11px;font-size:12px;overflow:auto}
+</style>
+
+<template id="ccHero">
+  <div class="cc-hero">
+    <h2>&#128179; Consumption Central</h2>
+    <div class="cc-tag">for Microsoft Copilot &mdash; one Power BI template for Copilot credit consumption and cost</div>
+    <div class="cc-oneliner">What you're consuming &middot; what it costs &middot; where to trim &middot; what next year looks like</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <img class="cc-gif" src="https://raw.githubusercontent.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/main/Images/ConsumptionCentral-Preview.gif" alt="Consumption Central preview" loading="lazy" onerror="this.style.display='none'">
+  </div>
+</template>
+
+<template id="ccStep4">
+  <p class="gx-reads">Pick how your data gets in. Bring whichever products you have; missing ones just leave their pages empty. Each path ends the same way: open the <code>.pbit</code>, fill in one or two parameters, click <strong>Load</strong>.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Turn on Viva identification</strong> <span class="cc-small"><em>(only if you want per-person or department views)</em></span></summary>
+    <div class="cc-idbody">
+      <p>Viva Insights ships Copilot data de-identified, so it can't be joined to your other sources until this is on. Cowork totals are correct either way.</p>
+      <p>A <strong>Global Administrator</strong> or <strong>AI Administrator</strong>, about two minutes:</p>
+      <ol>
+        <li><a href="https://admin.cloud.microsoft/?#/viva/featureAccessManagement" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; <strong>Settings &rarr; Viva &rarr; Feature access management</strong></li>
+        <li><strong>Create a policy</strong> &mdash; App <strong>Viva Insights</strong>, Feature <strong>Identification</strong></li>
+        <li>Access <strong>On</strong>, applied to everyone or a named analyst group</li>
+        <li>Allow <strong>up to 24 hours</strong>, then re-run your export</li>
+      </ol>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/DATA-SOURCES.md#identified-vs-de-identified" target="_blank" rel="noopener noreferrer">Full steps and the two query names &rarr;</a></p>
+      <blockquote>This processes personal data. Check whether per-person reporting needs works-council consent or employee notification where you operate &mdash; your organisation is the data controller, not Microsoft. The connector does <strong>not</strong> enforce Viva's minimum group size, so apply any privacy threshold in the report yourself.</blockquote>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Local CSV</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Fabric</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Viva Direct</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="4"><span class="n">4</span> Power Automate + Dataverse</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Pro &middot; no Fabric capacity</span>
+      <p>Download your exports, drop them in one folder, point the template at it.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Make a folder</h5>
+        <p>Anywhere on disk &mdash; <code>C:\Consumption Central\Data</code> is fine.</p>
+        <h5><span class="cc-num">2</span> Put your exports in it</h5>
+        <p>File names don't have to match exactly &mdash; the template recognises the usual variations. Grab only the products you have:</p>
+        <table class="cc-nb">
+          <tr><th>Product</th><th>Where to get it (sign-in required)</th></tr>
+          <tr><td>Cowork / Work IQ</td><td><a href="https://insights.viva.office.com/" target="_blank" rel="noopener">Viva Insights</a> &rarr; Analysis &rarr; build a query &rarr; download CSV</td></tr>
+          <tr><td>Copilot Studio</td><td><a href="https://admin.powerplatform.microsoft.com/" target="_blank" rel="noopener">Power Platform admin center</a> &rarr; Licensing &rarr; Copilot Studio</td></tr>
+          <tr><td>GitHub Copilot</td><td><a href="https://github.com/settings/billing" target="_blank" rel="noopener">GitHub</a> &rarr; Billing &amp; Licensing &rarr; Usage &rarr; <strong>AI usage</strong> report</td></tr>
+          <tr><td>Azure AI Foundry</td><td><a href="https://portal.azure.com/#view/Microsoft_Azure_CostManagement" target="_blank" rel="noopener">Azure Cost Analysis</a> &rarr; export, or run <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/pull_azure_ai.py" target="_blank" rel="noopener"><code>pull_azure_ai.py</code></a></td></tr>
+        </table>
+        <p class="cc-glink"><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/DATA-SOURCES.md" target="_blank" rel="noopener">Full click-paths and permissions &rarr;</a></p>
+        <h5><span class="cc-num">3</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/Consumption%20Central%20-%20Local%20CSV.pbit" target="_blank" rel="noopener"><code>Consumption Central - Local CSV.pbit</code></a>, paste your folder path into <code>DataFolder</code>, click <strong>Load</strong>. That's it.</p>
+      </div>
+      <p class="cc-small"><strong>Try it with sample data first:</strong> point <code>DataFolder</code> at <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" target="_blank" rel="noopener">1. Local CSV/sample-data</a> and the whole report fills in.</p>
+      <p class="cc-small">Only want department views? Expand <strong>Turn on Viva identification</strong> above. On this path a de-identified export's <code>PersonPolicyMap.csv</code> also bridges the hash if you include it.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; An afternoon &middot; needs Fabric capacity (F SKU or eligible trial) &middot; PPU is <em>not</em> Fabric capacity</span>
+      <p>Set it up once, then it refreshes itself. Data lands in a Lakehouse; the report reads it on a schedule and accumulates history beyond Viva's 6-month export window.</p>
+      <div class="cc-callout cc-warn"><span class="ct">Attach your Lakehouse before running any notebook</span>
+        The notebooks have <strong>no</strong> <code>Workspace</code> or <code>Lakehouse</code> setting. They write with <code>saveAsTable(...)</code> and read from <code>Files/landing/&hellip;</code>, both of which target the notebook's <strong>attached default Lakehouse</strong>. So for each notebook you use: <strong>Explorer pane &rarr; Add your Lakehouse &rarr; set it as the default</strong> (the star). That's what points the notebook at your data. The only things you edit in the top cell are <em>source-specific</em> (an enterprise slug, a Key Vault URL, a date window), and several notebooks need <em>nothing</em> beyond dropping a file in the landing folder.</div>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
+        <p><a href="https://app.fabric.microsoft.com/" target="_blank" rel="noopener">Fabric portal</a> &rarr; your workspace &rarr; <strong>New</strong> &rarr; <strong>Lakehouse</strong>. Everything below writes into this one.</p>
+        <h5><span class="cc-num">2</span> Set up Viva &mdash; preferred route, no notebook</h5>
+        <p>Viva Insights ships a certified <strong>Dataflow Gen2</strong> connector that writes query results straight into your Lakehouse on a schedule.</p>
+        <ol>
+          <li><a href="https://insights.viva.office.com/" target="_blank" rel="noopener">Viva Insights</a> &rarr; <strong>Analysis</strong> &rarr; build a <strong>custom query</strong> with the Copilot credit metrics &rarr; <strong>Analysis results</strong> &rarr; your query &rarr; the <strong>link icon</strong>. Copy the <strong>Partition identifier</strong> and <strong>Query identifier</strong>.</li>
+          <li>Fabric &rarr; <strong>New</strong> &rarr; <strong>Dataflow Gen2</strong> &rarr; <strong>Get data</strong> &rarr; search <em>Viva Insights</em> under <strong>Online Services</strong>.</li>
+          <li>Paste both identifiers, leave <em>Query Name</em> blank. Advanced options: <strong>Schema Type = Pivoted</strong>, <strong>Data Granularity = Row-level data</strong>. Auth with an <strong>Organizational account</strong>.</li>
+          <li>Set the Lakehouse as destination, name the table <code>viva_credits_weekly</code>, keep the person identifiers + metric + attribute columns. Schedule <strong>Tue ~8am PST</strong>, after Viva's weekend refresh.</li>
+        </ol>
+        <div class="cc-callout cc-warn"><span class="ct">Two gotchas</span>
+          <strong>Leaving <em>Query Name</em> blank only works against a custom query you built in Analysis</strong> &mdash; the Consumption Dashboard's own export is multi-table and needs a table name. And <strong>turn on Auto-refresh for the query itself</strong> in Viva, or the Dataflow keeps refreshing a result that never changes.</div>
+        <p class="cc-glink"><a href="https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/export-query-data-microsoft-fabric" target="_blank" rel="noopener">Microsoft's Dataflow Gen2 guide &rarr;</a></p>
+        <h5><span class="cc-num">3</span> Import the notebooks for your other products</h5>
+        <p>From <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/2.%20Fabric/notebooks" target="_blank" rel="noopener">2. Fabric/notebooks/</a> &mdash; import only the ones you need, <strong>set the imported Lakehouse as the notebook's default</strong> (see the note above), fill in whatever the top cell lists, run. What each one needs and writes:</p>
+        <table class="cc-nb">
+          <tr><th>Notebook</th><th>Reads</th><th>What you set at the top</th><th>Writes</th></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_GitHub_API.ipynb" target="_blank" rel="noopener"><code>Ingest_GitHub_API</code></a> <span class="cc-pill pref">preferred</span></td><td>GitHub REST AI-credit endpoints</td><td><code>ENTERPRISE</code> slug; <code>TOKEN</code> (classic PAT via Key Vault <code>getSecret</code>); <code>BACKFILL_MONTHS</code></td><td><code>github_ai_usage</code>, <code>github_user_map</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_GitHub.ipynb" target="_blank" rel="noopener"><code>Ingest_GitHub</code></a> <span class="cc-pill fallback">CSV fallback</span></td><td>Emailed AI usage CSV in <code>Files/landing/github</code></td><td>Nothing &mdash; just drop the file</td><td><code>github_ai_usage</code>, <code>github_user_map</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_Azure_AI.ipynb" target="_blank" rel="noopener"><code>Ingest_Azure_AI</code></a></td><td>Azure Cost Management + Azure Monitor</td><td><code>SUBSCRIPTION_ID</code>, <code>TENANT_ID</code>, <code>CLIENT_ID</code>, <code>KEY_VAULT_URL</code>, <code>CLIENT_SECRET_NAME</code>, <code>DAYS</code> &mdash; needs an Entra app + Key Vault secret + Azure RBAC first</td><td><code>azure_ai_spend</code>, <code>azure_ai_tokens</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_Studio.ipynb" target="_blank" rel="noopener"><code>Ingest_Studio</code></a> <span class="cc-pill pref">supported</span></td><td>3 PPAC CSVs in <code>Files/landing/studio</code></td><td>Nothing required (<code>SNAPSHOT_MONTH</code> only when backfilling an old export)</td><td><code>studio_tenant_daily</code>, <code>studio_agent</code>, <code>studio_user</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_Viva_Consumption.ipynb" target="_blank" rel="noopener"><code>Ingest_Viva_Consumption</code></a> <span class="cc-pill fallback">fallback only</span></td><td>Viva CSV in <code>Files/landing/viva</code> &mdash; use Step 2 Dataflow instead where you can</td><td>Nothing required</td><td><code>viva_credits_weekly</code>, <code>viva_spending_policy</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_Org.ipynb" target="_blank" rel="noopener"><code>Ingest_Org</code></a> <span class="cc-pill fallback">optional</span></td><td>Derives from <code>viva_credits_weekly</code>; optional CSVs in <code>Files/landing/org</code></td><td>Nothing required</td><td><code>org_attributes</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_CommercialTerms.ipynb" target="_blank" rel="noopener"><code>Ingest_CommercialTerms</code></a> <span class="cc-pill fallback">optional</span></td><td>Azure Cost Management (rate = cost &divide; quantity)</td><td><code>SCOPE</code> (ARM billing path); needs Cost Management Reader</td><td><code>commercial_terms</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/notebooks/Ingest_Studio_Consumption.ipynb" target="_blank" rel="noopener"><code>Ingest_Studio_Consumption</code></a> <span class="cc-pill exp">in testing</span></td><td>Power Platform licensing API</td><td><code>TENANT_ID</code>, <code>CLIENT_ID</code>, <code>KEY_VAULT_URL</code>, <code>CLIENT_SECRET_NAME</code>, <code>DAYS</code>, <code>RESTATE_DAYS</code></td><td><code>studio_consumption_daily</code>, <code>studio_capacity</code>, <code>studio_environment</code></td></tr>
+        </table>
+        <div class="cc-callout cc-info"><span class="ct">Notebook auth is explicit &mdash; a notebook managed identity is not enough</span>
+          <code>Ingest_Azure_AI</code> and <code>Ingest_Studio_Consumption</code> read a secret from Key Vault and exchange it for an ARM / Power Platform token. Fabric's <code>getToken</code> audiences do <strong>not</strong> include ARM or the Power Platform API, so set up the Entra app + Key Vault secret first &mdash; <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/ADVANCED-SETUP.md#azure-ingestion-in-fabric" target="_blank" rel="noopener">Azure ingestion setup &rarr;</a>. Leave Azure out and the Foundry page is simply empty (supported).</div>
+        <div class="cc-callout cc-warn"><span class="ct"><code>Ingest_Studio_Consumption</code> is not a substitute yet</span>
+          It is in testing, and a <strong>scheduled</strong> Fabric refresh cannot authenticate to that API at all &mdash; the permission it needs exists only as a delegated one. Use <code>Ingest_Studio</code> (the CSV route) for Studio. <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/experimental/README.md" target="_blank" rel="noopener">Details &rarr;</a></div>
+        <h5><span class="cc-num">4</span> Open the template</h5>
+        <p>Lakehouse &rarr; <strong>Settings</strong> &rarr; <strong>SQL analytics endpoint</strong> &rarr; copy the connection string. Open <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/Consumption%20Central%20-%20Fabric.pbit" target="_blank" rel="noopener"><code>Consumption Central - Fabric.pbit</code></a> and paste:</p>
+        <table class="cc-kv">
+          <tr><th><code>FabricSQLEndpoint</code></th><td>The SQL endpoint string you just copied</td></tr>
+          <tr><th><code>LakehouseName</code></th><td>Your Lakehouse name</td></tr>
+        </table>
+        <p class="cc-small">Everything else has a default.</p>
+        <h5><span class="cc-num">5</span> Publish and schedule</h5>
+        <p>Publish to your workspace, then schedule <strong>ingestion before the semantic-model refresh</strong> &mdash; refresh only on ingestion <strong>success</strong>, never on failure or while a writer is running (a Power BI refresh alone does not call Azure or run notebooks). Tuesday morning suits Viva; Azure can run daily.</p>
+      </div>
+      <p class="cc-small"><strong>Try it with sample data first:</strong> <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/seed_sample_data.py" target="_blank" rel="noopener"><code>seed_sample_data.py</code></a> loads the synthetic dataset straight into your Lakehouse.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/docs/DATA-DICTIONARY.md" target="_blank" rel="noopener">Table contracts &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Cowork self-refreshes &middot; no download for Cowork</span>
+      <p>Connect Power BI straight to Viva Insights and let it refresh itself. Other products (optional) still come from files.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Get the two identifiers from Viva</h5>
+        <ol>
+          <li><a href="https://insights.viva.office.com/" target="_blank" rel="noopener">Viva Insights</a> &rarr; <strong>Analysis</strong> &rarr; build a <strong>custom query</strong> with the Copilot credit metrics &rarr; turn on <strong>Auto-refresh</strong>.</li>
+          <li><strong>Analysis results</strong> &rarr; your query &rarr; the <strong>link icon</strong> &rarr; copy both identifiers.</li>
+        </ol>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/3.%20Viva%20Direct/Consumption%20Central%20-%20Viva%20Direct.pbit" target="_blank" rel="noopener"><code>Consumption Central - Viva Direct.pbit</code></a>, paste, click <strong>Load</strong>.</p>
+        <table class="cc-kv">
+          <tr><th><code>VivaPartitionId</code></th><td>Partition identifier</td></tr>
+          <tr><th><code>VivaQueryId</code></th><td>Query identifier</td></tr>
+        </table>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Two things to get right</span>
+        <strong>Leave the GitHub Copilot credit metric out of the query</strong> &mdash; it makes the query fail in Viva before Power BI is involved (take GitHub from the GitHub export instead). And <strong>build your own custom query</strong> under Analysis; the Consumption Dashboard's "Connect data" dialog hands out identifiers that point at a multi-table result this template can't request &mdash; that returns <code>(500) Internal Server Error</code>.</div>
+      <p class="cc-small"><strong>Adding the other products (optional):</strong> set <code>DataFolder</code> to a folder of whatever exports you have &mdash; found by name, nothing to rename. Leave it blank for consumption-only. Policy names need <code>M365SpendingPolicyMetaData.csv</code> from the Viva query download.</p>
+      <p class="cc-small"><strong>Heads up on department views:</strong> this live-connection path has no <code>PersonPolicyMap.csv</code> bridge, so if Viva identities stay hashed, department breakdowns can't be built at all. Expand <strong>Turn on Viva identification</strong> above first.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="4">
+      <span class="cc-time">&#9201; An afternoon &middot; Power Platform + Dataverse &middot; no Fabric capacity</span>
+      <p>Power Automate pulls consumption on a schedule, writes it to Dataverse tables, Power BI reads those tables. Have Fabric? Use tab 2 instead.</p>
+      <div class="cc-callout cc-warn"><span class="ct">In testing &mdash; not yet verified end to end</span>
+        The Copilot Studio flows read <code>/licensing/entitlements/MCSMessages/resources</code>, which currently returns <strong>403</strong> even for a Global Administrator with every relevant scope consented. The Azure and GitHub flows do not depend on it. Studio flows must also be <strong>owned by an administrator</strong> &mdash; the Power Platform API has no application role for licensing, so a service principal can't read it. <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/experimental/README.md" target="_blank" rel="noopener">What was tried &rarr;</a></div>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Create the Dataverse tables</h5>
+        <p>From <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/4.%20Power%20Automate%20%2B%20Dataverse/scripts" target="_blank" rel="noopener">4. Power Automate + Dataverse/scripts</a>, dry-run first (prints the 11 tables / 123 columns, changes nothing):</p>
+        <pre>python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
+# then, with a token in DATAVERSE_TOKEN:
+python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com --execute</pre>
+        <h5><span class="cc-num">2</span> Import the flows</h5>
+        <p><a href="https://make.powerautomate.com" target="_blank" rel="noopener">make.powerautomate.com</a> &rarr; <strong>My flows</strong> &rarr; <strong>Import</strong> &rarr; <strong>Import Package (Legacy)</strong> &rarr; upload <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/4.%20Power%20Automate%20%2B%20Dataverse/flows" target="_blank" rel="noopener"><code>ConsumptionCentral-Dataverse.zip</code></a> &rarr; set the Dataverse + Key Vault connections. Eight flows (a daily + a backfill per feed) import switched off.</p>
+        <h5><span class="cc-num">3</span> Fill in connection details</h5>
+        <p>Open each <strong>daily</strong> flow and set <code>TenantId</code>, <code>ClientId</code> (app reg from <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20%2B%20Dataverse/PERMISSIONS.md" target="_blank" rel="noopener">PERMISSIONS.md</a>) and <code>DataverseUrl</code> in its first action. The secret is read from Key Vault under <code>consumption-central-client-secret</code>.</p>
+        <h5><span class="cc-num">4</span> Run the first load</h5>
+        <p>Run each <strong>Backfill</strong> flow once by hand (last 180 days, ~10&ndash;30 min each; let each finish first). Then switch on the four <strong>daily</strong> flows.</p>
+        <h5><span class="cc-num">5</span> Open the report</h5>
+        <p>Open <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20%2B%20Dataverse/Consumption%20Central%20-%20Power%20Automate%20%2B%20Dataverse.pbit" target="_blank" rel="noopener"><code>Consumption Central - Power Automate + Dataverse.pbit</code></a>:</p>
+        <table class="cc-kv">
+          <tr><th><code>DataverseServer</code></th><td><code>your-org.crm.dynamics.com,5558</code></td></tr>
+          <tr><th><code>DataverseDatabase</code></th><td><code>your-org</code> (first part of the env URL)</td></tr>
+          <tr><th><code>DataversePrefix</code></th><td><code>cc_</code> (leave unless you changed the publisher prefix)</td></tr>
+        </table>
+        <p class="cc-small">Click <strong>Load</strong>, then <strong>Publish</strong> and set a scheduled refresh.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">What the flows do and don't fill</span>
+        Only the four API-backed feeds are automated: <code>studio_tenant_daily</code>, <code>studio_agent</code>, <code>azure_ai_spend</code>, <code>github_ai_usage</code>. The other seven tables have no API &mdash; load them by hand via <strong>Data &rarr; Import</strong> in <a href="https://make.powerapps.com" target="_blank" rel="noopener">make.powerapps.com</a>, or use tab 1 / tab 2 to populate every page.</div>
+    </section>
+  </div>
+</template>
+
 <script>
 (function () {
   'use strict';
@@ -4456,8 +4676,9 @@ html.mk-embed main.mk-page{ display:none !important; }
       preview: 'https://raw.githubusercontent.com/microsoft/CreditUsage/main/images/dashboard-preview.gif'
     },
     'consumption-central': {
-      /* Images/ConsumptionCentral-Preview.gif exists in the repo; same gap. */
-      preview: 'https://raw.githubusercontent.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/main/Images/ConsumptionCentral-Preview.gif'
+      /* Preview gif intentionally omitted from Step 1: it now renders in the
+         Consumption Central gradient hero at the top of this report's setup
+         guide, so Step 1 shows the demo video only and the gif is not repeated. */
     }
   };
   function titleOf(t) {
@@ -7071,6 +7292,10 @@ html.mk-embed main.mk-page{ display:none !important; }
   /* An honest gap beats a plausible guess: a report with no verified entry
      says so and points at its README rather than inventing a portal path. */
   function gxConnect(t) {
+    if (t.id === 'consumption-central') {
+      var _ccStep4 = document.getElementById('ccStep4');
+      if (_ccStep4) return _ccStep4.innerHTML;
+    }
     var rec = CONNECT[t.id];
     if (!rec) {
       var repoUrl = escUrl(t.repo);
@@ -7219,6 +7444,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     gdPanelsEl.innerHTML = picked.map(function (t, i) {
       return '<section class="gx-panel" id="gx-p-' + esc(t.id) + '" role="tabpanel" ' +
         'aria-labelledby="gx-tab-' + esc(t.id) + '"' + (i === 0 ? '' : ' hidden') + '>' +
+        (t.id === 'consumption-central' && document.getElementById('ccHero') ? document.getElementById('ccHero').innerHTML : '') +
         '<div class="gx-rhead">' +
           '<h3>' + esc(titleOf(t)) + '</h3>' +
           '<p class="gx-q">' + esc(t.question) + '</p>' +
@@ -7496,5 +7722,22 @@ html.mk-embed main.mk-page{ display:none !important; }
 </script>
 <script src="../report-badges.js" defer></script>
 <script src="../report-sort.js" defer></script>
+<script id="cc-connect-tabs">
+(function () {
+  document.addEventListener('click', function (e) {
+    var tb = e.target && e.target.closest ? e.target.closest('.cc-tab') : null;
+    if (!tb) return;
+    var box = tb.closest('.ccyd'); if (!box) return;
+    var id = tb.getAttribute('data-cc');
+    Array.prototype.forEach.call(box.querySelectorAll('.cc-tab'), function (b) {
+      b.setAttribute('aria-selected', b === tb ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(box.querySelectorAll('.cc-panel'), function (p) {
+      if (p.getAttribute('data-cc') === id) p.classList.add('active');
+      else p.classList.remove('active');
+    });
+  });
+})();
+</script>
 </body>
 </html>
