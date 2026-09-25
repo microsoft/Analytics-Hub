@@ -4840,6 +4840,153 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   </div>
 </template>
 
+<style id="ca-player-styles">
+.ca-hero-card{position:relative}
+.ca-player{max-width:82%;margin:18px auto 0}
+.ca-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0;cursor:zoom-in}
+.ca-img{display:block;width:100%;height:auto}
+.ca-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.ca-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.ca-btn:hover{background:rgba(255,255,255,.22)}
+.ca-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.ca-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.ca-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.ca-dot:hover{background:rgba(255,255,255,.55)}
+.ca-dot[aria-selected="true"]{background:#fff}
+.ca-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.ca-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.ca-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.ca-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.ca-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.ca-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.ca-player:fullscreen .ca-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.ca-player:fullscreen .ca-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.ca-player:fullscreen .ca-controls,.ca-player:fullscreen .ca-dots{flex:0 0 auto;margin:0}
+.ca-player:fullscreen .ca-hint{display:none}
+.ca-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.ca-player:-webkit-full-screen .ca-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.ca-player:-webkit-full-screen .ca-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.ca-player:-webkit-full-screen .ca-hint{display:none}
+</style>
+
+<template id="caHero">
+  <div class="cc-hero ca-hero-card">
+    <h2>Cowork Adoption Intelligence</h2>
+    <div class="cc-tag">for Microsoft 365 Copilot, one Power BI template for Cowork adoption, delegation maturity, and champion signals</div>
+    <div class="cc-oneliner">Who is adopting &middot; who keeps coming back &middot; what they delegate &middot; who could be a champion</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>IN TESTING</span></div>
+    <div class="ca-player" data-frames="10" data-base="ca-frames">
+      <div class="ca-stage"><img class="ca-img" src="ca-frames/frame_00.jpg" alt="Cowork Adoption Intelligence page 1 of 10"></div>
+      <div class="ca-controls">
+        <button class="ca-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="ca-btn" type="button" data-act="play" aria-label="Play or pause"><span class="ca-playico">&#10074;&#10074;</span></button>
+        <button class="ca-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="ca-counter">1 / 10</span>
+      </div>
+      <div class="ca-dots">
+        <button class="ca-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="ca-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="ca-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="ca-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="ca-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="ca-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="ca-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="ca-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="ca-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+        <button class="ca-dot" type="button" data-idx="9" aria-label="Page 10"></button>
+      </div>
+      <div class="ca-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="ca-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="caStep4">
+  <p class="gx-reads">Pick how your data gets in. Both paths use one small Python preprocessor that reads your exports once and writes the deterministic files the template loads. The one required source is a Microsoft Purview audit export; a Cowork usage export and optional consumption, organization, or identity files just fill in more pages. New to it, start with the fabricated sample: it needs no tenant role and runs in about ten minutes.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Show real names instead of anonymized identities</strong> <span class="cc-small"><em>(only if you want per-person or department views)</em></span></summary>
+    <div class="cc-idbody">
+      <p>Microsoft 365 usage reports conceal user, group, and site names by default, so the Cowork usage export and any per-person or department views come back de-identified. Adoption totals are correct either way, and <code>Reports Reader</code> does not override this.</p>
+      <p>A <strong>Global Administrator</strong>, about two minutes:</p>
+      <ol>
+        <li><a href="https://admin.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; <strong>Settings &rarr; Org settings &rarr; Reports</strong></li>
+        <li>Clear <strong>Display concealed user, group, and site names in all reports</strong></li>
+        <li><strong>Save</strong>, then re-run your Cowork usage export</li>
+      </ol>
+      <p class="cc-glink"><a href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/cowork-usage-report" target="_blank" rel="noopener noreferrer">Cowork usage report reference &rarr;</a></p>
+      <blockquote>This is a tenant-wide privacy decision under your own policy, and it affects every admin-center report. Do not grant Global Administrator to the report operator.</blockquote>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Sample data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Production data</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Python 3.11+ and Power BI Desktop &middot; no tenant role</span>
+      <p>See the whole report on fabricated data before you collect anything. Every identity is fictional and ends in <code>@example.com</code>.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the two packages</h5>
+        <p>Grab the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/release/Cowork-Adoption-Intelligence-Preprocessor-v0.1.0.zip" target="_blank" rel="noopener">preprocessor bundle</a> (script, contract, and the <code>.pbit</code> template) and the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/release/Cowork-Adoption-Intelligence-Sample-Data.zip" target="_blank" rel="noopener">fabricated sample package</a>. On each GitHub page use <strong>Download raw file</strong>.</p>
+        <h5><span class="cc-num">2</span> Extract both</h5>
+        <p>Unzip the sample into <code>C:\CoworkAdoptionSample</code> and the bundle into <code>C:\CoworkAdoptionRelease</code>. The sample folder holds four CSVs plus a <code>purview_audit\</code> subfolder of synthetic audit files.</p>
+        <h5><span class="cc-num">3</span> Preprocess the sample</h5>
+        <p>In PowerShell, turn the raw sample into template-ready files (input and output must be different folders):</p>
+        <pre>python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
+  --input C:\CoworkAdoptionSample `
+  --output C:\CoworkAdoptionPreprocessed</pre>
+        <h5><span class="cc-num">4</span> Open the template</h5>
+        <p>Open <code>Cowork Adoption Intelligence V4.pbit</code>, set <code>PreprocessedOutputPath</code> to <code>C:\CoworkAdoptionPreprocessed</code>, and click <strong>Load</strong>.</p>
+      </div>
+      <div class="cc-callout cc-good"><span class="ct">Confirm it worked</span>
+        Executive Summary shows <strong>72 users</strong>, and Cowork Champions defaults to <strong>8</strong> Top-10% candidates (Top 5% / 10% / 20% show 4 / 8 / 15). No visual shows an error banner.</div>
+      <p class="cc-small">Script and instructions: <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/tree/main/scripts" target="_blank" rel="noopener">scripts/</a>. Full walkthrough: <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-a-try-the-report-with-fabricated-data" target="_blank" rel="noopener">Path A in the setup guide</a>.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; An afternoon for first collection &middot; parameter <code>PreprocessedOutputPath</code> &middot; scheduled refresh needs an on-premises gateway</span>
+      <p>Collect your exports into one protected input folder, run the preprocessor once to a separate output folder, then point the template at that output. Bring only the sources you have; missing optional ones just leave their pages empty.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Export the Purview audit (required)</h5>
+        <p>In <a href="https://purview.microsoft.com/" target="_blank" rel="noopener">Microsoft Purview</a> &rarr; <strong>Audit</strong>, search your reporting window in UTC with <strong>Activities - operation names</strong> set to <code>CopilotInteraction</code>, then <strong>Export</strong> and keep the raw CSV unchanged.</p>
+        <ul>
+          <li>The export must carry the outer columns <code>RecordId</code>, <code>CreationDate</code>, <code>Operation</code>, <code>UserId</code>, <code>AuditData</code>, and at least one row whose <code>AuditData</code> has <code>CopilotEventData.AppHost</code> containing <code>cowork</code>.</li>
+          <li>Do not expand or reformat the JSON inside <code>AuditData</code>.</li>
+          <li>A search covers at most 180 days. For a longer window, drop several non-overlapping exports in the same folder; the preprocessor combines them and drops duplicate <code>RecordId</code> values.</li>
+        </ul>
+        <h5><span class="cc-num">2</span> Add the optional exports</h5>
+        <p>Each one fills in more of the report. Match is by filename or by exact headers, so keep one current file per source.</p>
+        <table class="cc-nb">
+          <tr><th>Source</th><th>Where to get it (sign-in required)</th><th>Save as</th></tr>
+          <tr><td>Cowork usage <span class="cc-pill pref">recommended</span></td><td><a href="https://admin.microsoft.com/" target="_blank" rel="noopener">Microsoft 365 admin center</a> &rarr; Copilot &rarr; Cowork &rarr; Usage &rarr; <strong>Export</strong></td><td><code>CoworkUserDetails.csv</code></td></tr>
+          <tr><td>Consumption <span class="cc-pill fallback">optional</span></td><td>Microsoft 365 admin center Copilot <strong>Consumption - Users</strong> export</td><td><code>CoworkConsumptionDetails.csv</code></td></tr>
+          <tr><td>Organization <span class="cc-pill fallback">optional</span></td><td>Approved HR or Entra export (department, job title, manager, geography)</td><td><code>CoworkUserOrgDetails.csv</code></td></tr>
+          <tr><td>Identity <span class="cc-pill fallback">optional</span></td><td><a href="https://learn.microsoft.com/entra/identity/users/users-bulk-download" target="_blank" rel="noopener">Entra bulk user download</a> (friendly display names)</td><td><code>cowork_users.csv</code></td></tr>
+        </table>
+        <h5><span class="cc-num">3</span> Put the raw files in one protected input folder</h5>
+        <p>Use a folder outside the cloned repo, for example <code>C:\CoworkAdoptionData</code>. Purview CSVs can sit in a <code>purview_audit\</code> subfolder; discovery is recursive.</p>
+        <h5><span class="cc-num">4</span> Run the preprocessor, then validate</h5>
+        <p>Write the entity files to a separate output folder, then confirm the run is valid:</p>
+        <pre>python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
+  --input C:\CoworkAdoptionData `
+  --output C:\CoworkAdoptionPreprocessed
+
+python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
+  --validate-output C:\CoworkAdoptionPreprocessed</pre>
+        <p>A good run reports <code>"status": "valid"</code> and leaves <code>manifest.json</code> plus 13 <code>entity-*.csv</code> files. It never writes to the input folder, and needs no admin role, app registration, or extra Python packages.</p>
+        <h5><span class="cc-num">5</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/Cowork%20Adoption%20Intelligence%20V4.pbit" target="_blank" rel="noopener"><code>Cowork Adoption Intelligence V4.pbit</code></a>, set <code>PreprocessedOutputPath</code> to the output folder, click <strong>Load</strong>, and validate against <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-b-connect-production-exports" target="_blank" rel="noopener">Path B in the setup guide</a>.</p>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Keeping it current and scheduled refresh</span>
+        When exports change, drop the new files in the input folder, re-run the preprocessor to the same output folder, and <strong>Refresh</strong> in Power BI. The template reads local entity files, so the Power BI Service needs an <a href="https://learn.microsoft.com/data-integration/gateway/service-gateway-onprem" target="_blank" rel="noopener">on-premises data gateway</a> over the output folder; run the preprocessor on a cadence (for example a Windows Task Scheduler job) before each refresh window.</div>
+      <p class="cc-small">Prefer the current template. The earlier raw-Purview and SharePoint editions are kept in <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/tree/main/release/archive" target="_blank" rel="noopener">release/archive/</a> for rollback only and are not paired with the preprocessor.</p>
+    </section>
+  </div>
+</template>
+
 <script>
 (function () {
   'use strict';
@@ -7487,6 +7634,10 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       var _aioStep4 = document.getElementById('aioStep4');
       if (_aioStep4) return _aioStep4.innerHTML;
     }
+    if (t.id === 'cowork-adoption') {
+      var _caStep4 = document.getElementById('caStep4');
+      if (_caStep4) return _caStep4.innerHTML;
+    }
     var rec = CONNECT[t.id];
     if (!rec) {
       var repoUrl = escUrl(t.repo);
@@ -7637,6 +7788,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         'aria-labelledby="gx-tab-' + esc(t.id) + '"' + (i === 0 ? '' : ' hidden') + '>' +
         (t.id === 'consumption-central' && document.getElementById('ccHero') ? document.getElementById('ccHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
+        (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         '<div class="gx-rhead">' +
           '<h3>' + esc(titleOf(t)) + '</h3>' +
           '<p class="gx-q">' + esc(t.question) + '</p>' +
@@ -7967,6 +8119,80 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     var img = e.target && e.target.closest ? e.target.closest('.aio-stage .aio-img') : null;
     if (!img) return;
     var el = img.closest('.aio-player'); if (el) toggleFs(el);
+  });
+
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl) {
+      (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+      return;
+    }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req) {
+      try { var r = req.call(el); if (r && r.catch) r.catch(function(){}); }
+      catch (err) { /* ignore */ }
+    }
+  }
+
+  if (window.MutationObserver) {
+    new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+  }
+  if (document.readyState !== 'loading') scan();
+  else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
+<script id="ca-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+    if (st.img) st.img.setAttribute('alt', 'Cowork Adoption Intelligence page ' + (st.i + 1) + ' of ' + st.n);
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = {
+      el: el, i: 0, n: parseInt(el.getAttribute('data-frames'), 10) || 0,
+      base: el.getAttribute('data-base') || 'ca-frames', playing: false, timer: null,
+      img: el.querySelector('.ca-img'), counter: el.querySelector('.ca-counter'),
+      dots: el.querySelectorAll('.ca-dot'), playIco: el.querySelector('.ca-playico')
+    };
+    reg.push(st);
+    show(st, 0);
+    play(st);
+  }
+  function scan(){ var list = document.querySelectorAll('.ca-player'); for (var i=0;i<list.length;i++){ init(list[i]); } }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.ca-btn, .ca-dot, .ca-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen') {
+      var host = btn.closest('.ca-hero-card') || btn.closest('.cc-hero') || document;
+      var pl = host.querySelector ? host.querySelector('.ca-player') : null;
+      if (!pl) pl = btn.closest('.ca-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.ca-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev') { pause(st); show(st, st.i - 1); }
+    else if (act === 'next') { pause(st); show(st, st.i + 1); }
+    else if (act === 'play') { st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('ca-dot')) { pause(st); show(st, parseInt(btn.getAttribute('data-idx'), 10) || 0); }
+  });
+
+  document.addEventListener('click', function (e) {
+    var img = e.target && e.target.closest ? e.target.closest('.ca-stage .ca-img') : null;
+    if (!img) return;
+    var el = img.closest('.ca-player'); if (el) toggleFs(el);
   });
 
   function toggleFs(el){
