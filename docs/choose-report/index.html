@@ -4654,6 +4654,225 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   </div>
 </template>
 
+<style id="vl-player-styles">
+/* ===== ValueLens clickthrough player ===== */
+.vl-hero-card{position:relative}
+.vl-player{max-width:82%;margin:18px auto 0}
+.vl-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0;cursor:zoom-in}
+.vl-img{display:block;width:100%;height:auto}
+.vl-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.vl-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.vl-btn:hover{background:rgba(255,255,255,.22)}
+.vl-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.vl-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.vl-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.vl-dot:hover{background:rgba(255,255,255,.55)}
+.vl-dot[aria-selected="true"]{background:#fff}
+.vl-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.vl-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.vl-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.vl-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.vl-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.vl-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.vl-player:fullscreen .vl-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.vl-player:fullscreen .vl-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.vl-player:fullscreen .vl-controls,.vl-player:fullscreen .vl-dots{flex:0 0 auto;margin:0}
+.vl-player:fullscreen .vl-hint{display:none}
+.vl-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.vl-player:-webkit-full-screen .vl-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.vl-player:-webkit-full-screen .vl-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.vl-player:-webkit-full-screen .vl-hint{display:none}
+</style>
+
+<template id="vlHero">
+  <div class="cc-hero vl-hero-card">
+    <h2>ValueLens</h2>
+    <div class="cc-tag">for Microsoft Copilot &mdash; one Power BI template for every Copilot and agent adoption signal</div>
+    <div class="cc-oneliner">Hours saved &middot; assisted value &middot; adoption and readiness &middot; the business case</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="vl-player" data-frames="17" data-base="vl-frames">
+      <div class="vl-stage"><img class="vl-img" src="vl-frames/frame_00.jpg" alt="ValueLens page 1 of 17"></div>
+      <div class="vl-controls">
+        <button class="vl-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="vl-btn" type="button" data-act="play" aria-label="Play or pause"><span class="vl-playico">&#10074;&#10074;</span></button>
+        <button class="vl-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="vl-counter">1 / 17</span>
+      </div>
+      <div class="vl-dots">
+        <button class="vl-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="vl-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="vl-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="vl-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="vl-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="vl-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="vl-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="vl-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="vl-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+        <button class="vl-dot" type="button" data-idx="9" aria-label="Page 10"></button>
+        <button class="vl-dot" type="button" data-idx="10" aria-label="Page 11"></button>
+        <button class="vl-dot" type="button" data-idx="11" aria-label="Page 12"></button>
+        <button class="vl-dot" type="button" data-idx="12" aria-label="Page 13"></button>
+        <button class="vl-dot" type="button" data-idx="13" aria-label="Page 14"></button>
+        <button class="vl-dot" type="button" data-idx="14" aria-label="Page 15"></button>
+        <button class="vl-dot" type="button" data-idx="15" aria-label="Page 16"></button>
+        <button class="vl-dot" type="button" data-idx="16" aria-label="Page 17"></button>
+      </div>
+      <div class="vl-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="vl-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="vlStep4">
+  <p class="gx-reads">Every path builds the same dashboard from the same core sources: Copilot interactions from <strong>Microsoft Purview</strong> audit logs, your licensed users from the <strong>Microsoft 365 admin center</strong>, and department data from <strong>Microsoft Entra</strong>. The template reads two pre-processed <strong>rollup</strong> files, not a raw Purview or Entra export. New here, start with <strong>Local CSV</strong> and its bundled sample data.</p>
+
+  <div class="cc-callout cc-warn"><span class="ct">Do this first &mdash; turn on unified audit logging</span>
+    ValueLens reads the Purview unified audit log. If it is off, the audit query comes back empty. It is on by default for most tenants but often off in demo, dev or brand-new tenants, so check before you start. In the <a href="https://purview.microsoft.com/audit/auditsearch" target="_blank" rel="noopener noreferrer">Purview portal</a>, if you see <strong>Start recording user and admin activity</strong>, click it. Turning it on <strong>does not backfill</strong>, collection starts from that moment and can take up to 24 hours to appear, so a new tenant's first export looks sparse. That is expected.</div>
+
+  <details class="cc-idbox" open>
+    <summary><strong>Start here &mdash; produce the two rollup files (Mini-Kitchen)</strong> <span class="cc-small"><em>(the no-install way, used by the Local CSV and SharePoint tabs)</em></span></summary>
+    <div class="cc-idbody">
+      <p>The template needs two pre-processed rollup files and cannot read a raw Purview CSV or a hand-exported Entra list. <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer"><strong>Mini-Kitchen</strong></a> is the guided, no-install way to produce them: it runs entirely in your browser, drives the open-source <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener noreferrer">PAX engine</a>, and ships an <strong>AI Business Value Dashboard</strong> preset that fills in exactly the right collection settings for this dashboard, so you do not have to understand the audit internals.</p>
+      <ol>
+        <li>Open <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer">Mini-Kitchen</a> and choose the <strong>AI Business Value Dashboard</strong> preset. It runs entirely in that browser tab, no tenant data is pulled here, no account info is collected, no secrets are stored.</li>
+        <li>Work down the builder (name the recipe, data scope, what to collect, date range, rollup, filters, output location, sign-in). Export the result as a <code>.paxlite</code> recipe if you want to reuse it.</li>
+        <li>Copy the command it built. Download the PAX engine from the <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener noreferrer">PAX repository</a>, open <strong>PowerShell 7</strong>, and paste the command. This is the step that reaches your tenant, Mini-Kitchen never did.</li>
+      </ol>
+      <p class="cc-small">You get an <code>*_Interactions_*.csv</code> and a <code>*_Users_*.csv</code>. To keep the dashboard fresh, re-run the command on a cadence (for example a Windows Task Scheduler job).</p>
+      <p class="cc-small"><strong>Already export raw data another way?</strong> The report's standalone processor <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/scripts/Purview_CopilotInteraction_Processor_v4.0.0.py" target="_blank" rel="noopener noreferrer"><code>Purview_CopilotInteraction_Processor_v4.0.0.py</code></a> turns a raw Purview export plus an Entra users CSV into the same two rollup files, no Mini-Kitchen: <code>--purview raw.csv --entra users.csv --licensing lic.csv --profile aibv</code>.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener noreferrer">Data-export roles and field list &rarr;</a></p>
+      <blockquote>Producing this data reads tenant audit and directory information. Typical roles: <strong>Audit Reader</strong> (Purview), <strong>Global Reader</strong> or <strong>User Administrator</strong> (Entra and licensing). If exported names come back as 32-character hex, clear <strong>Display concealed names</strong> in <a href="https://admin.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; Settings &rarr; Org settings &rarr; Reports, then re-run.</blockquote>
+    </div>
+  </details>
+
+  <details class="cc-idbox">
+    <summary><strong>Register an app for automatic pulls</strong> <span class="cc-small"><em>(the SharePoint packaged scripts, Fabric, and Dataverse paths)</em></span></summary>
+    <div class="cc-idbody">
+      <p>The packaged SharePoint pipeline and the Fabric and Dataverse paths pull from Microsoft Graph unattended, so they need one Entra app registration. The Mini-Kitchen route above does not, it signs in interactively when you run the command.</p>
+      <p>A <strong>Global Administrator</strong>, once:</p>
+      <ol>
+        <li><a href="https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" rel="noopener noreferrer">Microsoft Entra admin center</a> &rarr; <strong>App registrations</strong> &rarr; <strong>New registration</strong></li>
+        <li>Add three <strong>Microsoft Graph application</strong> permissions and grant admin consent: <code>AuditLogsQuery.Read.All</code> (audit interactions), <code>Reports.Read.All</code> (licensed users), <code>User.Read.All</code> (org data). The packaged SharePoint scripts also use <code>Sites.Selected</code> to write to your library, and <code>Organization.Read.All</code> for the licence lookup fallback.</li>
+        <li>Create a client secret and store it in <strong>Azure Key Vault</strong>, not in a script or notebook</li>
+      </ol>
+      <p class="cc-small">Optional Agents 365 needs <code>CopilotPackages.Read.All</code> + <code>Application.Read.All</code> + <code>User.Read.All</code> and an Agent 365 licence. Full least-privilege breakdown: <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener noreferrer">docs/PERMISSIONS.md</a>.</p>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Local CSV</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> SharePoint</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Fabric</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="4"><span class="n">4</span> Power Automate + Dataverse</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~2 min with sample data, ~20 min with your own &middot; Power BI Desktop only</span>
+      <p>See the whole dashboard now on a bundled sample dataset, or point it at your own rollup files. Manual refresh by design.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> See it now with sample data</h5>
+        <p>Open <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/ValueLens%20-%20Local%20CSV.pbit" target="_blank" rel="noopener"><code>ValueLens - Local CSV.pbit</code></a> in Power BI Desktop (its parameters take <strong>local file paths</strong>, do not open the SharePoint template here). Point each parameter at the matching file in <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" target="_blank" rel="noopener">1. Local CSV/sample-data</a>, then <strong>Load</strong>. Every page fills in, no tenant needed.</p>
+        <table class="cc-kv">
+          <tr><th>Copilot Interactions File</th><td><code>copilot_interactions_sample.csv</code></td></tr>
+          <tr><th>Org Data File</th><td><code>copilot_users_sample.csv</code></td></tr>
+          <tr><th>Agent 365 <span class="cc-small">(optional)</span></th><td><code>agents_365_sample.csv</code></td></tr>
+        </table>
+        <h5><span class="cc-num">2</span> Produce your two rollup files</h5>
+        <p>Use <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener">Mini-Kitchen</a> with the <strong>AI Business Value Dashboard</strong> preset, see <strong>Start here</strong> above. Pick a local output folder, then run the command it builds in PowerShell 7. You get an <code>*_Interactions_*.csv</code> and a <code>*_Users_*.csv</code>.</p>
+        <h5><span class="cc-num">3</span> Point the template at your files</h5>
+        <p>Open the same <code>ValueLens - Local CSV.pbit</code>, set <strong>Copilot Interactions File</strong> to your <code>*_Interactions_*.csv</code> and <strong>Org Data File</strong> to your <code>*_Users_*.csv</code>, then <strong>Load</strong>.</p>
+        <h5><span class="cc-num">4</span> Refresh when you need to</h5>
+        <p>Re-run the Mini-Kitchen command to regenerate the files, then <strong>Refresh</strong> in Power BI Desktop.</p>
+      </div>
+      <p class="cc-small">Blank visuals almost always mean the file is a raw export, not a rollup. The template reads the pre-processed <code>*_Interactions_*.csv</code> / <code>*_Users_*.csv</code> pair only.</p>
+      <p class="cc-small"><strong>Large tenant?</strong> The Purview UI export caps out early, but the PAX engine partitions the query and runs unattended, so the Mini-Kitchen route above scales where a hand export does not.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; Scheduled, hands-off &middot; Power BI Pro &middot; no Fabric capacity</span>
+      <p>Land the two rollup files in a SharePoint library and let Power BI refresh from there on a timer. Two ways to produce and land them: <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener">Mini-Kitchen</a> with the <strong>AI Business Value Dashboard</strong> preset set to a SharePoint output folder and re-run on a Task Scheduler cadence (see <strong>Start here</strong> above, no install), or the report's own packaged scripts below, which wrap the PAX engine with app-only auth, seed-then-append de-duplication, upload and scheduling in one. The packaged route needs the app registration above, a SharePoint library, and a host with PowerShell 7+ and Python 3.10+.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Grant the app write access to your site</h5>
+        <p>Run <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/2.%20SharePoint/scripts/ProvisionSiteAccess-SP-AppReg.ps1" target="_blank" rel="noopener"><code>ProvisionSiteAccess-SP-AppReg.ps1</code></a> to grant the app per-library <code>Sites.Selected</code> write. Save the <strong>SiteId</strong> and <strong>DriveId</strong> it prints, the upload step needs both.</p>
+        <h5><span class="cc-num">2</span> Seed, then append</h5>
+        <p>The interactions data is a growing time series, so <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/2.%20SharePoint/scripts/Run-PAX-AIBV.ps1" target="_blank" rel="noopener"><code>Run-PAX-AIBV.ps1</code></a> seeds a back-fill once, then appends short windows. It de-duplicates on each message identity, so overlapping days reconcile.</p>
+        <pre># First run, seed the file with a back-fill
+.\Run-PAX-AIBV.ps1 -TenantId &lt;id&gt; -ClientId &lt;id&gt; -Days 30
+# Scheduled runs, append only the latest window
+.\Run-PAX-AIBV.ps1 -TenantId &lt;id&gt; -ClientId &lt;id&gt; -Days 2 `
+    -AppendFile Purview_CopilotInteraction_Rollup.csv</pre>
+        <p>Add <code>-IncludeAgent365Info</code> for the optional Agents 365 output, or <code>-UserInfoFile</code> to supply your own org directory instead of pulling Entra live.</p>
+        <h5><span class="cc-num">3</span> Upload the rollups</h5>
+        <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/2.%20SharePoint/scripts/Upload-Rollups-SharePoint.ps1" target="_blank" rel="noopener"><code>Upload-Rollups-SharePoint.ps1</code></a> lands them as fixed names <code>copilot_interactions_rollup.csv</code> and <code>copilot_users_rollup.csv</code>, overwriting the previous run.</p>
+        <h5><span class="cc-num">4</span> Put it on a schedule</h5>
+        <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/2.%20SharePoint/scripts/Register-TaskScheduler.ps1" target="_blank" rel="noopener"><code>Register-TaskScheduler.ps1</code></a> registers a daily task with <code>-AppendFile</code>. The secret is not stored in the task.</p>
+        <h5><span class="cc-num">5</span> Connect the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/2.%20SharePoint/ValueLens%20-%20SharePoint.pbit" target="_blank" rel="noopener"><code>ValueLens - SharePoint.pbit</code></a>, and under <strong>Transform data &rarr; Edit parameters</strong> point <strong>Copilot Interactions File</strong> and <strong>Org Data File</strong> at the two SharePoint URLs. <strong>Load</strong> &rarr; <strong>Publish</strong>, then in the Power BI service set the SharePoint data-source credentials and a <strong>scheduled refresh</strong> timed after your extract.</p>
+      </div>
+      <p class="cc-small">Tops out at Power BI Pro's 1 GB model and 2-hour refresh window. Beyond that, move to <strong>Fabric</strong>.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; Pipeline-orchestrated &middot; Fabric capacity (F2+ or trial), Premium or PPU &middot; recommended at scale</span>
+      <p>PySpark notebooks pull straight from Graph into a Lakehouse, a processor builds the curated fact table, and an Import-mode template reads it. No file caps, and the optional feedback and Agent 365 sources plug into the same model. Needs the app registration above, with its secret in Key Vault.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
+        <p><a href="https://app.fabric.microsoft.com/" target="_blank" rel="noopener">Fabric portal</a> &rarr; your workspace (on capacity) &rarr; <strong>New</strong> &rarr; <strong>Lakehouse</strong>. Note its <strong>SQL analytics endpoint</strong>, or the workspace and Lakehouse GUIDs if you use the OneLake template.</p>
+        <h5><span class="cc-num">2</span> Run the three core notebooks</h5>
+        <p>Import from <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/3.%20Fabric/notebooks" target="_blank" rel="noopener">3. Fabric/notebooks/</a>, attach your Lakehouse as each notebook's default, and run:</p>
+        <table class="cc-nb">
+          <tr><th>Notebook</th><th>Writes</th></tr>
+          <tr><td><code>Copilot_Audit_Log_Direct_Ingester</code></td><td><code>copilot_interactions_parsed</code></td></tr>
+          <tr><td><code>Copilot_Licensed_Users_Direct_Ingester</code></td><td><code>copilot_licensed_users</code></td></tr>
+          <tr><td><code>Copilot_Org_Data_Direct_Ingester</code></td><td><code>copilot_org_data</code></td></tr>
+        </table>
+        <p class="cc-small">Set the audit ingester's <code>MODE</code> to <code>backfill</code> for the first load, then <code>incremental</code> for scheduled runs. See <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Fabric/notebooks/README.md" target="_blank" rel="noopener">notebooks/README.md</a>.</p>
+        <h5><span class="cc-num">3</span> Run the processor</h5>
+        <p>Run <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/3.%20Fabric/notebooks" target="_blank" rel="noopener"><code>Copilot_Audit_Log_Processor</code></a> after the three ingesters, immediately before the model refresh. It builds <code>copilot_interactions_curated</code>.</p>
+        <h5><span class="cc-num">4</span> Open a template</h5>
+        <p>Pick one, both are Import mode over the same tables:</p>
+        <table class="cc-nb">
+          <tr><th>Template</th><th>Set these parameters</th></tr>
+          <tr><td><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Fabric/ValueLens%20-%20Fabric.pbit" target="_blank" rel="noopener"><code>ValueLens - Fabric.pbit</code></a> <span class="cc-pill pref">SQL endpoint</span></td><td><code>Fabric SQL Endpoint</code> + <code>Lakehouse Name</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Fabric/ValueLens%20-%20Fabric%20OneLake.pbit" target="_blank" rel="noopener"><code>ValueLens - Fabric OneLake.pbit</code></a> <span class="cc-pill fallback">OneLake</span></td><td><code>Fabric Workspace ID</code> + <code>Lakehouse ID</code></td></tr>
+        </table>
+        <p>Set <code>RangeStart</code> and <code>RangeEnd</code> to cover the history you want, keep <code>Enable_ProductFeedback</code> and <code>Enable_Agent365</code> on <code>Exclude</code> until those tables exist, then <strong>Load</strong>.</p>
+        <h5><span class="cc-num">5</span> Publish and schedule</h5>
+        <p>Publish, set the data-source credentials in the service, then add a <strong>success-gated</strong> model refresh that runs after the pipeline succeeds. See <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Fabric/pipelines/README.md" target="_blank" rel="noopener">pipelines/README.md</a>. The shipped pipeline JSON has no refresh activity, you add it.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Optional sources</span>
+        Agents 365 comes from either <code>Copilot_Agent365_Registry_Ingester</code> (preferred, unattended) or <code>Copilot_Agent365_Lander</code> (CSV fallback), <strong>never both</strong>. The shipped pipeline wires the CSV lander. Product feedback lands from <code>Files/product_feedback/</code> behind <code>Enable_ProductFeedback</code>.</div>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="4">
+      <span class="cc-time">&#9201; Preview &middot; Power Automate premium + Dataverse capacity &middot; plus Power BI</span>
+      <p>A Power Automate collector writes full audit records to Dataverse, a scheduled runner uses the same ValueLens processor to prepare them, and the template reads the result. Use this only if you are already collecting Copilot interactions into Dataverse. For the settled routes, use SharePoint or Fabric.</p>
+      <div class="cc-callout cc-warn"><span class="ct">Preview, validated on a bounded interval</span>
+        This is not a flow-only deployment and not certified for production-scale or unattended refresh. You advance the snapshot parameter by hand. Benchmark it before committing to a cadence.</div>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Check prerequisites</h5>
+        <p>Run <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/scripts/Test-PowerAutomateDataverse-Preflight.ps1" target="_blank" rel="noopener"><code>Test-PowerAutomateDataverse-Preflight.ps1</code></a> against your Dataverse environment URL.</p>
+        <h5><span class="cc-num">2</span> Provision the four companion tables</h5>
+        <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/scripts/Deploy-DataverseCoreSchema.py" target="_blank" rel="noopener"><code>Deploy-DataverseCoreSchema.py</code></a> dry-runs with no credentials, then creates the tables with <code>--execute</code> and a <code>DATAVERSE_TOKEN</code>: raw audits, curated interactions, curated users, and run manifests.</p>
+        <h5><span class="cc-num">3</span> Import the collector flow</h5>
+        <p>Supply your authorized unmanaged <code>CopilotInteractionLogging.zip</code>, adapt it for full-record retention with <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/scripts/Prepare-CollectorRawCapture.py" target="_blank" rel="noopener"><code>Prepare-CollectorRawCapture.py</code></a>, then import it into an <strong>isolated</strong> Power Platform environment. Run the manual back-fill before enabling its daily schedule.</p>
+        <h5><span class="cc-num">4</span> Build a snapshot</h5>
+        <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/scripts/Invoke-DataverseCoreRefresh.ps1" target="_blank" rel="noopener"><code>Invoke-DataverseCoreRefresh.ps1</code></a> fetches Graph users and licences, reads the retained audits, runs the processor, and emits a <strong>Core Snapshot ID</strong> on success. Pin it to a completed collector run and its exact UTC window with <code>-SourceRunId</code>, <code>-RawStartUtc</code> and <code>-RawEndUtc</code>.</p>
+        <h5><span class="cc-num">5</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/ValueLens%20-%20Power%20Automate%20+%20Dataverse.pbit" target="_blank" rel="noopener"><code>ValueLens - Power Automate + Dataverse.pbit</code></a>:</p>
+        <table class="cc-kv">
+          <tr><th><code>Dataverse URL</code></th><td>Your environment origin, e.g. <code>https://contoso.crm.dynamics.com</code></td></tr>
+          <tr><th><code>Core Snapshot ID</code></th><td>The successful run ID from step 4</td></tr>
+          <tr><th><code>Use SharePoint CSV fallback</code></th><td>Leave <code>false</code> for this path</td></tr>
+        </table>
+        <p><strong>Load</strong>, then <strong>Publish</strong> and set organizational Dataverse credentials. To refresh, update <code>Core Snapshot ID</code> to a newer completed run.</p>
+      </div>
+      <p class="cc-small">Needs both an Entra app with Graph audit and directory permissions <em>and</em> a Dataverse application user, consent to Graph does not grant Dataverse access. See <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/README.md" target="_blank" rel="noopener">the path README</a>.</p>
+    </section>
+  </div>
+</template>
+
 <style id="aio-player-styles">
 .aio-player{max-width:82%;margin:18px auto 0}
 .aio-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0}
@@ -6907,6 +7126,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       items = items.filter(function (it) { return it.kind !== 'image'; });
       items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
     }
+    /* ValueLens: the preview GIF now plays in this report's gradient-hero
+       clickthrough at the top of the guide, so Step 1 drops the redundant
+       image tab and labels the remaining demo video "Overview". The report
+       flyout keeps the preview. */
+    if (t.id === 'value-lens') {
+      items = items.filter(function (it) { return it.kind !== 'image'; });
+      items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
+    }
     if (!items.length) return '';
     var id = esc(t.id);
     var tabs = items.length > 1
@@ -7932,6 +8159,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _aioStep4 = document.getElementById('aioStep4');
       if (_aioStep4) return _aioStep4.innerHTML;
     }
+    if (t.id === 'value-lens') {
+      var _vlStep4 = document.getElementById('vlStep4');
+      if (_vlStep4) return _vlStep4.innerHTML;
+    }
     if (t.id === 'cowork-adoption') {
       var _caStep4 = document.getElementById('caStep4');
       if (_caStep4) return _caStep4.innerHTML;
@@ -8091,6 +8322,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'consumption-central' && document.getElementById('ccHero') ? document.getElementById('ccHero').innerHTML : '') +
         (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
+        (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         (t.id === 'cowork-team-report' && document.getElementById('cwtHero') ? document.getElementById('cwtHero').innerHTML : '') +
         '<div class="gx-rhead">' +
@@ -8370,6 +8602,61 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 </script>
 <script src="../report-badges.js" defer></script>
 <script src="../report-sort.js" defer></script>
+<script id="vl-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+      base: el.getAttribute('data-base') || 'vl-frames', playing:false, timer:null,
+      img: el.querySelector('.vl-img'), counter: el.querySelector('.vl-counter'),
+      dots: el.querySelectorAll('.vl-dot'), playIco: el.querySelector('.vl-playico') };
+    reg.push(st); show(st,0); play(st);
+  }
+  function scan(){ var l=document.querySelectorAll('.vl-player'); for (var i=0;i<l.length;i++) init(l[i]); }
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){ try { var r=req.call(el); if (r&&r.catch) r.catch(function(){}); } catch(e){} }
+  }
+  document.addEventListener('click', function (e){
+    var btn = e.target && e.target.closest ? e.target.closest('.vl-btn, .vl-dot, .vl-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen'){
+      var host = btn.closest('.vl-hero-card') || document;
+      var pl = host.querySelector ? host.querySelector('.vl-player') : null;
+      if (!pl) pl = btn.closest('.vl-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.vl-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev'){ pause(st); show(st, st.i-1); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    else if (act === 'play'){ st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('vl-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+  });
+  document.addEventListener('click', function (e){
+    var img = e.target && e.target.closest ? e.target.closest('.vl-stage .vl-img') : null;
+    if (!img) return; var el = img.closest('.vl-player'); if (el) toggleFs(el);
+  });
+  if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
 <script id="aio-player">
 (function () {
   var reg = [];
