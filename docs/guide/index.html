@@ -133,21 +133,7 @@
 <div class="wrap">
 
   <!-- honest access check placeholder -->
-  <div class="access" id="access">
-    <div class="ah">
-      <h2>Check what you can do</h2>
-      <span class="soon">Coming soon</span>
-    </div>
-    <p class="adesc">Soon you'll be able to sign in with your own Microsoft account and this guide will validate your access automatically — showing only the steps you can do now, and handing off the ones that need someone else. Until then, every step below lists the role it needs and who to ask if you don't have it.</p>
-    <button class="checkbtn" disabled title="Available once the sign-in app is connected"><span class="lock">🔐</span> Check my access and permissions</button>
-    <div class="privacy">
-      <span class="info" tabindex="0">i
-        <span class="tip"><b>Read-only, and private by design.</b> When this turns on, you'll sign in with your own Microsoft account and it runs <b>entirely in your browser</b> — Microsoft / Analytics&nbsp;Hub never sees, stores, or touches your data. It only reads which roles and licenses you have; it never changes anything.</span>
-      </span>
-      <span>When enabled, it will read (not change) only the items listed here:</span>
-    </div>
-    <div class="whatcheck" id="whatcheck"></div>
-  </div>
+  <div class="access" id="access" style="display:none"></div>
 
   <div id="tailor" class="tailor" style="display:none"></div>
 
@@ -163,8 +149,6 @@
       <p>Each step shows the exact role it needs. If you don't hold it, open <b>Who can do this?</b> for a plain-English explanation and a ready-to-send email to the right person. You're never stuck; you just know who to loop in.</p>
       <h4>Kept current</h4>
       <p>Each step names the Microsoft doc it's based on, so the guidance can be checked against the source and refreshed when Microsoft changes it.</p>
-      <h4>Coming next: personalized access check</h4>
-      <p>A one-click <b>Check my access and permissions</b> that signs you into your own tenant (read-only, in your browser) and marks each step green — you can do it — or amber — hand it off. That needs a Microsoft sign-in app to be connected first.</p>
     </div>
   </details>
 
@@ -187,10 +171,9 @@ fetch(GUIDE + '.guide.json').then(function(r){
   FEED=f; (f.roles||[]).forEach(function(r){ ROLES[r.key]=r; });
   SEL_PRODUCTS = new Set((f.products||[]).map(function(p){return p.id;}));
   SEL_PATH = (f.paths && f.paths.length) ? f.paths[0].id : null;
-  renderHero(); renderWhatCheck(); renderTailor(); render(); renderFoot();
+  renderHero(); renderTailor(); render(); renderFoot();
 }).catch(function(){
   document.getElementById('hero').innerHTML = '<div class="eyebrow">Analytics Hub · Guided setup</div><h1>Guide not found</h1>';
-  document.getElementById('access').style.display='none';
   document.getElementById('steps').innerHTML = '<div class="err">No guide matched <code>?guide='+esc(GUIDE)+'</code>. Try <a href="?guide=consumption-central">Consumption Central</a> or <a href="?guide=cowork">Cowork</a>.</div>';
 });
 
@@ -202,19 +185,6 @@ function renderHero(){
     '<div class="oneliner">Tailored to your products and setup · ~'+esc(FEED.estMinutes)+' min happy path</div>'+
     '<div class="badges"><span>BUILT BY MICROSOFT</span><span>ANALYTICS HUB</span></div>'+
     (FEED.heroPreview ? '<img src="'+esc(FEED.heroPreview)+'" alt="Report preview" loading="lazy" onerror="this.style.display=\'none\'">' : '');
-}
-
-function renderWhatCheck(){
-  var used={};
-  FEED.steps.forEach(function(s){ (s.requires||[]).forEach(function(k){ used[k]=1; }); });
-  var keys = Object.keys(used);
-  if(!keys.length){ document.getElementById('access').style.display='none'; return; }
-  var items = keys.map(function(k){
-    var r=ROLES[k]||{label:k,checkType:'selfAttest'};
-    return '<li><span class="dot"></span>'+esc(r.label)+'<span class="how">'+esc(CHECK_LABEL[r.checkType]||r.checkType)+'</span></li>';
-  }).join('');
-  document.getElementById('whatcheck').innerHTML =
-    '<div class="wl">What it will check (nothing else)</div><ul>'+items+'</ul>';
 }
 
 function renderTailor(){
