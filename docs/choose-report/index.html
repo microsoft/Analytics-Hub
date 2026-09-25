@@ -4654,6 +4654,118 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   </div>
 </template>
 
+<template id="paxHero">
+  <div class="cc-hero">
+    <h2>PAX: Portable Audit eXporter</h2>
+    <div class="cc-tag">The PowerShell engine that exports Microsoft 365 Copilot, agent, and workload audit data, ready for Power BI, a lake, or a warehouse</div>
+    <div class="cc-oneliner">Pulls from Purview, Entra, and the Microsoft 365 admin center over the Graph API &middot; no row limits &middot; lands data locally, in SharePoint, or straight into Microsoft Fabric</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWERSHELL SCRIPT</span><span>GRAPH API</span></div>
+  </div>
+</template>
+
+<template id="paxStep4">
+  <p class="gx-reads">PAX is the tool that produces the data, so connecting your data here means running PAX. If you do not live in the command line, start with <strong>Mini-Kitchen</strong> (tab 1): it builds the exact PAX command for you in the browser, and you run it. Prefer to script it yourself, or send output to SharePoint or Fabric? Those are the next two tabs. Every path pulls the same records from Microsoft Purview, Microsoft Entra, and the Microsoft 365 admin center, and writes analysis-ready output you point Power BI at.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Turn on unified audit logging</strong> <span class="cc-small"><em>(required before your first run)</em></span></summary>
+    <div class="cc-idbody">
+      <p>PAX reads the Microsoft 365 unified audit log. With logging off, every query returns zero rows and nothing tells you why. It does not backfill, so a tenant that just switched it on starts thin.</p>
+      <p>A <strong>Global Administrator</strong> or a role with audit access, about two minutes:</p>
+      <ol>
+        <li>Open the <a href="https://purview.microsoft.com/audit/auditsearch" target="_blank" rel="noopener noreferrer">Purview audit search</a>.</li>
+        <li>If you see the banner <strong>Start recording user and admin activity</strong>, click it. Allow up to a few hours for logging to begin.</li>
+      </ol>
+      <blockquote>Microsoft began enforcing a new <code>AuditLogsQuery.Read.All</code> permission in April 2026. With only the legacy permission, audit calls appear to succeed and silently return zero records, so make sure admin consent is granted. PAX v1.10.9 and later request the correct scopes.</blockquote>
+    </div>
+  </details>
+
+  <div class="cc-callout cc-warn"><span class="ct">PAX output is raw, attributable audit data</span>
+    Records are exported exactly as Purview returns them, not hashed, masked, or anonymised. Treat every output file as Highly Confidential, restrict access, and encrypt it at rest and in transit.</div>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="How to run PAX">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Mini-Kitchen</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Run the script directly</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> SharePoint or Fabric</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">~15 minutes &middot; browser + PowerShell 7 &middot; no install</span> <span class="cc-pill pref">Recommended start</span>
+      <p>Point and click a PAX command in the browser, copy it, then run it yourself. Mini-Kitchen never connects to your tenant and stores no credentials. It only writes the command.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open Mini-Kitchen and pick a preset</h5>
+        <p>Open <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer">Mini-Kitchen</a> and start from a preset. Nothing you type there leaves the browser.</p>
+        <table class="cc-nb">
+          <tr><th>Preset</th><th>What it collects</th></tr>
+          <tr><td>AI-in-One Dashboard</td><td>Copilot interactions plus Entra user info, rolled up. Does not pull the broader M365 bundle.</td></tr>
+          <tr><td>AI Business Value Dashboard</td><td>The same Copilot rollup, shaped for the AI Business Value dashboard.</td></tr>
+          <tr><td>M365 Usage Dashboard</td><td>Adds the Exchange, OneDrive, SharePoint, and Teams audit bundle alongside Copilot.</td></tr>
+          <tr><td>Entra user info only</td><td>Skips the audit query and pulls Entra user details only.</td></tr>
+          <tr><td>Microsoft Agent 365 catalog</td><td>Exports the Microsoft Agent 365 catalog only.</td></tr>
+        </table>
+        <p class="cc-small">None of these fit? Choose <strong>Custom audit export</strong> and set the scope yourself.</p>
+        <h5><span class="cc-num">2</span> Build the recipe</h5>
+        <p>Work down the builder: scope, date range, rollup, filters, output target, and sign-in. To keep a recipe, click <strong>Export</strong> for a <code>.paxlite</code> file. Saved recipes live in browser storage only, so clearing site data deletes them.</p>
+        <h5><span class="cc-num">3</span> Copy the command and run it</h5>
+        <p>Copy the command Mini-Kitchen built. Download the PAX script from the <a href="https://github.com/microsoft/PAX/releases" target="_blank" rel="noopener noreferrer">PAX releases page</a>, open PowerShell 7, and paste it in. This is the step that reaches your tenant. Mini-Kitchen never did.</p>
+      </div>
+      <p class="cc-small"><strong>First time?</strong> Pick <strong>AI-in-One Dashboard</strong>, a short date range, and a local output folder, then run it once to see the shape of the data.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">~20 minutes &middot; PowerShell 7 &middot; Microsoft.Graph SDK</span>
+      <p>Download the script and drive it with switches. Full control, fully scriptable, no browser step.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the script</h5>
+        <p>Most people want the flagship <strong>Purview Audit Log Processor</strong>. There are three scripts, for different needs:</p>
+        <table class="cc-nb">
+          <tr><th>Script</th><th>Use it when</th></tr>
+          <tr><td><a href="https://github.com/microsoft/PAX/releases/download/purview-v1.11.15/PAX_Purview_Audit_Log_Processor_v1.11.15.ps1" target="_blank" rel="noopener noreferrer">Purview Audit Log Processor</a> <span class="cc-pill pref">start here</span></td><td>You want Copilot, agent, and broader M365 usage from the unified audit log.</td></tr>
+          <tr><td><a href="https://github.com/microsoft/PAX/releases/download/graph-v1.0.1/PAX_Graph_Audit_Log_Processor_v1.0.1.ps1" target="_blank" rel="noopener noreferrer">Graph Audit Log Processor</a></td><td>You want a lightweight Copilot usage plus Entra and licensing export with no Purview dependency.</td></tr>
+          <tr><td><a href="https://github.com/microsoft/PAX/releases/download/copilotinteractions-v2.0.0/PAX_CopilotInteractions_Content_Audit_Log_Processor_v2.0.0.ps1" target="_blank" rel="noopener noreferrer">Copilot Interactions Content</a></td><td>You need the actual prompt and response content, not just usage telemetry.</td></tr>
+        </table>
+        <h5><span class="cc-num">2</span> Run a scoped export</h5>
+        <p>In PowerShell 7, run the date range you need. <code>-Rollup</code> produces the dashboard-ready summary files, <code>-IncludeUserInfo</code> adds Entra names and departments, and <code>-IncludeM365Usage</code> adds the broader workload bundle:</p>
+        <pre>pwsh -File .\PAX_Purview_Audit_Log_Processor_v1.11.15.ps1 `
+  -StartDate 2026-09-01 -EndDate 2026-09-30 `
+  -IncludeUserInfo -Rollup -OutputPath C:\PAX\</pre>
+        <h5><span class="cc-num">3</span> Open your template</h5>
+        <p>Point your Power BI template at the rollup CSVs the run produced. The <a href="https://github.com/microsoft/PAX/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.11.x.md" target="_blank" rel="noopener noreferrer">script documentation</a> lists every switch and output file.</p>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Dashboards read rollup output, not raw records</span>
+        The Power BI templates load the rolled-up summary files, so include <code>-Rollup</code>. Add <code>-RollupPlusRaw</code> if you also want the raw per-record CSV.</div>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">an afternoon &middot; SharePoint or Fabric &middot; runs headless</span>
+      <p>PAX writes wherever <code>-OutputPath</code> points. Give it a local path, a SharePoint library URL, or a Microsoft Fabric OneLake URL, and it detects the destination from the URL shape. There are no destination-specific switches.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Choose where output lands</h5>
+        <table class="cc-kv">
+          <tr><th>Local folder</th><td><code>-OutputPath C:\PAX\</code></td></tr>
+          <tr><th>SharePoint library</th><td><code>-OutputPath "https://contoso.sharepoint.com/sites/Analytics/Shared Documents/PAX"</code></td></tr>
+          <tr><th>Fabric OneLake (Delta tables)</th><td><code>-OutputPath "https://onelake.dfs.fabric.microsoft.com/Analytics/PAX.Lakehouse"</code></td></tr>
+        </table>
+        <div class="cc-callout cc-info"><span class="ct">One run, one destination tier</span>
+          Every output path in a single run must resolve to the same tier. Do not mix local, SharePoint, and Fabric in one invocation.</div>
+        <h5><span class="cc-num">2</span> Run it unattended (optional)</h5>
+        <p>For a scheduled Azure run with no interactive sign-in, use a managed identity or an app registration. A managed identity suits Azure Container Apps Jobs, VMs, and Functions:</p>
+        <pre>pwsh -File .\PAX_Purview_Audit_Log_Processor_v1.11.15.ps1 `
+  -StartDate 2026-09-01 -EndDate 2026-09-30 -Rollup `
+  -Auth ManagedIdentity -TenantId "&lt;tenant-guid&gt;" -ClientId "&lt;client-id&gt;" `
+  -OutputPath "https://onelake.dfs.fabric.microsoft.com/Analytics/PAX.Lakehouse"</pre>
+        <p>App registration with a certificate works the same way, for example writing to SharePoint:</p>
+        <pre>... -Auth AppRegistration -TenantId "&lt;tenant-guid&gt;" -ClientId "&lt;app-id&gt;" `
+  -ClientCertificateThumbprint "&lt;thumbprint&gt;" `
+  -OutputPath "https://contoso.sharepoint.com/sites/Analytics/Shared Documents/PAX"</pre>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Extra access for remote destinations</span>
+        SharePoint output needs <code>Sites.ReadWrite.All</code> plus Member access on the target site. Fabric output needs <strong>Contributor</strong> on the workspace, <strong>Storage Blob Data Contributor</strong>, and the <strong>Service principals can use Fabric APIs</strong> tenant setting turned on for app-registration or managed-identity runs.</div>
+      <p class="cc-small"><a href="https://github.com/microsoft/PAX/blob/release/release_documentation/Purview_Audit_Log_Processor/PAX_Purview_Audit_Log_Processor_Documentation_v1.11.x.md" target="_blank" rel="noopener noreferrer">Full authentication and permissions reference &rarr;</a></p>
+    </section>
+  </div>
+</template>
+
 <style id="vl-player-styles">
 /* ===== ValueLens clickthrough player ===== */
 .vl-hero-card{position:relative}
@@ -4869,6 +4981,156 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         <p><strong>Load</strong>, then <strong>Publish</strong> and set organizational Dataverse credentials. To refresh, update <code>Core Snapshot ID</code> to a newer completed run.</p>
       </div>
       <p class="cc-small">Needs both an Entra app with Graph audit and directory permissions <em>and</em> a Dataverse application user, consent to Graph does not grant Dataverse access. See <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20+%20Dataverse/README.md" target="_blank" rel="noopener">the path README</a>.</p>
+    </section>
+  </div>
+</template>
+
+<style id="ess-player-styles">
+.ess-hero-card{position:relative}
+.ess-player{max-width:82%;margin:18px auto 0}
+.ess-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0;cursor:zoom-in}
+.ess-img{display:block;width:100%;height:auto}
+.ess-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.ess-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.ess-btn:hover{background:rgba(255,255,255,.22)}
+.ess-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.ess-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.ess-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.ess-dot:hover{background:rgba(255,255,255,.55)}
+.ess-dot[aria-selected="true"]{background:#fff}
+.ess-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.ess-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.ess-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.ess-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.ess-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.ess-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.ess-player:fullscreen .ess-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.ess-player:fullscreen .ess-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.ess-player:fullscreen .ess-controls,.ess-player:fullscreen .ess-dots{flex:0 0 auto;margin:0}
+.ess-player:fullscreen .ess-hint{display:none}
+.ess-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.ess-player:-webkit-full-screen .ess-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.ess-player:-webkit-full-screen .ess-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.ess-player:-webkit-full-screen .ess-hint{display:none}
+</style>
+
+<template id="essHero">
+  <div class="cc-hero ess-hero-card">
+    <h2>ESS Insights</h2>
+    <div class="cc-tag">Employee Self-Serve Business Value &mdash; one Power BI template for your Copilot Studio agent</div>
+    <div class="cc-oneliner">Who&rsquo;s adopting it &middot; what it resolves &middot; tickets deflected &middot; hours and dollars saved</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="ess-player" data-frames="9" data-base="ess-frames">
+      <div class="ess-stage"><img class="ess-img" src="ess-frames/frame_00.jpg" alt="ESS Insights page 1 of 9"></div>
+      <div class="ess-controls">
+        <button class="ess-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="ess-btn" type="button" data-act="play" aria-label="Play or pause"><span class="ess-playico">&#10074;&#10074;</span></button>
+        <button class="ess-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="ess-counter">1 / 9</span>
+      </div>
+      <div class="ess-dots">
+        <button class="ess-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="ess-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="ess-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="ess-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="ess-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="ess-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="ess-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="ess-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="ess-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+      </div>
+      <div class="ess-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="ess-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="essStep4">
+  <p class="gx-reads">Pick how your data gets in. All three paths read the same Copilot Studio conversation transcripts and drive the same nine pages; they differ only in how the data arrives and how it refreshes. Want to see it first with zero setup? Open <a href="https://github.com/microsoft/ESS/blob/main/ESS%20Dashboard%20-%20DEMO%20PBIX.pbix" target="_blank" rel="noopener">ESS Dashboard - DEMO PBIX.pbix</a> to explore all nine pages on sample data before you arrange any access.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Turn on transcript capture</strong> <span class="cc-small"><em>(do this once before any of the paths below)</em></span></summary>
+    <div class="cc-idbody">
+      <p>The dashboard reads the transcripts Copilot Studio writes for each conversation. Those exist only if the agent is set to save them, and Dataverse keeps them for 30 days by default. A Copilot Studio maker or admin, a few minutes:</p>
+      <ol>
+        <li>In <a href="https://copilotstudio.microsoft.com" target="_blank" rel="noopener">Copilot Studio</a>, open the agent &rarr; <strong>Settings &rarr; Advanced &rarr; Conversation transcripts</strong>. Confirm <strong>Save conversation transcripts to Dataverse</strong> is <strong>On</strong> and node-level details are included, then save or publish.</li>
+        <li>Confirm the agent runs in a <strong>Production</strong>, <strong>Sandbox</strong>, or <strong>Default</strong> Dataverse environment. Teams and Microsoft 365 Copilot environments do not write transcripts and cannot be used.</li>
+        <li>Grant the analyst the <strong>Bot Transcript Viewer</strong> security role on that environment. Environment Maker is not enough. (The Fabric path uses an app registration instead, see tab 3.)</li>
+        <li>To keep more than 30 days of history, have an admin extend the environment&rsquo;s retention window before the data you want exists.</li>
+      </ol>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/README.md#prerequisites--details" target="_blank" rel="noopener">Full prerequisites and environment-type table &rarr;</a></p>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> CSV Upload</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Dataverse Direct</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Fabric</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Pro &middot; one-time export</span>
+      <p>Export the transcript table once, point the template at the file. Best for a snapshot, a demo, or sharing outside your tenant.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Export your transcripts</h5>
+        <p>Open the <a href="https://make.powerapps.com" target="_blank" rel="noopener">Power Apps maker portal</a>, switch to the agent&rsquo;s environment, go to <strong>Tables</strong> then <strong>All</strong>, search <code>conversation</code>, open <strong>ConversationTranscript</strong>, then <strong>Export</strong> then <strong>Export data</strong>. Download the result and unzip the CSV. The default window is the last 30 days.</p>
+        <div class="cc-callout cc-warn"><span class="ct">Do not open this CSV in Excel</span>
+          Excel silently corrupts the JSON in the <code>Content</code> column and the template fails to load with a <code>Token Identifier expected</code> error. If you opened it, re-export from Dataverse rather than trying to repair it.</div>
+        <h5><span class="cc-num">2</span> Add org data and credits <span class="cc-pill fallback">optional</span></h5>
+        <p>A roster CSV that maps <code>UserPrincipalName</code> to <code>Department</code> and <code>Country</code> unlocks the Organization and Country breakdowns. From the <a href="https://admin.microsoft.com" target="_blank" rel="noopener">Microsoft 365 admin center</a>: <strong>Users &rarr; Active users &rarr; Export users &rarr; Confirm</strong> (the template normalizes the column names). For the credit-consumption leaderboard, add an export from <a href="https://copilotstudio.microsoft.com" target="_blank" rel="noopener">Copilot Studio</a> &rarr; <strong>Analytics &rarr; Message Consumption</strong>. Both are optional; the report loads without them.</p>
+        <h5><span class="cc-num">3</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ESS/blob/main/ESS%20Dashboard%20-%20Dynamic%20Topics%20(CSV)%20V17.pbit" target="_blank" rel="noopener">ESS Dashboard - Dynamic Topics (CSV) V17.pbit</a>, paste the full path to each CSV into <strong>Transcript File</strong> (and the optional <strong>Org Data File</strong> / <strong>Agent Credits File</strong>), click <strong>Load</strong>.</p>
+      </div>
+      <p class="cc-small"><strong>Want scheduled refresh without a gateway?</strong> Host the transcript CSV on SharePoint or OneDrive and point the parameter at its direct file URL, then bind credentials in the service. See <a href="https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" target="_blank" rel="noopener">AUTO-REFRESH.md</a>.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" target="_blank" rel="noopener">Full CSV setup guide &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~5 minutes &middot; no gateway &middot; recommended for production</span>
+      <p>Connect the template straight to the Dataverse environment that hosts your agent and let it refresh itself. No file exports, no gateway.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Get the environment URL</h5>
+        <p><a href="https://make.powerapps.com" target="_blank" rel="noopener">Power Apps</a> &rarr; switch to the agent&rsquo;s environment &rarr; <strong>&#9881; gear icon &rarr; Session details</strong> &rarr; copy the <strong>Instance url</strong> (like <code>https://orgXXXXXXXX.crm.dynamics.com</code>). Drop the trailing slash; the connector is picky about it.</p>
+        <h5><span class="cc-num">2</span> Add org data and credits <span class="cc-pill fallback">optional</span></h5>
+        <p>Same optional roster and Message Consumption files as the CSV path (see tab 1). Paste their paths into the matching parameters.</p>
+        <h5><span class="cc-num">3</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ESS/blob/main/ESS%20Dashboard%20-%20Dynamic%20Topics%20(Dataverse)%20V18.pbit" target="_blank" rel="noopener">ESS Dashboard - Dynamic Topics (Dataverse) V18.pbit</a> and fill in:</p>
+        <table class="cc-kv">
+          <tr><th><code>Dataverse Environment URL</code></th><td>The instance URL you just copied</td></tr>
+          <tr><th><code>Transcript Lookback Days</code></th><td>Leave blank for 90. The filter runs server-side, so a smaller window refreshes faster.</td></tr>
+        </table>
+        <p>Click <strong>Load</strong>.</p>
+        <h5><span class="cc-num">4</span> Sign in to Dataverse</h5>
+        <p>When prompted, choose <strong>Organizational account</strong>, sign in with an account that holds the <strong>Bot Transcript Viewer</strong> role on that environment, then <strong>Connect</strong>. If it returns zero conversations, the account is missing that role, tenant admin is not the same thing.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Gateway-free scheduled refresh</span>
+        Publishing to the Power BI service refreshes cloud-to-cloud with no gateway. Bind the Dataverse credential (<code>OAuth2</code>, <strong>Organizational</strong>) once, then set a schedule. Steps in <a href="https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" target="_blank" rel="noopener">AUTO-REFRESH.md</a>.</div>
+      <p class="cc-small"><strong>One environment per file.</strong> For agents spread across several environments, either build one copy of the template per environment or use the Fabric path.</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" target="_blank" rel="noopener">Full Dataverse Direct guide &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; An afternoon &middot; needs Fabric capacity (F SKU or eligible trial) &middot; advanced</span>
+      <p>Notebooks land your transcripts and credit data in a Lakehouse, and the template reads from there. Use this only if you are consolidating <strong>multiple environments</strong>, hitting refresh limits at <strong>very large scale</strong>, or want <strong>built-in credit-consumption analytics</strong> and <strong>automatic offline topic classification</strong>. Otherwise stay on CSV Upload or Dataverse Direct.</p>
+      <div class="cc-callout cc-warn"><span class="ct">Validate before production</span>
+        <code>ESS - Fabric V1.pbit</code> is structurally validated, but its refresh against a live Lakehouse is not yet confirmed. Run the full ingest to Lakehouse to refresh loop once, end to end, before you rely on it.</div>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
+        <p><a href="https://app.fabric.microsoft.com" target="_blank" rel="noopener">Fabric portal</a> &rarr; your workspace &rarr; <strong>New</strong> &rarr; <strong>Lakehouse</strong>. Everything below writes into this one.</p>
+        <h5><span class="cc-num">2</span> Import the transcript parser and fill its CONFIG</h5>
+        <p>Import <a href="https://github.com/microsoft/ESS/blob/main/Fabric/notebooks/Copilot_Agent_Transcript_Parser.ipynb" target="_blank" rel="noopener">Copilot_Agent_Transcript_Parser.ipynb</a> (<strong>New &rarr; Import notebook</strong>), then in the Explorer pane <strong>add your Lakehouse and set it as the default</strong>. In the CONFIG cell keep <code>SOURCE_MODE = 'dataverse'</code> and set <code>TENANT_ID</code>, <code>CLIENT_ID</code>, <code>CLIENT_SECRET</code> for an Entra app registration (read it from Key Vault with <code>notebookutils.credentials.getSecret</code> in production), plus <code>DATAVERSE_URL</code>, or a list in <code>DATAVERSE_URLS</code> to consolidate several environments. Run the <strong>preflight</strong> cell to confirm auth, then <strong>Run all</strong>. It writes <code>agent_sessions</code> and its companion tables and classifies every conversation by topic offline, with no data leaving your workspace.</p>
+        <div class="cc-callout cc-info"><span class="ct">The app registration is a higher bar than the other paths</span>
+          It must be added as a Dataverse <strong>Application User</strong> with read on Conversation Transcript in <em>every</em> environment you ingest from, which usually needs a Dataverse or Entra admin. To skip it, set <code>SOURCE_MODE = 'files'</code> and drop an exported transcript CSV into the Lakehouse <code>Files/</code> folder instead.</div>
+        <p class="cc-small">The parser is scoped to ESS agents by default (a filter keys on the <code>copilotforemployeeselfservice</code> schema). Comment out that one filter cell to ingest any Copilot Studio agent. Stage 2 of the offline classifier is toggleable with <code>ENABLE_SEMANTIC_FALLBACK</code>.</p>
+        <h5><span class="cc-num">3</span> Import the credit ingester <span class="cc-pill fallback">optional</span></h5>
+        <p>Import <a href="https://github.com/microsoft/ESS/blob/main/Fabric/notebooks/Copilot_Credit_Consumption_Ingester.ipynb" target="_blank" rel="noopener">Copilot_Credit_Consumption_Ingester.ipynb</a> the same way. It reads the <strong>Message Consumption</strong> exports (the <code>EntitlementConsumption...</code> CSVs from Copilot Studio) from <code>Files/credit_consumption</code> in the Lakehouse, dropped there by hand or by a Power Automate flow, and writes the <code>credit_consumption</code> tables.</p>
+        <h5><span class="cc-num">4</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/ESS/blob/main/ESS%20-%20Fabric%20V1.pbit" target="_blank" rel="noopener">ESS - Fabric V1.pbit</a>, point it at your Lakehouse <strong>SQL analytics endpoint</strong> (Import or DirectQuery) or <strong>Direct Lake</strong>, then <strong>Refresh</strong>. Org data is still a separate roster file, the same one used on the other paths.</p>
+        <h5><span class="cc-num">5</span> Schedule the notebooks <span class="cc-pill pref">recommended</span></h5>
+        <p>Schedule both notebooks, or wrap them in a Fabric pipeline, so the Lakehouse stays current without manual runs.</p>
+      </div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/SETUP-Fabric.md" target="_blank" rel="noopener">Full Fabric guide &rarr;</a></p>
     </section>
   </div>
 </template>
@@ -8582,6 +8844,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _ccStep4 = document.getElementById('ccStep4');
       if (_ccStep4) return _ccStep4.innerHTML;
     }
+    if (t.id === 'ess-insights') {
+      var _essStep4 = document.getElementById('essStep4');
+      if (_essStep4) return _essStep4.innerHTML;
+    }
     if (t.id === 'agent-evaluator') {
       var _aeStep4 = document.getElementById('aeStep4');
       if (_aeStep4) return _aeStep4.innerHTML;
@@ -8593,6 +8859,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     if (t.id === 'value-lens') {
       var _vlStep4 = document.getElementById('vlStep4');
       if (_vlStep4) return _vlStep4.innerHTML;
+    }
+    if (t.id === 'pax') {
+      var _paxStep4 = document.getElementById('paxStep4');
+      if (_paxStep4) return _paxStep4.innerHTML;
     }
     if (t.id === 'cowork-adoption') {
       var _caStep4 = document.getElementById('caStep4');
@@ -8681,7 +8951,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
        clickthrough preview in their gradient hero, so the separate
        "See what you are building" step is redundant for them and is
        dropped. The step counter bumps the rest up by one. */
-    var heroHasPreview = (t.id === 'super-usage' || t.id === 'super-user-impact');
+    var heroHasPreview = (t.id === 'super-usage' || t.id === 'super-user-impact' || t.id === 'ess-insights');
     if (!heroHasPreview) {
       out += step('See what you are building',
         '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
@@ -8770,6 +9040,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       return '<section class="gx-panel" id="gx-p-' + esc(t.id) + '" role="tabpanel" ' +
         'aria-labelledby="gx-tab-' + esc(t.id) + '"' + (i === 0 ? '' : ' hidden') + '>' +
         (t.id === 'consumption-central' && document.getElementById('ccHero') ? document.getElementById('ccHero').innerHTML : '') +
+        (t.id === 'pax' && document.getElementById('paxHero') ? document.getElementById('paxHero').innerHTML : '') +
+        (t.id === 'ess-insights' && document.getElementById('essHero') ? document.getElementById('essHero').innerHTML : '') +
         (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
@@ -9529,6 +9801,61 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   document.addEventListener('click', function (e){
     var img = e.target && e.target.closest ? e.target.closest('.mr-stage .mr-img') : null;
     if (!img) return; var el = img.closest('.mr-player'); if (el) toggleFs(el);
+  });
+  if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
+<script id="ess-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+      base: el.getAttribute('data-base') || 'ess-frames', playing:false, timer:null,
+      img: el.querySelector('.ess-img'), counter: el.querySelector('.ess-counter'),
+      dots: el.querySelectorAll('.ess-dot'), playIco: el.querySelector('.ess-playico') };
+    reg.push(st); show(st,0); play(st);
+  }
+  function scan(){ var l=document.querySelectorAll('.ess-player'); for (var i=0;i<l.length;i++) init(l[i]); }
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){ try { var r=req.call(el); if (r&&r.catch) r.catch(function(){}); } catch(e){} }
+  }
+  document.addEventListener('click', function (e){
+    var btn = e.target && e.target.closest ? e.target.closest('.ess-btn, .ess-dot, .ess-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen'){
+      var host = btn.closest('.ess-hero-card') || document;
+      var pl = host.querySelector ? host.querySelector('.ess-player') : null;
+      if (!pl) pl = btn.closest('.ess-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.ess-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev'){ pause(st); show(st, st.i-1); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    else if (act === 'play'){ st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('ess-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+  });
+  document.addEventListener('click', function (e){
+    var img = e.target && e.target.closest ? e.target.closest('.ess-stage .ess-img') : null;
+    if (!img) return; var el = img.closest('.ess-player'); if (el) toggleFs(el);
   });
   if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
   if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
