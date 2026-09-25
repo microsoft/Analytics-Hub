@@ -6776,6 +6776,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
        gradient-hero clickthrough at the top of the guide, so it is not
        repeated as a Step 1 media tab. The report flyout keeps it. */
     if (t.id === 'cowork-adoption') items = items.filter(function (it) { return it.kind !== 'image'; });
+    /* Agent Evaluator: the preview GIF now plays in this report's gradient-hero
+       clickthrough at the top of the guide, so Step 1 drops the redundant
+       image tab and labels the remaining demo video "Overview". The report
+       flyout keeps the preview. */
+    if (t.id === 'agent-evaluator') {
+      items = items.filter(function (it) { return it.kind !== 'image'; });
+      items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
+    }
     if (!items.length) return '';
     var id = esc(t.id);
     var tabs = items.length > 1
