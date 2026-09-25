@@ -2143,7 +2143,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
       "download": "https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip",
       "demoVideo": "https://github.com/microsoft/AI-in-One-Dashboard#-watch-first",
-      "demoVideos": ["https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Overview.mp4", "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Setup-Guide.mp4"],
+      "demoVideos": [{"url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Overview.mp4", "label": "Overview"}, {"url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Setup-Guide.mp4", "label": "Installation"}],
       "demoVideoLabel": "Watch the demo &amp; setup videos",
       "guide": "https://github.com/microsoft/AI-in-One-Dashboard/blob/main/docs/Video-Guide.md",
       "emailFile": "01_AI_in_One_Dashboard_Admin_Email.txt",
@@ -4649,6 +4649,193 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       </div>
       <div class="cc-callout cc-info"><span class="ct">What the flows do and don't fill</span>
         Only the four API-backed feeds are automated: <code>studio_tenant_daily</code>, <code>studio_agent</code>, <code>azure_ai_spend</code>, <code>github_ai_usage</code>. The other seven tables have no API &mdash; load them by hand via <strong>Data &rarr; Import</strong> in <a href="https://make.powerapps.com" target="_blank" rel="noopener">make.powerapps.com</a>, or use tab 1 / tab 2 to populate every page.</div>
+    </section>
+  </div>
+</template>
+
+<style id="aio-player-styles">
+.aio-player{max-width:82%;margin:18px auto 0}
+.aio-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0}
+.aio-img{display:block;width:100%;height:auto}
+.aio-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.aio-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.aio-btn:hover{background:rgba(255,255,255,.22)}
+.aio-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.aio-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.aio-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.aio-dot:hover{background:rgba(255,255,255,.55)}
+.aio-dot[aria-selected="true"]{background:#fff}
+.aio-hero-card{position:relative}
+.aio-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.aio-stage{cursor:zoom-in}
+/* loud full-screen button, bottom-left of the hero card */
+.aio-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;
+  border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;
+  border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.aio-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.aio-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.aio-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+/* when the player is the fullscreen element, fill the screen */
+.aio-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.aio-player:fullscreen .aio-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.aio-player:fullscreen .aio-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.aio-player:fullscreen .aio-controls,.aio-player:fullscreen .aio-dots{flex:0 0 auto;margin:0}
+.aio-player:fullscreen .aio-hint{display:none}
+.aio-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.aio-player:-webkit-full-screen .aio-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.aio-player:-webkit-full-screen .aio-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.aio-player:-webkit-full-screen .aio-hint{display:none}
+</style>
+
+<template id="aioHero">
+  <div class="cc-hero aio-hero-card">
+    <h2>&#129504; AI-in-One Dashboard</h2>
+    <div class="cc-tag">One Power BI dashboard for every Microsoft Copilot and Agent adoption signal</div>
+    <div class="cc-oneliner">M365 Copilot &middot; Copilot Chat (licensed + unlicensed) &middot; Agents &middot; third-party AI &mdash; in one view</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="aio-player" data-frames="13" data-base="aio-frames">
+      <div class="aio-stage"><img class="aio-img" src="aio-frames/frame_00.jpg" alt="AI-in-One Dashboard page 1 of 13"></div>
+      <div class="aio-controls">
+        <button class="aio-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="aio-btn" type="button" data-act="play" aria-label="Play or pause"><span class="aio-playico">&#10074;&#10074;</span></button>
+        <button class="aio-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="aio-counter">1 / 13</span>
+      </div>
+      <div class="aio-dots">
+        <button class="aio-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="aio-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="aio-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="aio-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="aio-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="aio-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="aio-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="aio-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="aio-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+        <button class="aio-dot" type="button" data-idx="9" aria-label="Page 10"></button>
+        <button class="aio-dot" type="button" data-idx="10" aria-label="Page 11"></button>
+        <button class="aio-dot" type="button" data-idx="11" aria-label="Page 12"></button>
+        <button class="aio-dot" type="button" data-idx="12" aria-label="Page 13"></button>
+      </div>
+      <div class="aio-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="aio-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="aioStep4">
+  <p class="gx-reads">Every number comes from the <strong>Microsoft Purview audit log</strong> plus <strong>Entra</strong> user and licensing data. You produce two pre-processed &ldquo;rollup&rdquo; files (the template can&rsquo;t read raw exports), then open the edition that matches where your files live and how you want it to refresh. Pick your path below.</p>
+
+  <div class="cc-callout cc-warn"><span class="ct">Do this first &mdash; turn on unified audit logging</span>
+    The whole dashboard reads the Purview unified audit log. If it&rsquo;s off, every export fails with <code>AuditingDisabledTenant</code>. It&rsquo;s on by default for most tenants but often off in demo / dev / new tenants, so check before you start. In the <a href="https://purview.microsoft.com/audit/auditsearch" target="_blank" rel="noopener noreferrer">Purview portal</a>, if you see <strong>Start recording user and admin activity</strong>, click it. <strong>Enabling it does not backfill</strong> &mdash; collection starts from that moment and can take up to 24h to appear, so a brand-new tenant&rsquo;s first export looks sparse. That&rsquo;s expected.</div>
+
+  <details class="cc-idbox" open>
+    <summary><strong>Start here &mdash; how you produce the two input files (Mini-Kitchen)</strong> <span class="cc-small"><em>(the biggest time-saver &mdash; used by the Local and SharePoint tabs)</em></span></summary>
+    <div class="cc-idbody">
+      <p>The template needs two <strong>pre-processed rollup files</strong> and can&rsquo;t read a raw Purview CSV or a hand-exported Entra list. <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer"><strong>Mini-Kitchen</strong></a> is the guided, no-install way to produce them: it runs entirely in your browser, drives the open-source <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener noreferrer">PAX engine</a>, and ships an <strong>AI-in-One preset</strong> that fills in exactly the right collection settings for this dashboard, so you don&rsquo;t have to understand the audit internals.</p>
+      <ol>
+        <li>Open <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer">Mini-Kitchen</a> and choose the <strong>AI-in-One</strong> preset. It runs entirely in that browser tab &mdash; no tenant data is pulled here, no account info is collected, no secrets are stored.</li>
+        <li>Work down the builder (name the recipe, data scope, what to collect, date range, rollup, filters, output location, PAX script path, sign-in). Include Agent 365 to also produce that file. Export the result as a <code>.paxlite</code> recipe if you want to reuse it.</li>
+        <li>Copy the command it built. Download the PAX engine from the <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener noreferrer">PAX repository</a>, open <strong>PowerShell 7</strong>, and paste the command. <strong>This is the step that reaches your tenant</strong> &mdash; Mini-Kitchen never did.</li>
+      </ol>
+      <p class="cc-small">You&rsquo;ll get <code>Purview_Audit_..._Interactions.csv</code>, <code>EntraUsers_MAClicensing_..._Users.csv</code>, and (optionally) <code>Agent365_....csv</code>. To keep the dashboard fresh, re-run the command on a cadence (for example a Windows Task Scheduler job).</p>
+      <p class="cc-small"><strong>Already export raw data another way?</strong> The <a href="https://github.com/microsoft/AI-in-One-Dashboard/tree/main/scripts" target="_blank" rel="noopener noreferrer">standalone processor</a> (<code>scripts/Rollup_Processor_v3.0.0.py --purview ... --entra ...</code>) turns raw Purview + Entra exports into the same two rollup files, no Mini-Kitchen. <strong>Agent 365</strong> can also be exported by hand from <a href="https://admin.microsoft.com" target="_blank" rel="noopener noreferrer">admin.microsoft.com</a> &rarr; <strong>Agents</strong> &rarr; <strong>All Agents</strong> &rarr; <strong>Export</strong> (it&rsquo;s a passthrough, no processing needed).</p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/AI-in-One-Dashboard#-get-your-data--run-pax-to-produce-the-files" target="_blank" rel="noopener noreferrer">Data-export roles &amp; field list &rarr;</a></p>
+      <blockquote>Producing this data reads tenant audit and directory information. Typical roles: <strong>Audit Reader</strong> (Purview), <strong>User Administrator or Global Reader</strong> (Entra + licensing), and <strong>AI Admin or Global Reader</strong> for Agent 365. Your organisation is the data controller for anything you export.</blockquote>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Local / Desktop</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> SharePoint (auto-refresh)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Fabric / OneLake</button>
+    </div>
+
+    <!-- TAB 1: LOCAL / DESKTOP -->
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; Quickest to see it working &middot; Power BI Desktop &middot; manual refresh</span>
+      <p>Produce the rollup files, drop them on your machine, open the auto-detect edition, point three parameters at them.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Try it on sample data first</h5>
+        <p>No tenant access yet? The repo ships fictional demo files in the exact rollup format. Open the template, point it at <a href="https://github.com/microsoft/AI-in-One-Dashboard/tree/main/sample-data" target="_blank" rel="noopener noreferrer">sample-data/</a>, and explore every page with no Purview, PAX, or tenant.</p>
+        <h5><span class="cc-num">2</span> Produce your two rollup files</h5>
+        <p>Use <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer">Mini-Kitchen</a> with the <strong>AI-in-One</strong> preset &mdash; see <strong>Start here</strong> above. Pick a local output folder, then run the command it builds in PowerShell 7.</p>
+        <p class="cc-small">You&rsquo;ll get <code>Purview_Audit_..._Interactions.csv</code>, <code>EntraUsers_MAClicensing_..._Users.csv</code>, and (optionally) <code>Agent365_....csv</code>.</p>
+        <h5><span class="cc-num">3</span> Open the auto-detect edition</h5>
+        <p>Open <a href="https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Rollup%20Edition%20-%202026-06-25.pbit" target="_blank" rel="noopener noreferrer"><code>AIO Dashboard - Rollup Edition</code></a> (the 3-in-1 edition &mdash; it accepts local paths, SharePoint, or OneLake). Fill three parameters, click <strong>Load</strong>:</p>
+        <table class="cc-kv">
+          <tr><th>Copilot Interactions File</th><td>Path to your <code>..._Interactions.csv</code></td></tr>
+          <tr><th>Org Data File</th><td>Path to your <code>..._Users.csv</code></td></tr>
+          <tr><th>Agent 365 <span class="cc-small">(optional)</span></th><td>Path to your <code>Agent365_....csv</code>, or leave blank</td></tr>
+        </table>
+        <h5><span class="cc-num">4</span> Refresh when you need to</h5>
+        <p>Re-run the Mini-Kitchen command to regenerate the files, then <strong>Refresh</strong> in Power BI Desktop.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Why this edition can&rsquo;t auto-refresh in the Service</span>
+        The 3-in-1 edition resolves each file&rsquo;s location at runtime (local / SharePoint / OneLake), which the Power BI Service treats as a <em>dynamic data source</em> and won&rsquo;t schedule. That&rsquo;s a platform rule, not a bug. Want scheduled refresh? Use the <strong>SharePoint</strong> or <strong>Fabric</strong> tab.</div>
+      <p class="cc-small">Blank visuals almost always mean the file isn&rsquo;t a rollup file &mdash; confirm it matches the <code>..._Interactions.csv</code> / <code>..._Users.csv</code> pattern from a <code>-Rollup</code> run.</p>
+    </section>
+
+    <!-- TAB 2: SHAREPOINT -->
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; An afternoon &middot; Power BI Pro &middot; scheduled refresh, no Gateway</span>
+      <p>Write the rollup files to a SharePoint library, open the SharePoint edition, publish, and let the Service refresh it on a schedule.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Produce the files straight to SharePoint</h5>
+        <p>Use <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer">Mini-Kitchen</a> with the <strong>AI-in-One</strong> preset (see <strong>Start here</strong> above) and set its <strong>output location to a SharePoint document library</strong> instead of a local folder. Run the command it builds on a cadence (for example a Windows Task Scheduler job) so the files stay current.</p>
+        <div class="cc-callout cc-warn"><span class="ct">Get the SharePoint URL the right way</span>
+          Do <strong>not</strong> copy the URL from your browser&rsquo;s address bar or a &ldquo;Copy link&rdquo; share link &mdash; those carry view state and won&rsquo;t work. Instead: in SharePoint, click the <strong>&#8942;</strong> next to the folder or file &rarr; <strong>Details</strong> &rarr; scroll to <strong>Path</strong> &rarr; click the copy icon. You want a clean URL ending in the folder name (or <code>.../file.csv</code>), with no <code>?...</code>.</div>
+        <h5><span class="cc-num">2</span> Open the SharePoint edition</h5>
+        <p>Open <a href="https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Rollup%20Edition%20-%20PBI-SharePoint%20-%202026-06-25.pbit" target="_blank" rel="noopener noreferrer"><code>AIO Dashboard - Rollup Edition - PBI-SharePoint</code></a>. Every parameter must be a SharePoint URL (it validates this). Put all three files in the <strong>same</strong> folder &mdash; including a manually-exported Agent 365 CSV &mdash; so you don&rsquo;t mix source types.</p>
+        <h5><span class="cc-num">3</span> Publish and set scheduled refresh</h5>
+        <p>Publish to a workspace, then in the Service: dataset &rarr; <strong>Settings</strong> &rarr; <strong>Data source credentials</strong> &rarr; sign in to SharePoint with <strong>OAuth2</strong>, set <strong>Privacy = Organizational</strong>. Then enable <strong>Scheduled refresh</strong>. No Gateway needed.</p>
+        <p class="cc-small">Tip: have the Mini-Kitchen command write the <em>same</em> filename each run so the dataset refreshes against a stable URL with no template edits.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Refresh limits &amp; cross-tenant note</span>
+        Power BI Pro allows up to 8 scheduled refreshes/day (48 on Premium/PPU); make sure the Mini-Kitchen run finishes writing before the window starts. If the files live in a different tenant than your Power BI Service, sign in with a guest account that can read them &mdash; Conditional Access / MFA on the file-hosting tenant can block unattended token renewal.</div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/AI-in-One-Dashboard#-set-up-scheduled-refresh-in-power-bi-service" target="_blank" rel="noopener noreferrer">Full scheduled-refresh guide &rarr;</a></p>
+    </section>
+
+    <!-- TAB 3: FABRIC / ONELAKE -->
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; An afternoon &middot; needs Fabric capacity (F2+ or trial) &middot; enterprise volume, Direct Lake</span>
+      <p>The fastest, most reliable path at real audit-log volume. Three notebooks pull from Microsoft Graph and write Delta tables straight into a Lakehouse &mdash; no PowerShell, no CSV landing step. The report is a thin pass-through.</p>
+      <div class="cc-callout cc-warn"><span class="ct">Create the Lakehouse with schemas enabled</span>
+        All three notebooks write with <code>saveAsTable('dbo.&lt;table&gt;')</code> to the notebook&rsquo;s <strong>attached default Lakehouse</strong> (there is no workspace / Lakehouse variable to edit &mdash; you pin the Lakehouse as default). A Lakehouse created <em>without</em> schema support has no <code>dbo</code> schema, and every notebook then fails with a generic Spark error that names neither the schema nor the table. Tick <strong>Lakehouse schemas</strong> in the creation dialog.</div>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Register an Entra app for Graph</h5>
+        <p>Create an app registration with these Microsoft Graph <strong>application</strong> permissions (admin consent required), then grab the Tenant ID, Client ID, and client secret <em>value</em>:</p>
+        <table class="cc-nb">
+          <tr><th>Permission</th><th>Used by</th></tr>
+          <tr><td><code>AuditLogsQuery.Read.All</code></td><td>Audit notebook (Purview audit query API &mdash; <strong>not</strong> the Entra <code>AuditLog.Read.All</code> scope)</td></tr>
+          <tr><td><code>Reports.Read.All</code></td><td>Licensed-users notebook</td></tr>
+          <tr><td><code>User.Read.All</code></td><td>Org-data notebook</td></tr>
+        </table>
+        <h5><span class="cc-num">2</span> Create a Lakehouse</h5>
+        <p><a href="https://app.fabric.microsoft.com/" target="_blank" rel="noopener noreferrer">Fabric</a> workspace on a capacity &rarr; <strong>New &rarr; Lakehouse</strong>, <strong>enable schemas</strong> (see the note above). Note its <strong>SQL endpoint</strong> from settings.</p>
+        <h5><span class="cc-num">3</span> Import and configure the three Direct Ingester notebooks</h5>
+        <p>From <a href="https://github.com/microsoft/AI-in-One-Dashboard/tree/main/Classic%20Editions/3.%20Fabric/notebooks" target="_blank" rel="noopener noreferrer">Classic Editions/3. Fabric/notebooks/</a>, import each, <strong>pin your Lakehouse as default</strong>, and paste your three app-reg values into the <code># === CONFIG ===</code> cell (use Key Vault via <code>notebookutils.credentials.getSecret</code> for production):</p>
+        <table class="cc-nb">
+          <tr><th>Notebook</th><th>Reads</th><th>Writes</th></tr>
+          <tr><td><a href="https://github.com/microsoft/AI-in-One-Dashboard/blob/main/Classic%20Editions/3.%20Fabric/notebooks/Copilot_Audit_Log_Direct_Ingester.ipynb" target="_blank" rel="noopener noreferrer"><code>Copilot_Audit_Log_Direct_Ingester</code></a></td><td>Graph audit-log query API (7-day windows; backfill or incremental)</td><td><code>dbo.copilot_interactions_parsed</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/AI-in-One-Dashboard/blob/main/Classic%20Editions/3.%20Fabric/notebooks/Copilot_Licensed_Users_Direct_Ingester.ipynb" target="_blank" rel="noopener noreferrer"><code>Copilot_Licensed_Users_Direct_Ingester</code></a></td><td>Graph M365 active-user report</td><td><code>dbo.copilot_licensed_users</code></td></tr>
+          <tr><td><a href="https://github.com/microsoft/AI-in-One-Dashboard/blob/main/Classic%20Editions/3.%20Fabric/notebooks/Copilot_Org_Data_Direct_Ingester.ipynb" target="_blank" rel="noopener noreferrer"><code>Copilot_Org_Data_Direct_Ingester</code></a></td><td>Graph <code>/users</code> (+ manager expand)</td><td><code>dbo.copilot_org_data</code></td></tr>
+        </table>
+        <p class="cc-small">Run them ad-hoc, schedule each, or import the included <a href="https://github.com/microsoft/AI-in-One-Dashboard/tree/main/Classic%20Editions/3.%20Fabric/pipelines" target="_blank" rel="noopener noreferrer"><code>CopilotAdoptionPipeline</code></a> to orchestrate all three (audit first, then licensed-users + org-data in parallel).</p>
+        <h5><span class="cc-num">4</span> Open the Fabric template</h5>
+        <p>Open <a href="https://github.com/microsoft/AI-in-One-Dashboard/raw/main/Classic%20Editions/3.%20Fabric/AI-in-One%20Dashboard%20-%20Fabric.pbit" target="_blank" rel="noopener noreferrer"><code>AI-in-One Dashboard - Fabric.pbit</code></a> and supply:</p>
+        <table class="cc-kv">
+          <tr><th>Fabric SQL Endpoint</th><td><code>&lt;workspace-guid&gt;.datawarehouse.fabric.microsoft.com</code></td></tr>
+          <tr><th>Lakehouse Database</th><td>Your Lakehouse name (e.g. <code>CopilotAnalytics</code>)</td></tr>
+          <tr><th>Agent 365 <span class="cc-small">(optional)</span></th><td>Local path to your Agent 365 CSV (no Graph loader yet)</td></tr>
+        </table>
+        <p class="cc-small">Publish to a workspace on the <em>same</em> Fabric capacity so Direct Lake gives sub-second refresh. Set scheduled refresh to match your notebook / pipeline cadence.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Not only Fabric</span>
+        The same notebooks (plain Python + PySpark) and the <code>Sql.Database</code>-based template also run on <strong>Azure Databricks</strong>, <strong>Synapse Spark</strong>, or any SQL endpoint &mdash; adjust one <code>OUTPUT_TABLE</code> line per notebook and the two template parameters. See the <a href="https://github.com/microsoft/AI-in-One-Dashboard/tree/main/Classic%20Editions/3.%20Fabric#alternative-platforms" target="_blank" rel="noopener noreferrer">alternative platforms</a> section.</div>
     </section>
   </div>
 </template>
@@ -7296,6 +7483,10 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       var _ccStep4 = document.getElementById('ccStep4');
       if (_ccStep4) return _ccStep4.innerHTML;
     }
+    if (t.id === 'ai-in-one') {
+      var _aioStep4 = document.getElementById('aioStep4');
+      if (_aioStep4) return _aioStep4.innerHTML;
+    }
     var rec = CONNECT[t.id];
     if (!rec) {
       var repoUrl = escUrl(t.repo);
@@ -7445,6 +7636,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       return '<section class="gx-panel" id="gx-p-' + esc(t.id) + '" role="tabpanel" ' +
         'aria-labelledby="gx-tab-' + esc(t.id) + '"' + (i === 0 ? '' : ' hidden') + '>' +
         (t.id === 'consumption-central' && document.getElementById('ccHero') ? document.getElementById('ccHero').innerHTML : '') +
+        (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
         '<div class="gx-rhead">' +
           '<h3>' + esc(titleOf(t)) + '</h3>' +
           '<p class="gx-q">' + esc(t.question) + '</p>' +
@@ -7722,6 +7914,81 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 </script>
 <script src="../report-badges.js" defer></script>
 <script src="../report-sort.js" defer></script>
+<script id="aio-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+    if (st.img) st.img.setAttribute('alt', 'AI-in-One Dashboard page ' + (st.i + 1) + ' of ' + st.n);
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = {
+      el: el, i: 0, n: parseInt(el.getAttribute('data-frames'), 10) || 0,
+      base: el.getAttribute('data-base') || 'aio-frames', playing: false, timer: null,
+      img: el.querySelector('.aio-img'), counter: el.querySelector('.aio-counter'),
+      dots: el.querySelectorAll('.aio-dot'), playIco: el.querySelector('.aio-playico')
+    };
+    reg.push(st);
+    show(st, 0);
+    play(st);
+  }
+  function scan(){ var list = document.querySelectorAll('.aio-player'); for (var i=0;i<list.length;i++){ init(list[i]); } }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.aio-btn, .aio-dot, .aio-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen') {
+      var host = btn.closest('.aio-hero-card') || btn.closest('.cc-hero') || document;
+      var pl = host.querySelector ? host.querySelector('.aio-player') : null;
+      if (!pl) pl = btn.closest('.aio-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.aio-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev') { pause(st); show(st, st.i - 1); }
+    else if (act === 'next') { pause(st); show(st, st.i + 1); }
+    else if (act === 'play') { st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('aio-dot')) { pause(st); show(st, parseInt(btn.getAttribute('data-idx'), 10) || 0); }
+  });
+
+  /* Click the image itself to go full screen (cursor:zoom-in signals it). */
+  document.addEventListener('click', function (e) {
+    var img = e.target && e.target.closest ? e.target.closest('.aio-stage .aio-img') : null;
+    if (!img) return;
+    var el = img.closest('.aio-player'); if (el) toggleFs(el);
+  });
+
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl) {
+      (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+      return;
+    }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req) {
+      try { var r = req.call(el); if (r && r.catch) r.catch(function(){}); }
+      catch (err) { /* ignore */ }
+    }
+  }
+
+  if (window.MutationObserver) {
+    new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+  }
+  if (document.readyState !== 'loading') scan();
+  else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
 <script id="cc-connect-tabs">
 (function () {
   document.addEventListener('click', function (e) {
