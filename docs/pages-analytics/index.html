@@ -122,6 +122,37 @@
     </div>
   </section>
 
+  <section class="lab-promo-wrap">
+    <div class="wrap">
+      <style>
+        .lab-promo-wrap{margin:1.4rem 0 .2rem}
+        .lab-promo{display:flex;align-items:center;gap:1.15rem;text-decoration:none;border:1px solid color-mix(in srgb,var(--accent,#0078d4) 35%,var(--border,#e6e6ee));background:linear-gradient(135deg,color-mix(in srgb,var(--accent,#0078d4) 11%,var(--surface,#fff)) 0%,var(--surface,#fff) 60%);border-radius:16px;padding:1.05rem 1.3rem;box-shadow:0 2px 12px rgba(0,120,212,.09);transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease}
+        .lab-promo:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,120,212,.18);border-color:var(--accent,#0078d4)}
+        .lab-promo-icon{flex:0 0 auto;width:48px;height:48px;border-radius:13px;background:var(--accent,#0078d4);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,120,212,.35)}
+        .lab-promo-icon svg{width:26px;height:26px}
+        .lab-promo-text{flex:1 1 auto;min-width:0}
+        .lab-promo-badge{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--accent,#0078d4);border-radius:999px;padding:3px 10px;margin-bottom:6px}
+        .lab-promo-badge .dot{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.8);animation:labPulse 1.8s infinite}
+        @keyframes labPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}70%{box-shadow:0 0 0 6px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+        .lab-promo-title{font-size:1.08rem;font-weight:800;color:var(--text,#1a1a25);letter-spacing:-.01em}
+        .lab-promo-sub{font-size:.85rem;color:var(--text-soft,#4a4a63);margin-top:3px;line-height:1.45}
+        .lab-promo-cta{flex:0 0 auto;font-size:.86rem;font-weight:700;color:#fff;background:var(--accent,#0078d4);border-radius:10px;padding:10px 18px;white-space:nowrap}
+        @media (max-width:720px){.lab-promo{flex-wrap:wrap}.lab-promo-cta{width:100%;text-align:center}}
+      </style>
+      <a class="lab-promo" href="lab.html">
+        <span class="lab-promo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l4-5 4 3 5-7 5 6"/><circle cx="7" cy="10" r="1.4" fill="currentColor" stroke="none"/><circle cx="16" cy="6" r="1.4" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="lab-promo-text">
+          <span class="lab-promo-badge"><span class="dot"></span>New · Preview</span>
+          <span class="lab-promo-title">Signals Lab &mdash; catch what silently slips by</span>
+          <span class="lab-promo-sub">Anomaly detection, bot-spike &amp; script-error alerts, page-cliff movers, new-referrer discovery, pipeline-health checks, and period-over-period comparison across 3/7/14/30-day windows.</span>
+        </span>
+        <span class="lab-promo-cta">Open Signals Lab &rarr;</span>
+      </a>
+    </div>
+  </section>
+
   <section class="hero-strip">
     <div class="wrap">
       <div class="kpi-grid">

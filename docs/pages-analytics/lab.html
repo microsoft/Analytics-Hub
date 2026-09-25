@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signals Lab · Analytics Hub</title>
+  <meta name="description" content="Preview of upgraded traffic monitoring: anomaly detection, silent-signal feed, movers, and pipeline health." />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../styles.css?v=7a506cda" />
+  <link rel="stylesheet" href="styles.css?v=ed972d61" />
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <style>
+    .lab-hero{padding:2rem 0 .5rem}
+    .lab-crumb{font-size:.82rem;color:var(--text-muted,#6b6b85);margin:0 0 .5rem}
+    .lab-crumb a{color:inherit;text-decoration:none}
+    .lab-crumb a:hover{text-decoration:underline}
+    .lab-badge{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8a5a00;background:#ffe8b3;border:1px solid #f0c869;border-radius:999px;padding:2px 10px;vertical-align:middle;margin-left:.6rem}
+    .lab-hero h1{margin:0;font-size:1.95rem;letter-spacing:-.02em;display:inline}
+    .lab-sub{font-size:.9rem;color:var(--text-muted,#6b6b85);margin:.5rem 0 0;max-width:70ch}
+    .lab-src{font-size:.8rem;color:var(--text-muted,#6b6b85);margin:.3rem 0 0}
+    .lab-src code{font-family:ui-monospace,Consolas,monospace}
+    section.lab-mod{margin:2rem 0}
+    .lab-mod h2{font-size:1.25rem;letter-spacing:-.01em;margin:0 0 .2rem;display:flex;align-items:center;gap:.5rem}
+    .lab-mod h2 .tag{font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--accent,#0078d4);background:color-mix(in srgb,var(--accent,#0078d4) 12%,transparent);border-radius:5px;padding:2px 7px}
+    .lab-mod .lab-desc{font-size:.86rem;color:var(--text-muted,#6b6b85);margin:0 0 1rem;max-width:75ch}
+    .card{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:var(--surface,#fff);padding:1.3rem 1.4rem;box-shadow:0 1px 3px rgba(20,20,40,.05)}
+    /* scorecards */
+    .scorecards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+    .score{border:1px solid var(--border,#e6e6ee);border-radius:14px;background:var(--surface,#fff);padding:.9rem 1rem;box-shadow:0 1px 3px rgba(20,20,40,.05)}
+    .score .l{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#6b6b85)}
+    .score .v{font-size:1.55rem;font-weight:800;letter-spacing:-.02em;margin-top:3px;font-variant-numeric:tabular-nums}
+    .score .foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:8px}
+    .delta{font-size:.76rem;font-weight:700;font-variant-numeric:tabular-nums}
+    .delta.up{color:#0a7d33}.delta.down{color:#c50f1f}.delta.flat{color:var(--text-muted,#6b6b85)}
+    .delta.bad-up{color:#c50f1f}.delta.good-down{color:#0a7d33}
+    .spark{width:74px;height:24px;display:block}
+    .spark path{fill:none;stroke:var(--accent,#0078d4);stroke-width:1.5}
+    .spark .area{fill:color-mix(in srgb,var(--accent,#0078d4) 10%,transparent);stroke:none}
+    /* anomaly chart */
+    .anom-wrap{position:relative}
+    .anom-chart{width:100%;height:300px;display:block}
+    .anom-chart .band{fill:color-mix(in srgb,var(--accent,#0078d4) 9%,transparent);stroke:none}
+    .anom-chart .expected{fill:none;stroke:color-mix(in srgb,var(--accent,#0078d4) 55%,transparent);stroke-width:1.5;stroke-dasharray:4 3}
+    .anom-chart .actual{fill:none;stroke:var(--accent,#0078d4);stroke-width:2}
+    .anom-chart .grid{stroke:var(--border,#e6e6ee);stroke-width:1}
+    .anom-chart .lbl{fill:var(--text-muted,#6b6b85);font-size:11px}
+    .anom-chart .dot-anom{fill:#c50f1f;stroke:#fff;stroke-width:1.5}
+    .anom-chart .dot-anom.high{fill:#0a7d33}
+    .legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.6rem;font-size:.78rem;color:var(--text-muted,#6b6b85)}
+    .legend i{display:inline-block;width:14px;height:0;border-top-width:2px;border-top-style:solid;vertical-align:middle;margin-right:5px}
+    /* signals feed */
+    .signals{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+    .signal{border:1px solid var(--border,#e6e6ee);border-left-width:4px;border-radius:10px;background:var(--surface,#fff);padding:.8rem .95rem}
+    .signal.sev-high{border-left-color:#c50f1f}
+    .signal.sev-med{border-left-color:#e8a400}
+    .signal.sev-info{border-left-color:#0078d4}
+    .signal.sev-good{border-left-color:#0a7d33}
+    .signal .st{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:.9rem}
+    .signal .chip{font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:5px}
+    .sev-high .chip{background:#fde7e9;color:#c50f1f}
+    .sev-med .chip{background:#fff1cc;color:#8a5a00}
+    .sev-info .chip{background:#e5f1fb;color:#0060c0}
+    .sev-good .chip{background:#e3f5e9;color:#0a7d33}
+    .signal .sd{font-size:.82rem;color:var(--text-soft,#4a4a63);margin:.35rem 0 0;line-height:1.4}
+    .signal .sm{font-size:.72rem;color:var(--text-muted,#6b6b85);margin-top:.4rem}
+    /* two-col tables */
+    .lab-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+    table.lab-tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+    table.lab-tbl th{text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#6b6b85);font-weight:700;padding:0 8px 8px;border-bottom:1px solid var(--border,#e6e6ee)}
+    table.lab-tbl td{padding:7px 8px;border-bottom:1px solid #f2f3f7;vertical-align:middle}
+    table.lab-tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
+    .movesign{font-weight:700}
+    .movesign.up{color:#0a7d33}.movesign.down{color:#c50f1f}
+    .rowspark{width:60px;height:18px}
+    .rowspark path{fill:none;stroke-width:1.5}
+    .newbadge{font-size:.6rem;font-weight:800;letter-spacing:.04em;background:#e3f5e9;color:#0a7d33;border-radius:4px;padding:1px 5px;margin-left:6px}
+    /* bot transparency */
+    .bot-chart{width:100%;height:180px;display:block}
+    .bot-chart .human{fill:color-mix(in srgb,var(--accent,#0078d4) 22%,transparent)}
+    .bot-chart .bot{fill:color-mix(in srgb,#c50f1f 30%,transparent)}
+    .bot-chart .lbl{fill:var(--text-muted,#6b6b85);font-size:11px}
+    /* pipeline health */
+    .health-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+    .hcell{border:1px solid var(--border,#e6e6ee);border-radius:12px;padding:.9rem 1rem;background:var(--surface,#fff)}
+    .hcell .hl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted,#6b6b85)}
+    .hcell .hv{font-size:1.2rem;font-weight:800;margin-top:4px}
+    .hcell.ok{border-left:4px solid #0a7d33}
+    .hcell.warn{border-left:4px solid #e8a400}
+    .hcell.bad{border-left:4px solid #c50f1f}
+    .hcell .hn{font-size:.74rem;color:var(--text-muted,#6b6b85);margin-top:5px;line-height:1.4}
+    .muted{color:var(--text-muted,#6b6b85);font-size:.82rem}
+    .lab-note{font-size:.75rem;color:var(--text-muted,#6b6b85);margin-top:.5rem;font-style:italic}
+    .siteswitch{display:inline-flex;gap:3px;background:#eef1f6;border-radius:8px;padding:3px;margin-left:1rem}
+    .siteswitch button{border:0;background:none;font:inherit;font-size:.8rem;font-weight:600;color:var(--text-soft,#5a5a72);padding:5px 12px;border-radius:6px;cursor:pointer}
+    .siteswitch button[aria-pressed="true"]{background:#fff;color:var(--accent,#0078d4);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+    /* info icon + custom tooltip */
+    .score,.hcell,.signal{position:relative}
+    .info-i{position:absolute;top:8px;right:8px;width:17px;height:17px;border-radius:50%;border:1px solid var(--border,#e6e6ee);background:var(--surface,#fff);color:var(--text-muted,#6b6b85);font-size:10px;font-weight:800;line-height:15px;text-align:center;cursor:help;padding:0;font-style:italic;font-family:Georgia,serif}
+    .info-i:hover,.info-i:focus{border-color:var(--accent,#0078d4);color:var(--accent,#0078d4);outline:none}
+    .info-inline{position:static;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-left:.5rem}
+    .tt-float{position:fixed;z-index:9999;max-width:300px;background:#1b1b28;color:#f4f4fa;border-radius:10px;padding:.7rem .85rem;box-shadow:0 10px 34px rgba(0,0,0,.3);font-size:.8rem;line-height:1.45;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+    .tt-float.show{opacity:1;transform:translateY(0)}
+    .tt-float .tt-title{font-weight:800;margin-bottom:.35rem;font-size:.82rem}
+    .tt-float ul{margin:0;padding-left:1.05rem}
+    .tt-float li{margin:.18rem 0}
+    /* clickable KPI cards */
+    .score.clickable{cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+    .score.clickable:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(20,20,40,.10);border-color:color-mix(in srgb,var(--accent,#0078d4) 40%,var(--border,#e6e6ee))}
+    .score.clickable:focus-visible{outline:2px solid var(--accent,#0078d4);outline-offset:2px}
+    .score .more{font-size:.68rem;color:var(--accent,#0078d4);font-weight:700;margin-top:6px;opacity:0;transition:opacity .12s}
+    .score.clickable:hover .more,.score.clickable:focus-visible .more{opacity:1}
+    /* deep-dive detail box */
+    #detail-section{scroll-margin-top:16px}
+    .detail-box{border:1px solid var(--border,#e6e6ee);border-radius:16px;background:var(--surface,#fff);box-shadow:0 4px 24px rgba(20,20,40,.08);padding:1.4rem 1.6rem;margin-top:1rem}
+    .detail-empty{color:var(--text-muted,#6b6b85);text-align:center;padding:2.2rem;font-size:.9rem}
+    .detail-nav{display:flex;gap:.6rem;margin-bottom:1.1rem;flex-wrap:wrap}
+    .detail-nav button{appearance:none;border:1px solid var(--border,#e6e6ee);background:var(--surface,#fff);font:inherit;font-size:.8rem;font-weight:600;color:var(--text-soft,#4a4a63);padding:7px 14px;border-radius:8px;cursor:pointer}
+    .detail-nav button:hover{border-color:var(--accent,#0078d4);color:var(--accent,#0078d4)}
+    .detail-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .detail-head h3{margin:0;font-size:1.4rem;letter-spacing:-.01em}
+    .detail-head .big{font-size:1.7rem;font-weight:800;font-variant-numeric:tabular-nums}
+    .detail-stats{display:flex;gap:1.6rem;flex-wrap:wrap;margin:.7rem 0 .3rem;font-size:.78rem;color:var(--text-muted,#6b6b85)}
+    .detail-stats b{display:block;font-size:1.02rem;color:var(--text,#1a1a25);font-variant-numeric:tabular-nums;margin-top:2px}
+    .detail-chart-wrap{width:100%;margin:1rem 0}
+    .detail-bullets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:.6rem 0}
+    .detail-bullets .bg h4{margin:0 0 .35rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted,#6b6b85)}
+    .detail-bullets .bg ul{margin:0;padding-left:1.05rem;font-size:.85rem;line-height:1.55}
+    .pulse{animation:pulseHi 1.4s ease}
+    @keyframes pulseHi{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent,#0078d4) 55%,transparent)}100%{box-shadow:0 0 0 16px transparent}}
+    /* period comparison bits */
+    .win-toggle{margin-left:.5rem}
+    .prevcmp{font-size:.68rem;color:var(--text-muted,#6b6b85);margin-top:4px}
+    .prevcmp b{color:var(--text-soft,#4a4a63);font-weight:700}
+    .cmp-caption{font-size:.82rem;color:var(--text-soft,#4a4a63);margin:.6rem 0 0;display:flex;gap:1.4rem;flex-wrap:wrap}
+    .cmp-caption b{font-variant-numeric:tabular-nums}
+    .anom-chart .winband{fill:color-mix(in srgb,var(--accent,#0078d4) 7%,transparent)}
+    .bot-chart .winband{fill:color-mix(in srgb,#000 4%,transparent)}
+    td.num .movesign{font-weight:700}
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../community/">Community</a>
+      <a class="nav-cta" href="./">&larr; Pages Analytics</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="lab-hero">
+    <div class="wrap">
+      <p class="lab-crumb"><a href="./">&larr; Pages Analytics</a></p>
+      <h1>Signals Lab</h1><span class="lab-badge">Preview</span>
+      <span class="siteswitch" id="site-switch" role="group" aria-label="Site">
+        <button type="button" data-site="analytics-hub" aria-pressed="true">Analytics Hub</button>
+        <button type="button" data-site="jordan-homepage" aria-pressed="false">Homepage</button>
+      </span>
+      <span class="siteswitch win-toggle" id="win-toggle" role="group" aria-label="Comparison window">
+        <button type="button" data-win="3" aria-pressed="false">3d</button>
+        <button type="button" data-win="7" aria-pressed="false">7d</button>
+        <button type="button" data-win="14" aria-pressed="true">14d</button>
+        <button type="button" data-win="30" aria-pressed="false">30d</button>
+      </span>
+      <p class="lab-sub">A working preview of upgraded traffic monitoring: it watches our own data for things that silently slip by — anomalies, bot spikes, script errors, pages falling off a cliff, new referrers — and surfaces standouts. Pick a window above and every card compares it against the <strong>previous equal period</strong>. Every number is computed live from the same Clarity export the live page uses; nothing is thrown away.</p>
+      <p class="lab-src" id="lab-src">Loading&hellip;</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <!-- A: Health scorecards -->
+    <section class="lab-mod">
+      <h2><span class="tag">A</span> Health scorecards</h2>
+      <p class="lab-desc">Each card shows the <strong>selected window's</strong> total (or session-weighted average), the change <strong>vs the previous equal window</strong>, and a 6-week trend sparkline. Friction and bot metrics turn red when they rise (up is bad for those).</p>
+      <div class="scorecards" id="scorecards"></div>
+    </section>
+
+    <!-- B: Anomaly band -->
+    <section class="lab-mod">
+      <h2><span class="tag">B</span> Sessions &mdash; expected vs actual <button class="info-i info-inline" data-tip="metric:human" aria-label="About this chart" tabindex="0">i</button></h2>
+      <p class="lab-desc">The shaded band is the expected range (seasonal-naive baseline: same weekday last week, &plusmn; a robust 80% interval). Points that break out of the band are marked &mdash; red for a drop, green for a surge. This is what turns "a line went down" into "this specific day was abnormal."</p>
+      <div class="card anom-wrap">
+        <div id="anom-chart"></div>
+        <div class="legend">
+          <span><i style="border-color:var(--accent,#0078d4)"></i>Actual human sessions</span>
+          <span><i style="border-color:color-mix(in srgb,var(--accent,#0078d4) 55%,transparent);border-top-style:dashed"></i>Expected (same weekday last week)</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#c50f1f;vertical-align:middle;margin-right:5px"></span>Anomaly</span>
+        </div>
+        <p class="cmp-caption" id="anom-cmp"></p>
+        <p class="lab-note" id="anom-note"></p>
+      </div>
+    </section>
+
+    <!-- C: Signals feed -->
+    <section class="lab-mod">
+      <h2><span class="tag">C</span> Signals feed <span class="tag" style="color:#c50f1f;background:#fde7e9">catches silent issues</span></h2>
+      <p class="lab-desc">Auto-generated from the selected window using robust rules (median-absolute-deviation z-scores with absolute floors, so tiny numbers don't cry wolf). This is the "what would have slipped by" list &mdash; every card is a thing no one would have noticed from the headline totals.</p>
+      <div class="signals" id="signals"></div>
+    </section>
+
+    <!-- D: Movers & standouts -->
+    <section class="lab-mod">
+      <h2><span class="tag">D</span> Movers &amp; standouts</h2>
+      <p class="lab-desc">The handful of pages that actually moved &mdash; this window versus the previous equal window &mdash; and the ones doing what they do best: highest engagement and (worth watching) highest friction. Averages hide these; this surfaces them.</p>
+      <div class="lab-cols">
+        <div class="card"><h3 style="margin:0 0 .3rem;font-size:1rem">Biggest movers <span class="muted" id="movers-sub">(per-page, vs previous window)</span></h3><table class="lab-tbl"><thead><tr><th>Page</th><th class="num">Prev</th><th class="num">Now</th><th class="num">&Delta;</th><th>Trend</th></tr></thead><tbody id="movers-tbody"></tbody></table></div>
+        <div class="card"><h3 style="margin:0 0 .3rem;font-size:1rem">Standouts</h3><table class="lab-tbl"><thead><tr><th>Page</th><th class="num">Sessions</th><th class="num">Metric</th></tr></thead><tbody id="standouts-tbody"></tbody></table><p class="lab-note" id="standouts-note"></p></div>
+      </div>
+    </section>
+
+    <!-- E: Bot vs human -->
+    <section class="lab-mod">
+      <h2><span class="tag">E</span> Bot vs human transparency <button class="info-i info-inline" data-tip="metric:botShare" aria-label="About bot share" tabindex="0">i</button></h2>
+      <p class="lab-desc">Bot traffic silently inflates sessions and skews page rankings. This shows the split every day and flags days where the bot share spiked &mdash; the exact pattern that produced the corrupt captures we just fixed.</p>
+      <div class="card">
+        <div id="bot-chart"></div>
+        <p class="lab-note" id="bot-note"></p>
+      </div>
+    </section>
+
+    <!-- F: Friction watch -->
+    <section class="lab-mod">
+      <h2><span class="tag">F</span> Friction watch</h2>
+      <p class="lab-desc">Dead clicks, rage clicks, quick-backs and script errors are leading indicators of UX breakage that never show up in session counts. Each is tracked as % of sessions with a 6-week sparkline.</p>
+      <div class="scorecards" id="friction-cards"></div>
+    </section>
+
+    <!-- G: Referrer quality -->
+    <section class="lab-mod">
+      <h2><span class="tag">G</span> External discovery &mdash; with quality</h2>
+      <p class="lab-desc">Where real external traffic comes from, with a NEW badge when a referrer appears for the first time (an early sign of a mention or a scraper). Internal hub/GitHub navigation is excluded.</p>
+      <div class="card"><table class="lab-tbl"><thead><tr><th>Referrer</th><th class="num">Sessions (window)</th><th class="num">&Delta; vs prev</th><th>First seen</th></tr></thead><tbody id="referrer-tbody"></tbody></table></div>
+    </section>
+
+    <!-- H: Pipeline health -->
+    <section class="lab-mod">
+      <h2><span class="tag">H</span> Pipeline health <span class="tag" style="color:#0a7d33;background:#e3f5e9">data downtime</span></h2>
+      <p class="lab-desc">Before trusting any number above, is the data itself healthy? Freshness, gaps, coverage, corrupt captures caught, and dev-traffic leakage &mdash; so a broken export never gets mistaken for a real traffic drop.</p>
+      <div class="health-grid" id="health-grid"></div>
+      <p class="lab-note">GitHub view/clone counts only retain ~14 days upstream, so any window longer than that on the repo side is stitched from stored daily snapshots, not a live query.</p>
+    </section>
+
+    <!-- Deep-dive detail box -->
+    <section class="lab-mod" id="detail-section">
+      <h2><span class="tag">+</span> KPI deep dive</h2>
+      <p class="lab-desc">Click any KPI card (module A) or friction card (module F) above to unpack it here &mdash; what it is, how it's computed, the full trend with anomaly band, and what to watch.</p>
+      <div class="detail-box" id="detail-box"><div class="detail-empty">Click a KPI or friction card above to open its deep dive here.</div></div>
+    </section>
+
+    <p class="muted" style="margin:2rem 0 3rem">Methods: seasonal-naive baseline (m=7) with robust MAD-scaled 80% bands; modified z-score threshold 3.5 (Iglewicz&ndash;Hoaglin/NIST); bounded-metric rules with absolute floors and 2-day persistence; set-membership novelty for new referrers; five-pillar data-downtime checks. Nothing here is on the live nav &mdash; it's a preview for the measurement team to react to.</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by Microsoft · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a> · Signals Lab preview</p>
+  </div>
+</footer>
+
+<div class="tt-float" id="tt-float" role="tooltip" aria-hidden="true"></div>
+<script src="lab.js"></script>
+</body>
+</html>
