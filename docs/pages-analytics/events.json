@@ -1,7 +1,14 @@
 {
   "_comment": "Impact events for the Signals Lab. Enablement sessions, workshops and launches are overlaid on the traffic timeline so we can see their effect. To add one, append an object with: date (YYYY-MM-DD), title, attendees (invited headcount), type, and an optional note. Types: cowork-enablement (our Cowork enablement), enablement, org-learning (broader org learning sessions), demo, launch. Jordan can just message the details and they'll be added here.",
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "events": [
+    {
+      "date": "2026-08-05",
+      "title": "Driving Cowork Consumption: Field Execution Guidance Call",
+      "attendees": 346,
+      "type": "cowork-enablement",
+      "note": "Two options (294 + 52). Field guidance in the run-up to the August surge; falls in the Aug 4-12 data gap so lift can't be measured."
+    },
     {
       "date": "2026-08-12",
       "title": "DPG Agentic Engineering Learning Sessions",
