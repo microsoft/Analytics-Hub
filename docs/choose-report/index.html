@@ -3877,6 +3877,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "guide": "https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md",
       "preview": "https://raw.githubusercontent.com/microsoft/Cowork-Adoption-Intelligence/main/images/report-preview.gif",
       "demoVideo": "https://github.com/microsoft/Cowork-Adoption-Intelligence/raw/main/media/Cowork-Adoption-Intelligence-Walkthrough.mp4",
+      "demoVideos": [{"url": "https://github.com/microsoft/Cowork-Adoption-Intelligence/raw/main/media/Cowork-Adoption-Intelligence-Walkthrough.mp4", "label": "Overview"}],
       "blurb": "A data-free Power BI template that turns approved Purview audit exports into a ten-page Cowork adoption report: activation, sustained usage, action patterns, delegation maturity and emerging champion signals. Still in testing - the metric definitions are exactly what we want your help pressure-testing before it ships.",
       "meta": {
         "audience": "Cowork program owners, adoption leads, enablement teams",
@@ -6613,6 +6614,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   }
   function gxMedia(t) {
     var items = mediaItems(t);
+    /* Cowork Adoption: the animated preview now plays in this report's
+       gradient-hero clickthrough at the top of the guide, so it is not
+       repeated as a Step 1 media tab. The report flyout keeps it. */
+    if (t.id === 'cowork-adoption') items = items.filter(function (it) { return it.kind !== 'image'; });
     if (!items.length) return '';
     var id = esc(t.id);
     var tabs = items.length > 1
