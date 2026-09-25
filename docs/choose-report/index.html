@@ -5488,6 +5488,271 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </div>
 </template>
 
+<!-- ===== Super User Adoption + Super User Impact: gradient hero clickthrough player + tabbed Step 4 ===== -->
+<style id="su-player-styles">
+.su-player{max-width:82%;margin:18px auto 0}
+.su-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0}
+.su-img{display:block;width:100%;height:auto}
+.su-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.su-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.su-btn:hover{background:rgba(255,255,255,.22)}
+.su-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.su-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.su-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.su-dot:hover{background:rgba(255,255,255,.55)}
+.su-dot[aria-selected="true"]{background:#fff}
+.su-hero-card{position:relative}
+.su-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.su-stage{cursor:zoom-in}
+.su-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;
+  border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;
+  border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.su-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.su-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.su-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.su-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.su-player:fullscreen .su-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.su-player:fullscreen .su-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.su-player:fullscreen .su-controls,.su-player:fullscreen .su-dots{flex:0 0 auto;margin:0}
+.su-player:fullscreen .su-hint{display:none}
+.su-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.su-player:-webkit-full-screen .su-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.su-player:-webkit-full-screen .su-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.su-player:-webkit-full-screen .su-hint{display:none}
+</style>
+
+<template id="suHero">
+  <div class="cc-hero su-hero-card" style="background:linear-gradient(160deg,#1f2430 0%,#243b55 55%,#0078d4 100%)">
+    <h2>Super User Adoption</h2>
+    <div class="cc-tag">Power BI on Viva Insights person-query data, to see how Copilot super users emerge and scale their patterns</div>
+    <div class="cc-oneliner">Who your super users are &middot; how they built the habit &middot; what they use Copilot for &middot; where they cluster</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="su-player" data-frames="11" data-base="su-frames">
+      <div class="su-stage"><img class="su-img" src="su-frames/frame_00.jpg" alt="Super User Adoption page 1 of 11"></div>
+      <div class="su-controls">
+        <button class="su-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="su-btn" type="button" data-act="play" aria-label="Play or pause"><span class="su-playico">&#10074;&#10074;</span></button>
+        <button class="su-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="su-counter">1 / 11</span>
+      </div>
+      <div class="su-dots">
+        <button class="su-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="su-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="su-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="su-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="su-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="su-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="su-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="su-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="su-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+        <button class="su-dot" type="button" data-idx="9" aria-label="Page 10"></button>
+        <button class="su-dot" type="button" data-idx="10" aria-label="Page 11"></button>
+      </div>
+      <div class="su-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="su-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="suStep4">
+  <p class="gx-reads">Both templates read the same thing: a <strong>Viva Insights person query</strong>, one row per person per week. Set the query up once below, then pick how the report reads it. Every path ends the same way: open the <code>.pbit</code>, fill one or two parameters, click <strong>Load</strong>.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Set up the Viva Insights person query</strong> <span class="cc-small"><em>(do this first, both paths need it)</em></span></summary>
+    <div class="cc-idbody">
+      <p>An <strong>Insights Analyst</strong> (the role is assigned in Viva Insights admin) builds this in the Analyst Workbench. The first run can take a few hours, so start it early.</p>
+      <ol>
+        <li>Open the <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener noreferrer">Viva Insights Analyst Workbench</a>, click <strong>Analysis results</strong>, then <strong>Create analysis</strong> and pick the <strong>Person query</strong> card.</li>
+        <li>Set <strong>Time period</strong> to the last 6 months, <strong>Group by</strong> to <strong>Week</strong> (not Month, month grouping breaks the trend calculations), and turn <strong>Auto-refresh On</strong>.</li>
+        <li>Under <strong>employees to include</strong> add <code>Is Active = True</code>, and under <strong>employee attributes</strong> add <code>Organization</code>, <code>FunctionType</code>, <code>TimeZone</code> and <code>SupervisorIndicator</code>.</li>
+        <li>Under <strong>Metrics</strong> add every group in the table below. Choose <strong>All metrics</strong> unless a narrower selection is listed. Missing even one group leaves visuals blank in Power BI with no error to tell you why:
+          <table class="cc-nb">
+            <tr><th>Metric group</th><th>Select</th></tr>
+            <tr><td>Microsoft 365 Copilot</td><td>All metrics</td></tr>
+            <tr><td>Collaboration activity</td><td>All metrics</td></tr>
+            <tr><td>Collaboration network</td><td>Diverse ties, External network size, Internal network size, Strong ties</td></tr>
+            <tr><td>Collaboration by day of the week</td><td>All metrics</td></tr>
+            <tr><td>Working hours collaboration</td><td>All metrics</td></tr>
+            <tr><td>After hours collaboration</td><td>All metrics</td></tr>
+            <tr><td>Meeting types</td><td>All metrics</td></tr>
+            <tr><td>External collaboration</td><td>External collaboration hours</td></tr>
+            <tr><td>Focus metrics</td><td>All metrics</td></tr>
+          </table>
+        </li>
+        <li>Click <strong>Run</strong>, then wait until <strong>Status = Completed</strong> under Analysis results. Do not export while it is still processing.</li>
+      </ol>
+      <p class="cc-small">Built this query before v13? Re-open it, open the <strong>Microsoft 365 Copilot</strong> metric selection and re-check <strong>Select all</strong>, so the newly consolidated Copilot Chat metrics are included.</p>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> CSV import</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Direct Query (live)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~15 minutes &middot; Power BI Desktop &middot; snapshot, refresh by hand</span>
+      <p>Download the query result once and point the template at the file. Simplest path; the report holds a snapshot until you re-download.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the result as CSV</h5>
+        <p>In <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener">Analysis results</a>, find your completed query and click the <strong>page icon</strong> in the <strong>Actions</strong> column to download the CSV.</p>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Template%20-%20Super%20User%20Adoption%20CSV%20-v13.pbit" target="_blank" rel="noopener"><code>Template - Super User Adoption CSV -v13.pbit</code></a>, set <strong>SourceType</strong> to <strong>CSV</strong>, paste the <strong>full path of the downloaded file</strong> into the <code>CSV</code> box, leave the Direct Query boxes empty, click <strong>Load</strong>.</p>
+      </div>
+      <p class="cc-small"><strong>To refresh:</strong> re-run the query, export a fresh CSV, and re-point the template at the new file.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~10 minutes &middot; refreshes weekly &middot; keep Auto-refresh On</span>
+      <p>Connect the template straight to the live query. No download, and the report follows each weekly Viva Insights refresh.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Copy the two identifiers</h5>
+        <p>In <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener">Analysis results</a>, click the <strong>link icon</strong> in the <strong>Actions</strong> column for your completed query. It gives you a <strong>Partition ID</strong> and a <strong>Query ID</strong>.</p>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/DecodingSuperUsage/blob/DecodingSuperUsage/Template%20-%20Super%20User%20Adoption%20Direct%20Query%20-v13.pbit" target="_blank" rel="noopener"><code>Template - Super User Adoption Direct Query -v13.pbit</code></a>, set <strong>SourceType</strong> to <strong>DirectQuery</strong>, paste the two values into <code>PartitionID</code> and <code>QueryID</code>, leave the CSV box empty, click <strong>Load</strong>. Sign in with your <strong>Organizational account</strong> when prompted.</p>
+        <h5><span class="cc-num">3</span> Publish and schedule</h5>
+        <p>Publish to a <a href="https://app.powerbi.com/" target="_blank" rel="noopener">Power BI workspace</a>, then set a scheduled refresh on the semantic model so it keeps pace with Viva's weekly update.</p>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Keep Auto-refresh On in Viva</span>
+        This path reads the live query, so if you switch the query's Auto-refresh off in Viva later, the Direct Query connection stops updating.</div>
+    </section>
+  </div>
+</template>
+
+<style id="si-player-styles">
+.si-player{max-width:82%;margin:18px auto 0}
+.si-stage{position:relative;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.2);background:#0c1017;line-height:0}
+.si-img{display:block;width:100%;height:auto}
+.si-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:11px 0 0}
+.si-btn{appearance:none;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:7px;min-width:34px;height:30px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 9px}
+.si-btn:hover{background:rgba(255,255,255,.22)}
+.si-counter{font-size:12px;color:#c3d2ee;min-width:52px;text-align:center;font-variant-numeric:tabular-nums}
+.si-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
+.si-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
+.si-dot:hover{background:rgba(255,255,255,.55)}
+.si-dot[aria-selected="true"]{background:#fff}
+.si-hero-card{position:relative}
+.si-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
+.si-stage{cursor:zoom-in}
+.si-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;
+  border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;
+  border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.si-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
+.si-fs-cta .ic{font-size:17px;line-height:1}
+@media(max-width:640px){.si-fs-cta{left:12px;bottom:12px;padding:9px 13px;font-size:13px}}
+.si-player:fullscreen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.si-player:fullscreen .si-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.si-player:fullscreen .si-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.si-player:fullscreen .si-controls,.si-player:fullscreen .si-dots{flex:0 0 auto;margin:0}
+.si-player:fullscreen .si-hint{display:none}
+.si-player:-webkit-full-screen{max-width:none;width:100vw;height:100vh;margin:0;background:#0c1017;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.si-player:-webkit-full-screen .si-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
+.si-player:-webkit-full-screen .si-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
+.si-player:-webkit-full-screen .si-hint{display:none}
+</style>
+
+<template id="siHero">
+  <div class="cc-hero si-hero-card" style="background:linear-gradient(160deg,#1f2a2b 0%,#1f4d47 55%,#00b294 100%)">
+    <h2>Super User Impact</h2>
+    <div class="cc-tag">Power BI on Viva Insights person-query data, to measure the work-pattern impact of your Copilot super users</div>
+    <div class="cc-oneliner">Collaboration hours &middot; meeting load &middot; focus time &middot; estimated time saved &middot; super users vs peers</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="si-player" data-frames="7" data-base="si-frames">
+      <div class="si-stage"><img class="si-img" src="si-frames/frame_00.jpg" alt="Super User Impact page 1 of 7"></div>
+      <div class="si-controls">
+        <button class="si-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="si-btn" type="button" data-act="play" aria-label="Play or pause"><span class="si-playico">&#10074;&#10074;</span></button>
+        <button class="si-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="si-counter">1 / 7</span>
+      </div>
+      <div class="si-dots">
+        <button class="si-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="si-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="si-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="si-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="si-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="si-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="si-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+      </div>
+      <div class="si-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="si-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="siStep4">
+  <p class="gx-reads">Both templates read a <strong>Viva Insights person query</strong>, one row per person per week, the <strong>same query the Super User Adoption report uses</strong>. If you already ran it there, reuse the completed query and skip to the tabs. Otherwise set it up once below, then pick how the report reads it. Every path ends the same way: open the <code>.pbit</code>, fill one or two parameters, click <strong>Load</strong>.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Set up the Viva Insights person query</strong> <span class="cc-small"><em>(do this first, both paths need it)</em></span></summary>
+    <div class="cc-idbody">
+      <p>An <strong>Insights Analyst</strong> (the role is assigned in Viva Insights admin) builds this in the Analyst Workbench. The first run can take a few hours, so start it early. One export feeds both this report and Super User Adoption.</p>
+      <ol>
+        <li>Open the <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener noreferrer">Viva Insights Analyst Workbench</a>, click <strong>Analysis results</strong>, then <strong>Create analysis</strong> and pick the <strong>Person query</strong> card.</li>
+        <li>Set <strong>Time period</strong> to the last 6 months, <strong>Group by</strong> to <strong>Week</strong> (not Month, month grouping breaks the trend calculations), and turn <strong>Auto-refresh On</strong>.</li>
+        <li>Under <strong>employees to include</strong> add <code>Is Active = True</code>, and under <strong>employee attributes</strong> add <code>Organization</code>, <code>FunctionType</code>, <code>TimeZone</code> and <code>SupervisorIndicator</code>.</li>
+        <li>Under <strong>Metrics</strong> add every group in the table below. Choose <strong>All metrics</strong> unless a narrower selection is listed. Missing even one group leaves visuals blank in Power BI with no error to tell you why:
+          <table class="cc-nb">
+            <tr><th>Metric group</th><th>Select</th></tr>
+            <tr><td>Microsoft 365 Copilot</td><td>All metrics</td></tr>
+            <tr><td>Collaboration activity</td><td>All metrics</td></tr>
+            <tr><td>Collaboration network</td><td>Diverse ties, External network size, Internal network size, Strong ties</td></tr>
+            <tr><td>Collaboration by day of the week</td><td>All metrics</td></tr>
+            <tr><td>Working hours collaboration</td><td>All metrics</td></tr>
+            <tr><td>After hours collaboration</td><td>All metrics</td></tr>
+            <tr><td>Meeting types</td><td>All metrics</td></tr>
+            <tr><td>External collaboration</td><td>External collaboration hours</td></tr>
+            <tr><td>Focus metrics</td><td>All metrics</td></tr>
+          </table>
+        </li>
+        <li>Click <strong>Run</strong>, then wait until <strong>Status = Completed</strong> under Analysis results. Do not export while it is still processing.</li>
+      </ol>
+      <p class="cc-small">Built this query before v13? Re-open it, open the <strong>Microsoft 365 Copilot</strong> metric selection and re-check <strong>Select all</strong>, so the newly consolidated Copilot Chat metrics are included.</p>
+    </div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> CSV import</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Direct Query (live)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~15 minutes &middot; Power BI Desktop &middot; snapshot, refresh by hand</span>
+      <p>Download the query result once and point the template at the file. Simplest path; the report holds a snapshot until you re-download.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the result as CSV</h5>
+        <p>In <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener">Analysis results</a>, find your completed query and click the <strong>page icon</strong> in the <strong>Actions</strong> column to download the CSV.</p>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/superuserimpact/blob/main/Template%20-%20Super%20User%20Impact%20CSV%20-v13.pbit" target="_blank" rel="noopener"><code>Template - Super User Impact CSV -v13.pbit</code></a>, set <strong>SourceType</strong> to <strong>CSV</strong>, paste the <strong>full path of the downloaded file</strong> into the <code>CSV</code> box, leave the Direct Query boxes empty, click <strong>Load</strong>.</p>
+      </div>
+      <p class="cc-small"><strong>To refresh:</strong> re-run the query, export a fresh CSV, and re-point the template at the new file.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~10 minutes &middot; refreshes weekly &middot; keep Auto-refresh On</span>
+      <p>Connect the template straight to the live query. No download, and the report follows each weekly Viva Insights refresh.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Copy the two identifiers</h5>
+        <p>In <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener">Analysis results</a>, click the <strong>link icon</strong> in the <strong>Actions</strong> column for your completed query. It gives you a <strong>Partition ID</strong> and a <strong>Query ID</strong>.</p>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/superuserimpact/blob/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v13.pbit" target="_blank" rel="noopener"><code>Template - Super User Impact Direct Query -v13.pbit</code></a>, set <strong>SourceType</strong> to <strong>DirectQuery</strong>, paste the two values into <code>PartitionID</code> and <code>QueryID</code>, leave the CSV box empty, click <strong>Load</strong>. Sign in with your <strong>Organizational account</strong> when prompted.</p>
+        <h5><span class="cc-num">3</span> Publish and schedule</h5>
+        <p>Publish to a <a href="https://app.powerbi.com/" target="_blank" rel="noopener">Power BI workspace</a>, then set a scheduled refresh on the semantic model so it keeps pace with Viva's weekly update.</p>
+      </div>
+      <div class="cc-callout cc-warn"><span class="ct">Keep Auto-refresh On in Viva</span>
+        This path reads the live query, so if you switch the query's Auto-refresh off in Viva later, the Direct Query connection stops updating.</div>
+    </section>
+  </div>
+</template>
+
 <script>
 (function () {
   'use strict';
@@ -8171,6 +8436,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _cwtStep4 = document.getElementById('cwtStep4');
       if (_cwtStep4) return _cwtStep4.innerHTML;
     }
+    if (t.id === 'super-usage') {
+      var _suStep4 = document.getElementById('suStep4');
+      if (_suStep4) return _suStep4.innerHTML;
+    }
+    if (t.id === 'super-user-impact') {
+      var _siStep4 = document.getElementById('siStep4');
+      if (_siStep4) return _siStep4.innerHTML;
+    }
     var rec = CONNECT[t.id];
     if (!rec) {
       var repoUrl = escUrl(t.repo);
@@ -8234,14 +8507,21 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       return '<section class="gx-step"><span class="gx-num">' + n + '</span>' +
         '<div class="gx-body"><h4>' + head + '</h4>' + inner + '</div></section>';
     }
-    out += step('See what you are building',
-      '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
-      (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
-      ((watch || demo) ? '<div class="gx-links">' +
-        (demo ? '<a href="' + demo + '" target="_blank" rel="noopener">Open the live demo on its own page</a>' : '') +
-        (watch ? '<a href="' + watch +
-          '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a>' : '') +
-        '</div>' : ''));
+    /* Super User Adoption and Super User Impact carry the interactive
+       clickthrough preview in their gradient hero, so the separate
+       "See what you are building" step is redundant for them and is
+       dropped. The step counter bumps the rest up by one. */
+    var heroHasPreview = (t.id === 'super-usage' || t.id === 'super-user-impact');
+    if (!heroHasPreview) {
+      out += step('See what you are building',
+        '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
+        (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
+        ((watch || demo) ? '<div class="gx-links">' +
+          (demo ? '<a href="' + demo + '" target="_blank" rel="noopener">Open the live demo on its own page</a>' : '') +
+          (watch ? '<a href="' + watch +
+            '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a>' : '') +
+          '</div>' : ''));
+    }
     out += step('Get the access you need',
       '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>' +
       (gxChecks(req.roles) || '<p class="gx-hint">No special roles required.</p>'));
@@ -8325,6 +8605,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         (t.id === 'cowork-team-report' && document.getElementById('cwtHero') ? document.getElementById('cwtHero').innerHTML : '') +
+        (t.id === 'super-usage' && document.getElementById('suHero') ? document.getElementById('suHero').innerHTML : '') +
+        (t.id === 'super-user-impact' && document.getElementById('siHero') ? document.getElementById('siHero').innerHTML : '') +
         '<div class="gx-rhead">' +
           '<h3>' + esc(titleOf(t)) + '</h3>' +
           '<p class="gx-q">' + esc(t.question) + '</p>' +
@@ -8911,6 +9193,116 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   document.addEventListener('click', function (e){
     var img = e.target && e.target.closest ? e.target.closest('.cwt-stage .cwt-img') : null;
     if (!img) return; var el = img.closest('.cwt-player'); if (el) toggleFs(el);
+  });
+  if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
+<script id="su-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+      base: el.getAttribute('data-base') || 'su-frames', playing:false, timer:null,
+      img: el.querySelector('.su-img'), counter: el.querySelector('.su-counter'),
+      dots: el.querySelectorAll('.su-dot'), playIco: el.querySelector('.su-playico') };
+    reg.push(st); show(st,0); play(st);
+  }
+  function scan(){ var l=document.querySelectorAll('.su-player'); for (var i=0;i<l.length;i++) init(l[i]); }
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){ try { var r=req.call(el); if (r&&r.catch) r.catch(function(){}); } catch(e){} }
+  }
+  document.addEventListener('click', function (e){
+    var btn = e.target && e.target.closest ? e.target.closest('.su-btn, .su-dot, .su-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen'){
+      var host = btn.closest('.su-hero-card') || document;
+      var pl = host.querySelector ? host.querySelector('.su-player') : null;
+      if (!pl) pl = btn.closest('.su-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.su-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev'){ pause(st); show(st, st.i-1); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    else if (act === 'play'){ st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('su-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+  });
+  document.addEventListener('click', function (e){
+    var img = e.target && e.target.closest ? e.target.closest('.su-stage .su-img') : null;
+    if (!img) return; var el = img.closest('.su-player'); if (el) toggleFs(el);
+  });
+  if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+  if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
+})();
+</script>
+<script id="si-player">
+(function () {
+  var reg = [];
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
+  function show(st, idx){
+    st.i = (idx + st.n) % st.n;
+    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
+    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+  }
+  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
+  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
+  function init(el){
+    if (findState(el)) return;
+    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+      base: el.getAttribute('data-base') || 'si-frames', playing:false, timer:null,
+      img: el.querySelector('.si-img'), counter: el.querySelector('.si-counter'),
+      dots: el.querySelectorAll('.si-dot'), playIco: el.querySelector('.si-playico') };
+    reg.push(st); show(st,0); play(st);
+  }
+  function scan(){ var l=document.querySelectorAll('.si-player'); for (var i=0;i<l.length;i++) init(l[i]); }
+  function toggleFs(el){
+    var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl){ (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); return; }
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){ try { var r=req.call(el); if (r&&r.catch) r.catch(function(){}); } catch(e){} }
+  }
+  document.addEventListener('click', function (e){
+    var btn = e.target && e.target.closest ? e.target.closest('.si-btn, .si-dot, .si-fs-cta') : null;
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    if (act === 'fullscreen'){
+      var host = btn.closest('.si-hero-card') || document;
+      var pl = host.querySelector ? host.querySelector('.si-player') : null;
+      if (!pl) pl = btn.closest('.si-player');
+      if (pl) toggleFs(pl);
+      return;
+    }
+    var el = btn.closest('.si-player'); if (!el) return;
+    init(el); var st = findState(el); if (!st) return;
+    if (act === 'prev'){ pause(st); show(st, st.i-1); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    else if (act === 'play'){ st.playing ? pause(st) : play(st); }
+    else if (btn.classList.contains('si-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+  });
+  document.addEventListener('click', function (e){
+    var img = e.target && e.target.closest ? e.target.closest('.si-stage .si-img') : null;
+    if (!img) return; var el = img.closest('.si-player'); if (el) toggleFs(el);
   });
   if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
   if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
