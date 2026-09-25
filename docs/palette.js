@@ -45,7 +45,7 @@
     { kind: "report", title: "Adoption & Sentiment",           href: url("choose-report/?q=sentiment"),       hint: "Survey + usage cross-tab" },
     { kind: "report", title: "Copilot ROI Calculator",         href: url("tools/copilot-roi-calculator/"),      hint: "Payback & value model" },
     { kind: "report", title: "What I Did: Copilot Impact",     href: url("choose-report/?q=what-i-did"),      hint: "Personal-leverage report" },
-    { kind: "report", title: "Team Cowork Skills",            href: url("choose-report/?q=team+cowork+skills"), hint: "Cowork skill pair · team ROI newsletter" },
+    { kind: "report", title: "Cowork Team Report",            href: url("choose-report/?q=cowork+team+report"), hint: "Cowork skill pair · team ROI newsletter" },
   ];
 
   const INDEX = [...PAGES, ...REPORTS];
