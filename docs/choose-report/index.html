@@ -2310,33 +2310,37 @@ html.mk-embed main.mk-page{ display:none !important; }
         "developer",
         "adoption"
       ],
-      "source": "GitHub Enterprise",
+      "source": "GitHub Enterprise + Entra exports",
       "sourceKey": "GitHub",
       "repo": "https://github.com/microsoft/GitHubCopilotImpact",
-      "download": "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip",
+      "download": "https://github.com/microsoft/GitHubCopilotImpact/raw/main/Template%20GitHub%20Copilot%20Usage%20Analytics%20v2-14.pbit",
       "emailFile": "06_GitHub_Copilot_Impact_Admin_Email.txt",
       "preview": "https://raw.githubusercontent.com/microsoft/GitHubCopilotImpact/main/assets/ghcpgif.gif",
-      "blurb": "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — pulled straight from the GitHub Enterprise REST API.",
+      "blurb": "Power BI template joining GitHub Copilot Usage Insights JSON, GitHub Enterprise Members CSV, and Entra users CSV for adoption, engagement, impact, and retention views.",
       "meta": {
         "audience": "Developer productivity leads, eng managers, BVAs",
-        "license": "GitHub Enterprise admin (Copilot metrics API)",
-        "time": "~30 min once token is issued"
+        "license": "GitHub Enterprise Owner + Entra admin exports",
+        "time": "~30 min once exports are ready"
       },
       "requirements": {
         "roles": [
           {
-            "label": "GitHub Enterprise Owner or Billing Manager",
-            "url": "https://docs.github.com/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-access-to-github-copilot-in-your-organization"
+            "label": "GitHub Enterprise Owner",
+            "url": "https://github.com/settings/enterprises"
           },
           {
-            "label": "PAT with read:enterprise scope",
-            "url": "https://docs.github.com/rest/copilot/copilot-metrics"
+            "label": "Entra User Administrator or Global Reader",
+            "url": "https://entra.microsoft.com"
           }
         ],
         "software": [
           {
             "label": "Power BI Desktop (May 2024+)",
             "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "GitHub Copilot Usage Insights JSON + GitHub Members CSV + Entra users CSV",
+            "url": "https://github.com/microsoft/GitHubCopilotImpact"
           }
         ]
       },
@@ -2396,12 +2400,12 @@ html.mk-embed main.mk-page{ display:none !important; }
         "adoption",
         "impact"
       ],
-      "source": "Viva Insights",
+      "source": "GitHub Copilot telemetry via Viva Insights",
       "sourceKey": "Viva Insights",
       "repo": "https://github.com/microsoft/GitHubCopilotPanel",
-      "download": "https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip",
+      "download": "https://github.com/microsoft/GitHubCopilotPanel/raw/main/GitHub%20Copilot%20Panel.pbit",
       "demoVideo": "https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4",
-      "demoVideoLabel": "Watch the 2-minute intro",
+      "demoVideoLabel": "Watch the overview",
       "preview": "https://raw.githubusercontent.com/microsoft/GitHubCopilotPanel/main/Images/GitHubCopilotPanel-Preview.gif",
       "blurb": "Power BI template on the Viva Insights GitHub Copilot query. Seven pages walking Licensed → Active → Habitual → Deep → Valued, with every value assumption in one editable table rather than buried in DAX. Ships synthetic sample data, so you can open it before connecting a tenant.",
       "meta": {
@@ -2475,7 +2479,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         "developer",
         "productivity"
       ],
-      "source": "Local Copilot sessions",
+      "source": "Local GitHub Copilot sessions",
       "sourceKey": "Local",
       "repo": "https://github.com/microsoft/What-I-Did-Copilot",
       "download": "https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip",
@@ -2549,13 +2553,13 @@ html.mk-embed main.mk-page{ display:none !important; }
         "productivity",
         "impact"
       ],
-      "source": "Local Cowork sessions (OneDrive)",
+      "source": "Your OneDrive Cowork sessions (via Microsoft Graph)",
       "sourceKey": "Local",
       "repo": "https://github.com/microsoft/What-I-did-with-Cowork",
-      "download": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v24.zip",
+      "download": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v42.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
       "demoVideo": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/media/What-Cowork-Did-For-Me-Overview.mp4",
-      "demoVideoLabel": "Watch the 2-minute overview",
+      "demoVideoLabel": "Watch the overview",
       "blurb": "Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categories, and renders a single-file HTML report with Time Saved, professional-services-equivalent value, and a mapping to the four Value Pillars.",
       "meta": {
         "audience": "Cowork users, IC leads, execs quantifying Cowork ROI",
@@ -2710,10 +2714,10 @@ html.mk-embed main.mk-page{ display:none !important; }
         "sentiment",
         "adoption"
       ],
-      "source": "M365 Admin + Survey",
+      "source": "M365 Admin usage (required) + Survey and Entra (optional)",
       "sourceKey": "M365 Admin",
       "repo": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report",
-      "download": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip",
+      "download": "https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit",
       "preview": "https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/images/adoption-overview.png",
       "blurb": "Four-page Power BI template by olivierpecheux/Microsoft: Adoption Overview, Sentiment Analysis, Comments Analysis, and Saved Time Analysis. Ships with a 12-question recommended Copilot survey — drop into Microsoft Forms, match the UPN column to the Copilot Activity export, and the report stitches sentiment to actual usage by tier (Bottom 25% → Top 10%).",
       "meta": {
@@ -3173,7 +3177,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "M365 Admin",
       "repo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html",
       "demoVideo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/media/FinOps-Cowork-Demo.mp4",
-      "demoVideoLabel": "Watch the 2-minute overview",
+      "demoVideoLabel": "Watch the overview",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
       "blurb": "Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.",
       "meta": {
@@ -3243,7 +3247,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         "roi",
         "productivity"
       ],
-      "source": "User-entered assumptions + research defaults",
+      "source": "Your own assumptions (research-backed defaults)",
       "sourceKey": "Local",
       "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
@@ -3313,10 +3317,10 @@ html.mk-embed main.mk-page{ display:none !important; }
       "measures": [
         "customization"
       ],
-      "source": "Viva Insights",
+      "source": "Extends a host Power BI report (Viva Insights data)",
       "sourceKey": "Viva Insights",
-      "repo": "https://github.com/microsoft/customizecopilot",
-      "download": "https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip",
+      "repo": "https://github.com/microsoft/CustomizeCopilot",
+      "download": "https://github.com/microsoft/CustomizeCopilot/archive/refs/heads/main.zip",
       "blurb": "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more.",
       "meta": {
         "audience": "BI developers, advanced template owners",
@@ -3366,7 +3370,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     {
       "id": "personal-copilot-dashboard",
       "question": "I want a personal dashboard of my own Copilot, agent, and Cowork usage vs my org.",
-      "title": "Personal Copilot Dashboard",
+      "title": "Personal Copilot, Agent & Cowork Dashboard",
       "icon": "📊",
       "accent": "#0078d4",
       "category": "adoption-behavior",
@@ -3379,9 +3383,9 @@ html.mk-embed main.mk-page{ display:none !important; }
       "source": "Copilot Dashboard export (Viva Insights)",
       "sourceKey": "Viva Insights",
       "repo": "https://github.com/microsoft/Personal-Dashboard",
-      "download": "https://github.com/microsoft/Personal-Dashboard/archive/refs/heads/main.zip",
-      "demoVideo": "https://github.com/microsoft/Personal-Dashboard#-watch-first",
-      "demoVideoLabel": "Watch the 3-minute walkthrough",
+      "download": "https://raw.githubusercontent.com/microsoft/Personal-Dashboard/main/Personal%20Copilot%2C%20Agent%2C%20%26%20Cowork%20Dashboard%20Template.pbit",
+      "demoVideo": "https://raw.githubusercontent.com/microsoft/Personal-Dashboard/main/media/Personal_Dashboard_Overview.mp4",
+      "demoVideoLabel": "Watch the overview",
       "blurb": "Self-service Power BI template that turns your own Copilot Dashboard export into a personal view of adoption, hours saved, feature-level leverage, agent usage, and Cowork credits — with org benchmarks, a personalized user-category, and next-step learning. Loads Copilot, Agent, and Cowork exports in any combination.",
       "meta": {
         "audience": "Individual users, IC leads, enablement demos",
@@ -6270,6 +6274,725 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </details>
 </template>
 
+<template id="ghiHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>GitHub Copilot Impact</h2>
+    <div class="cc-tag">Power BI template that combines GitHub Enterprise Copilot exports with Entra department data</div>
+    <div class="cc-oneliner">Adoption by org &middot; engagement &middot; impact &middot; languages &middot; models &middot; IDEs &middot; benchmarking &middot; retention</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>GITHUB + ENTRA EXPORTS</span></div>
+    <div class="cbr-player" data-frames="9" data-base="ghi-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="ghi-frames/frame_00.jpg" alt="GitHub Copilot Impact page 1 of 9"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 9</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="cbr-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="cbr-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="cbr-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="ghiStep4">
+  <p class="gx-reads">This report reads <strong>three admin exports</strong>: one <strong>GitHub Copilot Usage Insights JSON</strong>, one <strong>GitHub Enterprise Members CSV</strong>, and one <strong>Entra users CSV</strong>. Point the Power BI template at local files, or use the sample files first.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true" data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Sample data (no tenant)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~30 minutes once exports are ready &middot; Power BI Desktop &middot; 2 CSVs + 1 JSON</span>
+      <p>Produce the three exports, open the template, and paste each full local file path when prompted.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Export GitHub Copilot Usage Insights (JSON)</h5>
+        <p>Sign in as a GitHub Enterprise Owner, go to <a href="https://github.com/settings/enterprises" target="_blank" rel="noopener noreferrer">github.com/settings/enterprises</a>, pick your enterprise, then use the top-right <strong>(...)</strong> menu &rarr; <strong>Insights</strong> &rarr; <strong>Copilot Usage</strong> &rarr; select <strong>Last 28 days</strong> &rarr; <strong>Download</strong>. Save the <code>.json</code> file locally.</p>
+        <h5><span class="cc-num">2</span> Export GitHub Enterprise Members (CSV)</h5>
+        <p>In the same enterprise, go to <strong>People</strong> &rarr; <strong>Members</strong> &rarr; right side <strong>CSV Report</strong>. Fewer than 1000 members downloads immediately. For 1000 or more members, GitHub emails a download link.</p>
+        <h5><span class="cc-num">3</span> Export Entra users (CSV)</h5>
+        <p>In <a href="https://entra.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft Entra admin center</a>, sign in as User Administrator or Global Reader, then <strong>Identity</strong> &rarr; <strong>Users</strong> &rarr; <strong>All users</strong> &rarr; <strong>Download users</strong>. Include at least <code>UserPrincipalName</code> and <code>Department</code>.</p>
+        <h5><span class="cc-num">4</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/GitHubCopilotImpact/raw/main/Template%20GitHub%20Copilot%20Usage%20Analytics%20v2-14.pbit" target="_blank" rel="noopener noreferrer"><code>Template GitHub Copilot Usage Analytics v2-14.pbit</code></a> in Power BI Desktop. When prompted, paste the full local path to the GitHub Usage JSON, the GitHub Members CSV, and the Entra users CSV, then click <strong>Load</strong>.</p>
+        <h5><span class="cc-num">5</span> Refresh manually</h5>
+        <p>To refresh later, re-export the files, keep the same paths or update the parameters, and reload the template.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Important data notes</strong> <span class="cc-small"><em>file types, policy, and sign-in</em></span></summary>
+        <div class="cc-idbody">
+          <p>The inputs are <strong>2 CSVs + 1 JSON</strong>, not 3 CSVs. There is <strong>no API token or PAT</strong> anywhere in this setup, access is through interactive admin sign-in.</p>
+          <p>The GitHub export is empty unless the enterprise <strong>Copilot usage metrics policy</strong> is opted in under AI Controls. Department segmentation is blank unless SAML SSO is enforced between GitHub and Entra.</p>
+        </div>
+      </details>
+      <p class="cc-glink"><a href="https://github.com/microsoft/GitHubCopilotImpact" target="_blank" rel="noopener noreferrer">Template source and setup notes on GitHub &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Desktop &middot; no tenant</span>
+      <p>The repo ships sample files that let every page render before you collect tenant data.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the sample files</h5>
+        <p>From <a href="https://github.com/microsoft/GitHubCopilotImpact/tree/main/GHCP%20Sample%20Files" target="_blank" rel="noopener noreferrer">GHCP Sample Files</a>, download these three files:</p>
+        <table class="cc-kv">
+          <tr><th><code>membership_export - Copy.csv</code></th><td>Sample GitHub Enterprise Members CSV</td></tr>
+          <tr><th><code>OrgData file.csv</code></th><td>Sample Entra org CSV</td></tr>
+          <tr><th><code>test output.json</code></th><td>Sample GitHub Copilot Usage Insights JSON</td></tr>
+        </table>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/GitHubCopilotImpact/raw/main/Template%20GitHub%20Copilot%20Usage%20Analytics%20v2-14.pbit" target="_blank" rel="noopener noreferrer"><code>Template GitHub Copilot Usage Analytics v2-14.pbit</code></a>, point the three prompts at those files, and click <strong>Load</strong>.</p>
+        <h5><span class="cc-num">3</span> Explore the synthetic tenant</h5>
+        <p>All pages render on synthetic data for the enterprise nicknamed <strong>Byte-Sized-Donuts</strong>.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="ghpHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>GitHub Copilot Panel</h2>
+    <div class="cc-tag">Power BI template for Viva Insights GitHub Copilot telemetry, with CSV and Viva connector paths</div>
+    <div class="cc-oneliner">Start here &middot; executive view &middot; reach &middot; depth &middot; value &middot; models &middot; appendix</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>VIVA INSIGHTS</span></div>
+    <div class="cbr-player" data-frames="7" data-base="ghp-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="ghp-frames/frame_00.jpg" alt="GitHub Copilot Panel page 1 of 7"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 7</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="cbr-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="ghpStep4">
+  <p class="gx-reads">This Power BI template reads the Viva Insights <strong>GitHub Copilot Export</strong> query output. Use the reliable CSV route first, or switch the single <code>DataSource</code> parameter to Viva when using the connector route.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true" data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Sample data (no tenant)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~30 minutes &middot; Power BI Desktop &middot; Viva Insights Analyst</span>
+      <p>Run the Viva Insights GitHub Copilot Export, then choose CSV files or the Viva connector by setting <code>DataSource</code>.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Run the GitHub Copilot Export query</h5>
+        <p>In Viva Insights, go to <strong>Analysis</strong> &rarr; <strong>Analyst Workbench</strong>, run a <strong>GitHub Copilot Export</strong> query, then open <strong>Analysis results</strong>. This requires the Insights Analyst role. GitHub Copilot data in Viva Insights is in preview.</p>
+        <h5><span class="cc-num">2</span> CSV route, recommended</h5>
+        <p>From <strong>Analysis results</strong>, download the CSVs, put them flat in one folder, open <a href="https://github.com/microsoft/GitHubCopilotPanel/blob/main/GitHub%20Copilot%20Panel.pbit" target="_blank" rel="noopener noreferrer"><code>GitHub Copilot Panel.pbit</code></a>, leave <code>DataSource=CSV</code>, set <code>DataFolder</code> to that folder, and click <strong>Load</strong>.</p>
+        <details class="cc-idbox">
+          <summary><strong>CSV files expected</strong> <span class="cc-small"><em>keep them flat in the folder</em></span></summary>
+          <div class="cc-idbody">
+            <p><code>PersonGitHubActivityMetrics.csv</code>, <code>GitHubActivityBreakdownByFeatureMetrics.csv</code>, <code>GitHubActivityBreakdownByModelFeatureMetrics.csv</code>, <code>GitHubActivityBreakdownByLanguageFeatureMetrics.csv</code>, <code>GitHubActivityBreakdownByLanguageModelMetrics.csv</code>, and <code>PeopleMetaData.csv</code>.</p>
+          </div>
+        </details>
+        <h5><span class="cc-num">3</span> Viva connector route</h5>
+        <p>In <strong>Analysis results</strong>, click the query link icon, then <strong>Copy identifiers and connect to Power BI</strong> to get the Partition ID and Query ID. Set <code>DataSource=Viva</code>, then set <code>PartitionId</code> and <code>QueryId</code>. In connector settings use <code>Schema=Pivoted</code>, <code>Granularity=Row-level</code>, and <code>Connectivity=Import</code>.</p>
+        <h5><span class="cc-num">4</span> Confirm parameters</h5>
+        <table class="cc-kv">
+          <tr><th><code>DataSource</code></th><td><code>CSV</code> or <code>Viva</code></td></tr>
+          <tr><th><code>DataFolder</code></th><td>Folder that contains the six CSV files for the CSV route</td></tr>
+          <tr><th><code>PartitionId</code></th><td>Viva connector route only</td></tr>
+          <tr><th><code>QueryId</code></th><td>Viva connector route only</td></tr>
+        </table>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Connector caveat</strong> <span class="cc-small"><em>why CSV is reliable today</em></span></summary>
+        <div class="cc-idbody">
+          <p>The shipped template connector <code>TableName</code> options currently carry the CSV names, so the CSV route is the reliable one today.</p>
+        </div>
+      </details>
+      <p class="cc-glink"><a href="https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/DATA-SOURCES.md" target="_blank" rel="noopener noreferrer">Data source notes on GitHub &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Desktop &middot; no tenant</span>
+      <p>The sample data route is the preloaded Route 1 path, no tenant connection required.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Copy the sample CSVs</h5>
+        <p>Download the CSVs from the <a href="https://github.com/microsoft/GitHubCopilotPanel/tree/main/sample-data" target="_blank" rel="noopener noreferrer">sample-data</a> folder. The sample contains 200 people, 16 orgs, and 26 weeks. Copy the files flat into the default folder <code>C:\GitHub Copilot Panel\Data</code>.</p>
+        <h5><span class="cc-num">2</span> Open the template</h5>
+        <p>Open <a href="https://github.com/microsoft/GitHubCopilotPanel/blob/main/GitHub%20Copilot%20Panel.pbit" target="_blank" rel="noopener noreferrer"><code>GitHub Copilot Panel.pbit</code></a>, leave <code>DataSource=CSV</code>, and click <strong>Load</strong>. No parameter change is needed when the files are in the default folder.</p>
+        <h5><span class="cc-num">3</span> Switch later to real data</h5>
+        <p>When you later point at real export data, set config <code>is_synthetic=0</code>.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="widHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>What I Did: Copilot Impact Report</h2>
+    <div class="cc-tag">Local Python report over your GitHub Copilot CLI and VS Code Copilot Chat history</div>
+    <div class="cc-oneliner">Projects delivered &middot; human effort equivalent &middot; lines changed &middot; PRs merged &middot; activity patterns</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>GITHUB COPILOT</span><span>LOCAL PYTHON CLI</span></div>
+    <div class="cbr-player" data-frames="4" data-base="wid-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="wid-frames/frame_00.jpg" alt="What I Did Copilot Impact Report page 1 of 4"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 4</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="widStep4">
+  <p class="gx-reads">This tool reads your existing local <strong>GitHub Copilot</strong> session logs on your own machine, including GitHub Copilot CLI session-state events and VS Code Copilot Chat sessions. Nothing is uploaded. It requires <strong>Python 3.10+</strong>, the <strong>GitHub CLI</strong> (<code>gh</code>) signed in for AI analysis, and real Copilot usage history. A machine with no Copilot history produces an empty report.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Copilot CLI plugin</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> VS Code</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Clone and run (dev)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~5 minutes &middot; GitHub Copilot CLI &middot; local logs</span>
+      <p>Install the plugin inside Copilot CLI, then run the report against your own recent sessions.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Install the plugin</h5>
+        <p>In a Copilot CLI session run <code>/plugin install whatidid@awesome-copilot</code>.</p>
+        <h5><span class="cc-num">2</span> Run it</h5>
+        <p>Run <code>whatidid</code>. The default lookback is 7 days. You can also pick it via <code>/agent</code>.</p>
+        <h5><span class="cc-num">3</span> Open the HTML report</h5>
+        <p>The tool writes a self-contained HTML report for the selected period. If there is no local Copilot history, the report is empty rather than populated with sample data.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>What this connects to</strong> <span class="cc-small"><em>local GitHub Copilot history only</em></span></summary>
+        <div class="cc-idbody">
+          <p>It reads GitHub Copilot CLI logs under <code>~/.copilot/session-state/&lt;uuid&gt;/events.jsonl</code> and VS Code Copilot Chat session history on the same machine. It is for GitHub Copilot, not Microsoft 365 Copilot.</p>
+        </div>
+      </details>
+      <p class="cc-glink"><a href="https://github.com/microsoft/What-I-Did-Copilot/tree/main/skills/whatidid" target="_blank" rel="noopener noreferrer">Copilot CLI skill on GitHub &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~5 minutes &middot; VS Code &middot; GitHub Copilot Chat</span>
+      <p>Install the same agent plugin from VS Code, then ask Copilot Chat for a report.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open Chat plugins</h5>
+        <p>Open the Command Palette, choose <strong>Chat: Plugins</strong> (<code>@agentPlugins</code>), search <code>whatidid</code>, then click <strong>Install</strong>.</p>
+        <h5><span class="cc-num">2</span> Ask for the report</h5>
+        <p>In Copilot Chat ask, for example, <code>give me a 7-day Copilot report</code>.</p>
+        <h5><span class="cc-num">3</span> Review the output</h5>
+        <p>The plugin uses the Copilot history on your machine. There is also a separate first-party VS Code extension named <strong>What I Did</strong> with a Report Builder panel.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Before you run it</strong> <span class="cc-small"><em>history and sign-in requirements</em></span></summary>
+        <div class="cc-idbody">
+          <p>You need real GitHub Copilot activity on the machine and <code>gh</code> signed in when AI analysis is requested. The tool does not ship demo or sample data.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Python 3.10+ &middot; developer path</span>
+      <p>Clone the repo and run the Python CLI directly when you want to inspect or modify the tool.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Sign in for AI analysis</h5>
+        <p>Run <code>gh auth login</code> one time.</p>
+        <h5><span class="cc-num">2</span> Clone the repo</h5>
+        <p><code>git clone https://github.com/microsoft/What-I-Did-Copilot.git</code></p>
+        <h5><span class="cc-num">3</span> Run the CLI</h5>
+        <p><code>cd What-I-Did-Copilot</code><br><code>python whatidid.py</code></p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Useful flags and output</strong> <span class="cc-small"><em>date ranges, refresh and destination</em></span></summary>
+        <div class="cc-idbody">
+          <p>Common flags: <code>--7D</code>, <code>--14D</code>, <code>--30D</code>, <code>--60D</code>, <code>--90D</code>, <code>--date 2026-03-19</code>, <code>--from ... --to ...</code>, <code>--refresh</code>, <code>--email [addr]</code>, <code>--out-dir &lt;dir&gt;</code>.</p>
+          <p>The output is <code>report_&lt;label&gt;.html</code>, saved to the script folder and auto-opened.</p>
+        </div>
+      </details>
+      <p class="cc-glink"><a href="https://github.com/microsoft/What-I-Did-Copilot" target="_blank" rel="noopener noreferrer">Repository &rarr;</a></p>
+    </section>
+  </div>
+</template>
+
+<template id="cwiHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>What Cowork Did For Me</h2>
+    <div class="cc-tag">Copilot Cowork skill that summarizes your OneDrive Cowork sessions into an impact report</div>
+    <div class="cc-oneliner">Sessions classified &middot; time saved &middot; value pillars &middot; professional-services equivalent &middot; email automation</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>COPILOT COWORK SKILL</span><span>ONEDRIVE VIA GRAPH</span></div>
+    <div class="cbr-player" data-frames="7" data-base="cwi-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cwi-frames/frame_00.jpg" alt="What Cowork Did For Me page 1 of 7"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 7</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="cbr-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="cwiStep4">
+  <p class="gx-reads">This skill reads your own <strong>Copilot Cowork</strong> session history under <strong>OneDrive Documents/Cowork/</strong> through Microsoft Graph, using the Cowork app allow-list. It is not reading local disk files. You need Copilot Cowork access and existing Cowork session history; synthetic demo artifacts are available only for preview.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Install in Cowork</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Run the scripts (dev)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Demo (no data)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~5 minutes &middot; Copilot Cowork &middot; recommended</span>
+      <p>Install the skill zip in Cowork and let the agent read your allowed OneDrive Cowork session folders.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the skill zip</h5>
+        <p>Download <a href="https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v42.zip" target="_blank" rel="noopener noreferrer"><code>cowork-roi-report-skill-v42.zip</code></a>. Do not unzip it.</p>
+        <h5><span class="cc-num">2</span> Add the skill in Cowork</h5>
+        <p>Open a Cowork session at <a href="https://aka.ms/cowork" target="_blank" rel="noopener noreferrer">aka.ms/cowork</a>, click <strong>+</strong> to attach the zip, then send <code>Add this skill</code>.</p>
+        <h5><span class="cc-num">3</span> Generate the report</h5>
+        <p>Ask <code>Generate my impact summary report</code>. The skill asks two questions: the period, <strong>7</strong>, <strong>15</strong> or <strong>30</strong> days, and whether to run once or automate plus email.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>What the skill can read</strong> <span class="cc-small"><em>OneDrive through Microsoft Graph</em></span></summary>
+        <div class="cc-idbody">
+          <p>The data source is your OneDrive <code>Documents/Cowork/</code> session history. Access is through Microsoft Graph and the Cowork app allow-list, not local files.</p>
+        </div>
+      </details>
+      <p class="cc-glink"><a href="https://github.com/microsoft/What-I-did-with-Cowork/tree/main/skill" target="_blank" rel="noopener noreferrer">Skill directory on GitHub &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; developer path &middot; Python 3 std-lib &middot; harvested JSON required</span>
+      <p>Run the bundled scripts directly when you are developing the skill or testing report generation.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Prepare harvested input</h5>
+        <p>You still need a working <code>working/cowork_raw.json</code>, normally produced by the Cowork agent.</p>
+        <h5><span class="cc-num">2</span> Run the scripts in order</h5>
+        <p>Use standard-library Python 3. The scripts reconcile taxonomy, classify sessions, compute metrics, then build the report.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Exact commands</strong> <span class="cc-small"><em>plus optional CSV export</em></span></summary>
+        <div class="cc-idbody">
+          <p><code>python reconcile_taxonomy.py</code><br><code>python classify.py</code><br><code>python compute.py</code><br><code>python build_report.py</code><br><code>python to_csv.py</code> <span class="cc-small">optional</span></p>
+          <p>This path is for development. It does not replace Cowork access or the agent-produced raw session harvest.</p>
+        </div>
+      </details>
+      <p class="cc-glink"><a href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener noreferrer">Repository &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; ~1 minute &middot; synthetic inputs &middot; no OneDrive</span>
+      <p>Use the prebuilt demo to see the output shape without Cowork access, OneDrive data or a license.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the demo report</h5>
+        <p>Open <a href="https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-demo.pdf" target="_blank" rel="noopener noreferrer"><code>cowork-roi-report-demo.pdf</code></a>.</p>
+        <h5><span class="cc-num">2</span> Inspect the synthetic inputs</h5>
+        <p>The repo ships synthetic inputs at <code>skill/examples/demo_sessions.json</code> behind the prebuilt demo report.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Demo limits</strong> <span class="cc-small"><em>preview only</em></span></summary>
+        <div class="cc-idbody">
+          <p>The demo does not connect to OneDrive or read Cowork session folders. For your own impact report, use the Cowork skill path.</p>
+        </div>
+      </details>
+    </section>
+  </div>
+</template>
+
+<template id="adsHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>Adoption &amp; Sentiment Report</h2>
+    <div class="cc-tag">Power BI template that joins M365 Admin Copilot usage with optional survey and Entra CSVs</div>
+    <div class="cc-oneliner">Usage cohorts &middot; sentiment survey &middot; comment themes &middot; saved time &middot; assisted value &middot; feature popularity</div>
+    <div class="cc-badges"><span>POWER BI TEMPLATE</span><span>LOCAL CSV PARAMETERS</span><span>NO DEMO DATA</span></div>
+    <div class="cbr-player" data-frames="6" data-base="ads-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="ads-frames/frame_00.jpg" alt="Adoption &amp; Sentiment Report page 1 of 6"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 6</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="adsStep4">
+  <p class="gx-reads">This template has <strong>one real connection mechanism</strong>: three Power Query parameters that point at local CSV files. The M365 Admin Copilot usage export is required. Survey responses and Entra users are optional. No demo data ships with the repo.</p>
+
+  <div class="ccyd">
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~30 minutes &middot; Power BI Desktop &middot; one required CSV, two optional CSVs</span>
+      <p>Export the files, open the <code>.pbit</code>, set the parameters to local paths, and load.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Export the M365 Copilot usage CSV</h5>
+        <p>Go to <a href="https://admin.microsoft.com" target="_blank" rel="noopener noreferrer">admin.microsoft.com</a> &rarr; <strong>Reports</strong> &rarr; <strong>Usage</strong> &rarr; <strong>Microsoft 365 Copilot</strong> &rarr; select the <strong>180-day</strong> period &rarr; <strong>Export</strong> in the top right. The file name looks like <code>CopilotActivityUserDetail_YYYY-MM-DD.csv</code>.</p>
+        <details class="cc-idbox">
+          <summary><strong>If user names are hashed</strong></summary>
+          <div class="cc-idbody"><p>In the M365 admin center, go to <strong>Settings</strong> &rarr; <strong>Org settings</strong> &rarr; <strong>Reports</strong>, uncheck <strong>Display concealed user, group, and site names in all reports</strong>, wait 48 hours, then re-export.</p></div>
+        </details>
+
+        <h5><span class="cc-num">2</span> Optional: build the sentiment survey</h5>
+        <p>The repo does <strong>not</strong> ship a downloadable survey file, and its survey link is broken. Recreate the 12 recommended questions in Microsoft Forms or another survey tool from the README table. Capture an Email or UPN field by turning on Forms <strong>Record name</strong> or by adding a required email question, then export responses as CSV.</p>
+        <details class="cc-idbox">
+          <summary><strong>Recommended survey question labels</strong></summary>
+          <div class="cc-idbody"><p><code>Overall satisfaction</code>, <code>Helps me work faster</code>, <code>Improves work quality</code>, <code>Improves productivity</code>, <code>Benefits my role</code>, <code>Copilot readiness</code>, <code>Agents usage</code> (all 1-5); <code>Time saved using Copilot</code> (buckets); <code>Time repurposed</code>; <code>Use cases</code>; <code>Barriers to adoption</code>; <code>What else?</code> (free text).</p></div>
+        </details>
+
+        <h5><span class="cc-num">3</span> Optional: export Entra users</h5>
+        <p>Go to <a href="https://entra.microsoft.com" target="_blank" rel="noopener noreferrer">entra.microsoft.com</a> &rarr; <strong>Identity</strong> &rarr; <strong>Users</strong> &rarr; <strong>All users</strong> &rarr; <strong>Download users</strong>. This supplies organization, department, and display names.</p>
+
+        <h5><span class="cc-num">4</span> Open the template and set parameters</h5>
+        <p>Open <a href="https://raw.githubusercontent.com/olivierpecheux/copilot-adoption-sentiment-report/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit" target="_blank" rel="noopener noreferrer"><code>M365 Copilot - Adoption &amp; Sentiment.pbit</code></a> in Power BI Desktop, Feb 2025 or later. Set <code>Copilot Activity (MAC)</code> to the required usage CSV full path with no quotes, <code>Raw Survey Data</code> to the survey CSV path or <code>/</code> to skip, and <code>User Details (Entra)</code> to the Entra CSV path or <code>/</code> to skip. Click <strong>Load</strong>.</p>
+        <p>Re-export monthly and append to build month-over-month trends.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Comments page note</strong></summary>
+        <div class="cc-idbody"><p>The Comments page uses a Smart Narrative visual. It needs Power BI Pro or PPU with Copilot in Power BI enabled, otherwise that one visual is blank.</p></div>
+      </details>
+    </section>
+  </div>
+</template>
+
+<template id="pcdHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>Personal Copilot, Agent &amp; Cowork Dashboard</h2>
+    <div class="cc-tag">Power BI dashboard for personal Copilot usage, agent activity, Cowork credits and org benchmarks</div>
+    <div class="cc-oneliner">Copilot actions &middot; productivity signals &middot; journey &middot; benchmarks &middot; agent activity &middot; Cowork usage</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>REFRESHES WEEKLY</span></div>
+    <div class="cbr-player" data-frames="6" data-base="pcd-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="pcd-frames/frame_00.jpg" alt="Personal Copilot, Agent and Cowork Dashboard page 1 of 6"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 6</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="pcdStep4">
+  <p class="gx-reads">This dashboard has three genuine setup paths. Start with the Copilot Dashboard export if you only need your own view, or use Viva Insights person-query paths when you need analyst-controlled CSV or Direct Query inputs. No demo data ships with the repo, and report data refreshes weekly.</p>
+
+  <details class="cc-idbox">
+    <summary><strong>Prerequisites</strong></summary>
+    <div class="cc-idbody"><p>You need an M365 Copilot license and Power BI Desktop. The Viva person-query paths also require Viva Insights Analyst Workbench access.</p></div>
+  </details>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Copilot Dashboard export</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Viva person query (CSV)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Viva person query (Direct Query)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~15 minutes &middot; self-service &middot; recommended</span>
+      <p>Use exports from the Copilot Dashboard in Viva Insights. Load any combination of Copilot, Agent, and Cowork data.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Export your Copilot data</h5>
+        <p>Open the Copilot Dashboard via Viva Insights, then click <strong>Export data</strong>. This downloads your Copilot usage CSV.</p>
+        <h5><span class="cc-num">2</span> Optional: export Agent and Cowork folders</h5>
+        <p>For Agent data, export the folder containing <code>AgentMetadata.csv</code>, <code>PersonAgentResponsesMetrics.csv</code>, <code>PersonAgentCreditsRetentionMetrics.csv</code>, and <code>PeopleMetadata.csv</code>. For Cowork data, export the folder containing <code>PersonServiceCreditsMetrics.csv</code>, <code>PeopleMetaData.csv</code>, and <code>SpendingPolicyMetadata.csv</code>.</p>
+        <h5><span class="cc-num">3</span> Open the template</h5>
+        <p>Open <a href="https://raw.githubusercontent.com/microsoft/Personal-Dashboard/main/Personal%20Copilot%2C%20Agent%2C%20%26%20Cowork%20Dashboard%20Template.pbit" target="_blank" rel="noopener noreferrer"><code>Personal Copilot, Agent, &amp; Cowork Dashboard Template.pbit</code></a>, set <code>CopilotCsvFilePath</code>, <code>AgentDataFolderPath</code>, and <code>CoworkDataFolderPath</code>. Leave any path you do not have blank, then click <strong>Load</strong>.</p>
+        <h5><span class="cc-num">4</span> Filter to yourself</h5>
+        <p>Use the <code>PersonId</code> slicer to filter the report to yourself.</p>
+      </div>
+      <details class="cc-idbox">
+        <summary><strong>Optional RLS</strong></summary>
+        <div class="cc-idbody"><p>Create a role named <code>ViewOwnData</code> with <code>[PersonId] = USERPRINCIPALNAME()</code>, then assign it in the Power BI Service.</p></div>
+      </details>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~45 minutes &middot; Viva Insights Analyst Workbench &middot; CSV import</span>
+      <p>Build one Viva Insights person query and export it as CSV.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Create the person query</h5>
+        <p>Go to <a href="https://analysis.insights.cloud.microsoft" target="_blank" rel="noopener noreferrer">analysis.insights.cloud.microsoft</a> &rarr; <strong>Analysis results</strong> &rarr; <strong>Create analysis</strong> &rarr; <strong>Person query</strong> &rarr; <strong>Set up analysis</strong>.</p>
+        <h5><span class="cc-num">2</span> Configure the query</h5>
+        <p>Set <strong>Time period</strong> to <strong>Last 6 months (rolling)</strong>, <strong>Group by</strong> to <strong>Week</strong>, filter <code>Is Active = True</code>, add attributes <code>Organization</code>, <code>FunctionType</code>, and <code>TimeZone</code>, and under Microsoft 365 Copilot select <strong>All metrics</strong>. Missing even one metric can leave visuals blank.</p>
+        <h5><span class="cc-num">3</span> Run and export</h5>
+        <p>Save and run the query, wait for <strong>Completed</strong>, then export the CSV.</p>
+        <h5><span class="cc-num">4</span> Open the CSV template</h5>
+        <p>Open <code>Viva Insights Personal Dashboard V9 (CSV Import pbit).pbit</code> from the repository and enter the CSV path.</p>
+      </div>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="3">
+      <span class="cc-time">&#9201; ~45 minutes &middot; Viva Insights Analyst Workbench &middot; Direct Query</span>
+      <p>Use the same person-query build, then connect the template to the completed query IDs.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Build and run the person query</h5>
+        <p>Use the same setup as the CSV path: Last 6 months rolling, group by Week, <code>Is Active = True</code>, attributes <code>Organization</code>, <code>FunctionType</code>, <code>TimeZone</code>, and all Microsoft 365 Copilot metrics.</p>
+        <h5><span class="cc-num">2</span> Copy the IDs</h5>
+        <p>From the completed query, copy the <strong>Partition ID</strong> and <strong>Query ID</strong>.</p>
+        <h5><span class="cc-num">3</span> Open the Direct Query template</h5>
+        <p>Open <code>Viva Insights Personal Dashboard V9 (Direct Import pbit).pbit</code> and enter the Partition ID and Query ID.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="czHero">
+  <div class="cc-hero">
+    <h2>CustomizeCopilot Add-on Library</h2>
+    <div class="cc-tag">Library of Power BI add-on pages that graft onto existing Super User Adoption or Impact reports</div>
+    <div class="cc-oneliner">Champion-ID add-on &middot; host report data &middot; reusable pages &middot; sample preview &middot; .pbip-friendly workflow</div>
+    <div class="cc-badges"><span>ADD-ON LIBRARY</span><span>HOST REPORT REQUIRED</span><span>ONE LIVE ADD-ON</span></div>
+    <div class="cbr-player" data-frames="2" data-base="cz-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cz-frames/frame_00.jpg" alt="Champion ID add-on page 1 of 2"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 2</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+      </div>
+      <div class="cbr-hint">The Champion-ID add-on, running on sample data &middot; use &#8249; &#8250; to step through its two pages</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="czStep4">
+  <p class="gx-reads">CustomizeCopilot is a library of ready-made add-on pages that graft onto an existing Super User Adoption or Super User Impact report, version 4 or later. The data lives in that host report, fed by Viva Insights, and the add-on inherits it. Today the library has one live add-on: Champion-ID.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Apply the Champion-ID add-on</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Preview on sample data</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~15 minutes &middot; Power BI Desktop &middot; existing host report</span>
+      <p>Copy the add-on pages into a host report that is already connected to your Viva Insights data.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open your host report</h5>
+        <p>Open your Super User Adoption or Super User Impact report, version 4 or later, in Power BI Desktop. It should already be connected to your data.</p>
+        <h5><span class="cc-num">2</span> Open the add-on report</h5>
+        <p>Open <a href="https://github.com/microsoft/CustomizeCopilot/blob/main/Champion-ID/Champion%20ID.pbix" target="_blank" rel="noopener noreferrer"><code>Champion ID.pbix</code></a> from the <a href="https://github.com/microsoft/CustomizeCopilot/tree/main/Champion-ID" target="_blank" rel="noopener noreferrer">Champion-ID folder</a> in a second Power BI Desktop window. It ships with sample data and opens instantly.</p>
+        <h5><span class="cc-num">3</span> Add a blank host page</h5>
+        <p>In the host report, add a new blank page.</p>
+        <h5><span class="cc-num">4</span> Copy page 1 visuals</h5>
+        <p>In <code>Champion ID.pbix</code>, click the empty canvas, press <strong>Ctrl+A</strong>, then <strong>Ctrl+C</strong>. In the host report blank page, press <strong>Ctrl+V</strong>. The visuals land with formatting.</p>
+        <h5><span class="cc-num">5</span> Repeat for page 2</h5>
+        <p>Repeat the copy and paste flow for page 2, <strong>Extended Analytics</strong>.</p>
+        <h5><span class="cc-num">6</span> Verify and save</h5>
+        <p>The 25 required DAX measures auto-bind on host v4+. Verify the visuals resolve, then save the host report.</p>
+      </div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/CustomizeCopilot/tree/main" target="_blank" rel="noopener noreferrer">Open the library root &rarr;</a></p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~5 minutes &middot; no tenant &middot; sample data included</span>
+      <p>Open <code>Champion ID.pbix</code> on its own. It ships with sample data and renders both pages populated, so you can inspect the add-on before grafting it into your host report.</p>
+      <div class="cc-callout cc-info"><span class="ct">Network metrics requirement</span> Strong ties, Diverse ties, and Internal network size require Viva Insights network analysis enabled in the host report.</div>
+    </section>
+  </div>
+
+  <details class="cc-idbox">
+    <summary><strong>Advanced: .pbip projects</strong></summary>
+    <div class="cc-idbody"><p>For source-controlled <code>.pbip</code> reports, copy the page GUID folder under <code>definition/pages/</code> and register the GUID in <code>pages.json</code> <code>pageOrder</code>, adding any missing measures to the model.</p></div>
+  </details>
+</template>
+
+<template id="ffaHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>FinOps &amp; FOCUS Cost Report (Web App)</h2>
+    <div class="cc-tag">Browser-only FinOps cost view for Cowork consumption with FOCUS-aligned columns</div>
+    <div class="cc-oneliner">List, Contracted, Effective and Billed cost &middot; live rate tuning &middot; department, cost centre and business unit allocation</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>RUNS IN YOUR BROWSER</span><span>NO INSTALL</span></div>
+    <div class="cbr-player" data-frames="5" data-base="ffa-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="ffa-frames/frame_00.jpg" alt="FinOps &amp; FOCUS Cost Report page 1 of 5"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 5</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="ffaStep4">
+  <p class="gx-reads">This web app reads <strong>two CSV exports</strong> in your browser: a Microsoft Entra user export and a Copilot credit consumption export. Nothing is uploaded. It joins the files on user principal name and prices usage into FOCUS-aligned cost columns.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Demo (no tenant)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; browser only &middot; two admin exports</span>
+      <p>Export the two CSVs, open the app, then drop both files into the upload area.</p>
+      <div class="cc-steps">
+
+        <h5><span class="cc-num">1</span> Export Microsoft Entra users</h5>
+        <p>Microsoft Entra admin center (entra.microsoft.com) → Identity → Users → All users → Download users (CSV; supplies department, job title, cost centre, business unit; you can load more than one).</p>
+        <h5><span class="cc-num">2</span> Export Copilot credit consumption</h5>
+        <p>Microsoft 365 admin center (admin.microsoft.com) → Copilot → Cost management → Consumption tab → Export CSV (one row per user with credits consumed).</p>
+        <details class="cc-idbox">
+          <summary><strong>Cost columns produced</strong> <span class="cc-small"><em>rates can be tuned live</em></span></summary>
+          <div class="cc-idbody">
+            <p>The app joins the two files on user principal name and prices usage into the FOCUS cost columns: List, Contracted, Effective and Billed.</p>
+            <p>Use department, cost centre or business unit from the Entra export as the allocation lens.</p>
+          </div>
+        </details>
+        <h5><span class="cc-num">3</span> Open the app and load both files</h5>
+        <p>Open the <a href="https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html" target="_blank" rel="noopener noreferrer">FinOps &amp; FOCUS Cost Report</a>, then drop in the Entra export and the Copilot credit export.</p>
+        <h5><span class="cc-num">4</span> Tune rates and allocation</h5>
+        <p>Tune the list and contracted rates live, then allocate by department, cost centre or business unit.</p>
+        <h5><span class="cc-num">5</span> Review the FOCUS view</h5>
+        <p>Use the List, Contracted, Effective and Billed cost columns to compare finance views and export the result for follow-up.</p>
+      </div>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~1 minute &middot; browser only &middot; no tenant</span>
+      <p>Preview the full FOCUS-aligned cost view before you use tenant exports.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the app</h5>
+        <p>Open <a href="https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html" target="_blank" rel="noopener noreferrer">the app</a> and click <strong>View Demo Report</strong>.</p>
+        <h5><span class="cc-num">2</span> Explore the synthetic run</h5>
+        <p>The demo uses synthetic data and runs in the browser.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="crmHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>Cowork ROI Model (Web App)</h2>
+    <div class="cc-tag">Browser-only ROI scenario model with research-backed defaults and editable assumptions</div>
+    <div class="cc-oneliner">Task volumes &middot; minutes-per-task bands &middot; assisted hours &middot; value and ROI calculated live</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>RUNS IN YOUR BROWSER</span><span>NO FILES NEEDED</span></div>
+    <div class="cbr-player" data-frames="3" data-base="crm-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="crm-frames/frame_00.jpg" alt="Cowork ROI Model page 1 of 3"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 3</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="crmStep4">
+  <p class="gx-reads">There is <strong>no file to upload</strong>, no export to request and no admin to chase. The model runs entirely in your browser: type task volumes and assumptions, then read the live assisted-hours, value and ROI outputs.</p>
+
+  <div class="ccyd">
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; browser only &middot; no tenant export</span>
+      <p>Open the model and enter the scenario assumptions you want to test.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the model</h5>
+        <p>Open the <a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/" target="_blank" rel="noopener noreferrer">Cowork ROI Model</a>. It runs locally in the browser.</p>
+        <h5><span class="cc-num">2</span> Name your scenario</h5>
+        <p>Give the scenario a clear name so exported or shared outputs are easy to identify later.</p>
+        <h5><span class="cc-num">3</span> Enter task volumes</h5>
+        <p>Enter your task volumes per category. Adjust minutes per task if you want to depart from the research band; use the reset control to return minutes to the band.</p>
+        <details class="cc-idbox">
+          <summary><strong>What is pre-filled</strong> <span class="cc-small"><em>you can override it</em></span></summary>
+          <div class="cc-idbody">
+            <p>Minutes-per-task bands are pre-filled from published research. The model keeps the assumptions visible so finance and business owners can challenge them before relying on the ROI result.</p>
+          </div>
+        </details>
+        <h5><span class="cc-num">4</span> Set money inputs</h5>
+        <p>Set annual cost, blended hourly rate, monthly active users and unlicensed seats.</p>
+        <h5><span class="cc-num">5</span> Read and export the outputs</h5>
+        <p>Review assisted hours, value and ROI as they recalculate live, then export or share the scenario.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+
+
 <template id="roiHero">
   <div class="cc-hero cbr-hero-card">
     <h2>&#129518; M365 Copilot Productivity ROI Calculator</h2>
@@ -7108,7 +7831,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      building" step is dropped (the hero already shows it). */
   var HERO_GIF_IDS = {
     'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
-    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1
+    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1
   };
   function mediaItems(t) {
     var vids = videosOf(t), items = [];
@@ -9035,6 +9758,42 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _cbrStep4 = document.getElementById('cbrStep4');
       if (_cbrStep4) return _cbrStep4.innerHTML;
     }
+    if (t.id === 'ghcp-impact') {
+      var _ghiStep4 = document.getElementById('ghiStep4');
+      if (_ghiStep4) return _ghiStep4.innerHTML;
+    }
+    if (t.id === 'ghcp-panel') {
+      var _ghpStep4 = document.getElementById('ghpStep4');
+      if (_ghpStep4) return _ghpStep4.innerHTML;
+    }
+    if (t.id === 'what-i-did') {
+      var _widStep4 = document.getElementById('widStep4');
+      if (_widStep4) return _widStep4.innerHTML;
+    }
+    if (t.id === 'cowork-impact') {
+      var _cwiStep4 = document.getElementById('cwiStep4');
+      if (_cwiStep4) return _cwiStep4.innerHTML;
+    }
+    if (t.id === 'adoption-sentiment') {
+      var _adsStep4 = document.getElementById('adsStep4');
+      if (_adsStep4) return _adsStep4.innerHTML;
+    }
+    if (t.id === 'personal-copilot-dashboard') {
+      var _pcdStep4 = document.getElementById('pcdStep4');
+      if (_pcdStep4) return _pcdStep4.innerHTML;
+    }
+    if (t.id === 'customize') {
+      var _czStep4 = document.getElementById('czStep4');
+      if (_czStep4) return _czStep4.innerHTML;
+    }
+    if (t.id === 'finops-focus-app') {
+      var _ffaStep4 = document.getElementById('ffaStep4');
+      if (_ffaStep4) return _ffaStep4.innerHTML;
+    }
+    if (t.id === 'cowork-roi-model-app') {
+      var _crmStep4 = document.getElementById('crmStep4');
+      if (_crmStep4) return _crmStep4.innerHTML;
+    }
     if (t.id === 'roi-calc') {
       var _roiStep4 = document.getElementById('roiStep4');
       if (_roiStep4) return _roiStep4.innerHTML;
@@ -9241,6 +10000,15 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
         (t.id === 'cowork-billing-report' && document.getElementById('cbrHero') ? document.getElementById('cbrHero').innerHTML : '') +
+        (t.id === 'ghcp-impact' && document.getElementById('ghiHero') ? document.getElementById('ghiHero').innerHTML : '') +
+        (t.id === 'ghcp-panel' && document.getElementById('ghpHero') ? document.getElementById('ghpHero').innerHTML : '') +
+        (t.id === 'what-i-did' && document.getElementById('widHero') ? document.getElementById('widHero').innerHTML : '') +
+        (t.id === 'cowork-impact' && document.getElementById('cwiHero') ? document.getElementById('cwiHero').innerHTML : '') +
+        (t.id === 'adoption-sentiment' && document.getElementById('adsHero') ? document.getElementById('adsHero').innerHTML : '') +
+        (t.id === 'personal-copilot-dashboard' && document.getElementById('pcdHero') ? document.getElementById('pcdHero').innerHTML : '') +
+        (t.id === 'customize' && document.getElementById('czHero') ? document.getElementById('czHero').innerHTML : '') +
+        (t.id === 'finops-focus-app' && document.getElementById('ffaHero') ? document.getElementById('ffaHero').innerHTML : '') +
+        (t.id === 'cowork-roi-model-app' && document.getElementById('crmHero') ? document.getElementById('crmHero').innerHTML : '') +
         (t.id === 'roi-calc' && document.getElementById('roiHero') ? document.getElementById('roiHero').innerHTML : '') +
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
