@@ -6274,6 +6274,154 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </details>
 </template>
 
+<template id="ccaHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>Cowork Chargeback (Web App)</h2>
+    <div class="cc-tag">Browser-only chargeback app for Cowork credits, invoice reconciliation and journal exports</div>
+    <div class="cc-oneliner">Credit consumption + Entra attributes &middot; UPN join &middot; invoice total reconciliation &middot; CSV journals</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>RUNS IN YOUR BROWSER</span><span>NO UPLOADS</span></div>
+    <div class="cbr-player" data-frames="4" data-base="cca-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cca-frames/frame_00.jpg" alt="Cowork Chargeback (Web App) page 1 of 4"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 4</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="ccaStep4">
+  <p class="gx-reads">This web app reads <strong>two CSV exports</strong> in your browser: a Microsoft Entra user export and a Copilot credit consumption export. Nothing is uploaded. Drop the files in, reconcile to your invoice total, then export the journal or line items.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Demo (no tenant)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; browser only &middot; two admin exports</span>
+      <p>Export the two CSVs, open the app, then drop both files into the upload area.</p>
+      <div class="cc-steps">
+
+        <h5><span class="cc-num">1</span> Export Microsoft Entra users</h5>
+        <p>Microsoft Entra admin center (entra.microsoft.com) → Identity → Users → All users → Download users (CSV; supplies department, job title, cost centre, business unit; you can load more than one).</p>
+        <h5><span class="cc-num">2</span> Export Copilot credit consumption</h5>
+        <p>Microsoft 365 admin center (admin.microsoft.com) → Copilot → Cost management → Consumption tab → Export CSV (one row per user with credits consumed).</p>
+        <details class="cc-idbox">
+          <summary><strong>How the app matches rows</strong> <span class="cc-small"><em>column names are auto-detected</em></span></summary>
+          <div class="cc-idbody">
+            <p>The join key is user principal name. The Entra file supplies department, job title, cost centre and business unit. The credit export supplies one row per user with credits consumed.</p>
+            <p>You can load more than one Entra CSV if your tenant exports users in batches. Files are parsed locally in the page.</p>
+          </div>
+        </details>
+        <h5><span class="cc-num">3</span> Open the app and load both files</h5>
+        <p>Open <a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html" target="_blank" rel="noopener noreferrer">Cowork Chargeback</a>, then drop the Entra export and the Copilot credit export into the app. It joins the files on user principal name and produces the chargeback.</p>
+        <h5><span class="cc-num">4</span> Reconcile the journal</h5>
+        <p>Enter your Microsoft invoice total so the app can reconcile billed cost against the file-level chargeback calculation.</p>
+        <h5><span class="cc-num">5</span> Export outputs</h5>
+        <p>Export the journal or the line items as CSV for finance review or downstream allocation.</p>
+      </div>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~1 minute &middot; browser only &middot; no tenant</span>
+      <p>Run the entire chargeback on synthetic data before you use tenant exports.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the app</h5>
+        <p>Open <a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html" target="_blank" rel="noopener noreferrer">the app</a> and click <strong>View Demo</strong>.</p>
+        <h5><span class="cc-num">2</span> Explore the synthetic run</h5>
+        <p>The demo uses synthetic users and credits. Nothing is uploaded.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+<template id="cphHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>Cowork Policy Helper (Web App)</h2>
+    <div class="cc-tag">One click Auto-adjust to fit right-sizes every employee to the correct spend policy from thresholds you set</div>
+    <div class="cc-oneliner">Set a low and high utilization mark, auto-move everyone at once, then export assignments by policy, by department cut, or as a group-import CSV</div>
+    <div class="cc-badges"><span>AUTO-ADJUST TO FIT</span><span>GROUP + DEPARTMENT EXPORTS</span><span>RUNS IN YOUR BROWSER</span></div>
+    <div class="cbr-player" data-frames="4" data-base="cph-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cph-frames/frame_00.jpg" alt="Cowork Policy Helper page 1 of 4"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 4</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="cphStep4">
+  <p class="gx-reads">This web app reads <strong>two CSV exports</strong> in your browser: a Microsoft Entra user export and a Copilot credit consumption export. Nothing is uploaded. It joins the files on user principal name, assigns usage cohorts and lets you tune spend-tier policies before exporting assignments.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Demo (no tenant)</button>
+    </div>
+
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~10 minutes &middot; browser only &middot; two admin exports</span>
+      <p>Export the two CSVs, open the app, then drop both files into the upload area.</p>
+      <div class="cc-steps">
+
+        <h5><span class="cc-num">1</span> Export Microsoft Entra users</h5>
+        <p>Microsoft Entra admin center (entra.microsoft.com) → Identity → Users → All users → Download users (CSV; supplies department, job title, cost centre, business unit; you can load more than one).</p>
+        <h5><span class="cc-num">2</span> Export Copilot credit consumption</h5>
+        <p>Microsoft 365 admin center (admin.microsoft.com) → Copilot → Cost management → Consumption tab → Export CSV (one row per user with credits consumed).</p>
+        <details class="cc-idbox">
+          <summary><strong>How recommendations are built</strong> <span class="cc-small"><em>files stay local</em></span></summary>
+          <div class="cc-idbody">
+            <p>The two files are joined on user principal name. Each user is placed in a usage cohort by percentile of credits used, then given a recommended spend-tier policy.</p>
+            <p>The Entra file supplies department, job title, cost centre and business unit so you can review policies by organization context.</p>
+          </div>
+        </details>
+        <h5><span class="cc-num">3</span> Open the app and load both files</h5>
+        <p>Open <a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html" target="_blank" rel="noopener noreferrer">Cowork Policy Helper</a>, then drop in the Entra export and the Copilot credit export.</p>
+        <h5><span class="cc-num">4</span> Tune the policy tiers</h5>
+        <p>Adjust each policy's monthly credit allowance live and review how the recommendations change.</p>
+        <h5><span class="cc-num">5</span> Override and export</h5>
+        <p>Override individual users where needed, then export the assignments as CSV.</p>
+      </div>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~1 minute &middot; browser only &middot; no tenant</span>
+      <p>Explore the policy workflow on synthetic data before you use tenant exports.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the app</h5>
+        <p>Open <a href="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html" target="_blank" rel="noopener noreferrer">the app</a> and click <strong>View Demo</strong>.</p>
+        <h5><span class="cc-num">2</span> Explore the synthetic run</h5>
+        <p>Files are parsed locally and demo assignments are held in memory only.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
+
+
 <template id="ghiHero">
   <div class="cc-hero cbr-hero-card">
     <h2>GitHub Copilot Impact</h2>
@@ -7831,7 +7979,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      building" step is dropped (the hero already shows it). */
   var HERO_GIF_IDS = {
     'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
-    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1
+    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1, 'cowork-chargeback-app': 1, 'cowork-policy-helper-app': 1
   };
   function mediaItems(t) {
     var vids = videosOf(t), items = [];
@@ -9758,6 +9906,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _cbrStep4 = document.getElementById('cbrStep4');
       if (_cbrStep4) return _cbrStep4.innerHTML;
     }
+    if (t.id === 'cowork-chargeback-app') {
+      var _ccaStep4 = document.getElementById('ccaStep4');
+      if (_ccaStep4) return _ccaStep4.innerHTML;
+    }
+    if (t.id === 'cowork-policy-helper-app') {
+      var _cphStep4 = document.getElementById('cphStep4');
+      if (_cphStep4) return _cphStep4.innerHTML;
+    }
     if (t.id === 'ghcp-impact') {
       var _ghiStep4 = document.getElementById('ghiStep4');
       if (_ghiStep4) return _ghiStep4.innerHTML;
@@ -10000,6 +10156,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
         (t.id === 'cowork-billing-report' && document.getElementById('cbrHero') ? document.getElementById('cbrHero').innerHTML : '') +
+        (t.id === 'cowork-chargeback-app' && document.getElementById('ccaHero') ? document.getElementById('ccaHero').innerHTML : '') +
+        (t.id === 'cowork-policy-helper-app' && document.getElementById('cphHero') ? document.getElementById('cphHero').innerHTML : '') +
         (t.id === 'ghcp-impact' && document.getElementById('ghiHero') ? document.getElementById('ghiHero').innerHTML : '') +
         (t.id === 'ghcp-panel' && document.getElementById('ghpHero') ? document.getElementById('ghpHero').innerHTML : '') +
         (t.id === 'what-i-did' && document.getElementById('widHero') ? document.getElementById('widHero').innerHTML : '') +
