@@ -793,6 +793,18 @@
         var mgr = $('tabManager'); if (mgr) mgr.hidden = false;
     }
 
+    function showSubTab(name) {
+        Array.prototype.forEach.call(document.querySelectorAll('.tab-btn[data-subtab]'), function (btn) {
+            var on = btn.getAttribute('data-subtab') === name;
+            btn.classList.toggle('active', on);
+            btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        Array.prototype.forEach.call(document.querySelectorAll('.subtab-content[data-subtab-panel]'), function (p) {
+            p.hidden = p.getAttribute('data-subtab-panel') !== name;
+        });
+        state.activeSubTab = name;
+    }
+
     function renderPolicyEditor() {
         var html = POLICIES.map(function (p) {
             var disabled = p.id === 'unassigned' ? ' disabled' : '';
@@ -1954,6 +1966,9 @@ function exportAdjustedOverages() {
         $('cohortFilter').addEventListener('change', function () { state.cohortFilter = this.value; renderRoster(); });
         $('viewIndividual').addEventListener('click', function () { switchView('individual'); });
         var vg = $('viewGrouped'); if (vg) vg.addEventListener('click', function () { switchView('grouped'); });
+        Array.prototype.forEach.call(document.querySelectorAll('.tab-btn[data-subtab]'), function (btn) {
+            btn.addEventListener('click', function () { showSubTab(btn.getAttribute('data-subtab')); });
+        });
         var gds = $('groupDimSelect');
         if (gds) gds.addEventListener('change', function () {
             state.groupDim = this.value; syncGroupDimLabel(); renderRoster();
@@ -2088,6 +2103,7 @@ function exportAdjustedOverages() {
         switchTab('manager');
         buildControls();
         switchView('individual');
+        showSubTab('roster');
         refreshAll();
         window.scrollTo(0, 0);
     }

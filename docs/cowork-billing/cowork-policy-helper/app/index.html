@@ -409,6 +409,14 @@
             <div id="tabManager" class="tab-panel">
             <div id="dataQuality"></div>
 
+            <div class="tab-nav" role="tablist" aria-label="Report sections">
+                <button type="button" class="tab-btn active" data-subtab="roster" role="tab" aria-selected="true">Roster</button>
+                <button type="button" class="tab-btn" data-subtab="policy" role="tab" aria-selected="false">Policy Summary &amp; Allowances</button>
+                <button type="button" class="tab-btn" data-subtab="forecast" role="tab" aria-selected="false">Forecast</button>
+            </div>
+
+            <div class="subtab-content" data-subtab-panel="roster">
+
             <p class="panel-note panel-lead">Start here. Every user, the credits they actually used, the tier they are on now, and the tier that fits their real consumption. Use <strong>Auto-adjust to fit</strong> to right-size everyone at once, then review the impact and export.</p>
 
             <div class="panel">
@@ -507,6 +515,9 @@
                 <p class="row-note" id="rosterNote"></p>
             </div>
 
+            </div><!-- /roster subtab -->
+
+            <div class="subtab-content" data-subtab-panel="forecast" hidden>
 
             <div class="panel">
                 <div class="forecast-head">
@@ -519,6 +530,10 @@
                 <p class="panel-note">Projects next month&rsquo;s credit consumption and the budget provisioned across all tiers. Set an expected month-over-month growth, then use <strong>Auto-adjust to fit</strong> below to right-size every user to their consumption. These are planning estimates, not contracted agreements.</p>
                 <div id="forecastCards"></div>
             </div>
+
+            </div><!-- /forecast subtab -->
+
+            <div class="subtab-content" data-subtab-panel="policy" hidden>
 
             <div class="panel">
                 <h3>Policy summary</h3>
@@ -538,6 +553,8 @@
                 </div>
                 <div id="policyEditor" class="policy-editor-grid"></div>
             </div>
+
+            </div><!-- /policy subtab -->
 
             </div>
         </div>
