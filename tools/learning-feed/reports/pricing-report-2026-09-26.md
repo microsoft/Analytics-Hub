@@ -1,0 +1,184 @@
+# Copilot Pricing & Licensing Watch - 2026-09-26
+
+Run: 2026-09-26T11:17:41.494Z
+
+**86 change(s) detected.** 45 pages verified, 28 updated within window (since 2026-07-01).
+
+
+## CRITICAL
+
+- **User Subscription License Usage Based Billing** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/user-subscription-license-usage-based-billing))
+  - NEW PAGE discovered in the documentation tree — triage into the curated watch list.
+- **User Subscription License Usage Based Billing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/user-subscription-license-usage-based-billing))
+  - NEW PAGE discovered in the documentation tree — triage into the curated watch list.
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Advanced package uploads"
+- **Microsoft 365 Copilot Minimum Requirements Rollout** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-minimum-requirements-rollout))
+  - Body changed (+2 chars) ** DATE UNCHANGED **
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - Body changed (+181 chars) ** DATE UNCHANGED **
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "Understand the difference between capacity packs, pay-as-you-go billing policies, and Copilot credit policies"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "Prepaid Capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "What if I already have pay-as-you-go billing set up with a Prepaid Capacity pack?"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "Understand the difference between prepaid capacity packs, pay-as-you-go billing policies, and Copilot credit policies"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "Prepaid capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "What if I already have pay-as-you-go billing set up with a capacity pack?"
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - SECTION ADDED: "What's the difference between capacity packs and pay-as-you-go?"
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - SECTION REMOVED: "What's the difference between prepaid capacity and pay-as-you-go?"
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-cost))
+  - Body changed (+80 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Add spending policies"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Policy scope"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Review and add policy"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Edit spending policy"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Buy Pre-purchase Credits (Pre-purchase plan: P3)"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Use existing Prepaid Capacity packs"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Add or edit spending policies"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Scope users and groups"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Review and create"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Buy prepaid credits (Pre-purchase plan: P3)"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Use existing prepaid capacity packs"
+- **Microsoft 365 Copilot Minimum Requirements Rollout** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements-rollout))
+  - Body changed (+2 chars) ** DATE UNCHANGED **
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - Body changed (+181 chars) ** DATE UNCHANGED **
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "Understand the difference between capacity packs, pay-as-you-go billing policies, and Copilot credit policies"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "Prepaid Capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "What if I already have pay-as-you-go billing set up with a Prepaid Capacity pack?"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "Understand the difference between prepaid capacity packs, pay-as-you-go billing policies, and Copilot credit policies"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "Prepaid capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "What if I already have pay-as-you-go billing set up with a capacity pack?"
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - SECTION ADDED: "What's the difference between capacity packs and pay-as-you-go?"
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - SECTION REMOVED: "What's the difference between prepaid capacity and pay-as-you-go?"
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-cost))
+  - Body changed (+80 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Add spending policies"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Policy scope"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Review and add policy"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Edit spending policy"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Buy Pre-purchase Credits (Pre-purchase plan: P3)"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION ADDED: "Use existing Prepaid Capacity packs"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Add or edit spending policies"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Scope users and groups"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Review and create"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Buy prepaid credits (Pre-purchase plan: P3)"
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - SECTION REMOVED: "Use existing prepaid capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - Body changed (+181 chars) ** DATE UNCHANGED **
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "Understand the difference between capacity packs, pay-as-you-go billing policies, and Copilot credit policies"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "Prepaid Capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION ADDED: "What if I already have pay-as-you-go billing set up with a Prepaid Capacity pack?"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "Understand the difference between prepaid capacity packs, pay-as-you-go billing policies, and Copilot credit policies"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "Prepaid capacity packs"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - SECTION REMOVED: "What if I already have pay-as-you-go billing set up with a capacity pack?"
+
+## MAJOR
+
+- **Usage-Based Billing and Cost Management for Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits))
+  - ms.date changed: 2026-09-10T00:00:00Z -> 2026-09-25T00:00:00Z
+- **Usage-Based Billing and Cost Management for Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits))
+  - git commit changed: 1b839504 -> 5d88c903
+- **Usage-Based Billing and Cost Management for Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits))
+  - Body changed (+238 chars)
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - ms.date changed: 2026-08-11T00:00:00Z -> 2026-09-18T00:00:00Z
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - git commit changed: cb7207a6 -> 6b77f770
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - Body changed (+1381 chars)
+- **Microsoft 365 Copilot Minimum Requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-minimum-requirements))
+  - git commit changed: 702a7eb8 -> 20030484
+- **Microsoft 365 Copilot Minimum Requirements Data Compliance** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-minimum-requirements-data-compliance))
+  - git commit changed: 65ac7b01 -> 20030484
+- **Microsoft 365 Copilot Minimum Requirements Rollout** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-minimum-requirements-rollout))
+  - git commit changed: 65ac7b01 -> 20030484
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - ms.date changed: 2026-08-21T00:00:00Z -> 2026-09-25T00:00:00Z
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - Body changed (+146 chars)
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-cost))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - ms.date changed: 2026-09-10T00:00:00Z -> 2026-09-25T00:00:00Z
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - git commit changed: 1b839504 -> 5d88c903
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - Body changed (+938 chars)
+- **Usage Based Billing Overview Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-overview-copilot-credits))
+  - ms.date changed: 2026-09-10T00:00:00Z -> 2026-09-25T00:00:00Z
+- **Usage Based Billing Overview Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-overview-copilot-credits))
+  - git commit changed: 1b839504 -> 5d88c903
+- **Usage Based Billing Overview Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-overview-copilot-credits))
+  - Body changed (+238 chars)
+- **Microsoft 365 Copilot Minimum Requirements** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements))
+  - git commit changed: 702a7eb8 -> 20030484
+- **Microsoft 365 Copilot Minimum Requirements Data Compliance** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements-data-compliance))
+  - git commit changed: 65ac7b01 -> 20030484
+- **Microsoft 365 Copilot Minimum Requirements Rollout** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements-rollout))
+  - git commit changed: 65ac7b01 -> 20030484
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - ms.date changed: 2026-08-21T00:00:00Z -> 2026-09-25T00:00:00Z
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - Body changed (+146 chars)
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-cost))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - ms.date changed: 2026-09-10T00:00:00Z -> 2026-09-25T00:00:00Z
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - git commit changed: 1b839504 -> 5d88c903
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - Body changed (+938 chars)
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - git commit changed: 7b7b2fb0 -> 5d88c903
