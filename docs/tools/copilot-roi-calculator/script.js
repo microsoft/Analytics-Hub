@@ -2652,7 +2652,7 @@ function renderResults() {
                 <div class="metric-card">
                     <div class="metric-label"><span class="metric-label-row">Annual Recapture Opportunity ${tip('Yearly cost of unassigned licenses. By assigning these seats to new users or right-sizing at renewal, this budget can be redirected to drive more value.')}</span></div>
                     <div class="metric-value" style="color: ${metrics.wastedLicenseCost > 0 ? 'var(--copilot-orange)' : 'var(--green)'};">$${(metrics.wastedLicenseCost * 12).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
-                    <div class="metric-sublabel">${metrics.unassignedLicenses.toLocaleString(undefined, {maximumFractionDigits: 0})} seats × $${config.licenseCost} × 12</div>
+                    <div class="metric-sublabel">${config.totalPurchasedLicenses > 0 ? `${metrics.unassignedLicenses.toLocaleString(undefined, {maximumFractionDigits: 0})} seats × $${config.licenseCost} × 12` : 'Enter Total Purchased Licenses in Step 2 to populate'}</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-label"><span class="metric-label-row">Net Value (after all costs) ${tip('Annual productivity value minus total annual license cost. Positive means you\'re already ahead; if negative, growing adoption or assigning unused seats will close the gap.')}</span></div>

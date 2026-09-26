@@ -101,7 +101,7 @@
                                     <li>Go to <a href="https://analysis.insights.cloud.microsoft" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 600;">analysis.insights.cloud.microsoft</a> and open the <strong>Analysis results</strong> page</li>
                                     <li>Click <strong>Create analysis</strong>, select <strong>Person query</strong>, then <strong>Set up analysis</strong></li>
                                     <li>Configure the query &mdash; <strong>Time period:</strong> Last 6 months (rolling) &middot; <strong>Group by:</strong> Week &middot; <strong>Filter:</strong> Is Active = True</li>
-                                    <li>Add <strong>Attributes:</strong> Organization, FunctionType, TimeZone (these become your grouping options)</li>
+                                    <li>Add <strong>Attributes:</strong> Organization, FunctionType, Region (these become your grouping options)</li>
                                     <li>Under metrics, select <strong>Microsoft 365 Copilot &mdash; all metrics</strong> (Collaboration network, working-hours and focus metrics are optional)</li>
                                     <li>Run the query, then download the result as <strong>CSV</strong> from <strong>Analysis results</strong></li>
                                 </ol>
@@ -139,7 +139,7 @@
                             </div>
 
                             <div class="config-item">
-                                <label for="licenseCost">License Cost per User/Month (USD)</label>
+                                <label for="licensesCost">License Cost per User/Month (USD)</label>
                                 <input type="number" id="licensesCost" value="30" min="0" step="0.01">
                             </div>
 
