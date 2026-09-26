@@ -2846,12 +2846,14 @@ html.mk-embed main.mk-page{ display:none !important; }
         "roi",
         "impact"
       ],
-      "source": "Power BI export (Super Usage Heatmap CSV)",
+      "source": "Viva Insights person-query CSV export",
       "sourceKey": "Viva Insights",
       "repo": "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
       "preview": "../tools/copilot-roi-calculator/preview/roi-preview.gif",
       "demoUrl": "../tools/copilot-roi-calculator/demo.html",
+      "demoVideo": "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/media/CopilotROICalculator-Demo.mp4",
+      "demoVideoLabel": "Watch the overview",
       "deck": {
         "title": "Executive deck (9 slides)",
         "download": "../tools/copilot-roi-calculator/preview/Copilot-ROI-Executive-Deck.pptx",
@@ -2867,11 +2869,11 @@ html.mk-embed main.mk-page{ display:none !important; }
           "../tools/copilot-roi-calculator/preview/deck/slide-9.png"
         ]
       },
-      "blurb": "Browser-only ROI modeler that pairs with the Super Usage Adoption Power BI report. Export the heatmap visual from Power BI as a CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story. The Power BI report does the data work; the calculator does the modeling. No install required for the calc itself.",
+      "blurb": "Browser-only ROI modeler for Microsoft 365 Copilot. Export a Viva Insights person query as CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story with a one-click executive deck. Everything is modeled in your browser; the file is never uploaded. No install required.",
       "meta": {
         "audience": "BVAs, finance partners, exec sponsors",
-        "license": "Calc is browser-only; upstream needs Super Usage in Power BI + Viva Insights",
-        "time": "~10 min once heatmap CSV is exported from Power BI"
+        "license": "Calc is browser-only; upstream needs a Viva Insights person query (Viva Insights Analyst role)",
+        "time": "~15 min once the Viva person-query CSV is exported"
       },
       "requirements": {
         "roles": [
@@ -2888,7 +2890,7 @@ html.mk-embed main.mk-page{ display:none !important; }
             "label": "Modern browser (Edge / Chrome / Firefox)"
           },
           {
-            "label": "Super Usage heatmap CSV export"
+            "label": "Viva Insights person-query CSV export"
           }
         ]
       },
@@ -6268,6 +6270,87 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </details>
 </template>
 
+<template id="roiHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>&#129518; M365 Copilot Productivity ROI Calculator</h2>
+    <div class="cc-tag">Browser-only ROI modeler that turns one Viva Insights person-query export into a defensible Copilot value story</div>
+    <div class="cc-oneliner">Executive summary &middot; per-org value &middot; usage-tier ROI &middot; break-even &middot; expansion &middot; unlicensed opportunity</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>RUNS IN YOUR BROWSER</span><span>NO INSTALL</span></div>
+    <div class="cbr-player" data-frames="7" data-base="roi-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="roi-frames/frame_00.jpg" alt="M365 Copilot ROI Calculator page 1 of 7"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 7</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="cbr-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="roiStep4">
+  <p class="gx-reads">The calculator reads <strong>one CSV</strong>: a <strong>Viva Insights person-query</strong> export, one row per person per week. Everything is parsed <strong>in your browser</strong> &mdash; the file is never uploaded anywhere. Bring your own export, or open the built-in demo first.</p>
+
+  <div class="ccyd">
+    <div class="cc-tablist" role="tablist" aria-label="Setup path">
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Demo (no tenant)</button>
+    </div>
+
+    <!-- TAB 1: YOUR OWN DATA -->
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; ~15 minutes &middot; browser only &middot; one Viva Insights export</span>
+      <p>Run one Viva person query, open the calculator, drop the CSV in.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Run the Viva Insights person query</h5>
+        <p>Open the <a href="https://analysis.insights.cloud.microsoft/" target="_blank" rel="noopener noreferrer">Viva Insights Analyst Workbench</a> (sign-in required), then <strong>Analysis results</strong> &rarr; <strong>Create analysis</strong> &rarr; the <strong>Person query</strong> card &rarr; <strong>Set up analysis</strong>. Set <strong>Time period</strong> to Last 6 months (rolling), <strong>Group by</strong> to <strong>Week</strong>, and the filter to <code>Is Active = True</code>. Under metrics choose <strong>Microsoft 365 Copilot &mdash; all metrics</strong>, add the attributes <code>Organization</code>, <code>FunctionType</code> and <code>TimeZone</code>, then run it and download the result as CSV from <strong>Analysis results</strong>.</p>
+        <details class="cc-idbox">
+          <summary><strong>What the file must contain</strong> <span class="cc-small"><em>(the calculator validates the header row on upload)</em></span></summary>
+          <div class="cc-idbody">
+            <p>At minimum the export needs <code>PersonId</code>, <code>MetricDate</code> and <code>Total Copilot actions taken</code>. Grouping by <strong>Week</strong> is required &mdash; the usage-tier cohorts need at least <strong>12 consecutive weekly rows</strong> per person (the 9-of-12-weeks habit rule). British-English and Spanish column names are auto-translated, so a localized export works as-is.</p>
+            <blockquote>The retired <strong>Super Usage heatmap</strong> export is <strong>rejected on upload</strong> &mdash; its wide <code>YYYY-MM-DD&nbsp;Metric</code> columns are detected and the app tells you to re-export as a Person query. The person query is the only accepted format.</blockquote>
+            <p class="cc-small">Want to see the exact shape first? <a href="https://github.com/microsoft/Analytics-Hub/blob/main/docs/tools/copilot-roi-calculator/sample-data.csv" target="_blank" rel="noopener noreferrer">sample-data.csv</a> is a real person-query example.</p>
+          </div>
+        </details>
+        <h5><span class="cc-num">2</span> Open the calculator</h5>
+        <p>Open the <a href="https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/" target="_blank" rel="noopener noreferrer">ROI Calculator</a> &mdash; it runs entirely in your browser, nothing to install. Prefer an air-gapped copy? <a href="https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/run-locally.html" target="_blank" rel="noopener noreferrer">Download &amp; run locally</a> (a ~2&nbsp;MB ZIP with a one-click launcher, zero external calls).</p>
+        <h5><span class="cc-num">3</span> Set your assumptions</h5>
+        <p>Pick an industry (or a custom blended hourly rate), the licence cost per user per month, the minutes saved per Copilot action, and the analysis period. Every figure recalculates live as you sweep these.</p>
+        <h5><span class="cc-num">4</span> Drop in the CSV</h5>
+        <p>Drag the export onto the upload area. Parsing happens locally in the page &mdash; the file never leaves your machine &mdash; and the Executive Summary, per-org value, usage-tier ROI, break-even, expansion and unlicensed-opportunity views populate immediately.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">One click to a sponsor-ready deliverable</span>
+        With your data loaded, the calculator exports a branded <strong>Executive Deck (9 slides)</strong>, a Word write-up or a PDF &mdash; the same deck previewed in step 1, populated with your numbers.</div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/Analytics-Hub/tree/main/docs/tools/copilot-roi-calculator" target="_blank" rel="noopener noreferrer">Tool source, sample data and privacy notes on GitHub &rarr;</a></p>
+    </section>
+
+    <!-- TAB 2: DEMO -->
+    <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~1 minute &middot; browser only &middot; no export, no tenant</span>
+      <p>See the whole value story on a synthetic dataset before you touch tenant data.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the live demo</h5>
+        <p>Open the <a href="https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/demo.html" target="_blank" rel="noopener noreferrer">demo report</a> (or click <strong>View Demo</strong> inside the calculator). It loads a built-in Viva person-query dataset &mdash; <strong>300 people, 7 organizations, 14 weeks</strong> &mdash; with sensible defaults (350 licences, $30/user/mo, 6 min/action, $78/hr). No file to pick, no sign-in.</p>
+        <h5><span class="cc-num">2</span> Explore every section</h5>
+        <p>Executive Summary, Organizations, Usage Tier Value Distribution, ROI &amp; Forecast, Expansion Projections, Unlicensed User Opportunity Cost and the Adjusted Copilot-Assisted-Hours model all render on the sample data, exactly as they will on yours.</p>
+        <h5><span class="cc-num">3</span> Switch to real data when ready</h5>
+        <p>Every export from demo mode is watermarked <strong>DEMO DATA</strong>, so swap in your own person-query CSV (tab 1) before sharing anything with a sponsor.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
 
 <script>
 (function () {
@@ -7025,7 +7108,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      building" step is dropped (the hero already shows it). */
   var HERO_GIF_IDS = {
     'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
-    'ai-in-one': 1, 'cowork-billing-report': 1
+    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1
   };
   function mediaItems(t) {
     var vids = videosOf(t), items = [];
@@ -8952,6 +9035,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       var _cbrStep4 = document.getElementById('cbrStep4');
       if (_cbrStep4) return _cbrStep4.innerHTML;
     }
+    if (t.id === 'roi-calc') {
+      var _roiStep4 = document.getElementById('roiStep4');
+      if (_roiStep4) return _roiStep4.innerHTML;
+    }
     if (t.id === 'ess-insights') {
       var _essStep4 = document.getElementById('essStep4');
       if (_essStep4) return _essStep4.innerHTML;
@@ -9154,6 +9241,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'agent-evaluator' && document.getElementById('aeHero') ? document.getElementById('aeHero').innerHTML : '') +
         (t.id === 'ai-in-one' && document.getElementById('aioHero') ? document.getElementById('aioHero').innerHTML : '') +
         (t.id === 'cowork-billing-report' && document.getElementById('cbrHero') ? document.getElementById('cbrHero').innerHTML : '') +
+        (t.id === 'roi-calc' && document.getElementById('roiHero') ? document.getElementById('roiHero').innerHTML : '') +
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         (t.id === 'cowork-team-report' && document.getElementById('cwtHero') ? document.getElementById('cwtHero').innerHTML : '') +
