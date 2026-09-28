@@ -4499,12 +4499,38 @@ table.cc-nb th{background:var(--mk-surface-2);font-weight:600;color:var(--mk-tex
 </style>
 
 <template id="ccHero">
-  <div class="cc-hero">
-    <h2>&#128179; Consumption Central</h2>
+  <div class="cc-hero cbr-hero-card">
+    <h2>Consumption Central</h2>
     <div class="cc-tag">for Microsoft Copilot &mdash; one Power BI template for Copilot credit consumption and cost</div>
     <div class="cc-oneliner">What you're consuming &middot; what it costs &middot; where to trim &middot; what next year looks like</div>
     <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
-    <img class="cc-gif" src="https://raw.githubusercontent.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/main/Images/ConsumptionCentral-Preview.gif" alt="Consumption Central preview" loading="lazy" onerror="this.style.display='none'">
+    <div class="cbr-player" data-frames="14" data-base="cc-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cc-frames/frame_00.jpg" alt="Consumption Central page 1 of 14"></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter">1 / 14</span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
+        <button class="cbr-dot" type="button" data-idx="6" aria-label="Page 7"></button>
+        <button class="cbr-dot" type="button" data-idx="7" aria-label="Page 8"></button>
+        <button class="cbr-dot" type="button" data-idx="8" aria-label="Page 9"></button>
+        <button class="cbr-dot" type="button" data-idx="9" aria-label="Page 10"></button>
+        <button class="cbr-dot" type="button" data-idx="10" aria-label="Page 11"></button>
+        <button class="cbr-dot" type="button" data-idx="11" aria-label="Page 12"></button>
+        <button class="cbr-dot" type="button" data-idx="12" aria-label="Page 13"></button>
+        <button class="cbr-dot" type="button" data-idx="13" aria-label="Page 14"></button>
+      </div>
+      <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
+    </div>
+    <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
   </div>
 </template>
 
@@ -7981,7 +8007,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      building" step is dropped (the hero already shows it). */
   var HERO_GIF_IDS = {
     'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
-    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1, 'cowork-chargeback-app': 1, 'cowork-policy-helper-app': 1
+    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1, 'cowork-chargeback-app': 1, 'cowork-policy-helper-app': 1, 'consumption-central': 1
   };
   function mediaItems(t) {
     var vids = videosOf(t), items = [];
