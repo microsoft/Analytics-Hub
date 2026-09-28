@@ -1,6 +1,6 @@
 # GitHub Copilot Billing & Premium-Request Watch - 2026-09-28
 
-Run: 2026-09-28T03:19:34.886Z
+Run: 2026-09-28T11:16:03.823Z
 
 **107 change(s) detected.** 30 pages verified, 0 updated within window (since 2026-07-01).
 
