@@ -3,6 +3,30 @@ let uploadedData = null;
 let resultsDisplayed = false;
 let originalMinutesPerAction = null; // stores the user's default choice at first calculation
 let isDemoData = false; // tracks whether current data is demo or customer upload
+
+// Correct Office MIME types for generated OOXML packages.
+const OOXML_MIME = {
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+};
+
+// Trigger a browser download for a generated OOXML blob using the CORRECT Office content type.
+// PptxGenJS/JSZip default the download blob to application/zip. A ZIP-typed binary named .pptx/.docx,
+// delivered from a script-initiated blob: URL with zero SmartScreen reputation, is exactly what
+// Defender/Safe Browsing heuristics flag as a suspicious archive ("this file may be dangerous").
+// Re-wrapping with the real presentation/document MIME type clears that false positive.
+function downloadOfficeFile(rawBlob, fileName, mimeType) {
+    const typed = rawBlob.type === mimeType ? rawBlob : new Blob([rawBlob], { type: mimeType });
+    const url = URL.createObjectURL(typed);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
 // Tooltip helper — returns inline HTML for a hover ? icon with explanation
 // Tooltip copy is written as prose but always renders as bullets. Split on sentence
 // ends only when a capital follows, so "3.7x" and "$1." stay intact. An explicit "|"
@@ -3403,12 +3427,7 @@ async function exportToDocx() {
         });
 
         const blob = await Packer.toBlob(doc);
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Copilot_ROI_Analysis.docx';
-        a.click();
-        URL.revokeObjectURL(url);
+        downloadOfficeFile(blob, 'Copilot_ROI_Analysis.docx', OOXML_MIME.docx);
     } catch (err) {
         console.error('DOCX export failed:', err);
         alert('DOCX export failed: ' + err.message);
@@ -3685,7 +3704,8 @@ async function exportToPptx() {
             story.agentPrompt.join('\n')
         );
 
-        await pptx.writeFile({ fileName: 'Copilot_ROI_Analysis.pptx' });
+        const analysisBlob = await pptx.write({ outputType: 'blob' });
+        downloadOfficeFile(analysisBlob, 'Copilot_ROI_Analysis.pptx', OOXML_MIME.pptx);
         
         // Track download event in Microsoft Clarity
         if (window.clarity) {
@@ -4535,7 +4555,8 @@ async function exportExecutiveDeck() {
             '- Set quarterly review cadence for ROI tracking'
         );
 
-        await pptx.writeFile({ fileName: 'Copilot_ROI_Executive_Deck.pptx' });
+        const deckBlob = await pptx.write({ outputType: 'blob' });
+        downloadOfficeFile(deckBlob, 'Copilot_ROI_Executive_Deck.pptx', OOXML_MIME.pptx);
         
         // Track download event in Microsoft Clarity
         if (window.clarity) {
