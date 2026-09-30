@@ -292,7 +292,7 @@ function renderStep(s, i){
 
 function renderFoot(){
   var f='';
-  if(FEED.reportId) f += 'Part of <a href="../choose-report/#r='+esc(FEED.reportId)+'">the '+esc(FEED.title)+' report</a> on Analytics Hub. ';
+  if(FEED.reportId) f += 'Part of <a href="../choose-report/'+esc(encodeURIComponent(FEED.reportId))+'/">the '+esc(FEED.title)+' report</a> on Analytics Hub. ';
   f += 'Not supported through Microsoft support channels — open an issue on the report\u2019s GitHub repo. Guide version '+esc(FEED.version||'')+(FEED.updated?' · reviewed '+esc(FEED.updated):'')+'.';
   document.getElementById('foot').innerHTML = f;
 }

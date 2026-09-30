@@ -1028,6 +1028,28 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
 .gd-said[hidden]{ display:none; }
 [data-theme="dark"] .gd-said{ color:#4ad07f; }
 
+/* Report switcher - lets a shared enablement link jump straight to another
+   report's guide without going back to the picker. Hidden for multi-report
+   packs, where there is no single report to switch away from. */
+.gd-switch{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:16px 0 0;
+}
+.gd-switch[hidden]{ display:none; }
+.gd-switch-lbl{
+  font-size:12.5px; font-weight:600; color:var(--mk-soft);
+}
+.gd-switch-sel{
+  font:inherit; font-size:13.5px; font-weight:600; color:var(--mk-text);
+  padding:9px 34px 9px 13px; border-radius:8px;
+  border:1px solid var(--mk-border-strong); background:var(--mk-surface);
+  cursor:pointer; max-width:100%;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%236b6b76' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat; background-position:right 12px center;
+  -webkit-appearance:none; -moz-appearance:none; appearance:none;
+}
+.gd-switch-sel:hover{ border-color:var(--mk-accent); }
+.gd-switch-sel:focus-visible{ outline:2px solid var(--mk-accent); outline-offset:1px; }
+
 /* the generated guide - the 6-step spine from the customer-enablement view */
 .gx-tabs{
   display:flex; gap:4px; overflow-x:auto; margin:28px 0 0; padding:8px 0;
@@ -1925,6 +1947,11 @@ html.mk-embed main.mk-page{ display:none !important; }
       <div class="pk-head">
         <h2>Your setup guide</h2>
         <button type="button" class="gd-btn gd-btn--plain" id="mkGdStartOver">Back to reports</button>
+      </div>
+      <div class="gd-switch" id="mkGdSwitch" hidden>
+        <label class="gd-switch-lbl" for="mkGdSwitchSel">Viewing enablement for</label>
+        <select class="gd-switch-sel" id="mkGdSwitchSel"
+          aria-label="Switch to a different report's enablement guide"></select>
       </div>
       <div class="gd-share">
         <div>
@@ -8241,8 +8268,13 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       actions.push('<a class="mk-joinbtn" href="' + incubateMailto(t) +
         '">Email us to take part</a>');
     }
-    actions.push('<a class="mk-sharebtn" id="mkDlgShare" href="./#r=' +
-      encodeURIComponent(t.id) + '" target="_blank" rel="noopener">Enablement guide</a>');
+    /* v33: the flyout's guide link points at the report's static enablement
+       page (choose-report/<id>/), which carries the report-specific title and
+       Open Graph tags and then forwards to the live guide at ../#r=<id>. That
+       means a link copied from here previews correctly in Teams/Slack/Outlook
+       instead of showing the generic picker title. */
+    actions.push('<a class="mk-sharebtn" id="mkDlgShare" href="./' +
+      encodeURIComponent(t.id) + '/" target="_blank" rel="noopener">Enablement guide</a>');
     dlgFoot.innerHTML = actions.join('');
 
     dlgBody.scrollTop = 0;
@@ -8805,6 +8837,39 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   var gdPanelsEl = document.getElementById('mkGdPanels');
   var gdGenEl = document.getElementById('mkGdGen');
   var gdShownEl = document.getElementById('mkGdShown');
+  var gdSwitchEl = document.getElementById('mkGdSwitch');
+  var gdSwitchSel = document.getElementById('mkGdSwitchSel');
+
+  /* Head defaults, captured before any guide render so "Back to reports"
+     and the picker view can restore the generic page title and description.
+     A rendered guide overwrites both with report-specific text (see
+     gdSetHead), which is what makes a shared #r= link carry a unique title
+     like "Cowork Chargeback and Billing Report - Enablement guide" rather
+     than the same "Which report should I use?" for every report. */
+  var gdMetaDesc = document.querySelector('meta[name="description"]');
+  var GD_DEFAULT_TITLE = document.title;
+  var GD_DEFAULT_DESC = gdMetaDesc ? gdMetaDesc.getAttribute('content') : '';
+  function gdSetHead(picked) {
+    if (picked && picked.length === 1) {
+      var t = picked[0];
+      document.title = titleOf(t) + ' \u00b7 Enablement guide \u00b7 Analytics Hub';
+      if (gdMetaDesc) gdMetaDesc.setAttribute('content',
+        'Setup and enablement guide for ' + titleOf(t) + ': the permissions and roles you ' +
+        'need, where the data comes from, and the template to download.');
+    } else if (picked && picked.length > 1) {
+      document.title = 'Enablement guide for ' + picked.length +
+        ' reports \u00b7 Analytics Hub';
+      if (gdMetaDesc) gdMetaDesc.setAttribute('content',
+        'A combined setup and enablement guide for ' + picked.length +
+        ' Microsoft Copilot reporting templates.');
+    } else {
+      gdResetHead();
+    }
+  }
+  function gdResetHead() {
+    document.title = GD_DEFAULT_TITLE;
+    if (gdMetaDesc) gdMetaDesc.setAttribute('content', GD_DEFAULT_DESC);
+  }
 
   gdListEl.innerHTML = TOOLS.filter(function (t) {
     return !isIncubating(t.id);
@@ -8824,6 +8889,45 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   }).join('');
   var gdItems = Array.prototype.slice.call(gdListEl.querySelectorAll('.gd-item'));
 
+  /* The switcher lists the shipped catalog alphabetically. Incubating reports
+     are left out here for the same reason they are left out of the picker,
+     but a guide opened directly on an incubating report via #r= still adds
+     itself as an option at render time (see gdRenderGuide) so the dropdown
+     always shows the report you are actually looking at. */
+  gdSwitchSel.innerHTML = TOOLS.filter(function (t) { return !isIncubating(t.id); })
+    .slice()
+    .sort(function (a, b) { return titleOf(a).localeCompare(titleOf(b)); })
+    .map(function (t) {
+      return '<option value="' + esc(t.id) + '">' + esc(titleOf(t)) + '</option>';
+    }).join('');
+
+  /* Switching report replaces the whole selection with the chosen one, so the
+     guide, the shareable link and the address bar all move together. */
+  gdSwitchSel.addEventListener('change', function () {
+    var id = this.value;
+    if (!id || !toolById[id]) return;
+    gdSel = [id];
+    gdItems.forEach(function (el) {
+      var on = el.getAttribute('data-id') === id;
+      var box = el.querySelector('input');
+      if (box) box.checked = on;
+      el.classList.toggle('is-on', on);
+    });
+    gdOnlySel = false;
+    document.getElementById('mkGdOnlySel').setAttribute('aria-pressed', 'false');
+    gdSide();
+    gdFilter();
+    /* replaceState is not permitted on every file:// host, so fall back to a
+       plain hash assignment and never let the URL update break the page. */
+    try {
+      history.replaceState(null, '', location.pathname + location.search + '#r=' + id);
+    } catch (err) {
+      try { location.hash = 'r=' + id; } catch (e2) {}
+    }
+    gdRenderGuide();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
   /* Same haystack as the overview, so a search behaves identically here. */
   function gdFilter() {
     var q = gdQEl.value.trim().toLowerCase();
@@ -8840,9 +8944,17 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     gdShownEl.textContent = n + ' of ' + TOOLS.filter(function (t) { return !isIncubating(t.id); }).length + ' shown';
   }
 
+  /* The shareable link a single-report guide hands out is the report's static
+     enablement page (choose-report/<id>/), so it unfurls with a report-specific
+     title and card. A multi-report pack has no such page, so it keeps the #r=
+     deep link that reopens the same combined guide. The live SPA address bar
+     stays on #r= either way (see the switcher and boot) - the ../ nav links on
+     this page assume choose-report/ depth, and a deeper URL would break them. */
   function gdLink() {
     if (!gdSel.length) return '';
-    return location.href.replace(/#.*$/, '') + '#r=' + gdSel.join(',');
+    var dir = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+    if (gdSel.length === 1) return dir + encodeURIComponent(gdSel[0]) + '/';
+    return dir + '#r=' + gdSel.join(',');
   }
 
   function gdSide() {
@@ -10234,6 +10346,27 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 
     gdPickEl.hidden = true;
     gdResultEl.hidden = false;
+
+    /* Reflect the current selection in the switcher and give the page a
+       report-specific title. A single-report guide shows the dropdown; a
+       multi-report pack keeps its tabs and hides it. */
+    if (picked.length === 1) {
+      var only = picked[0], hasOpt = false;
+      Array.prototype.forEach.call(gdSwitchSel.options, function (o) {
+        if (o.value === only.id) hasOpt = true;
+      });
+      if (!hasOpt) {
+        var opt = document.createElement('option');
+        opt.value = only.id;
+        opt.textContent = titleOf(only);
+        gdSwitchSel.appendChild(opt);
+      }
+      gdSwitchSel.value = only.id;
+      gdSwitchEl.hidden = false;
+    } else {
+      gdSwitchEl.hidden = true;
+    }
+    gdSetHead(picked);
   }
 
   gdListEl.addEventListener('change', function (e) {
@@ -10303,6 +10436,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     gdPickEl.hidden = false;
     gdTabsEl.innerHTML = '';
     gdPanelsEl.innerHTML = '';
+    gdSwitchEl.hidden = true;
+    gdResetHead();
     /* replaceState is not permitted on every file:// host, so the URL tidy-up
        is best-effort and must never take the page down with it. */
     if (location.hash) {
