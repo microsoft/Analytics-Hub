@@ -1,0 +1,511 @@
+WEBVTT
+
+00:04.500 --> 00:07.419
+Every month you have to
+answer the same question.
+
+00:07.419 --> 00:10.576
+Are your Copilot users on
+the right credit allowance?
+
+00:10.576 --> 00:13.197
+Too little, and people
+get cut off mid-task.
+
+00:13.197 --> 00:16.533
+Too much, and you're paying
+for capacity nobody touches.
+
+00:17.433 --> 00:21.736
+The Cowork Policy Helper turns that
+guess into a decision you can defend,
+
+00:21.736 --> 00:23.268
+using your own usage data.
+
+00:24.768 --> 00:25.968
+It does five things.
+
+00:25.968 --> 00:30.220
+It recommends a credit tier for every
+user from what they actually consumed,
+
+00:30.220 --> 00:32.962
+and it prices the change
+before you commit to it.
+
+00:33.681 --> 00:36.660
+It rolls that up by
+department against a budget.
+
+00:36.660 --> 00:38.150
+It forecasts next month.
+
+00:38.150 --> 00:42.557
+And it exports the answer in the
+format the person asking for it needs.
+
+00:44.057 --> 00:45.423
+It's a single web page.
+
+00:45.423 --> 00:49.342
+Nothing to install, nothing to
+sign into, and nothing is uploaded.
+
+00:49.342 --> 00:53.023
+Your files are read in the browser
+and cleared when you reset.
+
+00:54.523 --> 00:56.041
+You need two CSV files.
+
+00:56.041 --> 00:58.416
+The first is an organisational file.
+
+00:58.416 --> 01:02.640
+It has the user principal name,
+plus attributes like department,
+
+01:02.640 --> 01:04.356
+job title and cost centre.
+
+01:04.356 --> 01:08.183
+Those attributes are what let
+you slice the results later.
+
+01:09.483 --> 01:11.976
+The second is your Copilot credit export,
+
+01:11.976 --> 01:15.078
+showing how many credits
+each person actually used.
+
+01:15.078 --> 01:18.301
+The two files are matched
+on the user principal name.
+
+01:19.601 --> 01:23.960
+Set your rate per credit, so the tool
+can talk in money rather than credits.
+
+01:23.960 --> 01:28.433
+The fallback limit is only used if your
+credit file doesn't already carry one.
+
+01:29.733 --> 01:31.887
+Open Manager runs it on your data.
+
+01:31.887 --> 01:35.816
+Everything from here is the demo:
+five hundred invented users.
+
+01:37.316 --> 01:38.896
+One thing before we start.
+
+01:38.896 --> 01:42.542
+Every number here is a planning
+estimate to help you decide.
+
+01:42.542 --> 01:43.742
+It is not a bill.
+
+01:44.975 --> 01:47.028
+The roster is the centre of the tool.
+
+01:47.028 --> 01:50.356
+One row per person: what they
+used, the tier they're on now,
+
+01:50.356 --> 01:53.352
+the tier that actually fits
+them, and what that costs.
+
+01:54.652 --> 01:57.156
+Fit is the column that
+drives every decision.
+
+01:57.156 --> 02:01.106
+Over-allowance means someone is
+consuming more than their tier permits,
+
+02:01.106 --> 02:02.441
+and risks being cut off.
+
+02:02.441 --> 02:06.002
+Over-provisioned means you're
+funding headroom they never touch.
+
+02:07.402 --> 02:11.099
+The filter marked Policies narrows
+the roster to one usage band,
+
+02:11.099 --> 02:12.890
+from Light through to Frontier.
+
+02:12.890 --> 02:14.565
+That's your adoption picture.
+
+02:14.565 --> 02:18.147
+A department sitting entirely
+in Light has a training problem,
+
+02:18.147 --> 02:19.360
+not a budget problem.
+
+02:20.860 --> 02:23.465
+The auto-fit range is
+where you set policy.
+
+02:23.465 --> 02:27.525
+These two marks define what a good
+fit means for your organisation.
+
+02:28.325 --> 02:32.580
+Move up at or above ninety per cent means
+anyone using ninety per cent of their
+
+02:32.580 --> 02:34.896
+tier gets pushed up,
+so they keep headroom.
+
+02:34.896 --> 02:39.098
+Move down below twenty-five per cent
+means anyone barely using their tier gets
+
+02:39.098 --> 02:40.298
+brought down.
+
+02:40.598 --> 02:43.846
+Tighten those marks and you
+save money but risk cut-offs.
+
+02:43.846 --> 02:45.612
+Loosen them and you buy safety.
+
+02:45.612 --> 02:47.663
+That trade-off is the real decision,
+
+02:47.663 --> 02:50.284
+and you can see the price
+of it straight away.
+
+02:51.784 --> 02:54.364
+Before you cost anything,
+set your pricing.
+
+02:54.364 --> 02:56.764
+There are three controls in the top bar.
+
+02:56.764 --> 03:00.064
+PayGo rate is what a credit
+costs you on pay-as-you-go.
+
+03:00.864 --> 03:05.211
+If you bought credits up front, put the
+quantity into Prepaid credits and what
+
+03:05.211 --> 03:06.716
+you paid into Prepaid rate.
+
+03:06.716 --> 03:10.116
+Here that's four million credits
+at three quarters of a cent.
+
+03:10.916 --> 03:15.348
+The tool then prices your prepaid credits
+first and everything above them at the
+
+03:15.348 --> 03:16.548
+PayGo rate.
+
+03:16.548 --> 03:18.819
+That's the number finance actually wants,
+
+03:18.819 --> 03:21.755
+rather than one blended rate
+across the whole estate.
+
+03:22.664 --> 03:26.102
+Auto-adjust to fit applies
+your rule to everyone at once.
+
+03:26.102 --> 03:27.368
+Nothing is committed.
+
+03:27.368 --> 03:30.565
+First you see where you
+stand today: capacity bought,
+
+03:30.565 --> 03:32.917
+capacity used, and what's sitting idle.
+
+03:33.717 --> 03:37.540
+Committed cost is now forty-six thousand
+nine hundred and twenty a month,
+
+03:37.540 --> 03:40.944
+and it breaks out underneath:
+thirty thousand of prepaid credits,
+
+03:40.944 --> 03:44.557
+and sixteen thousand nine hundred
+and twenty of pay-as-you-go on top.
+
+03:45.957 --> 03:48.038
+Then the same figures after the change.
+
+03:48.038 --> 03:52.252
+Re-tiering a hundred and sixty-three
+people takes committed cost to seventy-one
+
+03:52.252 --> 03:56.147
+thousand four hundred and forty, an
+increase of twenty-four thousand five
+
+03:56.147 --> 03:57.587
+hundred and twenty a month.
+
+03:58.387 --> 04:00.615
+Notice the prepaid half doesn't move.
+
+04:00.615 --> 04:03.024
+Your prepaid credits are already bought,
+
+04:03.024 --> 04:05.794
+so the entire increase
+lands in pay-as-you-go.
+
+04:05.794 --> 04:08.564
+That is the conversation
+to have with finance.
+
+04:09.964 --> 04:11.979
+That's the decision in one line.
+
+04:11.979 --> 04:16.828
+Pay more, protect more people, and see
+exactly which part of it is new spend.
+
+04:16.828 --> 04:19.599
+Apply it, discard it,
+or undo it afterwards.
+
+04:21.099 --> 04:25.523
+The policy summary shows the shape of
+your estate: how many sit on each tier,
+
+04:25.523 --> 04:27.764
+what it costs, and how fully it's used.
+
+04:27.764 --> 04:31.843
+A tier running at forty per cent
+utilisation is one you've over-bought.
+
+04:33.143 --> 04:37.048
+You can change any tier's allowance
+here and watch every figure move.
+
+04:37.048 --> 04:40.727
+That's how you test a cheaper tier
+structure before proposing it.
+
+04:42.027 --> 04:45.521
+Set the billing period to match
+how Microsoft counts credits.
+
+04:45.521 --> 04:50.104
+From September twenty twenty-six,
+someone's usage carries across the whole
+
+04:50.104 --> 04:51.823
+even if you move their policy.
+
+04:51.823 --> 04:54.229
+That's what drives the mid-month warnings.
+
+04:55.529 --> 04:57.641
+The forecast answers the budget question.
+
+04:57.641 --> 05:01.606
+Enter the growth you expect, and it
+projects next month's consumption against
+
+05:01.606 --> 05:05.366
+the capacity you've provisioned, so
+you can see whether you'll run short.
+
+05:06.866 --> 05:10.060
+Before trusting any of it,
+read the data quality panel.
+
+05:10.060 --> 05:13.313
+It flags people burning credits
+with no policy attached,
+
+05:13.313 --> 05:15.810
+and people whose usage
+exceeds their limit.
+
+05:17.110 --> 05:21.259
+The exception queue then lists everyone
+whose tier doesn't fit their usage,
+
+05:21.259 --> 05:23.085
+with a one-click fix on each row.
+
+05:24.585 --> 05:27.060
+Here's the question
+you'll actually be asked.
+
+05:27.060 --> 05:30.469
+What is this costing each
+department, and who is overspending?
+
+05:31.769 --> 05:35.249
+Pick a department in the filter
+and the whole panel rescopes to it.
+
+05:35.249 --> 05:37.534
+The heading tells you
+which scope you're in,
+
+05:37.534 --> 05:39.715
+and reads All up when nothing is filtered.
+
+05:40.515 --> 05:44.847
+Claims Processing is consuming a hundred
+and seven per cent of its allotment.
+
+05:44.847 --> 05:47.661
+They are already over,
+before you change anything.
+
+05:47.661 --> 05:49.911
+Read the prepaid split at All up though,
+
+05:49.911 --> 05:53.231
+because the prepaid pool isn't
+divided between departments.
+
+05:54.731 --> 05:57.242
+Switch to Grouped and cut by department.
+
+05:57.242 --> 06:00.255
+Each one gets its own
+consumption, its own cost,
+
+06:00.255 --> 06:03.707
+an editable budget, and an
+over or under budget status.
+
+06:04.507 --> 06:07.808
+Give each department a budget,
+run auto-fit on just that group,
+
+06:07.808 --> 06:11.737
+and you have a defensible position per
+team, rather than one number for the
+
+06:11.737 --> 06:12.937
+whole company.
+
+06:13.971 --> 06:15.503
+Then get it out of the tool.
+
+06:15.503 --> 06:18.840
+There are six exports, and
+they're aimed at different people.
+
+06:20.240 --> 06:23.323
+Export CSV is the full
+record: every person,
+
+06:23.323 --> 06:26.757
+their tier, allowance,
+utilisation, cost and fit.
+
+06:26.757 --> 06:29.980
+That's your working file
+and your audit trail.
+
+06:30.780 --> 06:35.595
+By policy totals it up per tier, which is
+what you use to size the tier structure.
+
+06:35.595 --> 06:38.296
+By cut totals it by
+department or cost centre,
+
+06:38.296 --> 06:40.704
+and that's usually the one finance wants.
+
+06:40.704 --> 06:44.932
+Adjusted gives you the overage view
+for reconciling against the invoice.
+
+06:45.732 --> 06:50.302
+And the deck and the PDF are the
+ready-made version for leadership: the
+
+06:50.302 --> 06:54.129
+the tier assignments, the exception
+queue, and a methodology slide.
+
+06:54.129 --> 06:57.842
+Every export also records your
+prepaid allocation and both rates,
+
+06:57.842 --> 07:00.013
+so any figure can be reproduced later.
+
+07:01.513 --> 07:02.802
+Two things to watch.
+
+07:02.802 --> 07:05.767
+First, don't present
+these as billing figures.
+
+07:05.767 --> 07:07.507
+They're planning estimates.
+
+07:07.507 --> 07:09.441
+Reconcile against the invoice.
+
+07:10.741 --> 07:13.834
+Second, right-sizing usually
+costs more, not less,
+
+07:13.834 --> 07:17.607
+because protecting heavy users
+outweighs trimming light ones.
+
+07:17.607 --> 07:20.329
+Always read the impact
+bar before you apply.
+
+07:21.829 --> 07:26.027
+So: load two files, and every
+person gets a recommended tier.
+
+07:26.827 --> 07:31.090
+Set the auto-fit marks to decide how
+much headroom you're willing to buy.
+
+07:31.090 --> 07:36.054
+Price it against your prepaid allocation
+so the genuinely new spend is separated
+
+07:36.054 --> 07:38.624
+Then export the version
+your audience needs.
+
+07:40.124 --> 07:43.450
+The Cowork Policy Helper is
+part of the Analytics Hub.
+
+07:43.450 --> 07:46.161
+Use Request a change
+if something's missing.
+
+07:46.161 --> 07:47.393
+Thanks for watching.

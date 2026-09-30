@@ -14,6 +14,8 @@
         creditRows: [],
         users: [],
         rate: 0.01,
+        prepaidCredits: 0,
+        prepaidRate: 0.01,
         fallbackLimit: 400,
         usedFallbackLimit: false,
         demoActive: false,
@@ -537,6 +539,24 @@
         $('forecastCards').innerHTML = cards;
     }
 
+    // Splits a committed allotment into prepaid-covered credits and pay-as-you-go
+    // credits, pricing prepaid credits first at the prepaid rate then the rest at
+    // the PayGo rate. When no prepaid credits are allocated everything is PayGo.
+    function committedCostSplit(allow) {
+        if (allow < 0) allow = 0;
+        var prepaidAvail = state.prepaidCredits || 0;
+        if (prepaidAvail < 0) prepaidAvail = 0;
+        var prepaidCr = Math.min(prepaidAvail, allow);
+        var paygoCr = allow - prepaidCr;
+        var prepaidDollars = prepaidCr * (state.prepaidRate || 0);
+        var paygoDollars = paygoCr * state.rate;
+        return {
+            prepaidCr: prepaidCr, paygoCr: paygoCr,
+            prepaidDollars: prepaidDollars, paygoDollars: paygoDollars,
+            total: prepaidDollars + paygoDollars
+        };
+    }
+
     // Impact of current assignments vs the load-time baseline (state.baseline).
     function computeImpact() {
         var rate = state.rate;
@@ -552,13 +572,15 @@
             used += u.used;
             if (bid !== cid) changed += 1;
         });
+        var baseSplit = committedCostSplit(baseAllow);
+        var curSplit = committedCostSplit(curAllow);
         return {
             rate: rate, used: used,
-            baseAllow: baseAllow, baseUnused: baseAllow - used, baseCost: baseAllow * rate,
+            baseAllow: baseAllow, baseUnused: baseAllow - used, baseCost: baseSplit.total, baseSplit: baseSplit,
             baseUtil: baseAllow > 0 ? used / baseAllow : 0,
-            curAllow: curAllow, curUnused: curAllow - used, curCost: curAllow * rate,
+            curAllow: curAllow, curUnused: curAllow - used, curCost: curSplit.total, curSplit: curSplit,
             curUtil: curAllow > 0 ? used / curAllow : 0,
-            dAllow: curAllow - baseAllow, dCost: (curAllow - baseAllow) * rate,
+            dAllow: curAllow - baseAllow, dCost: curSplit.total - baseSplit.total,
             changed: changed
         };
     }
@@ -577,14 +599,22 @@
         return '<strong>' + (v > 0 ? '+' : '-') + fmtMoney(Math.abs(v)) + (suffix || '') + '</strong> vs today';
     }
 
-    function impactGroup(cls, title, allow, used, unused, cost, util, allowSub, unusedSub, costSub, unusedCls) {
+    function costSplitLine(split) {
+        if (!split || (state.prepaidCredits || 0) <= 0) return '';
+        return fmtMoney(split.prepaidDollars) + ' prepaid (' + fmtInt(split.prepaidCr) + ' cr) &middot; ' +
+            fmtMoney(split.paygoDollars) + ' PayGo (' + fmtInt(split.paygoCr) + ' cr)';
+    }
+
+    function impactGroup(cls, title, allow, used, unused, cost, util, allowSub, unusedSub, costSub, unusedCls, split) {
+        var splitLine = costSplitLine(split);
+        var costSubFull = costSub + (splitLine ? '<br>' + splitLine : '');
         return '<div class="impact-group ' + cls + '">' +
             '<div class="impact-title">' + title + '</div>' +
             '<div class="impact-stats">' +
             impactStat('Credits allotted', fmtInt(allow) + ' cr', allowSub) +
             impactStat('Credits consumed', fmtInt(used) + ' cr', fmtPct(util) + ' of allotment') +
             impactStat('Unused credits', fmtInt(unused) + ' cr', unusedSub, unusedCls) +
-            impactStat('Committed cost', fmtMoney(cost) + '/mo', costSub) +
+            impactStat('Committed cost', fmtMoney(cost) + '/mo', costSubFull) +
             '</div></div>';
     }
 
@@ -661,7 +691,7 @@
             'impact-today', 'Where you stand today &middot; ' + esc(scopeLabel),
             im.baseAllow, im.used, im.baseUnused, im.baseCost, im.baseUtil,
             'current tiers', unusedSubText(im.baseUnused, im.rate), 'committed if fully used',
-            im.baseUnused < 0 ? 'stat-warn' : '');
+            im.baseUnused < 0 ? 'stat-warn' : '', im.baseSplit);
 
         if (!changed) {
             el.className = 'impact-bar impact-neutral';
@@ -675,7 +705,7 @@
             'After your changes &middot; ' + fmtInt(im.changed) + ' user' + (im.changed === 1 ? '' : 's') + ' re-tiered',
             im.curAllow, im.used, im.curUnused, im.curCost, im.curUtil,
             signedCr(im.dAllow), signedCr(im.curUnused - im.baseUnused), signedMoney(im.dCost, '/mo') + ' going forward',
-            im.curUnused < 0 ? 'stat-warn' : '');
+            im.curUnused < 0 ? 'stat-warn' : '', im.curSplit);
 
         el.className = 'impact-bar impact-compare';
         el.innerHTML = today + '<div class="impact-arrow">&darr;</div>' + after + applyRow(im);
@@ -1465,12 +1495,16 @@ function xlsxUserRow(u, g) {
 /* Compact provenance header for xlsx sheets: which tool, when, which billing
    model and rate produced the figures, plus what they do and do not claim. */
 function xlsxStampRows() {
-    return [
+    var rows = [
         ['Cowork Policy Helper' + (state.demoActive ? ' - ' + DEMO_WARNING : ''), '', 'Generated', dateSlug()],
-        ['Billing period', billingModelLabel(), 'Rate ($/credit)', state.rate.toFixed(4)],
-        ['Reconciliation basis', 'Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards.'],
-        []
+        ['Billing period', billingModelLabel(), 'PayGo rate ($/credit)', state.rate.toFixed(4)]
     ];
+    if ((state.prepaidCredits || 0) > 0) {
+        rows.push(['Prepaid credits allocated', Math.round(state.prepaidCredits), 'Prepaid rate ($/credit)', state.prepaidRate.toFixed(4)]);
+    }
+    rows.push(['Reconciliation basis', 'Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards.']);
+    rows.push([]);
+    return rows;
 }
 
 function exportByPolicy() {
@@ -1538,7 +1572,11 @@ function exportAdjustedOverages() {
         lines.push(q('Cowork Policy Helper' + (state.demoActive ? ' - ' + DEMO_WARNING : '')));
         lines.push('Generated,' + q(dateSlug()));
         lines.push('Billing period,' + q(billingModelLabel()));
-        lines.push('Rate ($/credit),' + q(state.rate.toFixed(4)));
+        lines.push('PayGo rate ($/credit),' + q(state.rate.toFixed(4)));
+        if ((state.prepaidCredits || 0) > 0) {
+            lines.push('Prepaid credits allocated,' + q(Math.round(state.prepaidCredits)));
+            lines.push('Prepaid rate ($/credit),' + q(state.prepaidRate.toFixed(4)));
+        }
         lines.push('Grouped cut,' + q(groupLabel()));
         lines.push('Reconciliation basis,' + q('Built from the Microsoft admin center (MAC) usage export, which can include non-billable usage. For the true bill, reconcile against your monthly billing record, not the usage dashboards.'));
         lines.push('');
@@ -1567,6 +1605,19 @@ function exportAdjustedOverages() {
         lines.push('Provisioned monthly budget,' + q(f.provBudget.toFixed(2)));
         lines.push('Headroom (allowance - forecast) credits,' + q(Math.round(f.headroom)));
         lines.push('Users forecast over tier,' + q(f.over));
+
+        var totalBaseAllow = 0;
+        state.users.forEach(function (u) { totalBaseAllow += policyById(state.baseline[u.upn] || 'unassigned').allowance; });
+        var ccSplit = committedCostSplit(totalBaseAllow);
+        lines.push('');
+        lines.push('Committed cost basis (where you stand today),Value');
+        lines.push('Credits allotted (baseline),' + q(Math.round(totalBaseAllow)));
+        lines.push('Prepaid credits applied,' + q(Math.round(ccSplit.prepaidCr)));
+        lines.push('Prepaid committed cost,' + q(ccSplit.prepaidDollars.toFixed(2)));
+        lines.push('PayGo credits,' + q(Math.round(ccSplit.paygoCr)));
+        lines.push('PayGo committed cost,' + q(ccSplit.paygoDollars.toFixed(2)));
+        lines.push('Total committed cost,' + q(ccSplit.total.toFixed(2)));
+
         var b = computeBudget();
         var buy = computeBuy(state.buyCredits);
         lines.push('');
@@ -1675,10 +1726,13 @@ function exportAdjustedOverages() {
         var util = totalAllow > 0 ? totalUsed / totalAllow : 0;
         var ex = computeExceptions();
         var exCount = ex.under.length + ex.over.length;
+        var totalSplit = committedCostSplit(totalAllow);
+        var rateLine = fmtMoney(state.rate) + '/credit PayGo';
+        if ((state.prepaidCredits || 0) > 0) { rateLine += '  |  ' + fmtInt(state.prepaidCredits) + ' prepaid cr @ ' + fmtMoney(state.prepaidRate) + '/credit'; }
 
         var s1 = pptx.addSlide(); bg(s1);
         s1.addText('Cowork Policy Helper Record', { x: 0.7, y: 2.1, w: 12, h: 1, fontFace: FONT, fontSize: 38, bold: true, color: CYAN });
-        s1.addText(fmtInt(state.users.length) + ' users  |  ' + fmtMoney(totalCost) + ' projected monthly cost  |  ' + fmtMoney(state.rate) + '/credit', { x: 0.7, y: 3.25, w: 12, h: 0.6, fontFace: FONT, fontSize: 20, color: TXT });
+        s1.addText(fmtInt(state.users.length) + ' users  |  ' + fmtMoney(totalCost) + ' projected monthly cost  |  ' + rateLine, { x: 0.7, y: 3.25, w: 12, h: 0.6, fontFace: FONT, fontSize: 20, color: TXT });
         s1.addText('Point-in-time policy assignment record  |  ' + new Date().toLocaleDateString() + demoNote, { x: 0.7, y: 4.05, w: 12, h: 0.5, fontFace: FONT, fontSize: 14, color: SUB });
 
         var s2 = pptx.addSlide(); bg(s2);
@@ -1795,7 +1849,10 @@ function exportAdjustedOverages() {
         var method = [
             'Recommended policy = the smallest non-zero tier that keeps the user at or below the auto-fit upper mark (' + Math.round(state.fitUpPct * 100) + '% utilization), so heavy users are bumped up for headroom and light users are pulled down as far as coverage allows (unassigned if unlicensed or zero usage).',
             'Fit status: Over-allowance = using more than the assigned tier allows; Over-provisioned = using under the auto-fit lower mark (' + Math.round(state.fitDownPct * 100) + '% of the allowance); otherwise OK.',
-            'Projected cost = policy allowance x rate per credit (' + fmtMoney(state.rate) + ').',
+            'Projected cost = policy allowance x PayGo rate per credit (' + fmtMoney(state.rate) + ').',
+            ((state.prepaidCredits || 0) > 0
+                ? 'Committed cost splits the provisioned allotment (' + fmtInt(totalAllow) + ' cr) into ' + fmtInt(totalSplit.prepaidCr) + ' prepaid credits (' + fmtMoney(totalSplit.prepaidDollars) + ' at ' + fmtMoney(state.prepaidRate) + '/credit) and ' + fmtInt(totalSplit.paygoCr) + ' PayGo credits (' + fmtMoney(totalSplit.paygoDollars) + ' at ' + fmtMoney(state.rate) + '/credit), totalling ' + fmtMoney(totalSplit.total) + '.'
+                : 'Committed cost = full allotment at the PayGo rate; allocate prepaid credits in the top bar to price the first credits at a prepaid rate and split committed cost into prepaid and PayGo.'),
             'Rules assign tiers by attribute (top to bottom, first match wins); the exception queue lists users the rules or manual choices mis-fit.',
             'Single-month snapshot; the budget forecast applies the expected-growth knob only.',
             (state.demoActive ? 'SYNTHETIC DEMO DATA - not for real decisions.' : 'Computed locally in your browser; no data leaves your device.')
@@ -2045,6 +2102,18 @@ function exportAdjustedOverages() {
             if (isFinite(v) && v >= 0) { state.rate = v; renderSummary(); renderForecast(); renderImpact(); renderRoster(); renderExceptions(); renderPricing(); updateTopbar(); }
         });
 
+        var prepaidEl = $('rbacPrepaid');
+        if (prepaidEl) prepaidEl.addEventListener('input', function () {
+            var v = parseFloat(this.value);
+            if (isFinite(v) && v >= 0) { state.prepaidCredits = v; renderImpact(); }
+        });
+
+        var prepaidRateEl = $('rbacPrepaidRate');
+        if (prepaidRateEl) prepaidRateEl.addEventListener('input', function () {
+            var v = parseFloat(this.value);
+            if (isFinite(v) && v >= 0) { state.prepaidRate = v; renderImpact(); }
+        });
+
         $('growthInput').addEventListener('input', function () {
             var v = parseFloat(this.value);
             if (!isFinite(v)) v = 0;
@@ -2092,6 +2161,8 @@ function exportAdjustedOverages() {
             ? 'Synthetic demo data - not for real decisions &middot; 100% client-side &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.1'
             : '100% client-side &middot; No data leaves your browser &middot; <a href="PRIVACY.md">Privacy</a> &middot; <a href="index.html">Standard report</a> &middot; v1.1';
         $('rbacRate').value = state.rate;
+        var prepaidInit = $('rbacPrepaid'); if (prepaidInit) prepaidInit.value = state.prepaidCredits;
+        var prepaidRateInit = $('rbacPrepaidRate'); if (prepaidRateInit) prepaidRateInit.value = state.prepaidRate;
         $('growthInput').value = state.growthPct;
         var fitDownEl = $('fitDown'), fitUpEl = $('fitUp');
         if (fitDownEl && fitUpEl) {
@@ -2218,6 +2289,7 @@ function exportAdjustedOverages() {
         state.users = []; state.demoActive = false;
         state.assignments = {}; state.selected = {}; state.baseline = {}; state.prevBaseline = null;
         state.search = ''; state.deptFilter = 'All'; state.cohortFilter = 'All'; state.growthPct = 0;
+        state.prepaidCredits = 0; state.prepaidRate = 0.01;
         state.ownedCredits = null; state.packSize = 25000; state.packPrice = 200; state.buyCredits = 0; state.activeTab = 'manager'; state.groupBy = 'individual'; state.groupDim = '__manager__'; state.groupDimLabels = {}; state.groupBudgets = {}; state.rules = []; state.rulesDefault = 'tier1';
         $('dashboard').hidden = true;
         $('landing').hidden = false;

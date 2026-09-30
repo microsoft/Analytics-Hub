@@ -87,6 +87,24 @@ header h1 {
 .privacy-box svg { flex-shrink: 0; color: var(--green); margin-top: 0.15rem; }
 .privacy-box strong { color: var(--green); }
 
+/* ---------------- Walkthrough videos ---------------- */
+.vid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem; }
+.vid-card {
+    background: var(--surface-raised); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;
+}
+.vid-card video {
+    width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: 8px;
+    background: #000; border: 1px solid var(--border);
+}
+.vid-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.vid-head h3 { color: var(--copilot-cyan); font-size: 1.15rem; margin: 0; }
+.vid-len {
+    flex-shrink: 0; font-size: 0.8rem; font-weight: 600; color: var(--copilot-blue);
+    background: rgba(74, 158, 247, 0.12); border-radius: 999px; padding: 0.2rem 0.6rem;
+}
+.vid-card p { margin: 0; font-size: 0.92rem; line-height: 1.6; color: var(--text-secondary); }
+
 /* ---------------- Upload ---------------- */
 .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
 .dz-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
