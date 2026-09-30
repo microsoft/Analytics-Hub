@@ -2822,6 +2822,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "Graph API",
       "repo": "https://github.com/microsoft/PAX",
       "download": "https://github.com/microsoft/PAX/archive/refs/heads/release.zip",
+      "preview": "../assets/pax-preview.png",
       "blurb": "Enterprise-grade PowerShell exporter for Microsoft 365 audit logs and Entra directory data. Pulls from Purview, Entra, or both — supports Entra-only mode with no Purview dependency. Handles billions of events, no row limits, lands data wherever you need it — lake, warehouse, BI. The automation layer behind the Purview + Entra templates.",
       "meta": {
         "audience": "IT automation, security ops, data engineering",
@@ -3281,6 +3282,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "Local",
       "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+      "preview": "../cowork-billing/cowork-roi-model/preview/roi-model-preview.png",
       "blurb": "Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required).",
       "meta": {
         "audience": "BVAs, finance partners, sellers",
@@ -3351,6 +3353,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "Viva Insights",
       "repo": "https://github.com/microsoft/CustomizeCopilot",
       "download": "https://github.com/microsoft/CustomizeCopilot/archive/refs/heads/main.zip",
+      "preview": "../assets/customizecopilot-preview.png",
       "blurb": "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more.",
       "meta": {
         "audience": "BI developers, advanced template owners",
@@ -3496,6 +3499,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/ESS",
       "download": "https://github.com/microsoft/ESS/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/ESS/main/images/dashboard-preview.gif",
+      "demoVideo": "https://github.com/microsoft/ESS/raw/main/ESS_Insights_Overview.mp4",
       "blurb": "Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the ConversationTranscript Dataverse table — adoption, resolution vs escalation, time-to-knowledge, tickets deflected, hours saved and dollar value, plus in-conversation feedback. No custom logging or extra pipelines.",
       "meta": {
         "audience": "HR/IT program owners, ESS sponsors, execs",
@@ -8043,7 +8047,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       items.push({ key: 'v' + i, kind: 'video', url: v.url,
         label: v.label || (vids.length > 1 ? 'Video ' + (i + 1) : 'Overview') });
     });
-    if (!HERO_GIF_IDS[t.id] && safeAsset(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
+    if (safeAsset(previewOf(t))) items.push({ key: 'i', kind: 'image', label: 'Preview' });
     if (deckOf(t)) items.push({ key: 'd', kind: 'deck', label: 'Executive deck' });
     return items;
   }
@@ -9023,6 +9027,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
        redundant image tab and labels the remaining demo video "Overview". The
        report flyout keeps the preview. */
     if (t.id === 'm365-readiness') {
+      items = items.filter(function (it) { return it.kind !== 'image'; });
+      items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
+    }
+    /* Reports whose preview gif/still lives in the gradient hero at the top of
+       the guide (HERO_GIF_IDS): drop the redundant Step 1 image tab so it is not
+       shown twice. The report flyout keeps the preview. If a demo video remains,
+       label it Overview to match the other hero-gif reports above. */
+    if (HERO_GIF_IDS[t.id]) {
       items = items.filter(function (it) { return it.kind !== 'image'; });
       items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
     }
