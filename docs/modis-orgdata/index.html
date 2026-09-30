@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload org data to Viva Insights via MODIS · Analytics Hub</title>
+  <meta name="description" content="Internal step-by-step guide for uploading organizational (HR) data to Viva Insights through the Microsoft 365 Organizational Data Service (MODIS), with links and a sample CSV." />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../palette.css" />
+  <style>
+    .wrap { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    .eyebrow { font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; }
+    .eyebrow a { color: var(--accent); text-decoration: none; }
+    .eyebrow a:hover { text-decoration: underline; }
+    .hero { background: var(--accent-grad); border-radius: var(--radius-lg); padding: 2.25rem 2rem; color: #fff; box-shadow: var(--shadow-lg); }
+    .hero h1 { margin: 0 0 .6rem; font-size: 1.9rem; line-height: 1.15; color: #fff; }
+    .hero p { margin: 0; font-size: 1.05rem; line-height: 1.5; color: rgba(255,255,255,.94); max-width: 60ch; }
+    .meta { margin: 1.4rem 0 .5rem; font-size: .85rem; color: var(--text-muted); }
+    .blup { margin: 1.75rem 0; padding: 1.1rem 1.25rem; border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border)); }
+    .blup strong { color: var(--text); }
+    .steps { list-style: none; counter-reset: step; padding: 0; margin: 2rem 0; }
+    .steps > li { counter-increment: step; position: relative; padding: 1.25rem 1.25rem 1.25rem 3.75rem; margin-bottom: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+    .steps > li::before { content: counter(step); position: absolute; left: 1.1rem; top: 1.2rem; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent-grad); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+    .steps h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+    .steps p { margin: .35rem 0; line-height: 1.55; color: var(--text-soft); }
+    .steps a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .steps a:hover { text-decoration: underline; }
+    code, .mono { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .88em; background: color-mix(in srgb, var(--accent) 10%, var(--surface)); padding: .1rem .35rem; border-radius: 5px; }
+    h2.sec { margin: 2.5rem 0 1rem; font-size: 1.3rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .92rem; }
+    th, td { text-align: left; padding: .55rem .7rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--text); font-weight: 600; }
+    td code { white-space: nowrap; }
+    .req { color: #d9534f; font-weight: 600; }
+    .opt { color: var(--text-muted); }
+    pre.csv { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; overflow-x: auto; font-family: ui-monospace, Consolas, monospace; font-size: .8rem; line-height: 1.5; }
+    .dl { display: inline-flex; align-items: center; gap: .5rem; margin-top: .75rem; padding: .6rem 1.1rem; border-radius: var(--radius-sm); background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; font-size: .92rem; }
+    .dl:hover { filter: brightness(1.08); }
+    .callout-warn { margin: 1.5rem 0; padding: 1rem 1.25rem; border-left: 4px solid #b8860b; background: color-mix(in srgb, #b8860b 10%, var(--surface)); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .92rem; line-height: 1.55; }
+    .sources { margin-top: 1rem; font-size: .9rem; line-height: 1.7; }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    footer.pg { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .82rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="eyebrow"><a href="../">&larr; Analytics Hub</a> &middot; internal reference &middot; not indexed, not linked</div>
+
+    <section class="hero">
+      <h1>Upload organizational data to Viva Insights via MODIS</h1>
+      <p>A step-by-step reference for getting a customer's organizational (HR) data into Viva Insights and the Copilot Dashboard through the Microsoft 365 Organizational Data Service.</p>
+    </section>
+
+    <p class="meta">Generated 30 September 2026 &middot; Sourced from Microsoft Learn (current live docs) &middot; Audience: Copilot ROI Advisory Team</p>
+
+    <div class="blup">
+      <strong>Bottom line.</strong> "MODIS" is the <strong>Microsoft 365 Organizational Data Service</strong> (ODS). As of mid-2026 the old Viva Insights web app upload is retired, so org data now enters through the <strong>Microsoft 365 admin center</strong>. The customer needs the <strong>Organizational Data Source Administrator</strong> role, a CSV that uses <code>Microsoft_</code> attribute headers (which auto-map), and required columns <code>Microsoft_PersonEmail</code>, <code>Microsoft_ManagerEmail</code>, and <code>Microsoft_Organization</code>. Validation takes a few hours and up to three days to fully land.
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Assign the upload role</h3>
+        <p>Give whoever uploads the data the <strong>Organizational Data Source Administrator</strong> role (or Global Admin). Old app-specific Viva roles do not inherit it, so it must be assigned explicitly.</p>
+        <p><a href="https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference" target="_blank" rel="noopener">Entra role reference &nearr;</a></p>
+      </li>
+      <li>
+        <h3>Download the CSV template</h3>
+        <p>In the Microsoft 365 admin center go to <span class="mono">Setup &rsaquo; Migration and imports &rsaquo; Microsoft 365 Organizational Data Service</span>, select <strong>Get started</strong> or <strong>New import</strong>, choose <strong>Start CSV setup</strong>, pick the apps to share with (include <strong>Viva Insights</strong> and the <strong>Copilot Dashboard</strong>), then <strong>Download CSV template</strong>.</p>
+        <p><a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-orgdata#step-1---download-a-csv-template" target="_blank" rel="noopener">Import with a .csv file, Step 1 &nearr;</a></p>
+      </li>
+      <li>
+        <h3>Structure the .csv</h3>
+        <p>One row per employee, UTF-8, up to 2 GB. Use the reserved <code>Microsoft_</code> headers so columns map automatically. Include all licensed users, ideally everyone. With ODS you do not need the old <code>EffectiveDate</code> column. See the sample and attribute table below.</p>
+        <p><a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/orgdata-attributes" target="_blank" rel="noopener">Full attribute reference &nearr;</a></p>
+      </li>
+      <li>
+        <h3>Import the data</h3>
+        <p>From <span class="mono">Data Connections</span> select <strong>New import &rsaquo; Start CSV setup</strong>, then choose <strong>Import from SharePoint</strong> (recommended, and the admin importing must be the same person who uploaded the file) or <strong>Import locally</strong>. Optionally tick <strong>Manually approve data before sharing</strong> to review quality first.</p>
+        <p><a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-orgdata#step-3---import-your-organizational-data-for-the-first-time" target="_blank" rel="noopener">Import steps &nearr;</a> &middot; <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-orgdata#upload-the-csv-file-from-sharepoint" target="_blank" rel="noopener">SharePoint upload &nearr;</a></p>
+      </li>
+      <li>
+        <h3>Map attributes and set access</h3>
+        <p>Confirm header mapping and grant per-app attribute access. Using the <code>Microsoft_</code> prefix skips manual mapping. This is where you decide which apps, such as Viva Insights and Copilot, can read each attribute.</p>
+        <p><a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/distribute/map-attributes-set-access" target="_blank" rel="noopener">Map attributes and set access &nearr;</a></p>
+      </li>
+      <li>
+        <h3>Validate and confirm</h3>
+        <p>Select <strong>Begin Validation</strong>. Data is checked against Viva and Microsoft 365 requirements. Validation takes a few hours, and the full upload can take up to three days to appear in the profile store. Check status on the <strong>Organizational data</strong> page.</p>
+        <p><a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/review-quality-imported-data" target="_blank" rel="noopener">Review data quality &nearr;</a></p>
+      </li>
+    </ol>
+
+    <h2 class="sec">Required and common attributes</h2>
+    <table>
+      <thead><tr><th>ODS header</th><th>Maps to (Viva)</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><code>Microsoft_PersonEmail</code></td><td>PersonId</td><td class="req">Required</td></tr>
+        <tr><td><code>Microsoft_ManagerEmail</code></td><td>ManagerId</td><td class="req">Required</td></tr>
+        <tr><td><code>Microsoft_Organization</code></td><td>Organization</td><td class="req">Required</td></tr>
+        <tr><td><code>Microsoft_JobDiscipline</code></td><td>FunctionType</td><td class="opt">Optional, enables the Job function filter</td></tr>
+        <tr><td><code>Microsoft_LevelDesignation</code></td><td>LevelDesignation</td><td class="opt">Optional</td></tr>
+        <tr><td><code>Microsoft_Layer</code></td><td>Layer</td><td class="opt">Optional</td></tr>
+        <tr><td><code>Microsoft_CompanyOfficeCity</code></td><td>Location</td><td class="opt">Optional</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="sec">Sample file</h2>
+    <p>A ready-to-populate sample using the auto-mapping headers. The authoritative template is the one downloaded inside the admin center in Step 2, scoped to the apps you select. This sample matches the documented schema so a customer can start immediately.</p>
+    <pre class="csv">Microsoft_PersonEmail,Microsoft_ManagerEmail,Microsoft_Organization,Microsoft_LevelDesignation,Microsoft_JobDiscipline,Microsoft_Layer,Microsoft_CompanyOfficeCity
+Emp1@contoso.com,Mgr1@contoso.com,Sales,Junior IC,Account Management,8,Seattle
+Emp2@contoso.com,Mgr1@contoso.com,Sales,Junior IC,Account Management,8,Seattle
+Emp3@contoso.com,Mgr2@contoso.com,Sales,Manager,Account Management,7,Seattle
+Dir1@contoso.com,,Sales,Director,Leadership,6,Seattle</pre>
+    <a class="dl" href="modis-orgdata-sample.csv" download>Download sample CSV</a>
+
+    <div class="callout-warn">
+      <strong>Updates and deletions.</strong> To change data, upload a new CSV containing only the affected users. New uploads merge with existing data, they do not overwrite it, and a blank value keeps the previous value. To clear a string value enter three single quotes in Excel or two in the raw .csv. Remove a person by deleting their row in a fresh upload.
+    </div>
+
+    <h2 class="sec">Sources</h2>
+    <div class="sources">
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/organizational-data" target="_blank" rel="noopener">Use your organizational data (ODS overview)</a><br />
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-orgdata" target="_blank" rel="noopener">Import and manage your data with a .csv file</a><br />
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/orgdata-attributes" target="_blank" rel="noopener">Attribute reference</a><br />
+      <a href="https://learn.microsoft.com/en-us/viva/insights/advanced/admin/upload-org-data-admin-center" target="_blank" rel="noopener">Transition from the Viva Insights web app to the admin center</a><br />
+      <a href="https://learn.microsoft.com/en-us/viva/insights/advanced/admin/prepare-org-data" target="_blank" rel="noopener">Prepare organizational data (attribute detail)</a><br />
+      Automated connectors:
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-org-data-azure" target="_blank" rel="noopener">Azure Blob</a>,
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-org-data-workday" target="_blank" rel="noopener">Workday</a>,
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-org-data-success-factors" target="_blank" rel="noopener">SAP SuccessFactors</a>,
+      <a href="https://learn.microsoft.com/en-us/microsoft-365-apps/org-data-service/import/import-org-data-api" target="_blank" rel="noopener">API-based</a>.
+    </div>
+
+    <footer class="pg">
+      Internal reference for the Copilot ROI Advisory Team. Not listed in navigation and excluded from search engines and the site sitemap. Verify role names and admin center paths against the linked Microsoft Learn pages, which change periodically.
+    </footer>
+  </main>
+</body>
+</html>
