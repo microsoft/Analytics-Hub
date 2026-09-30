@@ -8,6 +8,15 @@
    numbers and numeric table cells - which had no click behaviour, so
    Clarity counted them as "dead" (a click that produces no response).
 
+   2026-09-29 follow-up: a second Clarity pass still showed dead clicks on
+   the ROI calculator (index + roi-calculator) and the Cowork Chargeback
+   report. Cause: figures also live in plain text table cells (a projection
+   table's $ / x / mo cells carry no .num class; the chargeback line items
+   have text columns like UPN, name, unit, policy) and in inline <code>
+   column-name chips - none of which the original .num-only rule covered.
+   The copy affordance is therefore widened to ANY table cell and inline
+   <code>, so those instinctive clicks become a responsive copy too.
+
    This turns those clicks into a useful, responsive action: click a
    figure to copy it, with a small toast. The toast is a visible DOM
    change, so Clarity no longer classifies the click as dead, and it is
@@ -68,8 +77,11 @@
     var sel = window.getSelection && window.getSelection();
     if (sel && String(sel).trim().length) return;
 
-    var el = target.closest(".metric-value, td.num, .kpi-value, .metric-card, .dm-kpi");
+    var el = target.closest(".metric-value, td, .kpi-value, .metric-card, .dm-kpi, code");
     if (!el) return;
+    // A table cell whose whole job is an interactive control (e.g. the
+    // chargeback drill-down "expand" cell) is left to that control.
+    if (el.tagName === "TD" && el.querySelector(INTERACTIVE)) return;
     // On a card, copy the value it holds rather than the label/whitespace.
     var valEl = el;
     if (el.classList.contains("metric-card")) valEl = el.querySelector(".metric-value") || el;
@@ -82,7 +94,8 @@
 
   // Honest affordance: a "copy" cursor on the figures so the click is invited.
   var style = document.createElement("style");
-  style.textContent = ".metric-value,td.num,.kpi-value,.dm-kpi{cursor:copy}" +
+  style.textContent = ".metric-value,.kpi-value,.dm-kpi,code{cursor:copy}" +
+    "td:not(:has(a,button,input,select,textarea,label,summary,[role=\"button\"],[onclick])){cursor:copy}" +
     ".metric-card{cursor:copy}.metric-card .metric-label,.metric-card .metric-info{cursor:default}";
   document.head.appendChild(style);
 })();
