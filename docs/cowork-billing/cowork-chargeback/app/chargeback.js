@@ -336,18 +336,14 @@
         var unallocCharge = unalloc ? (reconActive ? unalloc.reconciled : unalloc.paygo) : 0;
         var variance = (state.invoiceTotal != null) ? (reconActive ? 0 : (totalPaygo - state.invoiceTotal)) : null;
         // Split the prepaid pool across units. Mirrors the Power BI model: coverage is
-        // always capped at what a unit actually consumed, and where budgets exceed the
-        // pool every unit is scaled by the same ratio rather than served first-come.
+        // always capped at what a unit actually consumed, prorated by credits used or headcount.
         var pool = state.prepaidPurchased;
         var allocActive = pool != null && pool > 0 && totalCredits > 0;
         if (allocActive) {
             var totUsers = arr.reduce(function (a, g) { return a + g.users; }, 0);
-            var totBudget = arr.reduce(function (a, g) { return a + Math.min(g.credits, g.limit); }, 0);
-            var budgetScale = totBudget > 0 ? Math.min(1, pool / totBudget) : 0;
             arr.forEach(function (g) {
                 var covered;
                 if (state.allocModel === 'headcount') covered = Math.min(g.credits, pool * (totUsers > 0 ? g.users / totUsers : 0));
-                else if (state.allocModel === 'budget') covered = Math.min(g.credits, g.limit) * budgetScale;
                 else covered = Math.min(g.credits, pool * (g.credits / totalCredits));
                 g.allocCovered = covered;
                 g.allocGap = Math.max(0, g.credits - covered);
@@ -475,8 +471,7 @@
     }
     var ALLOC_MODELS = [
         { key: 'credits', label: 'Prorated based on credits used', note: 'Each ' + 'unit' + ' gets a share of the pool matching its share of consumption. Heaviest consumers receive the largest slices.' },
-        { key: 'headcount', label: 'Prorated based on employee count', note: 'The pool is split by headcount regardless of consumption. Large but light teams get more; small heavy teams spill to PAYGO sooner.' },
-        { key: 'budget', label: 'Limited to budgeted allowances', note: 'Each unit is covered only up to its own budgeted allowance. Where budgets together exceed the pool, every unit is scaled down by the same ratio.' }
+        { key: 'headcount', label: 'Prorated based on employee count', note: 'The pool is split by headcount regardless of consumption. Large but light teams get more; small heavy teams spill to PAYGO sooner.' }
     ];
     function allocModelLabel(k) {
         for (var i = 0; i < ALLOC_MODELS.length; i++) if (ALLOC_MODELS[i].key === k) return ALLOC_MODELS[i].label;

@@ -2635,7 +2635,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         },
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -2940,7 +2940,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         },
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -2965,7 +2965,7 @@ html.mk-embed main.mk-page{ display:none !important; }
     {
       "id": "cowork-billing-report",
       "question": "I want to determine the chargeback and department-level cost allocation.",
-      "title": "Copilot Cowork Billing Report",
+      "title": "Cowork Chargeback and Billing Report",
       "icon": "🧾",
       "accent": "#0078d4",
       "category": "impact-roi",
@@ -2974,13 +2974,13 @@ html.mk-embed main.mk-page{ display:none !important; }
         "impact",
         "roi"
       ],
-      "source": "Copilot credit consumption + Entra export",
+      "source": "Copilot credit consumption + Entra export, or live Viva Insights (Direct Query)",
       "sourceKey": "M365 Admin",
       "repo": "https://github.com/microsoft/CreditUsage",
       "download": "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
       "demoVideo": "https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4",
       "demoVideoLabel": "Watch the 2-minute walkthrough",
-      "blurb": "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis.",
+      "blurb": "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis. Ships as a CSV template and a self-refreshing Viva Insights Direct Query variant.",
       "meta": {
         "audience": "FinOps, IT admins, platform owners",
         "license": "M365 Admin exports",
@@ -3094,7 +3094,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         },
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -3243,7 +3243,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         },
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -3327,7 +3327,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         },
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -3552,7 +3552,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         },
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -3705,7 +3705,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "related": [
         {
           "id": "cowork-billing-report",
-          "title": "Copilot Cowork Billing Report",
+          "title": "Cowork Chargeback and Billing Report",
           "icon": "🧾",
           "accent": "#0078d4",
           "score": 5,
@@ -3833,10 +3833,9 @@ html.mk-embed main.mk-page{ display:none !important; }
       ],
       "source": "Copilot Cowork sessions, posted to one Teams channel",
       "sourceKey": "Local",
-      "repo": "https://github.com/microsoft/CoworkDashboard",
-      "download": "https://github.com/microsoft/CoworkDashboard/archive/refs/heads/main.zip",
-      "demoVideo": "https://github.com/microsoft/CoworkDashboard/raw/main/media/Team-Cowork-Skill-Overview.mp4",
-      "demoVideoLabel": "Watch the 2-minute overview",
+      "repo": "https://microsoft.github.io/CoworkDashboard/",
+      "download": "https://microsoft.github.io/CoworkDashboard/",
+      "demoUrl": "https://microsoft.github.io/CoworkDashboard/demo-report.html?v=2",
       "guide": "https://microsoft.github.io/CoworkDashboard/",
       "preview": "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/cowork-team-report-preview.png",
       "blurb": "A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export.",
@@ -5756,10 +5755,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 </template>
 
 <template id="cwtStep4">
-  <p class="gx-reads">Nothing to export, and no tenant data leaves anyone's machine. You install two Copilot Cowork skills wired to <strong>one shared Teams channel</strong>: every teammate runs the <strong>member skill</strong>, which emails a de-identified summary of their Cowork activity to the channel, and you run the <strong>manager skill</strong>, which reads the channel and emails the team one anonymized dashboard. Pick how you get the two skills. Both paths install the same code.</p>
+  <p class="gx-reads">Nothing to export, and no tenant data leaves anyone's machine. You install two Copilot Cowork skills wired to <strong>one shared Teams channel</strong>: every teammate runs the <strong>member skill</strong>, which emails a de-identified summary of their Cowork activity to the channel, and you run the <strong>manager skill</strong>, which reads the channel and emails the team one anonymized dashboard. You get both skills from the <strong>Installer Studio</strong>, which personalizes each download for your channel.</p>
 
   <details class="cc-idbox">
-    <summary><strong>Create the Teams channel first</strong> <span class="cc-small"><em>(one time, needed for either path)</em></span></summary>
+    <summary><strong>Create the Teams channel first</strong> <span class="cc-small"><em>(one time, needed before you install)</em></span></summary>
     <div class="cc-idbody">
       <p>Both skills point at one dedicated, email-enabled Teams channel. Create it before you build or install anything, and keep it just for these reports so the totals stay clean.</p>
       <ol>
@@ -5772,14 +5771,9 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   </details>
 
   <div class="ccyd">
-    <div class="cc-tablist" role="tablist" aria-label="Setup path">
-      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Installer Studio</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Manual from GitHub</button>
-    </div>
-
-    <section class="cc-panel active" role="tabpanel" data-cc="1">
+    <section class="cc-panel active">
       <span class="cc-time">&#9201; ~10 minutes &middot; no admin rights &middot; runs in your browser</span>
-      <p>The recommended path. The Installer Studio bakes your channel into both downloads, so no one is ever asked to paste a link. It runs entirely in your browser, and your channel link and email are never uploaded.</p>
+      <p>You get both skills from the Installer Studio. It bakes your channel into both downloads, so no one is ever asked to paste a link. It runs entirely in your browser, and your channel link and email are never uploaded.</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Open the Installer Studio</h5>
         <p>Go to the <a href="https://microsoft.github.io/CoworkDashboard/" target="_blank" rel="noopener noreferrer">Cowork Team Report Installer Studio</a> and paste your channel <strong>link</strong> and <strong>email address</strong> from the step above.</p>
@@ -5793,25 +5787,6 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         <p>Ask the manager skill to build the team report, then let it run on a schedule, a day or two after the member cadence so every post is in before it aggregates and emails the newsletter.</p>
       </div>
       <p class="cc-small"><strong>See it first:</strong> open the <a href="https://microsoft.github.io/CoworkDashboard/demo-report.html" target="_blank" rel="noopener noreferrer">live sample dashboard</a> (invented data) to see the finished report before you roll it out.</p>
-    </section>
-
-    <section class="cc-panel" role="tabpanel" data-cc="2">
-      <span class="cc-time">&#9201; ~15 minutes &middot; for locked-down setups &middot; configure the channel by hand</span>
-      <p>Prefer not to use the Installer Studio? Download the plain zips straight from the repository and fill in the channel yourself. Same skill code, just with a blank channel for you to complete.</p>
-      <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Download both skills</h5>
-        <p>From <a href="https://github.com/microsoft/CoworkDashboard/tree/main/docs/downloads" target="_blank" rel="noopener noreferrer">docs/downloads/</a>: <code>cowork-dashboard-member.zip</code> and <code>cowork-dashboard-team-dashboard.zip</code>. Both ship with a blank channel.</p>
-        <h5><span class="cc-num">2</span> Bake the channel into the member skill</h5>
-        <p>Unzip the member skill and open <a href="https://github.com/microsoft/CoworkDashboard/blob/main/docs/skill-template/cowork-dashboard-member/config/team_channel.json" target="_blank" rel="noopener noreferrer"><code>config/team_channel.json</code></a>. Set <code>channel_email</code> (and <code>channel_name</code>) to your channel's email address. A blank member copy will not send, and it never guesses a recipient.</p>
-        <h5><span class="cc-num">3</span> Point the manager skill at the channel</h5>
-        <p>The manager's <a href="https://github.com/microsoft/CoworkDashboard/blob/main/docs/skill-template/cowork-dashboard-team-dashboard/config/team_config.json" target="_blank" rel="noopener noreferrer"><code>config/team_config.json</code></a> can stay blank. On first run the skill asks for the channel link and resolves the IDs itself. The pricing and privacy fields already have sensible defaults.</p>
-        <h5><span class="cc-num">4</span> Install each skill in Cowork</h5>
-        <p>In <a href="https://copilot.cloud.microsoft/cowork" target="_blank" rel="noopener noreferrer">Copilot Cowork</a>, upload each <code>.zip</code> as-is and ask it to install. To install by hand instead, drop the unzipped folder into <code>Documents/Cowork/skills/</code> and wait about 35 seconds for OneDrive to sync.</p>
-        <h5><span class="cc-num">5</span> Run and schedule</h5>
-        <p>Same finish as the recommended path. Each teammate runs the member skill once, then you ask the manager skill to build the rollup and run it on a schedule.</p>
-      </div>
-      <div class="cc-callout cc-info"><span class="ct">The member skill needs a valid channel email</span>
-        If <code>channel_email</code> is empty or malformed the member skill stops and asks an admin to reinstall a team-configured copy. It never invents a recipient or posts through the Teams API, so fill it in before you distribute the zip.</div>
     </section>
   </div>
 </template>
@@ -6241,10 +6216,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 
 <template id="cbrHero">
   <div class="cc-hero cbr-hero-card">
-    <h2>&#129534; Cowork Chargeback and Billing Report</h2>
+    <h2>Cowork Chargeback and Billing Report</h2>
     <div class="cc-tag">RLS-ready Power BI report for Cowork credit consumption, chargeback, optimization and billing</div>
     <div class="cc-oneliner">Who is consuming credits &middot; what each department owes &middot; who is over limit &middot; what next quarter looks like</div>
-    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>CSV OR VIVA DIRECT QUERY</span></div>
     <div class="cbr-player" data-frames="5" data-base="cbr-frames">
       <div class="cbr-stage"><img class="cbr-img" src="cbr-frames/frame_00.jpg" alt="Cowork Chargeback and Billing Report page 1 of 5"></div>
       <div class="cbr-controls">
@@ -6267,12 +6242,13 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 </template>
 
 <template id="cbrStep4">
-  <p class="gx-reads">This report is powered by <strong>two CSV exports</strong> joined on user principal name: your <strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory. No database connection &mdash; both files load through Power Query parameters. Wire up your own data, or explore the shipped demo dataset first.</p>
+  <p class="gx-reads">This report runs two ways: from <strong>two CSV exports</strong> joined on user principal name (your <strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory), or <strong>live from Viva Insights</strong> through the self-refreshing <strong>Direct Query</strong> variant. Wire up your own data on either path, or explore the shipped demo dataset first.</p>
 
   <div class="ccyd">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
-      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Demo data (no tenant)</button>
+      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data (CSV)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Viva Direct (live)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Demo data (no tenant)</button>
     </div>
 
     <!-- TAB 1: YOUR OWN DATA -->
@@ -6298,12 +6274,37 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         <p>Click <strong>Refresh</strong> and confirm the Consumption visuals populate (total credits used, allowance, utilization %, top user) and all six pages render.</p>
       </div>
       <div class="cc-callout cc-info"><span class="ct">Refresh is manual on the CSV path</span>
-        Re-export the two CSVs on your cadence (for example monthly), overwrite the files at the same paths, and refresh the report. There is no scheduled-refresh edition for this template.</div>
+        Re-export the two CSVs on your cadence (for example monthly), overwrite the files at the same paths, and refresh the report. Want automated, scheduled refresh instead? Use the <strong>Viva Direct (live)</strong> path in tab 2, which connects straight to Viva Insights and self-refreshes in the Power BI Service.</div>
       <p class="cc-glink"><a href="https://github.com/microsoft/CreditUsage#instructions" target="_blank" rel="noopener noreferrer">Full setup guide, roles and field list &rarr;</a></p>
     </section>
 
-    <!-- TAB 2: DEMO -->
+    <!-- TAB 2: VIVA DIRECT (LIVE) -->
     <section class="cc-panel" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Desktop &middot; Viva Insights analyst &middot; self-refreshing</span>
+      <p>Connect Power BI straight to Viva Insights. No CSV exports, and once published it refreshes on a schedule, so monitoring is hands-off.</p>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Build a Consumption query in Viva</h5>
+        <p>In the <a href="https://learn.microsoft.com/viva/insights/advanced/introduction" target="_blank" rel="noopener noreferrer">Viva Insights Advanced Insights</a> portal, an analyst builds and saves a custom <strong>Consumption</strong> query, ticking <strong>Select spending policy and employee attributes</strong> so policy, limits and org context travel on the rows. Note the query&rsquo;s <strong>Partition</strong> and <strong>Query</strong> identifiers.</p>
+        <h5><span class="cc-num">2</span> Open the Direct Query template</h5>
+        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback%20-%20Direct%20Query.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback - Direct Query.pbit</code></a> in Power BI Desktop.</p>
+        <h5><span class="cc-num">3</span> Enter the two parameters</h5>
+        <table class="cc-kv">
+          <tr><th><code>VivaPartitionId</code></th><td>The <strong>Partition:</strong> GUID shown in the Advanced Insights portal</td></tr>
+          <tr><th><code>VivaQueryId</code></th><td>The identifier of your saved <strong>Consumption</strong> query</td></tr>
+        </table>
+        <p class="cc-small">Optional: <code>BillingPeriodWeeks</code> (default <code>4</code>) sets how many trailing weeks roll into the current billing window.</p>
+        <h5><span class="cc-num">4</span> Sign in and refresh</h5>
+        <p>Sign in to the <strong>Viva Insights</strong> connector with your organizational account, click <strong>Load</strong>, then <strong>Refresh</strong>. Every page populates from live tenant data.</p>
+        <h5><span class="cc-num">5</span> Publish for automation</h5>
+        <p>Publish to the Power BI Service and set a <strong>scheduled refresh</strong> on the dataset. The report then keeps itself current with no manual step.</p>
+      </div>
+      <div class="cc-callout cc-info"><span class="ct">Re-saving the query rotates its id</span>
+        If you re-save the Consumption query in the portal it gets a new <strong>Query</strong> identifier. Update the <code>VivaQueryId</code> parameter so refresh keeps resolving.</div>
+      <p class="cc-glink"><a href="https://github.com/microsoft/CreditUsage#direct-query-variant" target="_blank" rel="noopener noreferrer">Full Direct Query setup &rarr;</a></p>
+    </section>
+
+    <!-- TAB 3: DEMO -->
+    <section class="cc-panel" role="tabpanel" data-cc="3">
       <span class="cc-time">&#9201; ~5 minutes &middot; Power BI Desktop &middot; no exports, no tenant</span>
       <p>Want to see all six pages before you collect anything real? The repo ships a synthetic dataset in the exact format the template expects.</p>
       <div class="cc-steps">
@@ -9799,7 +9800,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         '<strong>Microsoft Entra</strong> org directory.',
       easy: 'the ' +
         lk('https://github.com/microsoft/CreditUsage', 'repository includes a demo data folder') +
-        ', so you can open the template and see all six pages before you collect anything real.',
+        ', so you can open the template and see all six pages before you collect anything real. ' +
+        'For live, self-refreshing data, use the Direct Query variant (' +
+        lk('https://github.com/microsoft/CreditUsage#direct-query-variant', 'Cowork Chargeback - Direct Query.pbit') +
+        '), which connects straight to Viva Insights and supports scheduled refresh.',
       steps: [
         'In the ' + lk(URL_MAC, 'Microsoft 365 admin center') + ' go to <strong>Copilot</strong> ' +
           'then <strong>Cost management</strong> then the <strong>Consumption</strong> tab and ' +
@@ -10243,13 +10247,18 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       return /power bi/i.test(x.label || '');
     });
     var isRepo = /^https:\/\/github\.com\//i.test(t.repo || '');
-    var getHead = isPbi ? 'Get the template' : (isRepo ? 'Get it from GitHub' : 'Open the app');
-    var getCopy = isPbi
-      ? 'Open it in Power BI Desktop and point the parameters at your own data.'
-      : (isRepo
-          ? 'Everything you need is in the repository - follow its README to install and run it.'
-          : 'It runs in the browser. There is nothing to download or install.');
-    var getCta = isPbi
+    var isInstaller = t.id === 'cowork-team-report';
+    var getHead = isInstaller ? 'Get the two skills'
+      : isPbi ? 'Get the template' : (isRepo ? 'Get it from GitHub' : 'Open the app');
+    var getCopy = isInstaller
+      ? 'You build both skills in the Installer Studio and install them in Copilot Cowork - no GitHub, and no admin rights.'
+      : (isPbi
+          ? 'Open it in Power BI Desktop and point the parameters at your own data.'
+          : (isRepo
+              ? 'Everything you need is in the repository - follow its README to install and run it.'
+              : 'It runs in the browser. There is nothing to download or install.'));
+    var getCta = isInstaller ? 'Open the Installer Studio'
+      : isPbi
       ? 'Download this template on GitHub'
       : (isRepo ? 'Open the repository on GitHub' : 'Open the app');
     out += step(getHead,
@@ -10262,10 +10271,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     var refs = [];
     if (repo) refs.push('<a href="' + repo +
       '" target="_blank" rel="noopener noreferrer">' +
-      (isRepo ? 'Full README and setup notes' : 'Open the tool') + '</a>');
+      (isInstaller ? 'Open the Installer Studio' : (isRepo ? 'Full README and setup notes' : 'Open the tool')) + '</a>');
     if (deckDl) refs.push('<a href="' + deckDl +
       '" download>Download the executive deck (PPTX)</a>');
-    if (guide) refs.push('<a href="' + guide +
+    if (guide && !isInstaller) refs.push('<a href="' + guide +
       '" target="_blank" rel="noopener noreferrer">Setup guide</a>');
     refs.push('<a href="mailto:copilot-roi-advisory-team-gh@microsoft.com">' +
       'Ask the Copilot ROI advisory team</a>');
