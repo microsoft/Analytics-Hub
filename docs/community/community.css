@@ -31,6 +31,12 @@
     .evt-badge--soon{background:color-mix(in srgb,#b8860b 16%,transparent);color:#8a6d00;}
     .evt-badge--inc{background:color-mix(in srgb,#d83b96 16%,transparent);color:#a32570;}
     .evt-level{font-size:.85rem;color:var(--text-muted,#5a6470);}
+    .evt-incubators{display:inline-flex;align-items:center;gap:.45rem;font-size:.9rem;font-weight:600;
+      color:#a32570;background:color-mix(in srgb,#d83b96 10%,transparent);padding:.3rem .7rem;border-radius:999px;align-self:flex-start;}
+    .evt-incubators::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:#d83b96;
+      box-shadow:0 0 0 0 color-mix(in srgb,#d83b96 55%,transparent);animation:evt-inc-pulse 2s ease-out infinite;}
+    @keyframes evt-inc-pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,#d83b96 55%,transparent);}70%{box-shadow:0 0 0 .4rem transparent;}100%{box-shadow:0 0 0 0 transparent;}}
+    @media (prefers-reduced-motion:reduce){.evt-incubators::before{animation:none;}}
     .evt-title{font-weight:600;font-size:1.35rem;line-height:1.25;}
     .evt-when{font-size:.98rem;color:var(--text-muted,#5a6470);}
     .evt-summary{font-size:1.02rem;line-height:1.5;}
