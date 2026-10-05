@@ -566,7 +566,7 @@ html[data-theme="dark"] .rf-pill.is-on{ color:#0b0b12; }
 .rf-card:focus-visible{ outline:2px solid var(--c, var(--mk-accent)); outline-offset:2px; }
 .rf-card[hidden]{ display:none; }
 
-.rf-top{ display:flex; align-items:center; gap:6px; margin-bottom:10px; min-height:20px; }
+.rf-top{ display:flex; align-items:center; gap:6px; margin-bottom:10px; min-height:20px; flex-wrap:wrap; row-gap:6px; }
 .rf-chip{
   font-size:11px; font-weight:600; letter-spacing:.02em;
   padding:3px 9px; border-radius:100px;
@@ -602,6 +602,16 @@ html[data-theme="dark"] .rf-new{ color:#0b0b12; }
   color:#fff; background:var(--mk-accent-strong);
 }
 html[data-theme="dark"] .rf-ver{ color:#0b0b12; }
+.rf-upd{
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:10.5px; font-weight:700; letter-spacing:.03em;
+  text-transform:uppercase;
+  padding:3px 8px; border-radius:100px;
+  color:#fff; background:#1f883d;
+  white-space:nowrap;
+}
+.rf-upd::before{ content:"\2726"; font-size:9px; line-height:1; }
+html[data-theme="dark"] .rf-upd{ color:#eafff0; background:#2da44e; }
 .rf-title{
   display:block; margin:0 0 7px;
   font-size:var(--mk-title); font-weight:600; line-height:1.3;
@@ -3585,6 +3595,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       ],
       "tier": "specialty",
       "version": "2.0",
+      "updated": "2026-10-05",
       "measures": [
         "impact",
         "roi",
@@ -4490,6 +4501,7 @@ html.mk-embed main.mk-page{ display:none !important; }
 .cc-hero .cc-oneliner{font-size:13px;color:#c3d2ee;margin:12px 0 16px}
 .cc-badges span{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;
   background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:5px;padding:5px 11px;margin:0 4px;color:#fff}
+.cc-badges span.cc-badge-upd{background:#2da44e;border-color:#2da44e;color:#fff}
 .cc-gif{max-width:82%;border-radius:8px;margin:20px auto 0;display:block;border:1px solid rgba(255,255,255,.2)}
 .cc-idbox{border:1px solid #c297e0;border-radius:8px;margin:14px 0;background:color-mix(in srgb,#8250df 7%,var(--mk-surface))}
 .cc-idbox summary{cursor:pointer;padding:11px 15px;font-size:14px;list-style:none;display:flex;align-items:center;gap:8px;color:var(--mk-text)}
@@ -4874,7 +4886,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     <h2>ValueLens</h2>
     <div class="cc-tag">for Microsoft Copilot &mdash; one Power BI template for every Copilot and agent adoption signal</div>
     <div class="cc-oneliner">Hours saved &middot; assisted value &middot; adoption and readiness &middot; the business case</div>
-    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>VERSION 2.0</span></div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>VERSION 2.0</span><span class="cc-badge-upd">UPDATED OCT 5, 2026</span></div>
     <div class="vl-player" data-frames="19" data-base="vl-frames">
       <div class="vl-stage"><img class="vl-img" src="vl-frames/frame_00.jpg" alt="ValueLens page 1 of 19"></div>
       <div class="vl-controls">
@@ -7663,6 +7675,23 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
+  /* Short US stamp, e.g. "Oct 5, 2026", for the "Updated" badges. */
+  function fmtShort(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  /* An "Updated" stamp should shout only while it is genuinely fresh, then
+     quietly retire itself, the same way the New badge expires on age. */
+  function isRecent(iso, days) {
+    if (!iso) return false;
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return false;
+    return (Date.now() - d.getTime()) / 86400000 <= (days || 30);
+  }
+
   /* v9: >=10 stars promotes the card to a brighter outline. Colour only -
      the border stays 1px so nothing reflows. */
   function starCount(id) {
@@ -7708,6 +7737,9 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         : '';
       var isNew = t.isNew === true ? '<span class="rf-new">New</span>' : '';
       var ver = t.version ? '<span class="rf-ver" title="Report version">v' + esc(t.version) + '</span>' : '';
+      var upd = (t.updated && isRecent(t.updated, 30))
+        ? '<span class="rf-upd" title="Updated ' + esc(fmtShort(t.updated)) + '">Updated ' + esc(fmtShort(t.updated)) + '</span>'
+        : '';
 
       return '' +
         '<button type="button" class="rf-card' +
@@ -7720,7 +7752,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         ' data-measures="' + esc((t.measures || []).join(' ')) + '"' +
         ' aria-label="Open details for ' + esc(titleOf(t)) + '">' +
           '<span class="rf-top">' +
-            '<span class="rf-chip">' + esc(cat.label) + '</span>' + more + isNew + ver +
+            '<span class="rf-chip">' + esc(cat.label) + '</span>' + more + isNew + ver + upd +
           '</span>' +
           '<span class="rf-title">' + esc(titleOf(t)) + '</span>' +
           '<span class="rf-blurb">' + esc(t.blurb) + '</span>' +
@@ -8139,6 +8171,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       verBadge.textContent = 'v' + t.version;
       dlgChip.appendChild(verBadge);
     }
+    if (t.updated && isRecent(t.updated, 30)) {
+      var updBadge = document.createElement('span');
+      updBadge.className = 'rf-upd';
+      updBadge.style.marginLeft = '8px';
+      updBadge.title = 'Updated ' + fmtShort(t.updated);
+      updBadge.textContent = 'Updated ' + fmtShort(t.updated);
+      dlgChip.appendChild(updBadge);
+    }
     dlgTitle.textContent = decodeEnt(titleOf(t));
     dlgQ.textContent = decodeEnt(t.question);
 
@@ -8158,6 +8198,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       '<section class="mk-sub"><h3>Overview</h3><p>' + esc(t.blurb) + '</p></section>' +
       '<section class="mk-sub"><h3>At a glance</h3><dl class="mk-dl">' +
         dlRow('Data source', esc(t.source)) +
+        (t.updated ? dlRow('Latest update', (t.version ? 'Version ' + esc(t.version) + ' \u00b7 ' : '') + esc(fmtShort(t.updated))) : '') +
         dlRow('Built for', esc(meta.audience)) +
         dlRow('Licensing', esc(meta.license)) +
         dlRow('Time to first result', esc(meta.time)) +
