@@ -595,6 +595,13 @@ html[data-theme="dark"] .rf-pill.is-on{ color:#0b0b12; }
   color:#fff; background:var(--mk-accent-strong);
 }
 html[data-theme="dark"] .rf-new{ color:#0b0b12; }
+.rf-ver{
+  font-size:10.5px; font-weight:700; letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:3px 8px; border-radius:100px;
+  color:#fff; background:var(--mk-accent-strong);
+}
+html[data-theme="dark"] .rf-ver{ color:#0b0b12; }
 .rf-title{
   display:block; margin:0 0 7px;
   font-size:var(--mk-title); font-weight:600; line-height:1.3;
@@ -3577,6 +3584,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         "readiness"
       ],
       "tier": "specialty",
+      "version": "2.0",
       "measures": [
         "impact",
         "roi",
@@ -3590,7 +3598,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
       "demoVideo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4",
-      "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with SharePoint, Fabric, and Dataverse deployment paths.",
+      "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric (one-click installer), and Power Automate + Dataverse deployment paths.",
       "meta": {
         "audience": "Business Value Advisory, execs, program leads",
         "license": "Purview Audit Reader",
@@ -3612,7 +3620,7 @@ html.mk-embed main.mk-page{ display:none !important; }
             "url": "https://www.microsoft.com/download/details.aspx?id=58494"
           },
           {
-            "label": "Python (SharePoint path) or Fabric capacity (Fabric path)"
+            "label": "Fabric capacity for the one-click installer, or Power BI Pro for the SharePoint path"
           }
         ]
       },
@@ -3837,7 +3845,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "https://microsoft.github.io/CoworkDashboard/",
       "demoUrl": "https://microsoft.github.io/CoworkDashboard/demo-report.html?v=2",
       "guide": "https://microsoft.github.io/CoworkDashboard/",
-      "preview": "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/cowork-team-report-preview.png",
+      "demoVideos": [{"url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/Cowork_Team_Report_Setup.mp4", "label": "Overview"}],
       "blurb": "A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export.",
       "meta": {
         "audience": "Team leads, managers, ICs",
@@ -4866,14 +4874,14 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     <h2>ValueLens</h2>
     <div class="cc-tag">for Microsoft Copilot &mdash; one Power BI template for every Copilot and agent adoption signal</div>
     <div class="cc-oneliner">Hours saved &middot; assisted value &middot; adoption and readiness &middot; the business case</div>
-    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
-    <div class="vl-player" data-frames="17" data-base="vl-frames">
-      <div class="vl-stage"><img class="vl-img" src="vl-frames/frame_00.jpg" alt="ValueLens page 1 of 17"></div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>VERSION 2.0</span></div>
+    <div class="vl-player" data-frames="19" data-base="vl-frames">
+      <div class="vl-stage"><img class="vl-img" src="vl-frames/frame_00.jpg" alt="ValueLens page 1 of 19"></div>
       <div class="vl-controls">
         <button class="vl-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
         <button class="vl-btn" type="button" data-act="play" aria-label="Play or pause"><span class="vl-playico">&#10074;&#10074;</span></button>
         <button class="vl-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
-        <span class="vl-counter">1 / 17</span>
+        <span class="vl-counter">1 / 19</span>
       </div>
       <div class="vl-dots">
         <button class="vl-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
@@ -4893,6 +4901,8 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         <button class="vl-dot" type="button" data-idx="14" aria-label="Page 15"></button>
         <button class="vl-dot" type="button" data-idx="15" aria-label="Page 16"></button>
         <button class="vl-dot" type="button" data-idx="16" aria-label="Page 17"></button>
+        <button class="vl-dot" type="button" data-idx="17" aria-label="Page 18"></button>
+        <button class="vl-dot" type="button" data-idx="18" aria-label="Page 19"></button>
       </div>
       <div class="vl-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
     </div>
@@ -4993,6 +5003,9 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     <section class="cc-panel" role="tabpanel" data-cc="3">
       <span class="cc-time">&#9201; Pipeline-orchestrated &middot; Fabric capacity (F2+ or trial), Premium or PPU &middot; recommended at scale</span>
       <p>PySpark notebooks pull straight from Graph into a Lakehouse, a processor builds the curated fact table, and an Import-mode template reads it. No file caps, and the optional feedback and Agent 365 sources plug into the same model. Needs the app registration above, with its secret in Key Vault.</p>
+      <div class="cc-callout cc-info"><span class="ct">Fastest way: the one-click installer</span>
+        A Windows installer now sets everything up in your tenant and gives you the dashboard as a Fabric app called <strong>Analytics Hub</strong>, with no terminal and no Power BI Desktop. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/latest/download/AnalyticsHubInstaller.exe" target="_blank" rel="noopener noreferrer"><strong>Download AnalyticsHubInstaller.exe</strong></a>, open it, and follow the steps in your browser. You still need a Fabric capacity (F2+ or trial), an Azure subscription for a Key Vault, and permission to register an Entra app. An admin grants the Graph consent and turns on three Fabric tenant settings (<em>Service principals can call Fabric public APIs</em>, <em>Semantic Model Execute Queries REST API</em>, and <em>Fabric App items</em>). Check <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#before-you-start" target="_blank" rel="noopener noreferrer">what you need</a> first. Prefer to wire it by hand? The manual steps below use the same files.</div>
+      <p class="cc-small"><strong>Manual setup</strong> (no installer), the same path the walkthrough video follows:</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
         <p><a href="https://app.fabric.microsoft.com/" target="_blank" rel="noopener">Fabric portal</a> &rarr; your workspace (on capacity) &rarr; <strong>New</strong> &rarr; <strong>Lakehouse</strong>. Note its <strong>SQL analytics endpoint</strong>, or the workspace and Lakehouse GUIDs if you use the OneLake template.</p>
@@ -7694,6 +7707,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
           others.length + '</span>'
         : '';
       var isNew = t.isNew === true ? '<span class="rf-new">New</span>' : '';
+      var ver = t.version ? '<span class="rf-ver" title="Report version">v' + esc(t.version) + '</span>' : '';
 
       return '' +
         '<button type="button" class="rf-card' +
@@ -7706,7 +7720,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         ' data-measures="' + esc((t.measures || []).join(' ')) + '"' +
         ' aria-label="Open details for ' + esc(titleOf(t)) + '">' +
           '<span class="rf-top">' +
-            '<span class="rf-chip">' + esc(cat.label) + '</span>' + more + isNew +
+            '<span class="rf-chip">' + esc(cat.label) + '</span>' + more + isNew + ver +
           '</span>' +
           '<span class="rf-title">' + esc(titleOf(t)) + '</span>' +
           '<span class="rf-blurb">' + esc(t.blurb) + '</span>' +
@@ -8117,6 +8131,14 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     var ids = catIds(t);
     dlgChip.textContent = ids.map(catLabel).join(' / ') +
       (t.tier === 'core' ? '  |  Core' : '');
+    if (t.version) {
+      var verBadge = document.createElement('span');
+      verBadge.className = 'rf-ver';
+      verBadge.style.marginLeft = '8px';
+      verBadge.title = 'Report version';
+      verBadge.textContent = 'v' + t.version;
+      dlgChip.appendChild(verBadge);
+    }
     dlgTitle.textContent = decodeEnt(titleOf(t));
     dlgQ.textContent = decodeEnt(t.question);
 
