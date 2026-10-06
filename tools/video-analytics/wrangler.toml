@@ -2,6 +2,7 @@
 name = "analytics-hub-video-stats"
 main = "worker.bundled.js"
 compatibility_date = "2024-11-01"
+account_id = "d70f11f2ba8e6ff00108d1692a7a3981"
 
 # KV namespace that stores the per-day counts.
 # Create it once, then paste the returned id below:

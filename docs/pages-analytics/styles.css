@@ -595,6 +595,7 @@
   margin-bottom: -1px;
   transition: color .15s ease, border-color .15s ease;
 }
+.page-tab-link { text-decoration: none; }
 .page-tab:hover { color: var(--text); }
 .page-tab.active {
   color: var(--accent);

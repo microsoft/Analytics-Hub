@@ -30,6 +30,10 @@ const KEEP_DAYS = 400; // safety cap for range scans
 function todayUTC() {
   return new Date().toISOString().slice(0, 10);
 }
+
+function withCors(headers = {}) {
+  return { ...headers, ...CORS };
+}
 function dateNDaysAgo(n) {
   const d = new Date();
   d.setUTCDate(d.getUTCDate() - n);
@@ -45,7 +49,7 @@ function cleanVideo(s) {
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "content-type",
   "Access-Control-Max-Age": "86400",
 };
@@ -107,13 +111,14 @@ async function handleStats(env) {
   );
   return new Response(
     JSON.stringify({ updated: new Date().toISOString(), days: results }),
-    { headers: { "content-type": "application/json", "cache-control": "no-store" } }
+    { headers: withCors({ "content-type": "application/json", "cache-control": "no-store" }) }
   );
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
     if (url.pathname === "/collect") return handleCollect(request, env); // always public
 
     // Everything else is the private dashboard. If DASH_TOKEN is set, require
@@ -122,7 +127,7 @@ export default {
     const authed = !env.DASH_TOKEN || url.searchParams.get("k") === env.DASH_TOKEN;
 
     if (url.pathname === "/stats.json") {
-      if (!authed) return new Response("Unauthorized", { status: 401 });
+      if (!authed) return new Response("Unauthorized", { status: 401, headers: CORS });
       return handleStats(env);
     }
     if (url.pathname === "/" || url.pathname === "/index.html") {

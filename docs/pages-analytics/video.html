@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Analytics · Analytics Hub</title>
+  <meta name="description" content="Private video traffic and interaction dashboard for Analytics Hub demo videos." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/pages-analytics/video.html" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../styles.css?v=7a506cda" />
+  <link rel="stylesheet" href="styles.css?v=ed972d61" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Pages Analytics Video" />
+  <script src="../clarity-events.js?v=202609141210" defer></script>
+  <script src="../consent.js?v=1" defer></script>
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <style>
+    .video-analytics-page{padding-bottom:4rem}
+    .va-hero{padding:3.6rem 0 2rem;background:var(--bg-alt);border-bottom:1px solid var(--border)}
+    .va-crumb{font-size:.82rem;color:var(--text-muted);margin:0 0 .75rem}
+    .va-crumb a{color:inherit;text-decoration:none}.va-crumb a:hover{text-decoration:underline}
+    .va-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:1.2rem;flex-wrap:wrap}
+    .va-eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;font-weight:700;color:var(--accent);margin:0 0 .45rem}
+    .va-hero h1{font-size:clamp(2rem,4vw,3rem);margin:0 0 .8rem;letter-spacing:-.02em}
+    .va-lede{max-width:760px;color:var(--text-soft);font-size:1.04rem;margin:0;line-height:1.55}
+    .va-meta{color:var(--text-muted);font-size:.88rem;margin:1rem 0 0}
+    .va-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-top:.3rem}
+    .va-action{display:inline-flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));border-radius:10px;padding:.55rem .9rem;text-decoration:none;font-weight:700;font-size:.86rem;color:var(--accent);background:var(--surface)}
+    .va-action.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .va-action:hover{transform:translateY(-1px)}
+    .va-window{display:inline-flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:4px;box-shadow:var(--shadow-sm);margin-top:1.4rem}
+    .va-window button{appearance:none;border:0;background:transparent;color:var(--text-soft);font:inherit;font-size:.9rem;font-weight:600;padding:.5rem .95rem;border-radius:calc(var(--radius) - 4px);cursor:pointer}
+    .va-window button[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:var(--shadow-sm)}
+    .va-strip{padding:2rem 0;background:var(--bg);border-bottom:1px solid var(--border)}
+    .va-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:1rem}
+    .va-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;box-shadow:var(--shadow-sm)}
+    .va-kpi .label{display:block;font-size:.72rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+    .va-kpi .value{display:block;font-size:1.75rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+    .va-kpi .foot{display:block;font-size:.76rem;color:var(--text-muted);margin-top:.45rem;line-height:1.35}
+    .va-kpi .pos{color:#107c10}.va-kpi .neg{color:#c50f1f}
+    .va-insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.2rem}
+    .va-insight{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:1rem 1.1rem;border-left:4px solid var(--accent)}
+    .va-insight .label{font-size:.7rem;color:var(--text-muted);font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+    .va-insight .value{font-size:1.05rem;font-weight:800;color:var(--text);line-height:1.25}
+    .va-insight .note{font-size:.8rem;color:var(--text-muted);line-height:1.4;margin-top:.35rem}
+    .va-section{padding:2rem 0 0}
+    .va-section h2{font-size:1.22rem;margin:0 0 .3rem;letter-spacing:-.01em}
+    .va-section .sub{color:var(--text-muted);font-size:.88rem;margin:0 0 1rem;max-width:78ch}
+    .va-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);gap:1.2rem}
+    .va-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:1.2rem}
+    .va-chart{width:100%;height:240px;display:block}
+    .va-chart .grid{stroke:var(--border);stroke-width:1}
+    .va-chart .area{fill:color-mix(in srgb,var(--accent) 10%,transparent)}
+    .va-chart .line{fill:none;stroke:var(--accent);stroke-width:2.2}
+    .va-chart .line.watch{stroke:#7c3aed}
+    .va-chart .lbl{fill:var(--text-muted);font-size:11px}
+    .va-chart .dot{fill:var(--accent);stroke:#fff;stroke-width:1.5}
+    .va-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.7rem;color:var(--text-muted);font-size:.8rem}
+    .va-legend i{display:inline-block;width:16px;height:0;border-top:3px solid var(--accent);vertical-align:middle;margin-right:.35rem}
+    .va-legend i.watch{border-color:#7c3aed}
+    .va-list{list-style:none;margin:0;padding:0}
+    .va-list li{display:grid;grid-template-columns:1fr auto;gap:.8rem;padding:.64rem 0;border-bottom:1px solid color-mix(in srgb,var(--border) 75%,transparent);position:relative}
+    .va-list li:last-child{border-bottom:0}
+    .va-list .name{font-weight:700;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;z-index:1}
+    .va-list .detail{font-size:.76rem;color:var(--text-muted);margin-top:.15rem;font-family:ui-monospace,Consolas,monospace;position:relative;z-index:1}
+    .va-list .num{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;position:relative;z-index:1}
+    .va-fill{position:absolute;left:-.45rem;right:auto;top:.25rem;bottom:.25rem;border-radius:8px;background:color-mix(in srgb,var(--accent) 9%,transparent);z-index:0}
+    .va-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+    .va-table{width:100%;border-collapse:collapse;font-size:.9rem}
+    .va-table th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);font-weight:700;padding:.9rem 1rem;border-bottom:1px solid var(--border);background:var(--bg-alt);cursor:pointer}
+    .va-table th.num,.va-table td.num{text-align:right}
+    .va-table td{padding:.9rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
+    .va-table tbody tr:hover{background:var(--bg-alt)}
+    .va-table tbody tr:last-child td{border-bottom:0}
+    .va-video-name{font-weight:700}.va-video-file{font-size:.75rem;color:var(--text-muted);font-family:ui-monospace,Consolas,monospace;margin-top:.12rem}
+    .va-bar-track{height:6px;background:var(--border);border-radius:999px;margin-top:.42rem;overflow:hidden}
+    .va-bar{height:100%;background:var(--accent);border-radius:999px}
+    .va-pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.18rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);white-space:nowrap}
+    .va-message{padding:2.2rem;text-align:center;color:var(--text-muted)}
+    .va-message strong{display:block;color:var(--text);font-size:1.05rem;margin-bottom:.25rem}
+    .va-callout{border:1px solid color-mix(in srgb,var(--accent) 30%,var(--border));background:color-mix(in srgb,var(--accent) 7%,var(--surface));border-radius:var(--radius);padding:1rem 1.1rem;color:var(--text-soft);font-size:.9rem;line-height:1.5}
+    .va-callout code{font-family:ui-monospace,Consolas,monospace;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1rem .35rem;color:var(--text)}
+    @media(max-width:860px){.va-grid{grid-template-columns:1fr}.va-title-row{display:block}.va-actions{margin-top:1rem}.va-video-file{display:none}}
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
+      <a class="nav-cta" href="./">&larr; Pages Analytics</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="main" class="video-analytics-page">
+  <section class="va-hero">
+    <div class="wrap">
+      <p class="va-crumb"><a href="./">&larr; Pages Analytics</a></p>
+      <div class="va-title-row">
+        <div>
+          <p class="va-eyebrow">Private interaction telemetry</p>
+          <h1>Video traffic and interactions</h1>
+          <p class="va-lede">A focused readout of which demo videos people actually start, how much time they spend watching, and which walkthroughs are creating the strongest engagement signal. Backed by the daily video analytics database snapshot.</p>
+          <p class="va-meta" id="va-meta">Loading video telemetry...</p>
+        </div>
+        <div class="va-actions">
+          <a class="va-action" href="https://analytics-hub-video-stats.stephansmith-msft.workers.dev/" target="_blank" rel="noopener">Open worker dashboard</a>
+          <a class="va-action primary" href="./">Pages Analytics</a>
+        </div>
+      </div>
+      <div class="va-window" role="group" aria-label="Video analytics time window">
+        <button type="button" data-window="3" aria-pressed="false">3d</button>
+        <button type="button" data-window="7" aria-pressed="true">7d</button>
+        <button type="button" data-window="14" aria-pressed="false">14d</button>
+        <button type="button" data-window="30" aria-pressed="false">30d</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="va-strip">
+    <div class="wrap">
+      <div class="va-kpis" id="va-kpis">
+        <div class="va-kpi"><span class="label">Total plays</span><span class="value" id="va-kpi-plays">-</span><span class="foot" id="va-kpi-plays-foot">Starts across all videos</span></div>
+        <div class="va-kpi"><span class="label">Watch time</span><span class="value" id="va-kpi-watch">-</span><span class="foot">Aggregate watched seconds</span></div>
+        <div class="va-kpi"><span class="label">Avg watch per play</span><span class="value" id="va-kpi-avg">-</span><span class="foot">Interaction depth</span></div>
+        <div class="va-kpi"><span class="label">Completion estimate</span><span class="value" id="va-kpi-completion">-</span><span class="foot">Duration-weighted average</span></div>
+        <div class="va-kpi"><span class="label">Videos with plays</span><span class="value" id="va-kpi-count">-</span><span class="foot">Unique video assets</span></div>
+      </div>
+      <div class="va-insights" id="va-insights"></div>
+    </div>
+  </section>
+
+  <section class="va-section">
+    <div class="wrap">
+      <div class="va-grid">
+        <div class="va-card">
+          <h2>Daily interaction trend</h2>
+          <p class="sub">Plays and watch time by UTC day. This comes from the anonymous video collector, not page views.</p>
+          <div id="va-trend"><p class="va-message">Loading...</p></div>
+          <div class="va-legend"><span><i></i>Plays</span><span><i class="watch"></i>Watch time</span></div>
+        </div>
+        <div class="va-card">
+          <h2>Top engagement drivers</h2>
+          <p class="sub">Ranked by watch time in the selected window.</p>
+          <ul class="va-list" id="va-top-watch"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="va-section">
+    <div class="wrap">
+      <h2>Per-video breakdown</h2>
+      <p class="sub">Click a column header to sort. Window: <strong id="va-window-label">last 7 days</strong>.</p>
+      <div class="va-table-wrap">
+        <table class="va-table" id="va-table">
+          <thead>
+            <tr>
+              <th data-sort="name">Video</th>
+              <th class="num" data-sort="plays">Plays</th>
+              <th class="num" data-sort="seconds">Watch time</th>
+              <th class="num" data-sort="avg">Avg / play</th>
+              <th class="num" data-sort="completion">Completion</th>
+            </tr>
+          </thead>
+          <tbody id="va-body"><tr><td colspan="5" class="va-message">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="va-section">
+    <div class="wrap">
+      <div class="va-callout">
+        This page reads <code>docs/data/video-analytics.json</code>, generated daily from a SQLite snapshot of the Cloudflare KV collector behind <code>analytics-hub-video-stats.stephansmith-msft.workers.dev</code>. Public visitors still only send anonymous aggregate play and watch-time counts.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <p>Built by Microsoft · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+  </div>
+</footer>
+
+<script src="video.js"></script>
+</body>
+</html>

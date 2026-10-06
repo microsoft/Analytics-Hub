@@ -1,0 +1,40 @@
+name: Daily video analytics snapshot
+
+on:
+  schedule:
+    # 03:20 UTC daily, shortly after the main traffic snapshot.
+    - cron: "20 3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Pull Cloudflare video analytics
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: d70f11f2ba8e6ff00108d1692a7a3981
+          VIDEO_STATS_NAMESPACE_ID: c33ac2cd3b55451cb737e2b710841272
+          VIDEO_STATS_WORKER_URL: https://analytics-hub-video-stats.stephansmith-msft.workers.dev
+        run: python scripts/snapshot_video_analytics.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/video-analytics.json docs/data/video-analytics.sqlite
+          if git diff --cached --quiet; then
+            echo "No video analytics changes."
+          else
+            git commit -m "chore: daily video analytics snapshot $(date -u +%Y-%m-%d)"
+            git push
+          fi
