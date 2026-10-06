@@ -4879,6 +4879,13 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 .vl-player:-webkit-full-screen .vl-stage{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;cursor:default;border:none;background:transparent}
 .vl-player:-webkit-full-screen .vl-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
 .vl-player:-webkit-full-screen .vl-hint{display:none}
+/* Fabric setup walkthrough video (in the Fabric deployment tab) */
+.vl-setup-video{margin:14px 0 6px;max-width:720px}
+.vl-setup-video video{display:block;width:100%;height:auto;border-radius:8px;border:1px solid rgba(0,0,0,.14);background:#0c1017}
+.vl-setup-video figcaption{font-size:12px;color:#57606a;margin:8px 2px 0;line-height:1.5}
+.vl-setup-video figcaption a{color:#0969da}
+[data-theme="dark"] .vl-setup-video video{border-color:rgba(255,255,255,.18)}
+[data-theme="dark"] .vl-setup-video figcaption{color:#9db4de}
 </style>
 
 <template id="vlHero">
@@ -5018,6 +5025,13 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       <div class="cc-callout cc-info"><span class="ct">Fastest way: the one-click installer</span>
         A Windows installer now sets everything up in your tenant and gives you the dashboard as a Fabric app called <strong>Analytics Hub</strong>, with no terminal and no Power BI Desktop. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/latest/download/AnalyticsHubInstaller.exe" target="_blank" rel="noopener noreferrer"><strong>Download AnalyticsHubInstaller.exe</strong></a>, open it, and follow the steps in your browser. You still need a Fabric capacity (F2+ or trial), an Azure subscription for a Key Vault, and permission to register an Entra app. An admin grants the Graph consent and turns on three Fabric tenant settings (<em>Service principals can call Fabric public APIs</em>, <em>Semantic Model Execute Queries REST API</em>, and <em>Fabric App items</em>). Check <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#before-you-start" target="_blank" rel="noopener noreferrer">what you need</a> first. Prefer to wire it by hand? The manual steps below use the same files.</div>
       <p class="cc-small"><strong>Manual setup</strong> (no installer), the same path the walkthrough video follows:</p>
+      <figure class="vl-setup-video">
+        <video controls preload="metadata" playsinline poster="../media/ValueLens_Fabric_Setup_poster.jpg">
+          <source src="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/download/installer-v0.2.2/ValueLens_Fabric_Setup.mp4" type="video/mp4">
+          Your browser can&rsquo;t play this video. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/download/installer-v0.2.2/ValueLens_Fabric_Setup.mp4">Download the walkthrough</a>.
+        </video>
+        <figcaption>&#9654; Full Fabric setup walkthrough &mdash; from a fresh app registration to a saved, self-refreshing Power BI report. Also on the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#watch-the-setup" target="_blank" rel="noopener noreferrer">1. Fabric setup page</a>.</figcaption>
+      </figure>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
         <p><a href="https://app.fabric.microsoft.com/" target="_blank" rel="noopener">Fabric portal</a> &rarr; your workspace (on capacity) &rarr; <strong>New</strong> &rarr; <strong>Lakehouse</strong>. Note its <strong>SQL analytics endpoint</strong>, or the workspace and Lakehouse GUIDs if you use the OneLake template.</p>
