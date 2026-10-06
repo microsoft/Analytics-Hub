@@ -291,6 +291,23 @@ body.mk-locked { overflow: hidden; }
   background: color-mix(in srgb, var(--text-muted) 12%, transparent);
   cursor: help;
 }
+/* Viva Insights automation badge: signals the report's Direct Query
+   template pipes live from a Viva Insights query. Viva purple, quieter
+   than .rf-new so it reads as a provenance tag, not a call to action. */
+.rf-viva {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .03em;
+  padding: 3px 8px; border-radius: 100px;
+  color: #6b4bbd;
+  background: color-mix(in srgb, #6b4bbd 14%, transparent);
+  cursor: help; white-space: nowrap;
+}
+[data-theme="dark"] .rf-viva { color: #c3b0f0; background: color-mix(in srgb, #6b4bbd 26%, transparent); }
+.mk-viva {
+  font-weight: 700; color: #6b4bbd;
+  padding: 1px 6px; border-radius: 100px;
+  background: color-mix(in srgb, #6b4bbd 14%, transparent);
+}
+[data-theme="dark"] .mk-viva { color: #c3b0f0; background: color-mix(in srgb, #6b4bbd 26%, transparent); }
 /* GitHub stars are repository metadata, so they sit beside the source
    line at source-line scale and stay quieter than .rf-cta. .ah-vote is
    20px tall and already sets the foot height, so this 12px row cannot

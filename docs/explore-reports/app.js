@@ -361,6 +361,7 @@ const TOOLS = [
     measures: ["impact","roi"],
     source: "Copilot credit consumption + Entra export",
     sourceKey: "M365 Admin",
+    vivaAutomation: true,
     repo: "https://github.com/microsoft/CreditUsage",
     download: "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
     demoVideo: "https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4",
@@ -832,6 +833,9 @@ const MEASURES = {
       ? '<span class="rf-more" title="' + esc(others.map(catLabel).join(', ')) + '">+' + others.length + '</span>'
       : '';
     var isNew = t.isNew === true ? '<span class="rf-new">New</span>' : '';
+    var vivaBadge = t.vivaAutomation === true
+      ? '<span class="rf-viva" title="Automated via Viva Insights — pipes directly from a Viva Insights query">Viva Insights automated</span>'
+      : '';
     var repo = escUrl(t.repo);
 
     return '' +
@@ -842,7 +846,7 @@ const MEASURES = {
       ' data-tier="' + esc(t.tier) + '"' +
       ' data-measures="' + esc((t.measures || []).join(' ')) + '">' +
         '<div class="rf-top">' +
-          '<span class="rf-chip">' + esc(catLabel(t.category)) + '</span>' + more + isNew +
+          '<span class="rf-chip">' + esc(catLabel(t.category)) + '</span>' + more + isNew + vivaBadge +
         '</div>' +
         '<h3 class="rf-title">' +
           '<button type="button" class="rf-open" data-id="' + esc(t.id) + '"' +
@@ -1201,6 +1205,10 @@ const MEASURES = {
     dlgTitle.textContent = decodeEnt(t.title);
     dlgQ.textContent = decodeEnt(t.question);
 
+    var vivaRow = t.vivaAutomation === true
+      ? dlRow('Automation', '<span class="mk-viva">Viva Insights automated</span> — the Direct Query template pipes directly from a Viva Insights query, no manual export step.')
+      : '';
+
     var req = t.requirements || {};
     var meta = t.meta || {};
 
@@ -1216,6 +1224,7 @@ const MEASURES = {
       '<section class="mk-sub"><h3>Overview</h3><p>' + esc(t.blurb) + '</p></section>' +
       '<section class="mk-sub"><h3>At a glance</h3><dl class="mk-dl">' +
         dlRow('Data source', esc(t.source)) +
+        vivaRow +
         dlRow('Built for', esc(meta.audience)) +
         dlRow('Licensing', esc(meta.license)) +
         dlRow('Time to first result', esc(meta.time)) +
