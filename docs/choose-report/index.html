@@ -3012,6 +3012,8 @@ html.mk-embed main.mk-page{ display:none !important; }
       "source": "Copilot credit consumption + Entra export, or live Viva Insights (Direct Query)",
       "sourceKey": "M365 Admin",
       "vivaAutomation": true,
+      "version": "4",
+      "updated": "2026-10-06",
       "repo": "https://github.com/microsoft/CreditUsage",
       "download": "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
       "demoVideo": "https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4",
@@ -6278,13 +6280,13 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     <div class="cc-tag">RLS-ready Power BI report for Cowork credit consumption, chargeback, optimization and billing</div>
     <div class="cc-oneliner">Who is consuming credits &middot; what each department owes &middot; who is over limit &middot; what next quarter looks like</div>
     <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>CSV OR VIVA DIRECT QUERY</span></div>
-    <div class="cbr-player" data-frames="5" data-base="cbr-frames">
-      <div class="cbr-stage"><img class="cbr-img" src="cbr-frames/frame_00.jpg" alt="Cowork Chargeback and Billing Report page 1 of 5"></div>
+    <div class="cbr-player" data-frames="6" data-base="cbr-frames">
+      <div class="cbr-stage"><img class="cbr-img" src="cbr-frames/frame_00.jpg" alt="Cowork Chargeback and Billing Report page 1 of 6"></div>
       <div class="cbr-controls">
         <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
         <button class="cbr-btn" type="button" data-act="play" aria-label="Play or pause"><span class="cbr-playico">&#10074;&#10074;</span></button>
         <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
-        <span class="cbr-counter">1 / 5</span>
+        <span class="cbr-counter">1 / 6</span>
       </div>
       <div class="cbr-dots">
         <button class="cbr-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
@@ -6292,6 +6294,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
         <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
         <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+        <button class="cbr-dot" type="button" data-idx="5" aria-label="Page 6"></button>
       </div>
       <div class="cbr-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
     </div>
@@ -7492,7 +7495,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     'super-usage':                { p: ['m365'],                   d: ['viva'],                         a: 'CCMs, enablement leads' },
     'adoption-sentiment':         { p: ['m365'],                   d: ['purview'],                      a: 'Adoption & comms leads' },
     'consumption-central':        { p: ['cowork','github'],        d: ['credits'],                      a: 'FinOps, IT finance' },
-    'cowork-billing-report':      { p: ['cowork'],                 d: ['credits','purview'],            a: 'Finance, cost centres' },
+    'cowork-billing-report':      { p: ['cowork'],                 d: ['credits','viva'],               a: 'Finance, cost centres' },
     'cowork-chargeback-app':      { p: ['cowork'],                 d: ['credits'],                      a: 'Finance, cost centres' },
     'agent-evaluator':            { p: ['studio'],                 d: ['copilotstudio'],                a: 'Agent owners, makers' },
     'chat-agent':                 { p: ['chat','studio'],          d: ['purview'],                      a: 'Analysts, CCMs' },
@@ -8691,6 +8694,9 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.version ? '<span class="rf-ver" title="Report version">v' + esc(t.version) + '</span>' : '') +
         ((t.updated && isRecent(t.updated, 30))
           ? '<span class="rf-upd" title="Updated ' + esc(fmtShort(t.updated)) + '">Updated ' + esc(fmtShort(t.updated)) + '</span>'
+          : '') +
+        (t.vivaAutomation === true
+          ? '<span class="rf-viva" title="Automated via Viva Insights \u2014 the Direct Query variant pipes live from a Viva Insights query">Viva Insights automated</span>'
           : '') +
         (chosen
           ? '<span class="pk-badge' + (best ? ' pk-badge--best' : '') + '">' +
