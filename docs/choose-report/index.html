@@ -8651,6 +8651,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       '" data-id="' + esc(id) + '">' +
       '<span class="pk-top">' +
         '<span class="pk-title">' + esc(titleOf(t)) + '</span>' +
+        (t.version ? '<span class="rf-ver" title="Report version">v' + esc(t.version) + '</span>' : '') +
+        ((t.updated && isRecent(t.updated, 30))
+          ? '<span class="rf-upd" title="Updated ' + esc(fmtShort(t.updated)) + '">Updated ' + esc(fmtShort(t.updated)) + '</span>'
+          : '') +
         (chosen
           ? '<span class="pk-badge' + (best ? ' pk-badge--best' : '') + '">' +
               (best ? 'Best fit' : 'Also works') + '</span>'
