@@ -98,8 +98,13 @@
 <aside class="ah-new-banner" id="ah-new-banner" role="region" aria-label="What's new in Analytics Hub" hidden>
   <div class="wrap ah-new-banner-inner">
     <span class="ah-new-banner-pill" aria-hidden="true">NEW</span>
-    <a class="ah-new-banner-link" href="cowork-billing/">
-      Consumption Central — track Copilot credits &amp; cost across every product
+    <a class="ah-new-banner-link" href="choose-report/cowork-billing-report/">
+      Cowork Usage and Chargeback Automated Reporting
+      <span class="ah-new-banner-arrow" aria-hidden="true">→</span>
+    </a>
+    <span class="ah-new-banner-div" aria-hidden="true"></span>
+    <a class="ah-new-banner-link" href="choose-report/value-lens/">
+      Value Lens
       <span class="ah-new-banner-arrow" aria-hidden="true">→</span>
     </a>
     <button type="button" class="ah-new-banner-dismiss" id="ah-new-banner-dismiss" aria-label="Dismiss this announcement">×</button>
@@ -107,12 +112,16 @@
 </aside>
 <script>
   (function () {
-    var KEY = 'ah_new_cowork_dismissed_v1';
+    var KEY = 'ah_new_cowork_valuelens_dismissed_v1';
+    /* Auto-expire: the banner stops showing 30 days after launch, no edit needed. */
+    var LAUNCH   = Date.UTC(2026, 9, 6);           // 2026-10-06 (month is 0-based)
+    var EXPIRES  = LAUNCH + 30 * 24 * 60 * 60 * 1000;
     var el  = document.getElementById('ah-new-banner');
     var btn = document.getElementById('ah-new-banner-dismiss');
     if (!el || !btn) return;
+    if (Date.now() > EXPIRES) return;              // past 30 days: stay hidden
     try {
-      if (localStorage.getItem(KEY) === '1') return; // stay hidden
+      if (localStorage.getItem(KEY) === '1') return; // user-dismissed: stay hidden
     } catch (e) { /* private mode: still show */ }
     el.hidden = false;
     btn.addEventListener('click', function () {

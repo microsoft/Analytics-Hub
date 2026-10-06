@@ -1098,6 +1098,13 @@ a:hover { text-decoration: underline; }
   transition: transform 160ms ease;
   display: inline-block;
 }
+.ah-new-banner-div {
+  width: 1px;
+  height: 18px;
+  background: rgba(90,100,112,0.35);
+  flex-shrink: 0;
+}
+[data-theme="dark"] .ah-new-banner-div { background: rgba(255,255,255,0.28); }
 .ah-new-banner-link:hover .ah-new-banner-arrow,
 .ah-new-banner-link:focus-visible .ah-new-banner-arrow {
   transform: translateX(3px);
@@ -1127,6 +1134,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 640px) {
   .ah-new-banner-inner { flex-wrap: wrap; }
   .ah-new-banner-link  { order: 3; flex-basis: 100%; }
+  .ah-new-banner-div   { display: none; }
 }
 
 /* ============================================================= NAV - NEW PILL */
