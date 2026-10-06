@@ -195,7 +195,7 @@ const TOOLS = [
     source: "Local Copilot sessions",
     sourceKey: "Local",
     repo: "https://github.com/microsoft/What-I-Did-Copilot",
-    demoVideo: "https://github.com/microsoft/What-I-Did-Copilot/raw/main/media/What_I_Did_Copilot_Overview.mp4",
+    demoVideo: "https://microsoft.github.io/Analytics-Hub/choose-report/what-i-did/media/What_I_Did_Copilot_Overview.mp4",
     demoVideoLabel: "Watch the 2-minute overview",
     download: "https://github.com/microsoft/What-I-Did-Copilot/archive/refs/heads/main.zip",
     preview: "https://raw.githubusercontent.com/microsoft/What-I-Did-Copilot/main/docs/images/sample-report.gif",
