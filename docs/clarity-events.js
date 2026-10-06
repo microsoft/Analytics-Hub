@@ -408,6 +408,29 @@
     });
   })();
 
+  // ---------------------------------------------------- homepage NEW banner
+  /* The announcement banner links to two enablement guides. Generic "nav:"
+   * events already fire, but they cannot tell a banner click apart from the
+   * same report opened elsewhere. These bounded events answer three questions:
+   * did anyone engage the banner, and did they go to Cowork or to Value Lens. */
+  (function () {
+    document.addEventListener("click", function (ev) {
+      var a = ev.target && ev.target.closest && ev.target.closest(".ah-new-banner-link");
+      if (!a || !a.closest(".ah-new-banner")) return;
+      var href = a.getAttribute("href") || "";
+      var which = /value-lens/.test(href) ? "value-lens"
+                : /cowork-billing-report/.test(href) ? "cowork-chargeback"
+                : "other";
+      safeEvent("banner: open");          // total banner engagement
+      safeEvent("banner: " + which);      // which guide they chose
+    }, { passive: true });
+
+    document.addEventListener("click", function (ev) {
+      var d = ev.target && ev.target.closest && ev.target.closest(".ah-new-banner-dismiss");
+      if (d) safeEvent("banner: dismiss");
+    }, { passive: true });
+  })();
+
   // ---------------------------------------------------- engaged dwell
   /* Separates a real read from a bounce, without relying on session length,
    * which is inflated by idle tabs. Only fires if the tab is still visible. */
