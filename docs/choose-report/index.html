@@ -6335,6 +6335,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback.pbit</code></a>, set <code>CreditCsvPath</code> to the credit CSV and <code>EntraCsvPath</code> to the directory CSV, click <strong>Load</strong>.</p>
         <h5><span class="cc-num">4</span> Refresh and verify</h5>
         <p>Click <strong>Refresh</strong> and confirm the Consumption visuals populate (total credits used, allowance, utilization %, top user) and all six pages render.</p>
+        <h5><span class="cc-num">5</span> Add your own cut <span class="cc-small"><em>(optional &mdash; slice by a custom attribute)</em></span></h5>
+        <p>Need to group by something the standard fields don&rsquo;t cover (say <code>CustomDivision</code>)? Add it as an extra column in your <strong>Entra directory CSV</strong> (Export 2), keyed by <code>userPrincipalName</code> &mdash; the template passes any extra directory column straight through. Click <strong>Refresh</strong> and the column shows up on the <code>Org</code> table in the Data pane. Then select the <strong>Slice By</strong> table and, in the formula bar, add one line before the closing <code>}</code>:</p>
+        <pre>("Custom Division", NAMEOF('Org'[CustomDivision]), 11)</pre>
+        <p class="cc-small">Label shown in the dropdown &middot; the real column &middot; the next sort number. It appears instantly as a new checkbox in the <strong>Slice By</strong> slicer on every page.</p>
       </div>
       <div class="cc-callout cc-info"><span class="ct">Refresh is manual on the CSV path</span>
         Re-export the two CSVs on your cadence (for example monthly), overwrite the files at the same paths, and refresh the report. Want automated, scheduled refresh instead? Use the <strong>Viva Direct (live)</strong> path in tab 2, which connects straight to Viva Insights and self-refreshes in the Power BI Service.</div>
@@ -6360,6 +6364,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         <p>Sign in to the <strong>Viva Insights</strong> connector with your organizational account, click <strong>Load</strong>, then <strong>Refresh</strong>. Every page populates from live tenant data.</p>
         <h5><span class="cc-num">5</span> Publish for automation</h5>
         <p>Publish to the Power BI Service and set a <strong>scheduled refresh</strong> on the dataset. The report then keeps itself current with no manual step.</p>
+        <h5><span class="cc-num">6</span> Add your own cut <span class="cc-small"><em>(optional &mdash; slice by a custom attribute)</em></span></h5>
+        <p>To group by a custom employee attribute (say <code>CustomDivision</code>), include it in your Viva <strong>Consumption</strong> query&rsquo;s employee attributes so it rides along on the people rows. Click <strong>Refresh</strong> and the template carries custom people columns through to the <code>Org</code> table, so your attribute appears in the Data pane. Then select the <strong>Slice By</strong> table and, in the formula bar, add one line before the closing <code>}</code>:</p>
+        <pre>("Custom Division", NAMEOF('Org'[CustomDivision]), 11)</pre>
+        <p class="cc-small">Label shown in the dropdown &middot; the real column &middot; the next sort number. It appears instantly as a new checkbox in the <strong>Slice By</strong> slicer on every page.</p>
       </div>
       <div class="cc-callout cc-info"><span class="ct">Re-saving the query rotates its id</span>
         If you re-save the Consumption query in the portal it gets a new <strong>Query</strong> identifier. Update the <code>VivaQueryId</code> parameter so refresh keeps resolving.</div>
