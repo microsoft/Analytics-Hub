@@ -34,8 +34,8 @@ BASE_METRICS = [
     "estimatedMinutesWatched",
     "subscribersGained",
     "subscribersLost",
-    "impressions",
-    "impressionClickThroughRate",
+    "averageViewDuration",
+    "averageViewPercentage",
 ]
 REVENUE_METRICS = ["estimatedRevenue"]
 
@@ -178,11 +178,11 @@ def normalize_daily(columns: list[str], rows: list[list], include_revenue: bool)
             "date": str(item.get("day")),
             "views": safe_int(item.get("views")),
             "watchMinutes": safe_float(item.get("estimatedMinutesWatched")),
+            "averageViewDuration": safe_float(item.get("averageViewDuration")),
+            "averageViewPercentage": safe_float(item.get("averageViewPercentage")),
             "subscribersGained": gained,
             "subscribersLost": lost,
             "subscribersNet": gained - lost,
-            "impressions": safe_int(item.get("impressions")),
-            "ctr": safe_float(item.get("impressionClickThroughRate")),
         }
         if include_revenue:
             day["estimatedRevenue"] = safe_float(item.get("estimatedRevenue"))
@@ -207,11 +207,11 @@ def normalize_videos(columns: list[str], rows: list[list], metadata: dict[str, d
             "lifetimeViews": safe_int(meta.get("lifetimeViews")),
             "views": safe_int(item.get("views")),
             "watchMinutes": safe_float(item.get("estimatedMinutesWatched")),
+            "averageViewDuration": safe_float(item.get("averageViewDuration")),
+            "averageViewPercentage": safe_float(item.get("averageViewPercentage")),
             "subscribersGained": gained,
             "subscribersLost": lost,
             "subscribersNet": gained - lost,
-            "impressions": safe_int(item.get("impressions")),
-            "ctr": safe_float(item.get("impressionClickThroughRate")),
         }
         if include_revenue:
             video["estimatedRevenue"] = safe_float(item.get("estimatedRevenue"))
@@ -222,8 +222,9 @@ def normalize_videos(columns: list[str], rows: list[list], metadata: dict[str, d
 def aggregate_summary(days: list[dict], videos: list[dict], include_revenue: bool) -> dict:
     views = sum(day["views"] for day in days)
     watch_minutes = sum(day["watchMinutes"] for day in days)
-    impressions = sum(day["impressions"] for day in days)
     subscribers_net = sum(day["subscribersNet"] for day in days)
+    weighted_duration = sum(day["averageViewDuration"] * day["views"] for day in days)
+    weighted_percentage = sum(day["averageViewPercentage"] * day["views"] for day in days)
     summary = {
         "dayCount": len(days),
         "videoCount": len(videos),
@@ -232,8 +233,8 @@ def aggregate_summary(days: list[dict], videos: list[dict], include_revenue: boo
         "views": views,
         "watchMinutes": watch_minutes,
         "subscribersNet": subscribers_net,
-        "impressions": impressions,
-        "ctr": sum(day["ctr"] * day["impressions"] for day in days) / impressions if impressions else 0,
+        "averageViewDuration": weighted_duration / views if views else 0,
+        "averageViewPercentage": weighted_percentage / views if views else 0,
     }
     if include_revenue:
         summary["estimatedRevenue"] = sum(day.get("estimatedRevenue", 0) for day in days)
@@ -249,27 +250,28 @@ def write_database(days: list[dict], videos: list[dict], payload: dict, include_
             "CREATE TABLE IF NOT EXISTS youtube_daily ("
             "date TEXT PRIMARY KEY, views INTEGER NOT NULL, watch_minutes REAL NOT NULL, "
             "subscribers_gained INTEGER NOT NULL, subscribers_lost INTEGER NOT NULL, subscribers_net INTEGER NOT NULL, "
-            "impressions INTEGER NOT NULL, ctr REAL NOT NULL, estimated_revenue REAL)"
+            "average_view_duration REAL NOT NULL, average_view_percentage REAL NOT NULL, estimated_revenue REAL)"
         )
         con.execute(
             "CREATE TABLE IF NOT EXISTS youtube_top_video ("
             "snapshot_date TEXT NOT NULL, video_id TEXT NOT NULL, title TEXT NOT NULL, url TEXT NOT NULL, "
             "views INTEGER NOT NULL, watch_minutes REAL NOT NULL, subscribers_net INTEGER NOT NULL, "
-            "impressions INTEGER NOT NULL, ctr REAL NOT NULL, estimated_revenue REAL, "
+            "average_view_duration REAL NOT NULL, average_view_percentage REAL NOT NULL, estimated_revenue REAL, "
             "PRIMARY KEY (snapshot_date, video_id))"
         )
         con.execute("CREATE TABLE IF NOT EXISTS youtube_snapshot_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
         con.executemany(
-            "INSERT INTO youtube_daily(date, views, watch_minutes, subscribers_gained, subscribers_lost, subscribers_net, impressions, ctr, estimated_revenue) "
+            "INSERT INTO youtube_daily(date, views, watch_minutes, subscribers_gained, subscribers_lost, subscribers_net, average_view_duration, average_view_percentage, estimated_revenue) "
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) "
             "ON CONFLICT(date) DO UPDATE SET views=excluded.views, watch_minutes=excluded.watch_minutes, "
             "subscribers_gained=excluded.subscribers_gained, subscribers_lost=excluded.subscribers_lost, "
-            "subscribers_net=excluded.subscribers_net, impressions=excluded.impressions, ctr=excluded.ctr, "
+            "subscribers_net=excluded.subscribers_net, average_view_duration=excluded.average_view_duration, "
+            "average_view_percentage=excluded.average_view_percentage, "
             "estimated_revenue=excluded.estimated_revenue",
             [
                 (
                     day["date"], day["views"], day["watchMinutes"], day["subscribersGained"],
-                    day["subscribersLost"], day["subscribersNet"], day["impressions"], day["ctr"],
+                    day["subscribersLost"], day["subscribersNet"], day["averageViewDuration"], day["averageViewPercentage"],
                     day.get("estimatedRevenue") if include_revenue else None,
                 )
                 for day in days
@@ -278,12 +280,12 @@ def write_database(days: list[dict], videos: list[dict], payload: dict, include_
         snapshot_date = payload["source"]["endDate"]
         con.execute("DELETE FROM youtube_top_video WHERE snapshot_date = ?", (snapshot_date,))
         con.executemany(
-            "INSERT INTO youtube_top_video(snapshot_date, video_id, title, url, views, watch_minutes, subscribers_net, impressions, ctr, estimated_revenue) "
+            "INSERT INTO youtube_top_video(snapshot_date, video_id, title, url, views, watch_minutes, subscribers_net, average_view_duration, average_view_percentage, estimated_revenue) "
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 (
                     snapshot_date, video["videoId"], video["title"], video["url"], video["views"],
-                    video["watchMinutes"], video["subscribersNet"], video["impressions"], video["ctr"],
+                    video["watchMinutes"], video["subscribersNet"], video["averageViewDuration"], video["averageViewPercentage"],
                     video.get("estimatedRevenue") if include_revenue else None,
                 )
                 for video in videos

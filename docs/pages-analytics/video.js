@@ -339,12 +339,14 @@ function youtubeWindow() {
     acc.views += Number(day.views) || 0;
     acc.watchMinutes += Number(day.watchMinutes) || 0;
     acc.subscribersNet += Number(day.subscribersNet) || 0;
-    acc.impressions += Number(day.impressions) || 0;
-    acc.ctrNumerator += (Number(day.ctr) || 0) * (Number(day.impressions) || 0);
+    acc.durationNumerator += (Number(day.averageViewDuration) || 0) * (Number(day.views) || 0);
+    acc.percentageNumerator += (Number(day.averageViewPercentage) || 0) * (Number(day.views) || 0);
     return acc;
-  }, { views: 0, watchMinutes: 0, subscribersNet: 0, impressions: 0, ctrNumerator: 0 });
-  summary.ctr = summary.impressions ? summary.ctrNumerator / summary.impressions : 0;
-  delete summary.ctrNumerator;
+  }, { views: 0, watchMinutes: 0, subscribersNet: 0, durationNumerator: 0, percentageNumerator: 0 });
+  summary.averageViewDuration = summary.views ? summary.durationNumerator / summary.views : 0;
+  summary.averageViewPercentage = summary.views ? summary.percentageNumerator / summary.views : 0;
+  delete summary.durationNumerator;
+  delete summary.percentageNumerator;
   return { summary, videos: rawYouTube?.videos || [] };
 }
 
@@ -383,8 +385,8 @@ function renderYouTubeKpis(win) {
   setText("yt-kpi-views", fmtNum(summary.views));
   setText("yt-kpi-watch", fmtMinutes(summary.watchMinutes));
   setText("yt-kpi-subs", `${summary.subscribersNet > 0 ? "+" : ""}${fmtNum(summary.subscribersNet)}`);
-  setText("yt-kpi-impressions", fmtNum(summary.impressions));
-  setText("yt-kpi-ctr", fmtPct(summary.ctr));
+  setText("yt-kpi-avg-view", fmtDuration(summary.averageViewDuration));
+  setText("yt-kpi-avg-pct", fmtPct((summary.averageViewPercentage || 0) / 100));
 }
 
 function renderYouTubeTrend() {
@@ -429,7 +431,7 @@ function renderYouTubeTopVideos(win) {
   host.innerHTML = videos.length ? videos.map((row) => `
     <li>
       <span class="va-fill" style="width:${Math.max(4, row.views / maxViews * 100)}%"></span>
-      <span><a class="name" href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.title)}</a><span class="detail">${fmtMinutes(row.watchMinutes)} watch time · ${fmtNum(row.impressions)} impressions</span></span>
+      <span><a class="name" href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.title)}</a><span class="detail">${fmtMinutes(row.watchMinutes)} watch time · ${fmtDuration(row.averageViewDuration)} avg view</span></span>
       <span class="num">${fmtNum(row.views)}</span>
     </li>
   `).join("") : '<li><span class="name">No YouTube videos in this window</span><span class="num">-</span></li>';
