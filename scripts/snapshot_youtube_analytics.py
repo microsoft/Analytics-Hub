@@ -186,6 +186,34 @@ def fetch_video_metadata(access_token: str, video_ids: list[str]) -> dict[str, d
     return meta
 
 
+def validate_authorized_channel(access_token: str, target_channel_id: str) -> None:
+    params = parse.urlencode({
+        "part": "id,snippet",
+        "mine": "true",
+        "maxResults": 50,
+    })
+    data = api_json(
+        f"https://www.googleapis.com/youtube/v3/channels?{params}",
+        headers={"Authorization": f"Bearer {access_token}", "User-Agent": "analytics-hub-youtube-snapshot"},
+    )
+    channels = [
+        {
+            "id": item.get("id"),
+            "title": (item.get("snippet") or {}).get("title") or item.get("id"),
+        }
+        for item in data.get("items", [])
+        if item.get("id")
+    ]
+    if any(ch["id"] == target_channel_id for ch in channels):
+        return
+    seen = ", ".join(f"{ch['title']} ({ch['id']})" for ch in channels) or "no channels"
+    raise RuntimeError(
+        "The YouTube refresh token is not authorized for the target channel "
+        f"{target_channel_id}. OAuth currently sees: {seen}. Re-authorize in "
+        "OAuth Playground and choose the Analytics Hub / MSFTAnalyticsHub YouTube channel."
+    )
+
+
 def normalize_daily(columns: list[str], rows: list[list], include_revenue: bool) -> list[dict]:
     out = []
     for row in rows:
@@ -382,6 +410,7 @@ def main() -> int:
 
     token = refresh_access_token(client_id, client_secret, refresh_token)
     validate_access_token_scopes(token)
+    validate_authorized_channel(token, args.channel_id)
     daily_cols, daily_rows = rows_from_report(query_report(
         token,
         channel_id=args.channel_id,
