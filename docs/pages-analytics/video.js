@@ -382,11 +382,14 @@ function renderYouTubeMeta() {
 
 function renderYouTubeKpis(win) {
   const summary = win?.summary || {};
-  setText("yt-kpi-views", fmtNum(summary.views));
+  const currentChannel = rawYouTube?.current?.channel || {};
+  const hasWindowViews = Number(summary.views) > 0;
+  setText("yt-kpi-views", fmtNum(hasWindowViews ? summary.views : currentChannel.viewCount));
   setText("yt-kpi-watch", fmtMinutes(summary.watchMinutes));
   setText("yt-kpi-subs", `${summary.subscribersNet > 0 ? "+" : ""}${fmtNum(summary.subscribersNet)}`);
   setText("yt-kpi-avg-view", fmtDuration(summary.averageViewDuration));
   setText("yt-kpi-avg-pct", fmtPct((summary.averageViewPercentage || 0) / 100));
+  setText("yt-kpi-views-foot", hasWindowViews ? "Official YouTube Analytics views" : "Current public lifetime views");
 }
 
 function renderYouTubeTrend() {
@@ -426,12 +429,14 @@ function renderYouTubeTrend() {
 function renderYouTubeTopVideos(win) {
   const host = document.getElementById("yt-top-videos");
   if (!host) return;
-  const videos = [...(win?.videos || [])].filter((row) => row.views > 0).sort((a, b) => b.views - a.views).slice(0, 6);
+  const windowVideos = [...(win?.videos || [])].filter((row) => row.views > 0);
+  const currentVideos = [...(rawYouTube?.current?.videos || [])].filter((row) => row.views > 0);
+  const videos = (windowVideos.length ? windowVideos : currentVideos).sort((a, b) => b.views - a.views).slice(0, 6);
   const maxViews = Math.max(1, ...videos.map((row) => row.views));
   host.innerHTML = videos.length ? videos.map((row) => `
     <li>
       <span class="va-fill" style="width:${Math.max(4, row.views / maxViews * 100)}%"></span>
-      <span><a class="name" href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.title)}</a><span class="detail">${fmtMinutes(row.watchMinutes)} watch time · ${fmtDuration(row.averageViewDuration)} avg view</span></span>
+      <span><a class="name" href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.title)}</a><span class="detail">${windowVideos.length ? `${fmtMinutes(row.watchMinutes)} watch time · ${fmtDuration(row.averageViewDuration)} avg view` : "Current public lifetime views"}</span></span>
       <span class="num">${fmtNum(row.views)}</span>
     </li>
   `).join("") : '<li><span class="name">No YouTube videos in this window</span><span class="num">-</span></li>';

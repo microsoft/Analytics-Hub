@@ -186,7 +186,7 @@ def fetch_video_metadata(access_token: str, video_ids: list[str]) -> dict[str, d
     return meta
 
 
-def validate_authorized_channel(access_token: str, target_channel_id: str) -> None:
+def fetch_authorized_channels(access_token: str) -> list[dict]:
     params = parse.urlencode({
         "part": "id,snippet",
         "mine": "true",
@@ -204,6 +204,11 @@ def validate_authorized_channel(access_token: str, target_channel_id: str) -> No
         for item in data.get("items", [])
         if item.get("id")
     ]
+    return channels
+
+
+def validate_authorized_channel(access_token: str, target_channel_id: str) -> None:
+    channels = fetch_authorized_channels(access_token)
     if any(ch["id"] == target_channel_id for ch in channels):
         return
     seen = ", ".join(f"{ch['title']} ({ch['id']})" for ch in channels) or "no channels"
@@ -212,6 +217,72 @@ def validate_authorized_channel(access_token: str, target_channel_id: str) -> No
         f"{target_channel_id}. OAuth currently sees: {seen}. Re-authorize in "
         "OAuth Playground and choose the Analytics Hub / MSFTAnalyticsHub YouTube channel."
     )
+
+
+def fetch_current_channel_snapshot(access_token: str, channel_id: str) -> dict:
+    params = parse.urlencode({
+        "part": "id,snippet,statistics,contentDetails",
+        "id": channel_id,
+        "maxResults": 1,
+    })
+    data = api_json(
+        f"https://www.googleapis.com/youtube/v3/channels?{params}",
+        headers={"Authorization": f"Bearer {access_token}", "User-Agent": "analytics-hub-youtube-snapshot"},
+    )
+    item = (data.get("items") or [{}])[0]
+    snippet = item.get("snippet") or {}
+    stats = item.get("statistics") or {}
+    content = item.get("contentDetails") or {}
+    uploads = ((content.get("relatedPlaylists") or {}).get("uploads")) or ""
+    videos = fetch_upload_playlist_videos(access_token, uploads) if uploads else []
+    return {
+        "channel": {
+            "id": item.get("id") or channel_id,
+            "title": snippet.get("title") or channel_id,
+            "url": f"https://www.youtube.com/channel/{channel_id}",
+            "viewCount": safe_int(stats.get("viewCount")),
+            "subscriberCount": safe_int(stats.get("subscriberCount")),
+            "videoCount": safe_int(stats.get("videoCount")),
+        },
+        "videos": videos,
+    }
+
+
+def fetch_upload_playlist_videos(access_token: str, playlist_id: str, limit: int = 50) -> list[dict]:
+    video_ids: list[str] = []
+    page_token = ""
+    while len(video_ids) < limit:
+        params = {
+            "part": "contentDetails",
+            "playlistId": playlist_id,
+            "maxResults": min(50, limit - len(video_ids)),
+        }
+        if page_token:
+            params["pageToken"] = page_token
+        data = api_json(
+            f"https://www.googleapis.com/youtube/v3/playlistItems?{parse.urlencode(params)}",
+            headers={"Authorization": f"Bearer {access_token}", "User-Agent": "analytics-hub-youtube-snapshot"},
+        )
+        for item in data.get("items", []):
+            vid = ((item.get("contentDetails") or {}).get("videoId")) or ""
+            if vid:
+                video_ids.append(vid)
+        page_token = data.get("nextPageToken") or ""
+        if not page_token:
+            break
+    meta = fetch_video_metadata(access_token, video_ids)
+    videos = [
+        {
+            "videoId": video_id,
+            "title": row.get("title") or video_id,
+            "url": row.get("url") or f"https://www.youtube.com/watch?v={video_id}",
+            "thumbnail": row.get("thumbnail"),
+            "publishedAt": row.get("publishedAt"),
+            "views": safe_int(row.get("lifetimeViews")),
+        }
+        for video_id, row in meta.items()
+    ]
+    return sorted(videos, key=lambda row: row["views"], reverse=True)
 
 
 def normalize_daily(columns: list[str], rows: list[list], include_revenue: bool) -> list[dict]:
@@ -367,6 +438,7 @@ def build_payload(
     days: list[dict],
     videos: list[dict],
     windows: dict[str, dict],
+    current: dict,
     include_revenue: bool,
 ) -> dict:
     return {
@@ -384,6 +456,7 @@ def build_payload(
         "days": days,
         "videos": videos,
         "windows": windows,
+        "current": current,
     }
 
 
@@ -411,6 +484,7 @@ def main() -> int:
     token = refresh_access_token(client_id, client_secret, refresh_token)
     validate_access_token_scopes(token)
     validate_authorized_channel(token, args.channel_id)
+    current = fetch_current_channel_snapshot(token, args.channel_id)
     daily_cols, daily_rows = rows_from_report(query_report(
         token,
         channel_id=args.channel_id,
@@ -470,6 +544,7 @@ def main() -> int:
         days=days,
         videos=videos,
         windows=windows,
+        current=current,
         include_revenue=args.include_revenue,
     )
     write_database(days, videos, payload, args.include_revenue)
