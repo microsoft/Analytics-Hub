@@ -26,6 +26,7 @@ DEFAULT_LOOKBACK_DAYS = 90
 TOP_VIDEO_LIMIT = 25
 
 TOKEN_URL = "https://oauth2.googleapis.com/token"
+TOKENINFO_URL = "https://oauth2.googleapis.com/tokeninfo"
 YT_ANALYTICS_URL = "https://youtubeanalytics.googleapis.com/v2/reports"
 YT_VIDEOS_URL = "https://www.googleapis.com/youtube/v3/videos"
 
@@ -38,6 +39,10 @@ BASE_METRICS = [
     "averageViewPercentage",
 ]
 REVENUE_METRICS = ["estimatedRevenue"]
+REQUIRED_SCOPES = {
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
+    "https://www.googleapis.com/auth/youtube.readonly",
+}
 
 
 class ConfigError(RuntimeError):
@@ -78,6 +83,18 @@ def refresh_access_token(client_id: str, client_secret: str, refresh_token: str)
     if not token:
         raise RuntimeError(f"Google OAuth refresh did not return an access_token: {data}")
     return str(token)
+
+
+def validate_access_token_scopes(access_token: str) -> None:
+    data = api_json(f"{TOKENINFO_URL}?{parse.urlencode({'access_token': access_token})}")
+    granted = set(str(data.get("scope", "")).split())
+    missing = sorted(REQUIRED_SCOPES - granted)
+    if missing:
+        raise RuntimeError(
+            "The YouTube refresh token is missing required OAuth scopes. "
+            "Re-authorize in OAuth Playground with BOTH scopes and replace YOUTUBE_REFRESH_TOKEN: "
+            + ", ".join(missing)
+        )
 
 
 def metric_names(include_revenue: bool) -> list[str]:
@@ -364,6 +381,7 @@ def main() -> int:
     metrics = metric_names(args.include_revenue)
 
     token = refresh_access_token(client_id, client_secret, refresh_token)
+    validate_access_token_scopes(token)
     daily_cols, daily_rows = rows_from_report(query_report(
         token,
         channel_id=args.channel_id,
