@@ -4,6 +4,7 @@
    ============================================================ */
 
 const VIDEO_DATA_URL = "../data/video-analytics.json";
+const YOUTUBE_DATA_URL = "../data/youtube-analytics.json";
 const VIDEO_STATS_URL = "https://analytics-hub-video-stats.stephansmith-msft.workers.dev/stats.json";
 
 const VIDEO_META = {
@@ -32,6 +33,7 @@ const VIDEO_META = {
 };
 
 let rawStats = null;
+let rawYouTube = null;
 let currentWindow = 7;
 let sortKey = "plays";
 let sortDir = -1;
@@ -48,6 +50,24 @@ function fmtDuration(seconds) {
   if (hours) return `${hours}h ${minutes}m`;
   if (minutes) return `${minutes}m ${secs}s`;
   return `${secs}s`;
+}
+
+function fmtMinutes(minutes) {
+  return fmtDuration((Number(minutes) || 0) * 60);
+}
+
+function fmtPct(value) {
+  return `${((Number(value) || 0) * 100).toFixed(1)}%`;
+}
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;",
+  }[ch]));
 }
 
 function friendlyName(file) {
@@ -268,7 +288,7 @@ function renderTopWatch(rows) {
   host.innerHTML = top.length ? top.map((row) => `
     <li>
       <span class="va-fill" style="width:${Math.max(4, row.seconds / maxSeconds * 100)}%"></span>
-      <span><span class="name">${row.name}</span><span class="detail">${row.family} · ${fmtNum(row.plays)} plays</span></span>
+      <span><span class="name">${esc(row.name)}</span><span class="detail">${esc(row.family)} · ${fmtNum(row.plays)} plays</span></span>
       <span class="num">${fmtDuration(row.seconds)}</span>
     </li>
   `).join("") : '<li><span class="name">No watch time yet</span><span class="num">-</span></li>';
@@ -291,7 +311,7 @@ function renderTable(rows) {
   });
   body.innerHTML = sorted.map((row) => `
     <tr>
-      <td><div class="va-video-name">${row.name}</div><div class="va-video-file">video play: ${row.file}</div></td>
+      <td><div class="va-video-name">${esc(row.name)}</div><div class="va-video-file">video play: ${esc(row.file)}</div></td>
       <td class="num"><strong>${fmtNum(row.plays)}</strong><div class="va-bar-track"><div class="va-bar" style="width:${row.plays / maxPlays * 100}%"></div></div></td>
       <td class="num">${fmtDuration(row.seconds)}</td>
       <td class="num">${fmtDuration(row.avg)}</td>
@@ -308,6 +328,119 @@ function render() {
   renderTrend();
   renderTopWatch(rows);
   renderTable(rows);
+  renderYouTube();
+}
+
+function youtubeWindow() {
+  const keyed = rawYouTube?.windows?.[String(currentWindow)];
+  if (keyed) return keyed;
+  const days = (rawYouTube?.days || []).slice(0, currentWindow);
+  const summary = days.reduce((acc, day) => {
+    acc.views += Number(day.views) || 0;
+    acc.watchMinutes += Number(day.watchMinutes) || 0;
+    acc.subscribersNet += Number(day.subscribersNet) || 0;
+    acc.impressions += Number(day.impressions) || 0;
+    acc.ctrNumerator += (Number(day.ctr) || 0) * (Number(day.impressions) || 0);
+    return acc;
+  }, { views: 0, watchMinutes: 0, subscribersNet: 0, impressions: 0, ctrNumerator: 0 });
+  summary.ctr = summary.impressions ? summary.ctrNumerator / summary.impressions : 0;
+  delete summary.ctrNumerator;
+  return { summary, videos: rawYouTube?.videos || [] };
+}
+
+function youtubeDailySeries() {
+  return [...(rawYouTube?.days || []).slice(0, currentWindow)].reverse().map((day) => ({
+    date: day.date,
+    views: Number(day.views) || 0,
+    watchMinutes: Number(day.watchMinutes) || 0,
+  }));
+}
+
+function renderYouTubeMeta() {
+  const meta = document.getElementById("yt-meta");
+  if (!meta) return;
+  if (!rawYouTube || rawYouTube.message) {
+    meta.textContent = rawYouTube?.message || "No YouTube Analytics snapshot has been published yet.";
+    return;
+  }
+  const days = rawYouTube.days || [];
+  const newest = days[0]?.date;
+  const oldest = days[Math.min(currentWindow, days.length) - 1]?.date;
+  const fmt = (date) => new Date(date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const stamp = rawYouTube.lastUpdated ? new Date(rawYouTube.lastUpdated) : null;
+  const parts = [];
+  if (oldest && newest) parts.push(`Showing ${fmt(oldest)} to ${fmt(newest)}`);
+  if (stamp && !Number.isNaN(stamp.valueOf())) {
+    parts.push(`refreshed ${stamp.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}`);
+  }
+  if (rawYouTube.source?.hasRevenue) parts.push("revenue included");
+  else parts.push("revenue hidden");
+  meta.textContent = parts.join(" · ");
+}
+
+function renderYouTubeKpis(win) {
+  const summary = win?.summary || {};
+  setText("yt-kpi-views", fmtNum(summary.views));
+  setText("yt-kpi-watch", fmtMinutes(summary.watchMinutes));
+  setText("yt-kpi-subs", `${summary.subscribersNet > 0 ? "+" : ""}${fmtNum(summary.subscribersNet)}`);
+  setText("yt-kpi-impressions", fmtNum(summary.impressions));
+  setText("yt-kpi-ctr", fmtPct(summary.ctr));
+}
+
+function renderYouTubeTrend() {
+  const host = document.getElementById("yt-trend");
+  const points = youtubeDailySeries();
+  if (!host) return;
+  if (!points.length || !points.some((p) => p.views || p.watchMinutes)) {
+    host.innerHTML = '<p class="va-message"><strong>No YouTube data in this window</strong>The scheduled snapshot will populate this chart after the first successful API run.</p>';
+    return;
+  }
+  const width = 760;
+  const height = 240;
+  const maxViews = Math.max(1, ...points.map((p) => p.views));
+  const maxMinutes = Math.max(1, ...points.map((p) => p.watchMinutes));
+  const grid = [0, .25, .5, .75, 1].map((t) => {
+    const y = 14 + (height - 14 - 24) * t;
+    return `<line class="grid" x1="38" x2="${width - 14}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" />`;
+  }).join("");
+  const labels = points.map((p, i) => {
+    if (points.length > 10 && i % Math.ceil(points.length / 6) !== 0 && i !== points.length - 1) return "";
+    const x = 38 + (points.length === 1 ? 0 : (i / (points.length - 1)) * (width - 52));
+    const label = new Date(p.date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+    return `<text class="lbl" x="${x.toFixed(1)}" y="${height - 5}" text-anchor="middle">${label}</text>`;
+  }).join("");
+  host.innerHTML = `
+    <svg class="va-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily YouTube views and watch time">
+      ${grid}
+      <path class="area" d="${areaPath(points, width, height, maxViews, "views")}" />
+      <path class="line" d="${linePath(points, width, height, maxViews, "views")}" />
+      <path class="line watch" d="${linePath(points, width, height, maxMinutes, "watchMinutes")}" />
+      ${labels}
+      <text class="lbl" x="8" y="18">high</text>
+      <text class="lbl" x="8" y="${height - 27}">0</text>
+    </svg>`;
+}
+
+function renderYouTubeTopVideos(win) {
+  const host = document.getElementById("yt-top-videos");
+  if (!host) return;
+  const videos = [...(win?.videos || [])].filter((row) => row.views > 0).sort((a, b) => b.views - a.views).slice(0, 6);
+  const maxViews = Math.max(1, ...videos.map((row) => row.views));
+  host.innerHTML = videos.length ? videos.map((row) => `
+    <li>
+      <span class="va-fill" style="width:${Math.max(4, row.views / maxViews * 100)}%"></span>
+      <span><a class="name" href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.title)}</a><span class="detail">${fmtMinutes(row.watchMinutes)} watch time · ${fmtNum(row.impressions)} impressions</span></span>
+      <span class="num">${fmtNum(row.views)}</span>
+    </li>
+  `).join("") : '<li><span class="name">No YouTube videos in this window</span><span class="num">-</span></li>';
+}
+
+function renderYouTube() {
+  renderYouTubeMeta();
+  const win = youtubeWindow();
+  renderYouTubeKpis(win);
+  renderYouTubeTrend();
+  renderYouTubeTopVideos(win);
 }
 
 function tokenQuery() {
@@ -316,6 +449,12 @@ function tokenQuery() {
 }
 
 async function load() {
+  const youtubePromise = fetch(YOUTUBE_DATA_URL, { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .catch((err) => ({ message: `Could not load YouTube Analytics snapshot: ${err.message}.` }));
   try {
     const response = await fetch(VIDEO_DATA_URL, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -334,6 +473,7 @@ async function load() {
       rawStats = { updated: null, days: [], message: `Could not load stored video telemetry: ${err.message}.` };
     }
   }
+  rawYouTube = await youtubePromise;
   render();
 }
 

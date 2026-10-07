@@ -1,0 +1,58 @@
+name: Daily YouTube analytics snapshot
+
+on:
+  schedule:
+    # 03:45 UTC daily, after the site and video telemetry snapshots.
+    - cron: "45 3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Check YouTube credentials
+        id: creds
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          if [ -n "$YOUTUBE_CLIENT_ID" ] && [ -n "$YOUTUBE_CLIENT_SECRET" ] && [ -n "$YOUTUBE_REFRESH_TOKEN" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "YouTube Analytics secrets are not configured; skipping snapshot."
+          fi
+
+      - name: Pull YouTube Analytics channel metrics
+        if: steps.creds.outputs.configured == 'true'
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          YOUTUBE_CHANNEL_ID: UCiWNgBL0p8q23LnNe5sczGw
+          YOUTUBE_LOOKBACK_DAYS: "90"
+          YOUTUBE_INCLUDE_REVENUE: "false"
+        run: python scripts/snapshot_youtube_analytics.py
+
+      - name: Commit & push if changed
+        if: steps.creds.outputs.configured == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/youtube-analytics.json docs/data/youtube-analytics.sqlite
+          if git diff --cached --quiet; then
+            echo "No YouTube analytics changes."
+          else
+            git commit -m "chore: daily youtube analytics snapshot $(date -u +%Y-%m-%d)"
+            git push
+          fi

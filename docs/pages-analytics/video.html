@@ -90,6 +90,17 @@
     .va-message{padding:2.2rem;text-align:center;color:var(--text-muted)}
     .va-message strong{display:block;color:var(--text);font-size:1.05rem;margin-bottom:.25rem}
     .va-callout{border:1px solid color-mix(in srgb,var(--accent) 30%,var(--border));background:color-mix(in srgb,var(--accent) 7%,var(--surface));border-radius:var(--radius);padding:1rem 1.1rem;color:var(--text-soft);font-size:.9rem;line-height:1.5}
+    .yt-panel{margin-top:1.2rem;border:1px solid color-mix(in srgb,var(--accent) 26%,var(--border));background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 7%,var(--surface)) 0%,var(--surface) 58%);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+    .yt-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1.15rem 1.2rem;border-bottom:1px solid var(--border)}
+    .yt-head h2{margin:0 0 .3rem;font-size:1.22rem;letter-spacing:-.01em}.yt-head p{margin:0;color:var(--text-muted);font-size:.88rem;line-height:1.45;max-width:78ch}
+    .yt-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));border-radius:10px;padding:.55rem .9rem;text-decoration:none;font-weight:700;font-size:.86rem;color:var(--accent);background:var(--surface);white-space:nowrap}
+    .yt-body{padding:1.2rem}.yt-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1rem;margin-bottom:1.2rem}
+    .yt-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow-sm)}
+    .yt-kpi .label{display:block;font-size:.72rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
+    .yt-kpi .value{display:block;font-size:1.55rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.yt-kpi .foot{display:block;font-size:.76rem;color:var(--text-muted);margin-top:.4rem;line-height:1.35}
+    .yt-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:1.2rem}.yt-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:1.1rem}
+    .yt-card h3{font-size:1.05rem;margin:0 0 .3rem}.yt-card .sub{color:var(--text-muted);font-size:.84rem;margin:0 0 1rem;line-height:1.45}
+    @media(max-width:860px){.yt-head{display:block}.yt-link{margin-top:1rem}.yt-grid{grid-template-columns:1fr}}
     .va-callout code{font-family:ui-monospace,Consolas,monospace;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1rem .35rem;color:var(--text)}
     @media(max-width:860px){.va-grid{grid-template-columns:1fr}.va-title-row{display:block}.va-actions{margin-top:1rem}.va-video-file{display:none}}
   </style>
@@ -123,11 +134,12 @@
         <div>
           <p class="va-eyebrow">Private interaction telemetry</p>
           <h1>Video traffic and interactions</h1>
-          <p class="va-lede">A focused readout of which demo videos people actually start, how much time they spend watching, and which walkthroughs are creating the strongest engagement signal. Backed by the daily video analytics database snapshot.</p>
+          <p class="va-lede">A focused readout of which demo videos people actually start, how much time they spend watching, and which walkthroughs are creating the strongest engagement signal. The page can also show the official YouTube channel feed when the daily snapshot is configured.</p>
           <p class="va-meta" id="va-meta">Loading video telemetry...</p>
         </div>
         <div class="va-actions">
           <a class="va-action" href="https://analytics-hub-video-stats.stephansmith-msft.workers.dev/" target="_blank" rel="noopener">Open worker dashboard</a>
+          <a class="va-action" href="https://www.youtube.com/@MSFTAnalyticsHub/" target="_blank" rel="noopener">Open YouTube channel</a>
           <a class="va-action primary" href="./">Pages Analytics</a>
         </div>
       </div>
@@ -194,8 +206,44 @@
 
   <section class="va-section">
     <div class="wrap">
+      <div class="yt-panel" id="youtube-panel">
+        <div class="yt-head">
+          <div>
+            <h2>Official YouTube channel analytics</h2>
+            <p id="yt-meta">Loading YouTube Analytics snapshot...</p>
+          </div>
+          <a class="yt-link" href="https://studio.youtube.com/channel/UCiWNgBL0p8q23LnNe5sczGw/analytics" target="_blank" rel="noopener">Open YouTube Studio</a>
+        </div>
+        <div class="yt-body" id="yt-body">
+          <div class="yt-kpis">
+            <div class="yt-kpi"><span class="label">Views</span><span class="value" id="yt-kpi-views">-</span><span class="foot">Official YouTube views</span></div>
+            <div class="yt-kpi"><span class="label">Watch time</span><span class="value" id="yt-kpi-watch">-</span><span class="foot">Channel minutes watched</span></div>
+            <div class="yt-kpi"><span class="label">Subscribers</span><span class="value" id="yt-kpi-subs">-</span><span class="foot">Net subscriber change</span></div>
+            <div class="yt-kpi"><span class="label">Impressions</span><span class="value" id="yt-kpi-impressions">-</span><span class="foot">Thumbnail impressions</span></div>
+            <div class="yt-kpi"><span class="label">CTR</span><span class="value" id="yt-kpi-ctr">-</span><span class="foot">Impression click-through rate</span></div>
+          </div>
+          <div class="yt-grid">
+            <div class="yt-card">
+              <h3>Daily YouTube trend</h3>
+              <p class="sub">Views and watch time from the official YouTube Analytics API.</p>
+              <div id="yt-trend"><p class="va-message">Loading...</p></div>
+              <div class="va-legend"><span><i></i>Views</span><span><i class="watch"></i>Watch time</span></div>
+            </div>
+            <div class="yt-card">
+              <h3>Top YouTube videos</h3>
+              <p class="sub">Ranked by views in the selected window.</p>
+              <ul class="va-list" id="yt-top-videos"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="va-section">
+    <div class="wrap">
       <div class="va-callout">
-        This page reads <code>docs/data/video-analytics.json</code>, generated daily from a SQLite snapshot of the Cloudflare KV collector behind <code>analytics-hub-video-stats.stephansmith-msft.workers.dev</code>. Public visitors still only send anonymous aggregate play and watch-time counts.
+        This page reads <code>docs/data/video-analytics.json</code>, generated daily from a SQLite snapshot of the Cloudflare KV collector behind <code>analytics-hub-video-stats.stephansmith-msft.workers.dev</code>. The YouTube section reads <code>docs/data/youtube-analytics.json</code>, generated daily from the YouTube Analytics API when GitHub Actions secrets are configured. Public visitors still only send anonymous aggregate play and watch-time counts.
       </div>
     </div>
   </section>
