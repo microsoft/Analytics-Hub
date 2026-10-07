@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-07T03:41:52.206756Z",
+  "lastUpdated": "2026-10-07T08:32:22.247400Z",
   "source": {
     "type": "cloudflare-kv",
     "workerUrl": "https://analytics-hub-video-stats.stephansmith-msft.workers.dev",
@@ -7,31 +7,80 @@
   },
   "days": [
     {
+      "date": "2026-10-07",
+      "videos": {
+        "AI-in-One-Overview": {
+          "plays": 1,
+          "secs": 20
+        },
+        "Analytics_Hub_Tour": {
+          "plays": 4,
+          "secs": 79
+        },
+        "ConsumptionCentral-Demo": {
+          "plays": 5,
+          "secs": 251
+        },
+        "Cowork_Impact_Report_Overview": {
+          "plays": 1,
+          "secs": 3
+        },
+        "Personal_Dashboard_Overview": {
+          "plays": 1,
+          "secs": 8
+        },
+        "What_I_Did_Copilot_Overview": {
+          "plays": 1,
+          "secs": 20
+        }
+      }
+    },
+    {
       "date": "2026-10-06",
       "videos": {
         "AI-in-One-Overview": {
           "plays": 7,
           "secs": 175
         },
+        "AgentEvaluator-Demo": {
+          "plays": 2,
+          "secs": 81
+        },
         "Analytics_Hub_Tour": {
-          "plays": 3,
-          "secs": 321
+          "plays": 5,
+          "secs": 501
         },
         "ConsumptionCentral-Demo": {
-          "plays": 6,
-          "secs": 351
+          "plays": 13,
+          "secs": 954
+        },
+        "Cowork_Impact_Report_Overview": {
+          "plays": 3,
+          "secs": 17
         },
         "Cowork_Policy_Helper_Overview": {
           "plays": 1,
           "secs": 52
         },
+        "Cowork_Team_Report_Setup": {
+          "plays": 1,
+          "secs": 40
+        },
         "CreditUsage-Demo": {
-          "plays": 3,
-          "secs": 177
+          "plays": 6,
+          "secs": 408
+        },
+        "FinOps-Cowork-Demo": {
+          "plays": 1,
+          "secs": 7
+        },
+        "Personal_Dashboard_Overview": {
+          "plays": 1,
+          "secs": 8
         },
         "ValueLens-Demo": {
-          "plays": 4,
-          "secs": 129
+          "plays": 11,
+          "secs": 335
         }
       }
     },
@@ -807,49 +856,65 @@
     }
   ],
   "summary": {
-    "dayCount": 23,
-    "videoCount": 19,
-    "plays": 724,
-    "seconds": 42986,
+    "dayCount": 24,
+    "videoCount": 22,
+    "plays": 764,
+    "seconds": 44740,
     "firstDate": "2026-09-14",
-    "lastDate": "2026-10-06"
+    "lastDate": "2026-10-07"
   },
   "videos": {
     "AI-in-One-Overview": {
-      "plays": 114,
-      "secs": 6431
+      "plays": 115,
+      "secs": 6451
     },
     "Analytics_Hub_Tour": {
-      "plays": 60,
-      "secs": 5197
+      "plays": 66,
+      "secs": 5456
     },
     "ConsumptionCentral-Demo": {
-      "plays": 226,
-      "secs": 13482
+      "plays": 238,
+      "secs": 14336
+    },
+    "Cowork_Impact_Report_Overview": {
+      "plays": 4,
+      "secs": 20
+    },
+    "Personal_Dashboard_Overview": {
+      "plays": 8,
+      "secs": 621
+    },
+    "What_I_Did_Copilot_Overview": {
+      "plays": 1,
+      "secs": 20
+    },
+    "AgentEvaluator-Demo": {
+      "plays": 39,
+      "secs": 1878
     },
     "Cowork_Policy_Helper_Overview": {
       "plays": 8,
       "secs": 279
     },
+    "Cowork_Team_Report_Setup": {
+      "plays": 1,
+      "secs": 40
+    },
     "CreditUsage-Demo": {
-      "plays": 29,
-      "secs": 1482
+      "plays": 32,
+      "secs": 1713
+    },
+    "FinOps-Cowork-Demo": {
+      "plays": 19,
+      "secs": 566
     },
     "ValueLens-Demo": {
-      "plays": 125,
-      "secs": 5693
-    },
-    "AgentEvaluator-Demo": {
-      "plays": 37,
-      "secs": 1797
+      "plays": 132,
+      "secs": 5899
     },
     "Cowork_Policy_Helper_Tutorial": {
       "plays": 4,
       "secs": 498
-    },
-    "FinOps-Cowork-Demo": {
-      "plays": 18,
-      "secs": 559
     },
     "GitHubCopilotPanel-Demo": {
       "plays": 25,
@@ -866,10 +931,6 @@
     "CopilotROICalculator-Demo": {
       "plays": 5,
       "secs": 71
-    },
-    "Personal_Dashboard_Overview": {
-      "plays": 6,
-      "secs": 605
     },
     "Team-Cowork-Skill-Overview": {
       "plays": 11,
