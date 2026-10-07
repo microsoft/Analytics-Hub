@@ -104,7 +104,18 @@ a:hover { text-decoration: underline; }
 .brand:hover { text-decoration: none; }
 .brand-mark { font-size: 22px; }
 .brand-by { font-weight: 400; color: var(--text-muted); font-size: 13px; }
-.primary-nav { display: flex; gap: 18px; margin-left: auto; align-items: center; flex-wrap: nowrap; }
+.primary-nav {
+  --nav-link-gap: 18px;
+  display: flex;
+  gap: 0;
+  margin-left: auto;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.primary-nav a:not(.nav-subscribe):not(.nav-cta),
+.primary-nav > .nav-dropdown {
+  margin-right: var(--nav-link-gap);
+}
 .primary-nav a {
   color: var(--text-soft);
   font-size: 14px; font-weight: 500;
@@ -122,8 +133,14 @@ a:hover { text-decoration: underline; }
 .primary-nav a:not(.nav-cta):hover::after { width: 100%; }
 .nav-cta {
   background: var(--text); color: var(--bg) !important;
-  padding: 8px 14px !important; border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 13px !important; border-radius: 0;
   font-weight: 600 !important;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  margin-left: -1px;
 }
 .nav-cta:hover { background: var(--accent); text-decoration: none; }
 .nav-cta.nav-youtube {
@@ -336,18 +353,24 @@ a:hover { text-decoration: underline; }
 .primary-nav a.nav-subscribe {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
   color: #fff;
-  padding: 7px 14px;
-  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 13px;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
   font-weight: 600;
   white-space: nowrap;
-  transition: filter .15s ease, transform .15s ease;
+  transition: filter .15s ease, background .15s ease;
 }
 .primary-nav a.nav-subscribe:hover {
   filter: saturate(1.12);
-  transform: translateY(-1px);
   text-decoration: none;
   color: #fff;
 }
+.primary-nav a.nav-subscribe + .nav-cta { border-radius: 0; }
+.primary-nav a.nav-cta + .nav-cta { border-radius: 0 8px 8px 0; }
 /* The animated underline on nav links would cut across the pill. */
 .primary-nav a.nav-subscribe::after { content: none; }
 
@@ -1610,7 +1633,7 @@ a:hover { text-decoration: underline; }
    The Resources dropdown hid six destinations behind a hover. Those now
    sit in the footer on every page, and the top row is flat and complete. */
 .site-header { position: sticky; top: 0; z-index: 60; }
-.primary-nav { gap: 22px; }
+.primary-nav { --nav-link-gap: 22px; }
 .primary-nav a { font-size: 14px; }
 .primary-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 .primary-nav a[aria-current="page"]::after { width: 100%; }
@@ -1619,7 +1642,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 1100px) {
   .site-header .wrap { gap: 14px; padding: 0 16px; }
   .brand-by { display: none; }
-  .primary-nav { gap: 10px; }
+  .primary-nav { --nav-link-gap: 10px; }
   .primary-nav a { font-size: 13px; }
   .nav-cta { padding: 7px 11px !important; }
   .primary-nav a.nav-subscribe { padding: 7px 11px; font-size: 13px; }
