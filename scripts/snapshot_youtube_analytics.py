@@ -87,6 +87,7 @@ def metric_names(include_revenue: bool) -> list[str]:
 def query_report(
     access_token: str,
     *,
+    channel_id: str,
     start_date: str,
     end_date: str,
     dimensions: str,
@@ -95,7 +96,7 @@ def query_report(
     max_results: int | None = None,
 ) -> dict:
     params: dict[str, str | int] = {
-        "ids": "channel==MINE",
+        "ids": f"channel=={channel_id}",
         "startDate": start_date,
         "endDate": end_date,
         "dimensions": dimensions,
@@ -365,6 +366,7 @@ def main() -> int:
     token = refresh_access_token(client_id, client_secret, refresh_token)
     daily_cols, daily_rows = rows_from_report(query_report(
         token,
+        channel_id=args.channel_id,
         start_date=start_s,
         end_date=end_s,
         dimensions="day",
@@ -380,6 +382,7 @@ def main() -> int:
         window_start = (end - timedelta(days=window_days - 1)).isoformat()
         video_cols, video_rows = rows_from_report(query_report(
             token,
+            channel_id=args.channel_id,
             start_date=window_start,
             end_date=end_s,
             dimensions="video",
