@@ -383,8 +383,10 @@ function renderYouTubeMeta() {
 function renderYouTubeKpis(win) {
   const summary = win?.summary || {};
   const currentChannel = rawYouTube?.current?.channel || {};
+  const currentVideoViews = (rawYouTube?.current?.videos || []).reduce((sum, row) => sum + (Number(row.views) || 0), 0);
+  const currentViews = Math.max(Number(currentChannel.viewCount) || 0, currentVideoViews);
   const hasWindowViews = Number(summary.views) > 0;
-  setText("yt-kpi-views", fmtNum(hasWindowViews ? summary.views : currentChannel.viewCount));
+  setText("yt-kpi-views", fmtNum(hasWindowViews ? summary.views : currentViews));
   setText("yt-kpi-watch", fmtMinutes(summary.watchMinutes));
   setText("yt-kpi-subs", `${summary.subscribersNet > 0 ? "+" : ""}${fmtNum(summary.subscribersNet)}`);
   setText("yt-kpi-avg-view", fmtDuration(summary.averageViewDuration));
