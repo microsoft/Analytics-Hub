@@ -126,6 +126,11 @@ a:hover { text-decoration: underline; }
   font-weight: 600 !important;
 }
 .nav-cta:hover { background: var(--accent); text-decoration: none; }
+.nav-cta.nav-youtube {
+  background: #c4302b;
+  color: #fff !important;
+}
+.nav-cta.nav-youtube:hover { background: #a32925; }
 
 /* -- Internal Demos link (MSFT-only; no pill, just a regular nav link with the lock glyph) -------------------------- */
 .nav-internal[aria-current="page"] {
@@ -1610,6 +1615,20 @@ a:hover { text-decoration: underline; }
 .primary-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 .primary-nav a[aria-current="page"]::after { width: 100%; }
 .nav-cta { font-size: 13.5px; }
+
+@media (max-width: 1100px) {
+  .site-header .wrap { gap: 14px; padding: 0 16px; }
+  .brand-by { display: none; }
+  .primary-nav { gap: 10px; }
+  .primary-nav a { font-size: 13px; }
+  .nav-cta { padding: 7px 11px !important; }
+  .primary-nav a.nav-subscribe { padding: 7px 11px; font-size: 13px; }
+  .theme-toggle { width: 34px; height: 34px; flex: 0 0 auto; }
+}
+
+@media (max-width: 920px) {
+  .primary-nav { display: none; }
+}
 
 /* --- 6. Secondary links in the footer -------------------------------- */
 .footer-secondary {
