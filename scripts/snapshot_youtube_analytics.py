@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_DB = ROOT / "docs" / "data" / "youtube-analytics.sqlite"
 OUT_JSON = ROOT / "docs" / "data" / "youtube-analytics.json"
 
-DEFAULT_CHANNEL_ID = "UCiWNgBL0p8q23LnNe5sczGw"
+DEFAULT_CHANNEL_ID = "UC5vdN46PuzU-kYdZQAEO_BA"
 DEFAULT_LOOKBACK_DAYS = 90
 TOP_VIDEO_LIMIT = 25
 

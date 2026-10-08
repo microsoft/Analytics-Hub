@@ -39,7 +39,7 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          YOUTUBE_CHANNEL_ID: UCiWNgBL0p8q23LnNe5sczGw
+          YOUTUBE_CHANNEL_ID: UC5vdN46PuzU-kYdZQAEO_BA
           YOUTUBE_LOOKBACK_DAYS: "90"
           YOUTUBE_INCLUDE_REVENUE: "false"
         run: python scripts/snapshot_youtube_analytics.py
