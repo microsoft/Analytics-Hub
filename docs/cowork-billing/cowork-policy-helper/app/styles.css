@@ -93,10 +93,12 @@ header h1 {
     background: var(--surface-raised); border: 1px solid var(--border); border-radius: 12px;
     padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;
 }
-.vid-card video {
+.vid-card video, .vid-card iframe {
     width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: 8px;
     background: #000; border: 1px solid var(--border);
 }
+.vid-card iframe { border: 1px solid var(--border); height: auto; }
+.vid-card .yt-watch { color: var(--copilot-cyan); white-space: nowrap; }
 .vid-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
 .vid-head h3 { color: var(--copilot-cyan); font-size: 1.15rem; margin: 0; }
 .vid-len {

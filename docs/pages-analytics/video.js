@@ -30,6 +30,24 @@ const VIDEO_META = {
   "AI-Solutions-Intelligence-Dashboard-Overview": { name: "AI Solutions Intelligence Overview", duration: 180, family: "Report demos" },
   "AI-Solutions-Dashboard-V27-In-Testing-Walkthrough": { name: "AI Solutions Dashboard Walkthrough", duration: 240, family: "Report demos" },
   "ValueLens_Fabric_Setup": { name: "ValueLens Fabric Setup", duration: 240, family: "Setup guides" },
+  /* YouTube embeds (clarity-events.js YT_NAMES); durations from the channel. */
+  "YT-Analytics-Hub-Tour": { name: "Analytics Hub Tour (YouTube)", duration: 284, family: "Hub" },
+  "YT-ValueLens-Overview": { name: "ValueLens Overview (YouTube)", duration: 109, family: "Report demos" },
+  "YT-ValueLens-Fabric-Setup": { name: "ValueLens Fabric Setup (YouTube)", duration: 2149, family: "Setup guides" },
+  "YT-Consumption-Central-Overview": { name: "Consumption Central Overview (YouTube)", duration: 111, family: "Report demos" },
+  "YT-Consumption-Central-Setup": { name: "Consumption Central Setup (YouTube)", duration: 649, family: "Setup guides" },
+  "YT-Cowork-Team-Report": { name: "Cowork Team Report (YouTube)", duration: 293, family: "Cowork Billing" },
+  "YT-Cowork-Chargeback-Billing-Overview": { name: "Cowork Chargeback and Billing Overview (YouTube)", duration: 135, family: "Cowork Billing" },
+  "YT-Agent-Evaluator-Overview": { name: "Agent Evaluator Overview (YouTube)", duration: 113, family: "Report demos" },
+  "YT-AI-in-One-Overview": { name: "AI-in-One Overview (YouTube)", duration: 150, family: "Report demos" },
+  "YT-AI-in-One-Setup": { name: "AI-in-One Setup (YouTube)", duration: 612, family: "Setup guides" },
+  "YT-Personal-Dashboard-Overview": { name: "Personal Dashboard Overview (YouTube)", duration: 195, family: "Report demos" },
+  "YT-M365-Copilot-Readiness-Overview": { name: "M365 Copilot Readiness Overview (YouTube)", duration: 106, family: "Report demos" },
+  "YT-ESS-Insights-Overview": { name: "ESS Insights Overview (YouTube)", duration: 100, family: "Report demos" },
+  "YT-Copilot-ROI-Calculator-Overview": { name: "Copilot ROI Calculator Overview (YouTube)", duration: 111, family: "Tools" },
+  "YT-Cowork-Policy-Helper-Overview": { name: "Cowork Policy Helper Overview (YouTube)", duration: 106, family: "Cowork Billing" },
+  "YT-FinOps-FOCUS-Overview": { name: "FinOps and FOCUS Overview (YouTube)", duration: 115, family: "Cowork Billing" },
+  "YT-What-Cowork-Did-For-Me-Overview": { name: "What Cowork Did For Me Overview (YouTube)", duration: 124, family: "Report demos" },
 };
 
 let rawStats = null;

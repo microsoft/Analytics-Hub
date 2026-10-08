@@ -13,6 +13,8 @@
      7. Engaged dwell            → "engaged 30s"
      8. Video plays              → "video play: <file>"
       9. Video watch-time          → collector beacon (plays + seconds)
+         (native <video> and YouTube embeds via the IFrame API; YouTube
+          names are "YT-<video>", see YT_NAMES)
      10. Feed filter chips         → "filter: <status>"      (bounded set)
      11. Feed timeframe menu       → "timeframe: <value>"    (bounded set)
      12. Email-a-change intent     → "share: email"          (no content sent)
@@ -406,6 +408,156 @@
     document.addEventListener("visibilitychange", function () {
       if (document.visibilityState === "hidden") flushAll();
     });
+  })();
+
+  // ---------------------------------------------------- YouTube embeds
+  /* YouTube videos play inside a cross-origin iframe, so the native <video>
+   * listeners above never see them. The YouTube IFrame API reports the same
+   * two numbers: the first play of each player per page load ("video play:
+   * <name>" + a collector play) and real watched seconds to the collector.
+   *   - Names come from a fixed id -> name map so they stay readable and pass
+   *     the collector's [A-Za-z0-9._-] rule; an unknown id becomes YT-<id>.
+   *   - The API script is only requested when a page actually has an embed.
+   *   - Flyouts and guide tabs swap players in and out, so a MutationObserver
+   *     attaches new ones and flushes the watched time of removed ones. */
+  var YT_NAMES = {
+    "ofzizJAUy-A": "YT-Analytics-Hub-Tour",
+    "Ou601NG_pdg": "YT-ValueLens-Overview",
+    "-pAuSQSP5pc": "YT-ValueLens-Fabric-Setup",
+    "JdOVx_6kw5Y": "YT-Consumption-Central-Overview",
+    "0fgvP8mutTo": "YT-Consumption-Central-Setup",
+    "u0VznEwIrd4": "YT-Cowork-Team-Report",
+    "msDBEUbtGlw": "YT-Cowork-Chargeback-Billing-Overview",
+    "Tg594Hst5MY": "YT-Agent-Evaluator-Overview",
+    "W9JWgF6wcqg": "YT-AI-in-One-Overview",
+    "z4FWazaBDS8": "YT-AI-in-One-Setup",
+    "C0q8kW7GVGk": "YT-Personal-Dashboard-Overview",
+    "uwfv8qrcs5E": "YT-M365-Copilot-Readiness-Overview",
+    "dQqgcUs9Ly4": "YT-ESS-Insights-Overview",
+    "MqfgE3sVCsw": "YT-Copilot-ROI-Calculator-Overview",
+    "rGqKugcA654": "YT-Cowork-Policy-Helper-Overview",
+    "mN2DuNkMxFk": "YT-FinOps-FOCUS-Overview",
+    "rNcVOnRO5IU": "YT-What-Cowork-Did-For-Me-Overview"
+  };
+
+  (function () {
+    var SEL = 'iframe[src*="youtube-nocookie.com/embed/"],iframe[src*="youtube.com/embed/"]';
+    var recs = [];
+    var waiting = [];
+    var apiRequested = false;
+
+    function ytId(src) {
+      var m = String(src || "").match(/\/embed\/([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : "";
+    }
+    function nameOf(el) {
+      var id = ytId(el.getAttribute("src"));
+      return YT_NAMES[id] || (id ? "YT-" + id : "");
+    }
+    function withApi(cb) {
+      if (window.YT && window.YT.Player) return cb();
+      waiting.push(cb);
+      if (apiRequested) return;
+      apiRequested = true;
+      var prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function () {
+        try { if (typeof prev === "function") prev(); } catch (e) {}
+        var list = waiting; waiting = [];
+        for (var i = 0; i < list.length; i++) { try { list[i](); } catch (e) {} }
+      };
+      var s = document.createElement("script");
+      s.src = "https://www.youtube.com/iframe_api";
+      s.async = true;
+      (document.head || document.documentElement).appendChild(s);
+    }
+
+    function tick(r) {
+      try {
+        var t = r.player.getCurrentTime() || 0, dt = t - r.last;
+        if (dt > 0 && dt < 2.5) r.watched += dt; // normal tick, not a seek
+        r.last = t;
+      } catch (e) {}
+    }
+    function stopTimer(r) { if (r.timer) { clearInterval(r.timer); r.timer = null; } }
+    function flushRec(r) {
+      var whole = Math.floor(r.watched), delta = whole - r.sent;
+      if (delta >= 1) { r.sent = whole; queue(r.name || "(unknown)", "seconds", delta); }
+    }
+    function onState(r, state) {
+      if (state === 1) { // playing
+        try { r.last = r.player.getCurrentTime() || 0; } catch (e) {}
+        if (!r.played) {
+          r.played = true;
+          safeEvent(r.name ? "video play: " + r.name : "video play");
+          queue(r.name || "(unknown)", "plays", 1);
+        }
+        if (!r.timer) r.timer = setInterval(function () { tick(r); }, 1000);
+        return;
+      }
+      if (r.timer) { tick(r); stopTimer(r); }
+      if (state === 0 || state === 2) flushRec(r); // ended / paused
+    }
+
+    function attach(el) {
+      if (!el || el.__ahYt) return;
+      el.__ahYt = true;
+      var r = { el: el, name: nameOf(el), played: false, watched: 0, sent: 0, last: 0, timer: null, player: null };
+      recs.push(r);
+      withApi(function () {
+        try {
+          if (!el.isConnected) return;
+          r.player = new window.YT.Player(el, {
+            events: { onStateChange: function (ev) { onState(r, ev && ev.data); } }
+          });
+        } catch (e) {}
+      });
+    }
+    function scan(root) {
+      try {
+        if (!root || !root.querySelectorAll) return;
+        if (root.matches && root.matches(SEL)) attach(root);
+        var found = root.querySelectorAll(SEL);
+        for (var i = 0; i < found.length; i++) attach(found[i]);
+      } catch (e) {}
+    }
+    function sweep() {
+      for (var i = recs.length - 1; i >= 0; i--) {
+        var r = recs[i];
+        if (r.el.isConnected) continue;
+        stopTimer(r); flushRec(r);
+        recs.splice(i, 1);
+      }
+    }
+    function flushAllYt() {
+      try {
+        for (var i = 0; i < recs.length; i++) {
+          if (recs[i].timer) tick(recs[i]);
+          flushRec(recs[i]);
+        }
+        flushPending();
+      } catch (e) {}
+    }
+
+    function start() {
+      scan(document.body);
+      if (typeof MutationObserver === "function") {
+        new MutationObserver(function (muts) {
+          var removed = false;
+          for (var i = 0; i < muts.length; i++) {
+            var add = muts[i].addedNodes;
+            for (var j = 0; j < add.length; j++) if (add[j].nodeType === 1) scan(add[j]);
+            if (muts[i].removedNodes.length) removed = true;
+          }
+          if (removed) sweep();
+        }).observe(document.body, { childList: true, subtree: true });
+      }
+      window.addEventListener("pagehide", flushAllYt);
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "hidden") flushAllYt();
+      });
+    }
+    if (document.body) start();
+    else document.addEventListener("DOMContentLoaded", start);
   })();
 
   // ---------------------------------------------------- homepage NEW banner

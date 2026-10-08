@@ -150,7 +150,8 @@
   .hero-video{margin:0 0 18px;border-radius:14px;overflow:hidden;position:relative;
     box-shadow:0 18px 44px -18px rgba(40,48,90,.55),0 2px 8px -2px rgba(40,48,90,.25);
     border:1px solid color-mix(in srgb,var(--border,#e6e6ee) 70%,transparent);background:#0b1020;}
-  .hero-video-el{display:block;width:100%;aspect-ratio:16/9;background:#0b1020;}
+  .hero-video-el{display:block;width:100%;aspect-ratio:16/9;background:#0b1020;border:0;}
+  .hero-video-cap .yt-watch{margin-left:auto;}
   .hero-video-cap{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;
     color:var(--text-soft,#5a6470);margin-top:9px;letter-spacing:-.01em;}
   .hero-video-cap .tour-dot{display:inline-flex;align-items:center;justify-content:center;
@@ -191,12 +192,11 @@
     </div>
     <div class="hero-visual">
       <figure class="hero-video">
-        <video class="hero-video-el" controls preload="metadata" playsinline
-               poster="media/Analytics_Hub_Tour_poster.jpg">
-          <source src="media/Analytics_Hub_Tour.mp4" type="video/mp4">
-        </video>
+        <iframe class="hero-video-el" src="https://www.youtube-nocookie.com/embed/ofzizJAUy-A?rel=0&amp;enablejsapi=1"
+                title="Analytics Hub tour" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </figure>
-      <p class="hero-video-cap"><span class="tour-dot" aria-hidden="true">▶</span> Take the tour — a guided walkthrough of the Hub</p>
+      <p class="hero-video-cap"><span class="tour-dot" aria-hidden="true">▶</span> Take the tour — a guided walkthrough of the Hub <a class="yt-watch" href="https://youtu.be/ofzizJAUy-A" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>
       <div class="hero-feats is-compact">
         <div class="hero-feat">
           <span class="hf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
@@ -375,11 +375,9 @@
 
       <article class="flagship-card" style="--c:#00B294;">
         <div class="flagship-media">
-          <video controls preload="metadata" playsinline aria-label="ValueLens two-minute demo">
-            <source src="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4" type="video/mp4" />
-            <p>Your browser cannot play this video.
-              <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4">Download it instead</a>.</p>
-          </video>
+          <iframe class="yt-embed" src="https://www.youtube-nocookie.com/embed/Ou601NG_pdg?rel=0&amp;enablejsapi=1"
+                  title="ValueLens overview" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <div class="flagship-body">
           <p class="flagship-eyebrow">New · value &amp; impact</p>
@@ -398,16 +396,15 @@
             <a class="btn btn-primary" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">Get ValueLens ↗</a>
             <a class="btn btn-ghost" href="choose-report/#d=value-lens">See the detail →</a>
           </div>
+          <a class="yt-watch flagship-yt" href="https://youtu.be/Ou601NG_pdg" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
         </div>
       </article>
 
       <article class="flagship-card" style="--c:#0078d4;">
         <div class="flagship-media">
-          <video controls preload="metadata" playsinline aria-label="Consumption Central two-minute demo">
-            <source src="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4" type="video/mp4" />
-            <p>Your browser cannot play this video.
-              <a href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4">Download it instead</a>.</p>
-          </video>
+          <iframe class="yt-embed" src="https://www.youtube-nocookie.com/embed/JdOVx_6kw5Y?rel=0&amp;enablejsapi=1"
+                  title="Consumption Central overview" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <div class="flagship-body">
           <p class="flagship-eyebrow">New · consumption &amp; cost</p>
@@ -426,16 +423,15 @@
             <a class="btn btn-primary" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Get Consumption Central ↗</a>
             <a class="btn btn-ghost" href="cowork-billing/">Cost resources →</a>
           </div>
+          <a class="yt-watch flagship-yt" href="https://youtu.be/JdOVx_6kw5Y" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
         </div>
       </article>
 
       <article class="flagship-card" style="--c:#e3008c;">
         <div class="flagship-media">
-          <video controls preload="metadata" playsinline aria-label="Agent Evaluator two-minute demo">
-            <source src="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/media/AgentEvaluator-Demo.mp4" type="video/mp4" />
-            <p>Your browser cannot play this video.
-              <a href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/media/AgentEvaluator-Demo.mp4">Download it instead</a>.</p>
-          </video>
+          <iframe class="yt-embed" src="https://www.youtube-nocookie.com/embed/Tg594Hst5MY?rel=0&amp;enablejsapi=1"
+                  title="Agent Evaluator overview" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <div class="flagship-body">
           <p class="flagship-eyebrow">New · agent quality</p>
@@ -455,6 +451,7 @@
             <a class="btn btn-primary" href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio" target="_blank" rel="noopener">Get Agent Evaluator ↗</a>
             <a class="btn btn-ghost" href="choose-report/#d=agent-evaluator">See the detail →</a>
           </div>
+          <a class="yt-watch flagship-yt" href="https://youtu.be/Tg594Hst5MY" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
         </div>
       </article>
 

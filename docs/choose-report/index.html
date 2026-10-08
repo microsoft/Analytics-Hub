@@ -1129,10 +1129,14 @@ html[data-theme="dark"] .mk-viva{ color:#c3b0f0; background:color-mix(in srgb, #
 .gx-checks svg{ margin-top:3px; color:var(--mk-accent); }
 .gx-hint{ margin:7px 0 0; font-size:12.5px; color:var(--mk-muted); }
 .gx-fig{ margin:14px 0 0; }
-.gx-fig video, .gx-fig img{
+.gx-fig video, .gx-fig img, .gx-fig iframe{
   display:block; width:100%; border:1px solid var(--mk-border);
   border-radius:10px; background:var(--mk-surface-2);
 }
+.gx-fig iframe{ aspect-ratio:16 / 9; height:auto; background:#000; }
+.yt-watch{ display:inline-block; margin-top:6px; font-size:12px; font-weight:600;
+  color:var(--mk-accent); text-decoration:none; white-space:nowrap; }
+.yt-watch:hover{ text-decoration:underline; }
 .gx-fig figcaption{ margin:7px 0 0; font-size:12px; color:var(--mk-muted); }
 .gx-links{ display:flex; gap:18px; flex-wrap:wrap; margin:13px 0 0; font-size:14px; }
 .gx-cta{
@@ -1252,6 +1256,13 @@ html[data-theme="dark"] .mk-dlg::backdrop{ background:rgba(0,0,0,.62); }
   background:#000;
   border:1px solid var(--mk-border); border-radius:var(--mk-radius-sm);
 }
+/* A YouTube iframe cannot letterbox inside a capped height the way <video>
+   does, so its width follows the same cap to keep the box 16:9. */
+iframe.mk-video{
+  height:auto;
+  width:min(100%, calc(max(160px, min(calc(var(--mk-fh) - 22rem), 46vh)) * 16 / 9));
+}
+#mkMediaSlot .yt-watch{ display:block; width:max-content; margin:6px auto 0; }
 .mk-vfallback{
   display:block; padding:22px 20px; text-align:center;
   font-size:0.875rem; color:var(--mk-soft);
@@ -2205,7 +2216,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/AI-in-One-Dashboard",
       "download": "https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip",
       "demoVideo": "https://github.com/microsoft/AI-in-One-Dashboard#-watch-first",
-      "demoVideos": [{"url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Overview.mp4", "label": "Overview"}, {"url": "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Setup-Guide.mp4", "label": "Installation"}],
+      "demoVideos": [{"url": "https://youtu.be/W9JWgF6wcqg", "label": "Overview"}, {"url": "https://youtu.be/z4FWazaBDS8", "label": "Installation"}],
       "demoVideoLabel": "Watch the demo &amp; setup videos",
       "guide": "https://github.com/microsoft/AI-in-One-Dashboard/blob/main/docs/Video-Guide.md",
       "emailFile": "01_AI_in_One_Dashboard_Admin_Email.txt",
@@ -2622,7 +2633,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/What-I-did-with-Cowork",
       "download": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v41.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
-      "demoVideo": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/media/Cowork_Impact_Report_Overview.mp4",
+      "demoVideo": "https://youtu.be/rNcVOnRO5IU",
       "demoVideoLabel": "Watch the overview",
       "blurb": "Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categories, and renders a single-file HTML report with Time Saved, professional-services-equivalent value, and a mapping to the four Value Pillars.",
       "meta": {
@@ -2701,7 +2712,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/M365UsageAnalytics",
       "download": "https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/M365UsageAnalytics/main/images/report-pages-carousel.gif",
-      "demoVideo": "https://github.com/microsoft/M365UsageAnalytics/releases/download/M365_Usage_Analytics/M365UsageAnalytics_Overview.mp4",
+      "demoVideo": "https://youtu.be/uwfv8qrcs5E",
       "emailFile": "07_M365_Copilot_Readiness_Admin_Email.txt",
       "blurb": "Ranks every user by Microsoft 365 fluency (Outlook, Word, Excel, PowerPoint, Teams) so you can stage enablement waves and surface the natural champion candidates in each org — defended with audit data, not gut feel.",
       "meta": {
@@ -2921,7 +2932,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
       "preview": "../tools/copilot-roi-calculator/preview/roi-preview.gif",
       "demoUrl": "../tools/copilot-roi-calculator/demo.html",
-      "demoVideo": "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/media/CopilotROICalculator-Demo.mp4",
+      "demoVideo": "https://youtu.be/MqfgE3sVCsw",
       "demoVideoLabel": "Watch the overview",
       "deck": {
         "title": "Executive deck (9 slides)",
@@ -3018,7 +3029,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "updated": "2026-10-06",
       "repo": "https://github.com/microsoft/CreditUsage",
       "download": "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
-      "demoVideo": "https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4",
+      "demoVideo": "https://youtu.be/msDBEUbtGlw",
       "demoVideoLabel": "Watch the 2-minute walkthrough",
       "blurb": "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis. Ships as a CSV template and a self-refreshing Viva Insights Direct Query variant.",
       "meta": {
@@ -3171,8 +3182,8 @@ html.mk-embed main.mk-page{ display:none !important; }
       "source": "Copilot consumption + Entra user attributes",
       "sourceKey": "M365 Admin",
       "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html",
-      "demoVideo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/media/Cowork_Policy_Helper_Overview.mp4",
-      "demoVideos": [{"url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/media/Cowork_Policy_Helper_Overview.mp4", "label": "Overview"}, {"url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/media/Cowork_Policy_Helper_Tutorial.mp4", "label": "Tutorial"}],
+      "demoVideo": "https://youtu.be/rGqKugcA654",
+      "demoVideos": [{"url": "https://youtu.be/rGqKugcA654", "label": "Overview"}, {"url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/media/Cowork_Policy_Helper_Tutorial.mp4", "label": "Tutorial"}],
       "demoVideoLabel": "Watch the overview",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
       "blurb": "Policy assignment and exception management app for governing Cowork spend tiers.",
@@ -3247,7 +3258,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "source": "Cowork consumption + billing context",
       "sourceKey": "M365 Admin",
       "repo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html",
-      "demoVideo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/media/FinOps-Cowork-Demo.mp4",
+      "demoVideo": "https://youtu.be/mN2DuNkMxFk",
       "demoVideoLabel": "Watch the overview",
       "download": "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
       "blurb": "Browser app presenting Cowork costs with FinOps Framework and FOCUS-aligned cost lenses.",
@@ -3457,7 +3468,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "Viva Insights",
       "repo": "https://github.com/microsoft/Personal-Dashboard",
       "download": "https://raw.githubusercontent.com/microsoft/Personal-Dashboard/main/Personal%20Copilot%2C%20Agent%2C%20%26%20Cowork%20Dashboard%20Template.pbit",
-      "demoVideo": "https://raw.githubusercontent.com/microsoft/Personal-Dashboard/main/media/Personal_Dashboard_Overview.mp4",
+      "demoVideo": "https://youtu.be/C0q8kW7GVGk",
       "demoVideoLabel": "Watch the overview",
       "blurb": "Self-service Power BI template that turns your own Copilot Dashboard export into a personal view of adoption, hours saved, feature-level leverage, agent usage, and Cowork credits — with org benchmarks, a personalized user-category, and next-step learning. Loads Copilot, Agent, and Cowork exports in any combination.",
       "meta": {
@@ -3539,7 +3550,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/ESS",
       "download": "https://github.com/microsoft/ESS/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/ESS/main/images/dashboard-preview.gif",
-      "demoVideo": "https://github.com/microsoft/ESS/raw/main/ESS_Insights_Overview.mp4",
+      "demoVideo": "https://youtu.be/dQqgcUs9Ly4",
       "blurb": "Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the ConversationTranscript Dataverse table — adoption, resolution vs escalation, time-to-knowledge, tickets deflected, hours saved and dollar value, plus in-conversation feedback. No custom logging or extra pipelines.",
       "meta": {
         "audience": "HR/IT program owners, ESS sponsors, execs",
@@ -3631,7 +3642,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
       "download": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
-      "demoVideo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4",
+      "demoVideo": "https://youtu.be/Ou601NG_pdg",
       "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric (one-click installer), and Power Automate + Dataverse deployment paths.",
       "meta": {
         "audience": "Business Value Advisory, execs, program leads",
@@ -3712,7 +3723,8 @@ html.mk-embed main.mk-page{ display:none !important; }
       "sourceKey": "M365 Admin",
       "repo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot",
       "download": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/archive/refs/heads/main.zip",
-      "demoVideo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4",
+      "demoVideo": "https://youtu.be/JdOVx_6kw5Y",
+      "demoVideos": [{"url": "https://youtu.be/JdOVx_6kw5Y", "label": "Overview"}, {"url": "https://youtu.be/0fgvP8mutTo", "label": "Setup"}],
       "blurb": "One Power BI template for Copilot credit consumption and cost across four products — Cowork/Work IQ, Copilot Studio, GitHub Copilot, and Azure AI Foundry. Group spend by your own org attributes, forecast to the end of the billing period, and see overage against prepaid packs. Local CSV, Fabric, and Viva Direct deployment paths, each with a synthetic sample dataset. Reports spend; it does not enforce limits.",
       "meta": {
         "audience": "FinOps, IT admins, platform owners, finance partners",
@@ -3798,7 +3810,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio",
       "download": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/AgentEvaluator-for-Copilot-Studio/main/assets/agent-evaluator-demo.gif",
-      "demoVideo": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio/raw/main/media/AgentEvaluator-Demo.mp4",
+      "demoVideo": "https://youtu.be/Tg594Hst5MY",
       "blurb": "One Power BI template for deep Copilot Studio agent evaluation — sessions, turns, errors, sub-agent calls, quality & performance, topics, knowledge grounding, CSAT and message-credit consumption. Reads the conversation transcripts themselves, so every number has a real conversation behind it. Local CSV, Dataverse and Fabric paths, chosen by one parameter; sample data included.",
       "meta": {
         "audience": "Agent makers, Studio admins, FinOps",
@@ -3879,7 +3891,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "https://microsoft.github.io/CoworkDashboard/",
       "demoUrl": "https://microsoft.github.io/CoworkDashboard/demo-report.html?v=2",
       "guide": "https://microsoft.github.io/CoworkDashboard/",
-      "demoVideos": [{"url": "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/Cowork_Team_Report_Setup.mp4", "label": "Overview"}],
+      "demoVideos": [{"url": "https://youtu.be/u0VznEwIrd4", "label": "Overview"}],
       "blurb": "A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export.",
       "meta": {
         "audience": "Team leads, managers, ICs",
@@ -4904,10 +4916,11 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 .vl-player:-webkit-full-screen .vl-hint{display:none}
 /* Fabric setup walkthrough video (in the Fabric deployment tab) */
 .vl-setup-video{margin:14px 0 6px;max-width:720px}
-.vl-setup-video video{display:block;width:100%;height:auto;border-radius:8px;border:1px solid rgba(0,0,0,.14);background:#0c1017}
+.vl-setup-video video,.vl-setup-video iframe{display:block;width:100%;height:auto;border-radius:8px;border:1px solid rgba(0,0,0,.14);background:#0c1017}
+.vl-setup-video iframe{aspect-ratio:16/9}
 .vl-setup-video figcaption{font-size:12px;color:#57606a;margin:8px 2px 0;line-height:1.5}
 .vl-setup-video figcaption a{color:#0969da}
-[data-theme="dark"] .vl-setup-video video{border-color:rgba(255,255,255,.18)}
+[data-theme="dark"] .vl-setup-video video,[data-theme="dark"] .vl-setup-video iframe{border-color:rgba(255,255,255,.18)}
 [data-theme="dark"] .vl-setup-video figcaption{color:#9db4de}
 </style>
 
@@ -5049,11 +5062,11 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         A Windows installer now sets everything up in your tenant and gives you the dashboard as a Fabric app called <strong>Analytics Hub</strong>, with no terminal and no Power BI Desktop. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/latest/download/AnalyticsHubInstaller.exe" target="_blank" rel="noopener noreferrer"><strong>Download AnalyticsHubInstaller.exe</strong></a>, open it, and follow the steps in your browser. You still need a Fabric capacity (F2+ or trial), an Azure subscription for a Key Vault, and permission to register an Entra app. An admin grants the Graph consent and turns on three Fabric tenant settings (<em>Service principals can call Fabric public APIs</em>, <em>Semantic Model Execute Queries REST API</em>, and <em>Fabric App items</em>). Check <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#before-you-start" target="_blank" rel="noopener noreferrer">what you need</a> first. Prefer to wire it by hand? The manual steps below use the same files.</div>
       <p class="cc-small"><strong>Manual setup</strong> (no installer), the same path the walkthrough video follows:</p>
       <figure class="vl-setup-video">
-        <video controls preload="metadata" playsinline poster="../media/ValueLens_Fabric_Setup_poster.jpg">
-          <source src="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/download/installer-v0.2.2/ValueLens_Fabric_Setup.mp4" type="video/mp4">
-          Your browser can&rsquo;t play this video. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/download/installer-v0.2.2/ValueLens_Fabric_Setup.mp4">Download the walkthrough</a>.
-        </video>
-        <figcaption>&#9654; Full Fabric setup walkthrough &mdash; from a fresh app registration to a saved, self-refreshing Power BI report. Also on the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#watch-the-setup" target="_blank" rel="noopener noreferrer">1. Fabric setup page</a>.</figcaption>
+        <iframe src="https://www.youtube-nocookie.com/embed/-pAuSQSP5pc?rel=0&amp;enablejsapi=1"
+                title="Set up ValueLens using Fabric" loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <figcaption>&#9654; Full Fabric setup walkthrough &mdash; from a fresh app registration to a saved, self-refreshing Power BI report. Also on the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#watch-the-setup" target="_blank" rel="noopener noreferrer">1. Fabric setup page</a>. <a class="yt-watch" href="https://youtu.be/-pAuSQSP5pc" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></figcaption>
       </figure>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
@@ -7671,7 +7684,23 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 
   function isEmbeddableVideo(v) {
     var u = safeUrl(v);
-    return !!u && /\.(?:mp4|webm|ogv|ogg|m4v)(?:[?#].*)?$/i.test(u);
+    return !!u && (/\.(?:mp4|webm|ogv|ogg|m4v)(?:[?#].*)?$/i.test(u) || !!ytIdOf(u));
+  }
+  /* YouTube videos are stored as https://youtu.be/<id> and played through the
+     privacy-enhanced youtube-nocookie host: no cookies until the visitor
+     presses play, never autoplay, end-screen suggestions limited to our own
+     channel (rel=0). enablejsapi lets clarity-events.js count plays. */
+  function ytIdOf(v) {
+    var m = safeUrl(v).match(/^https:\/\/(?:www\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?(?:[^#]*&)?v=))([A-Za-z0-9_-]{11})(?:[?&#].*)?$/i);
+    return m ? m[1] : '';
+  }
+  function ytEmbedHtml(id, cls, title) {
+    return '<iframe' + (cls ? ' class="' + cls + '"' : '') +
+      ' src="https://www.youtube-nocookie.com/embed/' + id + '?rel=0&amp;enablejsapi=1"' +
+      ' title="' + esc(title || 'Video') + '" loading="lazy"' +
+      ' allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"' +
+      ' referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>' +
+      '<a class="yt-watch" href="https://youtu.be/' + id + '" target="_blank" rel="noopener">Watch on YouTube \u2197</a>';
   }
 
   /* v23: the masthead stat strip is gone, so there are no counters to fill. */
@@ -8107,7 +8136,9 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   /* preload="metadata" only: these files are 1-5 MB and live on
      raw.githubusercontent / github.io. Opening a flyout must not pull them.
      No autoplay, no loop, no muted-autoplay trick. */
-  function videoSlotUrl(raw) {
+  function videoSlotUrl(raw, title) {
+    var yt = ytIdOf(raw);
+    if (yt) return ytEmbedHtml(yt, 'mk-video', title);
     var u = escUrl(raw);
     return '<video class="mk-video" id="mkVid" src="' + u + '" controls preload="metadata" playsinline>' +
       '<span class="mk-vfallback">This browser cannot play the demo video. ' +
@@ -8155,7 +8186,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   function mediaSlot(t, key) {
     var it = itemByKey(t, key);
     if (!it) return placeholderHtml(titleOf(t));
-    if (it.kind === 'video') return videoSlotUrl(it.url);
+    if (it.kind === 'video') return videoSlotUrl(it.url, decodeEnt(titleOf(t)) + ' ' + it.label);
     if (it.kind === 'deck') return deckSlotHtml(t);
     return imageSlot(t);
   }
@@ -9116,6 +9147,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   function gxSlot(t, it) {
     if (!it) return '';
     if (it.kind === 'video') {
+      var yt = ytIdOf(it.url);
+      if (yt) return ytEmbedHtml(yt, '', decodeEnt(titleOf(t)) + ' ' + it.label);
       return '<video src="' + escUrl(it.url) + '" controls preload="metadata" playsinline></video>';
     }
     if (it.kind === 'deck') return deckSlotHtml(t);
@@ -9157,7 +9190,9 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
        label it Overview to match the other hero-gif reports above. */
     if (HERO_GIF_IDS[t.id]) {
       items = items.filter(function (it) { return it.kind !== 'image'; });
-      items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
+      if (items.filter(function (it) { return it.kind === 'video'; }).length === 1) {
+        items.forEach(function (it) { if (it.kind === 'video') it.label = 'Overview'; });
+      }
     }
     if (!items.length) return '';
     var id = esc(t.id);

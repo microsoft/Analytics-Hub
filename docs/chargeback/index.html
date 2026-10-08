@@ -146,6 +146,7 @@
   .cbx-media{border-radius:16px;overflow:hidden;border:1px solid var(--border,#e6e6ee);
     background:var(--surface-2,#f3f3f7);box-shadow:0 24px 60px -30px rgba(15,18,28,.5);}
   .cbx-media video,.cbx-media img{display:block;width:100%;height:auto;}
+  .cbx-media iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:0;}
   .cbx-mediacap{font-size:.86rem;color:var(--text-muted,#6b6b85);margin:.7rem 0 0;}
   .cbx-req{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem;}
   .cbx-req span{font-size:.8rem;font-weight:600;color:var(--text-soft,#4a4a60);background:var(--surface-2,#f3f3f7);
@@ -235,13 +236,11 @@
         </div>
         <div>
           <div class="cbx-media">
-            <video controls preload="metadata" playsinline aria-label="Cowork Credit Chargeback two-minute demo">
-              <source src="https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4" type="video/mp4" />
-              <p>Your browser cannot play this video.
-                <a href="https://github.com/microsoft/CreditUsage/raw/main/media/CreditUsage-Demo.mp4">Download it instead</a>.</p>
-            </video>
+            <iframe class="yt-embed" src="https://www.youtube-nocookie.com/embed/msDBEUbtGlw?rel=0&amp;enablejsapi=1"
+                    title="Cowork Chargeback and Billing Report overview" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
-          <p class="cbx-mediacap">Two-minute walkthrough — Consumption, Chargeback, Billing Models, Prepaid Allocation.</p>
+          <p class="cbx-mediacap">Two-minute walkthrough — Consumption, Chargeback, Billing Models, Prepaid Allocation. <a class="yt-watch" href="https://youtu.be/msDBEUbtGlw" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>
         </div>
       </div>
     </div>

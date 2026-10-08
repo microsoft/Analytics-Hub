@@ -17,13 +17,13 @@ const RESOURCE_ICON = {
 const RESOURCES = {
   valuelens: [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot#readme" },
-    { kind: "video",    label: "Watch the 2-minute demo", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/raw/main/media/ValueLens-Demo.mp4" },
+    { kind: "video",    label: "Watch the 2-minute demo", url: "https://youtu.be/Ou601NG_pdg" },
     { kind: "download", label: "Sample data — run it with no tenant setup", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
     { kind: "download", label: "Download the templates (.zip)", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip" },
   ],
   "consumption-central": [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot#readme" },
-    { kind: "video",    label: "Watch the 2-minute demo", url: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/raw/main/media/ConsumptionCentral-Demo.mp4" },
+    { kind: "video",    label: "Watch the 2-minute demo", url: "https://youtu.be/JdOVx_6kw5Y" },
     { kind: "doc",      label: "Where each export comes from (DATA-SOURCES)", url: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/DATA-SOURCES.md" },
     { kind: "doc",      label: "Measure reference", url: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/docs/MEASURES.md" },
     { kind: "download", label: "Sample data — run it with no tenant setup", url: "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
@@ -53,7 +53,7 @@ const RESOURCES = {
   ],
   ess: [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/ESS#readme" },
-    { kind: "video",    label: "ESS Insights overview (video)", url: "https://github.com/microsoft/ESS/raw/main/ESS_Insights_Overview.mp4" },
+    { kind: "video",    label: "ESS Insights overview (video)", url: "https://youtu.be/dQqgcUs9Ly4" },
     { kind: "doc",      label: "Setup path — CSV Upload", url: "https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" },
     { kind: "doc",      label: "Setup path — Dataverse Direct", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" },
     { kind: "doc",      label: "Setup path — Fabric auto-refresh", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Fabric.md" },
@@ -66,7 +66,7 @@ const RESOURCES = {
     { kind: "doc",      label: "Fabric ingestion notebooks", url: "https://github.com/microsoft/ESS/tree/main/Fabric/notebooks" },
   ],  "ai-in-one": [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/AI-in-One-Dashboard#readme" },
-    { kind: "video",    label: "Watch the 2-minute overview", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/media/AI-in-One-Overview.mp4" },
+    { kind: "video",    label: "Watch the 2-minute overview", url: "https://youtu.be/W9JWgF6wcqg" },
     { kind: "download", label: "Interpretation Guide (PDF)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Interpretation%20Guide.pdf" },
     { kind: "download", label: "Storyboard (.pptx)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Storyboard.pptx" },
     { kind: "download", label: "Download .pbit (SharePoint refresh)", url: "https://github.com/microsoft/AI-in-One-Dashboard/raw/main/AIO%20Dashboard%20-%20Rollup%20Edition%20-%20PBI-SharePoint%20-%202026-06-25.pbit" },
