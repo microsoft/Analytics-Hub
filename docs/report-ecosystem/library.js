@@ -41,7 +41,7 @@ const RESOURCES = {
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/CreditUsage#readme" },
     { kind: "app",      label: "Live web app (client-side)", url: "https://microsoft.github.io/CreditUsage/CoworkBilling/" },
     { kind: "doc",      label: "Methodology deck + customer guide", url: "https://microsoft.github.io/Analytics-Hub/cowork-billing/" },
-    { kind: "download", label: "Download .pbit template", url: "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit" },
+    { kind: "download", label: "Download CSV .pbit template", url: "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback%20-%20CSV.pbit" },
     { kind: "download", label: "Interpretation Guide (.pptx)", url: "https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback%20-%20Report%20Reading%20Guide.pptx" },
   ],
   "ai-solutions": [

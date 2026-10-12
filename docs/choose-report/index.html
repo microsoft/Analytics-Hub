@@ -3022,7 +3022,7 @@ html.mk-embed main.mk-page{ display:none !important; }
         "impact",
         "roi"
       ],
-      "source": "Copilot credit consumption + Entra export, or live Viva Insights (Direct Query)",
+      "source": "Microsoft 365 admin center (MAC) CSV exports + Entra export, or live Viva Insights (Direct Query)",
       "sourceKey": "M365 Admin",
       "vivaAutomation": true,
       "version": "4",
@@ -3031,7 +3031,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "https://github.com/microsoft/CreditUsage/archive/refs/heads/main.zip",
       "demoVideo": "https://youtu.be/msDBEUbtGlw",
       "demoVideoLabel": "Watch the 2-minute walkthrough",
-      "blurb": "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis. Ships as a CSV template and a self-refreshing Viva Insights Direct Query variant.",
+      "blurb": "RLS-ready Power BI report for Cowork credit consumption, chargeback modeling, optimization, and billing analysis. Use the CSV template for Microsoft 365 admin center (MAC) export workflows, or the self-refreshing Viva Insights Direct Query variant for live Viva data.",
       "meta": {
         "audience": "FinOps, IT admins, platform owners",
         "license": "M365 Admin exports",
@@ -6294,7 +6294,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     <h2>Cowork Chargeback and Billing Report</h2>
     <div class="cc-tag">RLS-ready Power BI report for Cowork credit consumption, chargeback, optimization and billing</div>
     <div class="cc-oneliner">Who is consuming credits &middot; what each department owes &middot; who is over limit &middot; what next quarter looks like</div>
-    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>CSV OR VIVA DIRECT QUERY</span></div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>MAC EXPORTS USE CSV</span></div>
     <div class="cbr-player" data-frames="6" data-base="cbr-frames">
       <div class="cbr-stage"><img class="cbr-img" src="cbr-frames/frame_00.jpg" alt="Cowork Chargeback and Billing Report page 1 of 6"></div>
       <div class="cbr-controls">
@@ -6318,7 +6318,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 </template>
 
 <template id="cbrStep4">
-  <p class="gx-reads">This report runs two ways: from <strong>two CSV exports</strong> joined on user principal name (your <strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory), or <strong>live from Viva Insights</strong> through the self-refreshing <strong>Direct Query</strong> variant. Wire up your own data on either path, or explore the shipped demo dataset first.</p>
+  <p class="gx-reads">This report runs two ways: use the <strong>CSV variant</strong> for Microsoft 365 admin center (MAC) exports, with two CSV exports joined on user principal name (your <strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory), or use the self-refreshing <strong>Direct Query</strong> variant for <strong>live Viva Insights</strong> data. Wire up your own data on either path, or explore the shipped demo dataset first.</p>
 
   <div class="ccyd">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
@@ -6345,7 +6345,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
           </div>
         </details>
         <h5><span class="cc-num">3</span> Open the template</h5>
-        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback.pbit</code></a>, set <code>CreditCsvPath</code> to the credit CSV and <code>EntraCsvPath</code> to the directory CSV, click <strong>Load</strong>.</p>
+        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback%20-%20CSV.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback - CSV.pbit</code></a>, set <code>CreditCsvPath</code> to the credit CSV and <code>EntraCsvPath</code> to the directory CSV, click <strong>Load</strong>.</p>
         <h5><span class="cc-num">4</span> Refresh and verify</h5>
         <p>Click <strong>Refresh</strong> and confirm the Consumption visuals populate (total credits used, allowance, utilization %, top user) and all six pages render.</p>
         <h5><span class="cc-num">5</span> Add your own cut <span class="cc-small"><em>(optional &mdash; slice by a custom attribute)</em></span></h5>
@@ -6393,7 +6393,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       <p>Want to see all six pages before you collect anything real? The repo ships a synthetic dataset in the exact format the template expects.</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Open the template</h5>
-        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback.pbit</code></a> in Power BI Desktop.</p>
+        <p>Open <a href="https://github.com/microsoft/CreditUsage/raw/main/Cowork%20Chargeback%20-%20CSV.pbit" target="_blank" rel="noopener noreferrer"><code>Cowork Chargeback - CSV.pbit</code></a> in Power BI Desktop.</p>
         <h5><span class="cc-num">2</span> Point the two parameters at the demo files</h5>
         <p>When prompted, set the parameters to the two files in the <a href="https://github.com/microsoft/CreditUsage/tree/main/demo%20data" target="_blank" rel="noopener noreferrer">demo data</a> folder, then click <strong>Load</strong>:</p>
         <table class="cc-kv">
@@ -9951,11 +9951,11 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     },
 
     'cowork-billing-report': {
-      reads: 'Two CSV exports joined on user principal name: Copilot credit consumption, and a ' +
+      reads: 'For Microsoft 365 admin center (MAC) workflows, use the CSV variant with two CSV exports joined on user principal name: Copilot credit consumption, and a ' +
         '<strong>Microsoft Entra</strong> org directory.',
       easy: 'the ' +
         lk('https://github.com/microsoft/CreditUsage', 'repository includes a demo data folder') +
-        ', so you can open the template and see all six pages before you collect anything real. ' +
+        ', so you can open <code>Cowork Chargeback - CSV.pbit</code> and see all six pages before you collect anything real. ' +
         'For live, self-refreshing data, use the Direct Query variant (' +
         lk('https://github.com/microsoft/CreditUsage#direct-query-variant', 'Cowork Chargeback - Direct Query.pbit') +
         '), which connects straight to Viva Insights and supports scheduled refresh.',
@@ -9969,7 +9969,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
           'then <strong>Download users</strong>. This supplies <code>department</code>, ' +
           '<code>jobTitle</code>, <code>city</code>, <code>country</code> and ' +
           '<code>manager</code> - the org context the credit export does not carry.',
-        'Open the template and set <code>CreditCsvPath</code> to the credit CSV and ' +
+        'Open <code>Cowork Chargeback - CSV.pbit</code> and set <code>CreditCsvPath</code> to the credit CSV and ' +
           '<code>EntraCsvPath</code> to the directory CSV.',
         'Refresh and confirm the consumption visuals populate and all six pages render.'
       ],
