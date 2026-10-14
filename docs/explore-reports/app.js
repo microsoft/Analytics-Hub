@@ -111,6 +111,7 @@ const TOOLS = [
     emailFile: "02_Chat_Intelligence_Admin_Email.txt",
     secondaryEmailFile: "03_Agent_Intelligence_Admin_Email.txt",
     preview: "https://raw.githubusercontent.com/microsoft/CopilotChatAnalytics/refs/heads/main/Images/ChatIntelGIG.gif",
+    demoVideo: "https://youtu.be/3zIlbzkxNQg",
     blurb: "Two Power BI templates on Purview audit logs + Entra: one for Copilot Chat (licensed + unlicensed), one for Agents. By user, app, department — no third-party analytics, no data leaves the tenant.",
     meta: { audience: "IT admins, Copilot champions, BVAs", license: "Audit Reader on Purview + Entra read", time: "~1 hour incl. data export" },
     requirements: {
