@@ -438,7 +438,8 @@
     "rGqKugcA654": "YT-Cowork-Policy-Helper-Overview",
     "mN2DuNkMxFk": "YT-FinOps-FOCUS-Overview",
     "rNcVOnRO5IU": "YT-What-Cowork-Did-For-Me-Overview",
-    "3zIlbzkxNQg": "YT-Chat-Agent-Intelligence-Overview"
+    "3zIlbzkxNQg": "YT-Chat-Agent-Intelligence-Overview",
+    "iPgRcEZqmr0": "YT-Adoption-Sentiment-Overview"
   };
 
   (function () {
