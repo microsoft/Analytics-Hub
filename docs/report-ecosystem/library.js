@@ -105,7 +105,7 @@ const RESOURCES = {
     { kind: "download", label: "Download the repo (.zip)", url: "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip" },
   ],
   "ghcp-panel": [
-    { kind: "video",    label: "Watch the 2-minute intro", url: "https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4" },
+    { kind: "video",    label: "Watch the 2-minute intro", url: "https://youtu.be/EwzHwbXsWoU" },
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/GitHubCopilotPanel#readme" },
     { kind: "doc",      label: "Data sources — Viva query or local CSV", url: "https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/DATA-SOURCES.md" },
     { kind: "doc",      label: "Interpreting the value model", url: "https://github.com/microsoft/GitHubCopilotPanel/blob/main/docs/INTERPRETING.md" },
