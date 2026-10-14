@@ -422,7 +422,7 @@
    *     attaches new ones and flushes the watched time of removed ones. */
   var YT_NAMES = {
     "ofzizJAUy-A": "YT-Analytics-Hub-Tour",
-    "Ou601NG_pdg": "YT-ValueLens-Overview",
+    "P0uHJb13ZR0": "YT-ValueLens-Overview",
     "-pAuSQSP5pc": "YT-ValueLens-Fabric-Setup",
     "JdOVx_6kw5Y": "YT-Consumption-Central-Overview",
     "0fgvP8mutTo": "YT-Consumption-Central-Setup",

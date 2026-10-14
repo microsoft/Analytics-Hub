@@ -17,7 +17,7 @@ const RESOURCE_ICON = {
 const RESOURCES = {
   valuelens: [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot#readme" },
-    { kind: "video",    label: "Watch the 2-minute demo", url: "https://youtu.be/Ou601NG_pdg" },
+    { kind: "video",    label: "Watch the 2-minute demo", url: "https://youtu.be/P0uHJb13ZR0" },
     { kind: "download", label: "Sample data — run it with no tenant setup", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
     { kind: "download", label: "Download the templates (.zip)", url: "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip" },
   ],
