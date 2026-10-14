@@ -166,7 +166,7 @@ const TOOLS = [
     sourceKey: "Viva Insights",
     repo: "https://github.com/microsoft/GitHubCopilotPanel",
     download: "https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip",
-    demoVideo: "https://github.com/microsoft/GitHubCopilotPanel/raw/main/media/GitHubCopilotPanel-Demo.mp4",
+    demoVideo: "https://youtu.be/EwzHwbXsWoU",
     demoVideoLabel: "Watch the 2-minute intro",
     preview: "https://raw.githubusercontent.com/microsoft/GitHubCopilotPanel/main/Images/GitHubCopilotPanel-Preview.gif",
     blurb: "Power BI template on the Viva Insights GitHub Copilot query. Seven pages walking Licensed → Active → Habitual → Deep → Valued, with every value assumption in one editable table rather than buried in DAX. Ships synthetic sample data, so you can open it before connecting a tenant.",
