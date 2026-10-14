@@ -74,6 +74,7 @@ const RESOURCES = {
     { kind: "email",    label: "Admin email template", url: "https://github.com/microsoft/Analytics-Hub/blob/main/docs/email-templates/01_AI_in_One_Dashboard_Admin_Email.txt" },
   ],
   "chat-agent": [
+    { kind: "video",    label: "Watch the overview", url: "https://youtu.be/3zIlbzkxNQg" },
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/CopilotChatAnalytics#readme" },
     { kind: "download", label: "Download .pbit — Chat Intelligence", url: "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20-%20Chat%20Intelligence%20Report.pbit" },
     { kind: "download", label: "Download .pbit — Agent Intelligence", url: "https://github.com/microsoft/CopilotChatAnalytics/raw/main/Template%20Agent%20Intelligence%20v4.pbit" },
