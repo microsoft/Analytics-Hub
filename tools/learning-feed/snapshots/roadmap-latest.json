@@ -1,7 +1,97 @@
 {
-  "runAt": "2026-10-13T11:17:25.874Z",
+  "runAt": "2026-10-14T11:17:25.410Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "575298",
+      "title": "SharePoint: Agent chat web part",
+      "status": "In development",
+      "description": "<p>This is a new web part available for modern page editors in SharePoint. The web part can be configured to use any M365 Copilot agent.</p>",
+      "created": "2026-10-13T23:01:05",
+      "modified": "2026-10-13T23:01:05",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "GCC",
+        "GCC High",
+        "DoD",
+        "Web",
+        "SharePoint",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "a24d71758a883954"
+    },
+    {
+      "id": "575287",
+      "title": "Microsoft Purview: Data Loss Prevention-Admin Units Support for Copilot & Cowork DLP",
+      "status": "In development",
+      "description": "<p>Microsoft Purview Data Loss Prevention is extending Administrative Units support to Microsoft 365 Copilot, Copilot Chat, and Cowork. This enables organizations to delegate management of supported Copilot DLP policies to administrators within their assigned Administrative Units, supporting regional, departmental, and regulatory boundaries without granting tenant-wide policy-management permissions. Existing tenant-wide policies continue to apply, and configuration is optional for organizations choosing to use Administrative Unit (AU)-scoped management.</p>",
+      "created": "2026-10-13T23:01:05",
+      "modified": "2026-10-13T23:01:05",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Purview",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "21bc2517675b891d"
+    },
+    {
+      "id": "574124",
+      "title": "Dynamics 365 Commerce: Enable MCP tools for POS returns",
+      "status": "In development",
+      "description": "<p>This feature provides reusable MCP tools for Store Commerce POS returns. These tools expose Commerce return capabilities as structured actions that customers, partners, and agent developers can use to build conversational or agentic return experiences.</p>\n<p>The tools enable agentic experiences to look up the original purchase using supported identifiers such as receipt, order, invoice, or confirmation number; retrieve matching transactions and returnable lines; identify items that are returnable, partially returnable, already returned, or not returnable; create a return using selected lines, quantities, and reason codes; determine eligible refund options for original-tender refund scenarios; and execute eligible original-tender refunds through existing Commerce return and payment logic.</p>\n<p>The tools can also explain return eligibility, policy restrictions, and why specific lines may or may not be returnable. They can analyze prior returns and refunds to surface duplicate-refund risk, frequent-return patterns, cross-store return history, or other return-risk indicators. Tool responses provide structured data that host experiences can use to present return details, choices, summaries, and next steps in the experience they build.<br>\nCustomers can use these tools from POS-embedded agents, chat-based copilots, workflow orchestrators, or other agentic surfaces.</p>\n<p>Setup is performed by an administrator, IT owner, or implementation partner. Customers configure the host surface, authorize the agent or integration to call the tools, and maintain existing Commerce return policies, reason codes, tender rules, and payment configuration.</p>",
+      "created": "2026-10-13T23:01:05",
+      "modified": "2026-10-13T23:01:05",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Android",
+        "Desktop",
+        "iOS",
+        "Mac",
+        "Web",
+        "Dynamics 365 Commerce",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "6cb959bf3b8c62c4"
+    },
+    {
+      "id": "574104",
+      "title": "Power Apps: Manage model-driven app AI features from consolidated settings",
+      "status": "In development",
+      "description": "<p>Consolidated AI settings make it easier for makers and admins to find and manage AI capabilities for model-driven apps across two complementary surfaces.</p>\n<p>In Maker Studio, the <strong>Settings</strong> dialog in the model app form designer adds a new top-level <strong>Copilot and AI</strong> tab. Makers can see and adjust all available AI options for the app in one place instead of finding them scattered among all the other settings.</p>\n<p>In the Power Platform admin center, model-driven app AI settings are consolidated from <strong>Environment &gt; Settings</strong> into <strong>Copilot Hub &gt; Power Apps</strong>. This provides a central location for settings such as Generative pages, Copilot in apps, and the in-app AI skills. The in-app skill settings are organized into these groups:</p>\n<ul>\n<li><strong>Data entry:</strong> Form fill assistance.</li>\n<li><strong>Summary:</strong> Row summaries.</li>\n<li><strong>Data analysis:</strong> AI-generated charts and natural-language search and filtering.</li>\n</ul>\n<p>Labels and descriptions are aligned across Maker Studio and Copilot Hub so makers and admins can understand how the controls relate.</p>\n<p>As part of this consolidation, the old model-driven app AI switches under <strong>Environment &gt; Settings</strong> will also be retired and removed.</p>\n<h3>Availability</h3>\n<table>\n<thead>\n<tr>\n<th>Field</th>\n<th>Value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Applies to</td>\n<td>Model-driven apps</td>\n</tr>\n<tr>\n<td>Release Channel</td>\n<td>Weekly</td>\n</tr>\n<tr>\n<td>Version</td>\n<td>2610.3</td>\n</tr>\n<tr>\n<td>Feature Scope</td>\n<td>Admins or makers</td>\n</tr>\n</tbody>\n</table>",
+      "created": "2026-10-13T23:01:05",
+      "modified": "2026-10-13T23:01:05",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "GCC",
+        "GCC High",
+        "Web",
+        "Power Apps",
+        "General Availability"
+      ],
+      "descHash": "f8f66376d4c49dfc"
+    },
+    {
+      "id": "573698",
+      "title": "Outlook: Copilot Chat available in shared and delegate mailboxes",
+      "status": "In development",
+      "description": "<p>Shared mailbox users and delegates with read and manage (full access) and/or mail folder-level permission will now be able to access Copilot Chat directly from their shared and delegate mailboxes in classic Outlook, when added as a <a href=\"https://support.microsoft.com/en-us/outlook/sharing/open-and-use-a-shared-mailbox-in-outlook\">resource</a>.</p>",
+      "created": "2026-10-13T23:01:05",
+      "modified": "2026-10-13T23:01:05",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "GCC",
+        "GCC High",
+        "DoD",
+        "Desktop",
+        "Outlook",
+        "General Availability"
+      ],
+      "descHash": "0253c49632e756be"
+    },
     {
       "id": "574105",
       "title": "Microsoft Copilot (Microsoft 365): Integrate the Sales Development agent with Salesforce",
@@ -407,13 +497,14 @@
       "status": "In development",
       "description": "<p>Legal plugins in Copilot provide purpose-built skills to help legal professionals summarize, draft, review, and redline legal documents. Available in Word and Cowork, these plugins can use work context from Microsoft 365 and connect to supported third-party legal sources.</p>",
       "created": "2026-09-28T22:58:08",
-      "modified": "2026-09-28T22:58:08",
+      "modified": "2026-10-13T23:01:05",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
         "Word",
         "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
+        "General Availability",
+        "Preview"
       ],
       "descHash": "dd87be1043a92513"
     },
@@ -2009,7 +2100,7 @@
       "status": "In development",
       "description": "<p>Search, chat, and explore the web from one search box with Copilot-suggested actions and curated work content to help your users get things done faster on the Copilot new tab page. Users will see upgraded Copilot new tab page functionality and features.</p>",
       "created": "2026-06-26T22:01:51",
-      "modified": "2026-09-15T23:00:36",
+      "modified": "2026-10-13T23:01:05",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3225,11 +3316,11 @@
     },
     {
       "id": "558933",
-      "title": "Microsoft Teams: AI-generated meeting memory for knowledge retention",
+      "title": "Microsoft Teams: AI-generated meeting memory for knowledge retention (formerly AI-generated meeting archive)",
       "status": "In development",
       "description": "<p>Teams will store AI-generated meeting memory files for meetings where Intelligent Recap was turned on, allowing Copilot (and Facilitator) to retain key insights from meetings beyond transcript retention periods and when a transcript was not saved. This enables Copilot to continue answering questions about past meetings even after the transcript expires or the meeting is over. Admins can also configure how long this AI-generated meeting memory file is stored.</p>",
       "created": "2026-04-08T23:00:03",
-      "modified": "2026-10-12T23:01:05",
+      "modified": "2026-10-13T23:01:05",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -6358,10 +6449,10 @@
     {
       "id": "501292",
       "title": "Microsoft Copilot (Microsoft 365): User can use Hubspot Connector in Researcher",
-      "status": "In development",
-      "description": "The HubSpot connector allows users using the Researcher agent to be able to leverage 3rd party information from HubSpot to enrich generated responses with relevant information.",
+      "status": "Launched",
+      "description": "<p>The HubSpot connector allows users using the Researcher agent to be able to leverage 3rd party information from HubSpot to enrich generated responses with relevant information.</p>",
       "created": "2025-11-04T00:00:10",
-      "modified": "2025-11-04T00:00:10",
+      "modified": "2026-10-13T23:01:05",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -10597,7 +10688,7 @@
       "status": "In development",
       "description": "<p>This creates the ability to apply Retention to each SharePoint or OneDrive item based on when it was last accessed by a user. #copilotcontrolsystem</p>",
       "created": "2024-12-11T00:15:40",
-      "modified": "2026-09-10T23:01:27",
+      "modified": "2026-10-13T23:01:05",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
