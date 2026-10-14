@@ -113,6 +113,7 @@ const RESOURCES = {
     { kind: "download", label: "Download the repo (.zip)", url: "https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip" },
   ],
   "adoption-sent": [
+    { kind: "video",    label: "Watch the overview", url: "https://youtu.be/iPgRcEZqmr0" },
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#readme" },
     { kind: "download", label: "Download .pbit template", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report/raw/main/M365%20Copilot%20-%20Adoption%20%26%20Sentiment.pbit" },
     { kind: "doc",      label: "Recommended survey questions (12)", url: "https://github.com/olivierpecheux/copilot-adoption-sentiment-report#-recommended-survey-questions" },
