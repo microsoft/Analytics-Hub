@@ -1,6 +1,7 @@
 # Cowork ROI Model - Changelog
 
 ## 2026-10-15
+- **Tactic / Enabler detail on every KPI.** Added the "Tactic / Enabler" text from the Cowork BVA Value Map (slides 13-16) for all 27 strategies, stored in a `TACTICS` map keyed by KPI. In the app it appears at the top of each expanded strategy on the Business Impact tab. The PowerPoint export now includes a "Value map" slide per included persona (Goal | Strategy | Tactic / Enabler | KPI | Annual BV) in the BVA format, ahead of that persona's calculation slide.
 - **Export to PowerPoint (fully client-side).** Added an "Export to PowerPoint" button in the tab bar that builds a formatted 16:9 deck from the current model and downloads it straight from the browser. Nothing is uploaded: the deck is generated with a locally bundled PptxGenJS (`app/lib/pptxgen.bundle.js`, the same file the Usage Tracker uses), with no CDN or network calls. The deck contains a title slide; an executive summary (capacity value and modeled impact side by side, never summed, plus key inputs); time-savings KPIs with an hours-by-category chart; a per-category breakdown table; and, when Annual Revenue is entered, a persona × lever matrix with a chart and one line-item slide per included persona. A methodology and sources slide with hyperlinks closes the deck. Excluded personas and strategies are left out. The file is named after the scenario, e.g. `Contoso-Q3-review_ROI_2026-10-15.pptx`. The privacy disclosure now covers the export.
 
 ## 2026-09-18

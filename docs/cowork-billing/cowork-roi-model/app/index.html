@@ -344,6 +344,8 @@ tfoot .dollars { color: var(--cp-accent); font-size: 16px; }
 .line-value { font-size: 18px; font-weight: 800; color: var(--cp-accent); font-variant-numeric: tabular-nums; }
 .line-body { display: none; padding: 4px 16px 14px; border-top: 1px solid var(--cp-border); }
 .line.open .line-body { display: block; }
+.tactic { margin: 10px 0 2px; padding: 9px 12px; border-left: 3px solid var(--cp-accent); background: var(--cp-accent-soft); border-radius: 4px; font-size: 13px; line-height: 1.45; }
+.tactic-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cp-text-soft); margin-bottom: 2px; }
 .calc-strip {
   font-family: Consolas, "Courier New", Courier, monospace;
   font-size: 12px;
@@ -1299,6 +1301,37 @@ const GOAL_META = {
   risk: { label: "Manage risk", badge: "risk" }
 };
 
+/* Tactic / Enabler per KPI (from the Cowork BVA Value Map, slides 13-16) */
+const TACTICS = {
+  "Lead-to-opportunity conversion": "Redeploy available seller capacity into opportunity development, enabling sellers to work a larger pool of qualified opportunities while maintaining the existing conversion performance of those opportunities.",
+  "Win rate on qualified opportunities": "Apply greater attention to opportunities already in flight through deeper research, stronger tailoring and better-informed responses, increasing the proportion of qualified opportunities that convert.",
+  "Time to productivity for new sellers": "Bring relevant account context, customer knowledge, objection handling and proven sales practices into the onboarding process earlier, allowing new sellers to reach productive capability sooner.",
+  "Voluntary Sales attrition": "Shift the composition of the seller role toward customer-facing and higher-value activities and away from repetitive internal administration, improving the employee experience and reducing voluntary attrition.",
+  "Quote turnaround and accuracy": "Apply pricing policies, commercial rules and approved playbooks more consistently during quote development, reducing construction errors and avoidable pricing or discount leakage.",
+  "Sales forecast error": "Strengthen the forecasting activity through more rigorous validation of inputs, cross-checking of assumptions and evidence-based judgement, reducing omissions and improving forecast reliability.",
+  "Order-to-cash revenue leakage": "Strengthen billing and entitlement checks against contracted terms so errors, unbilled entitlements and misapplied commercial terms are identified before revenue is lost.",
+  "Margin exposed to forecast error": "Increase the frequency and quality of forecasting by shifting effort toward reforecasting, validation and analytical judgement, reducing errors that can misdirect inventory and capacity decisions.",
+  "Early-payment discount captured": "Accelerate invoice coding, exception resolution and approvals so more eligible invoices are processed within supplier discount windows.",
+  "Voluntary Finance attrition": "Shift the Finance role away from repetitive reconciliation and reporting work toward higher-value analysis and judgement, improving work experience and reducing voluntary attrition.",
+  "Days sales outstanding": "Expand proactive collections coverage and establish a more consistent contact cadence across the receivables portfolio, enabling outstanding balances to convert to cash sooner.",
+  "Uncollectable balances": "Prioritize earlier intervention on accounts showing signs of financial distress, improving recovery probability before balances become significantly harder to collect.",
+  "Duplicate and erroneous payments": "Apply payment-history and supplier-data checks consistently before invoice approval, increasing the likelihood that duplicate or erroneous payments are prevented before funds are disbursed.",
+  "Conversion on marketing-sourced pipeline": "Reinvest campaign capacity into more audience and message variants, stronger targeting, and sharper follow-up so marketing-originated opportunities convert more effectively.",
+  "Time to market on launches": "Complete research, positioning, enablement, and localization work earlier so Marketing is less likely to remain on the launch critical path and revenue can begin sooner.",
+  "External production and agency cost": "Use available internal capacity to absorb routine production work such as localization, resizing, versioning, and template-based content that would otherwise be purchased externally.",
+  "Return on working media spend": "Surface underperforming campaigns earlier in their run so budget can be stopped or reallocated while there is still enough campaign runway to capture the benefit.",
+  "Voluntary Marketing attrition": "Shift the Marketing role away from repetitive production and reporting work toward higher-value creative, analytical, and strategic activities, improving work experience and reducing voluntary attrition.",
+  "Content compliance and claim accuracy": "Apply approved claims, disclosure, legal, privacy, and substantiation requirements consistently during content creation so exceptions are caught before publication and remediation is reduced.",
+  "Service-generated sales pipeline": "Redirect agent attention during service interactions toward recognizing, qualifying, and passing relevant commercial signals, allowing opportunities that would otherwise go unnoticed to enter the sales pipeline.",
+  "First-contact resolution": "Improve diagnostic consistency and access to relevant guidance so agents can resolve more issues on the first interaction without extending handling time, reducing avoidable repeat contacts.",
+  "Self-service resolution": "Expand and maintain self-service knowledge coverage so more customer intents can be resolved without agent assistance, shifting demand from higher-cost assisted channels to lower-cost self-service.",
+  "Cost of agent turnover": "Shift the agent role away from repetitive documentation, system navigation, and knowledge hunting toward higher-value customer interaction and resolution work, improving work experience and reducing turnover.",
+  "Priority-case SLA breach rate": "Prioritize and accelerate context assembly, resolution, and response preparation for high-priority cases so fewer cases remain in queue long enough to exceed contractual service commitments.",
+  "Service-driven revenue retention": "Strengthen account and service reviews by identifying deterioration signals such as repeat faults, ageing cases, SLA breaches, and negative sentiment early enough for proactive intervention before renewal.",
+  "First-time-fix rate": "Equip technicians with complete pre-visit context, asset history, likely diagnosis, and parts requirements so more jobs can be completed correctly on the first visit and repeat truck rolls are avoided.",
+  "Technician utilization": "Redeploy available technician capacity from administrative work between jobs into additional scheduled field work, increasing productive and billable activity where service demand is available."
+};
+
 /* Sample Cowork workflows per strategy (persona -> KPI -> use cases) */
 const WORKFLOWS = {
   sales: {
@@ -1582,6 +1615,13 @@ function renderLine(line, R, pDisabled) {
   }
   const bodyEl = document.createElement("div");
   bodyEl.className = "line-body";
+  if (TACTICS[line.kpi]) {
+    const tac = document.createElement("div");
+    tac.className = "tactic";
+    tac.innerHTML = '<div class="tactic-label">Tactic / Enabler</div>';
+    tac.appendChild(document.createTextNode(TACTICS[line.kpi]));
+    bodyEl.appendChild(tac);
+  }
   const baseAmt = R * line.base.ratio;
   const parts = [fmtMoney(baseAmt)].concat(line.factors.map(f => factorDisplay(f)));
   const strip = document.createElement("div");
@@ -2022,7 +2062,7 @@ function collectDeckData() {
     return {
       key, label: p.label, disabled: !!p.disabled, totals: personaTotals(key, R),
       lines: p.lines.map(l => ({
-        goal: l.goal, kpi: l.kpi, strat: l.strat, disabled: !!(p.disabled || l.disabled),
+        goal: l.goal, kpi: l.kpi, strat: l.strat, tactic: TACTICS[l.kpi] || "", disabled: !!(p.disabled || l.disabled),
         value: (p.disabled || l.disabled) ? 0 : lineValue(l, R),
         calc: [fmtMoney(R * l.base.ratio)].concat(l.factors.map(f => f.kind === "risk" ? "(1 - " + f.v + "%)" : factorDisplay(f))).join(" \u00d7 ")
       }))
@@ -2212,6 +2252,28 @@ async function exportDeck() {
         + "A single persona is the most defensible figure. Each line item includes a 15% conservative risk adjustment.", 6.05, 0.75);
 
       d.personas.filter(p => !p.disabled).forEach(p => {
+        const vm = pptx.addSlide({ masterName: "BODY" });
+        heading(vm, p.label + ": value map", "How redeployed Cowork capacity drives each KPI");
+        tile(vm, { x: W - X - 3.0, y: 0.3, w: 3.0, h: 1.05, label: "Annual BV", value: fmtMoney(p.totals.total), color: C.accent });
+        const vRows = [[hcell("Goal", "left"), hcell("Strategy", "left"), hcell("Tactic / Enabler", "left"), hcell("KPI", "left"), hcell("Annual BV")]];
+        const vSize = p.lines.length > 7 ? 9 : 10;
+        ["rev", "cost", "risk"].forEach(g => p.lines.filter(l => l.goal === g).forEach(l => {
+          const off = l.disabled ? { color: C.soft, italic: true } : {};
+          const cut = l.strat.indexOf(" - ");
+          const proc = cut > 0 ? l.strat.slice(0, cut) : l.strat;
+          const aim = cut > 0 ? l.strat.slice(cut + 3) : "";
+          vRows.push([
+            tcell(GOAL_META[g].label, { align: "left", bold: true, color: GOAL_COLOR[g], fontSize: vSize }),
+            { text: [{ text: proc, options: Object.assign({ bold: true, breakLine: !!aim }, off) }]
+                .concat(aim ? [{ text: aim.charAt(0).toUpperCase() + aim.slice(1), options: { italic: true, color: off.color || C.muted } }] : []),
+              options: { align: "left", fontSize: vSize } },
+            tcell(l.tactic, Object.assign({ align: "left", fontSize: vSize }, off)),
+            tcell(l.kpi, Object.assign({ align: "left", bold: true, fontSize: vSize }, off)),
+            tcell(l.disabled ? "Excluded" : fmtMoney(l.value), Object.assign({ bold: true, color: C.accent, fontSize: vSize + 1 }, off))
+          ]);
+        }));
+        vm.addTable(vRows, tableOpts(1.6, [1.15, 2.45, 5.25, 2.08, 1.2],         { rowH: 0.3 }));
+
         const s = pptx.addSlide({ masterName: "BODY" });
         heading(s, p.label + ": modeled business impact",
           "Annual  |  Revenue growth " + fmtMoney(p.totals.rev) + "  |  Reduce cost " + fmtMoney(p.totals.cost) + "  |  Manage risk " + fmtMoney(p.totals.risk));
