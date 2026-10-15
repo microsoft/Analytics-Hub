@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-14T11:16:00.604Z",
+  "runAt": "2026-10-15T11:16:03.871Z",
   "feed": "copilotstudio",
   "windowStart": "2026-07-01",
   "pages": [
@@ -116,10 +116,10 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-09-24T00:00:00Z",
-      "gitCommit": "8aecd26a96262ad66066f1d8952009d16283bbc4",
-      "wordCount": "1084",
-      "bodyHash": "30371f712fa5b1da",
-      "bodyLen": 9170,
+      "gitCommit": "88ec82f5f6981ae14ecbff4002faf09855297d72",
+      "wordCount": "1087",
+      "bodyHash": "b50d95a68f989287",
+      "bodyLen": 9188,
       "sections": [
         "Security and governance controls",
         "Security Development Lifecycle",
@@ -138,11 +138,11 @@
       "ok": true,
       "discovered": false,
       "isNew": false,
-      "msDate": "2026-05-15T00:00:00Z",
-      "gitCommit": "91288c6df16fa0c22b512b3150eac743906c38ef",
-      "wordCount": "2982",
-      "bodyHash": "59f9f065aaf219f0",
-      "bodyLen": 20644,
+      "msDate": "2026-10-01T00:00:00Z",
+      "gitCommit": "88ec82f5f6981ae14ecbff4002faf09855297d72",
+      "wordCount": "3061",
+      "bodyHash": "df2ff1da3b6672d6",
+      "bodyLen": 21143,
       "sections": [
         "Copilot Studio connectors and data groups",
         "Common data policy use cases for Copilot Studio agents",
@@ -150,7 +150,7 @@
         "Block knowledge sources",
         "Block using Power Platform connectors as tools",
         "Block HTTP requests",
-        "Block skills",
+        "Block Azure Bot Service skills",
         "Block publishing to specific channels",
         "Block event triggers",
         "Connector names in the Power Platform admin center",
@@ -161,13 +161,13 @@
         "Confirm knowledge sources are blocked",
         "Confirm Power Platform connectors can't be used as tools",
         "Confirm HTTP requests are blocked",
-        "Confirm skills are blocked",
+        "Confirm Azure Bot Service skills are blocked",
         "Confirm publishing to specific channels is blocked",
         "Confirm event triggers are blocked",
         "Identify and troubleshoot the impact of data policies",
         "Add and update the \"Learn more\" and admin contact email links"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "geo-data-residency",
@@ -423,16 +423,16 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-04-06T00:00:00Z",
-      "gitCommit": "91288c6df16fa0c22b512b3150eac743906c38ef",
-      "wordCount": "1905",
-      "bodyHash": "8fb86b294d73665e",
-      "bodyLen": 26698,
+      "gitCommit": "88ec82f5f6981ae14ecbff4002faf09855297d72",
+      "wordCount": "1908",
+      "bodyHash": "c29fd1cc0fe72f4a",
+      "bodyLen": 26710,
       "sections": [
         "Enable IP firewall for Power Platform environments",
         "Service tags",
         "Validate IP firewall for agent authors and agent users",
         "Known limitations",
-        "Outbound IP addresses for Bot Framework skills"
+        "Outbound IP addresses for Azure Bot Service skills"
       ],
       "inWindow": false
     },
@@ -937,10 +937,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-06-01T00:00:00Z",
-      "gitCommit": "33f52e91ea7ad08f4f9ed00d0fb403f2df77ca9f",
-      "wordCount": "2614",
-      "bodyHash": "b4afb2344a2cf4c7",
-      "bodyLen": 17899,
+      "gitCommit": "e73b63405dd9cf2fb40b7dfc7194dd7dfb21cb22",
+      "wordCount": "2582",
+      "bodyHash": "51364bcf196d73f6",
+      "bodyLen": 17680,
       "sections": [
         "Custom metrics",
         "Effectiveness",

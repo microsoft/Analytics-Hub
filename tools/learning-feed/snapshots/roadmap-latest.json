@@ -1,7 +1,39 @@
 {
-  "runAt": "2026-10-14T11:17:25.410Z",
+  "runAt": "2026-10-15T11:17:21.002Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "574111",
+      "title": "Microsoft Copilot (Microsoft 365): Copilot response personalization - Memory citations",
+      "status": "Launched",
+      "description": "<p>When Copilot Chat uses memory to personalize a response, users can now see what informed the answer. Select Sources beneath the response, then open the Personalization tab to view the custom instructions, saved memories, memories learned from conversations, and past chats that shaped the response. From there, users can return to a cited chat to pick up where they left off or review and delete saved memories. Memory citations appear only when memory is turned on.</p>",
+      "created": "2026-10-14T23:01:02",
+      "modified": "2026-10-14T23:01:02",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability"
+      ],
+      "descHash": "74093834ee9c4ec5"
+    },
+    {
+      "id": "573168",
+      "title": "Planner: Planner Agent in Copilot V2 Improvements",
+      "status": "In development",
+      "description": "<p>Planner Agent brings Planner’s intelligent work management directly into Copilot Chat, enabling users to create, update, and manage personal tasks and shared basic plans without switching context. Integrated across Microsoft 365, it provides insights into priorities, deadlines, and at-risk work, along with interactive task cards to help users stay organized and keep work moving.</p>\n<p>Building on the initial launch, planned improvements include:</p>\n<ul>\n<li>Improved context handling and support for larger plans.</li>\n<li>Higher-quality responses through model upgrades, refined prompts, and better grounding.</li>\n<li>Greater reliability and reduced latency for more consistent, responsive interactions.</li>\n<li>Expanded task management capabilities, including broader task assignment support.</li>\n<li>User experience enhancements to make managing tasks and plans in Copilot Chat more intuitive.</li>\n<li>New capabilities, including scheduled task catch-ups.</li>\n</ul>",
+      "created": "2026-10-14T23:01:02",
+      "modified": "2026-10-14T23:01:02",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Desktop",
+        "Teams and Surface Devices",
+        "Web",
+        "Planner",
+        "General Availability"
+      ],
+      "descHash": "e2a586186910cad4"
+    },
     {
       "id": "575298",
       "title": "SharePoint: Agent chat web part",
@@ -698,7 +730,7 @@
       "status": "In development",
       "description": "<p>Express face enrollment makes it easier for users to create a face profile in Teams by using their camera during eligible meetings, after they opt in. Once enrolled, users can be recognized in supported Teams Rooms experiences, helping identify who is in the room and improving downstream meeting experiences such as Copilot and recap. Admins can enable or disable the feature for their organization.</p>",
       "created": "2026-09-18T22:00:04",
-      "modified": "2026-09-21T23:04:49",
+      "modified": "2026-10-14T23:01:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -1846,38 +1878,6 @@
       "descHash": "5099a9067a4fd3b8"
     },
     {
-      "id": "567003",
-      "title": "Microsoft Copilot (Microsoft 365): Enrich Sales agent meeting prep with more data sources",
-      "status": "Cancelled",
-      "description": "<p>Walking into a customer meeting with incomplete context can mean missed risks, overlooked issues, and conversations that fall flat. With access to richer data, like service tickets, directly in your meeting prep, you can spot open issues and opportunities before the conversation starts. This insight helps you engage more meaningfully, build stronger relationships, and drive better sales outcomes. UPDATE: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
-      "created": "2026-07-08T23:10:57",
-      "modified": "2026-09-28T22:58:08",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "93ac4063e7e8f13b"
-    },
-    {
-      "id": "567002",
-      "title": "Microsoft Copilot (Microsoft 365): Add custom insights to record summaries in Sales agent",
-      "status": "Cancelled",
-      "description": "<p>Sales agent gives you strong CRM-based account and opportunity summaries, but important context is often spread across non-CRM systems. With this capability, you can add insights from any application to enrich account and opportunity summaries in Sales agent, so sellers get a unified view of their accounts and deals in one place without switching applications. UPDATE: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
-      "created": "2026-07-08T23:10:57",
-      "modified": "2026-09-28T22:58:08",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "06bb37667627bab7"
-    },
-    {
       "id": "567001",
       "title": "Microsoft Copilot (Microsoft 365): Engage customers across multiple channels (web, voice, SMS & email)",
       "status": "In development",
@@ -1892,22 +1892,6 @@
         "Preview"
       ],
       "descHash": "3b329ae3c4be87e7"
-    },
-    {
-      "id": "567000",
-      "title": "Microsoft Copilot (Microsoft 365): Engage prospects faster with Sales Agent-enriched leads",
-      "status": "Cancelled",
-      "description": "<p>To reach their sales goals, sales teams need to constantly generate enough pipeline. They need to decide which inbound leads to engage. This decision takes a lot of time because sellers must sift through large amounts of data across tools and data sources. This data includes information from internal systems like their CRM and external resources like the web and third-party data services.<br>\nSales Agent handles the work of reviewing every available data source to create a comprehensive summary for each lead. As a seller, you can quickly decide whether to engage with a prospect or pass on them. Sales Agent reviews every lead in your queue and gathers information. It synthesizes insights that are specific to your business. At a glance, you can see if a lead is worth reaching out to and what they're interested in. Use this information to personalize your engagement with the prospect. With Sales Agent, you spend less time and get higher response rates, leading to a larger, more qualified pipeline. UPDATE: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
-      "created": "2026-07-08T23:10:57",
-      "modified": "2026-09-28T22:58:08",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "03a9ce56a9258d9d"
     },
     {
       "id": "566859",
@@ -2988,10 +2972,10 @@
     {
       "id": "561032",
       "title": "Microsoft Purview: Data Loss Prevention – New Guided Experience to Diagnose and Resolve DLP Issues",
-      "status": "In development",
-      "description": "We’re introducing a new guided diagnostics experience to help users understand why their DLP policies may not be behaving as expected. This experience provides a clear summary of why a DLP action was taken on a document, including which policies were triggered, the order of evaluation, and detailed insights into which conditions evaluated as true or false.\nFor Microsoft 365 E5 customers, the experience also includes Copilot-powered insights and tailored recommendations to accelerate troubleshooting and policy optimization.",
+      "status": "Rolling out",
+      "description": "<p>We’re introducing a new guided diagnostics experience to help users understand why their DLP policies may not be behaving as expected. This experience provides a clear summary of why a DLP action was taken on a document, including which policies were triggered, the order of evaluation, and detailed insights into which conditions evaluated as true or false.<br>\nFor Microsoft 365 E5 customers, the experience also includes Copilot-powered insights and tailored recommendations to accelerate troubleshooting and policy optimization.</p>",
       "created": "2026-04-24T22:00:04",
-      "modified": "2026-08-04T22:45:42",
+      "modified": "2026-10-14T23:01:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -7159,22 +7143,6 @@
         "Preview"
       ],
       "descHash": "82e07388b519cd21"
-    },
-    {
-      "id": "516041",
-      "title": "Microsoft Copilot (Microsoft 365): Expanded Agent Support in Copilot Notebooks",
-      "status": "In development",
-      "description": "With Agents in Notebooks, use the specialized skills and knowledge of Agents on the content that matter most to your task at hand, whether it’s transforming complex data into clear insights and visualizations with Analyst, or creating stunning designs with Designer.",
-      "created": "2025-10-22T23:15:17",
-      "modified": "2026-06-02T23:00:40",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft 365 app",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "f05275fe8f0c22b2"
     },
     {
       "id": "513431",

@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-14T11:17:45.982Z",
+  "runAt": "2026-10-15T11:17:38.439Z",
   "feed": "viva",
   "windowStart": "2026-07-01",
   "pages": [
@@ -417,10 +417,10 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-09-30T00:00:00Z",
-      "gitCommit": "a5affd466eabbc32d3a5f5aad93f6969326fbe7b",
-      "wordCount": "609",
-      "bodyHash": "2568a122f6c491bd",
-      "bodyLen": 5347,
+      "gitCommit": "e91da54c8f517e26b3f73aee56849859a183f162",
+      "wordCount": "624",
+      "bodyHash": "256f5e7bbe31f58f",
+      "bodyLen": 5412,
       "sections": [
         "Microsoft Copilot Analytics dashboards",
         "Advanced analysis platform features",
@@ -1584,6 +1584,39 @@
         "Using multiple filters",
         "About conditions and condition groups",
         "The employees counter"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "viva-insights-advanced-analyst-github-query",
+      "tier": 3,
+      "title": "Github Query",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/github-query",
+      "why": "Auto-discovered from the documentation tree for this product area.",
+      "ok": true,
+      "discovered": true,
+      "isNew": true,
+      "msDate": "2026-10-14T00:00:00Z",
+      "gitCommit": "2ff29b7fff4532ae0a2f455f6d5dabf89fbbe064",
+      "wordCount": "1263",
+      "bodyHash": "720e248f3c38f367",
+      "bodyLen": 9396,
+      "sections": [
+        "Coverage, prerequisites, and eligibility",
+        "1. Set up your query",
+        "2. Select your metrics",
+        "3. Add conditions and condition groups",
+        "4. Select HR attributes",
+        "5. Run the query",
+        "Output files",
+        "1. Person GitHub Activity Metrics file",
+        "2. GitHub Activity by feature file",
+        "3. GitHub Activity by model and feature file",
+        "4. GitHub Activity by feature and language file",
+        "5. GitHub Activity by model and language file",
+        "6. People Metadata file",
+        "Example query for GitHub Copilot adoption by team",
+        "Related topics"
       ],
       "inWindow": true
     },
