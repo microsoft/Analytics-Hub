@@ -439,7 +439,8 @@
     "mN2DuNkMxFk": "YT-FinOps-FOCUS-Overview",
     "rNcVOnRO5IU": "YT-What-Cowork-Did-For-Me-Overview",
     "3zIlbzkxNQg": "YT-Chat-Agent-Intelligence-Overview",
-    "iPgRcEZqmr0": "YT-Adoption-Sentiment-Overview"
+    "iPgRcEZqmr0": "YT-Adoption-Sentiment-Overview",
+    "Rxj6QBTeP10": "YT-GitHub-Copilot-Impact-Overview"
   };
 
   (function () {
