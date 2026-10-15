@@ -448,6 +448,8 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
 .import-card .import-sub { margin: 4px 0 12px; font-size: 12.5px; color: var(--cp-text-muted); }
 .import-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--cp-accent); color: var(--cp-accent-fg); border: none; border-radius: 8px; padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
 .import-btn:hover { background: var(--cp-accent-hover); }
+.import-btn:disabled { opacity: 0.6; cursor: progress; }
+.export-btn { margin-left: auto; align-self: center; }
 .import-status { margin-top: 12px; font-size: 13px; }
 .import-status.err { color: var(--cp-accent); font-weight: 600; }
 .import-preview { display: none; margin-top: 14px; border-top: 1px dashed var(--cp-border); padding-top: 14px; }
@@ -480,6 +482,7 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
     <button class="tab-btn active" data-tab="time"><span class="num">1</span>Time savings</button>
     <button class="tab-btn" data-tab="impact"><span class="num">2</span>Business impact</button>
     <button class="tab-btn" data-tab="combined"><span class="num">3</span>Combined ROI</button>
+    <button type="button" class="import-btn export-btn" id="exportPptx" title="Builds a .pptx in your browser - nothing is uploaded">Export to PowerPoint</button>
   </div>
 
   <section class="tab-panel active" id="tab-time">
@@ -621,6 +624,7 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
           <summary>Privacy note and how to verify network behavior</summary>
           <p><b>Data handling:</b> This ROI model runs fully in your browser. Inputs and calculations stay local to your session and are not posted to any API by this page.</p>
           <p><b>Clarity:</b> This page does not include a Microsoft Clarity script, so input data is not sent to Clarity from this app.</p>
+          <p><b>PowerPoint export:</b> "Export to PowerPoint" builds the .pptx entirely in your browser using a locally bundled copy of PptxGenJS (<code>lib/pptxgen.bundle.js</code>, no CDN) and saves it straight to your device. Nothing is uploaded.</p>
           <p><b>How to verify:</b> Open browser DevTools then <code>Network</code>. Enable <code>Preserve log</code>. Filter by <code>Fetch/XHR</code>, then refresh and edit fields in the model. You should see no new API calls tied to your edits. You can also filter for <code>clarity.ms</code>; this page should show no matching requests.</p>
         </details>
       </div>
@@ -788,6 +792,8 @@ table.matrix tbody tr.persona-row.excluded td:first-child::before { content: non
   </section>
 </div>
 
+<!-- Local library (offline, no CDN): builds the .pptx export in the browser. -->
+<script src="lib/pptxgen.bundle.js"></script>
 <script>
 /* ===== PART 1 - TIME SAVINGS (usage-based) ===== */
 const BUCKETS = [
@@ -1994,6 +2000,266 @@ $("creditPrice").addEventListener("input", () => {
     recompute();
   }
 });
+
+/* ===== EXPORT TO POWERPOINT (built locally in the browser - nothing is uploaded) ===== */
+function collectDeckData() {
+  const rate = +$("rate").value || 0;
+  const rec = (+$("adj").value) / 100;
+  const cost = +$("cost").value || 0;
+  const usl = +$("usl").value || 0;
+  const mau = +$("mau").value || 0;
+  const denomMo = cost + usl * mau;
+  const activeBand = document.querySelector("#bandGroup button.active");
+  const cats = state.map((s, i) => {
+    const hrs = s.tasks * s.minutes / 60;
+    return { name: BUCKETS[i].name, src: BUCKETS[i].src, tasks: s.tasks, minutes: s.minutes, hrs, usd: hrs * rate,
+             hrsLow: s.tasks * BUCKETS[i].low / 60, hrsHigh: s.tasks * BUCKETS[i].high / 60 };
+  });
+  const sum = k => cats.reduce((a, c) => a + c[k], 0);
+  const R = parseRevenue($("annualRevenue").value);
+  const personas = Object.keys(IMPACT).map(key => {
+    const p = IMPACT[key];
+    return {
+      key, label: p.label, disabled: !!p.disabled, totals: personaTotals(key, R),
+      lines: p.lines.map(l => ({
+        goal: l.goal, kpi: l.kpi, strat: l.strat, disabled: !!(p.disabled || l.disabled),
+        value: (p.disabled || l.disabled) ? 0 : lineValue(l, R),
+        calc: [fmtMoney(R * l.base.ratio)].concat(l.factors.map(f => f.kind === "risk" ? "(1 - " + f.v + "%)" : factorDisplay(f))).join(" \u00d7 ")
+      }))
+    };
+  });
+  const port = { rev: 0, cost: 0, risk: 0, total: 0 };
+  personas.forEach(p => { ["rev", "cost", "risk", "total"].forEach(k => { port[k] += p.totals[k]; }); });
+  const included = personas.filter(p => !p.disabled).length;
+  return {
+    scenario: $("scenario").value.trim(), rate, rec, cost, usl, mau, denomMo, denomYr: denomMo * 12,
+    band: activeBand ? activeBand.textContent.trim() : "Custom",
+    cats, totTasks: sum("tasks"), totHrs: sum("hrs"), totUsd: sum("usd"),
+    postHrs: sum("hrs") * rec, postUsd: sum("usd") * rec,
+    postHrsLow: sum("hrsLow") * rec, postHrsHigh: sum("hrsHigh") * rec,
+    R, personas, port, included,
+    scope: included === personas.length ? "all " + personas.length + " personas" : included + " of " + personas.length + " personas",
+    refs: Array.from(document.querySelectorAll(".refs-list a")).map(a => ({ text: a.textContent.trim(), url: a.href }))
+  };
+}
+
+async function exportDeck() {
+  if (!window.PptxGenJS) { alert("The PowerPoint library did not load, so the deck can't be built."); return; }
+  const btn = $("exportPptx");
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = "Building deck\u2026";
+  try {
+    const d = collectDeckData();
+    const pptx = new PptxGenJS();
+    pptx.layout = "LAYOUT_WIDE";
+    pptx.author = "Cowork ROI Model";
+    pptx.company = d.scenario || "";
+    pptx.title = "Cowork ROI Model" + (d.scenario ? " - " + d.scenario : "");
+
+    const C = { accent: "B11F4B", text: "242424", muted: "5C5C5C", soft: "8A8A8A", border: "DEDEDE",
+                band: "F7F4EF", tint: "FBEFF3", rev: "0F766E", cost: "1D4ED8", risk: "B45309" };
+    const GOAL_COLOR = { rev: C.rev, cost: C.cost, risk: C.risk };
+    const FONT = "Segoe UI";
+    const W = 13.333, X = 0.6, CW = W - 2 * X;
+    const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    const hasCost = d.denomYr > 0;
+    const hasRev = d.R > 0;
+    const nbc = (benefit, denom) => ((benefit - denom) / denom).toFixed(1) + "x";
+    const pct = n => Math.round(n * 100) + "%";
+    const moneyFmtCode = max => max >= 1e6 ? '$#,##0.0,,"M"' : max >= 1e3 ? '$#,##0,"K"' : '$#,##0';
+
+    pptx.defineSlideMaster({
+      title: "BODY",
+      background: { color: "FFFFFF" },
+      objects: [
+        { rect: { x: 0, y: 0, w: W, h: 0.1, fill: { color: C.accent } } },
+        { line: { x: X, y: 6.95, w: CW, h: 0, line: { color: C.border, width: 0.75 } } },
+        { text: { text: "Cowork ROI Model" + (d.scenario ? "  |  " + d.scenario : "") + "  |  " + dateStr,
+                  options: { x: X, y: 7.0, w: 10, h: 0.3, fontFace: FONT, fontSize: 9, color: C.soft } } }
+      ],
+      slideNumber: { x: 12.25, y: 7.0, w: 0.5, h: 0.3, fontFace: FONT, fontSize: 9, color: C.soft }
+    });
+
+    const heading = (s, t, sub) => {
+      s.addText(t, { x: X, y: 0.35, w: CW, h: 0.6, fontFace: FONT, fontSize: 26, bold: true, color: C.text, margin: 0 });
+      if (sub) s.addText(sub, { x: X, y: 0.95, w: CW, h: 0.4, fontFace: FONT, fontSize: 13, color: C.muted, margin: 0 });
+    };
+    const tile = (s, o) => {
+      const color = o.color || C.text;
+      s.addShape(pptx.ShapeType.roundRect, { x: o.x, y: o.y, w: o.w, h: o.h, fill: { color: o.fill || "FFFFFF" },
+        line: { color: o.lineColor || C.border, width: 1 }, rectRadius: 0.08 });
+      s.addShape(pptx.ShapeType.rect, { x: o.x, y: o.y + 0.18, w: 0.07, h: o.h - 0.36, fill: { color: o.barColor || color }, line: { color: o.barColor || color, width: 0 } });
+      s.addText(o.label.toUpperCase(), { x: o.x + 0.25, y: o.y + 0.14, w: o.w - 0.4, h: 0.32, fontFace: FONT, fontSize: 10, bold: true, color: C.muted, charSpacing: 1, margin: 0 });
+      s.addText(o.value, { x: o.x + 0.25, y: o.y + 0.46, w: o.w - 0.4, h: o.big ? 0.95 : 0.65, fontFace: FONT, fontSize: o.big ? 40 : 26, bold: true, color, margin: 0, valign: "middle" });
+      if (o.sub) s.addText(o.sub, { x: o.x + 0.25, y: o.y + (o.big ? 1.45 : 1.12), w: o.w - 0.4, h: o.h - (o.big ? 1.55 : 1.2), fontFace: FONT, fontSize: 10.5, color: C.muted, valign: "top", margin: 0 });
+    };
+    const hcell = (t, align) => ({ text: t, options: { bold: true, color: C.muted, fill: { color: C.band }, fontSize: 10, align: align || "right" } });
+    const tcell = (t, o) => ({ text: String(t), options: Object.assign({ align: "right" }, o || {}) });
+    const tableOpts = (y, colW, extra) => Object.assign({ x: X, y, w: CW, colW, fontFace: FONT, fontSize: 11, color: C.text,
+      border: { type: "solid", pt: 0.5, color: C.border }, valign: "middle", rowH: 0.34 }, extra || {});
+    const note = (s, text, y, h) => s.addText(text, { x: X, y, w: CW, h: h || 0.5, fontFace: FONT, fontSize: 10, color: C.muted, valign: "top", margin: 0 });
+
+    /* 1. Title */
+    const s1 = pptx.addSlide();
+    s1.background = { color: "FFFFFF" };
+    s1.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.35, h: 7.5, fill: { color: C.accent }, line: { color: C.accent, width: 0 } });
+    s1.addText("COWORK ROI MODEL", { x: 1.0, y: 2.0, w: 11, h: 0.4, fontFace: FONT, fontSize: 14, bold: true, color: C.accent, charSpacing: 3, margin: 0 });
+    s1.addText(d.scenario || "Business value assessment", { x: 1.0, y: 2.45, w: 11.3, h: 1.1, fontFace: FONT, fontSize: 40, bold: true, color: C.text, margin: 0, valign: "middle" });
+    s1.addText("Estimated capacity value from Cowork usage and modeled business impact across revenue, cost and risk",
+      { x: 1.0, y: 3.6, w: 10.5, h: 0.8, fontFace: FONT, fontSize: 18, color: C.muted, margin: 0, valign: "top" });
+    s1.addText(dateStr, { x: 1.0, y: 5.6, w: 6, h: 0.35, fontFace: FONT, fontSize: 13, color: C.text, margin: 0 });
+    s1.addText("All figures are estimates built from the assumptions entered in the model.",
+      { x: 1.0, y: 5.95, w: 10, h: 0.35, fontFace: FONT, fontSize: 11, color: C.soft, margin: 0 });
+
+    /* 2. Executive summary */
+    const capYr = d.postUsd * 12;
+    const s2 = pptx.addSlide({ masterName: "BODY" });
+    heading(s2, "Executive summary", "Two complementary views of Cowork value, shown side by side and never added together");
+    tile(s2, { x: X, y: 1.6, w: 5.95, h: 2.55, big: true, color: C.accent, label: "Estimated capacity value / year",
+      value: fmtMoney(capYr),
+      sub: fmtInt(d.postHrs * 12) + " assisted hours/year after " + pct(d.rec) + " productivity recapture\n"
+        + (hasCost ? "Net Benefit/Cost " + nbc(capYr, d.denomYr) + " vs annual cost " + fmtMoney(d.denomYr) : "Add a monthly Copilot cost to calculate Net Benefit/Cost") });
+    tile(s2, { x: X + 6.18, y: 1.6, w: 5.95, h: 2.55, big: true, color: hasRev ? C.rev : C.soft, label: "Modeled business impact / year",
+      value: hasRev ? fmtMoney(d.port.total) : "Not modeled",
+      sub: hasRev
+        ? "Upper bound across " + d.scope + "\n" + (hasCost ? "Net Benefit/Cost " + nbc(d.port.total, d.denomYr) + " vs annual cost " + fmtMoney(d.denomYr) : "Add a monthly Copilot cost to calculate Net Benefit/Cost")
+        : "Enter Annual Revenue on the Business impact tab to model revenue, cost and risk value" });
+    s2.addShape(pptx.ShapeType.rect, { x: X, y: 4.35, w: CW, h: 0.55, fill: { color: C.tint }, line: { color: C.tint, width: 0 } });
+    s2.addText([
+      { text: "Don't add these numbers together. ", options: { bold: true, color: C.accent } },
+      { text: "Modeled impact is one way the estimated capacity gets spent. Treat capacity value as the defensible view and modeled impact as the upside case.", options: { color: C.text } }
+    ], { x: X + 0.2, y: 4.35, w: CW - 0.4, h: 0.55, fontFace: FONT, fontSize: 11, valign: "middle", margin: 0 });
+    s2.addText("KEY INPUTS", { x: X, y: 5.15, w: CW, h: 0.3, fontFace: FONT, fontSize: 10, bold: true, color: C.muted, charSpacing: 1, margin: 0 });
+    const inputs = [
+      ["Annual revenue", hasRev ? fmtMoney(d.R) : "Not entered"],
+      ["Copilot cost / month", fmtMoneyFull(d.denomMo)],
+      ["Loaded labor rate", fmtMoneyFull(d.rate) + " / hr"],
+      ["Productivity recapture", pct(d.rec)],
+      ["Tasks / month", fmtInt(d.totTasks)],
+      ["Minutes band", d.band]
+    ];
+    s2.addTable([
+      inputs.map(i => ({ text: i[0], options: { fontSize: 9.5, color: C.muted, fill: { color: C.band }, align: "center" } })),
+      inputs.map(i => ({ text: i[1], options: { fontSize: 14, bold: true, color: C.text, align: "center" } }))
+    ], tableOpts(5.5, Array(6).fill(CW / 6), { rowH: [0.32, 0.5] }));
+
+    /* 3. Time savings */
+    const s3 = pptx.addSlide({ masterName: "BODY" });
+    heading(s3, "Usage-based time savings", "Monthly figures after " + pct(d.rec) + " productivity recapture  |  " + d.band + " research band  |  " + fmtMoneyFull(d.rate) + "/hr loaded labor rate");
+    const tw = (CW - 0.6) / 4;
+    [
+      { label: "Assisted hours / month", value: fmtInt(d.postHrs), sub: "Range " + fmtInt(d.postHrsLow) + " - " + fmtInt(d.postHrsHigh) + " hrs" },
+      { label: "Value / month", value: fmtMoney(d.postUsd), color: C.accent, sub: "Range " + fmtMoney(d.postHrsLow * d.rate) + " - " + fmtMoney(d.postHrsHigh * d.rate) },
+      { label: "Net Benefit/Cost", value: hasCost ? nbc(d.postUsd, d.denomMo) : "-", color: C.accent, sub: hasCost ? "vs " + fmtMoney(d.denomMo) + " / month cost" : "Enter a monthly cost" },
+      { label: "Tasks / month", value: fmtInt(d.totTasks), sub: "Across " + d.cats.filter(c => c.tasks > 0).length + " task categories" }
+    ].forEach((t, i) => tile(s3, Object.assign({ x: X + i * (tw + 0.2), y: 1.55, w: tw, h: 1.7 }, t)));
+    const byHrs = d.cats.slice().sort((a, b) => b.hrs - a.hrs);
+    s3.addText("ASSISTED HOURS / MONTH BY CATEGORY (BEFORE RECAPTURE)", { x: X, y: 3.5, w: CW, h: 0.3, fontFace: FONT, fontSize: 10, bold: true, color: C.muted, charSpacing: 1, margin: 0 });
+    if (d.totHrs > 0) {
+      s3.addChart(pptx.ChartType.bar, [{ name: "Assisted hours / month", labels: byHrs.map(c => c.name), values: byHrs.map(c => Math.round(c.hrs)) }], {
+        x: X, y: 3.8, w: CW, h: 3.05, barDir: "bar", catAxisOrientation: "maxMin", chartColors: [C.accent], barGapWidthPct: 45,
+        showValue: true, dataLabelFormatCode: "#,##0", dataLabelColor: C.text, dataLabelFontSize: 10, dataLabelFontFace: FONT,
+        catAxisLabelColor: C.text, catAxisLabelFontSize: 11, catAxisLabelFontFace: FONT, catAxisLineShow: false,
+        valAxisHidden: true, valGridLine: { style: "none" }, showLegend: false
+      });
+    } else {
+      note(s3, "No task volumes entered yet - add tasks per category on the Time savings tab to see the breakdown.", 3.9);
+    }
+
+    /* 4. Per-category breakdown */
+    const s4 = pptx.addSlide({ masterName: "BODY" });
+    heading(s4, "Per-category breakdown", "Full estimated savings per category before productivity recapture");
+    const catRows = [[hcell("Category", "left"), hcell("Research basis", "left"), hcell("Tasks / mo"), hcell("Min / task"), hcell("Assisted hrs / mo"), hcell("Value / mo")]];
+    d.cats.forEach(c => catRows.push([
+      tcell(c.name, { align: "left", bold: true }), tcell(c.src, { align: "left", fontSize: 9, color: C.muted }),
+      tcell(fmtInt(c.tasks)), tcell(fmtInt(c.minutes)), tcell(fmtInt(c.hrs)), tcell(fmtMoneyFull(c.usd), { bold: true, color: C.accent })
+    ]));
+    const tot = { bold: true, fill: { color: C.band } };
+    catRows.push([tcell("Total / month", Object.assign({ align: "left" }, tot)), tcell("", tot), tcell(fmtInt(d.totTasks), tot), tcell("-", tot),
+      tcell(fmtInt(d.totHrs), tot), tcell(fmtMoneyFull(d.totUsd), Object.assign({ color: C.accent }, tot))]);
+    s4.addTable(catRows, tableOpts(1.5, [2.75, 4.68, 1.1, 1.0, 1.3, 1.3], { rowH: 0.42 }));
+    note(s4, "Assisted hours = tasks \u00d7 minutes per task \u00f7 60.  Value = hours \u00d7 loaded labor rate.  "
+      + "After " + pct(d.rec) + " productivity recapture: " + fmtInt(d.postHrs) + " hrs and " + fmtMoneyFull(d.postUsd) + " per month.", 6.3, 0.5);
+
+    /* 5+. Business impact */
+    if (hasRev) {
+      const s5 = pptx.addSlide({ masterName: "BODY" });
+      heading(s5, "Modeled business impact by persona and lever", "Annual value from " + fmtMoney(d.R) + " annual revenue  |  upper bound across " + d.scope);
+      const mRows = [[hcell("Persona", "left"), hcell("Revenue growth"), hcell("Reduce cost"), hcell("Manage risk"), hcell("Total")]];
+      d.personas.forEach(p => {
+        const o = p.disabled ? { color: C.soft, italic: true } : {};
+        mRows.push([tcell(p.label + (p.disabled ? " (excluded)" : ""), Object.assign({ align: "left", bold: !p.disabled }, o)),
+          tcell(fmtMoney(p.totals.rev), o), tcell(fmtMoney(p.totals.cost), o), tcell(fmtMoney(p.totals.risk), o),
+          tcell(fmtMoney(p.totals.total), Object.assign({ bold: true }, o))]);
+      });
+      mRows.push([tcell("All personas (upper bound)", Object.assign({ align: "left" }, tot)), tcell(fmtMoney(d.port.rev), tot),
+        tcell(fmtMoney(d.port.cost), tot), tcell(fmtMoney(d.port.risk), tot), tcell(fmtMoney(d.port.total), Object.assign({ color: C.accent }, tot))]);
+      s5.addTable(mRows, tableOpts(1.55, [2.0, 1.25, 1.25, 1.25, 1.25], { w: 7.0, rowH: 0.48 }));
+      const inc = d.personas.filter(p => !p.disabled);
+      const maxT = Math.max.apply(null, inc.map(p => p.totals.total).concat([0]));
+      if (inc.length && maxT > 0) {
+        s5.addChart(pptx.ChartType.bar, ["rev", "cost", "risk"].map(g => ({
+          name: GOAL_META[g].label, labels: inc.map(p => p.label), values: inc.map(p => Math.round(p.totals[g]))
+        })), {
+          x: 7.9, y: 1.45, w: W - 7.9 - X, h: 4.3, barDir: "col", barGrouping: "stacked", barGapWidthPct: 55,
+          chartColors: [C.rev, C.cost, C.risk], showLegend: true, legendPos: "b", legendFontSize: 10, legendFontFace: FONT,
+          catAxisLabelColor: C.text, catAxisLabelFontSize: 11, catAxisLabelFontFace: FONT,
+          valAxisLabelFormatCode: moneyFmtCode(maxT), valAxisLabelColor: C.muted, valAxisLabelFontSize: 9,
+          valGridLine: { color: "EEEEEE", size: 0.5 }
+        });
+      }
+      note(s5, "Cross-persona totals are an upper bound: some assumptions (gross margin, attrition, redeployed capacity) overlap across personas and can double count. "
+        + "A single persona is the most defensible figure. Each line item includes a 15% conservative risk adjustment.", 6.05, 0.75);
+
+      d.personas.filter(p => !p.disabled).forEach(p => {
+        const s = pptx.addSlide({ masterName: "BODY" });
+        heading(s, p.label + ": modeled business impact",
+          "Annual  |  Revenue growth " + fmtMoney(p.totals.rev) + "  |  Reduce cost " + fmtMoney(p.totals.cost) + "  |  Manage risk " + fmtMoney(p.totals.risk));
+        tile(s, { x: W - X - 3.0, y: 0.3, w: 3.0, h: 1.05, label: "Total / year", value: fmtMoney(p.totals.total), color: C.accent });
+        const rows = [[hcell("Lever", "left"), hcell("KPI", "left"), hcell("Strategy", "left"), hcell("Calculation", "left"), hcell("Annual value")]];
+        ["rev", "cost", "risk"].forEach(g => p.lines.filter(l => l.goal === g).forEach(l => {
+          const off = l.disabled ? { color: C.soft, italic: true } : {};
+          rows.push([
+            tcell(GOAL_META[g].label, { align: "left", bold: true, color: GOAL_COLOR[g], fontSize: 10 }),
+            tcell(l.kpi, Object.assign({ align: "left", bold: true, fontSize: 10.5 }, off)),
+            tcell(l.strat, Object.assign({ align: "left", fontSize: 10 }, off)),
+            tcell(l.calc, { align: "left", fontSize: 9, color: C.muted }),
+            tcell(l.disabled ? "Excluded" : fmtMoney(l.value), Object.assign({ bold: true, color: C.accent }, off))
+          ]);
+        }));
+        s.addTable(rows, tableOpts(1.6, [1.35, 2.6, 3.5, 3.33, 1.35], { rowH: 0.5 }));
+      });
+    }
+
+    /* Last. Methodology & sources */
+    const sm = pptx.addSlide({ masterName: "BODY" });
+    heading(sm, "Methodology and sources");
+    const bullet = t => ({ text: t, options: { bullet: { indent: 14 }, paraSpaceAfter: 6 } });
+    sm.addText("HOW THE NUMBERS ARE CALCULATED", { x: X, y: 1.15, w: 5.8, h: 0.3, fontFace: FONT, fontSize: 10, bold: true, color: C.muted, charSpacing: 1, margin: 0 });
+    sm.addText([
+      bullet("Capacity value: tasks \u00d7 research-backed minutes saved \u00f7 60 \u00d7 loaded labor rate, monthly \u00d7 12."),
+      bullet("Productivity recapture (" + pct(d.rec) + ") is the share of assisted time redeployed to new productive work."),
+      bullet("Business impact: a base amount derived from annual revenue \u00d7 a chain of sourced assumptions \u00d7 (1 - 15% risk adjustment)."),
+      bullet("Net Benefit/Cost = (benefit - cost) \u00f7 cost, using Copilot credit cost plus user subscription licenses" + (hasCost ? " (" + fmtMoney(d.denomYr) + " / year)." : ".")),
+      bullet("Capacity value and modeled impact overlap, so they're shown side by side and never added."),
+      bullet("Business impact sources include McKinsey & Company, Forrester Consulting, Gartner, APQC, Gallup, Mercer, SQM Group, TSIA, Bain & Company and BLS.")
+    ], { x: X, y: 1.5, w: 5.8, h: 4.9, fontFace: FONT, fontSize: 11.5, color: C.text, valign: "top", margin: 0 });
+    sm.addText("TIME-SAVINGS RESEARCH", { x: 7.0, y: 1.15, w: W - 7.0 - X, h: 0.3, fontFace: FONT, fontSize: 10, bold: true, color: C.muted, charSpacing: 1, margin: 0 });
+    sm.addText(d.refs.concat([{ text: "Cowork Methodology (PDF)", url: "https://microsoft.github.io/CopilotAnalyticsLabs/Cowork_Methodology.pdf" }]).map(r => ({
+      text: r.text, options: { hyperlink: { url: r.url }, color: "0078D4", bullet: { indent: 12 }, breakLine: true, paraSpaceAfter: 3 }
+    })), { x: 7.0, y: 1.5, w: W - 7.0 - X, h: 4.9, fontFace: FONT, fontSize: 10, valign: "top", margin: 0 });
+    note(sm, "Generated locally in the browser on " + dateStr + ". No model inputs left this device.", 6.5, 0.3);
+
+    const safe = (d.scenario || "Cowork").replace(/[^\w\- ]+/g, " ").trim().replace(/[\s\-]+/g, "-") || "Cowork";
+    await pptx.writeFile({ fileName: safe + "_ROI_" + new Date().toISOString().slice(0, 10) + ".pptx" });
+  } catch (err) {
+    console.error(err);
+    alert("Couldn't build the PowerPoint: " + (err && err.message ? err.message : err));
+  } finally {
+    btn.disabled = false; btn.textContent = label;
+  }
+}
+$("exportPptx").addEventListener("click", exportDeck);
 
 /* ===== TAB SWITCHING ===== */
 document.querySelectorAll(".tab-btn").forEach(btn => {
