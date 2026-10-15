@@ -141,6 +141,7 @@ const TOOLS = [
     download: "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip",
     emailFile: "06_GitHub_Copilot_Impact_Admin_Email.txt",
     preview: "https://raw.githubusercontent.com/microsoft/GitHubCopilotImpact/main/assets/ghcpgif.gif",
+    demoVideo: "https://youtu.be/Rxj6QBTeP10",
     blurb: "Per-team and per-user GitHub Copilot usage — chat vs agent, language, model, acceptance rates — pulled straight from the GitHub Enterprise REST API.",
     meta: { audience: "Developer productivity leads, eng managers, BVAs", license: "GitHub Enterprise admin (Copilot metrics API)", time: "~30 min once token is issued" },
     requirements: {

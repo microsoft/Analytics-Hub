@@ -102,6 +102,7 @@ const RESOURCES = {
     { kind: "download", label: "Download .pbit (DirectQuery)", url: "https://github.com/microsoft/superuserimpact/raw/main/Template%20-%20Super%20User%20Impact%20Direct%20Query%20-v13.pbit" },
   ],
   "ghcp-impact": [
+    { kind: "video",    label: "Watch the overview", url: "https://youtu.be/Rxj6QBTeP10" },
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/GitHubCopilotImpact#readme" },
     { kind: "download", label: "Download the repo (.zip)", url: "https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip" },
   ],
