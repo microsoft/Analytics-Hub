@@ -398,6 +398,8 @@ const TOOLS = [
     sourceKey: "M365 Admin",
     repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    demoVideo: "https://youtu.be/rp7KNCYSmlw",
+    demoVideoLabel: "Watch the 2-minute overview",
     preview: "https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/report-walkthrough.gif",
     blurb: "Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs.",
     meta: { audience: "FinOps, finance partners, IT operations", license: "M365 Admin exports", time: "~10 min" },
