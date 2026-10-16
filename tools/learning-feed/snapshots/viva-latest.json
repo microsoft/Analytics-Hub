@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-15T11:17:38.439Z",
+  "runAt": "2026-10-16T11:17:49.715Z",
   "feed": "viva",
   "windowStart": "2026-07-01",
   "pages": [
@@ -141,6 +141,39 @@
         "How to use Copilot to select a Power BI template or query",
         "How to use Copilot to build your person query",
         "Administrator controls",
+        "Related topics"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "github-query",
+      "tier": 2,
+      "title": "GitHub query",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/github-query",
+      "why": "New advanced-insights analyst query type for GitHub data - relevant to developer productivity and Copilot impact analyses that combine work-pattern and engineering signals.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-14T00:00:00Z",
+      "gitCommit": "2ff29b7fff4532ae0a2f455f6d5dabf89fbbe064",
+      "wordCount": "1263",
+      "bodyHash": "720e248f3c38f367",
+      "bodyLen": 9396,
+      "sections": [
+        "Coverage, prerequisites, and eligibility",
+        "1. Set up your query",
+        "2. Select your metrics",
+        "3. Add conditions and condition groups",
+        "4. Select HR attributes",
+        "5. Run the query",
+        "Output files",
+        "1. Person GitHub Activity Metrics file",
+        "2. GitHub Activity by feature file",
+        "3. GitHub Activity by model and feature file",
+        "4. GitHub Activity by feature and language file",
+        "5. GitHub Activity by model and language file",
+        "6. People Metadata file",
+        "Example query for GitHub Copilot adoption by team",
         "Related topics"
       ],
       "inWindow": true
@@ -1584,39 +1617,6 @@
         "Using multiple filters",
         "About conditions and condition groups",
         "The employees counter"
-      ],
-      "inWindow": true
-    },
-    {
-      "id": "viva-insights-advanced-analyst-github-query",
-      "tier": 3,
-      "title": "Github Query",
-      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/github-query",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-14T00:00:00Z",
-      "gitCommit": "2ff29b7fff4532ae0a2f455f6d5dabf89fbbe064",
-      "wordCount": "1263",
-      "bodyHash": "720e248f3c38f367",
-      "bodyLen": 9396,
-      "sections": [
-        "Coverage, prerequisites, and eligibility",
-        "1. Set up your query",
-        "2. Select your metrics",
-        "3. Add conditions and condition groups",
-        "4. Select HR attributes",
-        "5. Run the query",
-        "Output files",
-        "1. Person GitHub Activity Metrics file",
-        "2. GitHub Activity by feature file",
-        "3. GitHub Activity by model and feature file",
-        "4. GitHub Activity by feature and language file",
-        "5. GitHub Activity by model and language file",
-        "6. People Metadata file",
-        "Example query for GitHub Copilot adoption by team",
-        "Related topics"
       ],
       "inWindow": true
     },
