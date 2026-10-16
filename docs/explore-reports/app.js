@@ -507,6 +507,8 @@ const TOOLS = [
     sourceKey: "Viva Insights",
     repo: "https://github.com/microsoft/customizecopilot",
     download: "https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip",
+    demoVideo: "https://youtu.be/J6Z4fqL2Qzk",
+    demoVideoLabel: "Watch the overview",
     blurb: "Drop-in Power BI add-on pages and visualizations that extend the Viva Insights-based templates with custom views — Champion ID, segment overlays, more.",
     meta: { audience: "BI developers, advanced template owners", license: "Whatever the parent template needs", time: "~15 min per add-on" },
     requirements: {
