@@ -480,6 +480,8 @@ const TOOLS = [
     sourceKey: "Local",
     repo: "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/",
     download: "https://github.com/microsoft/Analytics-Hub/archive/refs/heads/main.zip",
+    demoVideo: "https://youtu.be/y88DHAcc-98",
+    demoVideoLabel: "Watch the 2-minute overview",
     blurb: "Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required).",
     meta: { audience: "BVAs, finance partners, sellers", license: "None", time: "~5 min" },
     requirements: {
