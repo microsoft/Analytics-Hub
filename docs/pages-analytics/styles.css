@@ -162,6 +162,79 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* ---- Global workplace context banner ---- */
+.trend-banner-section {
+  padding: 1.4rem 0 .2rem;
+  background: var(--bg);
+}
+.trend-banner {
+  display: grid;
+  gap: 1rem;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34rem),
+    var(--surface);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.2rem 1.35rem;
+}
+.trend-banner-kicker {
+  margin: 0 0 .25rem;
+  color: var(--accent);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.trend-banner h2 {
+  margin: 0 0 .35rem;
+  color: var(--text);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  letter-spacing: -.015em;
+}
+.trend-banner-summary {
+  margin: 0;
+  color: var(--text-soft);
+  max-width: 860px;
+  line-height: 1.55;
+}
+.trend-banner-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: .75rem;
+  margin: .85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.trend-banner-list li {
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  border-radius: calc(var(--radius) - 4px);
+  padding: .75rem .85rem;
+}
+.trend-banner-list strong {
+  display: block;
+  color: var(--text);
+  font-size: .9rem;
+}
+.trend-banner-list span {
+  display: block;
+  margin-top: .2rem;
+  color: var(--text-soft);
+  font-size: .82rem;
+  line-height: 1.4;
+}
+.trend-banner-source {
+  margin: .85rem 0 0;
+  color: var(--text-muted);
+  font-size: .78rem;
+}
+.trend-banner-source a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.trend-banner-source a:hover { text-decoration: underline; }
+
 /* ---- Section scaffold ---- */
 .repo-table-section,
 .wow-section,

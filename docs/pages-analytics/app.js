@@ -413,6 +413,144 @@ const currentWindowDays = () => {
   return Math.max(1, Math.round(ms / 86400000) + 1);
 };
 
+const HOLIDAY_API_BASE = "https://date.nager.at/api/v3";
+const WORKPLACE_COUNTRY_CODES = {
+  "Argentina": "AR",
+  "Australia": "AU",
+  "Belgium": "BE",
+  "Brazil": "BR",
+  "Canada": "CA",
+  "Chile": "CL",
+  "China": "CN",
+  "Colombia": "CO",
+  "Denmark": "DK",
+  "Finland": "FI",
+  "France": "FR",
+  "Germany": "DE",
+  "Ireland": "IE",
+  "Italy": "IT",
+  "Japan": "JP",
+  "Mexico": "MX",
+  "Netherlands": "NL",
+  "New Zealand": "NZ",
+  "Norway": "NO",
+  "Poland": "PL",
+  "Portugal": "PT",
+  "Singapore": "SG",
+  "South Africa": "ZA",
+  "South Korea": "KR",
+  "Spain": "ES",
+  "Sweden": "SE",
+  "Switzerland": "CH",
+  "United Kingdom": "GB",
+  "United States": "US",
+};
+
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }[c]));
+}
+
+function isoTodayFromLastUpdated(lastUpdated) {
+  const d = lastUpdated ? new Date(lastUpdated) : todayUTC();
+  if (Number.isNaN(d.getTime())) return todayUTC().toISOString().slice(0, 10);
+  return d.toISOString().slice(0, 10);
+}
+
+function daysBetweenIso(a, b) {
+  return Math.round((new Date(a + "T00:00:00Z") - new Date(b + "T00:00:00Z")) / 86400000);
+}
+
+function friendlyDayDistance(days) {
+  if (days === 0) return "today";
+  if (days === 1) return "tomorrow";
+  if (days === -1) return "yesterday";
+  return days > 0 ? `in ${days} days` : `${Math.abs(days)} days ago`;
+}
+
+function formatIsoDate(iso) {
+  return new Date(iso + "T00:00:00Z").toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function latestCountryRows(sites) {
+  const site = sites?.["analytics-hub"] || Object.values(sites || {})[0];
+  const series = site?.dailySnapshots || site?.snapshots || {};
+  const latestDate = Object.keys(series).sort().pop();
+  const countryMetric = latestDate
+    ? (series[latestDate] || []).find((m) => m.metricName === "Country")
+    : null;
+  return (countryMetric?.information || [])
+    .map((row) => ({
+      name: row.name,
+      sessions: parseIntSafe(row.sessionsCount),
+      code: WORKPLACE_COUNTRY_CODES[row.name],
+    }))
+    .filter((row) => row.name && row.sessions > 0 && row.code)
+    .sort((a, b) => b.sessions - a.sessions);
+}
+
+async function fetchNearbyHolidays(country, anchorIso) {
+  const year = new Date(anchorIso + "T00:00:00Z").getUTCFullYear();
+  const years = [year, year + 1];
+  const responses = await Promise.all(years.map(async (y) => {
+    const resp = await fetch(`${HOLIDAY_API_BASE}/PublicHolidays/${y}/${country.code}`, { cache: "force-cache" });
+    if (!resp.ok) throw new Error(`${country.code} HTTP ${resp.status}`);
+    return resp.json();
+  }));
+  return responses.flat()
+    .map((h) => ({
+      ...h,
+      countryName: country.name,
+      sessions: country.sessions,
+      distance: daysBetweenIso(h.date, anchorIso),
+    }))
+    .filter((h) => h.distance >= -7 && h.distance <= 28)
+    .filter((h) => h.global || (h.types || []).some((t) => /Public|Bank|School/i.test(t)))
+    .sort((a, b) => Math.abs(a.distance) - Math.abs(b.distance));
+}
+
+function seasonalWorkplaceSignals(anchorIso) {
+  const d = new Date(anchorIso + "T00:00:00Z");
+  const month = d.getUTCMonth() + 1;
+  const signals = [];
+  if (month === 10) {
+    signals.push({
+      title: "Autumn school breaks and long weekends",
+      text: "Some US districts and European countries schedule autumn breaks in October, which can soften weekday traffic or create rebound spikes after people return.",
+    });
+  } else if (month === 11) {
+    signals.push({
+      title: "US Thanksgiving and late-year PTO planning",
+      text: "North American work traffic can dip around Thanksgiving week, then rebound into year-end planning cycles.",
+    });
+  } else if (month === 12 || month === 1) {
+    signals.push({
+      title: "Year-end holidays and school winter breaks",
+      text: "Late December and early January often create broad workplace slowdowns, with uneven rebounds by region.",
+    });
+  } else if (month === 3 || month === 4) {
+    signals.push({
+      title: "Spring holidays and school breaks",
+      text: "Easter-adjacent holidays and spring breaks can reduce weekday traffic in some countries while catch-up traffic shifts into adjacent weeks.",
+    });
+  } else if (month >= 6 && month <= 8) {
+    signals.push({
+      title: "Northern hemisphere summer breaks",
+      text: "Summer school breaks and vacation season can lower workplace browsing in North America and Europe, especially around public holidays.",
+    });
+  }
+  return signals;
+}
+
 function sumDaily(dailyMap, sinceDate, untilDate) {
   // dailyMap: { "YYYY-MM-DD": { count, uniques } }
   // sinceDate / untilDate: inclusive bounds (string compare works for ISO dates).
@@ -517,6 +655,85 @@ function renderHero(repos) {
       : "GitHub · no releases published";
   }
   document.querySelectorAll('[data-window-label]').forEach((el) => { el.textContent = short; });
+}
+
+async function renderWorkplaceTrends(sites, lastUpdated) {
+  const el = document.getElementById("workplace-trends");
+  if (!el) return;
+
+  const anchorIso = isoTodayFromLastUpdated(lastUpdated);
+  const countries = latestCountryRows(sites).slice(0, 6);
+  const seasonal = seasonalWorkplaceSignals(anchorIso);
+  const sourceHtml = `Source: <a href="https://date.nager.at/api/v3/AvailableCountries" target="_blank" rel="noopener">Nager.Date public holidays API</a> for country holidays. School-break context is directional and regional, cross-checked against <a href="https://eurydice.eacea.ec.europa.eu/eurypedia" target="_blank" rel="noopener">Eurydice national education systems</a> and <a href="https://nces.ed.gov/programs/statereform/tab5_14.asp" target="_blank" rel="noopener">NCES school-year calendar data</a>.`;
+
+  const render = (title, summary, items) => {
+    el.innerHTML = `
+      <div class="trend-banner-copy">
+        <p class="trend-banner-kicker">Global traffic context</p>
+        <h2>${escapeHtml(title)}</h2>
+        <p class="trend-banner-summary">${escapeHtml(summary)}</p>
+        ${items.length ? `<ul class="trend-banner-list">${items.map((item) => `
+          <li><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.text)}</span></li>
+        `).join("")}</ul>` : ""}
+        <p class="trend-banner-source">${sourceHtml}</p>
+      </div>
+    `;
+  };
+
+  if (!countries.length) {
+    render(
+      "Watch for calendar-driven traffic swings",
+      "No country mix is available yet, so use the seasonal context below when reading spikes or dips.",
+      seasonal
+    );
+    return;
+  }
+
+  try {
+    const holidayGroups = await Promise.allSettled(countries.map((country) => fetchNearbyHolidays(country, anchorIso)));
+    const holidayKeys = new Set();
+    const holidays = holidayGroups
+      .flatMap((result) => result.status === "fulfilled" ? result.value : [])
+      .filter((h) => {
+        const key = `${h.countryName}|${h.date}|${h.name}`;
+        if (holidayKeys.has(key)) return false;
+        holidayKeys.add(key);
+        return true;
+      })
+      .sort((a, b) => Math.abs(a.distance) - Math.abs(b.distance) || b.sessions - a.sessions);
+    const seenCountries = new Set();
+    const selectedHolidayKeys = new Set();
+    const balancedHolidays = [];
+    const addHoliday = (h) => {
+      const key = `${h.countryName}|${h.date}|${h.name}`;
+      if (selectedHolidayKeys.has(key)) return;
+      selectedHolidayKeys.add(key);
+      balancedHolidays.push(h);
+    };
+    holidays.forEach((h) => {
+      if (seenCountries.has(h.countryName)) return;
+      seenCountries.add(h.countryName);
+      addHoliday(h);
+    });
+    holidays.forEach(addHoliday);
+    const holidayItems = balancedHolidays.slice(0, 4).map((h) => ({
+      title: `${h.countryName}: ${h.name}`,
+      text: `${formatIsoDate(h.date)}, ${friendlyDayDistance(h.distance)}. ${h.countryName} contributed ${fmt(h.sessions)} recent sessions, so this holiday may explain a dip, rebound, or shifted weekday pattern.`,
+    }));
+    const countrySummary = countries.slice(0, 4).map((c) => c.name).join(", ");
+    const items = [...holidayItems, ...seasonal].slice(0, 5);
+    render(
+      "Calendar effects to consider before calling a spike or dip real",
+      `Top recent countries include ${countrySummary}. Nearby holidays and school-break seasons can temporarily reduce traffic, then create catch-up spikes after people return.`,
+      items
+    );
+  } catch (err) {
+    render(
+      "Calendar effects to consider before calling a spike or dip real",
+      `Holiday lookup is unavailable right now (${err.message}). Use the seasonal context below as a directional read until the source is reachable again.`,
+      seasonal
+    );
+  }
 }
 
 function rowsFromRepos(repos) {
@@ -2949,6 +3166,7 @@ async function load() {
   SITES_CACHE = history.sites || {};
   sanitizeSiteSnapshots(SITES_CACHE);
   renderLastUpdated(history.lastUpdated);
+  renderWorkplaceTrends(history.sites || {}, history.lastUpdated);
 
   const rerenderAll = () => {
     renderHero(reposData);
