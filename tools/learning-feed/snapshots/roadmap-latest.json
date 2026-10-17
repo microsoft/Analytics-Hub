@@ -1,7 +1,484 @@
 {
-  "runAt": "2026-10-16T11:17:33.252Z",
+  "runAt": "2026-10-17T11:17:51.279Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "575292",
+      "title": "Microsoft Viva:  Copilot Analytics - Agent 365 reporting availability for Microsoft platform agents",
+      "status": "In development",
+      "description": "<p>Customers can now view agent insights in the Agent 365 Dashboard in Microsoft Viva Insights (Copilot Analytics) without an Agent 365 license. Customers will be able to view reporting on their Microsoft platform-built agents in one consolidated picture, along with context on who built each agent and why.</p>",
+      "created": "2026-10-16T22:00:35",
+      "modified": "2026-10-16T22:00:35",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Viva",
+        "General Availability"
+      ],
+      "descHash": "90116507fc2d1cec"
+    },
+    {
+      "id": "576884",
+      "title": "Dynamics 365 Field Service: Optimize resource scheduling - Optimize multiple resources with Scheduling Operations Agent",
+      "status": "In development",
+      "description": "<p>This release expands the optimization capabilities of the Scheduling Operations Agent to include multiple resources. The agent considers the availability of the resources, their current schedules, and unscheduled requirements. It suggests a schedule that honors configured constraints and optimizes it according to the selected goal. Dispatchers can review and compare the proposed schedules with the current schedules before applying changes.</p>\n<p>New capabilities include:</p>\n<ul>\n<li>Optimize schedules for up to 5 resources directly from the schedule board.</li>\n<li>Optimize schedules for up to 30 resources using an optimization plan.</li>\n<li>Create custom goals and weight objectives.</li>\n<li>Create custom optimization scopes to use with your optimization plans.</li>\n</ul>\n<p>These capabilities build on the existing public preview of the Scheduling Operations Agent and will be automatically enabled for all organizations that have the agent enabled. Learn more at <a href=\"https://aka.ms/soa\">Scheduling Operations Agent documentation</a>.</p>\n<p>Business Value:</p>\n<p>Optimize multiple resources with the Scheduling Operations Agent (SOA). Schedule up to five resources directly from the schedule board or Copilot or perform ad-hoc optimizations for up to 30 resources using an optimization plan. This feature streamlines scheduling, improves efficiency, and supports better resource management.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:10:11",
+      "modified": "2026-10-16T19:10:11",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Field Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "84060cb5100ac7d0"
+    },
+    {
+      "id": "576875",
+      "title": "Dynamics 365 Contact Center: Service representative experiences - Use pinned contacts and queues during consult and transfer",
+      "status": "Launched",
+      "description": "<p>In the Copilot Service admin center, administrators configure and manage pinned contacts and queues for representatives as follows:</p>\n<ul>\n<li>Enable pins in the <strong>Customer settings</strong> &gt; <strong>Manage pins</strong> &gt; <strong>Admin pins</strong> page so that representatives pin their contacts and queues.</li>\n<li>Pin specific contacts and queues for representatives.</li>\n<li>Display pinned items to representatives based on business units.</li>\n</ul>\n<p>Business Value:</p>\n<p>This feature streamlines your team’s workflow by removing the hassle of tracking multiple consult and transfer targets, so that your service representatives focus on delivering faster, more reliable support.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:10:04",
+      "modified": "2026-10-16T19:10:04",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability"
+      ],
+      "descHash": "db61b1aaf8607e41"
+    },
+    {
+      "id": "576864",
+      "title": "Dynamics 365 Business Central: Reporting and data analysis - Use new APIs for analyzing approval workflows for auditors and IT staff",
+      "status": "Launched",
+      "description": "<p>In this release wave, we're introducing read-only APIs on the (workflow) approval system. This allows for establishing security and auditing analytics and reporting outside Business Central—for example, creating reports with Power BI or agents with Microsoft Copilot Studio and MCP Server for Business Central.</p>\n<p>The APIs are read-only and allow querying for:</p>\n<ul>\n<li>Workflow</li>\n<li>Workflow and User mappings</li>\n<li>Workflow, User, and Action history</li>\n</ul>\n<p>We're also introducing a new permission set that allows a user to use approval APIs. This shouldn't be granted to standard users, but might be included in security-related permission sets.</p>\n<p>Business Value:</p>\n<p>This feature enhances transparency and control by enabling secure, read-only access to approval workflows and user actions. Businesses can leverage these APIs to build advanced auditing and compliance reports in tools like Power BI, ensuring stronger governance and accountability. Additionally, integration with Microsoft Copilot Studio and MCP Server opens opportunities for intelligent automation and analytics, driving efficiency and insight. By isolating permissions for API access, organizations maintain robust security while empowering authorized teams to innovate confidently.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:09:56",
+      "modified": "2026-10-16T19:09:56",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "3b39c6884345bd45"
+    },
+    {
+      "id": "576855",
+      "title": "Dynamics 365 Customer Service: Workforce engagement management - Filter the adherence tracker by planning group",
+      "status": "Launched",
+      "description": "<p>This feature provides the following capabilities:</p>\n<ul>\n<li>The adherence tracker includes a planning group filter that supervisors can use to scope the view to a specific planning group.</li>\n<li>The planning group filter works with the existing shift plan and service representative filters, so supervisors can combine filters to refine a single view.</li>\n<li>The tracker displays representatives based on the planning groups associated with their scheduled shifts. This behavior keeps the tracker aligned with the shift plan used to calculate adherence.</li>\n<li>The tracker saves each supervisor’s filter selections across sessions and opens with their previous scope.</li>\n<li>The tracker recalculates adherence percentages and out-of-adherence counts for the filtered scope, providing a planning group-level view of intraday adherence.</li>\n<li>In Copilot Service workspace, go to <strong>Workforce management</strong> &gt; <strong>Adherence tracker</strong>.</li>\n</ul>\n<p><strong>Access and prerequisites</strong></p>\n<p>To use Workforce Management capabilities, an administrator must install the Workforce Management for Customer Service package from the Power Platform admin center.</p>\n<p>Business Value:</p>\n<p>Supervising large contact centers is tough when you have to scan endless lists to find your team. Now, with planning group support, you can filter the adherence tracker to just the groups you manage. That means you spot issues faster and act right away, keeping service levels on track in real time instead of fixing problems after the fact. This feature scales for enterprise operations with hundreds of representatives and aligns with the same planning group structure you already use for forecasting, staffing, and scheduling. It saves time, reduces complexity, and helps you stay focused on what matters most: delivering consistent service.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:50",
+      "modified": "2026-10-16T19:09:50",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Customer Service",
+        "General Availability"
+      ],
+      "descHash": "c9b0e4679c1e8e5e"
+    },
+    {
+      "id": "576854",
+      "title": "Dynamics 365 Customer Service: Workforce engagement management - Filter adherence historical analytics by planning group",
+      "status": "Launched",
+      "description": "<p>This feature provides the following capabilities:</p>\n<ul>\n<li>The adherence historical analytics report includes a planning group filter that workforce managers can use to scope results to one or more planning groups.</li>\n<li>The planning group filter works with the report’s existing filters, allowing managers to combine planning groups, date ranges, and other report parameters in a single view.</li>\n<li>The report recalculates adherence metrics for the filtered scope, providing a group-level view of adherence performance instead of a contact center-wide aggregate.</li>\n<li>The report associates representatives with planning groups through their scheduled shifts. This behavior keeps historical reporting aligned with the shift plans used to calculate adherence.</li>\n<li>Planning groups must be configured and have assigned representatives before the filter returns results.</li>\n<li>In Copilot Service workspace, go to <strong>Workforce management</strong>.</li>\n</ul>\n<p><strong>Access and prerequisites</strong></p>\n<ul>\n<li>To use Workforce Management capabilities, an administrator must install the Workforce Management for Customer Service package from the Power Platform admin center.</li>\n</ul>\n<p>Business Value:</p>\n<p>Adherence only matters when it reflects how your work is organized. Until now, historical adherence reports didn’t account for planning groups, making it hard to see if performance dips came from a single under-supported queue or were spread across the operation.</p>\n<p>With planning group support, you can focus your analysis on the groups that matter and compare adherence across them for the same time period. This gives you clearer insights and helps you make smarter staffing decisions.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:50",
+      "modified": "2026-10-16T19:09:50",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Customer Service",
+        "General Availability"
+      ],
+      "descHash": "79cd60d566ff4a53"
+    },
+    {
+      "id": "576851",
+      "title": "Dynamics 365 Customer Service: Copilot and AI innovation - Use Copilot Cowork to orchestrate insights and actions for representatives",
+      "status": "Launched",
+      "description": "<p>The plugin in Copilot Cowork is available out of the box for service representatives. They can use the Customer Service skills after the administrator enables the plugin for them in Cowork settings. The key capabilities are as follows:</p>\n<ul>\n<li><strong>Prioritizes and enriches cases</strong>: Surfaces highest-attention cases with suggested next actions.</li>\n<li><strong>Reviews for criticality and severity</strong>: Flags cases where severity mismatches actual urgency signals.</li>\n<li><strong>Briefs case at intake</strong>: One-screen customer, history, prior cases, and SLA snapshot.</li>\n<li><strong>Summarizes root cause and resolution</strong>: Proposes likely cause and ranked next-step resolutions.</li>\n<li><strong>Matches knowledge articles</strong>: Matches top articles, flags gaps, updates stale content.</li>\n<li><strong>Drafts replies</strong>: Generates template-based customer email replies for CSR review.</li>\n<li><strong>Handles escalations and handoffs</strong>: Detects triggers and assembles escalation packet for next owner.</li>\n</ul>\n<p>Business Value:</p>\n<p>The Customer Service plugin in Copilot Cowork helps service teams boost productivity at scale by offloading complex, multi-step case workflows. It ensures every action is grounded in the right Dynamics 365 environment and enriched with Microsoft 365 context, eliminating manual lookup.<br>\nThe custom skills allow teams to tailor Cowork to their workflows, knowledge sources, and triage rules for more precise assistance. The built-in checkpoints provide human-in-the-loop governance, ensuring accuracy, compliance, and trust before any changes are committed.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:47",
+      "modified": "2026-10-16T19:09:47",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Customer Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "4044fb6bdd0184fb"
+    },
+    {
+      "id": "576850",
+      "title": "Dynamics 365 Sales: Copilot and AI innovation - Use Dynamics 365 Sales skills in Microsoft 365 Copilot Cowork",
+      "status": "Launched",
+      "description": "<p>As an admin, you can control who can access Copilot Cowork in your organization. The Dynamics 365 Sales plugin is installed by default in Copilot Cowork and available to all users who have access to Cowork.</p>\n<p>As a seller, you can use the sales skills in Copilot Cowork to:</p>\n<ul>\n<li>Understand customer, opportunity, and pipeline context without manually gathering information from multiple systems.</li>\n<li>Identify changes, risks, engagement patterns, and areas that require attention.</li>\n<li>Prioritize work across customers, opportunities, leads, and pipeline activities.</li>\n<li>Generate recommendations and next-best actions based on available business context.</li>\n<li>Analyze business performance, pipeline health, and sales execution trends.</li>\n<li>Support decision-making across individual, team, and organizational sales workflows.</li>\n</ul>\n<p>Business Value:</p>\n<p>If you spend the day moving between CRM, email, meetings, calendars, and collaboration tools, Dynamics 365 Sales skills bring that context together in Microsoft 365 Copilot Cowork. By grounding Cowork in Dynamics 365 Sales data and Microsoft 365 signals, you get more relevant insights, recommendations, and actions in the flow of work. This helps you quickly understand customer relationships, opportunity health, pipeline changes, and next steps, so you spend less time gathering information and more time moving deals forward.</p>\n<p>By combining customer, opportunity, account, lead, activity, and pipeline information with emails, meetings, calendars, and collaboration signals, Cowork can help users understand what has changed, identify what requires attention, and determine appropriate next actions.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:09:47",
+      "modified": "2026-10-16T19:09:47",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Sales",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "76ef623ad986db40"
+    },
+    {
+      "id": "576843",
+      "title": "Microsoft Dataverse: Activate Enterprise Data in Copilot - Create Dataverse agent users with Microsoft Entra agent identity",
+      "status": "Launched",
+      "description": "<p>Organizations can securely deploy AI agents to access and interact with Dataverse data by using enterprise‑managed Microsoft Entra agent identities. This feature enables agents to be provisioned as Dataverse agent users with dedicated, least‑privileged security roles based on their intended capabilities. This feature ensures agents have only the access required to perform tasks autonomously or on behalf of users.</p>\n<p>By using identity‑based role assignment and full auditing of agent‑driven actions, organizations can enforce security and compliance policies across both human users and AI agents while maintaining traceability of data access and changes within Dataverse environments.</p>\n<p>Business Value:</p>\n<p>This feature enables secure, compliant management of AI agents in Microsoft Dataverse, which reduces risk and improves governance for autonomous and interactive agents.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T19:09:45",
+      "modified": "2026-10-16T19:09:45",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Microsoft Dataverse",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "f92c08c56b6286b6"
+    },
+    {
+      "id": "576841",
+      "title": "Dynamics 365 Business Central: Reporting and data analysis - Use new APIs for analyzing permissions for auditors and IT staff",
+      "status": "Launched",
+      "description": "<p>In this release wave, we're introducing read-only APIs on the permission system. This allows for establishing security and auditing analytics and reporting outside Business Central—for example, creating reports with Power BI or agents with Microsoft Copilot Studio and MCP Server for Business Central.</p>\n<p>The APIs are read-only and allow querying for:</p>\n<ul>\n<li>Permission Set</li>\n<li>Object, Scope, Extension info, and Permission Set</li>\n<li>Permission Set and Security Group mappings</li>\n<li>Permission Set and User mappings</li>\n</ul>\n<p>We're also introducing a new permission set that allows you to use the new permission APIs. This shouldn't be granted to standard users, but might be included in security-related permission sets.</p>\n<p>Business Value:</p>\n<p>The new read-only permission APIs empower businesses to strengthen security and compliance by enabling external auditing and analytics without compromising system integrity. With seamless integration into tools like Power BI and Microsoft Copilot Studio, organizations can create advanced reports and intelligent agents for deeper insights. This capability enhances transparency, supports regulatory requirements, and accelerates decision-making by providing secure, real-time access to permission data. Ultimately, it helps businesses maintain robust governance while unlocking new opportunities for automation and analytics.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:09:43",
+      "modified": "2026-10-16T19:09:43",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "dc483d15384c096b"
+    },
+    {
+      "id": "576838",
+      "title": "Dynamics 365 Finance and Operations cross-app: Boost productivity with Copilot - Use Copilot Cowork to orchestrate insights and actions across Dynamics 365 ERP",
+      "status": "Launched",
+      "description": "<p>The Copilot Cowork plugin for finance and operations apps enables users to move from business intent to insight to execution in a single experience. Copilot orchestrates work across ERP data, emails, documents, spreadsheets, collaboration tools, and downstream business processes.</p>\n<h3>Key capabilities</h3>\n<ul>\n<li>Orchestrate workflows across ERP and Microsoft 365 data sources.</li>\n<li>Analyze business data and generate contextual insights.</li>\n<li>Reason across finance, operations, and supply chain domains.</li>\n<li>Generate recommendations and prepare next steps.</li>\n<li>Execute actions while keeping humans in the loop.</li>\n</ul>\n<h3>What this means for customers</h3>\n<p>The value is not just accessing ERP data through AI. Copilot Cowork enables agentic workflows where it can reason over business context, gather relevant information, evaluate options, and generate recommended actions.</p>\n<p>This reduces manual coordination across systems, accelerates decision-making, and improves consistency in how business processes are executed.</p>\n<h3>User experience shift</h3>\n<p>Users can interact with ERP through business intent rather than navigating complex application layers and disconnected tools. This creates a more natural way to work, where users focus on outcomes instead of system interactions.</p>\n<h3>Preview scope</h3>\n<ul>\n<li>Initial set of scenarios across finance and supply chain.</li>\n<li>Limited action coverage for transactional workflows.</li>\n<li>Available to selected preview customers.</li>\n</ul>\n<p>Business Value:</p>\n<p>Enable users to move from business intent to insight to execution faster by orchestrating work across ERP data, emails, documents, and collaboration tools. Reduce manual coordination, accelerate decision-making, improve workflow consistency, and shift user time from information gathering to applying business judgment.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:41",
+      "modified": "2026-10-16T19:09:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Finance and Operations cross-app",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "92fbe45655f565e1"
+    },
+    {
+      "id": "576837",
+      "title": "Dynamics 365 Contact Center: Unified routing - Use pick-based assignment method for work items",
+      "status": "Launched",
+      "description": "<p>Use the <strong>No auto assignment</strong> method for queues in Copilot Service admin center when you want routed conversations to remain unassigned after they enter a queue. Instead of being assigned automatically, conversations stay in the queue until a service representative picks them up from their Inbox or a supervisor assigns them manually.</p>\n<p>This assignment method supports a pick-based work distribution model, giving supervisors and service representatives greater control over how work is handled. Unlike the push-based model used by other out-of-the-box assignment methods, which automatically assign conversations based on representative availability and capacity, the no auto assignment method allows teams to review incoming work and decide who should handle it. This approach is well suited for organizations that prefer manual oversight, specialized work selection, or supervisor-managed assignments.</p>\n<p>Business Value:</p>\n<p>Improve operational control and consistency by enabling service representative-led work distribution. Conversations remain available in the queue until manually assigned by supervisors or picked by representatives, helping teams handle specialized, regulated, or sensitive interactions effectively.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:41",
+      "modified": "2026-10-16T19:09:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability"
+      ],
+      "descHash": "954d8fb95634efe3"
+    },
+    {
+      "id": "576831",
+      "title": "Dynamics 365 Contact Center: Workforce engagement management - Analyze adherence history to optimize workforce planning",
+      "status": "Launched",
+      "description": "<p>The Adherence History Report provides a complete view of customer service representatives’ historical adherence to scheduled tasks and activities. It helps supervisors analyze patterns, identify gaps, and improve workforce efficiency.</p>\n<p><strong>Key capabilities</strong></p>\n<p><strong>Trend chart</strong>: Visualize adherence patterns for individual service representatives or the entire team over time.<br>\n<strong>Metrics dashboard</strong>: Track adherence percentage, total scheduled time, and time spent out of adherence.<br>\n<strong>Activity summary view</strong>: Access detailed activity records for each service representative, including precise durations for granular analysis.</p>\n<p>You can find the Adherence History Report in the Copilot Service workspace by navigating to <strong>Workforce Management</strong> in the site map and selecting <strong>Adherence Historical Analytics</strong>.</p>\n<p>Business Value:</p>\n<p>Organizations can gain actionable insights into customer service representative adherence behavior over time. By analyzing trends and deviations, supervisors can make informed decisions to optimize workforce planning, reduce inefficiencies, and improve service-level compliance. Using these insights helps lead to better resource allocation, higher productivity, and an enhanced customer experience.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:36",
+      "modified": "2026-10-16T19:09:36",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "Dynamics 365 Customer Service",
+        "General Availability"
+      ],
+      "descHash": "70e3ee0c9783c4b9"
+    },
+    {
+      "id": "576826",
+      "title": "Dynamics 365 Finance and Operations cross-app: Boost productivity with Copilot - Enable agents to work with attachments through Dynamics 365 ERP MCP server",
+      "status": "Launched",
+      "description": "<p>Document attachments provide valuable context and detail about ERP records. With this release, the Dynamics 365 ERP MCP server will provide access for agents to work with the attachments by creating, deleting, or reading and reasoning over the content of the attachments in agentic flows.</p>\n<p>Business Value:</p>\n<p>Document attachments provide valuable context and detail about ERP records. Enabling agents to access the attachments opens many opportunities for powerful agentic experiences.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T19:09:33",
+      "modified": "2026-10-16T19:09:33",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Finance and Operations cross-app",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "f530d8dd77fa754c"
+    },
+    {
+      "id": "576825",
+      "title": "Dynamics 365 Finance and Operations cross-app: Boost productivity with Copilot - Open records in Dynamics 365 ERP applications with deep links from copilot responses",
+      "status": "Launched",
+      "description": "<p>The Dynamics 365 ERP MCP server enables copilots to respond to prompts related to data across the Dynamics 365 ERP suite of applications. Users expect visibility into how copilot responses relate to the underlying business data and system records. With this release, copilot responses generated from the Dynamics 365 ERP MCP server will include deep links to the data used to generate the response, improving transparency, traceability, and trust in the AI-generated responses.</p>\n<p>Business Value:</p>\n<p>Users receive transparency, traceability, and trust in copilot chat experiences with citations and deep links to ERP records in the copilot responses.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T19:09:32",
+      "modified": "2026-10-16T19:09:32",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Finance and Operations cross-app",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "39a71d8ca4940453"
+    },
+    {
+      "id": "576818",
+      "title": "Dynamics 365 Customer Service: Copilot and AI innovation - Improve customer outcomes with Service Agent in Microsoft 365 Copilot",
+      "status": "Launched",
+      "description": "<p>Microsoft 365 Copilot Chat is becoming a consistent way that users interact with AI across Microsoft experiences. With this update, that same chat experience is available in Dynamics 365 Customer Service, with service-aware grounding and workflows.</p>\n<p>Service users can start in Microsoft 365 Copilot Chat and then:</p>\n<ul>\n<li>See and prioritize work (for example, top cases and what needs attention).</li>\n<li>Draft customer communications and prepare next steps with Microsoft 365 context when relevant.</li>\n<li>Identify trends and operational signals across cases to help supervisors and leads intervene earlier.</li>\n<li>Discover answers from support knowledge.</li>\n</ul>\n<p>Business Value:</p>\n<p>Bring the familiar Microsoft 365 Copilot Chat experience directly into Dynamics 365 Customer Service, so supervisors, leads, and customer service representatives can get answers, summarize work, and take next steps using both Dynamics 365 data and Microsoft 365 context, without switching tools.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:27",
+      "modified": "2026-10-16T19:09:27",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Customer Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "52f28e52f13426c3"
+    },
+    {
+      "id": "576792",
+      "title": "Dynamics 365 Business Central: Reporting and data analysis - Use new APIs for getting the PDF of a document report",
+      "status": "Launched",
+      "description": "<p>We're introducing read-only APIs in the document report system. The APIs help establish automation on document reporting outside Business Central. For example, to create agents with Microsoft Copilot Studio and MCP Server for Business Central to automate business processes that involve document PDFs. The APIs are read-only and allow you to query the following types of documents:</p>\n<p><strong>Sales documents</strong></p>\n<ul>\n<li>Blanket sales orders</li>\n<li>Sales return orders</li>\n<li>Sales shipments</li>\n<li>Return receipts</li>\n<li>Sales archive quotes</li>\n<li>Sales archive orders</li>\n<li>Sales archive returns</li>\n<li>Sales archive blanket orders</li>\n</ul>\n<p><strong>Purchasing documents</strong></p>\n<ul>\n<li>Purchase quotes</li>\n<li>Blanket purchase orders</li>\n<li>Purchase receipts</li>\n<li>Purchase return orders</li>\n<li>Purch. Return Shipment</li>\n<li>Purchase Archive Quote</li>\n<li>Purchase Archive Order</li>\n<li>Purchase Archive Return</li>\n<li>Purchase Archive Blanket Order</li>\n</ul>\n<p><strong>Inventory documents</strong></p>\n<ul>\n<li>Phys. Inventory Order</li>\n<li>Posted Phys. Inventory Order</li>\n<li>Phys. Inventory Recording</li>\n<li>Posted Phys. Inventory Recording</li>\n<li>Inventory shipments</li>\n<li>Inventory receipts</li>\n<li>Posted inventory shipments</li>\n<li>Posted inventory receipts</li>\n<li>Transfer orders</li>\n<li>Transfer shipments</li>\n<li>Transfer receipts</li>\n<li>Posted direct transfers</li>\n</ul>\n<p><strong>Assembly documents</strong></p>\n<ul>\n<li>Assembly orders</li>\n<li>Posted assembly orders</li>\n</ul>\n<p>Business Value:</p>\n<p>This feature enhances automation on processes that include document reports. Businesses can leverage these APIs to build integrations with Power Automate or Microsoft Copilot Studio and MCP Server, opening up opportunities for intelligent automation.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:09:08",
+      "modified": "2026-10-16T19:09:08",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "5ad9db94410cffba"
+    },
+    {
+      "id": "576789",
+      "title": "Dynamics 365 Business Central: Copilot and agents - Unlock more Business Central data with MCP server enhancements",
+      "status": "Launched",
+      "description": "<p>With this update of the MCP server for Business Central, customers and developers can expose a broader set of Business Central APIs as tools, making it easier to build solutions that interact deeply and consistently with Business Central data and processes.</p>\n<p>Key improvements include:</p>\n<p><strong>Access to all Microsoft APIs</strong><br>\nThe MCP server can now surface the full set of standard Microsoft APIs in Business Central. This enables agents and integrations to work with a wider range of entities and actions out of the box, reducing the need for custom extensions and ensuring more consistent access to business data.</p>\n<p><strong>Support for API queries</strong><br>\nIn addition to standard APIs, API queries are now available through MCP configurations. This allows solutions to retrieve pre-aggregated and optimized datasets directly from Business Central, improving accuracy, consistency, and performance—especially for reporting and analytics scenarios.</p>\n<p>Business Value:</p>\n<p>This update to the MCP server in Business Central makes it easier to build powerful, reliable integrations and agents by expanding access to Business Central data and logic. By exposing all standard Microsoft APIs, customers can reduce the need for custom extensions and accelerate development of solutions that work consistently across their business data. Support for API queries further improves results by enabling access to pre-aggregated, optimized datasets, leading to better performance and more accurate insights in reporting and analytics scenarios. Together, these enhancements help organizations build more scalable solutions, improve data consistency, and unlock greater value from Business Central as a system of record and execution.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:09:06",
+      "modified": "2026-10-16T19:09:06",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "443b66becd9b0ba1"
+    },
+    {
+      "id": "576788",
+      "title": "Microsoft Dataverse: Improved enterprise experiences in Power Platform - Enhance Dataverse record descriptions for Copilot /mention",
+      "status": "Launched",
+      "description": "<p>End users of Microsoft 365 Copilot will see improved Microsoft Dataverse, Dynamics 365, and Power Apps record references in Context IQ with richer, more descriptive labels that include environment, app, and table information. This makes it easier to identify and select the correct records during Copilot interactions.</p>\n<p>Business Value:</p>\n<p>Enables Microsoft 365 Copilot to surface business data with meaningful context, reducing confusion from generic labels and helping users quickly identify the right records to drive faster workflows and more reliable decision-making.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:09:06",
+      "modified": "2026-10-16T19:09:06",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Microsoft Dataverse",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "9642eb89b6876a16"
+    },
+    {
+      "id": "576780",
+      "title": "Dynamics 365 Contact Center: Administrator experiences - Support average wait time in messaging API channels",
+      "status": "Launched",
+      "description": "<ul>\n<li>Average wait time (AWT) is now supported for custom messaging channels built using the messaging APIs, apart from live chat and voice channels.</li>\n<li>The system computes the average wait time using an exponential moving average algorithm, giving more weight to recently connected conversations and automatically excluding abandoned ones.</li>\n<li>Administrators and supervisors can retrieve the wait-time metric through the representative availability APIs, enabling Copilot Studio agents or custom logic to decide whether to escalate, defer, or route conversations based on real‑time queue conditions.</li>\n<li>This enhancement ensures consistent wait‑time visibility across all supported channels, improving experience management and routing strategies.</li>\n</ul>\n<p>Business Value:</p>\n<p>Organizations using custom messaging channels built on messaging APIs can now provide customers with transparent and accurate wait‑time expectations. By surfacing estimated wait times directly through the availability APIs, contact centers can offer consistent experiences across voice, live chat, and custom channels. This helps reduce customer frustration, enables proactive decision‑making for AI agents and service representatives, and drives operational efficiency.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T19:08:59",
+      "modified": "2026-10-16T19:08:59",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability"
+      ],
+      "descHash": "2e650eeff2548f37"
+    },
+    {
+      "id": "576777",
+      "title": "Dynamics 365 Business Central: Copilot and agents - Speed up processing with Known Senders in Payables Agent",
+      "status": "Launched",
+      "description": "<p>This feature introduces email review policy and a <strong>Known Senders</strong> list page to give accounts payable teams more control over which incoming emails require human approval before the Payables Agent processes them.</p>\n<p>A new <strong>Email review</strong> field in the Payables Agent setup lets administrators choose when incoming emails require human approval. The following options are available:</p>\n<ul>\n<li>Always: Every email requires approval, regardless of the sender.</li>\n<li>Never: No emails require approval.</li>\n<li>Only if untrusted (recommended): Only emails from senders who aren't on the list of known senders require review. This is the recommended setting for most organizations.</li>\n</ul>\n<p>Administrators must explicitly select an option before they start to monitor the email inbox. To ensure that they make an active decision, a default isn't preselected for the field. Every known sender is subject to a setting that sets the review policy for the specific sender.</p>\n<p>When you set the email review policy to <strong>Manage per sender</strong>, the agent evaluates incoming emails in the following order:</p>\n<ul>\n<li>Invoice is uploaded and not received via email: No review required.</li>\n<li>Email subfolder is configured: All emails in the monitored subfolder are treated as trusted. No review required.</li>\n<li>Sender is on the Known Senders list: Action depends on the configured value (Ask, Approve, or Reject).</li>\n<li>Internal sender (same organization, not on the list): No review required. Internal detection uses email authentication headers (planned to be available in 2026 wave 2, version 29.0.).</li>\n</ul>\n<p>Administrators can maintain a list of known senders, each with a configured policy:</p>\n<ul>\n<li>Ask: The email requires human approval.</li>\n<li>Approve: The agent processes the invoice without review.</li>\n<li>Reject: The sender is blocked and the attachment isn't processed.</li>\n</ul>\n<p>To build the list organically, after you review an email and want to continue, the sender is added automatically to the list of known senders, provided that the <strong>Manage per sender</strong> policy is active. Security telemetry is logged for each auto-addition.</p>\n<p>This feature is available from the August minor release of 2026 release wave 1.</p>\n<p>Business Value:</p>\n<p>Payables Agent processes vendor invoices received by email, but today every incoming email requires supervisor approval before the agent can act on it, unless email review is disabled entirely. This creates friction for accounts payable teams who repeatedly receive invoices from the same vendors. They must manually approve each email, even from senders they already trust. The Known Senders feature lets businesses define which senders the agent can process automatically, reducing manual intervention while maintaining control over unknown or unverified sources. With this capability, organizations can safely default email review to off, moving closer to fully autonomous invoice processing.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:08:57",
+      "modified": "2026-10-16T19:08:57",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "521626a9f9f713e3"
+    },
+    {
+      "id": "576776",
+      "title": "Dynamics 365 Business Central: Copilot and agents - Try Payables Agent for free without setting up email",
+      "status": "Launched",
+      "description": "<p>Payables Agent introduces a free trial mode that any user can start without help from an administrator or having paid credits.</p>\n<p>You can start the trial directly from the agent setup card or from the <strong>Purchase Invoices</strong> page. You don't need to have an administrator role or configure an email account. You upload invoice PDFs manually to start processing, bypassing the email-based sourcing flow entirely. The trial activates immediately the first time you upload an invoice. The trial includes 50 free invoice uploads. Each upload counts against the quota. You can track your remaining quota on the agent setup card throughout the trial. The full agent workflow is available during the trial:</p>\n<ul>\n<li>Extract invoice data</li>\n<li>Match vendors</li>\n<li>Suggest lines</li>\n<li>Create and finalize purchase invoice drafts</li>\n</ul>\n<p>You can experience the same capabilities that you would after subscribing. If you use up your quota of 50 invoices, continued use requires available credits.</p>\n<p>This feature is available from the May minor release of 2026 release wave 1.</p>\n<p>Business Value:</p>\n<p>Trying out the Payables Agent currently requires that you configure an email connection, which is a step that creates friction before a user has even seen what the agent does. Accounts payable clerks and accountants who want to explore the agent often can't do so on their own, because setting up email often requires help from an administrator.</p>\n<p>This feature lets any user start a Payables Agent free trial by uploading invoice files directly, with no email configuration required. Companies get a quota of 50 free invoices to experience the full agent workflow, including data extraction, vendor matching, line suggestion, and draft creation and finalization. By removing the technical barrier and the need to involve an administrator, more users can discover the agent's value firsthand and build the case for adoption within their organization.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:08:56",
+      "modified": "2026-10-16T19:08:56",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "4da9a20c2a256231"
+    },
+    {
+      "id": "576775",
+      "title": "Dynamics 365 Customer Service: Copilot and AI innovation - Classify emails by category and subcategory with Case Management Agent",
+      "status": "Launched",
+      "description": "<p>With email classification, administrators can define a custom taxonomy of categories and subcategories to automatically classify inbound emails in Dynamics 365 Customer Service. AI analyzes the email subject and body, then stores the assigned category or subcategory on the email activity record. Case Management Agent, automatic record creation rules, Power Automate flows, reporting, and other downstream processes can use this value to determine how to handle the email.</p>\n<p>Administrators can enable email classification and define category and subcategory names and descriptions. They can also set conditions that determine which emails are classified, such as specific mailboxes, sender domains, languages, and so forth. When the feature is enabled, the system qualifies inbound emails and automatically classifies them by using the Case Management Agent flow. Administrators can also manually update an assigned category or subcategory, or disable classification to stop processing new emails.</p>\n<p>Business Value:</p>\n<p>Email classification gives you control over how incoming emails are managed before any action is taken. It automatically sorts messages so you can ignore irrelevant ones, let the Case Management Agent handle routine issues, and focus on those that truly need human attention. This reduces clutter from non-support emails like thank-you notes, newsletters, and spam, allowing both AI and your team to concentrate on what matters most. The result is time saved, lower processing costs, and the ability to scale automated email handling confidently without adding operational risk.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:08:55",
+      "modified": "2026-10-16T19:08:55",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Customer Service",
+        "General Availability"
+      ],
+      "descHash": "4c97e5db8f92dcbf"
+    },
+    {
+      "id": "576772",
+      "title": "Dynamics 365 Contact Center: Omnichannel customer experiences - Handle duplicate callback requests in overflowing queues",
+      "status": "Launched",
+      "description": "<p>In the in-queue and pre-queue overflow settings within the Copilot Service admin center, administrators can define the following settings:</p>\n<ul>\n<li>Prevent duplicate callback requests from the same phone number.</li>\n<li>Define deduplication logic using combinations of caller phone number, channel phone number, and queue ID.</li>\n<li>Configure caller experiences when a duplicate is detected. An option to end the call or play a custom message in a loop is available. For example: “You are already in queue to receive a callback when a customer service representative is available. Your latest wait time is 12 minutes. You can choose to continue waiting on this call if needed or disconnect and receive the callback.”</li>\n<li>Specify the phone number to initiate the callback from.</li>\n</ul>\n<p>Business Value:</p>\n<p>This feature delivers significant benefits by enhancing customer experience, operational efficiency, and administrative control. It prevents redundant callback requests from the same phone number, reducing unnecessary loads on representatives and systems. Administrators gain flexibility to configure deduplication logic and tailor the caller experience, including custom messaging when duplicates are detected.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:08:53",
+      "modified": "2026-10-16T19:08:53",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability"
+      ],
+      "descHash": "2c134e65e1aefd65"
+    },
+    {
+      "id": "576761",
+      "title": "Dynamics 365 Customer Service: Workforce engagement management - Detect intraday volume spikes with workforce alerts",
+      "status": "In development",
+      "description": "<p>Supervisors can create volume spike alerts that compare real-time conversation volume with the forecast linked to a shift plan. When volume remains above forecast for the configured number of intervals, selected recipients receive an in-app notification.</p>\n<p>The capability includes the following features:</p>\n<ul>\n<li>Administrators can enable workforce alerts in Copilot Service admin center by going to <strong>Workforce management</strong> &gt; <strong>Intraday management</strong> &gt; <strong>Workforce alerts</strong>.</li>\n<li>Supervisors can create and manage alerts from Workforce alerts in the Copilot Service workspace site map.</li>\n<li>Each alert references a shift plan and monitors the queues associated with its linked capacity plan.</li>\n<li>Supervisors can specify the percentage by which actual volume must exceed forecast volume.</li>\n<li>Supervisors can specify the number of consecutive intervals during which the deviation must continue before an alert is raised. The forecast determines whether an interval is 15, 30, or 60 minutes.</li>\n<li>Supervisors can set an expiration date to limit an alert to a campaign, season, or known event.</li>\n<li>Supervisors can select one or more notification recipients for each alert.</li>\n<li>Active alerts are evaluated on a recurring schedule. Notifications are sent when the configured threshold and duration are met.</li>\n<li>Recipients can select a notification to open the alert details. The details include the queue and alert name, detection time, current and forecast volumes, spike percentage, and an interval-by-interval breakdown.</li>\n</ul>\n<h3>Access and prerequisites</h3>\n<ul>\n<li>An administrator must install the Workforce Management for Customer Service package from Power Platform admin center.</li>\n<li>Forecasting and scheduling must be configured.</li>\n<li>The selected shift plan must have a linked capacity plan and forecast.</li>\n<li>Real-time conversation data must be available for the monitored queues.</li>\n</ul>\n<p>Business Value:</p>\n<p>Contact centers plan staffing based on forecasted demand, but actual demand can change quickly. When conversation volume rises significantly above forecast, queues can grow and service levels can decline before supervisors have time to respond.</p>\n<p>Workforce alerts help supervisors identify unusual intraday volume changes without continuously monitoring a dashboard. Supervisors define the deviation and duration that represent a volume spike and select who should be notified when those conditions are met.</p>\n<p>The notification provides information about the spike, including how far actual volume is above forecast and whether the deviation is continuing. Supervisors can use this information to decide whether to shift capacity, offer overtime, or defer offline work while these actions can still help protect the customer experience.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:08:45",
+      "modified": "2026-10-16T19:08:45",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Customer Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "af25919e4002244a"
+    },
+    {
+      "id": "576755",
+      "title": "Dynamics 365 Finance and Operations cross-app: Boost productivity with Copilot - Boost agent performance with optimal tool execution paths in Dynamics 365 ERP MCP",
+      "status": "In development",
+      "description": "<p>With the dynamic tools of the Dynamics 365 ERP MCP server, large language models often have multiple options for tool-calling sequences to perform an operation or retrieve data. The orchestration can select the tool execution sequence and can include more tool calls than are required. This enhancement to the MCP server improves performance and accuracy of the server response by enabling the server to use optimal tool execution sequences to perform operations with a single point of entry for MCP tools and a semantic index of the available menu items, entities, and actions.</p>\n<p>Business Value:</p>\n<p>The Dynamics 365 ERP MCP server now uses a semantic index of target ERP menu items, entities, and actions to improve performance and accuracy of tool calls by optimizing the sequence of tool executions for agentic operations.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T19:08:39",
+      "modified": "2026-10-16T19:08:39",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Finance and Operations cross-app",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "1290e09fcaf22b92"
+    },
+    {
+      "id": "576754",
+      "title": "Dynamics 365 Supply Chain Management: Copilot and AI innovation - Understand forecast accuracy with AI explanations",
+      "status": "In development",
+      "description": "<p>By combining forecast results with contextual insights, planners can gain a detailed understanding of the key factors influencing each forecast rather than simply viewing the numbers. This increased transparency builds confidence and supports more informed planning decisions.</p>\n<p>Key benefits include:</p>\n<ul>\n<li>See symmetric mean absolute percentage error (SMAPE) values.</li>\n<li>View historical data and forecast results in one place.</li>\n<li>Understand forecast drivers through AI-generated explanations.</li>\n<li>Gain greater confidence in planning outcomes.</li>\n<li>Make faster and more informed business decisions.</li>\n</ul>\n<p>These capabilities help planners spend less time analyzing forecast changes and more time acting.</p>\n<p>Business Value:</p>\n<p>Get a clear view of historical data alongside a calculated forecast supported by AI-generated explanations. This feature enhances planners' understanding of each forecast, builds confidence in the results, and enables better planning decisions.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-16T19:08:38",
+      "modified": "2026-10-16T19:08:38",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Supply Chain Management",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "c01620b4c0834f86"
+    },
+    {
+      "id": "576748",
+      "title": "Dynamics 365 Customer Service: Workforce engagement management - Monitor intraday performance against the forecast",
+      "status": "In development",
+      "description": "<p>The intraday performance report provides supervisors with an interval-level view of performance against the forecast. In Copilot Service workspace, go to <strong>Workforce management</strong> to access the report.</p>\n<ul>\n<li>Compare forecast and actual contact volume and average handle time. Variances appear as values and percentages, making outliers easier to identify.</li>\n<li>Compare forecast, required, and scheduled staffing levels to identify understaffed and overstaffed intervals.</li>\n<li>Review service level, occupancy, and schedule adherence alongside volume and staffing data in a single report.</li>\n<li>View data in 15-, 30-, or 60-minute intervals to match how your organization manages intraday performance.</li>\n<li>Filter the report by planning group and shift plan to focus on the areas you manage.</li>\n</ul>\n<p><strong>Access and prerequisites</strong></p>\n<p>To use Workforce Management capabilities, an administrator must install the Workforce Management for Customer Service package from the Power Platform admin center.</p>\n<p>Business Value:</p>\n<p>Contact center forecasts and schedules are built days or weeks in advance, but demand rarely arrives exactly as planned. When volume spikes, handle times run long, or agents are absent, supervisors often don't see the gap until service levels have already slipped and the interval is gone.</p>\n<p>The intraday performance report closes that gap by showing plan versus actual as the day unfolds. Supervisors can see which intervals are under- or over-staffed and act while there's still time by moving agents between queues, adjusting break and training schedules, or opening overtime only where it's genuinely needed. That protects service level and abandonment targets on the days that matter most, and it curbs the two costs that quietly compound in every contact center: paying for idle capacity in over-forecasted intervals and paying premium rates to recover from under-forecasted ones.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-16T19:08:32",
+      "modified": "2026-10-16T19:08:32",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Customer Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "10f8c835ef3df7a7"
+    },
+    {
+      "id": "576636",
+      "title": "Dynamics 365 Contact Center: Copilot and AI innovation - Use agentic simulations to evaluate contact center setup",
+      "status": "In development",
+      "description": "<p><strong>Agentic simulations</strong> are an AI-driven capability of Service Operations Agent that enable organizations to evaluate how their contact center behaves under realistic customer conditions before those conditions occur in production.</p>\n<p>Administrators define simulation scenarios using natural-language prompts. Agentic simulations then generate realistic synthetic conversations, runs them end-to-end through the configured contact center, and calculates the contact center KPIs.</p>\n<p><strong>What problems it helps solve</strong></p>\n<ul>\n<li><p><strong>Readiness of self-service experiences</strong>: Assess how AI agents handle real customer intents, variations in behavior, and edge cases.</p>\n</li>\n<li><p><strong>Effectiveness of assisted service flows</strong>: Validate routing, assignment logic, and service representative experience in human-assisted scenarios.</p>\n</li>\n<li><p><strong>Confidence in scale and load readiness</strong>: Understand how configurations and operations perform under realistic volume and fix any reliability and latency issues.</p>\n</li>\n<li><p><strong>Preparedness of service representatives</strong>: Enable safe practice and evaluation using realistic customer interactions without impacting live customers.</p>\n</li>\n</ul>\n<p><strong>Key capabilities</strong></p>\n<ul>\n<li>Natural-language prompt interface for defining simulation scenarios</li>\n<li>Simulation of varied customer intents, personas, and behaviors</li>\n<li>End-to-end execution across AI agents, routing, and configurations</li>\n<li>Out-of-the-box KPI dashboards and scorecards</li>\n<li>Reusable and saved prompts, including canned scenarios</li>\n<li>Safe, pre-production execution with no impact on live customers</li>\n</ul>\n<p>Agentic simulations are currently available for the voice channel in the English language only. They support flows without Dual-Tone Multi-Frequency (DTMF)-based menu interactions and up to five conversations in a simulation.</p>\n<p>Business Value:</p>\n<p>Every contact center decision, such as deploying an AI agent, adjusting routing, onboarding new staff, or preparing for higher volumes, ultimately answers the same question:<br>\n“Will this work as expected when real customers arrive?”</p>\n<p>Agentic simulations provide a clear, data-backed answer before changes reach production.</p>\n<p>By generating realistic customer conversations and running them end-to-end through the contact center, organizations can see how their self-service, assisted service, and operational setup behave under real-world conditions. Instead of relying on assumptions, limited testing, or post-go-live corrections, teams gain measurable insight into experience quality, readiness, and scale.</p>\n<p>This feature transforms how contact centers operate:</p>\n<ul>\n<li>Experience quality improves because AI agents and service representatives are evaluated against realistic scenarios.</li>\n<li>Operational risk decreases because configuration and routing issues are identified early.</li>\n<li>Time to value accelerates because onboarding, training, and change validation happen faster.</li>\n<li>Scale becomes predictable because load behavior is understood before demand increases.</li>\n</ul>\n<p>Agentic simulations turn uncertainty into confidence, helping organizations ship changes faster, train teams better, and deliver consistent customer experiences at scale.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T17:39:48",
+      "modified": "2026-10-16T17:39:48",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Contact Center",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "8baf0f0682e6a762"
+    },
+    {
+      "id": "576634",
+      "title": "Dynamics 365 Contact Center: Administrator experiences - Use industry templates to set up autonomous contact centers",
+      "status": "In development",
+      "description": "<p>This release introduces industry-specific templates that simplify the creation and deployment of autonomous contact centers. Organizations can start with a preconfigured template in Copilot Service admin center &gt; <strong>Service Operations Agent</strong> and deploy an autonomous customer service experience in just a few clicks, significantly reducing the setup effort required to design agents, workflows, and service journeys from the ground up.</p>\n<p>The templates are built around common industry scenarios and best practices, helping organizations quickly establish operational autonomous contact centers while maintaining flexibility for customization as business needs evolve. Users can leverage these templates as a foundation and extend them to meet their specific customer service requirements.</p>\n<p>These templates enable organizations to rapidly launch autonomous contact centers, reduce implementation complexity, and begin delivering AI-powered customer support with minimal configuration effort.</p>\n<p>In this release, templates are available for the retail and telecom industries.</p>\n<p>Business Value:</p>\n<p>Accelerate the deployment of autonomous contact centers with prebuilt industry templates designed to help organizations get up and running in minutes rather than weeks. These ready-to-use templates reduce the complexity of designing autonomous customer service experiences from scratch, enabling businesses to quickly realize the benefits of AI-powered customer engagement, automated issue resolution, and around-the-clock service availability.</p>\n<p>Enabled for:</p>\n<p>Enabled for admins/makers/marketers automatically</p>",
+      "created": "2026-10-16T17:39:44",
+      "modified": "2026-10-16T17:39:44",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "4a8d64314a6b3064"
+    },
     {
       "id": "573696",
       "title": "SharePoint: Copilot Search in SharePoint and OneDrive",
@@ -3997,9 +4474,9 @@
       "id": "557561",
       "title": "Microsoft Edge: Auto-open Copilot side pane for Outlook links",
       "status": "In development",
-      "description": "When users open links from Outlook, Microsoft Edge can automatically open the Copilot side pane to provide contextual insights and actionable suggestion chips based on email and destination content - such as highlighting key points, and recommending next actions - without disrupting the browsing flow. This experience helps users quickly understand content, take action with fewer steps, and get more value from Copilot while extending productive browsing time in Edge. Admins can control availability to this feature using the M365LinksAutoOpenCopilotEnabled policy.",
+      "description": "<p>When users open links from Outlook, Microsoft Edge can automatically open the Copilot side pane to provide contextual insights and actionable suggestion chips based on email and destination content - such as highlighting key points, and recommending next actions - without disrupting the browsing flow. This experience helps users quickly understand content, take action with fewer steps, and get more value from Copilot while extending productive browsing time in Edge. Admins can control availability to this feature using the M365LinksAutoOpenCopilotEnabled policy.</p>",
       "created": "2026-02-25T00:15:23",
-      "modified": "2026-08-28T21:59:29",
+      "modified": "2026-10-16T22:00:35",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -6712,9 +7189,9 @@
       "id": "519571",
       "title": "Microsoft 365 admin center: Usage reports – Microsoft 365 Copilot Connectors",
       "status": "In development",
-      "description": "A new usage report will be available in the Microsoft 365 admin center for Copilot Connectors in Microsoft 365 Copilot, designed to give organizations a detailed view of how connectors are being used within Microsoft 365 Copilot. This report provides insights into overall connector activity, and connector powered response patterns over time, along with detailed user-level connectors adoption data. With these analytics, admins can monitor adoption, identify usage patterns, and optimize Copilot experiences to drive greater value across their organization. #copilotcontrolsystem ",
+      "description": "<p>A new usage report will be available in the Microsoft 365 admin center for Copilot Connectors in Microsoft 365 Copilot, designed to give organizations a detailed view of how connectors are being used within Microsoft 365 Copilot. This report provides insights into overall connector activity, and connector powered response patterns over time, along with detailed user-level connectors adoption data. With these analytics, admins can monitor adoption, identify usage patterns, and optimize Copilot experiences to drive greater value across their organization. #copilotcontrolsystem</p>",
       "created": "2025-10-27T23:15:26",
-      "modified": "2026-06-25T23:15:45",
+      "modified": "2026-10-16T22:00:35",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -7123,24 +7600,6 @@
         "Targeted Release"
       ],
       "descHash": "d921c3f3e39d7abc"
-    },
-    {
-      "id": "518213",
-      "title": "Microsoft Copilot (Microsoft 365): Copilot for PowerPoint will help you build your story's narrative",
-      "status": "Launched",
-      "description": "Copilot will help you form your narrative and turn that into a presentation of fully-designed slides.",
-      "created": "2025-10-22T23:15:17",
-      "modified": "2025-12-17T00:15:13",
-      "tags": [
-        "GCC High",
-        "Desktop",
-        "Mac",
-        "Web",
-        "PowerPoint",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "a1aea3f6878a54a1"
     },
     {
       "id": "516569",

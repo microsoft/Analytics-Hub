@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-16T11:16:10.466Z",
+  "runAt": "2026-10-17T11:16:22.976Z",
   "feed": "compliance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -38,14 +38,14 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-04-29T00:00:00Z",
-      "gitCommit": "91288c6df16fa0c22b512b3150eac743906c38ef",
+      "gitCommit": "ab0c13d9c24dab81672b1c34ef6eb7b3aed803e4",
       "wordCount": "628",
-      "bodyHash": "17031ecd7410b576",
-      "bodyLen": 5886,
+      "bodyHash": "76dfd379bb92d7fc",
+      "bodyLen": 5890,
       "sections": [
         "Data locations",
         "Customer data",
-        "Related content"
+        "Related information"
       ],
       "inWindow": false
     },
@@ -561,11 +561,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-10-09T00:00:00Z",
-      "gitCommit": "4e7daf45b8e0781ed24d49cd4e48f48dc9b316a8",
-      "wordCount": "2510",
-      "bodyHash": "b0688f503197e585",
-      "bodyLen": 18301,
+      "msDate": "2026-10-16T00:00:00Z",
+      "gitCommit": "83b96009a6fd75f88701346ca822f307681263b0",
+      "wordCount": "2640",
+      "bodyHash": "c4fc5086ee0177fd",
+      "bodyLen": 19192,
       "sections": [],
       "inWindow": true
     },
@@ -578,11 +578,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-10-01T00:00:00Z",
-      "gitCommit": "2aeed7198ea22ec3d45e98d4af5d663827d7c8e7",
-      "wordCount": "2743",
-      "bodyHash": "c9a0005767986d74",
-      "bodyLen": 18983,
+      "msDate": "2026-10-16T00:00:00Z",
+      "gitCommit": "83b96009a6fd75f88701346ca822f307681263b0",
+      "wordCount": "2711",
+      "bodyHash": "fec792392dafcde1",
+      "bodyLen": 18766,
       "sections": [
         "Non-regional services that don't handle Customer Data, pseudonymized personal data, or Professional Services Data",
         "Customer devices with cloud components that can be configured regionally",
@@ -680,17 +680,16 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-03-27T00:00:00Z",
-      "gitCommit": "2d91f402d5fda01238a15342ba2d67928d4641c8",
-      "wordCount": "1414",
-      "bodyHash": "7c6ec75aece87e05",
-      "bodyLen": 10921,
+      "msDate": "2026-10-16T00:00:00Z",
+      "gitCommit": "83b96009a6fd75f88701346ca822f307681263b0",
+      "wordCount": "1331",
+      "bodyHash": "9cb33ce155c1bb76",
+      "bodyLen": 10349,
       "sections": [
         "Azure services",
         "Azure Monitor: Application Change Analysis",
         "Azure Resource Manager",
         "Azure Serial Console",
-        "Cloud Shell",
         "Dynamics 365 and Power Platform services",
         "Power Automate",
         "Power Platform",
@@ -702,7 +701,7 @@
         "Microsoft Entra ID and Azure Active Directory B2C",
         "Microsoft Intune"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "privacy-eudb-eu-data-boundary-temporary-transfers-from-services",
