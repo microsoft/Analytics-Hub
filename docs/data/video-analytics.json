@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-17T03:34:04.384059Z",
+  "lastUpdated": "2026-10-17T08:34:50.215281Z",
   "source": {
     "type": "cloudflare-kv",
     "workerUrl": "https://analytics-hub-video-stats.stephansmith-msft.workers.dev",
@@ -7,27 +7,133 @@
   },
   "days": [
     {
-      "date": "2026-10-15",
+      "date": "2026-10-17",
       "videos": {
-        "YT-Agent-Evaluator-Overview": {
+        "YT-Copilot-ROI-Calculator-Overview": {
           "plays": 1,
-          "secs": 24
-        },
-        "YT-Analytics-Hub-Tour": {
-          "plays": 1,
-          "secs": 20
-        },
-        "YT-Consumption-Central-Overview": {
-          "plays": 1,
-          "secs": 68
+          "secs": 111
         },
         "YT-Cowork-Chargeback-Billing-Overview": {
           "plays": 1,
-          "secs": 154
+          "secs": 121
+        },
+        "YT-M365-Copilot-Readiness-Overview": {
+          "plays": 1,
+          "secs": 105
+        }
+      }
+    },
+    {
+      "date": "2026-10-16",
+      "videos": {
+        "YT-200PTKBtxk4": {
+          "plays": 1,
+          "secs": 6
+        },
+        "YT-AI-in-One-Overview": {
+          "plays": 6,
+          "secs": 117
+        },
+        "YT-Agent-Evaluator-Overview": {
+          "plays": 3,
+          "secs": 188
+        },
+        "YT-Analytics-Hub-Tour": {
+          "plays": 11,
+          "secs": 967
+        },
+        "YT-Chat-Agent-Intelligence-Overview": {
+          "plays": 0,
+          "secs": 30
+        },
+        "YT-Consumption-Central-Overview": {
+          "plays": 5,
+          "secs": 417
+        },
+        "YT-Consumption-Central-Setup": {
+          "plays": 1,
+          "secs": 169
+        },
+        "YT-Copilot-ROI-Calculator-Overview": {
+          "plays": 2,
+          "secs": 123
+        },
+        "YT-Cowork-Chargeback-Billing-Overview": {
+          "plays": 11,
+          "secs": 501
+        },
+        "YT-Cowork-Team-Report": {
+          "plays": 1,
+          "secs": 1
+        },
+        "YT-EwzHwbXsWoU": {
+          "plays": 2,
+          "secs": 119
+        },
+        "YT-FinOps-FOCUS-Overview": {
+          "plays": 1,
+          "secs": 13
+        },
+        "YT-HKSIfh0Jf8k": {
+          "plays": 1,
+          "secs": 9
+        },
+        "YT-NrygF8hE6vo": {
+          "plays": 1,
+          "secs": 87
+        },
+        "YT-Personal-Dashboard-Overview": {
+          "plays": 1,
+          "secs": 1
         },
         "YT-ValueLens-Overview": {
+          "plays": 12,
+          "secs": 550
+        },
+        "YT-What-Cowork-Did-For-Me-Overview": {
           "plays": 2,
-          "secs": 20
+          "secs": 63
+        }
+      }
+    },
+    {
+      "date": "2026-10-15",
+      "videos": {
+        "YT-AI-in-One-Overview": {
+          "plays": 2,
+          "secs": 140
+        },
+        "YT-Agent-Evaluator-Overview": {
+          "plays": 3,
+          "secs": 234
+        },
+        "YT-Analytics-Hub-Tour": {
+          "plays": 11,
+          "secs": 570
+        },
+        "YT-Consumption-Central-Overview": {
+          "plays": 12,
+          "secs": 449
+        },
+        "YT-Cowork-Chargeback-Billing-Overview": {
+          "plays": 5,
+          "secs": 409
+        },
+        "YT-Cowork-Policy-Helper-Overview": {
+          "plays": 1,
+          "secs": 105
+        },
+        "YT-Cowork-Team-Report": {
+          "plays": 1,
+          "secs": 206
+        },
+        "YT-HKSIfh0Jf8k": {
+          "plays": 1,
+          "secs": 80
+        },
+        "YT-ValueLens-Overview": {
+          "plays": 7,
+          "secs": 325
         }
       }
     },
@@ -1268,33 +1374,89 @@
     }
   ],
   "summary": {
-    "dayCount": 32,
-    "videoCount": 43,
-    "plays": 1101,
-    "seconds": 66798,
+    "dayCount": 34,
+    "videoCount": 46,
+    "plays": 1202,
+    "seconds": 72728,
     "firstDate": "2026-09-14",
-    "lastDate": "2026-10-15"
+    "lastDate": "2026-10-17"
   },
   "videos": {
-    "YT-Agent-Evaluator-Overview": {
-      "plays": 8,
-      "secs": 310
-    },
-    "YT-Analytics-Hub-Tour": {
-      "plays": 28,
-      "secs": 3583
-    },
-    "YT-Consumption-Central-Overview": {
-      "plays": 57,
-      "secs": 3906
+    "YT-Copilot-ROI-Calculator-Overview": {
+      "plays": 7,
+      "secs": 401
     },
     "YT-Cowork-Chargeback-Billing-Overview": {
-      "plays": 22,
-      "secs": 1519
+      "plays": 38,
+      "secs": 2396
+    },
+    "YT-M365-Copilot-Readiness-Overview": {
+      "plays": 4,
+      "secs": 295
+    },
+    "YT-200PTKBtxk4": {
+      "plays": 3,
+      "secs": 35
+    },
+    "YT-AI-in-One-Overview": {
+      "plays": 40,
+      "secs": 2513
+    },
+    "YT-Agent-Evaluator-Overview": {
+      "plays": 13,
+      "secs": 708
+    },
+    "YT-Analytics-Hub-Tour": {
+      "plays": 49,
+      "secs": 5100
+    },
+    "YT-Chat-Agent-Intelligence-Overview": {
+      "plays": 0,
+      "secs": 30
+    },
+    "YT-Consumption-Central-Overview": {
+      "plays": 73,
+      "secs": 4704
+    },
+    "YT-Consumption-Central-Setup": {
+      "plays": 1,
+      "secs": 169
+    },
+    "YT-Cowork-Team-Report": {
+      "plays": 9,
+      "secs": 736
+    },
+    "YT-EwzHwbXsWoU": {
+      "plays": 3,
+      "secs": 123
+    },
+    "YT-FinOps-FOCUS-Overview": {
+      "plays": 4,
+      "secs": 147
+    },
+    "YT-HKSIfh0Jf8k": {
+      "plays": 2,
+      "secs": 89
+    },
+    "YT-NrygF8hE6vo": {
+      "plays": 2,
+      "secs": 200
+    },
+    "YT-Personal-Dashboard-Overview": {
+      "plays": 5,
+      "secs": 118
     },
     "YT-ValueLens-Overview": {
-      "plays": 44,
-      "secs": 2289
+      "plays": 61,
+      "secs": 3144
+    },
+    "YT-What-Cowork-Did-For-Me-Overview": {
+      "plays": 8,
+      "secs": 228
+    },
+    "YT-Cowork-Policy-Helper-Overview": {
+      "plays": 7,
+      "secs": 772
     },
     "Cowork_Policy_Helper_Tutorial": {
       "plays": 9,
@@ -1312,57 +1474,13 @@
       "plays": 14,
       "secs": 661
     },
-    "YT-200PTKBtxk4": {
-      "plays": 2,
-      "secs": 29
-    },
-    "YT-AI-in-One-Overview": {
-      "plays": 32,
-      "secs": 2256
-    },
-    "YT-Copilot-ROI-Calculator-Overview": {
-      "plays": 4,
-      "secs": 167
-    },
-    "YT-Cowork-Policy-Helper-Overview": {
-      "plays": 6,
-      "secs": 667
-    },
-    "YT-Cowork-Team-Report": {
-      "plays": 7,
-      "secs": 529
-    },
-    "YT-EwzHwbXsWoU": {
-      "plays": 1,
-      "secs": 4
-    },
-    "YT-FinOps-FOCUS-Overview": {
-      "plays": 3,
-      "secs": 134
-    },
-    "YT-NrygF8hE6vo": {
-      "plays": 1,
-      "secs": 113
-    },
     "YT-P0uHJb13ZR0": {
       "plays": 1,
       "secs": 4
     },
-    "YT-Personal-Dashboard-Overview": {
-      "plays": 4,
-      "secs": 117
-    },
-    "YT-What-Cowork-Did-For-Me-Overview": {
-      "plays": 6,
-      "secs": 165
-    },
     "YT-AI-in-One-Setup": {
       "plays": 3,
       "secs": 104
-    },
-    "YT-M365-Copilot-Readiness-Overview": {
-      "plays": 3,
-      "secs": 190
     },
     "YT-ValueLens-Fabric-Setup": {
       "plays": 1,
