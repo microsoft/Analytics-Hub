@@ -1,7 +1,55 @@
 {
-  "runAt": "2026-10-19T11:17:17.206Z",
+  "runAt": "2026-10-20T11:17:28.086Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "576709",
+      "title": "Microsoft Viva: Enhanced Microsoft Copilot in Viva Engage",
+      "status": "In development",
+      "description": "<p>Introducing the <strong>Enhanced Microsoft 365 Copilot Experience in Viva Engage!</strong></p>\n<p>Powered by Engage MCP, this enhanced experience takes Copilot in Engage beyond catch-ups and summaries, helping users explore conversations more deeply, synthesize discussions, and uncover meaningful insights.</p>\n<p>It's also more deeply connected across Microsoft 365. For example, you can ask Copilot to analyze feedback on a leader's post, identify key themes, and turn those insights into a reusable PowerPoint deck.</p>\n<p>With Work IQ integration, Copilot also has a better understanding of you and your work context, connecting conversations in Engage to your broader work across Microsoft 365.</p>\n<p>Engage MCP expands both the breadth and depth of Engage scenarios Copilot can support, making it more useful for understanding conversations and insights across your Engage network.</p>\n<p>This update also brings Copilot in Engage closer to the broader Microsoft 365 Copilot experience, with your Microsoft 365 agents now accessible directly within Copilot in Engage.</p>",
+      "created": "2026-10-19T23:15:15",
+      "modified": "2026-10-19T23:15:15",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Desktop",
+        "Web",
+        "Microsoft Viva",
+        "General Availability"
+      ],
+      "descHash": "b036b05f6979280a"
+    },
+    {
+      "id": "576272",
+      "title": "Copilot Studio: Computer Use for web browsing on GitHub Copilot Harness",
+      "status": "In development",
+      "description": "<p>Enable Microsoft Copilot Studio agents to browse and interact with websites as a native capability powered by the GitHub Copilot Harness. Using natural-language instructions, agents can navigate web pages, extract information, and download files. Agents can then use that information and those files alongside other tools to complete end-to-end workflows, extending their reach beyond configured knowledge sources and API-based integrations.</p>",
+      "created": "2026-10-19T23:15:15",
+      "modified": "2026-10-19T23:15:15",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "cc730c55fb307062"
+    },
+    {
+      "id": "571305",
+      "title": "Microsoft Copilot Studio: Support for sensitive documents protected with Microsoft Purview Information Protection (MPIP) ",
+      "status": "In development",
+      "description": "<p>Unblock users from upload files with Microsoft Purview Information Protection (MPIP) sensitivity labels to Copilot Studio agents deployed on the M365 channel. With this support agents can process content based on the user's/agents account permissions, with label protections enforced end-to-end.</p>",
+      "created": "2026-10-19T23:15:15",
+      "modified": "2026-10-19T23:15:15",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "26da386eb01d732c"
+    },
     {
       "id": "575292",
       "title": "Microsoft Viva:  Copilot Analytics - Agent 365 reporting availability for Microsoft platform agents",
@@ -1427,10 +1475,10 @@
     {
       "id": "570845",
       "title": "Microsoft Purview: Data Loss Prevention for Microsoft Cowork",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Microsoft Purview Data Loss Prevention (DLP) is expanding to Microsoft Cowork, enabling data security admins to use a single policy across Microsoft 365 Copilot and Cowork. The integration helps protect sensitive AI interactions by preventing the use of labeled knowledge sources, blocking prompts that contain supported sensitive information types, and restricting sensitive prompts from being sent to Bing for web search.</p>",
       "created": "2026-09-08T22:57:21",
-      "modified": "2026-09-08T22:57:21",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -2241,10 +2289,10 @@
     {
       "id": "562353",
       "title": "Microsoft Copilot (Microsoft 365): Session and Response Sharing in M365 Copilot",
-      "status": "Rolling out",
+      "status": "Launched",
       "description": "<p>Session and Response Sharing let Microsoft 365 Copilot users share Copilot chat content through a link. Session Sharing shares a full chat session, while Response Sharing shares a single Copilot response. The shared content opens as a read-only view, and recipients can continue from it in their own Copilot chat. This gives Copilot users an easier and more controlled way to share useful Copilot outputs with coworkers instead of copying and pasting. It helps teams reuse work, share context, and collaborate more efficiently while keeping sharing within organizational controls.</p>",
       "created": "2026-07-16T23:08:19",
-      "modified": "2026-09-11T22:10:10",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -2558,10 +2606,10 @@
     {
       "id": "566701",
       "title": "Microsoft Copilot (Microsoft 365): Edit your document with Copilot in PowerPoint in Government Clouds",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Copilot in PowerPoint helps you create, edit, and refine presentations through natural language—right inside your deck. Start a new presentation or build on an existing one by asking Copilot to generate slides, update content, improve layouts, and polish design, all while preserving your formatting, structure, and branding. Copilot can also connect to your brand kit to apply branded templates, insert brand-approved images, and check for brand compliance. Available to Microsoft 365 Copilot (Premium) users.</p>",
       "created": "2026-06-29T23:02:39",
-      "modified": "2026-09-18T22:00:04",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "GCC High",
         "Desktop",
@@ -2942,7 +2990,7 @@
       "status": "In development",
       "description": "<p>With the introduction of file archiving support in SharePoint Online, administrators are looking to seamlessly include archiving actions within their existing data retention policies. This means that, in addition to keeping or deleting data, admins want to now leverage Purview DLM to archive files according to organizational requirements, ensuring comprehensive governance across all stages of the content lifecycle in SPO. Retention based file archiving moves inactive content to low-cost storage, lowering costs with no compromise on Compliance, keeping data discoverable and making Copilot results highly relevant.</p>",
       "created": "2026-05-18T22:30:51",
-      "modified": "2026-10-12T23:01:05",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "GCC",
         "GCC High",
@@ -3038,10 +3086,10 @@
     {
       "id": "562412",
       "title": "Microsoft Viva: Agent metrics for custom reporting in Insights analyst workbench",
-      "status": "In development",
-      "description": "Unlock deeper insights into Copilot agent adoption with flexible, self-serve analytics. Insights global and partition analysts can access and combine granular agent usage metrics with agent and organizational attributes to uncover agent adoption trends, export and customize reporting, and drive more informed decisions, without relying on predefined dashboards.\n",
+      "status": "Rolling out",
+      "description": "<p>Unlock deeper insights into Copilot agent adoption with flexible, self-serve analytics. Insights global and partition analysts can access and combine granular agent usage metrics with agent and organizational attributes to uncover agent adoption trends, export and customize reporting, and drive more informed decisions, without relying on predefined dashboards.</p>",
       "created": "2026-05-14T23:15:59",
-      "modified": "2026-05-14T23:15:59",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3089,10 +3137,10 @@
     {
       "id": "561322",
       "title": "Microsoft Copilot (Microsoft 365): Copilot in PowerPoint for Government clouds",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Copilot in PowerPoint lets you create, edit, and refine presentations through natural conversation, directly in your presentation. You can start a new presentation or build on an existing one, asking Copilot to generate slides, update content, improve layouts, and polish design—while preserving formatting, structure, and branding. Copilot uses your files, meetings, emails, and more to help shape content and iterate quickly, and it connects to your brand kit so you can apply branded templates, insert brand approved images, and check for brand compliance. Available to Microsoft 365 Copilot–licensed users.</p>",
       "created": "2026-05-13T23:00:44",
-      "modified": "2026-09-18T22:00:04",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "GCC",
         "Desktop",
@@ -5960,10 +6008,10 @@
     {
       "id": "542181",
       "title": "Microsoft Copilot (Microsoft 365): Edit with Copilot in Excel (Web, Win32, Mac) - GCC",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Edit with Copilot lets you build and edit workbooks side by side with Copilot. When you're updating budgets, creating financial models, or analyzing data, Copilot uses Excel's most powerful tools like tables, charts, PivotTables, and formulas to help you get the job done.</p>",
       "created": "2025-12-17T00:15:13",
-      "modified": "2026-09-11T22:10:10",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "GCC",
         "GCC High",
@@ -8764,10 +8812,10 @@
     {
       "id": "502525",
       "title": "Microsoft Teams: Simplified device settings for voice and face recognition on Teams Rooms on Android",
-      "status": "Rolling out",
-      "description": "It's easier for admins to enable the benefits of intelligent audio and video and Copilot for users in Teams Rooms through a new user interface and admin settings. These new settings, on the device and in the Pro Management portal, simplify configuration and remove the requirement to use PowerShell, offering improved visibility across rooms.",
+      "status": "Launched",
+      "description": "<p>It's easier for admins to enable the benefits of intelligent audio and video and Copilot for users in Teams Rooms through a new user interface and admin settings. These new settings, on the device and in the Pro Management portal, simplify configuration and remove the requirement to use PowerShell, offering improved visibility across rooms.</p>",
       "created": "2025-09-08T23:45:21",
-      "modified": "2025-10-17T22:00:54",
+      "modified": "2026-10-19T23:15:15",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Teams and Surface Devices",

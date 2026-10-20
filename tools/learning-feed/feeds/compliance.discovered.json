@@ -1,11 +1,13 @@
 {
-  "generatedAt": "2026-10-19T11:15:31.079Z",
+  "generatedAt": "2026-10-20T11:15:44.789Z",
   "feed": "compliance",
   "stats": {
     "total": 26,
-    "newSincePrev": 0
+    "newSincePrev": 1
   },
-  "newPages": [],
+  "newPages": [
+    "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing"
+  ],
   "pages": [
     {
       "id": "https-learn-microsoft-com-copilot-privacy-and-protections",
@@ -18,6 +20,11 @@
       "url": "https://learn.microsoft.com/en-us/compliance/regulatory/offering-home"
     },
     {
+      "id": "copilot-microsoft-365-architecture-data-protection-auditing",
+      "title": "Architecture Data Protection Auditing",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing"
+    },
+    {
       "id": "copilot-microsoft-365-enterprise-data-protection",
       "title": "Enterprise Data Protection",
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection"
@@ -26,11 +33,6 @@
       "id": "copilot-microsoft-365-flow-builder-privacy-data-subject-request-faq",
       "title": "Flow Builder Privacy Data Subject Request Faq",
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/flow-builder-privacy-data-subject-request-faq"
-    },
-    {
-      "id": "copilot-microsoft-365-microsoft-365-copilot-architecture-data-protection-auditin",
-      "title": "Microsoft 365 Copilot Architecture Data Protection Auditing",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-architecture-data-protection-auditing"
     },
     {
       "id": "copilot-microsoft-365-microsoft-365-copilot-privacy",

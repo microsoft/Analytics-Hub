@@ -1,11 +1,20 @@
 {
-  "generatedAt": "2026-10-19T11:15:37.948Z",
+  "generatedAt": "2026-10-20T11:15:50.846Z",
   "feed": "governance",
   "stats": {
     "total": 105,
-    "newSincePrev": 0
+    "newSincePrev": 8
   },
-  "newPages": [],
+  "newPages": [
+    "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing",
+    "https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-brand-kit-governance-organizational-assets",
+    "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-admin-reports",
+    "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-search-admin-experience",
+    "https://learn.microsoft.com/en-us/microsoft-365/copilot/architecture-data-protection-auditing",
+    "https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-brand-kit-governance-organizational-assets",
+    "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-admin-reports",
+    "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-search-admin-experience"
+  ],
   "pages": [
     {
       "id": "https-learn-microsoft-com-copilot-agents",
@@ -83,6 +92,21 @@
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/agent-essentials/m365-agents-visual-map"
     },
     {
+      "id": "copilot-microsoft-365-architecture-data-protection-auditing",
+      "title": "Architecture Data Protection Auditing",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing"
+    },
+    {
+      "id": "copilot-microsoft-365-configure-brand-kit-governance-organizational-assets",
+      "title": "Configure Brand Kit Governance Organizational Assets",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-brand-kit-governance-organizational-assets"
+    },
+    {
+      "id": "copilot-microsoft-365-copilot-admin-reports",
+      "title": "Copilot Admin Reports",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-admin-reports"
+    },
+    {
       "id": "copilot-microsoft-365-copilot-agent-install",
       "title": "Copilot Agent Install",
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-agent-install"
@@ -118,9 +142,9 @@
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/security-governance"
     },
     {
-      "id": "copilot-microsoft-365-copilot-restrict-brand-kit-creation",
-      "title": "Copilot Restrict Brand Kit Creation",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-restrict-brand-kit-creation"
+      "id": "copilot-microsoft-365-copilot-search-admin-experience",
+      "title": "Copilot Search Admin Experience",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-search-admin-experience"
     },
     {
       "id": "copilot-microsoft-365-copilot-tuning-admin-guide",
@@ -146,21 +170,6 @@
       "id": "copilot-microsoft-365-microsoft-365-copilot-app-admin-settings",
       "title": "Microsoft 365 Copilot App Admin Settings",
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-app-admin-settings"
-    },
-    {
-      "id": "copilot-microsoft-365-microsoft-365-copilot-architecture-data-protection-auditin",
-      "title": "Microsoft 365 Copilot Architecture Data Protection Auditing",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-architecture-data-protection-auditing"
-    },
-    {
-      "id": "copilot-microsoft-365-microsoft-365-copilot-reports-for-admins",
-      "title": "Microsoft 365 Copilot Reports For Admins",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-reports-for-admins"
-    },
-    {
-      "id": "copilot-microsoft-365-microsoft-365-copilot-search-admin-experience",
-      "title": "Microsoft 365 Copilot Search Admin Experience",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-search-admin-experience"
     },
     {
       "id": "copilot-microsoft-365-people-skills-manage-ai-restricted-skills",
@@ -283,6 +292,21 @@
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/agent-essentials/m365-agents-visual-map"
     },
     {
+      "id": "microsoft-365-copilot-architecture-data-protection-auditing",
+      "title": "Architecture Data Protection Auditing",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/architecture-data-protection-auditing"
+    },
+    {
+      "id": "microsoft-365-copilot-configure-brand-kit-governance-organizational-assets",
+      "title": "Configure Brand Kit Governance Organizational Assets",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-brand-kit-governance-organizational-assets"
+    },
+    {
+      "id": "microsoft-365-copilot-copilot-admin-reports",
+      "title": "Copilot Admin Reports",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-admin-reports"
+    },
+    {
       "id": "microsoft-365-copilot-copilot-agent-install",
       "title": "Copilot Agent Install",
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-install"
@@ -318,9 +342,9 @@
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/security-governance"
     },
     {
-      "id": "microsoft-365-copilot-copilot-restrict-brand-kit-creation",
-      "title": "Copilot Restrict Brand Kit Creation",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-restrict-brand-kit-creation"
+      "id": "microsoft-365-copilot-copilot-search-admin-experience",
+      "title": "Copilot Search Admin Experience",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-search-admin-experience"
     },
     {
       "id": "microsoft-365-copilot-copilot-tuning-admin-guide",
@@ -346,21 +370,6 @@
       "id": "microsoft-365-copilot-microsoft-365-copilot-app-admin-settings",
       "title": "Microsoft 365 Copilot App Admin Settings",
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-app-admin-settings"
-    },
-    {
-      "id": "microsoft-365-copilot-microsoft-365-copilot-architecture-data-protection-auditin",
-      "title": "Microsoft 365 Copilot Architecture Data Protection Auditing",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-architecture-data-protection-auditing"
-    },
-    {
-      "id": "microsoft-365-copilot-microsoft-365-copilot-reports-for-admins",
-      "title": "Microsoft 365 Copilot Reports For Admins",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-reports-for-admins"
-    },
-    {
-      "id": "microsoft-365-copilot-microsoft-365-copilot-search-admin-experience",
-      "title": "Microsoft 365 Copilot Search Admin Experience",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-search-admin-experience"
     },
     {
       "id": "microsoft-365-copilot-people-skills-manage-ai-restricted-skills",
