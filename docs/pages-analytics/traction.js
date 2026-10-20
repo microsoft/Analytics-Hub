@@ -56,7 +56,65 @@
     return s + "</svg>";
   }
 
-  function render(rows) {
+
+  /* Full-history averages. Exact daily rows cover the recent period; earlier history is
+     3-day rolling windows (key K covers actual days K-3..K-1), spread evenly across the
+     days each window covers and averaged where windows overlap. */
+  function buildHistory(site, exactRows) {
+    const firstExact = exactRows[0].date;
+    const est = {};
+    const snaps = site.snapshots || {};
+    Object.keys(snaps).sort().forEach((key) => {
+      const m = (snaps[key] || []).find((x) => x.metricName === "Traffic");
+      const t = m && m.information && m.information[0];
+      if (!t) return;
+      const tot = Number(t.totalSessionCount), bot = Number(t.totalBotSessionCount || 0);
+      if (!Number.isFinite(tot) || bot > tot) return;
+      const per = (tot - bot) / 3;
+      if (per < 0) return;
+      for (let n = 1; n <= 3; n++) { const d = shift(key, -n); if (d < firstExact) (est[d] = est[d] || []).push(per); }
+    });
+    const days = Object.keys(est).sort().map((d) => ({ date: d, h: avg(est[d]), exact: false }));
+    exactRows.forEach((r) => days.push({ date: r.date, h: r.sessions, exact: true, u: r.users }));
+    return days;
+  }
+
+  function historyTables(days) {
+    const first = days[0].date, last = days[days.length - 1].date;
+    const dim = (ym) => new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).getUTCDate();
+    const months = {};
+    days.forEach((d) => (months[d.date.slice(0, 7)] = months[d.date.slice(0, 7)] || []).push(d));
+    const basis = (a) => { const e = a.filter((x) => x.exact).length; return e === a.length ? "Exact" : e === 0 ? "Estimated" : "Mixed"; };
+    const monthRows = Object.keys(months).sort().map((ym) => {
+      const a = months[ym], av = avg(a.map((x) => x.h));
+      const full = ym + "-01" >= first.slice(0, 7) + "-01" && shift(ym + "-" + String(dim(ym)).padStart(2, "0"), 0) <= last && first <= ym + "-01";
+      return { ym, n: a.length, cal: dim(ym), av, wk: av * 7, tot: av * a.length, full, basis: basis(a) };
+    });
+    const completeMonths = monthRows.filter((m) => m.full);
+    const weeks = {};
+    days.forEach((d) => { const dt = new Date(d.date + "T12:00:00Z"); dt.setUTCDate(dt.getUTCDate() - ((dt.getUTCDay() + 6) % 7)); const k = dt.toISOString().slice(0, 10); (weeks[k] = weeks[k] || []).push(d); });
+    const weekRows = Object.keys(weeks).sort().map((k) => { const a = weeks[k]; return { k, n: a.length, av: avg(a.map((x) => x.h)), basis: basis(a) }; }).filter((w) => w.n >= 4);
+    const overall = avg(days.map((d) => d.h));
+    const lastN = (n) => avg(days.slice(-n).map((d) => d.h));
+    const sumRows = [
+      ["All data (" + first.slice(5) + " to " + last.slice(5) + ")", overall, overall * 7, overall * 30.4],
+      ["Last 30 days", lastN(30), lastN(30) * 7, lastN(30) * 30.4],
+      ["Last 7 days", lastN(7), lastN(7) * 7, lastN(7) * 30.4],
+    ];
+    if (completeMonths.length) { const mav = avg(completeMonths.map((m) => m.av)); sumRows.splice(1, 0, ["Average full month (" + completeMonths.length + " months)", mav, mav * 7, avg(completeMonths.map((m) => m.tot / m.n * m.cal))]); }
+    const MN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const td = (v) => `<td class="n">${fmt(v)}</td>`;
+    return `
+<h2 class="tr-h">Average traffic: per day, per week, per month</h2>
+<p class="tr-sub">Human sessions across all data collected so far, ${first} to ${last}.</p>
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Period</th><th class="n">Per day</th><th class="n">Per week</th><th class="n">Per month</th></tr></thead><tbody>${sumRows.map((r) => `<tr><td>${r[0]}</td>${td(r[1])}${td(r[2])}${td(r[3])}</tr>`).join("")}</tbody></table></div>
+<h3 class="tr-h3">By month</h3>
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Month</th><th class="n">Days covered</th><th class="n">Avg per day</th><th class="n">Avg per week</th><th class="n">Total sessions</th><th>Basis</th></tr></thead><tbody>${monthRows.map((m) => `<tr><td>${MN[+m.ym.slice(5) - 1]} ${m.ym.slice(0, 4)}${m.full ? "" : " (partial)"}</td><td class="n">${m.n}${m.n < m.cal && m.full ? " of " + m.cal : ""}</td>${td(m.av)}${td(m.wk)}<td class="n">${m.full && m.n < m.cal ? "~" + fmt(m.av * m.cal) : fmt(m.tot)}</td><td>${m.basis}</td></tr>`).join("")}</tbody></table></div>
+<h3 class="tr-h3">By week</h3>
+<details class="tr-card"><summary style="cursor:pointer;font-weight:600">Show all ${weekRows.length} weeks</summary><table class="tr-wk tr-tbl" style="margin-top:.6rem"><thead><tr><th>Week of</th><th class="n">Days covered</th><th class="n">Avg per day</th><th class="n">Week total</th><th>Basis</th></tr></thead><tbody>${weekRows.map((w) => `<tr><td>${w.k}</td><td class="n">${w.n}</td>${td(w.av)}${td(w.av * 7)}<td>${w.basis}</td></tr>`).join("")}</tbody></table></details>
+<p class="tr-note">Exact = one Clarity snapshot per day (from Sep 18). Estimated = earlier history, stored as overlapping 3-day windows, spread evenly across the days each covers; real single days will be spikier. Gaps in collection (Jul 1 to 5, Jul 24 to 26, Aug 5 to 11) are not filled in, so those days are excluded and the averages describe the days we have. Totals marked ~ are the average scaled to the full month.</p>`;
+  }
+  function render(rows, site) {
     const first = rows[0].date, last = rows[rows.length - 1].date;
     const l7 = rows.slice(-7), p7 = rows.slice(-14, -7);
     const l7s = sum(l7.map((r) => r.sessions)), p7s = sum(p7.map((r) => r.sessions));
@@ -91,13 +149,17 @@
 <div class="tr-two"><div class="tr-card"><b style="font-size:.85rem">Avg human sessions</b>${barChart(byDow, "s", "#0078d4", "Average sessions by weekday")}</div><div class="tr-card"><b style="font-size:.85rem">Avg distinct users</b>${barChart(byDow, "u", "#8764b8", "Average distinct users by weekday")}</div></div>
 <h2 class="tr-h">Distinct users</h2><p class="tr-sub">The last 7 days averaged <b>${fmt(avg(l7.map((r) => r.users)))}</b> distinct users per day and a weekday averages <b>${fmt(wdU)}</b>, with a best day of <b>${fmt(peakU.users)}</b> (${peakU.date}).</p>
 <p class="tr-note">Clarity counts distinct users per day. They cannot be added across days, because the same person can appear on several days. Treat them as daily reach, not total unique people.</p>
-<p class="tr-note" style="margin-top:1.6rem">Human sessions = Clarity total sessions minus Clarity bot sessions. Rows where the bot count exceeds the total (an early multi-day backfill) are excluded.</p>`;
+${historyTables(buildHistory(site, rows))}<p class="tr-note" style="margin-top:1.6rem">Human sessions = Clarity total sessions minus Clarity bot sessions. Rows where the bot count exceeds the total (an early multi-day backfill) are excluded.</p>`;
   }
 
   fetch(DATA_URL).then((r) => r.json()).then((j) => {
     const site = (j.sites && j.sites["analytics-hub"]) || {};
     const rows = rowsFrom(site);
     if (rows.length < 8) throw new Error("not enough data");
-    render(rows);
+    render(rows, site);
   }).catch(() => { document.getElementById("tr-meta").textContent = "Traffic data could not be loaded."; });
 })();
+
+
+
+
