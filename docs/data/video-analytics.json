@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-20T03:37:05.354946Z",
+  "lastUpdated": "2026-10-20T08:34:49.154278Z",
   "source": {
     "type": "cloudflare-kv",
     "workerUrl": "https://analytics-hub-video-stats.stephansmith-msft.workers.dev",
@@ -7,19 +7,100 @@
   },
   "days": [
     {
-      "date": "2026-10-19",
+      "date": "2026-10-20",
       "videos": {
-        "YT-Agent-Evaluator-Overview": {
+        "YT-200PTKBtxk4": {
+          "plays": 2,
+          "secs": 0
+        },
+        "YT-AI-in-One-Overview": {
           "plays": 1,
-          "secs": 113
+          "secs": 0
         },
         "YT-Analytics-Hub-Tour": {
+          "plays": 4,
+          "secs": 448
+        },
+        "YT-Consumption-Central-Overview": {
           "plays": 1,
-          "secs": 257
+          "secs": 68
+        },
+        "YT-Cowork-Chargeback-Billing-Overview": {
+          "plays": 1,
+          "secs": 134
         },
         "YT-ValueLens-Overview": {
           "plays": 1,
+          "secs": 17
+        },
+        "multi-budget-chargeback-walkthrough": {
+          "plays": 1,
+          "secs": 2
+        }
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "videos": {
+        "YT-200PTKBtxk4": {
+          "plays": 2,
+          "secs": 124
+        },
+        "YT-AI-in-One-Overview": {
+          "plays": 5,
+          "secs": 62
+        },
+        "YT-Agent-Evaluator-Overview": {
+          "plays": 2,
+          "secs": 226
+        },
+        "YT-Analytics-Hub-Tour": {
+          "plays": 9,
+          "secs": 743
+        },
+        "YT-Consumption-Central-Overview": {
+          "plays": 17,
+          "secs": 639
+        },
+        "YT-Consumption-Central-Setup": {
+          "plays": 1,
           "secs": 14
+        },
+        "YT-Copilot-ROI-Calculator-Overview": {
+          "plays": 1,
+          "secs": 61
+        },
+        "YT-Cowork-Chargeback-Billing-Overview": {
+          "plays": 7,
+          "secs": 651
+        },
+        "YT-Cowork-Team-Report": {
+          "plays": 2,
+          "secs": 332
+        },
+        "YT-EwzHwbXsWoU": {
+          "plays": 1,
+          "secs": 91
+        },
+        "YT-FinOps-FOCUS-Overview": {
+          "plays": 3,
+          "secs": 208
+        },
+        "YT-HKSIfh0Jf8k": {
+          "plays": 1,
+          "secs": 26
+        },
+        "YT-ValueLens-Overview": {
+          "plays": 5,
+          "secs": 221
+        },
+        "YT-rp7KNCYSmlw": {
+          "plays": 2,
+          "secs": 65
+        },
+        "YT-y88DHAcc-98": {
+          "plays": 1,
+          "secs": 45
         }
       }
     },
@@ -1412,45 +1493,81 @@
     }
   ],
   "summary": {
-    "dayCount": 36,
-    "videoCount": 47,
-    "plays": 1209,
-    "seconds": 73322,
+    "dayCount": 37,
+    "videoCount": 49,
+    "plays": 1276,
+    "seconds": 77115,
     "firstDate": "2026-09-14",
-    "lastDate": "2026-10-19"
+    "lastDate": "2026-10-20"
   },
   "videos": {
-    "YT-Agent-Evaluator-Overview": {
-      "plays": 14,
-      "secs": 821
-    },
-    "YT-Analytics-Hub-Tour": {
-      "plays": 50,
-      "secs": 5357
-    },
-    "YT-ValueLens-Overview": {
-      "plays": 62,
-      "secs": 3158
-    },
     "YT-200PTKBtxk4": {
-      "plays": 4,
-      "secs": 77
+      "plays": 8,
+      "secs": 201
     },
     "YT-AI-in-One-Overview": {
-      "plays": 41,
-      "secs": 2543
+      "plays": 47,
+      "secs": 2605
+    },
+    "YT-Analytics-Hub-Tour": {
+      "plays": 62,
+      "secs": 6291
+    },
+    "YT-Consumption-Central-Overview": {
+      "plays": 91,
+      "secs": 5411
+    },
+    "YT-Cowork-Chargeback-Billing-Overview": {
+      "plays": 47,
+      "secs": 3305
+    },
+    "YT-ValueLens-Overview": {
+      "plays": 67,
+      "secs": 3382
+    },
+    "multi-budget-chargeback-walkthrough": {
+      "plays": 4,
+      "secs": 497
+    },
+    "YT-Agent-Evaluator-Overview": {
+      "plays": 15,
+      "secs": 934
+    },
+    "YT-Consumption-Central-Setup": {
+      "plays": 2,
+      "secs": 183
+    },
+    "YT-Copilot-ROI-Calculator-Overview": {
+      "plays": 8,
+      "secs": 462
+    },
+    "YT-Cowork-Team-Report": {
+      "plays": 11,
+      "secs": 1068
+    },
+    "YT-EwzHwbXsWoU": {
+      "plays": 4,
+      "secs": 214
+    },
+    "YT-FinOps-FOCUS-Overview": {
+      "plays": 7,
+      "secs": 355
+    },
+    "YT-HKSIfh0Jf8k": {
+      "plays": 3,
+      "secs": 115
+    },
+    "YT-rp7KNCYSmlw": {
+      "plays": 2,
+      "secs": 65
+    },
+    "YT-y88DHAcc-98": {
+      "plays": 1,
+      "secs": 45
     },
     "YT-Adoption-Sentiment-Overview": {
       "plays": 1,
       "secs": 14
-    },
-    "YT-Cowork-Chargeback-Billing-Overview": {
-      "plays": 39,
-      "secs": 2520
-    },
-    "YT-Copilot-ROI-Calculator-Overview": {
-      "plays": 7,
-      "secs": 401
     },
     "YT-M365-Copilot-Readiness-Overview": {
       "plays": 4,
@@ -1459,30 +1576,6 @@
     "YT-Chat-Agent-Intelligence-Overview": {
       "plays": 0,
       "secs": 30
-    },
-    "YT-Consumption-Central-Overview": {
-      "plays": 73,
-      "secs": 4704
-    },
-    "YT-Consumption-Central-Setup": {
-      "plays": 1,
-      "secs": 169
-    },
-    "YT-Cowork-Team-Report": {
-      "plays": 9,
-      "secs": 736
-    },
-    "YT-EwzHwbXsWoU": {
-      "plays": 3,
-      "secs": 123
-    },
-    "YT-FinOps-FOCUS-Overview": {
-      "plays": 4,
-      "secs": 147
-    },
-    "YT-HKSIfh0Jf8k": {
-      "plays": 2,
-      "secs": 89
     },
     "YT-NrygF8hE6vo": {
       "plays": 2,
@@ -1603,10 +1696,6 @@
     "AI-Solutions-Intelligence-Dashboard-Overview": {
       "plays": 1,
       "secs": 19
-    },
-    "multi-budget-chargeback-walkthrough": {
-      "plays": 3,
-      "secs": 495
     }
   }
 }
