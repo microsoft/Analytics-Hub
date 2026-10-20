@@ -6,11 +6,13 @@
   const DATA_URL = "../data/traffic-history.json";
   const NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const fmt = (n) => Math.round(n).toLocaleString("en-US");
+  const fmtSigned = (n) => `${n >= 0 ? "+" : ""}${fmt(n)}`;
   const sum = (a) => a.reduce((s, v) => s + v, 0);
   const avg = (a) => (a.length ? sum(a) / a.length : 0);
   const dow = (d) => new Date(d + "T12:00:00Z").getUTCDay();
   const shift = (iso, n) => { const x = new Date(iso + "T12:00:00Z"); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
   const pct = (a, b) => ((a - b) / b) * 100;
+  const pctSafe = (a, b) => (b ? ((a - b) / b) * 100 : null);
 
   function rowsFrom(site) {
     const snaps = site.dailySnapshots || {};
@@ -54,6 +56,101 @@
       s += `<rect x="${bx}" y="${H - B - h}" width="${bw - 12}" height="${h}" rx="4" fill="${color}" opacity="${we ? 0.4 : 1}"/><text x="${bx + (bw - 12) / 2}" y="${H - B - h - 6}" text-anchor="middle" class="tr-val">${Math.round(d[key])}</text><text x="${bx + (bw - 12) / 2}" y="${H - 9}" text-anchor="middle" class="tr-ax">${d.n}</text>`;
     });
     return s + "</svg>";
+  }
+
+  function sumRange(series, start, end, field) {
+    let out = 0;
+    for (let d = start; d <= end; d = shift(d, 1)) out += Number((series[d] || {})[field] || 0);
+    return out;
+  }
+
+  function repoVolatility(repos) {
+    const names = Object.keys(repos || {});
+    let latest = null;
+    names.forEach((name) => {
+      const days = Object.keys((repos[name] || {}).dailyViews || {}).sort();
+      if (!days.length) return;
+      const d = days[days.length - 1];
+      if (!latest || d > latest) latest = d;
+    });
+    if (!latest) return null;
+
+    const curStart = shift(latest, -13);
+    const prevEnd = shift(curStart, -1);
+    const prevStart = shift(prevEnd, -13);
+
+    const rows = [];
+    names.forEach((name) => {
+      const repo = repos[name] || {};
+      const views = repo.dailyViews || {};
+      const clones = repo.dailyClones || {};
+      const curViews = sumRange(views, curStart, latest, "count");
+      const prevViews = sumRange(views, prevStart, prevEnd, "count");
+      const curClones = sumRange(clones, curStart, latest, "count");
+      const prevClones = sumRange(clones, prevStart, prevEnd, "count");
+      if (curViews === 0 && prevViews === 0 && curClones === 0 && prevClones === 0) return;
+      rows.push({
+        name,
+        curViews,
+        prevViews,
+        viewDelta: curViews - prevViews,
+        viewDeltaPct: pctSafe(curViews, prevViews),
+        curClones,
+        prevClones,
+        cloneDelta: curClones - prevClones,
+      });
+    });
+
+    rows.sort((a, b) => Math.abs(b.viewDelta) - Math.abs(a.viewDelta));
+    return {
+      latest,
+      curStart,
+      prevStart,
+      prevEnd,
+      rows,
+      totalCurViews: sum(rows.map((r) => r.curViews)),
+      totalPrevViews: sum(rows.map((r) => r.prevViews)),
+      totalCurClones: sum(rows.map((r) => r.curClones)),
+      totalPrevClones: sum(rows.map((r) => r.prevClones)),
+    };
+  }
+
+  function repoVolatilitySection(vol) {
+    if (!vol || !vol.rows.length) return "";
+    const totalDelta = vol.totalCurViews - vol.totalPrevViews;
+    const totalPct = pctSafe(vol.totalCurViews, vol.totalPrevViews);
+    const topDown = vol.rows.slice().sort((a, b) => a.viewDelta - b.viewDelta).slice(0, 3).filter((r) => r.viewDelta < 0);
+    const topUp = vol.rows.slice().sort((a, b) => b.viewDelta - a.viewDelta).slice(0, 3).filter((r) => r.viewDelta > 0);
+    const drivers = [...topDown, ...topUp];
+    const tableRows = (drivers.length ? drivers : vol.rows.slice(0, 8)).map((r) => `
+      <tr>
+        <td>${r.name}</td>
+        <td class="n">${fmt(r.curViews)}</td>
+        <td class="n">${fmt(r.prevViews)}</td>
+        <td class="n ${r.viewDelta >= 0 ? "up" : "dn"}">${fmtSigned(r.viewDelta)}</td>
+        <td class="n ${r.viewDelta >= 0 ? "up" : "dn"}">${r.viewDeltaPct == null ? "—" : `${r.viewDeltaPct >= 0 ? "+" : ""}${r.viewDeltaPct.toFixed(1)}%`}</td>
+        <td class="n">${fmt(r.curClones)}</td>
+      </tr>`).join("");
+
+    return `
+<h2 class="tr-h">Where the volatility is coming from (GitHub repos)</h2>
+<p class="tr-sub">Biweekly comparison from repo traffic data. Current window is ${vol.curStart} to ${vol.latest}; previous is ${vol.prevStart} to ${vol.prevEnd}.</p>
+<div class="tr-card">
+  <table class="tr-wk tr-tbl">
+    <thead><tr><th>Period</th><th class="n">Repo views</th><th class="n">Repo clones</th><th class="n">View change</th></tr></thead>
+    <tbody>
+      <tr><td>Current 14 days</td><td class="n">${fmt(vol.totalCurViews)}</td><td class="n">${fmt(vol.totalCurClones)}</td><td class="n ${totalDelta >= 0 ? "up" : "dn"}">${fmtSigned(totalDelta)} ${totalPct == null ? "" : `(${totalPct >= 0 ? "+" : ""}${totalPct.toFixed(1)}%)`}</td></tr>
+      <tr><td>Previous 14 days</td><td class="n">${fmt(vol.totalPrevViews)}</td><td class="n">${fmt(vol.totalPrevClones)}</td><td class="n">—</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="tr-card" style="margin-top:.8rem">
+  <table class="tr-wk tr-tbl">
+    <thead><tr><th>Repo</th><th class="n">Views (cur 14d)</th><th class="n">Views (prev 14d)</th><th class="n">Change</th><th class="n">Change %</th><th class="n">Clones (cur 14d)</th></tr></thead>
+    <tbody>${tableRows}</tbody>
+  </table>
+</div>
+<p class="tr-note">This attributes swings by repo first. Next layer for root-cause is referrer and path shifts inside the top movers.</p>`;
   }
 
 
@@ -114,7 +211,7 @@
 <details class="tr-card"><summary style="cursor:pointer;font-weight:600">Show all ${weekRows.length} weeks</summary><table class="tr-wk tr-tbl" style="margin-top:.6rem"><thead><tr><th>Week of</th><th class="n">Days covered</th><th class="n">Avg per day</th><th class="n">Week total</th><th>Basis</th></tr></thead><tbody>${weekRows.map((w) => `<tr><td>${w.k}</td><td class="n">${w.n}</td>${td(w.av)}${td(w.av * 7)}<td>${w.basis}</td></tr>`).join("")}</tbody></table></details>
 <p class="tr-note">Exact = one Clarity snapshot per day (from Sep 18). Estimated = earlier history, stored as overlapping 3-day windows, spread evenly across the days each covers; real single days will be spikier. Gaps in collection (Jul 1 to 5, Jul 24 to 26, Aug 5 to 11) are not filled in, so those days are excluded and the averages describe the days we have. Totals marked ~ are the average scaled to the full month.</p>`;
   }
-  function render(rows, site) {
+  function render(rows, site, repos) {
     const first = rows[0].date, last = rows[rows.length - 1].date;
     const l7 = rows.slice(-7), p7 = rows.slice(-14, -7);
     const l7s = sum(l7.map((r) => r.sessions)), p7s = sum(p7.map((r) => r.sessions));
@@ -143,6 +240,7 @@
 </div>
 <h2 class="tr-h">Trend over time</h2><p class="tr-sub">Daily human sessions with a 7-day average. Shaded columns are weekends.</p>
 <div class="tr-card">${lineChart(rows)}<div class="tr-legend"><span><i></i>Sessions (daily)</span><span><i style="height:4px"></i>7-day average</span><span><i style="background:#8764b8"></i>Distinct users (daily)</span></div></div>
+${repoVolatilitySection(repoVolatility(repos))}
 <h2 class="tr-h">Week by week</h2><p class="tr-sub">Complete Monday to Sunday weeks only.</p>
 <div class="tr-card"><table class="tr-wk">${wkRows}</table></div>
 <h2 class="tr-h">Weekday pattern</h2><p class="tr-sub">Average per day of the week. Traffic is concentrated Monday to Friday, with ${best.n} strongest.</p>
@@ -156,10 +254,9 @@ ${historyTables(buildHistory(site, rows))}<p class="tr-note" style="margin-top:1
     const site = (j.sites && j.sites["analytics-hub"]) || {};
     const rows = rowsFrom(site);
     if (rows.length < 8) throw new Error("not enough data");
-    render(rows, site);
+    render(rows, site, j.repos || {});
   }).catch(() => { document.getElementById("tr-meta").textContent = "Traffic data could not be loaded."; });
 })();
-
 
 
 
