@@ -13,15 +13,52 @@
   const shift = (iso, n) => { const x = new Date(iso + "T12:00:00Z"); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
   const pct = (a, b) => ((a - b) / b) * 100;
   const pctSafe = (a, b) => (b ? ((a - b) / b) * 100 : null);
+  const n = (v) => { const x = Number(v); return Number.isFinite(x) ? x : 0; };
+  const INTERNAL_REFERRER_HOSTS = ["microsoft.github.io", "github.com", "githubusercontent.com", "github.io"];
+
+  function metricRows(metrics, name) {
+    const m = (metrics || []).find((x) => x.metricName === name);
+    return (m && m.information) || [];
+  }
+
+  function trafficFromMetrics(metrics) {
+    const t = metricRows(metrics, "Traffic")[0];
+    if (!t) return null;
+    const total = n(t.totalSessionCount);
+    const bot = n(t.totalBotSessionCount);
+    if (!Number.isFinite(total) || bot > total) return null;
+    return {
+      total,
+      bot,
+      human: total - bot,
+      users: n(t.distinctUserCount),
+    };
+  }
+
+  function isInternalReferrer(ref) {
+    let host = String(ref || "");
+    try { host = new URL(host).hostname; } catch (_) {}
+    host = host.toLowerCase();
+    if (!host) return false;
+    return INTERNAL_REFERRER_HOSTS.some((h) => host === h || host.endsWith("." + h) || host.includes(h));
+  }
+
+  function canonicalReferrer(ref) {
+    let host = String(ref || "").trim().toLowerCase();
+    if (!host) return "";
+    try { host = new URL(host).hostname.toLowerCase(); } catch (_) {
+      host = host.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+    }
+    return host;
+  }
 
   function rowsFrom(site) {
     const snaps = site.dailySnapshots || {};
     return Object.keys(snaps).sort().map((key) => {
-      const m = (snaps[key] || []).find((x) => x.metricName === "Traffic");
-      const t = m && m.information && m.information[0];
+      const t = trafficFromMetrics(snaps[key] || []);
       if (!t) return null;
-      return { date: shift(key, -1), total: t.totalSessionCount, bot: t.totalBotSessionCount || 0, sessions: t.totalSessionCount - (t.totalBotSessionCount || 0), users: t.distinctUserCount };
-    }).filter((r) => r && r.bot <= r.total);
+      return { date: shift(key, -1), total: t.total, bot: t.bot, sessions: t.human, users: t.users };
+    }).filter(Boolean);
   }
 
   function lineChart(rows) {
@@ -153,6 +190,130 @@
 <p class="tr-note">This attributes swings by repo first. Next layer for root-cause is referrer and path shifts inside the top movers.</p>`;
   }
 
+  function buildCausalDrivers(site, rows, events) {
+    if (!rows.length) return null;
+    const latest = rows[rows.length - 1].date;
+    const days = 14;
+    const curStart = shift(latest, -(days - 1));
+    const prevEnd = shift(curStart, -1);
+    const prevStart = shift(prevEnd, -(days - 1));
+    const snaps = site.dailySnapshots || {};
+    const byDate = {};
+    Object.keys(snaps).forEach((key) => {
+      const d = shift(key, -1);
+      const t = trafficFromMetrics(snaps[key] || []);
+      if (t) byDate[d] = snaps[key];
+    });
+
+    function forEachDay(start, end, cb) {
+      for (let d = start; d <= end; d = shift(d, 1)) if (byDate[d]) cb(d, byDate[d]);
+    }
+    function aggMap(start, end, metricName, keyField, filterFn, normalizeKey) {
+      const out = new Map();
+      forEachDay(start, end, (_d, metrics) => {
+        metricRows(metrics, metricName).forEach((r) => {
+          let k = String(r[keyField] || "").trim();
+          if (normalizeKey) k = normalizeKey(k);
+          if (!k) return;
+          if (filterFn && !filterFn(k)) return;
+          const v = n(r.sessionsCount || r.visitsCount || 0);
+          out.set(k, (out.get(k) || 0) + v);
+        });
+      });
+      return out;
+    }
+    function deltaRows(curMap, prevMap, label) {
+      const keys = new Set([...curMap.keys(), ...prevMap.keys()]);
+      return [...keys].map((k) => {
+        const cur = curMap.get(k) || 0;
+        const prev = prevMap.get(k) || 0;
+        const delta = cur - prev;
+        return { key: k, cur, prev, delta, pct: pctSafe(cur, prev), label };
+      }).filter((r) => r.cur || r.prev).sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+    }
+
+    const refCur = aggMap(curStart, latest, "ReferrerUrl", "name", (k) => !isInternalReferrer(k), canonicalReferrer);
+    const refPrev = aggMap(prevStart, prevEnd, "ReferrerUrl", "name", (k) => !isInternalReferrer(k), canonicalReferrer);
+    const pageCur = aggMap(curStart, latest, "PopularPages", "url");
+    const pagePrev = aggMap(prevStart, prevEnd, "PopularPages", "url");
+
+    function avgRate(start, end, metricName, field) {
+      const vals = [];
+      forEachDay(start, end, (_d, metrics) => {
+        const r = metricRows(metrics, metricName)[0];
+        vals.push(n(r && r[field]));
+      });
+      return vals.length ? avg(vals) : 0;
+    }
+    const fr = [
+      { name: "Bot share", cur: (function () { let bot = 0, total = 0; forEachDay(curStart, latest, (_d, m) => { const t = trafficFromMetrics(m); bot += t.bot; total += t.total; }); return total ? (bot / total) * 100 : 0; })(), prev: (function () { let bot = 0, total = 0; forEachDay(prevStart, prevEnd, (_d, m) => { const t = trafficFromMetrics(m); bot += t.bot; total += t.total; }); return total ? (bot / total) * 100 : 0; })() },
+      { name: "Quick-backs", cur: avgRate(curStart, latest, "QuickbackClick", "sessionsWithMetricPercentage"), prev: avgRate(prevStart, prevEnd, "QuickbackClick", "sessionsWithMetricPercentage") },
+      { name: "Dead clicks", cur: avgRate(curStart, latest, "DeadClickCount", "sessionsWithMetricPercentage"), prev: avgRate(prevStart, prevEnd, "DeadClickCount", "sessionsWithMetricPercentage") },
+      { name: "Script errors", cur: avgRate(curStart, latest, "ScriptErrorCount", "sessionsWithMetricPercentage"), prev: avgRate(prevStart, prevEnd, "ScriptErrorCount", "sessionsWithMetricPercentage") },
+    ].map((r) => ({ ...r, delta: r.cur - r.prev }));
+
+    const ev = Array.isArray(events) ? events : [];
+    const inRange = (d, s, e) => d >= s && d <= e;
+    const evCur = ev.filter((x) => inRange(String(x.date || "").slice(0, 10), curStart, latest));
+    const evPrev = ev.filter((x) => inRange(String(x.date || "").slice(0, 10), prevStart, prevEnd));
+    const attendees = (arr) => arr.reduce((s, x) => s + n(x.attendees), 0);
+
+    return {
+      latest, curStart, prevStart, prevEnd,
+      ref: deltaRows(refCur, refPrev, "referrer"),
+      pages: deltaRows(pageCur, pagePrev, "page"),
+      friction: fr,
+      events: {
+        curCount: evCur.length,
+        prevCount: evPrev.length,
+        curAttendees: attendees(evCur),
+        prevAttendees: attendees(evPrev),
+      },
+    };
+  }
+
+  function causalSection(c) {
+    if (!c) return "";
+    const top = (rows) => rows.slice(0, 8).map((r) => `
+      <tr>
+        <td>${r.key}</td>
+        <td class="n">${fmt(r.cur)}</td>
+        <td class="n">${fmt(r.prev)}</td>
+        <td class="n ${r.delta >= 0 ? "up" : "dn"}">${fmtSigned(r.delta)}</td>
+        <td class="n ${r.delta >= 0 ? "up" : "dn"}">${r.pct == null ? "—" : `${r.pct >= 0 ? "+" : ""}${r.pct.toFixed(1)}%`}</td>
+      </tr>`).join("");
+
+    const frRows = c.friction.map((r) => `
+      <tr>
+        <td>${r.name}</td>
+        <td class="n">${r.cur.toFixed(2)}%</td>
+        <td class="n">${r.prev.toFixed(2)}%</td>
+        <td class="n ${r.delta <= 0 ? "up" : "dn"}">${r.delta >= 0 ? "+" : ""}${r.delta.toFixed(2)}pp</td>
+      </tr>`).join("");
+
+    const evDelta = c.events.curAttendees - c.events.prevAttendees;
+    const evCntDelta = c.events.curCount - c.events.prevCount;
+
+    return `
+<h2 class="tr-h">Causal impact signals: why spikes and drops happen</h2>
+<p class="tr-sub">Current window ${c.curStart} to ${c.latest} compared with previous ${c.prevStart} to ${c.prevEnd}. These are directional drivers, not strict proof.</p>
+<div class="tr-card">
+  <table class="tr-wk tr-tbl">
+    <thead><tr><th>Cadence signal</th><th class="n">Current 14d</th><th class="n">Previous 14d</th><th class="n">Delta</th></tr></thead>
+    <tbody>
+      <tr><td>Enablement events logged</td><td class="n">${fmt(c.events.curCount)}</td><td class="n">${fmt(c.events.prevCount)}</td><td class="n ${evCntDelta >= 0 ? "up" : "dn"}">${fmtSigned(evCntDelta)}</td></tr>
+      <tr><td>Total attendees across logged events</td><td class="n">${fmt(c.events.curAttendees)}</td><td class="n">${fmt(c.events.prevAttendees)}</td><td class="n ${evDelta >= 0 ? "up" : "dn"}">${fmtSigned(evDelta)}</td></tr>
+    </tbody>
+  </table>
+</div>
+<h3 class="tr-h3">External referrer movers</h3>
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Referrer</th><th class="n">Current</th><th class="n">Previous</th><th class="n">Change</th><th class="n">Change %</th></tr></thead><tbody>${top(c.ref)}</tbody></table></div>
+<h3 class="tr-h3">Landing-page movers</h3>
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Page URL</th><th class="n">Current</th><th class="n">Previous</th><th class="n">Change</th><th class="n">Change %</th></tr></thead><tbody>${top(c.pages)}</tbody></table></div>
+<h3 class="tr-h3">Friction and quality shifts</h3>
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Signal</th><th class="n">Current</th><th class="n">Previous</th><th class="n">Change</th></tr></thead><tbody>${frRows}</tbody></table></div>`;
+  }
+
 
   /* Full-history averages. Exact daily rows cover the recent period; earlier history is
      3-day rolling windows (key K covers actual days K-3..K-1), spread evenly across the
@@ -211,7 +372,7 @@
 <details class="tr-card"><summary style="cursor:pointer;font-weight:600">Show all ${weekRows.length} weeks</summary><table class="tr-wk tr-tbl" style="margin-top:.6rem"><thead><tr><th>Week of</th><th class="n">Days covered</th><th class="n">Avg per day</th><th class="n">Week total</th><th>Basis</th></tr></thead><tbody>${weekRows.map((w) => `<tr><td>${w.k}</td><td class="n">${w.n}</td>${td(w.av)}${td(w.av * 7)}<td>${w.basis}</td></tr>`).join("")}</tbody></table></details>
 <p class="tr-note">Exact = one Clarity snapshot per day (from Sep 18). Estimated = earlier history, stored as overlapping 3-day windows, spread evenly across the days each covers; real single days will be spikier. Gaps in collection (Jul 1 to 5, Jul 24 to 26, Aug 5 to 11) are not filled in, so those days are excluded and the averages describe the days we have. Totals marked ~ are the average scaled to the full month.</p>`;
   }
-  function render(rows, site, repos) {
+  function render(rows, site, repos, events) {
     const first = rows[0].date, last = rows[rows.length - 1].date;
     const l7 = rows.slice(-7), p7 = rows.slice(-14, -7);
     const l7s = sum(l7.map((r) => r.sessions)), p7s = sum(p7.map((r) => r.sessions));
@@ -226,8 +387,9 @@
     const wk = Object.keys(weeks).sort().map((k) => ({ start: k, days: weeks[k].length, s: sum(weeks[k].map((r) => r.sessions)) })).filter((w) => w.days === 7);
     const wkMax = Math.max(...wk.map((w) => w.s));
     const wkRows = wk.map((w, i) => { const c = i ? pct(w.s, wk[i - 1].s) : null; return `<tr><td>Week of ${w.start.slice(5)}</td><td class="n">${fmt(w.s)}</td><td class="bar"><span style="width:${((w.s / wkMax) * 100).toFixed(0)}%"></span></td><td class="n ${c == null ? "" : c >= 0 ? "up" : "dn"}">${c == null ? "" : (c >= 0 ? "+" : "") + c.toFixed(1) + "%"}</td></tr>`; }).join("");
-    const d7 = pct(l7s, p7s);
+    const d7 = p7s ? pct(l7s, p7s) : 0;
     const two = wk.length >= 3 ? ` and <b>${pct(wk[wk.length - 1].s, wk[wk.length - 3].s).toFixed(0)}%</b> above two weeks earlier` : "";
+    const causal = buildCausalDrivers(site, rows, events);
 
     document.getElementById("tr-meta").textContent = `Data ${first} to ${last} · Microsoft Clarity daily snapshots · human sessions only`;
     document.getElementById("tr-body").innerHTML = `
@@ -241,6 +403,7 @@
 <h2 class="tr-h">Trend over time</h2><p class="tr-sub">Daily human sessions with a 7-day average. Shaded columns are weekends.</p>
 <div class="tr-card">${lineChart(rows)}<div class="tr-legend"><span><i></i>Sessions (daily)</span><span><i style="height:4px"></i>7-day average</span><span><i style="background:#8764b8"></i>Distinct users (daily)</span></div></div>
 ${repoVolatilitySection(repoVolatility(repos))}
+${causalSection(causal)}
 <h2 class="tr-h">Week by week</h2><p class="tr-sub">Complete Monday to Sunday weeks only.</p>
 <div class="tr-card"><table class="tr-wk">${wkRows}</table></div>
 <h2 class="tr-h">Weekday pattern</h2><p class="tr-sub">Average per day of the week. Traffic is concentrated Monday to Friday, with ${best.n} strongest.</p>
@@ -250,13 +413,14 @@ ${repoVolatilitySection(repoVolatility(repos))}
 ${historyTables(buildHistory(site, rows))}<p class="tr-note" style="margin-top:1.6rem">Human sessions = Clarity total sessions minus Clarity bot sessions. Rows where the bot count exceeds the total (an early multi-day backfill) are excluded.</p>`;
   }
 
-  fetch(DATA_URL).then((r) => r.json()).then((j) => {
+  Promise.all([
+    fetch(DATA_URL).then((r) => r.json()),
+    fetch("events.json").then((r) => (r.ok ? r.json() : [])).catch(() => []),
+  ]).then(([j, events]) => {
     const site = (j.sites && j.sites["analytics-hub"]) || {};
     const rows = rowsFrom(site);
     if (rows.length < 8) throw new Error("not enough data");
-    render(rows, site, j.repos || {});
+    render(rows, site, j.repos || {}, events);
   }).catch(() => { document.getElementById("tr-meta").textContent = "Traffic data could not be loaded."; });
 })();
-
-
 
