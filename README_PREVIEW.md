@@ -8,8 +8,7 @@
 
 <br>
 
-[![Built by Microsoft](https://img.shields.io/badge/Built%20by-Microsoft-0078d4?style=for-the-badge&logo=microsoft&logoColor=white)](#-about-the-team)
-[![Repositories](https://img.shields.io/badge/Repositories-9-8661c5?style=for-the-badge&logo=github&logoColor=white)](#-quick-links)
+All reports and guides can be found on the [Analytics Hub](https://microsoft.github.io/Analytics-Hub/).
 
 <br>
 
