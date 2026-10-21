@@ -60,6 +60,13 @@
 .t-no{background:color-mix(in srgb,#d9534f 14%,transparent);color:#c0392b}
 .t-part{background:color-mix(in srgb,#b8860b 16%,transparent);color:#9a6f00}
 .t-yes{background:color-mix(in srgb,#107c10 14%,transparent);color:#107c10}
+.dx-tag[data-tip]{position:relative;cursor:help;outline:none}
+.dx-tag[data-tip]::after{content:"i";display:inline-flex;align-items:center;justify-content:center;width:.95rem;height:.95rem;margin-left:.35rem;border-radius:999px;border:1.5px solid currentColor;font-size:.62rem;font-weight:800;font-style:italic;font-family:Georgia,serif;text-transform:none;vertical-align:-.1em}
+.dx-tag[data-tip]::before{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);z-index:20;width:290px;padding:.65rem .8rem;border-radius:10px;background:#1b1b24;color:#fff;font-size:.82rem;font-weight:500;letter-spacing:0;text-transform:none;line-height:1.45;white-space:normal;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .15s,transform .15s;pointer-events:none}
+.dx-tag[data-tip]:hover::before,.dx-tag[data-tip]:focus::before{opacity:1;visibility:visible;transform:none}
+.dx-tag[data-tip]:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+.dx-opt .dx-tag[data-tip]::before{left:auto;right:0}
+.dx-hint{font-size:.82rem;color:var(--text-muted);margin:-.4rem 0 .6rem}
 .dx-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin:1rem 0}
 .dx-opt{border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;background:var(--bg-alt);display:flex;flex-direction:column}
 .dx-opt.rec{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
@@ -183,17 +190,18 @@
   </div>
 
   <h3>Each likely cause, tested</h3>
+  <p class="dx-hint">Hover or tap any verdict label (marked <b>i</b>) to see what it means.</p>
   <div class="dx-card">
     <table class="dx-tbl">
       <thead><tr><th>Possible cause</th><th>Verdict</th><th>Evidence</th></tr></thead>
       <tbody>
-        <tr><td>Audience saturation</td><td><span class="dx-tag t-no">Not yet</span></td><td>Distinct Hub users per day rose 60% since mid September and unique cloners stayed at or near record levels.</td></tr>
-        <tr><td>Fewer distinct people</td><td><span class="dx-tag t-no">No</span></td><td>Hub distinct users per day went from 304 to 487.</td></tr>
-        <tr><td>Fewer meetings or enablement sessions</td><td><span class="dx-tag t-no">No</span></td><td>Large sessions (400+ invitees) ran every week through October, including Oct 7, Oct 12 and Oct 19.</td></tr>
-        <tr><td>No new report recently</td><td><span class="dx-tag t-part">Partly</span></td><td>ValueLens 2.0 (Oct 5) and AI-in-One v2 (Oct 6) shipped but did not offset the drop. New GitHub stars slowed from about 60 a week after the August workshop to about 10 a week.</td></tr>
-        <tr><td>Post-August cool-down</td><td><span class="dx-tag t-part">Partly</span></td><td>Repos with no Hub changes still fell 43%, versus 52% for repos that had their links changed. Search traffic to GitHub halved.</td></tr>
-        <tr><td>Traffic moved to the Hub</td><td><span class="dx-tag t-yes">Yes, main driver</span></td><td>Hub up, GitHub down, from the same week. Teams and Hub-sent GitHub visits account for 68% of the drop.</td></tr>
-        <tr><td>Cookie banner or data outage</td><td><span class="dx-tag t-no">No</span></td><td>Users per session held steady before and after the consent banner. GitHub data is complete through Oct 20.</td></tr>
+        <tr><td>Audience saturation</td><td><span class="dx-tag t-no" tabindex="0" data-tip="No sign of saturation today: distinct users are still rising. Our audience is mostly internal and finite, so it will level off eventually. The warning sign to watch is distinct users flattening while visits per person rise.">Not yet</span></td><td>Distinct Hub users per day rose 60% since mid September and unique cloners stayed at or near record levels.</td></tr>
+        <tr><td>Fewer distinct people</td><td><span class="dx-tag t-no" tabindex="0" data-tip="Ruled out. The data shows the opposite: more distinct people are visiting the Hub each day than in September.">No</span></td><td>Hub distinct users per day went from 304 to 487.</td></tr>
+        <tr><td>Fewer meetings or enablement sessions</td><td><span class="dx-tag t-no" tabindex="0" data-tip="Ruled out. Large enablement sessions kept running every week, so session cadence did not drop when GitHub views did.">No</span></td><td>Large sessions (400+ invitees) ran every week through October, including Oct 7, Oct 12 and Oct 19.</td></tr>
+        <tr><td>No new report recently</td><td><span class="dx-tag t-part" tabindex="0" data-tip="Contributes, but does not explain the sharp drop. Early October launches did not stop it, though momentum (new GitHub stars per week) has slowed since the August peak.">Partly</span></td><td>ValueLens 2.0 (Oct 5) and AI-in-One v2 (Oct 6) shipped but did not offset the drop. New GitHub stars slowed from about 60 a week after the August workshop to about 10 a week.</td></tr>
+        <tr><td>Post-August cool-down</td><td><span class="dx-tag t-part" tabindex="0" data-tip="Real, but the smaller share, roughly a third of the drop. Repos we did not change still fell and search traffic halved, which is a natural fade after the August workshop surge.">Partly</span></td><td>Repos with no Hub changes still fell 43%, versus 52% for repos that had their links changed. Search traffic to GitHub halved.</td></tr>
+        <tr><td>Traffic moved to the Hub</td><td><span class="dx-tag t-yes" tabindex="0" data-tip="The biggest explanation, about two thirds of the drop. Visitors now evaluate and download on the Hub instead of GitHub, so GitHub counts fewer views even though people are still getting the templates.">Yes, main driver</span></td><td>Hub up, GitHub down, from the same week. Teams and Hub-sent GitHub visits account for 68% of the drop.</td></tr>
+        <tr><td>Cookie banner or data outage</td><td><span class="dx-tag t-no" tabindex="0" data-tip="Ruled out. Counts look consistent before and after the cookie banner went live, and no days of data are missing.">No</span></td><td>Users per session held steady before and after the consent banner. GitHub data is complete through Oct 20.</td></tr>
       </tbody>
     </table>
   </div>
@@ -218,12 +226,12 @@
   <p class="dx-sub">The first two fix the measurement so we see the real picture. The rest address the genuine fade. They can be combined.</p>
   <div class="dx-opts">
     <div class="dx-opt rec">
-      <h3>A. Let GitHub credit the Hub again <span class="dx-tag t-yes">Recommended</span></h3>
+      <h3>A. Let GitHub credit the Hub again <span class="dx-tag t-yes" tabindex="0" data-tip="Recommended because it is quick, low risk, and fixes the measurement first, so every other decision is based on the real picture.">Recommended</span></h3>
       <p>Stop hiding the source on links from the Hub to our own GitHub repos. Keeps the security setting that matters, restores Hub attribution in GitHub reporting.</p>
       <div class="meta"><span>Effort: under 1 hour</span><span>Fixes: measurement</span><span>Visible in about 14 days</span></div>
     </div>
     <div class="dx-opt rec">
-      <h3>B. Report one combined reach number <span class="dx-tag t-yes">Recommended</span></h3>
+      <h3>B. Report one combined reach number <span class="dx-tag t-yes" tabindex="0" data-tip="Recommended because GitHub views alone now undercount our reach. One combined number stops a channel shift from looking like a loss of traction.">Recommended</span></h3>
       <p>Track Hub sessions plus repo views plus unique cloners together. GitHub views alone now undercount by design, because the Hub is where people evaluate and download.</p>
       <div class="meta"><span>Effort: half a day</span><span>Fixes: measurement</span><span>Visible immediately</span></div>
     </div>
