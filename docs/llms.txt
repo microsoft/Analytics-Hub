@@ -12,8 +12,17 @@
 
 - Home: https://microsoft.github.io/Analytics-Hub/
 - Explore Reports: https://microsoft.github.io/Analytics-Hub/explore-reports/
+- Analytics Hub app: https://microsoft.github.io/Analytics-Hub/analytics-hub-app/
 - Case Studies: https://microsoft.github.io/Analytics-Hub/case-studies/
 - Team: https://microsoft.github.io/Analytics-Hub/team/
+
+## Analytics Hub app (installed, not a template)
+
+The Analytics Hub app (repository title "Analytics Hub for Microsoft Copilot") shows how an organisation uses Microsoft 365 Copilot and agents, and the hours and value they deliver. The templates in the catalog are downloaded and connected to your own data. The app is installed instead: one installer sets up the data pipeline, models and reports in your own tenant, on Microsoft Fabric or Azure, and refreshes them daily. Its installer can also publish the ValueLens, Consumption Central and Agent Evaluator Power BI reports.
+
+- Page: https://microsoft.github.io/Analytics-Hub/analytics-hub-app/
+- Repository, with the current prerequisites, costs and set-up steps: https://github.com/microsoft/AnalyticsHub-Dashboard
+- Latest release: https://github.com/microsoft/AnalyticsHub-Dashboard/releases/latest
 
 ## MS Learn Watcher (live documentation-change data for AI agents)
 

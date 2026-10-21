@@ -219,6 +219,132 @@
   </div>
 </section>
 
+<!-- =========================================================== ANALYTICS HUB APP -->
+<style>
+  /* The one installed product on a site of templates, so it sits first under
+     the hero and says plainly how it differs from the templates. A div, not a
+     section, so the alternating band backgrounds below keep their order. */
+  .band.aha-band{padding:56px 0 64px;border-top:1px solid var(--border);
+    background:radial-gradient(1100px 380px at 88% 0%,color-mix(in srgb,#8B5CF6 9%,transparent),transparent 70%),
+               radial-gradient(760px 300px at 0% 38%,color-mix(in srgb,#0078d4 7%,transparent),transparent 70%),var(--bg);}
+  .aha-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:2.4rem;align-items:center;
+    padding:2.1rem 2.2rem;border-radius:18px;border:1.5px solid transparent;box-shadow:var(--shadow);
+    background:linear-gradient(var(--surface),var(--surface)) padding-box,
+               linear-gradient(120deg,#0078d4,#8B5CF6 55%,#E24C8F) border-box;}
+  .aha-pill{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;padding:3px 12px 3px 3px;border-radius:999px;
+    font-size:12.5px;font-weight:700;color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 9%,transparent);border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);}
+  .aha-pill b{padding:2px 9px;border-radius:999px;color:#fff;font-size:11px;letter-spacing:.06em;
+    background:linear-gradient(100deg,#0078d4,#8B5CF6);}
+  .aha-title{margin:0 0 .6rem;font-size:clamp(24px,2.4vw,32px);line-height:1.2;letter-spacing:-.01em;font-weight:600;}
+  .aha-accent{color:var(--accent);}
+  .aha-lead{margin:0 0 1rem;font-size:16px;line-height:1.55;color:var(--text-soft);max-width:56ch;}
+  .aha-points{list-style:none;margin:0 0 1.4rem;padding:0;display:grid;gap:.5rem;}
+  .aha-points li{position:relative;padding-left:29px;font-size:14.5px;line-height:1.45;}
+  .aha-points li::before{content:"";position:absolute;left:0;top:1px;width:19px;height:19px;border-radius:50%;
+    background:linear-gradient(135deg,#0078d4,#8B5CF6);}
+  .aha-points li::after{content:"";position:absolute;left:7px;top:5px;width:5px;height:9px;
+    border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);}
+  .aha-ctas{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .aha-media{display:block;color:inherit;text-decoration:none;}
+  .aha-frame{display:block;border-radius:12px;overflow:hidden;background:#0d1117;transition:transform .2s;
+    border:1px solid color-mix(in srgb,var(--border) 70%,transparent);
+    box-shadow:0 18px 44px -18px rgba(40,48,90,.55),0 2px 8px -2px rgba(40,48,90,.25);}
+  [data-theme="dark"] .aha-frame{box-shadow:0 18px 44px -18px rgba(0,0,0,.75),0 2px 8px -2px rgba(0,0,0,.45);}
+  .aha-media:hover .aha-frame{transform:translateY(-3px);}
+  .aha-chrome{display:flex;gap:6px;padding:9px 12px;background:#1b2130;}
+  .aha-chrome i{width:9px;height:9px;border-radius:50%;background:#3a4256;}
+  .aha-frame picture,.aha-frame img{display:block;width:100%;height:auto;}
+  .aha-frame img{aspect-ratio:1100/658;}
+  .aha-cap{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--text-soft);}
+  .aha-media:hover .aha-cap{color:var(--accent);}
+  .aha-dot{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;
+    color:#fff;font-size:9px;background:linear-gradient(135deg,#0078d4,#8B5CF6);}
+  /* Which one is for me? */
+  .aha-which{margin-top:1.4rem;padding:1.25rem 1.4rem 1.4rem;border-radius:14px;background:var(--surface);
+    border:1px solid var(--border);box-shadow:var(--shadow-sm);}
+  .aha-which-h{display:flex;align-items:center;gap:10px;margin:0 0 1rem;font-size:18px;font-weight:700;letter-spacing:-.01em;}
+  .aha-which-h svg{width:22px;height:22px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .aha-which-grid{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:14px;align-items:stretch;}
+  .aha-opt{display:flex;gap:14px;align-items:flex-start;padding:1rem 1.1rem;border-radius:12px;
+    border:1px solid var(--border);background:var(--bg-alt);}
+  .aha-opt.is-app{border:1.5px solid transparent;
+    background:linear-gradient(color-mix(in srgb,#8B5CF6 6%,var(--surface)),color-mix(in srgb,#0078d4 5%,var(--surface))) padding-box,
+               linear-gradient(120deg,#0078d4,#8B5CF6 55%,#E24C8F) border-box;}
+  .aha-opt-ico{flex:0 0 auto;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    background:var(--surface);border:1px solid var(--border);}
+  .aha-opt.is-app .aha-opt-ico{background:linear-gradient(135deg,#0078d4,#8B5CF6);border:0;}
+  .aha-opt-ico svg{width:21px;height:21px;fill:none;stroke:var(--text);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .aha-opt.is-app .aha-opt-ico svg{stroke:#fff;}
+  .aha-opt-name{margin:0 0 .2rem;font-size:15.5px;font-weight:700;}
+  .aha-opt-line{margin:0 0 .55rem;font-size:14.5px;line-height:1.5;color:var(--text-soft);}
+  .aha-opt-link{font-size:13.5px;font-weight:700;color:var(--accent);text-decoration:none;}
+  .aha-opt-link:hover{text-decoration:underline;}
+  .aha-vs{align-self:center;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;
+    font-size:12px;font-weight:800;text-transform:uppercase;color:var(--text-muted);
+    background:var(--surface);border:1px solid var(--border-strong);}
+  @media (max-width:900px){
+    .aha-card{grid-template-columns:1fr;gap:1.6rem;padding:1.5rem 1.3rem;}
+    .aha-which-grid{grid-template-columns:1fr;}
+    .aha-vs{justify-self:center;margin:-4px 0;}
+  }
+  @media (prefers-reduced-motion:reduce){.aha-media:hover .aha-frame{transform:none;}}
+</style>
+<div class="band aha-band" id="analytics-hub-app">
+  <div class="wrap">
+    <div class="aha-card">
+      <div class="aha-copy">
+        <p class="aha-pill"><b>NEW</b> The Analytics Hub app</p>
+        <h2 class="aha-title">Install it once. See Copilot adoption, value and cost, <span class="aha-accent">every day.</span></h2>
+        <p class="aha-lead">See how your organisation uses Microsoft 365 Copilot and agents, and the hours and value they deliver, in one app that runs in your own tenant.</p>
+        <ul class="aha-points">
+          <li>Runs on Microsoft Fabric or Azure, in your own tenant</li>
+          <li>Adoption, value, consumption, readiness, agents and governance, in one app</li>
+          <li>Can also publish the ValueLens, Consumption Central and Agent Evaluator reports</li>
+        </ul>
+        <div class="aha-ctas">
+          <a class="btn btn-primary" href="analytics-hub-app/">See the Analytics Hub app →</a>
+          <a class="btn btn-ghost" href="https://github.com/microsoft/AnalyticsHub-Dashboard#getting-started" target="_blank" rel="noopener">Get it on GitHub ↗</a>
+        </div>
+      </div>
+      <a class="aha-media" href="analytics-hub-app/#watch">
+        <span class="aha-frame">
+          <span class="aha-chrome" aria-hidden="true"><i></i><i></i><i></i></span>
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/executive.png">
+            <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/AnalyticsHub-Preview.gif" width="1100" height="658" loading="lazy" decoding="async"
+                 alt="The Analytics Hub app moving through its pages, with sample data">
+          </picture>
+        </span>
+        <span class="aha-cap"><span class="aha-dot" aria-hidden="true">▶</span> The app, page by page · 2-minute tour</span>
+      </a>
+    </div>
+
+    <div class="aha-which" id="which-one-home">
+      <h3 class="aha-which-h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M12 6h7l2 2.5-2 2.5h-7M12 13H5l-2 2.5L5 18h7"/></svg> Which one is for me?</h3>
+      <div class="aha-which-grid">
+        <div class="aha-opt">
+          <span class="aha-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14"/></svg></span>
+          <div>
+            <p class="aha-opt-name">Templates</p>
+            <p class="aha-opt-line">Download one and connect your own data.</p>
+            <a class="aha-opt-link" href="choose-report/">Browse the templates →</a>
+          </div>
+        </div>
+        <span class="aha-vs" aria-hidden="true">or</span>
+        <div class="aha-opt is-app">
+          <span class="aha-opt-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span>
+          <div>
+            <p class="aha-opt-name">The Analytics Hub app</p>
+            <p class="aha-opt-line">One installer sets up the data pipeline, models and reports in your own tenant, and refreshes them daily.</p>
+            <a class="aha-opt-link" href="analytics-hub-app/#which-one">Compare in detail →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- =========================================================== COMMUNITY -->
 <section class="band community-band" id="community-home">
   <div class="wrap">
@@ -343,8 +469,29 @@
   .flagship-band .flagship-head .section-title.center{text-align:left;margin:0;}
   .flagship-band .section-lead.center{text-align:left;max-width:74ch;margin:.7rem 0 0;}
   @media (max-width:520px){.flagship-band .flagship-head{flex-direction:column;align-items:flex-start;gap:8px;}}
+  /* Compact trio: the Analytics Hub app now leads Home, so the three cards
+     drop their point lists and share CTA labels. Three across on wide
+     screens, video beside the copy on tablets, stacked on phones. The reset
+     undoes the global full-row rule for the third card. */
+  .flagship-band.is-compact{padding:72px 0;}
+  .flagship-band.is-compact .flagship-grid{grid-template-columns:1fr;gap:1.1rem;margin-top:1.5rem;}
+  .flagship-band.is-compact .flagship-body{padding:1rem 1.1rem 1.1rem;}
+  .flagship-band.is-compact .flagship-body h3{font-size:1.25rem;margin-bottom:.35rem;}
+  .flagship-band.is-compact .flagship-desc{font-size:.9rem;line-height:1.5;margin-bottom:.9rem;}
+  .flagship-band.is-compact .flagship-ctas .btn{padding:8px 13px;font-size:13.5px;}
+  .flagship-band.is-compact .flagship-yt{margin-top:.6rem;}
+  @media (min-width:1100px){
+    .flagship-band.is-compact .flagship-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+    .flagship-band.is-compact .flagship-card:nth-child(3){grid-column:auto;flex-direction:column;margin-top:0;}
+    .flagship-band.is-compact .flagship-card:nth-child(3) .flagship-media{flex:none;aspect-ratio:16/9;}
+    .flagship-band.is-compact .flagship-card:nth-child(3) .flagship-body{flex:1 1 auto;justify-content:flex-start;padding:1rem 1.1rem 1.1rem;}
+  }
+  @media (min-width:641px) and (max-width:1099px){
+    .flagship-band.is-compact .flagship-card{flex-direction:row;align-items:stretch;}
+    .flagship-band.is-compact .flagship-media{flex:0 0 44%;aspect-ratio:auto;min-height:190px;}
+  }
 </style>
-<section class="band flagship-band" id="flagship">
+<section class="band flagship-band is-compact" id="flagship">
   <div class="wrap">
     <div class="flagship-head">
     <span class="flagship-logo" aria-hidden="true">
@@ -369,7 +516,7 @@
         <h2 class="section-title center">Three new dashboards, built to work together</h2>
       </div>
     </div>
-    <p class="section-lead center">One measures whether Copilot is landing. One tracks what it costs. One goes deep on the agents you have built in Copilot Studio. Run any on its own, or together for value, spend and agent quality side by side. Sample data ships with each, so you can look before setting anything up.</p>
+    <p class="section-lead center">One measures whether Copilot is landing, one tracks what it costs, and one goes deep on your Copilot Studio agents. Each is a template: download it and connect your own data. The Analytics Hub app can also publish all three for you.</p>
 
     <div class="flagship-grid">
 
@@ -385,15 +532,9 @@
           <p class="flagship-desc">
             Turns every Copilot and agent signal into hours saved, assisted value,
             and adoption maturity — a defensible ROI story rather than a seat count.
-            Covers licence readiness for renewals and agent governance for sprawl.
           </p>
-          <ul class="flagship-points">
-            <li>Adoption &amp; reach, activity &amp; value, usage maturity</li>
-            <li>Licence readiness — who to reassign, who to keep</li>
-            <li>SharePoint, Fabric and Dataverse paths</li>
-          </ul>
           <div class="flagship-ctas">
-            <a class="btn btn-primary" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">Get ValueLens ↗</a>
+            <a class="btn btn-primary" href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">Get it on GitHub ↗</a>
             <a class="btn btn-ghost" href="choose-report/#d=value-lens">See the detail →</a>
           </div>
           <a class="yt-watch flagship-yt" href="https://youtu.be/P0uHJb13ZR0" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
@@ -412,16 +553,11 @@
           <p class="flagship-desc">
             One template for Copilot credit consumption and cost across four
             products — Cowork / Work IQ, Copilot Studio, GitHub Copilot and
-            Azure AI Foundry. Four portals become one view.
+            Azure AI Foundry.
           </p>
-          <ul class="flagship-points">
-            <li>Group spend by department, cost centre, country, manager</li>
-            <li>Forecast to end of billing period, overage vs prepaid packs</li>
-            <li>Local CSV, Fabric and Viva Direct paths</li>
-          </ul>
           <div class="flagship-ctas">
-            <a class="btn btn-primary" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Get Consumption Central ↗</a>
-            <a class="btn btn-ghost" href="cowork-billing/">Cost resources →</a>
+            <a class="btn btn-primary" href="https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" target="_blank" rel="noopener">Get it on GitHub ↗</a>
+            <a class="btn btn-ghost" href="choose-report/#d=consumption-central">See the detail →</a>
           </div>
           <a class="yt-watch flagship-yt" href="https://youtu.be/JdOVx_6kw5Y" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
         </div>
@@ -439,16 +575,10 @@
           <p class="flagship-desc">
             Goes deep on the agents you have actually built in Copilot Studio —
             what they resolve, what people ask them for, and where the next
-            improvement is. Reads the conversation transcripts themselves, so
-            every number has a real conversation behind it.
+            improvement is.
           </p>
-          <ul class="flagship-points">
-            <li>Resolution and containment, with designed handoffs counted as success</li>
-            <li>Topics, knowledge grounding, CSAT and a ranked fix list</li>
-            <li>Local CSV, Dataverse and Fabric paths — one template</li>
-          </ul>
           <div class="flagship-ctas">
-            <a class="btn btn-primary" href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio" target="_blank" rel="noopener">Get Agent Evaluator ↗</a>
+            <a class="btn btn-primary" href="https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio" target="_blank" rel="noopener">Get it on GitHub ↗</a>
             <a class="btn btn-ghost" href="choose-report/#d=agent-evaluator">See the detail →</a>
           </div>
           <a class="yt-watch flagship-yt" href="https://youtu.be/Tg594Hst5MY" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
@@ -705,6 +835,7 @@
       </div>
       <div>
         <div class="footer-heading">Reports</div>
+        <a href="analytics-hub-app/">Analytics Hub app</a>
         <a href="https://github.com/microsoft/AI-in-One-Dashboard" target="_blank" rel="noopener">AI-in-One Dashboard</a>
         <a href="https://github.com/microsoft/DecodingSuperUsage" target="_blank" rel="noopener">Super Usage Adoption</a>
         <a href="https://github.com/microsoft/superuserimpact" target="_blank" rel="noopener">Super User Impact</a>

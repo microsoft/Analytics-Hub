@@ -30,6 +30,7 @@
   const PAGES = [
     { kind: "page",   title: "Home",            href: url(""),                  hint: "Landing page" },
     { kind: "page",   title: "Explore Reports",   href: url("choose-report/"),      hint: "Picker · search reports by question" },
+    { kind: "page",   title: "Analytics Hub app", href: url("analytics-hub-app/"),  hint: "One installer · runs in your tenant" },
     { kind: "page",   title: "Case Studies",    href: url("case-studies/"),     hint: "Customer stories + measurable wins" },
     { kind: "page",   title: "Team",            href: url("team/"),             hint: "Who builds the Hub" },
     // Pages Analytics intentionally omitted — direct-URL-only.

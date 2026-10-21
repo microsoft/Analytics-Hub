@@ -1660,6 +1660,13 @@ html[data-theme="dark"]{
 }
 .pk-bar p{ margin:0; font-size:14px; color:var(--mk-soft); flex:1 1 320px; }
 .pk-bar b{ color:var(--mk-text); font-weight:700; }
+/* Templates or the installed app: the gradient border marks the app, as on Home. */
+.pk-bar--app{
+  margin-bottom:12px; border:1.5px solid transparent;
+  background:linear-gradient(var(--mk-surface),var(--mk-surface)) padding-box,
+             linear-gradient(120deg,#0078d4,#8B5CF6 55%,#E24C8F) border-box;
+}
+.pk-bar--app + .pk-bar{ margin-top:0; }
 @media (max-width:860px){
   .pk-how{ grid-template-columns:1fr; }
   .pk-step3 + .pk-step3{ border-left:0; border-top:1px solid var(--mk-border); padding-left:0; }
@@ -1918,6 +1925,12 @@ html.mk-embed main.mk-page{ display:none !important; }
           </div>
         </div>
 
+        <div class="pk-bar pk-bar--app" id="templates-or-app">
+          <p><b>Templates or the Analytics Hub app?</b> You download everything on this page and
+            set it up yourself. The Analytics Hub app is one installer that sets up the data
+            pipeline, models and reports in your own tenant, and refreshes them daily.</p>
+          <a class="pk-cta" href="../analytics-hub-app/">See the Analytics Hub app</a>
+        </div>
         <div class="pk-bar">
           <p><b>Nothing here fits?</b> These reports get built because customers ask for them.
             Vote in polls and tell us what is missing.</p>
@@ -3659,7 +3672,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/archive/refs/heads/main.zip",
       "preview": "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
       "demoVideo": "https://youtu.be/P0uHJb13ZR0",
-      "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric (one-click installer), and Power Automate + Dataverse deployment paths.",
+      "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric, and Power Automate + Dataverse deployment paths.",
       "meta": {
         "audience": "Business Value Advisory, execs, program leads",
         "license": "Purview Audit Reader",
@@ -3681,7 +3694,7 @@ html.mk-embed main.mk-page{ display:none !important; }
             "url": "https://www.microsoft.com/download/details.aspx?id=58494"
           },
           {
-            "label": "Fabric capacity for the one-click installer, or Power BI Pro for the SharePoint path"
+            "label": "Fabric capacity for the Fabric path, or Power BI Pro for the SharePoint path"
           }
         ]
       },
@@ -5074,8 +5087,8 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     <section class="cc-panel" role="tabpanel" data-cc="3">
       <span class="cc-time">&#9201; Pipeline-orchestrated &middot; Fabric capacity (F2+ or trial), Premium or PPU &middot; recommended at scale</span>
       <p>PySpark notebooks pull straight from Graph into a Lakehouse, a processor builds the curated fact table, and an Import-mode template reads it. No file caps, and the optional feedback and Agent 365 sources plug into the same model. Needs the app registration above, with its secret in Key Vault.</p>
-      <div class="cc-callout cc-info"><span class="ct">Fastest way: the one-click installer</span>
-        A Windows installer now sets everything up in your tenant and gives you the dashboard as a Fabric app called <strong>Analytics Hub</strong>, with no terminal and no Power BI Desktop. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/releases/latest/download/AnalyticsHubInstaller.exe" target="_blank" rel="noopener noreferrer"><strong>Download AnalyticsHubInstaller.exe</strong></a>, open it, and follow the steps in your browser. You still need a Fabric capacity (F2+ or trial), an Azure subscription for a Key Vault, and permission to register an Entra app. An admin grants the Graph consent and turns on three Fabric tenant settings (<em>Service principals can call Fabric public APIs</em>, <em>Semantic Model Execute Queries REST API</em>, and <em>Fabric App items</em>). Check <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#before-you-start" target="_blank" rel="noopener noreferrer">what you need</a> first. Prefer to wire it by hand? The manual steps below use the same files.</div>
+      <div class="cc-callout cc-info"><span class="ct">Want it installed for you? Use the Analytics Hub app</span>
+        Its installer sets up the data pipeline, models and reports in your own tenant, on Fabric or Azure, and refreshes them daily. It publishes this ValueLens report too. <a href="../analytics-hub-app/"><strong>See the Analytics Hub app</strong></a>. Prefer to set it up by hand? Follow the steps below.</div>
       <p class="cc-small"><strong>Manual setup</strong> (no installer), the same path the walkthrough video follows:</p>
       <figure class="vl-setup-video">
         <iframe src="https://www.youtube-nocookie.com/embed/-pAuSQSP5pc?rel=0&amp;enablejsapi=1"
