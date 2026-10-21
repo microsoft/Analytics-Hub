@@ -49,7 +49,19 @@
     try { host = new URL(host).hostname.toLowerCase(); } catch (_) {
       host = host.replace(/^https?:\/\//, "").replace(/\/+$/, "");
     }
-    return host;
+    return host.replace(/^www\./, "");
+  }
+
+  function correlation(xs, ys) {
+    if (!xs.length || xs.length !== ys.length) return null;
+    const mx = avg(xs), my = avg(ys);
+    let num = 0, dx = 0, dy = 0;
+    for (let i = 0; i < xs.length; i++) {
+      const a = xs[i] - mx, b = ys[i] - my;
+      num += a * b; dx += a * a; dy += b * b;
+    }
+    if (!dx || !dy) return null;
+    return num / Math.sqrt(dx * dy);
   }
 
   function rowsFrom(site) {
@@ -190,7 +202,7 @@
 <p class="tr-note">This attributes swings by repo first. Next layer for root-cause is referrer and path shifts inside the top movers.</p>`;
   }
 
-  function buildCausalDrivers(site, rows, events) {
+  function buildCausalDrivers(site, rows, events, peerEngagement) {
     if (!rows.length) return null;
     const latest = rows[rows.length - 1].date;
     const days = 14;
@@ -258,6 +270,30 @@
     const evPrev = ev.filter((x) => inRange(String(x.date || "").slice(0, 10), prevStart, prevEnd));
     const attendees = (arr) => arr.reduce((s, x) => s + n(x.attendees), 0);
 
+    const byTraffic = new Map(rows.map((r) => [r.date, r]));
+    const peerDays = Array.isArray(peerEngagement && peerEngagement.days) ? peerEngagement.days : [];
+    const peerMap = new Map(peerDays.map((d) => [String(d.date), d]));
+    const overlap = rows.filter((r) => peerMap.has(r.date));
+    const corrBusy = overlap.length > 5
+      ? correlation(overlap.map((r) => r.sessions), overlap.map((r) => n(peerMap.get(r.date).busyHours)))
+      : null;
+    const corrOof = overlap.length > 5
+      ? correlation(overlap.map((r) => r.sessions), overlap.map((r) => n(peerMap.get(r.date).oofHours)))
+      : null;
+    const inRangePeer = (start, end) => peerDays.filter((d) => d.date >= start && d.date <= end);
+    const peerCur = inRangePeer(curStart, latest);
+    const peerPrev = inRangePeer(prevStart, prevEnd);
+    const pAvg = (arr, key) => arr.length ? avg(arr.map((d) => n(d[key]))) : 0;
+    const lowTraffic = rows
+      .filter((r) => { const w = dow(r.date); return w >= 1 && w <= 5; })
+      .slice()
+      .sort((a, b) => a.sessions - b.sessions)
+      .slice(0, 5)
+      .map((r) => {
+        const p = peerMap.get(r.date) || {};
+        return { date: r.date, sessions: r.sessions, busyHours: n(p.busyHours), oofHours: n(p.oofHours), engagedPeople: n(p.engagedPeople) };
+      });
+
     return {
       latest, curStart, prevStart, prevEnd,
       ref: deltaRows(refCur, refPrev, "referrer"),
@@ -268,6 +304,19 @@
         prevCount: evPrev.length,
         curAttendees: attendees(evCur),
         prevAttendees: attendees(evPrev),
+      },
+      calendar: {
+        cohortSize: n(peerEngagement && peerEngagement.cohortCount),
+        source: (peerEngagement && peerEngagement.source) || "",
+        curBusy: pAvg(peerCur, "busyHours"),
+        prevBusy: pAvg(peerPrev, "busyHours"),
+        curOof: pAvg(peerCur, "oofHours"),
+        prevOof: pAvg(peerPrev, "oofHours"),
+        curEngaged: pAvg(peerCur, "engagedPeople"),
+        prevEngaged: pAvg(peerPrev, "engagedPeople"),
+        corrBusy,
+        corrOof,
+        lowTraffic,
       },
     };
   }
@@ -293,6 +342,18 @@
 
     const evDelta = c.events.curAttendees - c.events.prevAttendees;
     const evCntDelta = c.events.curCount - c.events.prevCount;
+    const cal = c.calendar || {};
+    const calBusyDelta = (cal.curBusy || 0) - (cal.prevBusy || 0);
+    const calOofDelta = (cal.curOof || 0) - (cal.prevOof || 0);
+    const calEngDelta = (cal.curEngaged || 0) - (cal.prevEngaged || 0);
+    const lowRows = (cal.lowTraffic || []).map((r) => `
+      <tr>
+        <td>${r.date}</td>
+        <td class="n">${fmt(r.sessions)}</td>
+        <td class="n">${r.busyHours.toFixed(1)}h</td>
+        <td class="n">${r.oofHours.toFixed(1)}h</td>
+        <td class="n">${fmt(r.engagedPeople)}</td>
+      </tr>`).join("");
 
     return `
 <h2 class="tr-h">Causal impact signals: why spikes and drops happen</h2>
@@ -311,7 +372,30 @@
 <h3 class="tr-h3">Landing-page movers</h3>
 <div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Page URL</th><th class="n">Current</th><th class="n">Previous</th><th class="n">Change</th><th class="n">Change %</th></tr></thead><tbody>${top(c.pages)}</tbody></table></div>
 <h3 class="tr-h3">Friction and quality shifts</h3>
-<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Signal</th><th class="n">Current</th><th class="n">Previous</th><th class="n">Change</th></tr></thead><tbody>${frRows}</tbody></table></div>`;
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Signal</th><th class="n">Current</th><th class="n">Previous</th><th class="n">Change</th></tr></thead><tbody>${frRows}</tbody></table></div>
+<h3 class="tr-h3">Peer calendar load correlation</h3>
+<div class="tr-card">
+  <table class="tr-wk tr-tbl">
+    <thead><tr><th>Calendar signal (cohort avg/day)</th><th class="n">Current 14d</th><th class="n">Previous 14d</th><th class="n">Delta</th></tr></thead>
+    <tbody>
+      <tr><td>Busy hours/day</td><td class="n">${(cal.curBusy || 0).toFixed(1)}h</td><td class="n">${(cal.prevBusy || 0).toFixed(1)}h</td><td class="n ${calBusyDelta >= 0 ? "dn" : "up"}">${calBusyDelta >= 0 ? "+" : ""}${calBusyDelta.toFixed(1)}h</td></tr>
+      <tr><td>Out-of-office hours/day</td><td class="n">${(cal.curOof || 0).toFixed(1)}h</td><td class="n">${(cal.prevOof || 0).toFixed(1)}h</td><td class="n ${calOofDelta <= 0 ? "up" : "dn"}">${calOofDelta >= 0 ? "+" : ""}${calOofDelta.toFixed(1)}h</td></tr>
+      <tr><td>People with calendar engagement/day</td><td class="n">${(cal.curEngaged || 0).toFixed(1)}</td><td class="n">${(cal.prevEngaged || 0).toFixed(1)}</td><td class="n ${calEngDelta >= 0 ? "up" : "dn"}">${calEngDelta >= 0 ? "+" : ""}${calEngDelta.toFixed(1)}</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="tr-card" style="margin-top:.8rem">
+  <table class="tr-wk tr-tbl">
+    <thead><tr><th>Correlation to daily traffic</th><th class="n">Coefficient</th><th>Interpretation</th></tr></thead>
+    <tbody>
+      <tr><td>Traffic vs cohort busy hours</td><td class="n">${cal.corrBusy == null ? "—" : cal.corrBusy.toFixed(2)}</td><td>${cal.corrBusy == null ? "Not enough overlap" : (cal.corrBusy > 0.25 ? "Positive, more cohort load tends to align with higher traffic" : cal.corrBusy < -0.25 ? "Negative, heavier cohort load tends to align with lower traffic" : "Weak signal in this window")}</td></tr>
+      <tr><td>Traffic vs cohort OOF hours</td><td class="n">${cal.corrOof == null ? "—" : cal.corrOof.toFixed(2)}</td><td>${cal.corrOof == null ? "Not enough overlap" : (cal.corrOof > 0.25 ? "Positive, OOF and traffic moved together" : cal.corrOof < -0.25 ? "Negative, more OOF aligns with lower traffic" : "Weak signal in this window")}</td></tr>
+    </tbody>
+  </table>
+</div>
+<h3 class="tr-h3">Lowest-traffic weekdays with calendar context</h3>
+<div class="tr-card"><table class="tr-wk tr-tbl"><thead><tr><th>Date</th><th class="n">Traffic</th><th class="n">Busy hours</th><th class="n">OOF hours</th><th class="n">Engaged people</th></tr></thead><tbody>${lowRows}</tbody></table></div>
+<p class="tr-note">Calendar cohort size: ${fmt(cal.cohortSize || 0)} people. It is currently built from the people in your screenshot, including Shailendra. The tool call that tries to enumerate \"direct reports to Shailendra\" was blocked, so this is not yet expanded automatically to all his reports.</p>`;
   }
 
 
@@ -372,7 +456,7 @@
 <details class="tr-card"><summary style="cursor:pointer;font-weight:600">Show all ${weekRows.length} weeks</summary><table class="tr-wk tr-tbl" style="margin-top:.6rem"><thead><tr><th>Week of</th><th class="n">Days covered</th><th class="n">Avg per day</th><th class="n">Week total</th><th>Basis</th></tr></thead><tbody>${weekRows.map((w) => `<tr><td>${w.k}</td><td class="n">${w.n}</td>${td(w.av)}${td(w.av * 7)}<td>${w.basis}</td></tr>`).join("")}</tbody></table></details>
 <p class="tr-note">Exact = one Clarity snapshot per day (from Sep 18). Estimated = earlier history, stored as overlapping 3-day windows, spread evenly across the days each covers; real single days will be spikier. Gaps in collection (Jul 1 to 5, Jul 24 to 26, Aug 5 to 11) are not filled in, so those days are excluded and the averages describe the days we have. Totals marked ~ are the average scaled to the full month.</p>`;
   }
-  function render(rows, site, repos, events) {
+  function render(rows, site, repos, events, peerEngagement) {
     const first = rows[0].date, last = rows[rows.length - 1].date;
     const l7 = rows.slice(-7), p7 = rows.slice(-14, -7);
     const l7s = sum(l7.map((r) => r.sessions)), p7s = sum(p7.map((r) => r.sessions));
@@ -389,7 +473,7 @@
     const wkRows = wk.map((w, i) => { const c = i ? pct(w.s, wk[i - 1].s) : null; return `<tr><td>Week of ${w.start.slice(5)}</td><td class="n">${fmt(w.s)}</td><td class="bar"><span style="width:${((w.s / wkMax) * 100).toFixed(0)}%"></span></td><td class="n ${c == null ? "" : c >= 0 ? "up" : "dn"}">${c == null ? "" : (c >= 0 ? "+" : "") + c.toFixed(1) + "%"}</td></tr>`; }).join("");
     const d7 = p7s ? pct(l7s, p7s) : 0;
     const two = wk.length >= 3 ? ` and <b>${pct(wk[wk.length - 1].s, wk[wk.length - 3].s).toFixed(0)}%</b> above two weeks earlier` : "";
-    const causal = buildCausalDrivers(site, rows, events);
+    const causal = buildCausalDrivers(site, rows, events, peerEngagement);
 
     document.getElementById("tr-meta").textContent = `Data ${first} to ${last} · Microsoft Clarity daily snapshots · human sessions only`;
     document.getElementById("tr-body").innerHTML = `
@@ -416,11 +500,11 @@ ${historyTables(buildHistory(site, rows))}<p class="tr-note" style="margin-top:1
   Promise.all([
     fetch(DATA_URL).then((r) => r.json()),
     fetch("events.json").then((r) => (r.ok ? r.json() : [])).catch(() => []),
-  ]).then(([j, events]) => {
+    fetch("peer-engagement.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
+  ]).then(([j, events, peerEngagement]) => {
     const site = (j.sites && j.sites["analytics-hub"]) || {};
     const rows = rowsFrom(site);
     if (rows.length < 8) throw new Error("not enough data");
-    render(rows, site, j.repos || {}, events);
+    render(rows, site, j.repos || {}, events, peerEngagement);
   }).catch(() => { document.getElementById("tr-meta").textContent = "Traffic data could not be loaded."; });
 })();
-
