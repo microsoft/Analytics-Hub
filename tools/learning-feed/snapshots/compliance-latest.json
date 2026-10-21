@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-20T11:16:03.063Z",
+  "runAt": "2026-10-21T11:16:09.251Z",
   "feed": "compliance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -83,6 +83,28 @@
         "Related articles"
       ],
       "inWindow": true
+    },
+    {
+      "id": "architecture-data-protection-auditing",
+      "tier": 1,
+      "title": "Architecture Data Protection Auditing",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing",
+      "why": "New architecture guidance covering Microsoft 365 Copilot data protection and auditing, relevant to compliance and privacy reviews.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-04-07T00:00:00Z",
+      "gitCommit": "1acdf9c90bcae19797b2ffcf6f6987a554a40a00",
+      "wordCount": "532",
+      "bodyHash": "685a1197d5303252",
+      "bodyLen": 5262,
+      "sections": [
+        "How Microsoft Copilot works with sensitivity labels and encryption",
+        "How SharePoint and OneDrive access controls affect Copilot",
+        "Where Copilot usage data is stored and how it's audited",
+        "Related content"
+      ],
+      "inWindow": false
     },
     {
       "id": "eu-data-boundary",
@@ -476,28 +498,6 @@
         "US Government",
         "Industry",
         "Regional"
-      ],
-      "inWindow": false
-    },
-    {
-      "id": "copilot-microsoft-365-architecture-data-protection-auditing",
-      "tier": 3,
-      "title": "Architecture Data Protection Auditing",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-04-07T00:00:00Z",
-      "gitCommit": "bff0904c58456e5b49c7b0786cbccaddbddb966e",
-      "wordCount": "532",
-      "bodyHash": "685a1197d5303252",
-      "bodyLen": 5262,
-      "sections": [
-        "How Microsoft Copilot works with sensitivity labels and encryption",
-        "How SharePoint and OneDrive access controls affect Copilot",
-        "Where Copilot usage data is stored and how it's audited",
-        "Related content"
       ],
       "inWindow": false
     },

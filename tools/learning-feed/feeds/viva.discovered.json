@@ -1,11 +1,14 @@
 {
-  "generatedAt": "2026-10-20T11:15:52.541Z",
+  "generatedAt": "2026-10-21T11:15:56.866Z",
   "feed": "viva",
   "stats": {
-    "total": 119,
-    "newSincePrev": 0
+    "total": 121,
+    "newSincePrev": 2
   },
-  "newPages": [],
+  "newPages": [
+    "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/agent-query",
+    "https://learn.microsoft.com/en-us/viva/insights/advanced/reference/metric-availability"
+  ],
   "pages": [
     {
       "id": "viva-insights-advanced-admin-admin-center",
@@ -131,6 +134,11 @@
       "id": "viva-insights-advanced-analysis-intro",
       "title": "Analysis Intro",
       "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analysis-intro"
+    },
+    {
+      "id": "viva-insights-advanced-analyst-agent-query",
+      "title": "Agent Query",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/agent-query"
     },
     {
       "id": "viva-insights-advanced-analyst-ai-cost-query",
@@ -411,6 +419,11 @@
       "id": "viva-insights-advanced-reference-glossary",
       "title": "Glossary",
       "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/reference/glossary"
+    },
+    {
+      "id": "viva-insights-advanced-reference-metric-availability",
+      "title": "Metric Availability",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/reference/metric-availability"
     },
     {
       "id": "viva-insights-advanced-reference-metrics",

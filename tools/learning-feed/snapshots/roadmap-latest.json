@@ -1,7 +1,24 @@
 {
-  "runAt": "2026-10-20T11:17:28.086Z",
+  "runAt": "2026-10-21T11:17:50.572Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "577185",
+      "title": "Microsoft Dataverse: Enable semantic data understanding for agentic use",
+      "status": "In development",
+      "description": "<p>Give AI agents and Copilot a true understanding of your business data — not just raw schema — so they can answer questions accurately with less manual configuration.</p>\n<ul>\n<li><strong>Learns from the systems you already run</strong> — Automatically extracts semantic knowledge from views, forms, and metadata already defined in your Dataverse environment, reducing agent deployment from days of manual setup to near-zero effort.</li>\n<li><strong>Full visibility for makers</strong> — View generated semantic knowledge per entity — including name, description, and sample questions — directly in the Power Apps maker portal. Search for understanding gaps and enrich missing context with a built-in glossary for domain-specific terms.</li>\n<li><strong>Governance and privacy built in</strong> — Enable or disable semantic signals at the org level, or at the individual signal-type or table level, giving makers and admins granular control to meet compliance and privacy requirements without sacrificing agent quality.</li>\n</ul>\n<p>No manual schema mapping. No custom query logic. No disambiguation between what your data is called and what your business actually means.</p>",
+      "created": "2026-10-20T23:00:34",
+      "modified": "2026-10-20T23:00:34",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Microsoft Dataverse",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "650595fc40525fe5"
+    },
     {
       "id": "576709",
       "title": "Microsoft Viva: Enhanced Microsoft Copilot in Viva Engage",
@@ -1068,10 +1085,10 @@
     {
       "id": "571884",
       "title": "Word: Legal plugins in Copilot",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Legal plugins in Copilot provide purpose-built skills to help legal professionals summarize, draft, review, and redline legal documents. Available in Word and Cowork, these plugins can use work context from Microsoft 365 and connect to supported third-party legal sources.</p>",
       "created": "2026-09-28T22:58:08",
-      "modified": "2026-10-13T23:01:05",
+      "modified": "2026-10-20T23:00:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -1958,10 +1975,10 @@
     {
       "id": "568790",
       "title": "Microsoft Copilot (Microsoft 365): Review PDFs using the Copilot context menu on OneDrive iOS",
-      "status": "In development",
-      "description": "Microsoft 365 Copilot makes PDF reviews faster and easier on mobile. Select text in any PDF in OneDrive iOS and tap Ask Copilot to explain, summarize, translate, or ask a custom question about the selection — the same in-context Copilot experience already generally available on desktop, now on OneDrive iOS.",
+      "status": "Cancelled",
+      "description": "<p>Microsoft 365 Copilot makes PDF reviews faster and easier on mobile. Select text in any PDF in OneDrive iOS and tap Ask Copilot to explain, summarize, translate, or ask a custom question about the selection — the same in-context Copilot experience already generally available on desktop, now on OneDrive iOS. Updated October 20, 2026: We have decided not to move forward with this change at this time. We apologize for any inconvenience.</p>",
       "created": "2026-08-10T22:43:02",
-      "modified": "2026-08-10T22:43:02",
+      "modified": "2026-10-20T23:00:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",
@@ -1973,7 +1990,7 @@
         "Microsoft Copilot (Microsoft 365)",
         "General Availability"
       ],
-      "descHash": "0e7f9767600a0e40"
+      "descHash": "e8e972e4e4f01c2a"
     },
     {
       "id": "569023",
@@ -3565,7 +3582,7 @@
       "status": "In development",
       "description": "<p>Users can export de-identified, row-level agent metrics and attributes from the Agent Dashboard. Exported data provides detailed insights into agent usage and user-level agent interactions across the organization, with personal identifiers removed.<br>\n#copilotcontrolsystem</p>",
       "created": "2026-04-21T23:00:01",
-      "modified": "2026-09-29T23:05:21",
+      "modified": "2026-10-20T23:00:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -4905,10 +4922,10 @@
     {
       "id": "555894",
       "title": "Microsoft Copilot (Microsoft 365): Reference files saved in SharePoint libraries and OneDrive folders when creating a presentation with Agent Mode in PowerPoint",
-      "status": "In development",
-      "description": "You can now reference files saved in SharePoint libraries and OneDrive folders when creating a presentation with Copilot using Agent Mode in PowerPoint.",
+      "status": "Launched",
+      "description": "<p>You can now reference files saved in SharePoint libraries and OneDrive folders when creating a presentation with Copilot using Agent Mode in PowerPoint.</p>",
       "created": "2026-02-11T00:15:04",
-      "modified": "2026-08-21T22:00:23",
+      "modified": "2026-10-20T23:00:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -6247,10 +6264,10 @@
     {
       "id": "503570",
       "title": "Microsoft Copilot (Microsoft 365): Support permission sync missed in incremental crawl",
-      "status": "In development",
-      "description": "Earlier, permissions were synced only in the periodic full crawl which generally ha a default frequency of 1 day for most of the connectors. Now, we have support for doing permission syncs more frequently in an incremental way.\n",
+      "status": "Launched",
+      "description": "<p>Earlier, permissions were synced only in the periodic full crawl which generally ha a default frequency of 1 day for most of the connectors. Now, we have support for doing permission syncs more frequently in an incremental way.</p>",
       "created": "2025-12-04T00:00:38",
-      "modified": "2026-02-12T00:15:53",
+      "modified": "2026-10-20T23:00:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
