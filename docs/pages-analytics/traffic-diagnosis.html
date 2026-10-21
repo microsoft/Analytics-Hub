@@ -67,6 +67,12 @@
 .dx-tag[data-tip]:focus-visible{box-shadow:0 0 0 2px var(--accent)}
 .dx-opt .dx-tag[data-tip]::before{left:auto;right:0}
 .dx-hint{font-size:.82rem;color:var(--text-muted);margin:-.4rem 0 .6rem}
+.term{position:relative;cursor:help;outline:none;border-bottom:1.5px dotted currentColor}
+.term::after{content:"i";display:inline-flex;align-items:center;justify-content:center;width:.9rem;height:.9rem;margin-left:.3rem;border-radius:999px;border:1.5px solid currentColor;font-size:.6rem;font-weight:800;font-style:italic;font-family:Georgia,serif;text-transform:none;letter-spacing:0;vertical-align:.05em;opacity:.8}
+.term::before{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);z-index:30;width:300px;padding:.65rem .8rem;border-radius:10px;background:#1b1b24;color:#fff;font-size:.82rem;font-weight:500;font-style:normal;letter-spacing:0;text-transform:none;line-height:1.45;white-space:normal;text-align:left;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .15s,transform .15s;pointer-events:none}
+.term:hover::before,.term:focus::before{opacity:1;visibility:visible;transform:none}
+.term:focus-visible{box-shadow:0 0 0 2px var(--accent);border-radius:4px}
+.dx-kpi:last-child .term::before,th .term::before,.dx-legend span:last-child .term::before{left:auto;right:0}
 .dx-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin:1rem 0}
 .dx-opt{border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;background:var(--bg-alt);display:flex;flex-direction:column}
 .dx-opt.rec{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
@@ -106,6 +112,7 @@
     <h1>Why GitHub views dropped, and what to do about it</h1>
     <p class="dx-lede">GitHub repo views fell from about 20K to 12 to 14K per two weeks. This page explains where that traffic went, tests the likely causes, and lays out options.</p>
     <p class="dx-meta">Analysis as of Oct 21, 2026 &middot; Sources: GitHub Traffic API (22 repos, daily), Microsoft Clarity (Hub website, daily), Hub change history, enablement session log</p>
+    <p class="dx-meta" style="margin-top:.5rem">Hover or tap any underlined term or label marked <b>i</b> for a plain-English definition.</p>
     <nav class="dx-toc" aria-label="Sections">
       <a href="#summary">1. Summary</a><a href="#explanation">2. Explanation</a><a href="#details">3. Details</a><a href="#options">4. Options</a><a href="repo-drops.html">Which repos dropped &rarr;</a>
     </nav>
@@ -121,10 +128,10 @@
     <p>About a third of the drop is a real cool-down from the August surge, mainly in search traffic. That part is normal and worth watching, but it is not a collapse.</p>
   </div>
   <div class="dx-kpis">
-    <div class="dx-kpi"><span>Hub website, sessions per weekday</span><b>560</b><em class="up">up 47% since mid Sep</em></div>
-    <div class="dx-kpi"><span>Hub website, distinct users per day</span><b>487</b><em class="up">up 60% since mid Sep</em></div>
-    <div class="dx-kpi"><span>GitHub repo views, per 2 weeks</span><b>~13K</b><em class="dn">down from ~21K</em></div>
-    <div class="dx-kpi"><span>Unique template cloners per week</span><b>~1,700</b><em class="up">record 2,297 week of Oct 5</em></div>
+    <div class="dx-kpi"><span>Hub website, <span class="term" tabindex="0" data-tip="A session is one visit to the Hub website. Human means visits flagged as bots or crawlers by Microsoft Clarity are removed.">sessions</span> per weekday</span><b>560</b><em class="up">up 47% since mid Sep</em></div>
+    <div class="dx-kpi"><span>Hub website, <span class="term" tabindex="0" data-tip="Different people who visited the Hub website that day, each counted once. Not added across days, because the same person can visit on several days.">distinct users</span> per day</span><b>487</b><em class="up">up 60% since mid Sep</em></div>
+    <div class="dx-kpi"><span><span class="term" tabindex="0" data-tip="How many times our repo pages on GitHub were opened. This is the number that fell from about 21K to 13K per two weeks.">GitHub repo views</span>, per 2 weeks</span><b>~13K</b><em class="dn">down from ~21K</em></div>
+    <div class="dx-kpi"><span><span class="term" tabindex="0" data-tip="How many different people (or machines) downloaded a copy of a repo, each counted once. Our best measure of people actually taking a report.">Unique template cloners</span> per week</span><b>~1,700</b><em class="up">record 2,297 week of Oct 5</em></div>
   </div>
 
   <!-- 2. EXPLANATION -->
@@ -146,7 +153,7 @@
       <line x1="740" x2="740" y1="40" y2="250" stroke="currentColor" stroke-dasharray="4 4" opacity=".35"/>
       <text class="ax" x="746" y="56">Oct 9 to 14: step drop</text>
     </svg>
-    <div class="dx-legend"><span><i style="background:#0078d4"></i>Hub website human sessions per weekday</span><span><i style="background:#d9534f"></i>GitHub repo views per day (all 22 repos)</span><span>Indexed: week of Sep 14 = 100</span></div>
+    <div class="dx-legend"><span><i style="background:#0078d4"></i>Hub website <span class="term" tabindex="0" data-tip="A session is one visit to the Hub website. Human means visits flagged as bots or crawlers by Microsoft Clarity are removed.">human sessions</span> per weekday</span><span><i style="background:#d9534f"></i>GitHub repo views per day (all 22 repos)</span><span><span class="term" tabindex="0" data-tip="Both lines start at 100 in the week of Sep 14 so they can be compared on one scale. 147 means 47% higher than that week; 52 means 48% lower.">Indexed: week of Sep 14 = 100</span></span></div>
   </div>
 
   <h3>What changed, in plain terms</h3>
@@ -162,12 +169,12 @@
 
   <h3>Where the lost GitHub visits came from</h3>
   <p class="dx-hint"><a href="repo-drops.html"><b>See which repos dropped, with charts &rarr;</b></a></p>
-  <p class="dx-sub">GitHub reports the top sources sending visitors to each repo over a rolling 14 days. Comparing Sep 22 with Oct 21, attributed visits fell from 9,327 to 3,147.</p>
+  <p class="dx-sub"><span class="term" tabindex="0" data-tip="GitHub lists the top websites that sent visitors to each repo over the last 14 days (called referrers). This table adds those up across all 22 repos.">GitHub reports the top sources sending visitors to each repo over a rolling 14 days.</span> Comparing Sep 22 with Oct 21, attributed visits fell from 9,327 to 3,147.</p>
   <div class="dx-card">
     <table class="dx-tbl">
       <thead><tr><th>Source sending people to GitHub</th><th class="n">Sep 22</th><th class="n">Oct 21</th><th class="n">Share of the drop</th><th>Reading</th></tr></thead>
       <tbody>
-        <tr><td>Analytics Hub website</td><td class="n">2,802</td><td class="n">558</td><td class="n">36%</td><td>Mostly measurement. Hidden-source links and direct downloads stop GitHub from counting these visits.</td></tr>
+        <tr><td>Analytics Hub website</td><td class="n">2,802</td><td class="n">558</td><td class="n">36%</td><td>Mostly measurement. <span class="term" tabindex="0" data-tip="Links marked noreferrer. When someone clicks them, GitHub cannot see the visit came from the Hub, so it records it as direct traffic instead.">Hidden-source links</span> and <span class="term" tabindex="0" data-tip="Buttons that download the template file directly. GitHub does not count a direct file download as a page view.">direct downloads</span> stop GitHub from counting these visits.</td></tr>
         <tr><td>Teams</td><td class="n">3,143</td><td class="n">1,181</td><td class="n">32%</td><td>Shifted, not lost. Teams visits to the Hub rose from about 98 to 135 per day over the same period.</td></tr>
         <tr><td>Browsing inside GitHub</td><td class="n">1,610</td><td class="n">581</td><td class="n">17%</td><td>Knock-on effect. Fewer people landing on GitHub means less onward browsing there.</td></tr>
         <tr><td>Google and Bing search</td><td class="n">1,450</td><td class="n">691</td><td class="n">12%</td><td>Real fade after the August surge, returning toward the pre-August baseline.</td></tr>
@@ -210,7 +217,7 @@
   <h3>Proof people are still getting the templates</h3>
   <div class="dx-card">
     <table class="dx-tbl">
-      <thead><tr><th>Week of</th><th class="n">Repo views</th><th class="n">Unique cloners</th><th class="n">Hub sessions per weekday</th></tr></thead>
+      <thead><tr><th>Week of</th><th class="n">Repo views</th><th class="n"><span class="term" tabindex="0" data-tip="How many different people (or machines) downloaded a copy of a repo, each counted once. Our best measure of people actually taking a report.">Unique cloners</span></th><th class="n">Hub sessions per weekday</th></tr></thead>
       <tbody>
         <tr><td>Sep 14</td><td class="n">12,117</td><td class="n">1,691</td><td class="n">382</td></tr>
         <tr><td>Sep 21</td><td class="n">11,095</td><td class="n">1,630</td><td class="n">474</td></tr>
