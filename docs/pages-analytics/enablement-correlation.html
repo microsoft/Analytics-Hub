@@ -35,6 +35,10 @@
     .ec-hero h1 { margin: 0 0 .7rem; font-size: clamp(1.85rem, 3.6vw, 2.7rem); letter-spacing: -.02em; }
     .ec-lede { max-width: 860px; margin: 0; color: var(--text-soft); line-height: 1.55; }
     .ec-meta { margin: .9rem 0 0; color: var(--text-muted); font-size: .86rem; }
+    .ec-export-bar { margin-top: .85rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    .ec-export-label { font-size: .82rem; color: var(--text-muted); font-weight: 700; margin-right: .15rem; }
+    .ec-export-btn { appearance: none; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: .35rem .72rem; font-size: .8rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .ec-export-btn:hover { border-color: var(--accent); color: var(--accent); }
     .ec-card { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: 0 1px 3px rgba(20,20,40,.05); padding: 1rem 1.1rem; }
     .ec-h2 { margin: 1.35rem 0 .45rem; font-size: 1.15rem; letter-spacing: -.01em; }
     .ec-sub { margin: 0 0 .75rem; font-size: .88rem; color: var(--text-soft); }
@@ -61,7 +65,9 @@
     .ec-up { color: #107c10; font-weight: 700; }
     .ec-down { color: #c50f1f; font-weight: 700; }
     .ec-flat { color: var(--text-muted); font-weight: 700; }
-    .ec-details summary { cursor: pointer; color: var(--accent); font-weight: 700; font-size: .86rem; }
+    .ec-expand-btn { appearance: none; border: 0; background: none; color: var(--accent); font-weight: 700; font-size: .86rem; cursor: pointer; padding: 0; }
+    .ec-expand-btn:hover { text-decoration: underline; }
+    .ec-detail-row td { padding: 0 0 .75rem 0; border-bottom: 1px solid var(--border); }
     .ec-details-body { margin-top: .65rem; border: 1px solid var(--border); border-radius: 12px; padding: .72rem; background: var(--bg-alt); }
     .ec-metric-grid { display: grid; gap: .62rem; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); margin-bottom: .75rem; }
     .ec-mini { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: .55rem .62rem; }
@@ -109,6 +115,17 @@
       <h1>Enablement Correlation</h1>
       <p class="ec-lede">Event-by-event correlation view that lines up enablement sessions with downstream traffic movement. Each event row expands into detailed before and after signals for hub visits, GitHub clones and views, YouTube, external referrals, and report-page traffic shifts.</p>
       <p class="ec-meta" id="ec-meta">Loading event and traffic datasets...</p>
+      <div class="ec-export-bar" id="ec-export-bar" hidden>
+        <span class="ec-export-label">Export options:</span>
+        <button type="button" class="ec-export-btn" id="ec-export-summary-csv">Summary CSV</button>
+        <button type="button" class="ec-export-btn" id="ec-export-report-csv">Report lifts CSV</button>
+        <button type="button" class="ec-export-btn" id="ec-export-daily-csv">Daily series CSV</button>
+        <button type="button" class="ec-export-btn" id="ec-export-json">Full JSON</button>
+        <a class="ec-export-btn" href="exports/Enablement-Correlation-Export.pdf" target="_blank" rel="noopener">PDF</a>
+        <a class="ec-export-btn" href="exports/Enablement-Correlation-Export.docx" target="_blank" rel="noopener">Word</a>
+        <a class="ec-export-btn" href="exports/Enablement-Correlation-Export.xlsx" target="_blank" rel="noopener">Excel</a>
+        <a class="ec-export-btn" href="exports/Enablement-Correlation-Deck-Executive-v3.pptx" target="_blank" rel="noopener">PowerPoint</a>
+      </div>
     </div>
   </section>
 

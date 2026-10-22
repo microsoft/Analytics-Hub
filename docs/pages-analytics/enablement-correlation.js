@@ -349,33 +349,147 @@ function renderSummary(events, signals, reportSeries) {
   ].map(([label, value, note]) => `<div class="ec-kpi"><div class="ec-kpi-label">${label}</div><div class="ec-kpi-value">${value}</div><div class="ec-kpi-note">${note}</div></div>`).join("");
 }
 
+function escapeCsvCell(v) {
+  const s = String(v ?? "");
+  if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+  return s;
+}
+
+function toCsv(rows, columns) {
+  const header = columns.map((c) => escapeCsvCell(c.label)).join(",");
+  const lines = rows.map((row) => columns.map((c) => escapeCsvCell(row[c.key])).join(","));
+  return [header, ...lines].join("\n");
+}
+
+function downloadTextFile(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function setupExports(payload) {
+  const bar = document.getElementById("ec-export-bar");
+  if (bar) bar.hidden = false;
+
+  const summaryBtn = document.getElementById("ec-export-summary-csv");
+  const reportBtn = document.getElementById("ec-export-report-csv");
+  const dailyBtn = document.getElementById("ec-export-daily-csv");
+  const jsonBtn = document.getElementById("ec-export-json");
+
+  if (summaryBtn) {
+    summaryBtn.onclick = () => {
+      const csv = toCsv(payload.summaryRows, [
+        { key: "date", label: "date" },
+        { key: "event", label: "event" },
+        { key: "attendees", label: "attendees" },
+        { key: "type", label: "type" },
+        { key: "visitsDeltaPerDay", label: "visits_delta_per_day" },
+        { key: "clonesDeltaPerDay", label: "clones_delta_per_day" },
+        { key: "youtubeViewsDeltaPerDay", label: "youtube_views_delta_per_day" },
+        { key: "reportIncreases", label: "report_increases" },
+      ]);
+      downloadTextFile("enablement-correlation-summary.csv", csv, "text/csv;charset=utf-8");
+    };
+  }
+
+  if (reportBtn) {
+    reportBtn.onclick = () => {
+      const csv = toCsv(payload.reportRows, [
+        { key: "eventDate", label: "event_date" },
+        { key: "event", label: "event" },
+        { key: "reportFamily", label: "report_family" },
+        { key: "beforePerDay", label: "before_per_day" },
+        { key: "afterPerDay", label: "after_per_day" },
+        { key: "deltaPerDay", label: "delta_per_day" },
+        { key: "deltaPct", label: "delta_pct" },
+      ]);
+      downloadTextFile("enablement-correlation-report-lifts.csv", csv, "text/csv;charset=utf-8");
+    };
+  }
+
+  if (dailyBtn) {
+    dailyBtn.onclick = () => {
+      const csv = toCsv(payload.dailyRows, [
+        { key: "date", label: "date" },
+        { key: "hubVisits", label: "hub_visits" },
+        { key: "repoViews", label: "repo_views" },
+        { key: "repoClones", label: "repo_clones" },
+        { key: "youtubeViews", label: "youtube_views" },
+        { key: "youtubeWatchMinutes", label: "youtube_watch_minutes" },
+        { key: "externalReferrals", label: "external_referrals" },
+      ]);
+      downloadTextFile("enablement-correlation-daily-series.csv", csv, "text/csv;charset=utf-8");
+    };
+  }
+
+  if (jsonBtn) {
+    jsonBtn.onclick = () => {
+      const blob = JSON.stringify(payload, null, 2);
+      downloadTextFile("enablement-correlation-export.json", blob, "application/json;charset=utf-8");
+    };
+  }
+}
+
 function renderEvents(events, signals, reportSeries) {
   const body = document.getElementById("ec-events-body");
-  if (!body) return;
+  if (!body) return { summaryRows: [], reportRows: [], dailyRows: [] };
+
+  const summaryRows = [];
+  const reportExportRows = [];
 
   const rows = events
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date))
-    .map((ev) => {
+    .map((ev, idx) => {
       const visit = statsForEvent(signals.visits, ev.date);
       const clone = statsForEvent(signals.clones, ev.date);
+      const repoViews = statsForEvent(signals.views, ev.date);
       const ytViews = statsForEvent(signals.youtubeViews, ev.date);
       const refs = statsForEvent(signals.referrals, ev.date);
       const ytWatch = statsForEvent(signals.youtubeWatchMinutes, ev.date);
 
-      const reportRows = REPORT_FAMILIES.map((fam) => ({
+      const eventReportRows = REPORT_FAMILIES.map((fam) => ({
         fam,
         stats: statsForEvent(reportSeries[fam.key], ev.date),
       })).filter((entry) => entry.stats.beforeN || entry.stats.afterN);
 
-      reportRows.sort((a, b) => (b.stats.deltaAbs || -Infinity) - (a.stats.deltaAbs || -Infinity));
-      const positive = reportRows.filter((row) => (row.stats.deltaAbs || 0) > 0).slice(0, 3);
+      eventReportRows.sort((a, b) => (b.stats.deltaAbs || -Infinity) - (a.stats.deltaAbs || -Infinity));
+      const positive = eventReportRows.filter((row) => (row.stats.deltaAbs || 0) > 0).slice(0, 3);
       const topLift = positive.length
         ? positive.map((row) => `${row.fam.label} (${fmtSigned(row.stats.deltaAbs)})`).join(", ")
         : "No report lift signal";
 
-      const detailsReports = reportRows.length
-        ? reportRows.map((row) => `
+      summaryRows.push({
+        date: ev.date,
+        event: ev.title || "",
+        attendees: ev.attendees,
+        type: ev.type || "",
+        visitsDeltaPerDay: visit.deltaAbs == null ? "" : Number(visit.deltaAbs.toFixed(2)),
+        clonesDeltaPerDay: clone.deltaAbs == null ? "" : Number(clone.deltaAbs.toFixed(2)),
+        youtubeViewsDeltaPerDay: ytViews.deltaAbs == null ? "" : Number(ytViews.deltaAbs.toFixed(2)),
+        reportIncreases: topLift,
+      });
+
+      for (const row of eventReportRows) {
+        reportExportRows.push({
+          eventDate: ev.date,
+          event: ev.title || "",
+          reportFamily: row.fam.label,
+          beforePerDay: row.stats.beforeAvg == null ? "" : Number(row.stats.beforeAvg.toFixed(2)),
+          afterPerDay: row.stats.afterAvg == null ? "" : Number(row.stats.afterAvg.toFixed(2)),
+          deltaPerDay: row.stats.deltaAbs == null ? "" : Number(row.stats.deltaAbs.toFixed(2)),
+          deltaPct: row.stats.deltaPct == null ? "" : Number(row.stats.deltaPct.toFixed(2)),
+        });
+      }
+
+      const detailsReports = eventReportRows.length
+        ? eventReportRows.map((row) => `
           <tr>
             <td>${esc(row.fam.label)}</td>
             <td class="num">${row.stats.beforeAvg == null ? "n/a" : fmt(row.stats.beforeAvg)}</td>
@@ -385,7 +499,8 @@ function renderEvents(events, signals, reportSeries) {
           </tr>`).join("")
         : `<tr><td colspan="5">No report-page series for this event window.</td></tr>`;
 
-      return `<tr>
+      const detailId = `ec-detail-${idx}`;
+      return `<tr class="ec-main-row">
         <td>${esc(ev.date)}</td>
         <td>
           <strong>${esc(ev.title || "")}</strong>
@@ -398,13 +513,16 @@ function renderEvents(events, signals, reportSeries) {
         <td class="num ${deltaClass(ytViews.deltaAbs)}">${ytViews.deltaAbs == null ? "n/a" : fmtSigned(ytViews.deltaAbs)}</td>
         <td>${esc(topLift)}</td>
         <td>
-          <details class="ec-details">
-            <summary>Expand</summary>
+          <button type="button" class="ec-expand-btn" data-target="${detailId}" aria-expanded="false">Expand</button>
+        </td>
+      </tr>
+      <tr id="${detailId}" class="ec-detail-row" hidden>
+        <td colspan="9">
             <div class="ec-details-body">
               <div class="ec-metric-grid">
                 ${metricMini("Hub visits/day", visit)}
                 ${metricMini("Repo clones/day", clone)}
-                ${metricMini("Repo views/day", statsForEvent(signals.views, ev.date))}
+                ${metricMini("Repo views/day", repoViews)}
                 ${metricMini("External referrals/day", refs)}
                 ${metricMini("YouTube views/day", ytViews)}
                 ${metricMini("YouTube watch minutes/day", ytWatch)}
@@ -429,12 +547,48 @@ function renderEvents(events, signals, reportSeries) {
               </table>
               <p class="ec-sub" style="margin-top:.6rem">Window = ${WINDOW_DAYS} days before (${esc(formatFullDate(isoShift(ev.date, -WINDOW_DAYS)))} to ${esc(formatFullDate(isoShift(ev.date, -1)))}) and ${WINDOW_DAYS} days after (${esc(formatFullDate(ev.date))} to ${esc(formatFullDate(isoShift(ev.date, WINDOW_DAYS - 1)))}) when data exists.</p>
             </div>
-          </details>
         </td>
       </tr>`;
     }).join("");
 
   body.innerHTML = rows || `<tr><td colspan="9">No events found.</td></tr>`;
+
+  body.onclick = (ev) => {
+    const btn = ev.target.closest(".ec-expand-btn");
+    if (!btn) return;
+    const target = document.getElementById(btn.dataset.target || "");
+    if (!target) return;
+    const nowHidden = target.hasAttribute("hidden");
+    if (nowHidden) {
+      target.removeAttribute("hidden");
+      btn.textContent = "Collapse";
+      btn.setAttribute("aria-expanded", "true");
+    } else {
+      target.setAttribute("hidden", "");
+      btn.textContent = "Expand";
+      btn.setAttribute("aria-expanded", "false");
+    }
+  };
+
+  const allDates = [...new Set([
+    ...signals.visits.keys(),
+    ...signals.views.keys(),
+    ...signals.clones.keys(),
+    ...signals.youtubeViews.keys(),
+    ...signals.youtubeWatchMinutes.keys(),
+    ...signals.referrals.keys(),
+  ])].sort();
+  const dailyRows = allDates.map((d) => ({
+    date: d,
+    hubVisits: signals.visits.get(d) ?? "",
+    repoViews: signals.views.get(d) ?? "",
+    repoClones: signals.clones.get(d) ?? "",
+    youtubeViews: signals.youtubeViews.get(d) ?? "",
+    youtubeWatchMinutes: signals.youtubeWatchMinutes.get(d) ?? "",
+    externalReferrals: signals.referrals.get(d) ?? "",
+  }));
+
+  return { summaryRows, reportRows: reportExportRows, dailyRows };
 }
 
 async function fetchJson(url) {
@@ -477,7 +631,8 @@ async function boot() {
     const timelineHost = document.getElementById("ec-timeline");
     if (timelineHost) timelineHost.innerHTML = svgTimeline(signals.visits, events);
     renderSummary(events, signals, reportSeries);
-    renderEvents(events, signals, reportSeries);
+    const exportPayload = renderEvents(events, signals, reportSeries);
+    setupExports(exportPayload);
   } catch (err) {
     if (meta) meta.textContent = "Could not load enablement correlation datasets.";
     const host = document.getElementById("ec-events-body");
