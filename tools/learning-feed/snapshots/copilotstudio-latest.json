@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-21T11:16:15.524Z",
+  "runAt": "2026-10-22T11:16:17.958Z",
   "feed": "copilotstudio",
   "windowStart": "2026-07-01",
   "pages": [
@@ -594,6 +594,29 @@
       "inWindow": true
     },
     {
+      "id": "microsoft-copilot-studio-agents-experience-analytics-agent-evaluation-customer-c",
+      "tier": 3,
+      "title": "Analytics Agent Evaluation Customer Conversation",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-customer-conversation",
+      "why": "Auto-discovered from the documentation tree for this product area.",
+      "ok": true,
+      "discovered": true,
+      "isNew": true,
+      "msDate": "2026-10-08T00:00:00Z",
+      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
+      "wordCount": "578",
+      "bodyHash": "f1b19e359fa31c68",
+      "bodyLen": 5089,
+      "sections": [
+        "Evaluate tab overview",
+        "Create a test set",
+        "Configure the test set",
+        "View results",
+        "Related information"
+      ],
+      "inWindow": true
+    },
+    {
       "id": "microsoft-copilot-studio-agents-experience-analytics-agent-evaluation-intro",
       "tier": 3,
       "title": "Analytics Agent Evaluation Intro",
@@ -603,10 +626,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-10-05T00:00:00Z",
-      "gitCommit": "17931e8ae62aee82826e995182a789162ba127b2",
-      "wordCount": "567",
-      "bodyHash": "d07bf91190642f38",
-      "bodyLen": 5089,
+      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
+      "wordCount": "572",
+      "bodyHash": "6d85b5c4b3d53b36",
+      "bodyLen": 5131,
       "sections": [
         "What is agent evaluation?",
         "Key concepts",
@@ -676,10 +699,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-09-28T00:00:00Z",
-      "gitCommit": "6e0d7c0dd8658f3f44ce46c0ca35ee8bcaad7814",
-      "wordCount": "813",
-      "bodyHash": "7c936e899c69078b",
-      "bodyLen": 6843,
+      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
+      "wordCount": "804",
+      "bodyHash": "e059ebeb65e2dff8",
+      "bodyLen": 6801,
       "sections": [
         "What can you monitor?",
         "Monitor and agent operations",
@@ -691,6 +714,37 @@
         "Error monitoring",
         "Download session transcripts",
         "Review sessions",
+        "Related information"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "microsoft-copilot-studio-agents-experience-analytics-overview-customer-conversat",
+      "tier": 3,
+      "title": "Analytics Overview Customer Conversation",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-overview-customer-conversation",
+      "why": "Auto-discovered from the documentation tree for this product area.",
+      "ok": true,
+      "discovered": true,
+      "isNew": true,
+      "msDate": "2026-10-08T00:00:00Z",
+      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
+      "wordCount": "472",
+      "bodyHash": "c385981e7584d4ba",
+      "bodyLen": 4554,
+      "sections": [
+        "Overview",
+        "Summary",
+        "Billing",
+        "Savings",
+        "Custom metrics",
+        "Conversation outcomes",
+        "Customer satisfaction",
+        "Sentiment",
+        "Generated answer rate and quality",
+        "Tool use",
+        "Knowledge source use",
+        "Download conversation transcripts",
         "Related information"
       ],
       "inWindow": true

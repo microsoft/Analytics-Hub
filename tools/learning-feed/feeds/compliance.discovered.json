@@ -1,11 +1,14 @@
 {
-  "generatedAt": "2026-10-21T11:15:47.248Z",
+  "generatedAt": "2026-10-22T11:15:54.328Z",
   "feed": "compliance",
   "stats": {
-    "total": 26,
-    "newSincePrev": 0
+    "total": 24,
+    "newSincePrev": 2
   },
-  "newPages": [],
+  "newPages": [
+    "https://learn.microsoft.com/microsoft-365/copilot/enterprise-data-protection",
+    "https://learn.microsoft.com/microsoft-365/copilot/microsoft-365-copilot-privacy"
+  ],
   "pages": [
     {
       "id": "https-learn-microsoft-com-copilot-privacy-and-protections",
@@ -23,19 +26,9 @@
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing"
     },
     {
-      "id": "copilot-microsoft-365-enterprise-data-protection",
-      "title": "Enterprise Data Protection",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/enterprise-data-protection"
-    },
-    {
       "id": "copilot-microsoft-365-flow-builder-privacy-data-subject-request-faq",
       "title": "Flow Builder Privacy Data Subject Request Faq",
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/flow-builder-privacy-data-subject-request-faq"
-    },
-    {
-      "id": "copilot-microsoft-365-microsoft-365-copilot-privacy",
-      "title": "Microsoft 365 Copilot Privacy",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy"
     },
     {
       "id": "microsoft-365-enterprise-m365-dr-adr-commitments",
@@ -128,14 +121,14 @@
       "url": "https://learn.microsoft.com/en-us/privacy/eudb/landing"
     },
     {
-      "id": "https-learn-microsoft-com-purview-communication-compliance-copilot",
-      "title": "Communication Compliance Copilot",
-      "url": "https://learn.microsoft.com/purview/communication-compliance-copilot"
+      "id": "https-learn-microsoft-com-microsoft-365-copilot-enterprise-data-protection",
+      "title": "Enterprise Data Protection",
+      "url": "https://learn.microsoft.com/microsoft-365/copilot/enterprise-data-protection"
     },
     {
-      "id": "https-learn-microsoft-com-purview-compliance-manager",
-      "title": "Compliance Manager",
-      "url": "https://learn.microsoft.com/purview/compliance-manager"
+      "id": "https-learn-microsoft-com-microsoft-365-copilot-microsoft-365-copilot-privacy",
+      "title": "Microsoft 365 Copilot Privacy",
+      "url": "https://learn.microsoft.com/microsoft-365/copilot/microsoft-365-copilot-privacy"
     }
   ]
 }

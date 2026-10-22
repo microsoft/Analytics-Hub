@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-21T11:18:13.457Z",
+  "runAt": "2026-10-22T11:17:38.880Z",
   "feed": "viva",
   "windowStart": "2026-07-01",
   "pages": [
@@ -177,6 +177,59 @@
         "6. People Metadata file",
         "Example query for GitHub Copilot adoption by team",
         "Related topics"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "agent-query",
+      "tier": 1,
+      "title": "Agent Query",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/agent-query",
+      "why": "New advanced-insights query surface for agent usage analysis, relevant to Copilot and agent adoption measurement.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-20T00:00:00Z",
+      "gitCommit": "69e276d3c9c380046e9042671108cc3301397ee5",
+      "wordCount": "1300",
+      "bodyHash": "d89f437aba9697bb",
+      "bodyLen": 9508,
+      "sections": [
+        "Prerequisites and eligibility",
+        "1. Set up your query",
+        "2. Select your metrics",
+        "3. Add conditions and condition groups",
+        "4. Select agent attributes and HR attributes",
+        "Agent attributes",
+        "HR attributes",
+        "5. Run the query",
+        "Output files",
+        "File 1 - Agent metadata (AgentMetadata)",
+        "File 2 - Activity file (PersonAgentActivityMetrics)",
+        "File 3 - People metadata file (PeopleMetadata)",
+        "Example query for agent adoption by team",
+        "Related topics"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "metric-availability",
+      "tier": 1,
+      "title": "Metric Availability",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/reference/metric-availability",
+      "why": "New metric-availability reference that documents where advanced-insights metrics are available across query types and templates.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-20T00:00:00Z",
+      "gitCommit": "69e276d3c9c380046e9042671108cc3301397ee5",
+      "wordCount": "335",
+      "bodyHash": "c3de61394e64716a",
+      "bodyLen": 3427,
+      "sections": [
+        "Timelines for report types under normal circumstances",
+        "Timeline exception for Copilot for Sales metrics",
+        "Data availability"
       ],
       "inWindow": true
     },
@@ -1233,38 +1286,6 @@
         "Video demos",
         "Send feedback",
         "Community"
-      ],
-      "inWindow": true
-    },
-    {
-      "id": "viva-insights-advanced-analyst-agent-query",
-      "tier": 3,
-      "title": "Agent Query",
-      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/agent-query",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-20T00:00:00Z",
-      "gitCommit": "69e276d3c9c380046e9042671108cc3301397ee5",
-      "wordCount": "1300",
-      "bodyHash": "d89f437aba9697bb",
-      "bodyLen": 9508,
-      "sections": [
-        "Prerequisites and eligibility",
-        "1. Set up your query",
-        "2. Select your metrics",
-        "3. Add conditions and condition groups",
-        "4. Select agent attributes and HR attributes",
-        "Agent attributes",
-        "HR attributes",
-        "5. Run the query",
-        "Output files",
-        "File 1 - Agent metadata (AgentMetadata)",
-        "File 2 - Activity file (PersonAgentActivityMetrics)",
-        "File 3 - People metadata file (PeopleMetadata)",
-        "Example query for agent adoption by team",
-        "Related topics"
       ],
       "inWindow": true
     },
@@ -2662,27 +2683,6 @@
       "bodyHash": "d09feccb2a4f34e1",
       "bodyLen": 12872,
       "sections": [],
-      "inWindow": true
-    },
-    {
-      "id": "viva-insights-advanced-reference-metric-availability",
-      "tier": 3,
-      "title": "Metric Availability",
-      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/reference/metric-availability",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-20T00:00:00Z",
-      "gitCommit": "69e276d3c9c380046e9042671108cc3301397ee5",
-      "wordCount": "335",
-      "bodyHash": "c3de61394e64716a",
-      "bodyLen": 3427,
-      "sections": [
-        "Timelines for report types under normal circumstances",
-        "Timeline exception for Copilot for Sales metrics",
-        "Data availability"
-      ],
       "inWindow": true
     },
     {
