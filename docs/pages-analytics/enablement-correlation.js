@@ -25,8 +25,6 @@ const REPORTS = [
   { key: "what-cowork-did-for-me", label: "What Cowork Did For Me", needles: ["/what-cowork-did-for-me"], type: "Web app", guideKey: "what-cowork-did-for-me" },
 ];
 
-const REPORTS_BY_KEY = new Map(REPORTS.map((r) => [r.key, r]));
-
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
     "&": "&amp;",
