@@ -445,6 +445,9 @@
   // The embedded Reports page posts this when its flyout closes (X, backdrop,
   // or Esc), so the host removes the iframe.
   window.addEventListener('message', function (e) {
+    if (!frame) return;
+    if (e.origin !== window.location.origin) return;
+    if (e.source !== frame.contentWindow) return;
     if (e.data && e.data.type === 'ah-card-close') closeCard();
   });
 })();

@@ -160,6 +160,9 @@
     openCard(card.getAttribute('data-report'));
   });
   window.addEventListener('message', function (e) {
+    if (!frame) return;
+    if (e.origin !== window.location.origin) return;
+    if (e.source !== frame.contentWindow) return;
     if (e.data && e.data.type === 'ah-card-close') closeCard();
   });
 })();

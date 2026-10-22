@@ -3984,9 +3984,9 @@ html.mk-embed main.mk-page{ display:none !important; }
       "repo": "https://github.com/microsoft/Cowork-Adoption-Intelligence",
       "download": "https://github.com/microsoft/Cowork-Adoption-Intelligence/archive/refs/heads/main.zip",
       "guide": "https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md",
-      "preview": "https://raw.githubusercontent.com/microsoft/Cowork-Adoption-Intelligence/main/images/report-preview.gif",
-      "demoVideo": "https://github.com/microsoft/Cowork-Adoption-Intelligence/raw/main/media/Cowork-Adoption-Intelligence-Walkthrough.mp4",
-      "demoVideos": [{"url": "https://github.com/microsoft/Cowork-Adoption-Intelligence/raw/main/media/Cowork-Adoption-Intelligence-Walkthrough.mp4", "label": "Overview"}],
+      "preview": "https://raw.githubusercontent.com/microsoft/Cowork-Adoption-Intelligence/main/images/report-pages/01-cowork-adoption-scorecard.png",
+      "demoVideo": "https://youtu.be/hk0XBBimTT8",
+      "demoVideos": [{"url": "https://youtu.be/hk0XBBimTT8", "label": "Overview"}],
       "blurb": "A data-free Power BI template that turns approved Purview audit exports into a ten-page Cowork adoption report: activation, sustained usage, action patterns, delegation maturity and emerging champion signals. Still in testing - the metric definitions are exactly what we want your help pressure-testing before it ships.",
       "meta": {
         "audience": "Cowork program owners, adoption leads, enablement teams",
@@ -8486,12 +8486,12 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   document.getElementById('mkDlgClose').addEventListener('click', closeReport);
 
   dlg.addEventListener('click', function (e) {
-    if (e.target === dlg) closeReport();
+    if (e.target === dlg && !IS_EMBED) closeReport();
   });
 
   dlg.addEventListener('cancel', function (e) {
     e.preventDefault();
-    closeReport();
+    if (!IS_EMBED) closeReport();
   });
 
   dlg.addEventListener('keydown', function (e) {

@@ -426,7 +426,12 @@
     var card = e.target.closest('.cw-inc-card'); if (!card) return;
     e.preventDefault(); openCard(card.getAttribute('data-report'));
   });
-  window.addEventListener('message', function (e) { if (e.data && e.data.type === 'ah-card-close') closeCard(); });
+  window.addEventListener('message', function (e) {
+    if (!frame) return;
+    if (e.origin !== window.location.origin) return;
+    if (e.source !== frame.contentWindow) return;
+    if (e.data && e.data.type === 'ah-card-close') closeCard();
+  });
 })();
 </script>
 
