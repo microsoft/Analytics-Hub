@@ -8,6 +8,7 @@ const HUB_REPO = "microsoft/Analytics-Hub";
 const WINDOW_DAYS = 7;
 
 const INTERNAL_HOSTS = ["microsoft.github.io", "github.com", "githubusercontent.com", "github.io"];
+let EVENT_DETAIL_STORE = new Map();
 
 const REPORT_FAMILIES = [
   { key: "valuelens", label: "ValueLens", needles: ["/valuelens"] },
@@ -86,6 +87,21 @@ function isProdUrl(rawUrl) {
   if (!u) return false;
   if (u.includes("localhost") || u.includes("127.0.0.1") || u.includes("azurewebsites.net") || u.includes("electron")) return false;
   return true;
+}
+
+function windowDates(eventDate, startOffset, endOffset) {
+  const out = [];
+  for (let i = startOffset; i <= endOffset; i++) out.push(isoShift(eventDate, i));
+  return out;
+}
+
+function normalizeHubPath(rawUrl) {
+  try {
+    const u = new URL(rawUrl);
+    return u.pathname || "/";
+  } catch (_) {
+    return String(rawUrl || "").replace(/^https?:\/\/[^/]+/i, "") || "/";
+  }
 }
 
 function getMetric(groups, metricName) {
@@ -193,6 +209,64 @@ function readReportSeries(site) {
   return series;
 }
 
+function topRowsFromMap(map, limit = 8) {
+  return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([name, value]) => ({ name, value }));
+}
+
+function aggregateHubPages(site, dates, reportOnly = false) {
+  const totals = new Map();
+  for (const d of dates) {
+    const groups = site?.snapshotsByUrl?.[d];
+    const trafficRows = getMetric(groups, "Traffic")?.information || [];
+    const dayMax = new Map();
+    for (const row of trafficRows) {
+      const rawUrl = row.Url || row.url || "";
+      if (!isProdUrl(rawUrl)) continue;
+      if (reportOnly && !matchReportFamily(rawUrl)) continue;
+      const path = normalizeHubPath(rawUrl);
+      const sess = Math.max(toNum(row.totalSessionCount), toNum(row.sessionsCount));
+      const bots = Math.min(toNum(row.totalBotSessionCount), sess);
+      const human = Math.max(0, sess - bots);
+      if (!human) continue;
+      dayMax.set(path, Math.max(dayMax.get(path) || 0, human));
+    }
+    for (const [path, value] of dayMax) totals.set(path, (totals.get(path) || 0) + value);
+  }
+  return totals;
+}
+
+function aggregateExternalReferrers(site, dates) {
+  const totals = new Map();
+  for (const d of dates) {
+    const refs = getMetric(site?.dailySnapshots?.[d], "ReferrerUrl")?.information || [];
+    for (const row of refs) {
+      const ref = row.name || row.Url || "";
+      if (isInternalRef(ref)) continue;
+      totals.set(ref, (totals.get(ref) || 0) + toNum(row.sessionsCount));
+    }
+  }
+  return totals;
+}
+
+function summarizeCloneRepos(traffic, eventDate) {
+  const out = [];
+  for (const [repoName, repo] of Object.entries(traffic?.repos || {})) {
+    const series = toDateMap(Object.entries(repo?.dailyClones || {}).map(([d, row]) => [d, toNum(row?.count)]));
+    const s = statsForEvent(series, eventDate);
+    if (!s.beforeN && !s.afterN) continue;
+    out.push({
+      repo: repoName,
+      before: s.beforeAvg,
+      after: s.afterAvg,
+      delta: s.deltaAbs,
+      pct: s.deltaPct,
+    });
+  }
+  out.sort((a, b) => (b.delta || -Infinity) - (a.delta || -Infinity));
+  const positives = out.filter((r) => (r.delta || 0) > 0).slice(0, 10);
+  return positives.length ? positives : out.slice(0, 10);
+}
+
 function statsForEvent(seriesMap, eventDate, windowDays = WINDOW_DAYS) {
   let beforeSum = 0, beforeN = 0;
   let afterSum = 0, afterN = 0;
@@ -290,15 +364,16 @@ function svgTimeline(seriesMap, events) {
   </svg></div>`;
 }
 
-function svgEventMetric(seriesMap, eventDate, color) {
+function svgEventMetric(seriesMap, eventDate, color, options = {}) {
+  const rangeDays = options.rangeDays == null ? 10 : options.rangeDays;
   const points = [];
-  for (let i = -10; i <= 10; i++) {
+  for (let i = -rangeDays; i <= rangeDays; i++) {
     const d = isoShift(eventDate, i);
     points.push({ day: d, value: seriesMap.has(d) ? toNum(seriesMap.get(d)) : null });
   }
 
-  const width = 470;
-  const height = 178;
+  const width = options.width || 470;
+  const height = options.height || 178;
   const pad = { l: 34, r: 10, t: 14, b: 30 };
   const vals = points.map((p) => p.value).filter((v) => v != null);
   const max = Math.max(1, ...(vals.length ? vals : [1]));
@@ -445,9 +520,105 @@ function setupExports(payload) {
   }
 }
 
-function renderEvents(events, signals, reportSeries) {
+function modalTable(headers, rows) {
+  if (!rows.length) return `<p class="ec-sub">No detailed rows available for this event window.</p>`;
+  return `<table class="ec-modal-table">
+    <thead><tr>${headers.map((h) => `<th class="${h.num ? "num" : ""}">${esc(h.label)}</th>`).join("")}</tr></thead>
+    <tbody>${rows.map((r) => `<tr>${headers.map((h) => `<td class="${h.num ? "num" : ""}">${h.render(r)}</td>`).join("")}</tr>`).join("")}</tbody>
+  </table>`;
+}
+
+function openMetricModal(eventId, metricKey) {
+  const data = EVENT_DETAIL_STORE.get(eventId);
+  if (!data) return;
+  const modal = document.getElementById("ec-modal");
+  const title = document.getElementById("ec-modal-title");
+  const sub = document.getElementById("ec-modal-sub");
+  const chart = document.getElementById("ec-modal-chart");
+  const details = document.getElementById("ec-modal-details");
+  if (!modal || !title || !sub || !chart || !details) return;
+
+  let label = "";
+  let series = null;
+  let color = "#0078d4";
+  let detailHtml = "";
+
+  if (metricKey === "visits") {
+    label = "Hub visits";
+    series = data.series.visits;
+    color = "#0078d4";
+    detailHtml =
+      `<h4>Top hub pages after event</h4>` +
+      modalTable(
+        [{ label: "Page path", render: (r) => esc(r.name) }, { label: "Sessions", num: true, render: (r) => fmt(r.value) }],
+        data.topPagesAfter,
+      ) +
+      `<h4 style="margin-top:.7rem">Top report pages after event</h4>` +
+      modalTable(
+        [{ label: "Report page", render: (r) => esc(r.name) }, { label: "Sessions", num: true, render: (r) => fmt(r.value) }],
+        data.topReportPagesAfter,
+      );
+  } else if (metricKey === "clones") {
+    label = "Repo clones";
+    series = data.series.clones;
+    color = "#6b4ce6";
+    detailHtml =
+      `<h4>Repos with strongest clone lift</h4>` +
+      modalTable(
+        [
+          { label: "Repo", render: (r) => esc(r.repo) },
+          { label: "Before/day", num: true, render: (r) => (r.before == null ? "n/a" : fmt(r.before)) },
+          { label: "After/day", num: true, render: (r) => (r.after == null ? "n/a" : fmt(r.after)) },
+          { label: "Delta/day", num: true, render: (r) => `<span class="${deltaClass(r.delta)}">${r.delta == null ? "n/a" : fmtSigned(r.delta)}</span>` },
+        ],
+        data.cloneRepoRows,
+      );
+  } else if (metricKey === "youtubeViews") {
+    label = "YouTube views";
+    series = data.series.youtubeViews;
+    color = "#d83b01";
+    detailHtml =
+      `<h4>YouTube readout</h4><p class="ec-sub">This view uses channel-level daily views from the analytics feed. Per-video split for this exact event window is not available in the current dataset.</p>`;
+  } else if (metricKey === "referrals") {
+    label = "External referrals";
+    series = data.series.referrals;
+    color = "#0f9d58";
+    detailHtml =
+      `<h4>Top external referrers after event</h4>` +
+      modalTable(
+        [{ label: "Referrer", render: (r) => esc(r.name) }, { label: "Sessions", num: true, render: (r) => fmt(r.value) }],
+        data.topReferrersAfter,
+      );
+  }
+
+  if (!series) return;
+  title.textContent = `${label} detail`;
+  sub.textContent = `${data.eventDate} · ${data.eventTitle}`;
+  chart.innerHTML = svgEventMetric(series, data.eventDate, color, { width: 1020, height: 320, rangeDays: 21 });
+  details.innerHTML = detailHtml;
+  modal.hidden = false;
+}
+
+function closeMetricModal() {
+  const modal = document.getElementById("ec-modal");
+  if (!modal) return;
+  modal.hidden = true;
+}
+
+function initModal() {
+  const closeBtn = document.getElementById("ec-modal-close");
+  const backdrop = document.getElementById("ec-modal-backdrop");
+  if (closeBtn) closeBtn.onclick = closeMetricModal;
+  if (backdrop) backdrop.onclick = closeMetricModal;
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") closeMetricModal();
+  });
+}
+
+function renderEvents(events, signals, reportSeries, context) {
   const body = document.getElementById("ec-events-body");
   if (!body) return { summaryRows: [], reportRows: [], dailyRows: [] };
+  EVENT_DETAIL_STORE = new Map();
 
   const summaryRows = [];
   const reportExportRows = [];
@@ -456,12 +627,19 @@ function renderEvents(events, signals, reportSeries) {
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date))
     .map((ev, idx) => {
+      const eventId = `ev-${idx}`;
       const visit = statsForEvent(signals.visits, ev.date);
       const clone = statsForEvent(signals.clones, ev.date);
       const repoViews = statsForEvent(signals.views, ev.date);
       const ytViews = statsForEvent(signals.youtubeViews, ev.date);
       const refs = statsForEvent(signals.referrals, ev.date);
       const ytWatch = statsForEvent(signals.youtubeWatchMinutes, ev.date);
+      const beforeDates = windowDates(ev.date, -WINDOW_DAYS, -1);
+      const afterDates = windowDates(ev.date, 0, WINDOW_DAYS - 1);
+      const topPagesAfter = topRowsFromMap(aggregateHubPages(context.site, afterDates, false), 12);
+      const topReportPagesAfter = topRowsFromMap(aggregateHubPages(context.site, afterDates, true), 10);
+      const topReferrersAfter = topRowsFromMap(aggregateExternalReferrers(context.site, afterDates), 12);
+      const cloneRepoRows = summarizeCloneRepos(context.traffic, ev.date);
 
       const eventReportRows = REPORT_FAMILIES.map((fam) => ({
         fam,
@@ -509,6 +687,20 @@ function renderEvents(events, signals, reportSeries) {
         : `<tr><td colspan="5">No report-page series for this event window.</td></tr>`;
 
       const detailId = `ec-detail-${idx}`;
+      EVENT_DETAIL_STORE.set(eventId, {
+        eventDate: ev.date,
+        eventTitle: ev.title || "",
+        series: {
+          visits: signals.visits,
+          clones: signals.clones,
+          youtubeViews: signals.youtubeViews,
+          referrals: signals.referrals,
+        },
+        topPagesAfter,
+        topReportPagesAfter,
+        topReferrersAfter,
+        cloneRepoRows,
+      });
       return `<tr class="ec-main-row">
         <td>${esc(ev.date)}</td>
         <td>
@@ -537,10 +729,10 @@ function renderEvents(events, signals, reportSeries) {
                 ${metricMini("YouTube watch minutes/day", ytWatch)}
               </div>
               <div class="ec-chart-grid">
-                <div class="ec-chart-card"><p class="ec-chart-title">Hub visits around ${esc(ev.date)}</p>${svgEventMetric(signals.visits, ev.date, "#0078d4")}</div>
-                <div class="ec-chart-card"><p class="ec-chart-title">Repo clones around ${esc(ev.date)}</p>${svgEventMetric(signals.clones, ev.date, "#6b4ce6")}</div>
-                <div class="ec-chart-card"><p class="ec-chart-title">YouTube views around ${esc(ev.date)}</p>${svgEventMetric(signals.youtubeViews, ev.date, "#d83b01")}</div>
-                <div class="ec-chart-card"><p class="ec-chart-title">External referrals around ${esc(ev.date)}</p>${svgEventMetric(signals.referrals, ev.date, "#0f9d58")}</div>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="visits"><div class="ec-chart-card"><p class="ec-chart-title">Hub visits around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.visits, ev.date, "#0078d4")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="clones"><div class="ec-chart-card"><p class="ec-chart-title">Repo clones around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.clones, ev.date, "#6b4ce6")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="youtubeViews"><div class="ec-chart-card"><p class="ec-chart-title">YouTube views around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.youtubeViews, ev.date, "#d83b01")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="referrals"><div class="ec-chart-card"><p class="ec-chart-title">External referrals around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.referrals, ev.date, "#0f9d58")}</div></button>
               </div>
               <table class="ec-report-table">
                 <thead>
@@ -563,6 +755,11 @@ function renderEvents(events, signals, reportSeries) {
   body.innerHTML = rows || `<tr><td colspan="9">No events found.</td></tr>`;
 
   body.onclick = (ev) => {
+    const chartBtn = ev.target.closest(".ec-chart-open");
+    if (chartBtn) {
+      openMetricModal(chartBtn.dataset.eventId || "", chartBtn.dataset.metric || "");
+      return;
+    }
     const btn = ev.target.closest(".ec-expand-btn");
     if (!btn) return;
     const target = document.getElementById(btn.dataset.target || "");
@@ -640,7 +837,7 @@ async function boot() {
     const timelineHost = document.getElementById("ec-timeline");
     if (timelineHost) timelineHost.innerHTML = svgTimeline(signals.visits, events);
     renderSummary(events, signals, reportSeries);
-    const exportPayload = renderEvents(events, signals, reportSeries);
+    const exportPayload = renderEvents(events, signals, reportSeries, { traffic, site, youtube });
     setupExports(exportPayload);
   } catch (err) {
     if (meta) meta.textContent = "Could not load enablement correlation datasets.";
@@ -651,4 +848,5 @@ async function boot() {
   }
 }
 
+initModal();
 boot();

@@ -79,10 +79,28 @@
     .ec-chart-grid { display: grid; gap: .65rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
     .ec-chart-card { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: .45rem .55rem; }
     .ec-chart-title { margin: 0 0 .25rem; font-size: .79rem; color: var(--text-soft); }
+    .ec-chart-open { appearance: none; border: 0; background: none; display: block; width: 100%; padding: 0; cursor: zoom-in; text-align: left; }
+    .ec-chart-open:hover .ec-chart-card { border-color: var(--accent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent); }
     .ec-report-table { margin-top: .7rem; width: 100%; border-collapse: collapse; font-size: .82rem; }
     .ec-report-table th, .ec-report-table td { padding: .35rem .32rem; border-bottom: 1px solid var(--border); }
     .ec-report-table th { text-align: left; color: var(--text-muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; }
     .ec-report-table td.num, .ec-report-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .ec-modal[hidden] { display: none; }
+    .ec-modal { position: fixed; inset: 0; z-index: 1100; }
+    .ec-modal-backdrop { position: absolute; inset: 0; background: rgba(17, 24, 39, .45); }
+    .ec-modal-panel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(1120px, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 18px 50px rgba(0, 0, 0, .25); }
+    .ec-modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: .95rem 1rem .45rem 1rem; border-bottom: 1px solid var(--border); }
+    .ec-modal-title { margin: 0; font-size: 1.08rem; }
+    .ec-modal-sub { margin: .16rem 0 0; color: var(--text-soft); font-size: .84rem; }
+    .ec-modal-close { appearance: none; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 8px; padding: .22rem .55rem; font-size: .85rem; font-weight: 700; cursor: pointer; }
+    .ec-modal-close:hover { border-color: var(--accent); color: var(--accent); }
+    .ec-modal-body { padding: .8rem 1rem 1rem; }
+    .ec-modal-chart { border: 1px solid var(--border); border-radius: 12px; padding: .45rem; background: var(--bg-alt); }
+    .ec-modal-details { margin-top: .75rem; }
+    .ec-modal-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: .4rem; }
+    .ec-modal-table th, .ec-modal-table td { border-bottom: 1px solid var(--border); padding: .38rem .35rem; }
+    .ec-modal-table th { text-align: left; color: var(--text-muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
+    .ec-modal-table td.num, .ec-modal-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
     @media (max-width: 760px) {
       .ec-table { min-width: 980px; }
     }
@@ -169,6 +187,23 @@
     </div>
   </section>
 </main>
+
+<div class="ec-modal" id="ec-modal" hidden>
+  <div class="ec-modal-backdrop" id="ec-modal-backdrop"></div>
+  <div class="ec-modal-panel" role="dialog" aria-modal="true" aria-labelledby="ec-modal-title">
+    <div class="ec-modal-head">
+      <div>
+        <h3 class="ec-modal-title" id="ec-modal-title">Detail view</h3>
+        <p class="ec-modal-sub" id="ec-modal-sub"></p>
+      </div>
+      <button type="button" class="ec-modal-close" id="ec-modal-close">Close</button>
+    </div>
+    <div class="ec-modal-body">
+      <div class="ec-modal-chart" id="ec-modal-chart"></div>
+      <div class="ec-modal-details" id="ec-modal-details"></div>
+    </div>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="wrap">
