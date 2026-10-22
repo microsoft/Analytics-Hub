@@ -101,6 +101,8 @@
     .ec-modal-table th, .ec-modal-table td { border-bottom: 1px solid var(--border); padding: .38rem .35rem; }
     .ec-modal-table th { text-align: left; color: var(--text-muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
     .ec-modal-table td.num, .ec-modal-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .ec-help { margin-top: .85rem; font-size: .84rem; color: var(--text-soft); }
+    .ec-help strong { color: var(--text); }
     @media (max-width: 760px) {
       .ec-table { min-width: 980px; }
     }
@@ -152,11 +154,12 @@
   <section>
     <div class="wrap">
       <h2 class="ec-h2">Timeline with day-level labels</h2>
-      <p class="ec-sub">Daily human sessions for Analytics Hub with explicit date ticks, plus event markers so you can pinpoint exact days.</p>
+      <p class="ec-sub">Daily human sessions for Analytics Hub with explicit date ticks, plus event markers so you can pinpoint exact days. Scroll horizontally to see the full history.</p>
       <div class="ec-card" id="ec-timeline">
         <p class="ec-loading">Loading timeline...</p>
       </div>
       <div class="ec-summary" id="ec-summary"></div>
+      <p class="ec-help" title="All deltas on this page are 7-day post-event average minus 7-day pre-event average. They are not previous-day comparisons."><strong>Definition:</strong> Δ/day = post-event average per day (event day through +6 days) minus pre-event average per day (-7 through -1 days).</p>
     </div>
   </section>
 
@@ -171,11 +174,11 @@
               <th>Date</th>
               <th>Event</th>
               <th class="num">Attendees</th>
-              <th>Type</th>
-              <th class="num">Visits Δ/day</th>
-              <th class="num">Clones Δ/day</th>
-              <th class="num">YouTube views Δ/day</th>
-              <th>Report increases</th>
+              <th title="User-defined event type from events.json.">Type</th>
+              <th class="num" title="Hub visits per day: 7-day post-event average minus 7-day pre-event average.">Visits Δ/day</th>
+              <th class="num" title="Analytics Hub repository clones per day: 7-day post-event average minus 7-day pre-event average.">Clones Δ/day</th>
+              <th class="num" title="YouTube channel views per day: 7-day post-event average minus 7-day pre-event average.">YouTube views Δ/day</th>
+              <th title="Top reports with positive lift. Values show average daily increase after the event.">Report increases</th>
               <th>Detail</th>
             </tr>
           </thead>
@@ -212,6 +215,6 @@
   </div>
 </footer>
 
-<script src="enablement-correlation.js"></script>
+<script src="enablement-correlation.js?v=202610221805"></script>
 </body>
 </html>

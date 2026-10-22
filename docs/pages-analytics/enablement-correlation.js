@@ -10,20 +10,22 @@ const WINDOW_DAYS = 7;
 const INTERNAL_HOSTS = ["microsoft.github.io", "github.com", "githubusercontent.com", "github.io"];
 let EVENT_DETAIL_STORE = new Map();
 
-const REPORT_FAMILIES = [
-  { key: "valuelens", label: "ValueLens", needles: ["/valuelens"] },
-  { key: "consumption-central", label: "Consumption Central", needles: ["/consumption-central"] },
-  { key: "ai-in-one", label: "AI in One", needles: ["/ai-in-one"] },
-  { key: "agent-evaluator", label: "Agent Evaluator", needles: ["/agent-evaluator"] },
-  { key: "ess-insights", label: "ESS Insights", needles: ["/ess-insights"] },
-  { key: "personal-dashboard", label: "Personal Dashboard", needles: ["/personal-dashboard"] },
-  { key: "m365-usage-analytics", label: "M365 Usage Analytics", needles: ["/m365-usage-analytics"] },
-  { key: "cowork-chargeback", label: "Cowork Chargeback", needles: ["/cowork-chargeback"] },
-  { key: "cowork-team-report", label: "Cowork Team Report", needles: ["/cowork-team-report"] },
-  { key: "finops-cowork", label: "FinOps and FOCUS", needles: ["/finops-cowork"] },
-  { key: "copilot-roi-calculator", label: "Copilot ROI Calculator", needles: ["/tools/copilot-roi-calculator"] },
-  { key: "what-cowork-did-for-me", label: "What Cowork Did For Me", needles: ["/what-cowork-did-for-me"] },
+const REPORTS = [
+  { key: "valuelens", label: "ValueLens", needles: ["/valuelens"], type: "Power BI", guideKey: "valuelens" },
+  { key: "consumption-central", label: "Consumption Central", needles: ["/consumption-central"], type: "Power BI", guideKey: "consumption-central" },
+  { key: "ai-in-one", label: "AI in One", needles: ["/ai-in-one"], type: "Power BI", guideKey: "ai-in-one" },
+  { key: "agent-evaluator", label: "Agent Evaluator", needles: ["/agent-evaluator"], type: "Web app", guideKey: "agent-evaluator" },
+  { key: "ess-insights", label: "ESS Insights", needles: ["/ess-insights"], type: "Power BI", guideKey: "ess-insights" },
+  { key: "personal-dashboard", label: "Personal Dashboard", needles: ["/personal-dashboard"], type: "Power BI", guideKey: "personal-dashboard" },
+  { key: "m365-usage-analytics", label: "M365 Usage Analytics", needles: ["/m365-usage-analytics"], type: "Power BI", guideKey: "m365-usage-analytics" },
+  { key: "cowork-chargeback", label: "Cowork Chargeback", needles: ["/cowork-chargeback"], type: "Power BI", guideKey: "cowork-chargeback" },
+  { key: "cowork-team-report", label: "Cowork Team Report", needles: ["/cowork-team-report"], type: "Power BI", guideKey: "cowork-team-report" },
+  { key: "finops-cowork", label: "FinOps and FOCUS", needles: ["/finops-cowork"], type: "Power BI", guideKey: "finops-cowork" },
+  { key: "copilot-roi-calculator", label: "Copilot ROI Calculator", needles: ["/tools/copilot-roi-calculator"], type: "Web app", guideKey: "copilot-roi-calculator" },
+  { key: "what-cowork-did-for-me", label: "What Cowork Did For Me", needles: ["/what-cowork-did-for-me"], type: "Web app", guideKey: "what-cowork-did-for-me" },
 ];
+
+const REPORTS_BY_KEY = new Map(REPORTS.map((r) => [r.key, r]));
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -70,6 +72,10 @@ function formatShortDate(isoDate) {
 
 function formatFullDate(isoDate) {
   return new Date(`${isoDate}T00:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
+}
+
+function reportGuideHref(report) {
+  return `../choose-report/#r=${encodeURIComponent(report.guideKey || report.key)}`;
 }
 
 function isInternalRef(name) {
@@ -171,7 +177,7 @@ function readYouTubeMetric(yt, metric) {
 
 function matchReportFamily(url) {
   const u = String(url || "").toLowerCase();
-  for (const fam of REPORT_FAMILIES) {
+  for (const fam of REPORTS) {
     if (fam.needles.some((needle) => u.includes(needle))) return fam.key;
   }
   return null;
@@ -179,7 +185,7 @@ function matchReportFamily(url) {
 
 function readReportSeries(site) {
   const series = {};
-  for (const fam of REPORT_FAMILIES) series[fam.key] = new Map();
+  for (const fam of REPORTS) series[fam.key] = new Map();
 
   for (const [date, groups] of Object.entries(site.snapshotsByUrl || {})) {
     const traffic = getMetric(groups, "Traffic")?.information || [];
@@ -315,7 +321,7 @@ function svgTimeline(seriesMap, events) {
   const data = [...seriesMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([day, value]) => ({ day, value }));
   if (!data.length) return `<p class="ec-loading">No daily visit data available.</p>`;
 
-  const width = Math.max(980, data.length * 16);
+  const width = Math.max(1400, data.length * 28);
   const height = 270;
   const pad = { l: 44, r: 14, t: 16, b: 38 };
   const plotW = width - pad.l - pad.r;
@@ -332,7 +338,7 @@ function svgTimeline(seriesMap, events) {
       <text class="ec-axis" x="${pad.l - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end">${fmt(val)}</text>`;
   }).join("");
 
-  const tickCount = 8;
+  const tickCount = 14;
   const ticks = [];
   for (let i = 0; i < tickCount; i++) {
     const idx = Math.round((i / (tickCount - 1)) * (data.length - 1));
@@ -355,7 +361,7 @@ function svgTimeline(seriesMap, events) {
     </g>`;
   }).join("");
 
-  return `<div class="ec-timeline-scroll"><svg class="ec-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
+  return `<div class="ec-timeline-scroll" title="Scroll left or right to see the full timeline."><svg class="ec-chart" style="width:${width}px;max-width:none;height:auto;display:block" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
     ${grid}
     <path class="ec-area" d="${area}"></path>
     <path class="ec-line" stroke="#0078d4" d="${line}"></path>
@@ -382,7 +388,7 @@ function svgEventMetric(seriesMap, eventDate, color, options = {}) {
   const xAt = (i) => pad.l + (i / (points.length - 1)) * plotW;
   const yAt = (v) => pad.t + plotH - ((v || 0) / max) * plotH;
   const line = sparseLinePath(points.map((p) => p.value), xAt, yAt);
-  const eventIdx = 10;
+  const eventIdx = rangeDays;
   const grid = [0, .5, 1].map((f) => {
     const y = yAt(max * f);
     return `<line class="ec-grid" x1="${pad.l}" x2="${width - pad.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"></line>`;
@@ -398,16 +404,17 @@ function svgEventMetric(seriesMap, eventDate, color, options = {}) {
   </svg>`;
 }
 
-function metricMini(label, stats) {
+function metricMini(label, stats, definition) {
   const cls = deltaClass(stats.deltaAbs);
   const before = stats.beforeAvg == null ? "n/a" : fmt(stats.beforeAvg);
   const after = stats.afterAvg == null ? "n/a" : fmt(stats.afterAvg);
   const delta = stats.deltaAbs == null ? "n/a" : fmtSigned(stats.deltaAbs);
   const pct = stats.deltaPct == null ? "n/a" : fmtPct(stats.deltaPct);
-  return `<div class="ec-mini">
-    <h4>${esc(label)}</h4>
+  const tip = esc(definition || "Delta/day is the 7-day post-event average minus the 7-day pre-event average.");
+  return `<div class="ec-mini" title="${tip}">
+    <h4 title="${tip}">${esc(label)}</h4>
     <p><strong>${before}</strong> before -> <strong>${after}</strong> after</p>
-    <p class="${cls}">Delta/day: ${delta} (${pct})</p>
+    <p class="${cls}" title="${tip}">Delta/day: ${delta} (${pct})</p>
   </div>`;
 }
 
@@ -418,7 +425,7 @@ function renderSummary(events, signals, reportSeries) {
   const cloneUps = events.filter((ev) => statsForEvent(signals.clones, ev.date).deltaAbs > 0).length;
   const ytUps = events.filter((ev) => statsForEvent(signals.youtubeViews, ev.date).deltaAbs > 0).length;
   const withReportRise = events.filter((ev) => {
-    for (const fam of REPORT_FAMILIES) {
+    for (const fam of REPORTS) {
       const st = statsForEvent(reportSeries[fam.key], ev.date);
       if (st.deltaAbs > 0) return true;
     }
@@ -429,7 +436,7 @@ function renderSummary(events, signals, reportSeries) {
     ["Visit-positive events", fmt(visitUps), "7-day after average > 7-day before average"],
     ["Clone-positive events", fmt(cloneUps), "Analytics Hub repo clones/day increased"],
     ["YouTube-positive events", fmt(ytUps), "YouTube views/day increased"],
-    ["Events with report lift", fmt(withReportRise), "At least one report family gained traffic/day"],
+    ["Events with report lift", fmt(withReportRise), "At least one report gained traffic/day"],
   ].map(([label, value, note]) => `<div class="ec-kpi"><div class="ec-kpi-label">${label}</div><div class="ec-kpi-value">${value}</div><div class="ec-kpi-note">${note}</div></div>`).join("");
 }
 
@@ -487,7 +494,9 @@ function setupExports(payload) {
       const csv = toCsv(payload.reportRows, [
         { key: "eventDate", label: "event_date" },
         { key: "event", label: "event" },
-        { key: "reportFamily", label: "report_family" },
+        { key: "report", label: "report" },
+        { key: "reportType", label: "report_type" },
+        { key: "guideUrl", label: "enablement_guide_url" },
         { key: "beforePerDay", label: "before_per_day" },
         { key: "afterPerDay", label: "after_per_day" },
         { key: "deltaPerDay", label: "delta_per_day" },
@@ -593,7 +602,7 @@ function openMetricModal(eventId, metricKey) {
 
   if (!series) return;
   title.textContent = `${label} detail`;
-  sub.textContent = `${data.eventDate} · ${data.eventTitle}`;
+  sub.textContent = `${data.eventDate} · ${data.eventTitle} · Δ/day uses 7-day averages, not previous-day values`;
   chart.innerHTML = svgEventMetric(series, data.eventDate, color, { width: 1020, height: 320, rangeDays: 21 });
   details.innerHTML = detailHtml;
   modal.hidden = false;
@@ -641,15 +650,15 @@ function renderEvents(events, signals, reportSeries, context) {
       const topReferrersAfter = topRowsFromMap(aggregateExternalReferrers(context.site, afterDates), 12);
       const cloneRepoRows = summarizeCloneRepos(context.traffic, ev.date);
 
-      const eventReportRows = REPORT_FAMILIES.map((fam) => ({
-        fam,
-        stats: statsForEvent(reportSeries[fam.key], ev.date),
+      const eventReportRows = REPORTS.map((report) => ({
+        report,
+        stats: statsForEvent(reportSeries[report.key], ev.date),
       })).filter((entry) => entry.stats.beforeN || entry.stats.afterN);
 
       eventReportRows.sort((a, b) => (b.stats.deltaAbs || -Infinity) - (a.stats.deltaAbs || -Infinity));
       const positive = eventReportRows.filter((row) => (row.stats.deltaAbs || 0) > 0).slice(0, 3);
       const topLift = positive.length
-        ? positive.map((row) => `${row.fam.label} (${fmtSigned(row.stats.deltaAbs)})`).join(", ")
+        ? positive.map((row) => `${row.report.label} [${row.report.type}] (${fmtSigned(row.stats.deltaAbs)})`).join(", ")
         : "No report lift signal";
 
       summaryRows.push({
@@ -667,7 +676,9 @@ function renderEvents(events, signals, reportSeries, context) {
         reportExportRows.push({
           eventDate: ev.date,
           event: ev.title || "",
-          reportFamily: row.fam.label,
+          report: row.report.label,
+          reportType: row.report.type,
+          guideUrl: reportGuideHref(row.report),
           beforePerDay: row.stats.beforeAvg == null ? "" : Number(row.stats.beforeAvg.toFixed(2)),
           afterPerDay: row.stats.afterAvg == null ? "" : Number(row.stats.afterAvg.toFixed(2)),
           deltaPerDay: row.stats.deltaAbs == null ? "" : Number(row.stats.deltaAbs.toFixed(2)),
@@ -678,13 +689,16 @@ function renderEvents(events, signals, reportSeries, context) {
       const detailsReports = eventReportRows.length
         ? eventReportRows.map((row) => `
           <tr>
-            <td>${esc(row.fam.label)}</td>
-            <td class="num">${row.stats.beforeAvg == null ? "n/a" : fmt(row.stats.beforeAvg)}</td>
-            <td class="num">${row.stats.afterAvg == null ? "n/a" : fmt(row.stats.afterAvg)}</td>
-            <td class="num ${deltaClass(row.stats.deltaAbs)}">${row.stats.deltaAbs == null ? "n/a" : fmtSigned(row.stats.deltaAbs)}</td>
-            <td class="num ${deltaClass(row.stats.deltaPct)}">${row.stats.deltaPct == null ? "n/a" : fmtPct(row.stats.deltaPct)}</td>
+            <td>
+              <a href="${esc(reportGuideHref(row.report))}" target="_blank" rel="noopener" title="Open ${esc(row.report.label)} enablement guide">${esc(row.report.label)}</a>
+            </td>
+            <td><span class="ec-badge" title="Report type">${esc(row.report.type)}</span></td>
+            <td class="num" title="Average/day from ${esc(formatFullDate(isoShift(ev.date, -WINDOW_DAYS)))} to ${esc(formatFullDate(isoShift(ev.date, -1)))}">${row.stats.beforeAvg == null ? "n/a" : fmt(row.stats.beforeAvg)}</td>
+            <td class="num" title="Average/day from ${esc(formatFullDate(ev.date))} to ${esc(formatFullDate(isoShift(ev.date, WINDOW_DAYS - 1)))}">${row.stats.afterAvg == null ? "n/a" : fmt(row.stats.afterAvg)}</td>
+            <td class="num ${deltaClass(row.stats.deltaAbs)}" title="Post-event average/day minus pre-event average/day">${row.stats.deltaAbs == null ? "n/a" : fmtSigned(row.stats.deltaAbs)}</td>
+            <td class="num ${deltaClass(row.stats.deltaPct)}" title="Percent change vs pre-event average/day">${row.stats.deltaPct == null ? "n/a" : fmtPct(row.stats.deltaPct)}</td>
           </tr>`).join("")
-        : `<tr><td colspan="5">No report-page series for this event window.</td></tr>`;
+        : `<tr><td colspan="6">No report-page series for this event window.</td></tr>`;
 
       const detailId = `ec-detail-${idx}`;
       EVENT_DETAIL_STORE.set(eventId, {
@@ -709,10 +723,10 @@ function renderEvents(events, signals, reportSeries, context) {
         </td>
         <td class="num">${fmt(ev.attendees)}</td>
         <td><span class="ec-badge">${esc(ev.type || "event")}</span></td>
-        <td class="num ${deltaClass(visit.deltaAbs)}">${visit.deltaAbs == null ? "n/a" : fmtSigned(visit.deltaAbs)}</td>
-        <td class="num ${deltaClass(clone.deltaAbs)}">${clone.deltaAbs == null ? "n/a" : fmtSigned(clone.deltaAbs)}</td>
-        <td class="num ${deltaClass(ytViews.deltaAbs)}">${ytViews.deltaAbs == null ? "n/a" : fmtSigned(ytViews.deltaAbs)}</td>
-        <td>${esc(topLift)}</td>
+        <td class="num ${deltaClass(visit.deltaAbs)}" title="Hub visits/day, 7-day after average minus 7-day before average">${visit.deltaAbs == null ? "n/a" : fmtSigned(visit.deltaAbs)}</td>
+        <td class="num ${deltaClass(clone.deltaAbs)}" title="Repo clones/day, 7-day after average minus 7-day before average">${clone.deltaAbs == null ? "n/a" : fmtSigned(clone.deltaAbs)}</td>
+        <td class="num ${deltaClass(ytViews.deltaAbs)}" title="YouTube views/day, 7-day after average minus 7-day before average">${ytViews.deltaAbs == null ? "n/a" : fmtSigned(ytViews.deltaAbs)}</td>
+        <td title="Top positive report lifts for this event using 7-day after minus 7-day before averages.">${esc(topLift)}</td>
         <td>
           <button type="button" class="ec-expand-btn" data-target="${detailId}" aria-expanded="false">Expand</button>
         </td>
@@ -721,27 +735,28 @@ function renderEvents(events, signals, reportSeries, context) {
         <td colspan="9">
             <div class="ec-details-body">
               <div class="ec-metric-grid">
-                ${metricMini("Hub visits/day", visit)}
-                ${metricMini("Repo clones/day", clone)}
-                ${metricMini("Repo views/day", repoViews)}
-                ${metricMini("External referrals/day", refs)}
-                ${metricMini("YouTube views/day", ytViews)}
-                ${metricMini("YouTube watch minutes/day", ytWatch)}
+                ${metricMini("Hub visits/day", visit, "Daily human sessions on the Analytics Hub site.")}
+                ${metricMini("Repo clones/day", clone, "Daily clone count for microsoft/Analytics-Hub.")}
+                ${metricMini("Repo views/day", repoViews, "Daily GitHub repository views for microsoft/Analytics-Hub.")}
+                ${metricMini("External referrals/day", refs, "Daily sessions from non-Microsoft and non-GitHub referrers.")}
+                ${metricMini("YouTube views/day", ytViews, "Daily views from the Analytics Hub YouTube channel feed.")}
+                ${metricMini("YouTube watch minutes/day", ytWatch, "Daily watch minutes from the Analytics Hub YouTube channel feed.")}
               </div>
               <div class="ec-chart-grid">
-                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="visits"><div class="ec-chart-card"><p class="ec-chart-title">Hub visits around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.visits, ev.date, "#0078d4")}</div></button>
-                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="clones"><div class="ec-chart-card"><p class="ec-chart-title">Repo clones around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.clones, ev.date, "#6b4ce6")}</div></button>
-                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="youtubeViews"><div class="ec-chart-card"><p class="ec-chart-title">YouTube views around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.youtubeViews, ev.date, "#d83b01")}</div></button>
-                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="referrals"><div class="ec-chart-card"><p class="ec-chart-title">External referrals around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.referrals, ev.date, "#0f9d58")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="visits" title="Open an enlarged chart and detail table for Hub visits."><div class="ec-chart-card"><p class="ec-chart-title">Hub visits around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.visits, ev.date, "#0078d4")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="clones" title="Open an enlarged chart and detail table for repo clones."><div class="ec-chart-card"><p class="ec-chart-title">Repo clones around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.clones, ev.date, "#6b4ce6")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="youtubeViews" title="Open an enlarged chart and detail readout for YouTube views."><div class="ec-chart-card"><p class="ec-chart-title">YouTube views around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.youtubeViews, ev.date, "#d83b01")}</div></button>
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="referrals" title="Open an enlarged chart and detail table for external referrers."><div class="ec-chart-card"><p class="ec-chart-title">External referrals around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.referrals, ev.date, "#0f9d58")}</div></button>
               </div>
               <table class="ec-report-table">
                 <thead>
                   <tr>
-                    <th>Report family</th>
-                    <th class="num">Before/day</th>
-                    <th class="num">After/day</th>
-                    <th class="num">Delta/day</th>
-                    <th class="num">Delta %</th>
+                    <th title="Specific Analytics Hub report. Click the name to open its enablement guide.">Report</th>
+                    <th title="Report type.">Type</th>
+                    <th class="num" title="7-day pre-event average sessions/day for this report.">Before/day</th>
+                    <th class="num" title="7-day post-event average sessions/day for this report.">After/day</th>
+                    <th class="num" title="After/day minus Before/day.">Delta/day</th>
+                    <th class="num" title="Percent change vs Before/day.">Delta %</th>
                   </tr>
                 </thead>
                 <tbody>${detailsReports}</tbody>
