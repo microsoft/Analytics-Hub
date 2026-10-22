@@ -100,15 +100,24 @@ function toDateMap(entries) {
 }
 
 function readHubVisits(site) {
-  const out = [];
+  const byDate = new Map();
   for (const [date, groups] of Object.entries(site.dailySnapshots || {})) {
     const traffic = getMetric(groups, "Traffic");
     const row = traffic?.information?.[0] || {};
     const total = toNum(row.totalSessionCount);
     const bots = toNum(row.totalBotSessionCount);
-    out.push([date, Math.max(0, total - bots)]);
+    byDate.set(date, Math.max(0, total - bots));
   }
-  return toDateMap(out.sort((a, b) => a[0].localeCompare(b[0])));
+  // Fall back to the longer 3-day snapshot history for earlier periods.
+  for (const [date, groups] of Object.entries(site.snapshots || {})) {
+    if (byDate.has(date)) continue;
+    const traffic = getMetric(groups, "Traffic");
+    const row = traffic?.information?.[0] || {};
+    const total = toNum(row.totalSessionCount);
+    const bots = toNum(row.totalBotSessionCount);
+    byDate.set(date, Math.max(0, total - bots));
+  }
+  return toDateMap([...byDate.entries()].sort((a, b) => a[0].localeCompare(b[0])));
 }
 
 function readExternalReferrals(site) {
@@ -232,7 +241,7 @@ function svgTimeline(seriesMap, events) {
   const data = [...seriesMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([day, value]) => ({ day, value }));
   if (!data.length) return `<p class="ec-loading">No daily visit data available.</p>`;
 
-  const width = 980;
+  const width = Math.max(980, data.length * 16);
   const height = 270;
   const pad = { l: 44, r: 14, t: 16, b: 38 };
   const plotW = width - pad.l - pad.r;
@@ -272,13 +281,13 @@ function svgTimeline(seriesMap, events) {
     </g>`;
   }).join("");
 
-  return `<svg class="ec-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
+  return `<div class="ec-timeline-scroll"><svg class="ec-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
     ${grid}
     <path class="ec-area" d="${area}"></path>
     <path class="ec-line" stroke="#0078d4" d="${line}"></path>
     ${marks}
     ${ticks.join("")}
-  </svg>`;
+  </svg></div>`;
 }
 
 function svgEventMetric(seriesMap, eventDate, color) {
