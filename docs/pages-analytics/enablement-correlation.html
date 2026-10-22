@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enablement Correlation · Analytics Hub</title>
+  <meta name="description" content="Correlate enablement sessions with traffic shifts across visits, clones, referrals, YouTube, and report pages." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/pages-analytics/enablement-correlation.html" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../styles.css?v=7a506cda" />
+  <link rel="stylesheet" href="styles.css?v=ed972d61" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Enablement Correlation" />
+  <script src="../clarity-events.js?v=202610061540" defer></script>
+  <script src="../consent.js?v=1" defer></script>
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <style>
+    .ec-page { padding-bottom: 3rem; }
+    .ec-hero { padding: 2.6rem 0 1rem; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
+    .ec-crumb { font-size: .82rem; color: var(--text-muted); margin: 0 0 .65rem; }
+    .ec-crumb a { color: inherit; text-decoration: none; }
+    .ec-crumb a:hover { text-decoration: underline; }
+    .ec-eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .74rem; font-weight: 800; color: var(--accent); margin: 0 0 .4rem; }
+    .ec-hero h1 { margin: 0 0 .7rem; font-size: clamp(1.85rem, 3.6vw, 2.7rem); letter-spacing: -.02em; }
+    .ec-lede { max-width: 860px; margin: 0; color: var(--text-soft); line-height: 1.55; }
+    .ec-meta { margin: .9rem 0 0; color: var(--text-muted); font-size: .86rem; }
+    .ec-card { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: 0 1px 3px rgba(20,20,40,.05); padding: 1rem 1.1rem; }
+    .ec-h2 { margin: 1.35rem 0 .45rem; font-size: 1.15rem; letter-spacing: -.01em; }
+    .ec-sub { margin: 0 0 .75rem; font-size: .88rem; color: var(--text-soft); }
+    .ec-loading { color: var(--text-muted); padding: 1.1rem 0; }
+    .ec-summary { margin-top: 1rem; display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+    .ec-kpi { border: 1px solid var(--border); border-radius: 12px; background: var(--bg-alt); padding: .8rem .9rem; }
+    .ec-kpi-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); font-weight: 700; }
+    .ec-kpi-value { margin-top: .3rem; font-size: 1.35rem; font-weight: 800; color: var(--text); }
+    .ec-kpi-note { margin-top: .2rem; font-size: .76rem; color: var(--text-muted); }
+    .ec-chart { width: 100%; height: auto; display: block; }
+    .ec-grid { stroke: color-mix(in srgb, currentColor 14%, transparent); stroke-width: 1; }
+    .ec-line { fill: none; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+    .ec-area { fill: color-mix(in srgb, var(--accent) 10%, transparent); }
+    .ec-axis { font-size: 11px; fill: var(--text-muted); }
+    .ec-event-line { stroke: color-mix(in srgb, #d83b01 72%, transparent); stroke-width: 1.4; stroke-dasharray: 4 3; }
+    .ec-mark { fill: #d83b01; }
+    .ec-mark text { font-size: 10px; fill: #8a2d0a; }
+    .ec-table-wrap { overflow-x: auto; }
+    .ec-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    .ec-table th { text-align: left; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); padding: .52rem; white-space: nowrap; }
+    .ec-table td { border-bottom: 1px solid var(--border); padding: .56rem .52rem; vertical-align: top; }
+    .ec-table td.num, .ec-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .ec-badge { display: inline-block; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-alt); padding: .16rem .5rem; font-size: .73rem; text-transform: lowercase; color: var(--text-soft); white-space: nowrap; }
+    .ec-up { color: #107c10; font-weight: 700; }
+    .ec-down { color: #c50f1f; font-weight: 700; }
+    .ec-flat { color: var(--text-muted); font-weight: 700; }
+    .ec-details summary { cursor: pointer; color: var(--accent); font-weight: 700; font-size: .86rem; }
+    .ec-details-body { margin-top: .65rem; border: 1px solid var(--border); border-radius: 12px; padding: .72rem; background: var(--bg-alt); }
+    .ec-metric-grid { display: grid; gap: .62rem; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); margin-bottom: .75rem; }
+    .ec-mini { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: .55rem .62rem; }
+    .ec-mini h4 { margin: 0 0 .25rem; font-size: .81rem; }
+    .ec-mini p { margin: 0; font-size: .8rem; color: var(--text-soft); }
+    .ec-mini p strong { color: var(--text); font-variant-numeric: tabular-nums; }
+    .ec-chart-grid { display: grid; gap: .65rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .ec-chart-card { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: .45rem .55rem; }
+    .ec-chart-title { margin: 0 0 .25rem; font-size: .79rem; color: var(--text-soft); }
+    .ec-report-table { margin-top: .7rem; width: 100%; border-collapse: collapse; font-size: .82rem; }
+    .ec-report-table th, .ec-report-table td { padding: .35rem .32rem; border-bottom: 1px solid var(--border); }
+    .ec-report-table th { text-align: left; color: var(--text-muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; }
+    .ec-report-table td.num, .ec-report-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    @media (max-width: 760px) {
+      .ec-table { min-width: 980px; }
+    }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+      <span class="brand-by"><svg class="ms-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>by Microsoft</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
+      <a class="nav-cta" href="./">&larr; Pages Analytics</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="main" class="ec-page">
+  <section class="ec-hero">
+    <div class="wrap">
+      <p class="ec-crumb"><a href="./">&larr; Pages Analytics</a></p>
+      <p class="ec-eyebrow">Enablement outcomes</p>
+      <h1>Enablement Correlation</h1>
+      <p class="ec-lede">Event-by-event correlation view that lines up enablement sessions with downstream traffic movement. Each event row expands into detailed before and after signals for hub visits, GitHub clones and views, YouTube, external referrals, and report-page traffic shifts.</p>
+      <p class="ec-meta" id="ec-meta">Loading event and traffic datasets...</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="ec-h2">Timeline with day-level labels</h2>
+      <p class="ec-sub">Daily human sessions for Analytics Hub with explicit date ticks, plus event markers so you can pinpoint exact days.</p>
+      <div class="ec-card" id="ec-timeline">
+        <p class="ec-loading">Loading timeline...</p>
+      </div>
+      <div class="ec-summary" id="ec-summary"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="ec-h2">Event catalog and impact breakdown</h2>
+      <p class="ec-sub">Expand any event to inspect per-metric charts and report-level lifts around that date.</p>
+      <div class="ec-card ec-table-wrap">
+        <table class="ec-table" id="ec-events-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+              <th class="num">Attendees</th>
+              <th>Type</th>
+              <th class="num">Visits Δ/day</th>
+              <th class="num">Clones Δ/day</th>
+              <th class="num">YouTube views Δ/day</th>
+              <th>Report increases</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody id="ec-events-body">
+            <tr><td colspan="9" class="ec-loading">Loading events...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <p>Built by Microsoft · <a href="https://github.com/microsoft/Analytics-Hub">microsoft/Analytics-Hub</a></p>
+  </div>
+</footer>
+
+<script src="enablement-correlation.js"></script>
+</body>
+</html>

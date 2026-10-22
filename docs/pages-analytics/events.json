@@ -1,6 +1,6 @@
 {
   "_comment": "Impact events for the Signals Lab. Enablement sessions, workshops, office hours and launches overlaid on the traffic timeline. To add one, append an object with date (YYYY-MM-DD), title, attendees (invited headcount), type, optional note. Types: cowork-enablement, enablement, office-hours, demo, launch.",
-  "updated": "2026-09-25",
+  "updated": "2026-10-22",
   "events": [
     {
       "date": "2026-07-06",
@@ -141,6 +141,76 @@
       "attendees": 404,
       "type": "demo",
       "note": "Team presented Customer Facing Reports at the hackathon demo day."
+    },
+    {
+      "date": "2026-09-29",
+      "title": "VOS Enablement - chargeback deepdive",
+      "attendees": 6,
+      "type": "cowork-enablement",
+      "note": ""
+    },
+    {
+      "date": "2026-10-01",
+      "title": "VOS enablement - Cowork team skill",
+      "attendees": 24,
+      "type": "cowork-enablement",
+      "note": ""
+    },
+    {
+      "date": "2026-10-01",
+      "title": "ATA+BVA - ValueLens",
+      "attendees": 22,
+      "type": "enablement",
+      "note": ""
+    },
+    {
+      "date": "2026-10-06",
+      "title": "GSA Cowork office hours (EMEA/APAC)",
+      "attendees": 69,
+      "type": "office-hours",
+      "note": "Topic - Analytics Hub"
+    },
+    {
+      "date": "2026-10-13",
+      "title": "GSA Cowork office hours (US)",
+      "attendees": 24,
+      "type": "office-hours",
+      "note": "Topic - Analytics Hub"
+    },
+    {
+      "date": "2026-10-14",
+      "title": "OGE SE Office Hours",
+      "attendees": 12,
+      "type": "office-hours",
+      "note": "Topic - Analytics Hub"
+    },
+    {
+      "date": "2026-10-15",
+      "title": "ATA+BVA - AI in One 2.0",
+      "attendees": 17,
+      "type": "enablement",
+      "note": ""
+    },
+    {
+      "date": "2026-10-16",
+      "title": "India CAB session",
+      "attendees": 0,
+      "type": "enablement",
+      "note": "Keith and Samina. Topic - India CAB. Attendees TBD."
+    },
+    {
+      "date": "2026-10-14",
+      "title": "Partner Cowork Enablement Camp",
+      "attendees": 200,
+      "type": "cowork-enablement",
+      "note": "~200 attendees. Topic - Analytics Hub"
+    },
+    {
+      "date": "2026-10-19",
+      "title": "LevelUp session",
+      "attendees": 200,
+      "type": "enablement",
+      "note": "~200 attendees. Topic - chargeback reports"
     }
   ]
 }
