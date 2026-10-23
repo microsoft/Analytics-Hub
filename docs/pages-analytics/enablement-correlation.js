@@ -93,6 +93,19 @@ function eventCategory(ev) {
   return "other";
 }
 
+function eventTeamLabel(ev) {
+  if (isVosEvent(ev)) return "VOS (Value Optimization SME)";
+  if (isGoPlusEvent(ev)) return "GO+";
+  const title = String(ev?.title || "");
+  if (/^ATA\+BVA/i.test(title)) return "ATA+BVA";
+  if (/^GSA/i.test(title)) return "GSA";
+  if (/^OGE/i.test(title)) return "OGE";
+  if (/partner/i.test(title)) return "Partner";
+  if (/india cab/i.test(title)) return "India CAB";
+  if (/office hours/i.test(title)) return "Office hours";
+  return "Other";
+}
+
 function isSocialPostEvent(ev) {
   const type = String(ev?.type || "").toLowerCase();
   const title = String(ev?.title || "").toLowerCase();
@@ -572,6 +585,107 @@ function renderSummary(events, signals, reportSeries) {
     ["YouTube-positive events", fmt(ytUps), "YouTube views/day increased"],
     ["Events with report lift", fmt(withReportRise), "At least one report gained traffic/day"],
   ].map(([label, value, note]) => `<div class="ec-kpi"><div class="ec-kpi-label">${label}</div><div class="ec-kpi-value">${value}</div><div class="ec-kpi-note">${note}</div></div>`).join("");
+}
+
+function renderEngagementImpact(events, signals, reportSeries) {
+  const teamBody = document.getElementById("ec-team-impact-body");
+  const reportBody = document.getElementById("ec-report-impact-body");
+  const barsHost = document.getElementById("ec-team-bars");
+  const notesHost = document.getElementById("ec-insight-notes");
+  if (!teamBody || !reportBody || !barsHost || !notesHost) return;
+
+  const teamAgg = new Map();
+  const reportAgg = new Map();
+
+  for (const ev of events) {
+    const team = eventTeamLabel(ev);
+    const visits = statsForEvent(signals.visits, ev.date);
+    const clones = statsForEvent(signals.clones, ev.date);
+    const ytViews = statsForEvent(signals.youtubeViews, ev.date);
+    const reportRows = REPORTS.map((report) => ({
+      report,
+      stats: statsForEvent(reportSeries[report.key], ev.date),
+    }));
+    const positiveReports = reportRows.filter((r) => (r.stats.deltaAbs || 0) > 0);
+    const bestReport = positiveReports.sort((a, b) => (b.stats.deltaAbs || 0) - (a.stats.deltaAbs || 0))[0] || null;
+
+    const estViews = Math.max(0, toNum(visits.deltaAbs)) * WINDOW_DAYS;
+    const estClones = Math.max(0, toNum(clones.deltaAbs)) * WINDOW_DAYS;
+    const estYtViews = Math.max(0, toNum(ytViews.deltaAbs)) * WINDOW_DAYS;
+    const teamRow = teamAgg.get(team) || {
+      team,
+      events: 0,
+      attendees: 0,
+      estViews: 0,
+      estClones: 0,
+      estYtViews: 0,
+      reportLift: new Map(),
+    };
+    teamRow.events += 1;
+    teamRow.attendees += Math.max(0, toNum(ev.attendees));
+    teamRow.estViews += estViews;
+    teamRow.estClones += estClones;
+    teamRow.estYtViews += estYtViews;
+    for (const r of positiveReports) {
+      teamRow.reportLift.set(r.report.key, (teamRow.reportLift.get(r.report.key) || 0) + ((r.stats.deltaAbs || 0) * WINDOW_DAYS));
+      const rep = reportAgg.get(r.report.key) || { report: r.report, estViews: 0, events: 0 };
+      rep.estViews += (r.stats.deltaAbs || 0) * WINDOW_DAYS;
+      rep.events += 1;
+      reportAgg.set(r.report.key, rep);
+    }
+    teamAgg.set(team, teamRow);
+
+  }
+
+  const teamRows = [...teamAgg.values()].map((row) => {
+    const topReportKey = [...row.reportLift.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+    const topReport = topReportKey ? REPORTS.find((r) => r.key === topReportKey)?.label || "n/a" : "n/a";
+    return { ...row, topReport };
+  }).sort((a, b) => b.estViews - a.estViews);
+
+  const topReports = [...reportAgg.values()].sort((a, b) => b.estViews - a.estViews).slice(0, 8);
+  const totalViewsDriven = teamRows.reduce((sum, r) => sum + r.estViews, 0);
+  const totalAttendees = teamRows.reduce((sum, r) => sum + r.attendees, 0);
+
+  const maxViews = Math.max(1, ...teamRows.map((r) => r.estViews));
+  barsHost.innerHTML = teamRows.slice(0, 8).map((r) => {
+    const pct = Math.max(2, Math.round((r.estViews / maxViews) * 100));
+    return `<div class="ec-bar-row">
+      <div class="ec-bar-label">${esc(r.team)}</div>
+      <div class="ec-bar-track"><div class="ec-bar-fill" style="width:${pct}%"></div></div>
+      <div class="ec-bar-value">${fmt(r.estViews)}</div>
+    </div>`;
+  }).join("") || `<p class="ec-loading">No impact rows available.</p>`;
+
+  teamBody.innerHTML = teamRows.map((r) => `<tr>
+    <td>${esc(r.team)}</td>
+    <td class="num">${fmt(r.events)}</td>
+    <td class="num">${fmt(r.attendees)}</td>
+    <td class="num ${deltaClass(r.estViews)}">${fmtSigned(r.estViews, 0)}</td>
+    <td>${esc(r.topReport)}</td>
+  </tr>`).join("") || `<tr><td colspan="5">No team impact rows available.</td></tr>`;
+
+  reportBody.innerHTML = topReports.map((r) => `<tr>
+    <td><a href="${esc(reportGuideHref(r.report))}" target="_blank" rel="noopener">${esc(r.report.label)}</a></td>
+    <td>${esc(r.report.type)}</td>
+    <td class="num">${fmt(r.estViews)}</td>
+    <td class="num">${fmt(r.events)}</td>
+  </tr>`).join("") || `<tr><td colspan="4">No report impact rows available.</td></tr>`;
+
+  const topTeam = teamRows[0];
+  const topReport = topReports[0];
+  const topByAttendee = teamRows
+    .filter((r) => r.attendees > 0)
+    .map((r) => ({ ...r, efficiency: r.estViews / r.attendees }))
+    .sort((a, b) => b.efficiency - a.efficiency)[0];
+
+  notesHost.innerHTML = [
+    `Estimated incremental hub views across tracked events: <strong>${fmt(totalViewsDriven)}</strong> YTD.`,
+    `Total tracked attendees across events: <strong>${fmt(totalAttendees)}</strong>.`,
+    topTeam ? `Team driving the most estimated views: <strong>${esc(topTeam.team)}</strong> (${fmt(topTeam.estViews)}).` : "No top team signal yet.",
+    topReport ? `Report with strongest estimated lift: <strong>${esc(topReport.report.label)}</strong> (${fmt(topReport.estViews)}).` : "No top report signal yet.",
+    topByAttendee ? `Highest views per attendee signal: <strong>${esc(topByAttendee.team)}</strong> (${fmtSigned(topByAttendee.efficiency, 2)} views per attendee).` : "No attendee efficiency signal yet.",
+  ].map((line) => `<li>${line}</li>`).join("");
 }
 
 function escapeCsvCell(v) {
@@ -1117,6 +1231,7 @@ async function boot() {
       initTimelineScroll();
     }
     renderSummary(events, signals, reportSeries);
+    renderEngagementImpact(events, signals, reportSeries);
     const exportPayload = renderEvents(events, signals, reportSeries, { traffic, site, youtube });
     setupCatalogFilters();
     setupExports(exportPayload);

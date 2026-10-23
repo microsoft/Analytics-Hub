@@ -122,8 +122,23 @@
     .ec-modal-table td.num, .ec-modal-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
     .ec-help { margin-top: .85rem; font-size: .84rem; color: var(--text-soft); }
     .ec-help strong { color: var(--text); }
+    .ec-insight-grid { display: grid; gap: .9rem; grid-template-columns: 1.2fr 1fr; }
+    .ec-insight-list { margin: .2rem 0 0 1rem; padding: 0; color: var(--text-soft); font-size: .88rem; line-height: 1.45; }
+    .ec-bar-list { display: grid; gap: .55rem; margin-top: .45rem; }
+    .ec-bar-row { display: grid; grid-template-columns: 180px 1fr 90px; gap: .55rem; align-items: center; }
+    .ec-bar-label { font-size: .8rem; color: var(--text); font-weight: 700; }
+    .ec-bar-track { height: 10px; border-radius: 999px; background: var(--bg-alt); border: 1px solid var(--border); overflow: hidden; }
+    .ec-bar-fill { height: 100%; background: linear-gradient(90deg, #0078d4, #00a3a3); }
+    .ec-bar-value { text-align: right; font-size: .8rem; color: var(--text-soft); font-variant-numeric: tabular-nums; }
+    .ec-tight-table { width: 100%; border-collapse: collapse; font-size: .84rem; margin-top: .55rem; }
+    .ec-tight-table th, .ec-tight-table td { border-bottom: 1px solid var(--border); padding: .4rem .34rem; }
+    .ec-tight-table th { text-align: left; color: var(--text-muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
+    .ec-tight-table td.num, .ec-tight-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
     @media (max-width: 760px) {
       .ec-table { min-width: 980px; }
+      .ec-insight-grid { grid-template-columns: 1fr; }
+      .ec-bar-row { grid-template-columns: 1fr; gap: .28rem; }
+      .ec-bar-value { text-align: left; }
     }
   </style>
 </head>
@@ -179,6 +194,53 @@
       </div>
       <div class="ec-summary" id="ec-summary"></div>
       <p class="ec-help" title="All deltas on this page are 7-day post-event average minus 7-day pre-event average. They are not previous-day comparisons."><strong>Definition:</strong> Δ/day = post-event average per day (event day through +6 days) minus pre-event average per day (-7 through -1 days).</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="ec-h2">Total engagement impact by team (YTD)</h2>
+      <p class="ec-sub">Estimated impact rollup from the same 7-day before and after methodology, grouped by enablement team signal in event labels.</p>
+      <div class="ec-insight-grid">
+        <div class="ec-card">
+          <h3 class="ec-h2" style="margin-top:0">Estimated views driven by team</h3>
+          <div id="ec-team-bars" class="ec-bar-list"><p class="ec-loading">Loading team impact...</p></div>
+          <table class="ec-tight-table" id="ec-team-impact-table">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th class="num">Events</th>
+                <th class="num">Attendees</th>
+                <th class="num">Estimated views driven</th>
+                <th>Top report driven</th>
+              </tr>
+            </thead>
+            <tbody id="ec-team-impact-body">
+              <tr><td colspan="5" class="ec-loading">Loading team impact...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ec-card">
+          <h3 class="ec-h2" style="margin-top:0">Planning insights</h3>
+          <ul class="ec-insight-list" id="ec-insight-notes">
+            <li>Loading insights...</li>
+          </ul>
+          <h3 class="ec-h2">Reports driven most YTD</h3>
+          <table class="ec-tight-table">
+            <thead>
+              <tr>
+                <th>Report</th>
+                <th>Type</th>
+                <th class="num">Estimated views driven</th>
+                <th class="num">Events</th>
+              </tr>
+            </thead>
+            <tbody id="ec-report-impact-body">
+              <tr><td colspan="4" class="ec-loading">Loading report impact...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -243,6 +305,6 @@
   </div>
 </footer>
 
-<script src="enablement-correlation.js?v=202610231435"></script>
+<script src="enablement-correlation.js?v=202610231505"></script>
 </body>
 </html>
