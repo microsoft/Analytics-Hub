@@ -404,7 +404,7 @@ function svgTimeline(seriesMap, events) {
     eventsByIndex.get(idx).push(ev);
     const x = xAt(idx);
     const vos = isVosEvent(ev);
-    const lineStyle = vos ? `style="stroke:url(#ec-vos-gradient)"` : `class="ec-event-line"`;
+    const lineStyle = vos ? `class="ec-event-line" style="stroke:url(#ec-vos-gradient)"` : `class="ec-event-line"`;
     const circleStyle = vos ? `fill="url(#ec-vos-gradient)"` : "";
     return `<g class="ec-mark">
       <line ${lineStyle} x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
