@@ -805,19 +805,27 @@ function initTimelineScroll() {
 
 function setupCatalogFilters() {
   const body = document.getElementById("ec-events-body");
+  const allBtn = document.getElementById("ec-filter-all");
   const vosBtn = document.getElementById("ec-filter-vos");
   const goBtn = document.getElementById("ec-filter-goplus");
   const otherBtn = document.getElementById("ec-filter-other");
-  if (!body || !vosBtn || !goBtn || !otherBtn) return;
+  if (!body || !allBtn || !vosBtn || !goBtn || !otherBtn) return;
 
   const buttons = [
+    { key: "all", el: allBtn },
     { key: "vos", el: vosBtn },
     { key: "goplus", el: goBtn },
     { key: "other", el: otherBtn },
   ];
 
   function activeSet() {
-    return new Set(buttons.filter((b) => b.el.getAttribute("aria-pressed") === "true").map((b) => b.key));
+    const active = new Set(buttons.filter((b) => b.el.getAttribute("aria-pressed") === "true").map((b) => b.key));
+    if (active.has("all")) {
+      active.add("vos");
+      active.add("goplus");
+      active.add("other");
+    }
+    return active;
   }
 
   function apply() {
@@ -842,8 +850,21 @@ function setupCatalogFilters() {
 
   for (const btn of buttons) {
     btn.el.onclick = () => {
+      if (btn.key === "all") {
+        const next = btn.el.getAttribute("aria-pressed") !== "true";
+        btn.el.setAttribute("aria-pressed", next ? "true" : "false");
+        vosBtn.setAttribute("aria-pressed", next ? "true" : "false");
+        goBtn.setAttribute("aria-pressed", next ? "true" : "false");
+        otherBtn.setAttribute("aria-pressed", next ? "true" : "false");
+        apply();
+        return;
+      }
       const isPressed = btn.el.getAttribute("aria-pressed") === "true";
       btn.el.setAttribute("aria-pressed", isPressed ? "false" : "true");
+      const allOn = vosBtn.getAttribute("aria-pressed") === "true"
+        && goBtn.getAttribute("aria-pressed") === "true"
+        && otherBtn.getAttribute("aria-pressed") === "true";
+      allBtn.setAttribute("aria-pressed", allOn ? "true" : "false");
       apply();
     };
   }
