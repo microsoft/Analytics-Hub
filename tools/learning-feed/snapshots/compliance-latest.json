@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-22T11:16:11.613Z",
+  "runAt": "2026-10-23T14:02:44.289Z",
   "feed": "compliance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -83,6 +83,31 @@
         "Related articles"
       ],
       "inWindow": true
+    },
+    {
+      "id": "enterprise-data-protection",
+      "tier": 1,
+      "title": "Enterprise Data Protection",
+      "url": "https://learn.microsoft.com/microsoft-365/copilot/enterprise-data-protection",
+      "why": "New Enterprise Data Protection guidance for Microsoft 365 Copilot, directly relevant to privacy and compliance controls.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-05-29T00:00:00Z",
+      "gitCommit": "1b848af50b3126cb7f3f622184c7f181a286a814",
+      "wordCount": "780",
+      "bodyHash": "20ef2defe70b9f45",
+      "bodyLen": 6673,
+      "sections": [
+        "What is enterprise data protection in Microsoft Copilot and Microsoft Copilot Chat?",
+        "Enterprise data protection for prompts and responses",
+        "Privacy and security of web queries",
+        "Ground responses in latest data",
+        "Web queries have their own data handling practices",
+        "Agents in Microsoft Copilot",
+        "Footnotes"
+      ],
+      "inWindow": false
     },
     {
       "id": "architecture-data-protection-auditing",
@@ -793,31 +818,6 @@
       "inWindow": false
     },
     {
-      "id": "https-learn-microsoft-com-microsoft-365-copilot-enterprise-data-protection",
-      "tier": 3,
-      "title": "Enterprise Data Protection",
-      "url": "https://learn.microsoft.com/microsoft-365/copilot/enterprise-data-protection",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-05-29T00:00:00Z",
-      "gitCommit": "1b848af50b3126cb7f3f622184c7f181a286a814",
-      "wordCount": "780",
-      "bodyHash": "20ef2defe70b9f45",
-      "bodyLen": 6673,
-      "sections": [
-        "What is enterprise data protection in Microsoft Copilot and Microsoft Copilot Chat?",
-        "Enterprise data protection for prompts and responses",
-        "Privacy and security of web queries",
-        "Ground responses in latest data",
-        "Web queries have their own data handling practices",
-        "Agents in Microsoft Copilot",
-        "Footnotes"
-      ],
-      "inWindow": false
-    },
-    {
       "id": "https-learn-microsoft-com-microsoft-365-copilot-microsoft-365-copilot-privacy",
       "tier": 3,
       "title": "Microsoft 365 Copilot Privacy",
@@ -825,7 +825,7 @@
       "why": "Auto-discovered from the documentation tree for this product area.",
       "ok": true,
       "discovered": true,
-      "isNew": true,
+      "isNew": false,
       "msDate": "2026-07-09T00:00:00Z",
       "gitCommit": "2ba576edd95e6bda095cdc555f0505e73cf0390d",
       "wordCount": "3526",

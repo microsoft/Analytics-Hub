@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-22T11:16:54.865Z",
+  "runAt": "2026-10-23T14:03:57.685Z",
   "feed": "governance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -383,18 +383,18 @@
       "inWindow": true
     },
     {
-      "id": "https-learn-microsoft-com-copilot-agents",
+      "id": "https-learn-microsoft-com-copilot-manage-agents-copilot-chat",
       "tier": 3,
-      "title": "Agents",
-      "url": "https://learn.microsoft.com/copilot/agents",
+      "title": "Manage Agents Copilot Chat",
+      "url": "https://learn.microsoft.com/copilot/manage-agents-copilot-chat",
       "why": "Auto-discovered from the documentation tree for this product area.",
       "ok": true,
       "discovered": true,
-      "isNew": false,
+      "isNew": true,
       "msDate": "2026-10-21T00:00:00Z",
-      "gitCommit": "896bdf9a757cfb16386a8557aceda47bb9971396",
+      "gitCommit": "7b8ed549030e19e085b4b3832ac1493293cde9de",
       "wordCount": "442",
-      "bodyHash": "705a0221205aeb9e",
+      "bodyHash": "2d7c897f04fe5ab4",
       "bodyLen": 3897,
       "sections": [
         "Included agents",

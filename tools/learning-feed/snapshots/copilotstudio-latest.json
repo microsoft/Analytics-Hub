@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-22T11:16:17.958Z",
+  "runAt": "2026-10-23T14:02:54.556Z",
   "feed": "copilotstudio",
   "windowStart": "2026-07-01",
   "pages": [
@@ -12,14 +12,16 @@
       "ok": true,
       "discovered": false,
       "isNew": false,
-      "msDate": "2026-06-01T00:00:00Z",
-      "gitCommit": "cd1c78740e1b9bcf6701218a61a6a5328afb5318",
-      "wordCount": "1551",
-      "bodyHash": "6fa9ce6cd4b9767c",
-      "bodyLen": 11091,
+      "msDate": "2026-10-21T00:00:00Z",
+      "gitCommit": "016dc5013fa090ad94cc75a706a94a216726dd34",
+      "wordCount": "1469",
+      "bodyHash": "5ce18f3201c2a433",
+      "bodyLen": 10829,
       "sections": [
         "Grant limited view-only access to analytics",
         "Summary",
+        "Customer comments summary (preview)",
+        "Overview",
         "Active users",
         "Conversational sessions only",
         "Event trigger sessions only",
@@ -28,7 +30,7 @@
         "Topic usage analytics",
         "Related information"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "agent-evaluation-intro",
@@ -139,15 +141,14 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-10-01T00:00:00Z",
-      "gitCommit": "88ec82f5f6981ae14ecbff4002faf09855297d72",
-      "wordCount": "3061",
-      "bodyHash": "df2ff1da3b6672d6",
-      "bodyLen": 21143,
+      "gitCommit": "20e73bf89031b22ecfa6ea3bd2b50bd808ce4bdc",
+      "wordCount": "2682",
+      "bodyHash": "0a3ab3ed2ce3128d",
+      "bodyLen": 18612,
       "sections": [
         "Copilot Studio connectors and data groups",
         "Common data policy use cases for Copilot Studio agents",
         "Require user authentication",
-        "Block knowledge sources",
         "Block using Power Platform connectors as tools",
         "Block HTTP requests",
         "Block Azure Bot Service skills",
@@ -158,7 +159,6 @@
         "How policy restrictions appear to makers",
         "Confirm data policy enforcement in Copilot Studio",
         "Confirm user authentication is required",
-        "Confirm knowledge sources are blocked",
         "Confirm Power Platform connectors can't be used as tools",
         "Confirm HTTP requests are blocked",
         "Confirm Azure Bot Service skills are blocked",
@@ -193,6 +193,60 @@
         "Data Flows Using Connectors"
       ],
       "inWindow": false
+    },
+    {
+      "id": "analytics-overview-customer-conversation",
+      "tier": 1,
+      "title": "Analytics Overview Customer Conversation",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-overview-customer-conversation",
+      "why": "New analytics overview for customer conversation scenarios, relevant to agent analytics coverage.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-08T00:00:00Z",
+      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
+      "wordCount": "472",
+      "bodyHash": "c385981e7584d4ba",
+      "bodyLen": 4554,
+      "sections": [
+        "Overview",
+        "Summary",
+        "Billing",
+        "Savings",
+        "Custom metrics",
+        "Conversation outcomes",
+        "Customer satisfaction",
+        "Sentiment",
+        "Generated answer rate and quality",
+        "Tool use",
+        "Knowledge source use",
+        "Download conversation transcripts",
+        "Related information"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "analytics-agent-evaluation-customer-conversation",
+      "tier": 1,
+      "title": "Analytics Agent Evaluation Customer Conversation",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-customer-conversation",
+      "why": "New agent-evaluation page for customer conversation scenarios, relevant to quality and performance assessment.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-08T00:00:00Z",
+      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
+      "wordCount": "578",
+      "bodyHash": "f1b19e359fa31c68",
+      "bodyLen": 5089,
+      "sections": [
+        "Evaluate tab overview",
+        "Create a test set",
+        "Configure the test set",
+        "View results",
+        "Related information"
+      ],
+      "inWindow": true
     },
     {
       "id": "microsoft-copilot-studio-admin-agent-inventory",
@@ -594,29 +648,6 @@
       "inWindow": true
     },
     {
-      "id": "microsoft-copilot-studio-agents-experience-analytics-agent-evaluation-customer-c",
-      "tier": 3,
-      "title": "Analytics Agent Evaluation Customer Conversation",
-      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-customer-conversation",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-08T00:00:00Z",
-      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
-      "wordCount": "578",
-      "bodyHash": "f1b19e359fa31c68",
-      "bodyLen": 5089,
-      "sections": [
-        "Evaluate tab overview",
-        "Create a test set",
-        "Configure the test set",
-        "View results",
-        "Related information"
-      ],
-      "inWindow": true
-    },
-    {
       "id": "microsoft-copilot-studio-agents-experience-analytics-agent-evaluation-intro",
       "tier": 3,
       "title": "Analytics Agent Evaluation Intro",
@@ -714,37 +745,6 @@
         "Error monitoring",
         "Download session transcripts",
         "Review sessions",
-        "Related information"
-      ],
-      "inWindow": true
-    },
-    {
-      "id": "microsoft-copilot-studio-agents-experience-analytics-overview-customer-conversat",
-      "tier": 3,
-      "title": "Analytics Overview Customer Conversation",
-      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-overview-customer-conversation",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-08T00:00:00Z",
-      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
-      "wordCount": "472",
-      "bodyHash": "c385981e7584d4ba",
-      "bodyLen": 4554,
-      "sections": [
-        "Overview",
-        "Summary",
-        "Billing",
-        "Savings",
-        "Custom metrics",
-        "Conversation outcomes",
-        "Customer satisfaction",
-        "Sentiment",
-        "Generated answer rate and quality",
-        "Tool use",
-        "Knowledge source use",
-        "Download conversation transcripts",
         "Related information"
       ],
       "inWindow": true
@@ -990,13 +990,13 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-06-01T00:00:00Z",
-      "gitCommit": "e73b63405dd9cf2fb40b7dfc7194dd7dfb21cb22",
-      "wordCount": "2582",
-      "bodyHash": "51364bcf196d73f6",
-      "bodyLen": 17680,
+      "msDate": "2026-10-21T00:00:00Z",
+      "gitCommit": "016dc5013fa090ad94cc75a706a94a216726dd34",
+      "wordCount": "2530",
+      "bodyHash": "b3ca67b7aa757367",
+      "bodyLen": 17431,
       "sections": [
-        "Custom metrics",
+        "Custom metrics (preview)",
         "Effectiveness",
         "Conversation outcomes",
         "Reactions",
@@ -1008,7 +1008,7 @@
         "Tool use",
         "Knowledge source use"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "microsoft-copilot-studio-analytics-improve-agent-health",
@@ -1021,9 +1021,9 @@
       "isNew": false,
       "msDate": "2026-06-01T00:00:00Z",
       "gitCommit": "cd1c78740e1b9bcf6701218a61a6a5328afb5318",
-      "wordCount": "839",
-      "bodyHash": "d88106eeb8f6340a",
-      "bodyLen": 6250,
+      "wordCount": "838",
+      "bodyHash": "7743e972e6bdf275",
+      "bodyLen": 6242,
       "sections": [
         "Run outcomes",
         "Trigger use",
@@ -1087,10 +1087,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-08-27T00:00:00Z",
-      "gitCommit": "9bd8f22363ea491267c2b706dd50c8eb1725cc6d",
-      "wordCount": "1727",
-      "bodyHash": "54641efd6189933b",
-      "bodyLen": 12874,
+      "gitCommit": "031b66d530b52022c97d91ce69873ffab2269480",
+      "wordCount": "1724",
+      "bodyHash": "6544fe37f92aeac4",
+      "bodyLen": 12849,
       "sections": [
         "Prerequisite",
         "View and export conversation transcripts from the Power Apps portal",
