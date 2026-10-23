@@ -81,24 +81,38 @@ function isVosEvent(ev) {
     || note.includes("value optimization sme");
 }
 
-function isGoPlusEvent(ev) {
+function isLevelUpGoEvent(ev) {
   const title = String(ev?.title || "").toLowerCase();
   const note = String(ev?.note || "").toLowerCase();
-  return title.includes("go+") || note.includes("go+") || title.includes("go plus") || note.includes("go plus");
+  return /levelup|go\+|go plus/.test(`${title} ${note}`);
+}
+
+function isAtaBvaEvent(ev) {
+  const title = String(ev?.title || "").toLowerCase();
+  const note = String(ev?.note || "").toLowerCase();
+  return /ata\+bva|\bbva\b/.test(`${title} ${note}`);
+}
+
+function isGsaEvent(ev) {
+  const title = String(ev?.title || "").toLowerCase();
+  const note = String(ev?.note || "").toLowerCase();
+  return /\bgsa\b/.test(`${title} ${note}`);
 }
 
 function eventCategory(ev) {
   if (isVosEvent(ev)) return "vos";
-  if (isGoPlusEvent(ev)) return "goplus";
+  if (isLevelUpGoEvent(ev)) return "levelupgo";
+  if (isGsaEvent(ev)) return "gsa";
+  if (isAtaBvaEvent(ev)) return "atabva";
   return "other";
 }
 
 function eventTeamLabel(ev) {
   if (isVosEvent(ev)) return "VOS (Value Optimization SME)";
-  if (isGoPlusEvent(ev)) return "GO+";
+  if (isLevelUpGoEvent(ev)) return "LevelUp/Go";
+  if (isGsaEvent(ev)) return "GSA";
+  if (isAtaBvaEvent(ev)) return "ATA+BVA";
   const title = String(ev?.title || "");
-  if (/^ATA\+BVA/i.test(title)) return "ATA+BVA";
-  if (/^GSA/i.test(title)) return "GSA";
   if (/^OGE/i.test(title)) return "OGE";
   if (/partner/i.test(title)) return "Partner";
   if (/india cab/i.test(title)) return "India CAB";
@@ -921,14 +935,18 @@ function setupCatalogFilters() {
   const body = document.getElementById("ec-events-body");
   const allBtn = document.getElementById("ec-filter-all");
   const vosBtn = document.getElementById("ec-filter-vos");
-  const goBtn = document.getElementById("ec-filter-goplus");
+  const levelUpGoBtn = document.getElementById("ec-filter-levelupgo");
+  const gsaBtn = document.getElementById("ec-filter-gsa");
+  const ataBvaBtn = document.getElementById("ec-filter-atabva");
   const otherBtn = document.getElementById("ec-filter-other");
-  if (!body || !allBtn || !vosBtn || !goBtn || !otherBtn) return;
+  if (!body || !allBtn || !vosBtn || !levelUpGoBtn || !gsaBtn || !ataBvaBtn || !otherBtn) return;
 
   const buttons = [
     { key: "all", el: allBtn },
     { key: "vos", el: vosBtn },
-    { key: "goplus", el: goBtn },
+    { key: "levelupgo", el: levelUpGoBtn },
+    { key: "gsa", el: gsaBtn },
+    { key: "atabva", el: ataBvaBtn },
     { key: "other", el: otherBtn },
   ];
 
@@ -936,7 +954,9 @@ function setupCatalogFilters() {
     const active = new Set(buttons.filter((b) => b.el.getAttribute("aria-pressed") === "true").map((b) => b.key));
     if (active.has("all")) {
       active.add("vos");
-      active.add("goplus");
+      active.add("levelupgo");
+      active.add("gsa");
+      active.add("atabva");
       active.add("other");
     }
     return active;
@@ -968,7 +988,9 @@ function setupCatalogFilters() {
         const next = btn.el.getAttribute("aria-pressed") !== "true";
         btn.el.setAttribute("aria-pressed", next ? "true" : "false");
         vosBtn.setAttribute("aria-pressed", next ? "true" : "false");
-        goBtn.setAttribute("aria-pressed", next ? "true" : "false");
+        levelUpGoBtn.setAttribute("aria-pressed", next ? "true" : "false");
+        gsaBtn.setAttribute("aria-pressed", next ? "true" : "false");
+        ataBvaBtn.setAttribute("aria-pressed", next ? "true" : "false");
         otherBtn.setAttribute("aria-pressed", next ? "true" : "false");
         apply();
         return;
@@ -976,7 +998,9 @@ function setupCatalogFilters() {
       const isPressed = btn.el.getAttribute("aria-pressed") === "true";
       btn.el.setAttribute("aria-pressed", isPressed ? "false" : "true");
       const allOn = vosBtn.getAttribute("aria-pressed") === "true"
-        && goBtn.getAttribute("aria-pressed") === "true"
+        && levelUpGoBtn.getAttribute("aria-pressed") === "true"
+        && gsaBtn.getAttribute("aria-pressed") === "true"
+        && ataBvaBtn.getAttribute("aria-pressed") === "true"
         && otherBtn.getAttribute("aria-pressed") === "true";
       allBtn.setAttribute("aria-pressed", allOn ? "true" : "false");
       apply();
