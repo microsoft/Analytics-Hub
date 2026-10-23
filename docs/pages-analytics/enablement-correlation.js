@@ -481,6 +481,12 @@ function metricMini(label, stats, definition) {
   </div>`;
 }
 
+function moversPreview(rows, limit = 3) {
+  const picks = (rows || []).slice(0, limit).filter((r) => r && r.name && r.delta != null);
+  if (!picks.length) return "No mover signal for this window yet.";
+  return picks.map((r) => `${r.name} (${fmtSigned(r.delta)})`).join(" · ");
+}
+
 function renderSummary(events, signals, reportSeries) {
   const summary = document.getElementById("ec-summary");
   if (!summary) return;
@@ -642,6 +648,33 @@ function openMetricModal(eventId, metricKey) {
         ],
         data.reportPageChanges,
       );
+  } else if (metricKey === "movers") {
+    label = "Biggest movers";
+    series = data.series.visits;
+    color = "#0078d4";
+    detailHtml =
+      `<h4>Report pages with biggest change</h4><p class="ec-sub">Largest absolute movement in average daily traffic across the event window.</p>` +
+      modalTable(
+        [
+          { label: "Report page", render: (r) => esc(r.name) },
+          { label: "Before/day", num: true, render: (r) => (r.beforeAvg == null ? "n/a" : fmt(r.beforeAvg)) },
+          { label: "After/day", num: true, render: (r) => (r.afterAvg == null ? "n/a" : fmt(r.afterAvg)) },
+          { label: "Delta/day", num: true, render: (r) => `<span class="${deltaClass(r.delta)}">${r.delta == null ? "n/a" : fmtSigned(r.delta)}</span>` },
+          { label: "Delta %", num: true, render: (r) => `<span class="${deltaClass(r.deltaPct)}">${r.deltaPct == null ? "n/a" : fmtPct(r.deltaPct)}</span>` },
+        ],
+        data.reportPageChanges,
+      ) +
+      `<h4 style="margin-top:.7rem">All hub pages with biggest change</h4>` +
+      modalTable(
+        [
+          { label: "Page path", render: (r) => esc(r.name) },
+          { label: "Before/day", num: true, render: (r) => (r.beforeAvg == null ? "n/a" : fmt(r.beforeAvg)) },
+          { label: "After/day", num: true, render: (r) => (r.afterAvg == null ? "n/a" : fmt(r.afterAvg)) },
+          { label: "Delta/day", num: true, render: (r) => `<span class="${deltaClass(r.delta)}">${r.delta == null ? "n/a" : fmtSigned(r.delta)}</span>` },
+          { label: "Delta %", num: true, render: (r) => `<span class="${deltaClass(r.deltaPct)}">${r.deltaPct == null ? "n/a" : fmtPct(r.deltaPct)}</span>` },
+        ],
+        data.pageChanges,
+      );
   } else if (metricKey === "clones") {
     label = "Repo clones";
     series = data.series.clones;
@@ -779,6 +812,7 @@ function renderEvents(events, signals, reportSeries, context) {
             <td class="num ${deltaClass(row.stats.deltaPct)}" title="Percent change vs pre-event average/day">${row.stats.deltaPct == null ? "n/a" : fmtPct(row.stats.deltaPct)}</td>
           </tr>`).join("")
         : `<tr><td colspan="6">No report-page series for this event window.</td></tr>`;
+      const moversHint = moversPreview(reportPageChanges, 3);
 
       const detailId = `ec-detail-${idx}`;
       EVENT_DETAIL_STORE.set(eventId, {
@@ -821,6 +855,15 @@ function renderEvents(events, signals, reportSeries, context) {
                 ${metricMini("External referrals/day", refs, "Daily sessions from non-Microsoft and non-GitHub referrers.")}
                 ${metricMini("YouTube views/day", ytViews, "Daily views from the Analytics Hub YouTube channel feed.")}
                 ${metricMini("YouTube watch minutes/day", ytWatch, "Daily watch minutes from the Analytics Hub YouTube channel feed.")}
+              </div>
+              <div class="ec-movers-card">
+                <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="movers" title="Open biggest movers for this event window.">
+                  <div class="ec-chart-card">
+                    <p class="ec-chart-title">Biggest movers after this event (click for detail)</p>
+                    <p class="ec-movers-preview">${esc(moversHint)}</p>
+                  </div>
+                </button>
+                <p>Shows pages with the largest absolute shift in average daily traffic, not just top-traffic pages.</p>
               </div>
               <div class="ec-chart-grid">
                 <button type="button" class="ec-chart-open" data-event-id="${eventId}" data-metric="visits" title="Open an enlarged chart and detail table for Hub visits."><div class="ec-chart-card"><p class="ec-chart-title">Hub visits around ${esc(ev.date)} (click to enlarge)</p>${svgEventMetric(signals.visits, ev.date, "#0078d4")}</div></button>

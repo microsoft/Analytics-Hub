@@ -61,6 +61,7 @@
     .ec-mark { fill: #d83b01; }
     .ec-mark text { font-size: 10px; fill: #8a2d0a; }
     .ec-point-hover { fill: transparent; pointer-events: all; cursor: crosshair; }
+    .ec-events-scroll { max-height: min(70vh, 920px); overflow: auto; border-radius: 10px; }
     .ec-table-wrap { overflow-x: auto; }
     .ec-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
     .ec-table th { text-align: left; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); padding: .52rem; white-space: nowrap; }
@@ -85,6 +86,9 @@
     .ec-chart-title { margin: 0 0 .25rem; font-size: .79rem; color: var(--text-soft); }
     .ec-chart-open { appearance: none; border: 0; background: none; display: block; width: 100%; padding: 0; cursor: zoom-in; text-align: left; }
     .ec-chart-open:hover .ec-chart-card { border-color: var(--accent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent); }
+    .ec-movers-card { margin: 0 0 .72rem; border: 1px dashed var(--border); border-radius: 10px; padding: .6rem .72rem; background: var(--surface); }
+    .ec-movers-card p { margin: .22rem 0 0; font-size: .82rem; color: var(--text-soft); }
+    .ec-movers-preview { font-size: .78rem; color: var(--text-muted); }
     .ec-report-table { margin-top: .7rem; width: 100%; border-collapse: collapse; font-size: .82rem; }
     .ec-report-table th, .ec-report-table td { padding: .35rem .32rem; border-bottom: 1px solid var(--border); }
     .ec-report-table th { text-align: left; color: var(--text-muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; }
@@ -171,25 +175,27 @@
     <div class="wrap">
       <h2 class="ec-h2">Event catalog and impact breakdown</h2>
       <p class="ec-sub">Expand any event to inspect per-metric charts and report-level lifts around that date.</p>
-      <div class="ec-card ec-table-wrap">
-        <table class="ec-table" id="ec-events-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Event</th>
-              <th class="num">Attendees</th>
-              <th title="User-defined event type from events.json.">Type</th>
-              <th class="num" title="Hub visits per day: 7-day post-event average minus 7-day pre-event average.">Visits Δ/day</th>
-              <th class="num" title="Analytics Hub repository clones per day: 7-day post-event average minus 7-day pre-event average.">Clones Δ/day</th>
-              <th class="num" title="YouTube channel views per day: 7-day post-event average minus 7-day pre-event average.">YouTube views Δ/day</th>
-              <th title="Top reports with positive lift. Values show average daily increase after the event.">Report increases</th>
-              <th>Detail</th>
-            </tr>
-          </thead>
-          <tbody id="ec-events-body">
-            <tr><td colspan="9" class="ec-loading">Loading events...</td></tr>
-          </tbody>
-        </table>
+      <div class="ec-card">
+        <div class="ec-events-scroll ec-table-wrap">
+          <table class="ec-table" id="ec-events-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th class="num">Attendees</th>
+                <th title="User-defined event type from events.json.">Type</th>
+                <th class="num" title="Hub visits per day: 7-day post-event average minus 7-day pre-event average.">Visits Δ/day</th>
+                <th class="num" title="Analytics Hub repository clones per day: 7-day post-event average minus 7-day pre-event average.">Clones Δ/day</th>
+                <th class="num" title="YouTube channel views per day: 7-day post-event average minus 7-day pre-event average.">YouTube views Δ/day</th>
+                <th title="Top reports with positive lift. Values show average daily increase after the event.">Report increases</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody id="ec-events-body">
+              <tr><td colspan="9" class="ec-loading">Loading events...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -219,6 +225,6 @@
   </div>
 </footer>
 
-<script src="enablement-correlation.js?v=202610222105"></script>
+<script src="enablement-correlation.js?v=202610222130"></script>
 </body>
 </html>
