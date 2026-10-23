@@ -375,10 +375,19 @@ const fmt = (n) => (n == null ? "—" : n.toLocaleString());
 
 const pad = (n) => String(n).padStart(2, "0");
 const todayUTC = () => new Date();
+let latestTrafficDate = null; // YYYY-MM-DD, set after history load
 
-const startOfYear  = () => `${todayUTC().getUTCFullYear()}-01-01`;
+function trafficAnchorIso() {
+  return latestTrafficDate || todayUTC().toISOString().slice(0, 10);
+}
+
+function trafficAnchorDateUTC() {
+  return new Date(trafficAnchorIso() + "T00:00:00Z");
+}
+
+const startOfYear  = () => `${trafficAnchorDateUTC().getUTCFullYear()}-01-01`;
 const startOfNDaysAgo = (n) => {
-  const d = todayUTC();
+  const d = trafficAnchorDateUTC();
   d.setUTCDate(d.getUTCDate() - (n - 1)); // inclusive N days
   return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
 };
@@ -398,7 +407,7 @@ const WINDOWS = {
 };
 const windowState = { key: "14d", customSince: null, customUntil: null };
 const currentSince = () => WINDOWS[windowState.key].since();
-const currentUntil = () => (windowState.key === "custom" ? (windowState.customUntil || null) : null);
+const currentUntil = () => (windowState.key === "custom" ? (windowState.customUntil || trafficAnchorIso()) : trafficAnchorIso());
 const currentShort = () => WINDOWS[windowState.key].short;
 /* Day count for the selected window, or null for open-ended ranges. Clarity
    data is a series of daily snapshots rather than a summable daily total, so
@@ -408,7 +417,7 @@ const currentWindowDays = () => {
   const w = WINDOWS[windowState.key];
   if (w.days) return w.days;
   const since = currentSince();
-  const until = currentUntil() || `${todayUTC().getUTCFullYear()}-${pad(todayUTC().getUTCMonth() + 1)}-${pad(todayUTC().getUTCDate())}`;
+  const until = currentUntil();
   const ms = new Date(until + "T00:00:00Z") - new Date(since + "T00:00:00Z");
   return Math.max(1, Math.round(ms / 86400000) + 1);
 };
@@ -1608,7 +1617,7 @@ function dayRange(fromIso, toIso) {
 function priorWindowBounds(since, until) {
   // Same-length window immediately before [since, until]
   if (!since) return { since: null, until: null };
-  const hi = until || todayUTC().toISOString().slice(0, 10);
+  const hi = until || trafficAnchorIso();
   const days = dayRange(since, hi).length;
   if (!days) return { since: null, until: null };
   const startDate = new Date(since + "T00:00:00Z");
@@ -1646,7 +1655,7 @@ function renderPortfolio(repos) {
   for (const [day, cnt] of Object.entries(portfolioDaily)) {
     if (cnt > peakDay) { peakDay = cnt; peakDate = day; }
   }
-  const winDays = dayRange(since, until || (findLatestDataDate(repos) || todayUTC().toISOString().slice(0, 10))).length || 1;
+  const winDays = dayRange(since, until || (findLatestDataDate(repos) || trafficAnchorIso())).length || 1;
   const setKpi = (key, val, opts = {}) => {
     const el = document.querySelector(`[data-port-kpi="${key}"]`);
     if (el) el.textContent = val;
@@ -1712,7 +1721,7 @@ function renderPortfolioStack(repos) {
   const legend = document.getElementById("portfolio-stack-legend");
   if (!host) return;
 
-  const latest = findLatestDataDate(repos) || todayUTC().toISOString().slice(0, 10);
+  const latest = findLatestDataDate(repos) || trafficAnchorIso();
   let since;
   switch (portfolioStackState.window) {
     case "14d": since = shiftDay(latest, -13); break;
@@ -2376,7 +2385,7 @@ function renderCommunity(repos, sites) {
 function renderCoworkBilling(repos, sites) {
   const since = currentSince();
   const until = currentUntil();
-  const latest = findLatestDataDate(repos) || todayUTC().toISOString().slice(0, 10);
+  const latest = findLatestDataDate(repos) || trafficAnchorIso();
   const to = until || latest;
 
   const coworkRows = [];
@@ -3163,6 +3172,7 @@ async function load() {
   }
 
   const reposData = history.repos || {};
+  latestTrafficDate = findLatestDataDate(reposData);
   SITES_CACHE = history.sites || {};
   sanitizeSiteSnapshots(SITES_CACHE);
   renderLastUpdated(history.lastUpdated);
