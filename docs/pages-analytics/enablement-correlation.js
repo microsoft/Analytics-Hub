@@ -217,26 +217,61 @@ function topRowsFromMap(map, limit = 8) {
   return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([name, value]) => ({ name, value }));
 }
 
-function aggregateHubPages(site, dates, reportOnly = false) {
-  const totals = new Map();
-  for (const d of dates) {
-    const groups = site?.snapshotsByUrl?.[d];
-    const trafficRows = getMetric(groups, "Traffic")?.information || [];
-    const dayMax = new Map();
-    for (const row of trafficRows) {
-      const rawUrl = row.Url || row.url || "";
-      if (!isProdUrl(rawUrl)) continue;
-      if (reportOnly && !matchReportFamily(rawUrl)) continue;
-      const path = normalizeHubPath(rawUrl);
-      const sess = Math.max(toNum(row.totalSessionCount), toNum(row.sessionsCount));
-      const bots = Math.min(toNum(row.totalBotSessionCount), sess);
-      const human = Math.max(0, sess - bots);
-      if (!human) continue;
-      dayMax.set(path, Math.max(dayMax.get(path) || 0, human));
+function summarizePageChanges(site, eventDate, reportOnly = false, limit = 12) {
+  const beforeDates = windowDates(eventDate, -WINDOW_DAYS, -1);
+  const afterDates = windowDates(eventDate, 0, WINDOW_DAYS - 1);
+  const stats = new Map();
+
+  function accumulate(dates, phase) {
+    for (const d of dates) {
+      const groups = site?.snapshotsByUrl?.[d];
+      const trafficRows = getMetric(groups, "Traffic")?.information || [];
+      const dayMax = new Map();
+      for (const row of trafficRows) {
+        const rawUrl = row.Url || row.url || "";
+        if (!isProdUrl(rawUrl)) continue;
+        if (reportOnly && !matchReportFamily(rawUrl)) continue;
+        const path = normalizeHubPath(rawUrl);
+        const sess = Math.max(toNum(row.totalSessionCount), toNum(row.sessionsCount));
+        const bots = Math.min(toNum(row.totalBotSessionCount), sess);
+        const human = Math.max(0, sess - bots);
+        if (!human) continue;
+        dayMax.set(path, Math.max(dayMax.get(path) || 0, human));
+      }
+      for (const [path, value] of dayMax) {
+        const row = stats.get(path) || { name: path, beforeSum: 0, beforeN: 0, afterSum: 0, afterN: 0 };
+        if (phase === "before") {
+          row.beforeSum += value;
+          row.beforeN++;
+        } else {
+          row.afterSum += value;
+          row.afterN++;
+        }
+        stats.set(path, row);
+      }
     }
-    for (const [path, value] of dayMax) totals.set(path, (totals.get(path) || 0) + value);
   }
-  return totals;
+
+  accumulate(beforeDates, "before");
+  accumulate(afterDates, "after");
+
+  const rows = [];
+  for (const row of stats.values()) {
+    const beforeAvg = row.beforeN ? row.beforeSum / row.beforeN : null;
+    const afterAvg = row.afterN ? row.afterSum / row.afterN : null;
+    const delta = (beforeAvg == null || afterAvg == null) ? null : (afterAvg - beforeAvg);
+    const deltaPct = (beforeAvg == null || afterAvg == null || beforeAvg === 0) ? null : ((delta / beforeAvg) * 100);
+    rows.push({
+      name: row.name,
+      beforeAvg,
+      afterAvg,
+      delta,
+      deltaPct,
+    });
+  }
+
+  rows.sort((a, b) => Math.abs(b.delta || -Infinity) - Math.abs(a.delta || -Infinity));
+  return rows.slice(0, limit);
 }
 
 function aggregateExternalReferrers(site, dates) {
@@ -321,7 +356,8 @@ function svgTimeline(seriesMap, events) {
 
   const width = Math.max(1400, data.length * 28);
   const height = 270;
-  const pad = { l: 44, r: 14, t: 16, b: 38 };
+  const axisW = 58;
+  const pad = { l: 10, r: 14, t: 16, b: 38 };
   const plotW = width - pad.l - pad.r;
   const plotH = height - pad.t - pad.b;
   const max = Math.max(1, ...data.map((d) => d.value));
@@ -329,12 +365,18 @@ function svgTimeline(seriesMap, events) {
   const yAt = (v) => pad.t + plotH - (v / max) * plotH;
   const line = sparseLinePath(data.map((d) => d.value), xAt, yAt);
   const area = `${line} L ${xAt(data.length - 1).toFixed(1)} ${(pad.t + plotH).toFixed(1)} L ${xAt(0).toFixed(1)} ${(pad.t + plotH).toFixed(1)} Z`;
-  const grid = [0, .25, .5, .75, 1].map((f) => {
+  const yTicks = [0, .25, .5, .75, 1].map((f) => {
     const val = Math.round(max * f);
     const y = yAt(val);
-    return `<line class="ec-grid" x1="${pad.l}" x2="${width - pad.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" />
-      <text class="ec-axis" x="${pad.l - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end">${fmt(val)}</text>`;
+    return { val, y };
+  });
+  const grid = yTicks.map((tick) => {
+    return `<line class="ec-grid" x1="${pad.l}" x2="${width - pad.r}" y1="${tick.y.toFixed(1)}" y2="${tick.y.toFixed(1)}" />`;
   }).join("");
+  const axisLabels = yTicks.map((tick) =>
+    `<line class="ec-grid" x1="${axisW - 6}" x2="${axisW}" y1="${tick.y.toFixed(1)}" y2="${tick.y.toFixed(1)}" />
+     <text class="ec-axis" x="${axisW - 10}" y="${(tick.y + 4).toFixed(1)}" text-anchor="end">${fmt(tick.val)}</text>`
+  ).join("");
 
   const tickCount = 14;
   const ticks = [];
@@ -359,13 +401,27 @@ function svgTimeline(seriesMap, events) {
     </g>`;
   }).join("");
 
-  return `<div class="ec-timeline-scroll" title="Scroll left or right to see the full timeline."><svg class="ec-chart" style="width:${width}px;max-width:none;height:auto;display:block" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
-    ${grid}
-    <path class="ec-area" d="${area}"></path>
-    <path class="ec-line" stroke="#0078d4" d="${line}"></path>
-    ${marks}
-    ${ticks.join("")}
-  </svg></div>`;
+  const hoverPoints = data.map((d, idx) => {
+    const x = xAt(idx);
+    const y = yAt(d.value);
+    return `<circle class="ec-point-hover" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8">
+      <title>${esc(formatFullDate(d.day))}: ${esc(fmt(d.value))} daily visits</title>
+    </circle>`;
+  }).join("");
+
+  return `<div class="ec-timeline-shell">
+    <svg class="ec-y-axis" viewBox="0 0 ${axisW} ${height}" role="presentation" aria-hidden="true">${axisLabels}</svg>
+    <div class="ec-timeline-scroll" title="Scroll left and right to navigate full timeline history.">
+      <svg class="ec-chart" style="width:${width}px;max-width:none;height:auto;display:block" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
+        ${grid}
+        <path class="ec-area" d="${area}"></path>
+        <path class="ec-line" stroke="#0078d4" d="${line}"></path>
+        ${marks}
+        ${hoverPoints}
+        ${ticks.join("")}
+      </svg>
+    </div>
+  </div>`;
 }
 
 function svgEventMetric(seriesMap, eventDate, color, options = {}) {
@@ -391,11 +447,20 @@ function svgEventMetric(seriesMap, eventDate, color, options = {}) {
     const y = yAt(max * f);
     return `<line class="ec-grid" x1="${pad.l}" x2="${width - pad.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"></line>`;
   }).join("");
+  const hoverPoints = points.map((p, idx) => {
+    if (p.value == null) return "";
+    const x = xAt(idx);
+    const y = yAt(p.value);
+    return `<circle class="ec-point-hover" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7">
+      <title>${esc(formatFullDate(p.day))}: ${esc(fmt(p.value))}</title>
+    </circle>`;
+  }).join("");
 
   return `<svg class="ec-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Event window metric chart">
     ${grid}
     <line class="ec-event-line" x1="${xAt(eventIdx).toFixed(1)}" x2="${xAt(eventIdx).toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
     <path class="ec-line" stroke="${esc(color)}" d="${line}"></path>
+    ${hoverPoints}
     <text class="ec-axis" x="${xAt(0).toFixed(1)}" y="${height - 10}" text-anchor="middle">${formatShortDate(points[0].day)}</text>
     <text class="ec-axis" x="${xAt(eventIdx).toFixed(1)}" y="${height - 10}" text-anchor="middle">${formatShortDate(points[eventIdx].day)}</text>
     <text class="ec-axis" x="${xAt(points.length - 1).toFixed(1)}" y="${height - 10}" text-anchor="middle">${formatShortDate(points[points.length - 1].day)}</text>
@@ -555,15 +620,27 @@ function openMetricModal(eventId, metricKey) {
     series = data.series.visits;
     color = "#0078d4";
     detailHtml =
-      `<h4>Top hub pages after event</h4>` +
+      `<h4>Hub pages with biggest change</h4><p class="ec-sub">Sorted by largest absolute change in average daily sessions (after/day minus before/day).</p>` +
       modalTable(
-        [{ label: "Page path", render: (r) => esc(r.name) }, { label: "Sessions", num: true, render: (r) => fmt(r.value) }],
-        data.topPagesAfter,
+        [
+          { label: "Page path", render: (r) => esc(r.name) },
+          { label: "Before/day", num: true, render: (r) => (r.beforeAvg == null ? "n/a" : fmt(r.beforeAvg)) },
+          { label: "After/day", num: true, render: (r) => (r.afterAvg == null ? "n/a" : fmt(r.afterAvg)) },
+          { label: "Delta/day", num: true, render: (r) => `<span class="${deltaClass(r.delta)}">${r.delta == null ? "n/a" : fmtSigned(r.delta)}</span>` },
+          { label: "Delta %", num: true, render: (r) => `<span class="${deltaClass(r.deltaPct)}">${r.deltaPct == null ? "n/a" : fmtPct(r.deltaPct)}</span>` },
+        ],
+        data.pageChanges,
       ) +
-      `<h4 style="margin-top:.7rem">Top report pages after event</h4>` +
+      `<h4 style="margin-top:.7rem">Report pages with biggest change</h4><p class="ec-sub">Same calculation, scoped to report pages.</p>` +
       modalTable(
-        [{ label: "Report page", render: (r) => esc(r.name) }, { label: "Sessions", num: true, render: (r) => fmt(r.value) }],
-        data.topReportPagesAfter,
+        [
+          { label: "Report page", render: (r) => esc(r.name) },
+          { label: "Before/day", num: true, render: (r) => (r.beforeAvg == null ? "n/a" : fmt(r.beforeAvg)) },
+          { label: "After/day", num: true, render: (r) => (r.afterAvg == null ? "n/a" : fmt(r.afterAvg)) },
+          { label: "Delta/day", num: true, render: (r) => `<span class="${deltaClass(r.delta)}">${r.delta == null ? "n/a" : fmtSigned(r.delta)}</span>` },
+          { label: "Delta %", num: true, render: (r) => `<span class="${deltaClass(r.deltaPct)}">${r.deltaPct == null ? "n/a" : fmtPct(r.deltaPct)}</span>` },
+        ],
+        data.reportPageChanges,
       );
   } else if (metricKey === "clones") {
     label = "Repo clones";
@@ -622,6 +699,12 @@ function initModal() {
   });
 }
 
+function initTimelineScroll() {
+  const scroller = document.querySelector("#ec-timeline .ec-timeline-scroll");
+  if (!scroller) return;
+  scroller.scrollLeft = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+}
+
 function renderEvents(events, signals, reportSeries, context) {
   const body = document.getElementById("ec-events-body");
   if (!body) return { summaryRows: [], reportRows: [], dailyRows: [] };
@@ -641,10 +724,9 @@ function renderEvents(events, signals, reportSeries, context) {
       const ytViews = statsForEvent(signals.youtubeViews, ev.date);
       const refs = statsForEvent(signals.referrals, ev.date);
       const ytWatch = statsForEvent(signals.youtubeWatchMinutes, ev.date);
-      const beforeDates = windowDates(ev.date, -WINDOW_DAYS, -1);
       const afterDates = windowDates(ev.date, 0, WINDOW_DAYS - 1);
-      const topPagesAfter = topRowsFromMap(aggregateHubPages(context.site, afterDates, false), 12);
-      const topReportPagesAfter = topRowsFromMap(aggregateHubPages(context.site, afterDates, true), 10);
+      const pageChanges = summarizePageChanges(context.site, ev.date, false, 12);
+      const reportPageChanges = summarizePageChanges(context.site, ev.date, true, 12);
       const topReferrersAfter = topRowsFromMap(aggregateExternalReferrers(context.site, afterDates), 12);
       const cloneRepoRows = summarizeCloneRepos(context.traffic, ev.date);
 
@@ -708,8 +790,8 @@ function renderEvents(events, signals, reportSeries, context) {
           youtubeViews: signals.youtubeViews,
           referrals: signals.referrals,
         },
-        topPagesAfter,
-        topReportPagesAfter,
+        pageChanges,
+        reportPageChanges,
         topReferrersAfter,
         cloneRepoRows,
       });
@@ -848,7 +930,10 @@ async function boot() {
     }
 
     const timelineHost = document.getElementById("ec-timeline");
-    if (timelineHost) timelineHost.innerHTML = svgTimeline(signals.visits, events);
+    if (timelineHost) {
+      timelineHost.innerHTML = svgTimeline(signals.visits, events);
+      initTimelineScroll();
+    }
     renderSummary(events, signals, reportSeries);
     const exportPayload = renderEvents(events, signals, reportSeries, { traffic, site, youtube });
     setupExports(exportPayload);
