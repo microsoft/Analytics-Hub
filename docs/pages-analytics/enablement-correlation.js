@@ -387,12 +387,15 @@ function svgTimeline(seriesMap, events) {
   }
 
   const dayIndex = new Map(data.map((d, i) => [d.day, i]));
+  const eventsByIndex = new Map();
   const marks = events.map((ev) => {
     let idx = dayIndex.get(ev.date);
     if (idx == null) {
       idx = data.findIndex((d) => d.day >= ev.date);
       if (idx < 0) idx = data.length - 1;
     }
+    if (!eventsByIndex.has(idx)) eventsByIndex.set(idx, []);
+    eventsByIndex.get(idx).push(ev);
     const x = xAt(idx);
     return `<g class="ec-mark">
       <line class="ec-event-line" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
@@ -404,8 +407,12 @@ function svgTimeline(seriesMap, events) {
   const hoverPoints = data.map((d, idx) => {
     const x = xAt(idx);
     const y = yAt(d.value);
+    const eventsOnDay = eventsByIndex.get(idx) || [];
+    const eventText = eventsOnDay.length
+      ? `\nEngagements: ${eventsOnDay.map((ev) => ev.title).join("; ")}`
+      : "";
     return `<circle class="ec-point-hover" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8">
-      <title>${esc(formatFullDate(d.day))}: ${esc(fmt(d.value))} daily visits</title>
+      <title>${esc(formatFullDate(d.day))}: ${esc(fmt(d.value))} daily visits${esc(eventText)}</title>
     </circle>`;
   }).join("");
 
