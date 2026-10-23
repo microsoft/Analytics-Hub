@@ -1,6 +1,6 @@
 {
   "_comment": "Impact events for the Signals Lab. Enablement sessions, workshops, office hours and launches overlaid on the traffic timeline. To add one, append an object with date (YYYY-MM-DD), title, attendees (invited headcount), type, optional note. Types: cowork-enablement, enablement, office-hours, demo, launch.",
-  "updated": "2026-10-22",
+  "updated": "2026-10-23",
   "events": [
     {
       "date": "2026-07-06",
@@ -211,6 +211,14 @@
       "attendees": 200,
       "type": "enablement",
       "note": "~200 attendees. Topic - chargeback reports"
+    },
+    {
+      "date": "2026-10-23",
+      "title": "LinkedIn post - Consumption Central spotlight",
+      "attendees": 0,
+      "type": "social-post",
+      "note": "Social media engagement post for Analytics Hub / Consumption Central.",
+      "link": "https://lnkd.in/p/gVVkGHKb"
     }
   ]
 }

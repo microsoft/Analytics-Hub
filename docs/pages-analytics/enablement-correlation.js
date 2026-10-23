@@ -78,6 +78,14 @@ function isVosEvent(ev) {
   return title.includes("vos") || note.includes("vos");
 }
 
+function isSocialPostEvent(ev) {
+  const type = String(ev?.type || "").toLowerCase();
+  const title = String(ev?.title || "").toLowerCase();
+  const note = String(ev?.note || "").toLowerCase();
+  const link = String(ev?.link || "").toLowerCase();
+  return type.includes("social") || title.includes("linkedin") || note.includes("linkedin") || link.includes("lnkd.in") || link.includes("linkedin.com");
+}
+
 function reportGuideHref(report) {
   return `../choose-report/#r=${encodeURIComponent(report.guideKey || report.key)}`;
 }
@@ -403,9 +411,11 @@ function svgTimeline(seriesMap, events) {
     if (!eventsByIndex.has(idx)) eventsByIndex.set(idx, []);
     eventsByIndex.get(idx).push(ev);
     const x = xAt(idx);
-    const vos = isVosEvent(ev);
-    const lineStyle = vos ? `class="ec-event-line" style="stroke:url(#ec-vos-gradient)"` : `class="ec-event-line"`;
-    const circleStyle = vos ? `fill="url(#ec-vos-gradient)"` : "";
+    const social = isSocialPostEvent(ev);
+    const vos = isVosEvent(ev) && !social;
+    const lineClass = social ? "ec-event-line ec-event-line-social" : "ec-event-line";
+    const lineStyle = vos ? `class="${lineClass}" style="stroke:url(#ec-vos-gradient)"` : `class="${lineClass}"`;
+    const circleStyle = social ? `class="ec-mark-social"` : (vos ? `fill="url(#ec-vos-gradient)"` : "");
     return `<g class="ec-mark">
       <line ${lineStyle} x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
       <circle cx="${x.toFixed(1)}" cy="${yAt(data[idx].value).toFixed(1)}" r="3.1" ${circleStyle}></circle>
@@ -413,11 +423,13 @@ function svgTimeline(seriesMap, events) {
     </g>`;
   }).join("");
   const attendeeLabels = [...eventsByIndex.entries()].sort((a, b) => a[0] - b[0]).map(([idx, evs], labelIdx) => {
-    const totalAttendees = evs.reduce((sum, ev) => sum + Math.max(0, toNum(ev.attendees)), 0);
+    const attendeeEvents = evs.filter((ev) => !isSocialPostEvent(ev));
+    if (!attendeeEvents.length) return "";
+    const totalAttendees = attendeeEvents.reduce((sum, ev) => sum + Math.max(0, toNum(ev.attendees)), 0);
     const label = totalAttendees > 0 ? fmt(totalAttendees) : "TBD";
     const x = xAt(idx) + 1;
     const y = labelIdx % 2 === 0 ? 8 : 22;
-    const hasVos = evs.some((ev) => isVosEvent(ev));
+    const hasVos = attendeeEvents.some((ev) => isVosEvent(ev));
     const fill = hasVos ? `fill="url(#ec-vos-gradient)"` : "";
     return `<text class="ec-attendees" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="start" dominant-baseline="hanging" ${fill}>${esc(label)}</text>`;
   }).join("");
@@ -862,10 +874,14 @@ function renderEvents(events, signals, reportSeries, context) {
         topReferrersAfter,
         cloneRepoRows,
       });
-      return `<tr class="ec-main-row">
+      const isSocial = isSocialPostEvent(ev);
+      const rowClass = isSocial ? "ec-main-row ec-social-row" : "ec-main-row";
+      const detailClass = isSocial ? "ec-detail-row ec-social-row" : "ec-detail-row";
+      return `<tr class="${rowClass}">
         <td>${esc(ev.date)}</td>
         <td>
-          <strong>${esc(ev.title || "")}</strong>
+          <strong class="${isSocial ? "ec-social-outline" : ""}">${esc(ev.title || "")}</strong>
+          ${ev.link ? `<div class="ec-sub" style="margin:.2rem 0 0"><a href="${esc(ev.link)}" target="_blank" rel="noopener">View post</a></div>` : ""}
           ${ev.note ? `<div class="ec-sub" style="margin:.25rem 0 0">${esc(ev.note)}</div>` : ""}
         </td>
         <td class="num">${fmt(ev.attendees)}</td>
@@ -878,7 +894,7 @@ function renderEvents(events, signals, reportSeries, context) {
           <button type="button" class="ec-expand-btn" data-target="${detailId}" aria-expanded="false">Expand</button>
         </td>
       </tr>
-      <tr id="${detailId}" class="ec-detail-row" hidden>
+      <tr id="${detailId}" class="${detailClass}" hidden>
         <td colspan="9">
             <div class="ec-details-body">
               <div class="ec-metric-grid">
