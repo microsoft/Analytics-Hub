@@ -75,7 +75,22 @@ function formatFullDate(isoDate) {
 function isVosEvent(ev) {
   const title = String(ev?.title || "").toLowerCase();
   const note = String(ev?.note || "").toLowerCase();
-  return title.includes("vos") || note.includes("vos");
+  return title.includes("vos")
+    || note.includes("vos")
+    || title.includes("value optimization sme")
+    || note.includes("value optimization sme");
+}
+
+function isGoPlusEvent(ev) {
+  const title = String(ev?.title || "").toLowerCase();
+  const note = String(ev?.note || "").toLowerCase();
+  return title.includes("go+") || note.includes("go+") || title.includes("go plus") || note.includes("go plus");
+}
+
+function eventCategory(ev) {
+  if (isVosEvent(ev)) return "vos";
+  if (isGoPlusEvent(ev)) return "goplus";
+  return "other";
 }
 
 function isSocialPostEvent(ev) {
@@ -788,6 +803,54 @@ function initTimelineScroll() {
   scroller.scrollLeft = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
 }
 
+function setupCatalogFilters() {
+  const body = document.getElementById("ec-events-body");
+  const vosBtn = document.getElementById("ec-filter-vos");
+  const goBtn = document.getElementById("ec-filter-goplus");
+  const otherBtn = document.getElementById("ec-filter-other");
+  if (!body || !vosBtn || !goBtn || !otherBtn) return;
+
+  const buttons = [
+    { key: "vos", el: vosBtn },
+    { key: "goplus", el: goBtn },
+    { key: "other", el: otherBtn },
+  ];
+
+  function activeSet() {
+    return new Set(buttons.filter((b) => b.el.getAttribute("aria-pressed") === "true").map((b) => b.key));
+  }
+
+  function apply() {
+    const active = activeSet();
+    const rows = body.querySelectorAll(".ec-main-row");
+    rows.forEach((row) => {
+      const cat = row.dataset.category || "other";
+      const show = active.has(cat);
+      const detailId = row.dataset.detailId || "";
+      row.hidden = !show;
+      if (!show && detailId) {
+        const detail = document.getElementById(detailId);
+        if (detail) detail.hidden = true;
+        const btn = row.querySelector(".ec-expand-btn");
+        if (btn) {
+          btn.textContent = "Expand";
+          btn.setAttribute("aria-expanded", "false");
+        }
+      }
+    });
+  }
+
+  for (const btn of buttons) {
+    btn.el.onclick = () => {
+      const isPressed = btn.el.getAttribute("aria-pressed") === "true";
+      btn.el.setAttribute("aria-pressed", isPressed ? "false" : "true");
+      apply();
+    };
+  }
+
+  apply();
+}
+
 function renderEvents(events, signals, reportSeries, context) {
   const body = document.getElementById("ec-events-body");
   if (!body) return { summaryRows: [], reportRows: [], dailyRows: [] };
@@ -879,10 +942,11 @@ function renderEvents(events, signals, reportSeries, context) {
         topReferrersAfter,
         cloneRepoRows,
       });
+      const category = eventCategory(ev);
       const isSocial = isSocialPostEvent(ev);
       const rowClass = isSocial ? "ec-main-row ec-social-row" : "ec-main-row";
       const detailClass = isSocial ? "ec-detail-row ec-social-row" : "ec-detail-row";
-      return `<tr class="${rowClass}">
+      return `<tr class="${rowClass}" data-category="${category}" data-detail-id="${detailId}">
         <td>${esc(ev.date)}</td>
         <td>
           <strong class="${isSocial ? "ec-social-outline" : ""}">${esc(ev.title || "")}</strong>
@@ -899,7 +963,7 @@ function renderEvents(events, signals, reportSeries, context) {
           <button type="button" class="ec-expand-btn" data-target="${detailId}" aria-expanded="false">Expand</button>
         </td>
       </tr>
-      <tr id="${detailId}" class="${detailClass}" hidden>
+      <tr id="${detailId}" class="${detailClass}" data-category="${category}" hidden>
         <td colspan="9">
             <div class="ec-details-body">
               <div class="ec-metric-grid">
@@ -1033,6 +1097,7 @@ async function boot() {
     }
     renderSummary(events, signals, reportSeries);
     const exportPayload = renderEvents(events, signals, reportSeries, { traffic, site, youtube });
+    setupCatalogFilters();
     setupExports(exportPayload);
   } catch (err) {
     if (meta) meta.textContent = "Could not load enablement correlation datasets.";

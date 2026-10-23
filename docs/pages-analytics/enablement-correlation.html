@@ -39,6 +39,10 @@
     .ec-export-label { font-size: .82rem; color: var(--text-muted); font-weight: 700; margin-right: .15rem; }
     .ec-export-btn { appearance: none; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: .35rem .72rem; font-size: .8rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
     .ec-export-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .ec-filter-bar { margin: .55rem 0 .8rem; display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; }
+    .ec-filter-label { font-size: .8rem; color: var(--text-muted); font-weight: 700; margin-right: .15rem; }
+    .ec-filter-toggle { appearance: none; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: .32rem .68rem; font-size: .78rem; font-weight: 700; cursor: pointer; }
+    .ec-filter-toggle[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
     .ec-card { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: 0 1px 3px rgba(20,20,40,.05); padding: 1rem 1.1rem; }
     .ec-h2 { margin: 1.35rem 0 .45rem; font-size: 1.15rem; letter-spacing: -.01em; }
     .ec-sub { margin: 0 0 .75rem; font-size: .88rem; color: var(--text-soft); }
@@ -183,6 +187,12 @@
       <h2 class="ec-h2">Event catalog and impact breakdown</h2>
       <p class="ec-sub">Expand any event to inspect per-metric charts and report-level lifts around that date.</p>
       <div class="ec-card">
+        <div class="ec-filter-bar" id="ec-filter-bar">
+          <span class="ec-filter-label">Show:</span>
+          <button type="button" class="ec-filter-toggle" id="ec-filter-vos" aria-pressed="true">VOS</button>
+          <button type="button" class="ec-filter-toggle" id="ec-filter-goplus" aria-pressed="true">GO+</button>
+          <button type="button" class="ec-filter-toggle" id="ec-filter-other" aria-pressed="true">Others</button>
+        </div>
         <div class="ec-events-scroll ec-table-wrap">
           <table class="ec-table" id="ec-events-table">
             <thead>
@@ -232,6 +242,6 @@
   </div>
 </footer>
 
-<script src="enablement-correlation.js?v=202610231405"></script>
+<script src="enablement-correlation.js?v=202610231425"></script>
 </body>
 </html>
