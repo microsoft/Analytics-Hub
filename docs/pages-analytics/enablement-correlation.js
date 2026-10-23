@@ -413,11 +413,16 @@ function svgTimeline(seriesMap, events) {
     const x = xAt(idx);
     const social = isSocialPostEvent(ev);
     const vos = isVosEvent(ev) && !social;
-    const lineClass = social ? "ec-event-line ec-event-line-social" : "ec-event-line";
-    const lineStyle = vos ? `class="${lineClass}" style="stroke:url(#ec-vos-gradient)"` : `class="${lineClass}"`;
     const circleStyle = social ? `class="ec-mark-social"` : (vos ? `fill="url(#ec-vos-gradient)"` : "");
+    let lineMarkup = `<line class="ec-event-line" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>`;
+    if (social) {
+      lineMarkup = `<line class="ec-event-line ec-event-line-social" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>`;
+    } else if (vos) {
+      lineMarkup = `<line class="ec-event-line ec-event-line-vos" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
+      <line class="ec-event-line ec-event-line-vos-glint" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>`;
+    }
     return `<g class="ec-mark">
-      <line ${lineStyle} x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
+      ${lineMarkup}
       <circle cx="${x.toFixed(1)}" cy="${yAt(data[idx].value).toFixed(1)}" r="3.1" ${circleStyle}></circle>
       <title>${esc(ev.date)} · ${esc(ev.title)}</title>
     </g>`;
