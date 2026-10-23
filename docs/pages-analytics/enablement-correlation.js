@@ -72,6 +72,12 @@ function formatFullDate(isoDate) {
   return new Date(`${isoDate}T00:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 }
 
+function isVosEvent(ev) {
+  const title = String(ev?.title || "").toLowerCase();
+  const note = String(ev?.note || "").toLowerCase();
+  return title.includes("vos") || note.includes("vos");
+}
+
 function reportGuideHref(report) {
   return `../choose-report/#r=${encodeURIComponent(report.guideKey || report.key)}`;
 }
@@ -397,9 +403,12 @@ function svgTimeline(seriesMap, events) {
     if (!eventsByIndex.has(idx)) eventsByIndex.set(idx, []);
     eventsByIndex.get(idx).push(ev);
     const x = xAt(idx);
+    const vos = isVosEvent(ev);
+    const lineStyle = vos ? `style="stroke:url(#ec-vos-gradient)"` : `class="ec-event-line"`;
+    const circleStyle = vos ? `fill="url(#ec-vos-gradient)"` : "";
     return `<g class="ec-mark">
-      <line class="ec-event-line" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
-      <circle cx="${x.toFixed(1)}" cy="${yAt(data[idx].value).toFixed(1)}" r="3.1"></circle>
+      <line ${lineStyle} x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${pad.t}" y2="${(pad.t + plotH).toFixed(1)}"></line>
+      <circle cx="${x.toFixed(1)}" cy="${yAt(data[idx].value).toFixed(1)}" r="3.1" ${circleStyle}></circle>
       <title>${esc(ev.date)} · ${esc(ev.title)}</title>
     </g>`;
   }).join("");
@@ -408,7 +417,9 @@ function svgTimeline(seriesMap, events) {
     const label = totalAttendees > 0 ? fmt(totalAttendees) : "TBD";
     const x = xAt(idx) + 1;
     const y = labelIdx % 2 === 0 ? 8 : 22;
-    return `<text class="ec-attendees" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="start" dominant-baseline="hanging">${esc(label)}</text>`;
+    const hasVos = evs.some((ev) => isVosEvent(ev));
+    const fill = hasVos ? `fill="url(#ec-vos-gradient)"` : "";
+    return `<text class="ec-attendees" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="start" dominant-baseline="hanging" ${fill}>${esc(label)}</text>`;
   }).join("");
 
   const hoverPoints = data.map((d, idx) => {
@@ -427,6 +438,13 @@ function svgTimeline(seriesMap, events) {
     <svg class="ec-y-axis" viewBox="0 0 ${axisW} ${height}" role="presentation" aria-hidden="true">${axisLabels}</svg>
     <div class="ec-timeline-scroll" title="Scroll left and right to navigate full timeline history.">
       <svg class="ec-chart" style="width:${width}px;max-width:none;height:auto;display:block" viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily hub visits with event markers">
+        <defs>
+          <linearGradient id="ec-vos-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00B7C3"></stop>
+            <stop offset="52%" stop-color="#7F56D9"></stop>
+            <stop offset="100%" stop-color="#C026D3"></stop>
+          </linearGradient>
+        </defs>
         ${grid}
         <path class="ec-area" d="${area}"></path>
         <path class="ec-line" stroke="#0078d4" d="${line}"></path>
