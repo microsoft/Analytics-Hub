@@ -377,10 +377,11 @@ function youtubeDailySeries() {
 }
 
 function renderYouTubeMeta() {
-  const meta = document.getElementById("yt-meta");
-  if (!meta) return;
+  const metas = [document.getElementById("yt-meta"), document.getElementById("yt-meta-inline")].filter(Boolean);
+  if (!metas.length) return;
+  const setMeta = (text) => metas.forEach((meta) => { meta.textContent = text; });
   if (!rawYouTube || rawYouTube.message) {
-    meta.textContent = rawYouTube?.message || "No YouTube Analytics snapshot has been published yet.";
+    setMeta(rawYouTube?.message || "No YouTube Analytics snapshot has been published yet.");
     return;
   }
   const days = rawYouTube.days || [];
@@ -395,7 +396,7 @@ function renderYouTubeMeta() {
   }
   if (rawYouTube.source?.hasRevenue) parts.push("revenue included");
   else parts.push("revenue hidden");
-  meta.textContent = parts.join(" · ");
+  setMeta(parts.join(" · "));
 }
 
 function renderYouTubeKpis(win) {

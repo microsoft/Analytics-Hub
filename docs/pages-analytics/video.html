@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video Analytics · Analytics Hub</title>
-  <meta name="description" content="Private video traffic and interaction dashboard for Analytics Hub demo videos." />
+  <title>Official YouTube Analytics · Analytics Hub</title>
+  <meta name="description" content="Official YouTube Analytics API dashboard for the Analytics Hub channel." />
   <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/pages-analytics/video.html" />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
@@ -43,6 +43,10 @@
     .va-window button{appearance:none;border:0;background:transparent;color:var(--text-soft);font:inherit;font-size:.9rem;font-weight:600;padding:.5rem .95rem;border-radius:calc(var(--radius) - 4px);cursor:pointer}
     .va-window button[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:var(--shadow-sm)}
     .va-strip{padding:2rem 0;background:var(--bg);border-bottom:1px solid var(--border)}
+    .va-non-yt-banner{padding:1rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--accent) 9%,var(--surface))}
+    .va-non-yt-banner .tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:999px;padding:.2rem .6rem;margin:0 0 .45rem}
+    .va-non-yt-banner p{margin:0;color:var(--text-soft);font-size:.88rem;line-height:1.45}
+    .va-non-yt-banner .va-action{margin-top:.7rem}
     .va-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:1rem}
     .va-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;box-shadow:var(--shadow-sm)}
     .va-kpi .label{display:block;font-size:.72rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
@@ -132,14 +136,14 @@
       <p class="va-crumb"><a href="./">&larr; Pages Analytics</a></p>
       <div class="va-title-row">
         <div>
-          <p class="va-eyebrow">Private interaction telemetry</p>
-          <h1>Video traffic and interactions</h1>
-          <p class="va-lede">A focused readout of which demo videos people actually start, how much time they spend watching, and which walkthroughs are creating the strongest engagement signal. The page can also show the official YouTube channel feed when the daily snapshot is configured.</p>
-          <p class="va-meta" id="va-meta">Loading video telemetry...</p>
+          <p class="va-eyebrow">Official YouTube Analytics API</p>
+          <h1>Official YouTube channel analytics</h1>
+          <p class="va-lede">This page shows official channel metrics from the YouTube Analytics API for the Analytics Hub channel.</p>
+          <p class="va-meta" id="yt-meta">Loading YouTube Analytics snapshot...</p>
         </div>
         <div class="va-actions">
-          <a class="va-action" href="https://analytics-hub-video-stats.stephansmith-msft.workers.dev/" target="_blank" rel="noopener">Open worker dashboard</a>
           <a class="va-action" href="https://www.youtube.com/@MSFTAnalyticsHub/" target="_blank" rel="noopener">Open YouTube channel</a>
+          <a class="va-action" href="video-non-youtube.html">Open Non-YouTube data</a>
           <a class="va-action primary" href="./">Pages Analytics</a>
         </div>
       </div>
@@ -152,55 +156,11 @@
     </div>
   </section>
 
-  <section class="va-strip">
+  <section class="va-non-yt-banner" aria-label="Non-YouTube data">
     <div class="wrap">
-      <div class="va-kpis" id="va-kpis">
-        <div class="va-kpi"><span class="label">Total plays</span><span class="value" id="va-kpi-plays">-</span><span class="foot" id="va-kpi-plays-foot">Starts across all videos</span></div>
-        <div class="va-kpi"><span class="label">Watch time</span><span class="value" id="va-kpi-watch">-</span><span class="foot">Aggregate watched seconds</span></div>
-        <div class="va-kpi"><span class="label">Avg watch per play</span><span class="value" id="va-kpi-avg">-</span><span class="foot">Interaction depth</span></div>
-        <div class="va-kpi"><span class="label">Completion estimate</span><span class="value" id="va-kpi-completion">-</span><span class="foot">Duration-weighted average</span></div>
-        <div class="va-kpi"><span class="label">Videos with plays</span><span class="value" id="va-kpi-count">-</span><span class="foot">Unique video assets</span></div>
-      </div>
-      <div class="va-insights" id="va-insights"></div>
-    </div>
-  </section>
-
-  <section class="va-section">
-    <div class="wrap">
-      <div class="va-grid">
-        <div class="va-card">
-          <h2>Daily interaction trend</h2>
-          <p class="sub">Plays and watch time by UTC day. This comes from the anonymous video collector, not page views.</p>
-          <div id="va-trend"><p class="va-message">Loading...</p></div>
-          <div class="va-legend"><span><i></i>Plays</span><span><i class="watch"></i>Watch time</span></div>
-        </div>
-        <div class="va-card">
-          <h2>Top engagement drivers</h2>
-          <p class="sub">Ranked by watch time in the selected window.</p>
-          <ul class="va-list" id="va-top-watch"></ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="va-section">
-    <div class="wrap">
-      <h2>Per-video breakdown</h2>
-      <p class="sub">Click a column header to sort. Window: <strong id="va-window-label">last 7 days</strong>.</p>
-      <div class="va-table-wrap">
-        <table class="va-table" id="va-table">
-          <thead>
-            <tr>
-              <th data-sort="name">Video</th>
-              <th class="num" data-sort="plays">Plays</th>
-              <th class="num" data-sort="seconds">Watch time</th>
-              <th class="num" data-sort="avg">Avg / play</th>
-              <th class="num" data-sort="completion">Completion</th>
-            </tr>
-          </thead>
-          <tbody id="va-body"><tr><td colspan="5" class="va-message">Loading...</td></tr></tbody>
-        </table>
-      </div>
+      <span class="tag">Non-YouTube Data</span>
+      <p>Site collector and Clarity-based video interaction telemetry has moved to a separate page.</p>
+      <a class="va-action" href="video-non-youtube.html">Go to Non-YouTube Data page</a>
     </div>
   </section>
 
@@ -210,7 +170,7 @@
         <div class="yt-head">
           <div>
             <h2>Official YouTube channel analytics</h2>
-            <p id="yt-meta">Loading YouTube Analytics snapshot...</p>
+            <p id="yt-meta-inline">Loading YouTube Analytics snapshot...</p>
           </div>
           <a class="yt-link" href="https://studio.youtube.com/channel/UC5vdN46PuzU-kYdZQAEO_BA/analytics" target="_blank" rel="noopener">Open YouTube Studio</a>
         </div>
@@ -243,7 +203,7 @@
   <section class="va-section">
     <div class="wrap">
       <div class="va-callout">
-        This page reads <code>docs/data/video-analytics.json</code>, generated daily from a SQLite snapshot of the Cloudflare KV collector behind <code>analytics-hub-video-stats.stephansmith-msft.workers.dev</code>. The YouTube section reads <code>docs/data/youtube-analytics.json</code>, generated daily from the YouTube Analytics API when GitHub Actions secrets are configured. Public visitors still only send anonymous aggregate play and watch-time counts.
+        This page reads <code>docs/data/youtube-analytics.json</code>, generated daily from the YouTube Analytics API when GitHub Actions secrets are configured. Non-YouTube collector telemetry lives on <a href="video-non-youtube.html">the separate Non-YouTube Data page</a>.
       </div>
     </div>
   </section>
