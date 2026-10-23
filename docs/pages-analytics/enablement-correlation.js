@@ -403,12 +403,12 @@ function svgTimeline(seriesMap, events) {
       <title>${esc(ev.date)} · ${esc(ev.title)}</title>
     </g>`;
   }).join("");
-  const attendeeLabels = [...eventsByIndex.entries()].map(([idx, evs]) => {
+  const attendeeLabels = [...eventsByIndex.entries()].sort((a, b) => a[0] - b[0]).map(([idx, evs], labelIdx) => {
     const totalAttendees = evs.reduce((sum, ev) => sum + Math.max(0, toNum(ev.attendees)), 0);
-    const label = totalAttendees > 0 ? `~${fmt(totalAttendees)}` : "TBD";
-    const x = xAt(idx);
-    const y = Math.max(10, yAt(data[idx].value) - 10);
-    return `<text class="ec-attendees" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">${esc(label)}</text>`;
+    const label = totalAttendees > 0 ? fmt(totalAttendees) : "TBD";
+    const x = xAt(idx) + 1;
+    const y = labelIdx % 2 === 0 ? 8 : 22;
+    return `<text class="ec-attendees" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="start" dominant-baseline="hanging">${esc(label)}</text>`;
   }).join("");
 
   const hoverPoints = data.map((d, idx) => {
