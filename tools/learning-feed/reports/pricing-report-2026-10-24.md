@@ -1,0 +1,140 @@
+# Copilot Pricing & Licensing Watch - 2026-10-24
+
+Run: 2026-10-24T11:16:34.088Z
+
+**64 change(s) detected.** 39 pages verified, 34 updated within window (since 2026-07-01).
+
+
+## CRITICAL
+
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Find a Copilot setting"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Configure user access"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Configure data access"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Configure Copilot actions"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Configure other settings"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Configure the Microsoft Copilot app experience"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION ADDED: "Related content"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Licensing"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Role requirements"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Visibility of services and features"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Open the Microsoft 365 admin center"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "User access"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot Frontier"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot in Bing, Edge, and Windows"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot in Edge"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot pay-as-you-go billing"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Microsoft Copilot in admin centers"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Microsoft Copilot self-service purchases"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Microsoft Security Copilot"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Pin Microsoft Copilot app to the Windows taskbar"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Pin Microsoft Copilot Chat"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Data access"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Agents"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "AI providers for other large language models"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Azure DevOps data in Microsoft 365 Copilot"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot in Power Platform and Dynamics 365"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Data security and compliance"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "People Skills in Microsoft Copilot"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Recommendations for Microsoft Copilot licensing"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Web search for Microsoft Copilot and Microsoft Copilot Chat"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot actions"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Advanced package uploads"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot image generation"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Vision in Microsoft Copilot"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot in Teams meetings"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Other settings"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot custom dictionary"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Copilot diagnostics logs"
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - SECTION REMOVED: "Related articles"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION ADDED: "Step 1 - Get your organization ready and use the Microsoft Adoption site"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION ADDED: "Step 2 - Choose your Microsoft Copilot license"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION ADDED: "Step 3 - Get your Microsoft 365 apps and network ready"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION ADDED: "Step 4 - Set up Copilot and assign licenses"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION ADDED: "Step 5 - Send a welcome email and enable feedback"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION ADDED: "Related articles"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Admin center roles"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Licensing"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Readiness activities"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Security measures"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Multifactor authentication (MFA)"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Audit logging"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Restrict sensitive info from Copilot"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Get started and deploy"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Step 1: Update channels"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Step 2: Provision Microsoft Copilot licenses"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Step 3: Configure settings for Copilot"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Step 4 - Deploy to some users and measure adoption"
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - SECTION REMOVED: "Related content"
+
+## MAJOR
+
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - ms.date changed: 2026-10-15T00:00:00Z -> 2026-10-23T00:00:00Z
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - git commit changed: f972de0a -> 51dedebb
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - Body changed (-12250 chars)
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - ms.date changed: 2026-05-19T00:00:00Z -> 2026-10-23T00:00:00Z
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - git commit changed: bff0904c -> 90d591a1
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - Body changed (-10864 chars)

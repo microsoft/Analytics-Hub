@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-23T14:03:57.685Z",
+  "runAt": "2026-10-24T11:16:12.098Z",
   "feed": "governance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -383,14 +383,14 @@
       "inWindow": true
     },
     {
-      "id": "https-learn-microsoft-com-copilot-manage-agents-copilot-chat",
-      "tier": 3,
+      "id": "manage-agents-copilot-chat",
+      "tier": 1,
       "title": "Manage Agents Copilot Chat",
       "url": "https://learn.microsoft.com/copilot/manage-agents-copilot-chat",
-      "why": "Auto-discovered from the documentation tree for this product area.",
+      "why": "New admin guidance for managing agents in Copilot Chat, directly relevant to governance and control surfaces.",
       "ok": true,
-      "discovered": true,
-      "isNew": true,
+      "discovered": false,
+      "isNew": false,
       "msDate": "2026-10-21T00:00:00Z",
       "gitCommit": "7b8ed549030e19e085b4b3832ac1493293cde9de",
       "wordCount": "442",
@@ -426,6 +426,32 @@
         "Related content"
       ],
       "inWindow": false
+    },
+    {
+      "id": "copilot-microsoft-365-configure-copilot-admin-center",
+      "tier": 3,
+      "title": "Configure Copilot Admin Center",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-copilot-admin-center",
+      "why": "Auto-discovered from the documentation tree for this product area.",
+      "ok": true,
+      "discovered": true,
+      "isNew": true,
+      "msDate": "2026-10-23T00:00:00Z",
+      "gitCommit": "51dedebb01bac6eaac0275aabc6bccaefee60783",
+      "wordCount": "1633",
+      "bodyHash": "86dfcb8d54ffe247",
+      "bodyLen": 12365,
+      "sections": [
+        "Before you begin",
+        "Find a Copilot setting",
+        "Configure user access",
+        "Configure data access",
+        "Configure Copilot actions",
+        "Configure other settings",
+        "Configure the Microsoft Copilot app experience",
+        "Related content"
+      ],
+      "inWindow": true
     },
     {
       "id": "copilot-microsoft-365-copilot-agent-install",
@@ -629,26 +655,6 @@
         "How do I provide feedback on Word Agent, Excel Agent, and PowerPoint Agent?"
       ],
       "inWindow": false
-    },
-    {
-      "id": "copilot-microsoft-365-microsoft-365-copilot-app-admin-settings",
-      "tier": 3,
-      "title": "Microsoft 365 Copilot App Admin Settings",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-app-admin-settings",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": false,
-      "msDate": "2026-10-20T00:00:00Z",
-      "gitCommit": "be955ffa485c63a68e998c8160194aa1087c545b",
-      "wordCount": "630",
-      "bodyHash": "607e1dc27efbbac7",
-      "bodyLen": 5318,
-      "sections": [
-        "Settings that configure the app experience",
-        "Related content"
-      ],
-      "inWindow": true
     },
     {
       "id": "copilot-microsoft-365-people-skills-manage-ai-restricted-skills",
@@ -944,6 +950,32 @@
         "Configure the Restrict brand kit creation policy",
         "Verify policy behavior",
         "Connect an organizational asset library to Copilot"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "microsoft-365-copilot-configure-copilot-admin-center",
+      "tier": 3,
+      "title": "Configure Copilot Admin Center",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-copilot-admin-center",
+      "why": "Auto-discovered from the documentation tree for this product area.",
+      "ok": true,
+      "discovered": true,
+      "isNew": true,
+      "msDate": "2026-10-23T00:00:00Z",
+      "gitCommit": "51dedebb01bac6eaac0275aabc6bccaefee60783",
+      "wordCount": "1633",
+      "bodyHash": "86dfcb8d54ffe247",
+      "bodyLen": 12365,
+      "sections": [
+        "Before you begin",
+        "Find a Copilot setting",
+        "Configure user access",
+        "Configure data access",
+        "Configure Copilot actions",
+        "Configure other settings",
+        "Configure the Microsoft Copilot app experience",
+        "Related content"
       ],
       "inWindow": true
     },
@@ -1298,26 +1330,6 @@
         "How do I provide feedback on Word Agent, Excel Agent, and PowerPoint Agent?"
       ],
       "inWindow": false
-    },
-    {
-      "id": "microsoft-365-copilot-microsoft-365-copilot-app-admin-settings",
-      "tier": 3,
-      "title": "Microsoft 365 Copilot App Admin Settings",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-app-admin-settings",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": false,
-      "msDate": "2026-10-20T00:00:00Z",
-      "gitCommit": "be955ffa485c63a68e998c8160194aa1087c545b",
-      "wordCount": "630",
-      "bodyHash": "607e1dc27efbbac7",
-      "bodyLen": 5318,
-      "sections": [
-        "Settings that configure the app experience",
-        "Related content"
-      ],
-      "inWindow": true
     },
     {
       "id": "microsoft-365-copilot-people-skills-manage-ai-restricted-skills",

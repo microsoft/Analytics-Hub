@@ -1,7 +1,106 @@
 {
-  "runAt": "2026-10-23T14:05:09.099Z",
+  "runAt": "2026-10-24T11:16:42.575Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "578069",
+      "title": "Dynamics 365 Contact Center: IVR capabilities - Equip voice agents with custom voice",
+      "status": "In development",
+      "description": "<p>Secure a voice talent that will represent the voice of your brand. After <a href=\"https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/speech-service/text-to-speech/disclosure-voice-talent\">obtaining explicit consent</a>, gaining <a href=\"https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/speech-service/text-to-speech/limited-access\">Limited Access</a> approval through Microsoft's Responsible AI practices, and <a href=\"https://learn.microsoft.com/en-us/azure/ai-services/speech-service/custom-neural-voice\">building a custom voice model</a>, it's time to integrate with Dynamics 365 Contact Center.</p>\n<p>In the Copilot Service admin center, create a connection between Dynamics 365 and Azure. Navigate to <strong>Channels</strong> &gt; <strong>Custom AI Voices</strong> &gt; <strong>Connect custom voice</strong>. You'll be prompted through a series of cascading dropdown boxes to select the speech resource and custom voice model to connect with. After the connection is established, you can create a voice channel for self-service and use the custom voice, like any portfolio voice.</p>\n<p>Business Value:</p>\n<p>Brand identity extends beyond visuals like logo, color, and typography, into voice. Custom neural voice enables enterprises to create a distinctive, natural sounding synthetic voice for contact centers. By training on approved human speech samples, organizations can deliver a natural sounding, one‑of‑a‑kind brand voice that preserves brand continuity, strengthens customer recognition, and elevates voice‑based experiences across AI‑powered agents and telephony interactions.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-23T22:46:04",
+      "modified": "2026-10-23T22:46:04",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "50c2dd6f616402db"
+    },
+    {
+      "id": "578068",
+      "title": "Dynamics 365 Business Central: Copilot and agents - Envision and design AI agents in Business Central",
+      "status": "In development",
+      "description": "<h3>AI agents in Business Central</h3>\n<p>Business Central introduces AI agents to help users automate repetitive tasks and make business processes more intelligent and efficient. These agents act as specialized assistants that understand context, handle structured data, and collaborate with users to complete end-to-end workflows. For example, the Sales Order Agent simplifies order creation by transforming natural language or email instructions into complete sales documents, while the Payables Agent streamlines vendor invoice processing by extracting key details from incoming invoices and matching them to purchase orders—all reducing manual effort and freeing users to focus on higher-value work.</p>\n<p>The agent runtime that powers these built-in agents provides core capabilities that enable the use of agentic AI within Business Central. AI agents are defined, configured, activated, and run directly inside the familiar Business Central environment—leveraging the same security model, administration tools, and user experience as the rest of the product. Results are displayed in-context, with intuitive navigation to related data and entities, allowing users to control the agents through the interface they already know. This consistency dramatically reduces the learning curve, builds trust, and ensures efficiency when working with AI agents.</p>\n<p>The agent runtime ensures that every step taken by an agent is traceable and operates strictly within the access boundaries (permissions) assigned during configuration. It provides a timeline view of all agent activities, allowing users to review what happened and why—enabling a true human-in-the-loop experience. The runtime can also memorize relevant data during execution, use it in subsequent steps, and request additional instructions in natural language when user input is needed. It helps ensure that sensitive operations always require explicit user review and consent, supporting full transparency and control.</p>\n<p>Business Central business processes are inherently multistep, stateful, and financially consequential. The agent layer must be able to interact with a broad set of ERP capabilities and data, sequence operations with a high degree of accuracy across dependent steps, handle the data respecting permissions, company, environment, and tenant boundaries, provide a contextual audit trail, and keep humans in the loop.</p>\n<p>Business Central agentic strategy intentionally separates deep, well controlled, in-context and transparent execution within the product from cross-system orchestration. Business Central agents form the foundational layer inside the product, exposing well-defined agent capabilities that in the future will be possible to surface as MCP tools and consume by Declarative Agents in Microsoft Copilot Studio and Microsoft 365. This layered approach enables Business Central-tuned, transparent, managed execution at the ERP core processes, while allowing higher-level Declarative Agents to orchestrate end-to-end business processes across products.</p>\n<h3>Designing agents</h3>\n<p>The new in-product experience for designing agents that automate Business Central processes is made available with AI Development Toolkit for Business Central. The experience offers a low-risk environment for envisioning and prototyping new AI agents tailored to your own business scenarios—extending the same agent runtime capabilities used by built-in Business Central agents.</p>\n<p>Built for rapid iteration, the designing experience lets you create and refine custom agents using natural language instructions, define their behavior, test agent profiles and permissions, and safely experiment with Business Central data in a sandbox environment. This approach empowers partner personas like consultants, product owners, and domain experts, as well as developers and even power users, to explore new scenarios, validate ideas, and build confidence in their agents before moving to production. Whether you aim to automate repetitive business processes, streamline data processing, or deliver proactive insights, the agent design experience gives you the tools to bring your vision to life.</p>\n<h3>Agent instructions</h3>\n<p>At the core of every agent are its goals and instructions, defined in natural language. Writing agent instructions is similar to writing prompts for large language models, so you can apply general prompt-writing best practices—and even use tools like Copilot to optimize them. The agent design experience includes a simple editor to help you define, refine, and test these instructions efficiently.</p>\n<h3>Invoking your agent</h3>\n<p>You can invoke your agent by manually creating a task for it. When doing so, you can include an additional message that provides specific details or context to complement the agent’s core instructions. Although the ability to design your own agents is in public preview, there aren't yet any built-in integrations to automatically trigger these custom agents based on incoming emails, events, or scheduled recurrences (this can be done by professional developers using the APIs available in the AI Development Toolkit). However, you can simulate these scenarios by including the email header and body in the task message to mimic incoming emails, or by manually triggering the agent to emulate event, UI action, or time-based runs.</p>\n<h3>Troubleshooting</h3>\n<p>When running the agent tasks in the designing experience, you can access detailed diagnostic views to help you understand and tune the agent execution. Since an agent’s decisions depend on its instructions, available data, and language model reasoning, you can review execution logs to see its inputs, reasoning process, and outputs. This helps you identify where uncertainty occurred and why specific decisions were made to adjust your agent instructions.</p>\n<h3>Importing and exporting agents</h3>\n<p>To make it easy to back up or move custom agents across sandbox environments, the in-product experience allows you to import and export agent definitions. These definitions are stored as simple JSON files containing properties such as agent identity, instructions, assigned profiles, and permissions. We recommend storing these files in a source control system like GitHub to track changes and maintain version history.</p>\n<h3>Responsible AI</h3>\n<p>Agents built using the agent design experience adhere to Microsoft’s Responsible AI principles, helping you ensure agent compliance, fairness, and safety.</p>\n<h3>Billing</h3>\n<p>As with the built-in Sales Order and Payables agents, custom agents consume Copilot credits as they perform their steps. Credits can be provisioned through prepaid or pay-as-you-go models, providing flexible cost management as your AI usage scales.</p>\n<p>Business Value:</p>\n<p>Agents in Business Central are AI-powered team assistants that go beyond traditional automation. Unlike static workflows or hard-coded AL logic, agents can interpret high-level business goals expressed in natural language and translate them into actionable steps. They reason over Business Central data, make informed decisions within defined boundaries, and collaborate with users through human-in-the-loop approvals for critical operations.</p>\n<p>The benefits are substantial: agents reduce manual effort by automating repetitive or complex tasks, allowing users to focus on higher-value activities. They adapt to dynamic business scenarios that can't always be anticipated during development, offering flexibility that traditional automation lacks. Most importantly, agents operate transparently: every action is logged, permissions are rigorously enforced, and users remain in control at all times.</p>\n<p>This combination of intelligence, adaptability, and accountability makes agents a cornerstone of the next generation of ERP experiences. With the agent design experience, we're taking the first steps toward enabling you to build your own custom Business Central agents.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-23T22:46:03",
+      "modified": "2026-10-23T22:46:03",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Business Central",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "b00cdbb5cdbdfe3c"
+    },
+    {
+      "id": "578065",
+      "title": "Dynamics 365 Business Central: Copilot and agents - Run multiple Sales Order Agents per company with smarter item matching, relevance filtering, and streamlined setup",
+      "status": "Launched",
+      "description": "<p>You can now configure and run multiple Sales Order Agent instances in a single company. Each instance operates independently with its own mailbox, folder settings, email signature, and processing rules.</p>\n<p>Each agent instance tracks its own KPI metrics, such as emails received, quotes created, orders created, and time saved. The setup page is restructured to support per-instance configuration, and an upgrade path migrates existing single-instance setups to the new architecture. This change allows organizations to set up separate agents for different sales teams, product lines, or customer segments, each monitoring their own personal or shared mailbox.</p>\n<h3>Improved items search:</h3>\n<p>When a customer requests items, the agent now uses a multi-layer matching strategy:</p>\n<ul>\n<li>Exact identifier match: direct lookup by item number, vendor item number, GTIN, or cross-reference.</li>\n<li>Semantic attribute matching: extracts attributes from the customer's message (color, material, size) and ranks candidates by relevance using AI.</li>\n<li>Broader fuzzy search: falls back to a global item search when direct and attribute-based searches produce no results.</li>\n</ul>\n<h3>Message and attachment relevance:</h3>\n<p>The agent now validates incoming messages and attachments against a detailed relevance model before processing. Messages that fall outside the agent's responsibilities (such as offers to sell, requests for discounts, or attempts to extract internal information) are identified and filtered.</p>\n<p>A separate relevance check runs on attachments, ensuring that non-sales-related documents don't trigger unnecessary processing. The validation considers the full conversation history and the agent's defined scope to make accurate relevance decisions.</p>\n<h3>Larger attachment files with diagnostics.</h3>\n<p>The maximum number of pages per PDF attachment has been raised from 10 to 50, addressing customer feedback about the agent not reading larger purchase orders. A new cumulative content length limit of 150,000 characters is also enforced across all attachments in a single email (approximately 50K tokens).</p>\n<p>When an attachment is skipped, Business Central now stores the specific reason directly on the attachment record (page count exceeded, cumulative content length exceeded, attachment count exceeded, unsupported format, or analyze-attachments not enabled). This information is visible on the <strong>Attachments</strong> page and logged in telemetry, making it straightforward to diagnose why a particular document wasn't processed.</p>\n<h3>Try it out.</h3>\n<p>You can now create tasks for the Sales Order Agent without sending an email. From the agent's setup page, a new <strong>Try it out</strong> section lets you compose a message by selecting a sender (from your contact or customer list), entering message text, and attaching files. The agent acts like it received a real email.</p>\n<p>To help you get started quickly, two sample messages are included. One is a text-only message that references items from your catalog, and the other is a message with a sample purchase order attachment. The sample order is generated based on your actual item data, so the agent has realistic content to work with.</p>\n<p>These samples are particularly useful for first-time setup, demos, and testing agent behavior with specific scenarios without needing to send an actual email.</p>\n<h3>Handling of unknown senders</h3>\n<p>When the agent receives an email from an unregistered email address, you now have three options instead of just one:</p>\n<ul>\n<li>Create a new contact: register the sender as a new contact (existing behavior)</li>\n<li>Use another contact once: pick an existing contact from the contact list and link them to this specific task only, without modifying any master data. The override is stored per task message and does not affect future emails.</li>\n<li>Update an existing contact's email: select an existing contact and update their email address to the sender's address</li>\n</ul>\n<h3>More control over email</h3>\n<p>New configuration options give administrators more control over how the agent interacts with the monitored mailbox:</p>\n<ul>\n<li>Mark email as read: a new toggle to mark processed emails as read in the mailbox. This works in addition to the custom <em>Processed by Sales Order Agent</em> category, giving users a visual signal in their inbox.</li>\n<li>Mandatory folder selection: the agent now requires you to select a specific mailbox folder before activation. Previously this was optional and could lead to the agent monitoring an unexpected folder. If in doubt, choose <em>Inbox</em>.</li>\n<li>Stricter activation validation: trying to activate the agent without a mailbox folder now shows a clear error message instead of allowing activation in an ambiguous state.</li>\n</ul>\n<h3>Prompts as embedded resources.</h3>\n<p>The agent's AI prompts (instructions, item search logic, mail template checks, irrelevance validation) are now shipped as embedded resource files within the app extension package. This change reduces latency on first task processing and makes the prompt structure more transparent for engineering iteration.</p>\n<p>Business Value:</p>\n<p>The Sales Order Agent now handles more complex organizational structures and higher volumes with less manual intervention. You can run multiple agent instances in one company, each dedicated to a different team or shared mailbox with independent settings and performance tracking. The agent finds the right items more reliably by understanding product attributes, informal descriptions, and identifiers across multiple matching layers.<br>\nThe agent now processes PDFs up to 50 pages (previously, the limit was 10) and clearly shows why any attachment was skipped. It also filters irrelevant messages before processing, so credits aren't consumed by marketing emails or out-of-scope inquiries. If a customer writes from an unregistered email address, you can link an existing contact to that single task without creating duplicates. You can test the agent directly from the setup page without sending a real email, reducing the time to validate your configuration.</p>\n<p>Enabled for:</p>\n<p>Enabled for end users automatically</p>",
+      "created": "2026-10-23T22:45:59",
+      "modified": "2026-10-23T22:45:59",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Business Central",
+        "General Availability"
+      ],
+      "descHash": "8ce8107f2e85c437"
+    },
+    {
+      "id": "578064",
+      "title": "Dynamics 365 Customer Service: Copilot and AI innovation - Resolve customer emails autonomously with AI",
+      "status": "Launched",
+      "description": "<p>Autonomous email resolution delivers end-to-end handling of customer emails without manual intervention or default case creation. When an email arrives, the system analyzes the request, identifies the underlying intent, and determines whether the information and actions needed to resolve it are available.</p>\n<p>Using enterprise knowledge, configured business instructions, connectors, and custom agents, the system constructs a resolution dynamically. It generates a response that's context-aware, compliant with business rules, and tailored to the request, then delivers it directly by email—completing the interaction autonomously.</p>\n<p>If the customer isn't satisfied or the issue can't be resolved automatically, the system creates a case that carries the full conversation context, including customer intent, actions taken, and generated responses. A service representative can then step in without losing context or duplicating work.</p>\n<p>The capability is delivered through the Case Management Agent. An administrator enables the setting and sets the automation level for each line of business, from fully autonomous resolution to drafting a response for a service representative to review and send.</p>\n<p>This shifts email handling from a case-first workflow to an intent-driven resolution model, reducing manual effort, improving consistency, and accelerating time to resolution for high-volume customer interactions.</p>\n<p>Business Value:</p>\n<p>Autonomous email resolution drives faster, consistent responses and frees service representatives to focus on complex, high-impact issues. It improves customer satisfaction and operational efficiency and scales support without increasing response times and costs by automatically resolving high-volume email inquiries.</p>\n<p>Enabled for:</p>\n<p>Enabled by admins/makers/marketers for end users</p>",
+      "created": "2026-10-23T22:45:57",
+      "modified": "2026-10-23T22:45:57",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Customer Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "3f849efd6ee8d77a"
+    },
+    {
+      "id": "577900",
+      "title": "Power Pages: Plugin support for GitHub Copilot CLI and Claude Code to create and edit traditional sites",
+      "status": "In development",
+      "description": "<p>The Power Pages plugin for GitHub Copilot CLI and Claude Code now supports creating and editing traditional (non-SPA) Power Pages sites. Developers can use natural-language prompts in their AI coding agent to create a new traditional site or download, inspect, and update existing site metadata such as web pages, web templates, content snippets, basic and multistep forms, lists, table permissions, web roles, and site settings, then upload changes back to their environment using the Power Platform CLI.</p>",
+      "created": "2026-10-23T21:59:27",
+      "modified": "2026-10-23T21:59:27",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Developer",
+        "Power Pages",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "8fac6d267862b0ee"
+    },
+    {
+      "id": "577401",
+      "title": "Microsoft Teams: Facilitator in GCC",
+      "status": "In development",
+      "description": "<p>Facilitator is coming to Microsoft Teams meetings in GCC. The Facilitator agent can help capture notes in real time, answers questions about the meeting, and help keep the agenda and discussion on track. A Microsoft 365 Copilot license is required to use Facilitator.</p>",
+      "created": "2026-10-23T21:59:27",
+      "modified": "2026-10-23T21:59:27",
+      "tags": [
+        "GCC",
+        "Desktop",
+        "Mac",
+        "Web",
+        "Microsoft Teams",
+        "General Availability"
+      ],
+      "descHash": "e0e5430e66d37677"
+    },
     {
       "id": "577814",
       "title": "Dynamics 365 Customer Insights - Data: Agents and Copilot - Increase AI accuracy by grounding agents in customer insights",
@@ -159,11 +258,14 @@
       "status": "In development",
       "description": "<p>Teams Meetings offer enhanced AI controls for Copilot and AI experiences. Organizers manage who can enable and access AI, while IT admins get a simpler policy model for governing AI across meetings and post-meeting experiences. These updates provide more predictable administration and greater flexibility for compliance and governance scenarios.</p>",
       "created": "2026-10-22T22:58:40",
-      "modified": "2026-10-22T22:58:40",
+      "modified": "2026-10-23T21:59:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
+        "Android",
         "Desktop",
+        "iOS",
         "Mac",
+        "Web",
         "Microsoft Teams",
         "General Availability"
       ],
@@ -2122,10 +2224,10 @@
     {
       "id": "569211",
       "title": "Microsoft Copilot (Microsoft 365):  JPG and PNG references in Copilot Notebooks",
-      "status": "In development",
-      "description": "Copilot Notebooks now supports JPG and PNG files as knowledge sources, allowing users to bring images directly into their projects alongside traditional documents. Copilot can use the content within these images, including text, charts, diagrams, and other visuals, as grounding context to help generate more relevant presentations, reports, and briefs.\n\n",
+      "status": "Launched",
+      "description": "<p>Copilot Notebooks now supports JPG and PNG files as knowledge sources, allowing users to bring images directly into their projects alongside traditional documents. Copilot can use the content within these images, including text, charts, diagrams, and other visuals, as grounding context to help generate more relevant presentations, reports, and briefs.</p>",
       "created": "2026-08-11T22:53:53",
-      "modified": "2026-08-11T22:53:53",
+      "modified": "2026-10-23T21:59:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -2141,10 +2243,10 @@
     {
       "id": "569210",
       "title": "Microsoft Copilot (Microsoft 365): CSV and TSV references in Copilot Notebooks",
-      "status": "In development",
-      "description": "Copilot Notebooks now supports CSV and TSV files as knowledge sources, allowing users to bring structured lists and tables directly into their projects alongside traditional documents. This additional context helps Copilot generate more relevant presentations, reports, and briefs. ",
+      "status": "Launched",
+      "description": "<p>Copilot Notebooks now supports CSV and TSV files as knowledge sources, allowing users to bring structured lists and tables directly into their projects alongside traditional documents. This additional context helps Copilot generate more relevant presentations, reports, and briefs.</p>",
       "created": "2026-08-11T22:53:53",
-      "modified": "2026-08-11T22:53:53",
+      "modified": "2026-10-23T21:59:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -2348,10 +2450,10 @@
     {
       "id": "568368",
       "title": "Outlook: Copilot Chat pop-out for Outlook for Mac and iPad",
-      "status": "In development",
-      "description": "Copilot Chat remains accessible within an Outlook app window but now can also be popped out to float over the main Outlook app window. Popping out Copilot Chat allows people to switch contexts or have more space for what they are working on in Outlook and control the space and form that Copilot Chat takes on screen. When you open Copilot chat and click the pop-out button, Copilot will open separately over the main Outlook window.",
+      "status": "Rolling out",
+      "description": "<p>Copilot Chat remains accessible within an Outlook app window but now can also be popped out to float over the main Outlook app window. Popping out Copilot Chat allows people to switch contexts or have more space for what they are working on in Outlook and control the space and form that Copilot Chat takes on screen. When you open Copilot chat and click the pop-out button, Copilot will open separately over the main Outlook window.</p>",
       "created": "2026-07-28T22:43:45",
-      "modified": "2026-07-28T22:43:45",
+      "modified": "2026-10-23T21:59:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "iOS",
@@ -3275,10 +3377,10 @@
     {
       "id": "562351",
       "title": "Microsoft Copilot (Microsoft 365): Get actionable suggestions from Copilot in your Copilot Page",
-      "status": "In development",
-      "description": "Request feedback from Copilot on your Page by selecting \"Suggested edits\" in the Copilot Shortcuts menu. Copilot will analyze the content on your page and provide actionable suggestions about what you can change to improve clarity and quality of your written content. You can then apply suggestions directly to the page.",
+      "status": "Cancelled",
+      "description": "<p>Request feedback from Copilot on your Page by selecting \"Suggested edits\" in the Copilot Shortcuts menu. Copilot will analyze the content on your page and provide actionable suggestions about what you can change to improve clarity and quality of your written content. You can then apply suggestions directly to the page. Updated October 23, 2026: We have decided not to move forward with this change at this time. We apologize for any inconvenience.</p>",
       "created": "2026-05-15T22:00:42",
-      "modified": "2026-08-11T22:53:53",
+      "modified": "2026-10-23T21:59:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3287,7 +3389,7 @@
         "General Availability",
         "Preview"
       ],
-      "descHash": "f2ea43b67ea0feea"
+      "descHash": "a1e2f063daa6c123"
     },
     {
       "id": "561326",
@@ -7192,22 +7294,6 @@
       "descHash": "9ebe3db0c8e9e872"
     },
     {
-      "id": "501574",
-      "title": "Microsoft Copilot (Microsoft 365): Copilot APIs TypeScript Client Libraries",
-      "status": "Launched",
-      "description": "Developers: Pro-devs can use a JS SDK to call CCS APIs.",
-      "created": "2025-11-04T00:00:10",
-      "modified": "2025-12-23T23:00:50",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Developer",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "70518f4a513e3b15"
-    },
-    {
       "id": "501448",
       "title": "Microsoft Copilot (Microsoft 365): Discover graph connector prompts in the Prompt Gallery when using Copilot Chat",
       "status": "In development",
@@ -7455,22 +7541,6 @@
         "General Availability"
       ],
       "descHash": "5bcbdb6aa38b1c7d"
-    },
-    {
-      "id": "516570",
-      "title": "Microsoft Copilot (Microsoft 365): [Copilot Chat] Updated UI for Microsoft Copilot Navigation Pane in Word, Excel, PowerPoint, OneNote, Outlook, and Teams ",
-      "status": "Launched",
-      "description": "We’re refreshing the Copilot Chat navigation pane to simplify the agents list and increase the visible chat history list beyond a user's five most recent chats with a more prominent chat history search UI.",
-      "created": "2025-10-28T23:15:02",
-      "modified": "2025-12-23T23:00:50",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Desktop",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "04bf639d79814153"
     },
     {
       "id": "513421",
@@ -8386,21 +8456,6 @@
         "General Availability"
       ],
       "descHash": "9e30707a5f46bc3e"
-    },
-    {
-      "id": "513280",
-      "title": "Microsoft Copilot (Microsoft 365): [Copilot Extensibility] Customers can connect M365 Copilot with Freshservice to access IT service documentation with Copilot Connector",
-      "status": "Launched",
-      "description": "Customers can connect M365 Copilot with Fresh service to access IT service documentation with Copilot Connector.",
-      "created": "2025-10-13T23:00:30",
-      "modified": "2025-12-23T23:00:50",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "9eeec0719eaf64b6"
     },
     {
       "id": "513279",
@@ -9326,24 +9381,6 @@
         "Preview"
       ],
       "descHash": "cfcb1374d8ce8aff"
-    },
-    {
-      "id": "500375",
-      "title": "Microsoft Copilot (Microsoft 365): Larger file upload support in Copilot Studio agent builder",
-      "status": "Launched",
-      "description": "Copilot Studio agent builder in Microsoft 365 will support larger file uploads of up to 512 MB.",
-      "created": "2025-08-12T23:00:16",
-      "modified": "2025-12-23T23:00:50",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Android",
-        "Desktop",
-        "iOS",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "d441fb6e84f9a775"
     },
     {
       "id": "481138",
@@ -10635,10 +10672,10 @@
     {
       "id": "488301",
       "title": "Microsoft Teams: Speaker attribution now  “On” by default in BYOD rooms with enhanced admin controls",
-      "status": "Rolling out",
-      "description": "New PowerShell setting (SpeakerAttributionBYOD in csTeamsAIPolicy), enabled by default, gives IT admins more control over speaker attribution in BYOD (bring your own device) meeting rooms. This enhances the experience for users by enabling clear speaker labels and richer in-meeting and post-meeting insights with Microsoft 365 Copilot. Users just enroll profiles via Teams Settings to be recognized.",
+      "status": "Launched",
+      "description": "<p>New PowerShell setting (SpeakerAttributionBYOD in csTeamsAIPolicy), enabled by default, gives IT admins more control over speaker attribution in BYOD (bring your own device) meeting rooms. This enhances the experience for users by enabling clear speaker labels and richer in-meeting and post-meeting insights with Microsoft 365 Copilot. Users just enroll profiles via Teams Settings to be recognized.</p>",
       "created": "2025-04-08T23:00:23",
-      "modified": "2025-07-07T23:15:05",
+      "modified": "2026-10-23T21:59:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",
