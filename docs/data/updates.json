@@ -7,6 +7,18 @@
   },
   "updates": [
     {
+      "id": "2026-10-21-analytics-hub-app",
+      "tool": "Analytics Hub app",
+      "link": "analytics-hub-app/",
+      "tags": [
+        "Added"
+      ],
+      "title": "The Analytics Hub app: one installer, set up in your own tenant",
+      "summary": "The Analytics Hub app now has its own page on the Hub. The templates in the catalog are downloaded and connected to your own data. The app is different: one installer sets up the data pipeline, models and reports in your own tenant, on Microsoft Fabric or Azure, and refreshes them daily. It can also publish the ValueLens, Consumption Central and Agent Evaluator reports on the same models. The page explains which one is for you, and links to the app's prerequisites, costs and installer.",
+      "status": "draft",
+      "drafted": "2026-10-21"
+    },
+    {
       "id": "2026-09-22-github-copilot-panel",
       "tool": "GitHub Copilot Panel",
       "link": "choose-report/#d=ghcp-panel",
