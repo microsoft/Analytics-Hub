@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-24T11:16:12.098Z",
+  "runAt": "2026-10-25T11:16:49.243Z",
   "feed": "governance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -406,6 +406,32 @@
       "inWindow": true
     },
     {
+      "id": "configure-copilot-admin-center",
+      "tier": 1,
+      "title": "Configure Copilot Admin Center",
+      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-copilot-admin-center",
+      "why": "New admin-center configuration guidance for Microsoft Copilot settings, directly relevant to governance controls.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-23T00:00:00Z",
+      "gitCommit": "51dedebb01bac6eaac0275aabc6bccaefee60783",
+      "wordCount": "1633",
+      "bodyHash": "86dfcb8d54ffe247",
+      "bodyLen": 12365,
+      "sections": [
+        "Before you begin",
+        "Find a Copilot setting",
+        "Configure user access",
+        "Configure data access",
+        "Configure Copilot actions",
+        "Configure other settings",
+        "Configure the Microsoft Copilot app experience",
+        "Related content"
+      ],
+      "inWindow": true
+    },
+    {
       "id": "copilot-microsoft-365-architecture-data-protection-auditing",
       "tier": 3,
       "title": "Architecture Data Protection Auditing",
@@ -426,32 +452,6 @@
         "Related content"
       ],
       "inWindow": false
-    },
-    {
-      "id": "copilot-microsoft-365-configure-copilot-admin-center",
-      "tier": 3,
-      "title": "Configure Copilot Admin Center",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-copilot-admin-center",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-23T00:00:00Z",
-      "gitCommit": "51dedebb01bac6eaac0275aabc6bccaefee60783",
-      "wordCount": "1633",
-      "bodyHash": "86dfcb8d54ffe247",
-      "bodyLen": 12365,
-      "sections": [
-        "Before you begin",
-        "Find a Copilot setting",
-        "Configure user access",
-        "Configure data access",
-        "Configure Copilot actions",
-        "Configure other settings",
-        "Configure the Microsoft Copilot app experience",
-        "Related content"
-      ],
-      "inWindow": true
     },
     {
       "id": "copilot-microsoft-365-copilot-agent-install",
@@ -961,7 +961,7 @@
       "why": "Auto-discovered from the documentation tree for this product area.",
       "ok": true,
       "discovered": true,
-      "isNew": true,
+      "isNew": false,
       "msDate": "2026-10-23T00:00:00Z",
       "gitCommit": "51dedebb01bac6eaac0275aabc6bccaefee60783",
       "wordCount": "1633",
