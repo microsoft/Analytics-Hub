@@ -1,7 +1,73 @@
 {
-  "runAt": "2026-10-26T11:17:44.069Z",
+  "runAt": "2026-10-27T11:17:45.481Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "577745",
+      "title": "Excel: Get and transform data with Copilot in Excel",
+      "status": "Rolling out",
+      "description": "<p>Get your data ready, just by asking. Describe the data you need and how you want it prepared, and the new get data skill handles the rest. It can connect and transform your data, then load the results into your workbook using Power Query, giving you a query you can inspect, edit, and refresh without having to build it yourself. Depending on the data source, authentication may be required.</p>",
+      "created": "2026-10-26T23:15:50",
+      "modified": "2026-10-26T23:15:50",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Excel",
+        "General Availability"
+      ],
+      "descHash": "ad73e6febd38626c"
+    },
+    {
+      "id": "577743",
+      "title": "Microsoft Copilot (Microsoft 365): App Blocks",
+      "status": "In development",
+      "description": "<p>App Blocks enables M365 Copilot Chat users to turn their requests and data into rich, interactive experiences directly within the conversation, including calculators, dashboards, forms, planners, visualizations, simulations, comparison tools, and other interactive apps. It helps users move beyond static responses to explore data, adjust inputs, visualize outcomes, and simulate workflows in place, while supporting grounded scenarios where current information can be retrieved and then rendered into an interactive experience.</p>",
+      "created": "2026-10-26T23:15:50",
+      "modified": "2026-10-26T23:15:50",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Android",
+        "Desktop",
+        "iOS",
+        "Mac",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability"
+      ],
+      "descHash": "f008eceb454e3131"
+    },
+    {
+      "id": "577177",
+      "title": "Excel: Edit with Copilot in Excel on iPhone",
+      "status": "In development",
+      "description": "<p>Edit with Copilot makes it easier to edit and transform your Excel workbooks on your phone using natural language. Copilot can continue working on your task even when you move away from the app, so you can come back when the work is ready. Chat mode also remains available when you want to ask questions and get insights without making changes to your workbook.</p>",
+      "created": "2026-10-26T23:15:50",
+      "modified": "2026-10-26T23:15:50",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "iOS",
+        "Excel",
+        "General Availability"
+      ],
+      "descHash": "4fcf4509d09c8a2c"
+    },
+    {
+      "id": "576708",
+      "title": "Microsoft Copilot (Microsoft 365): SharePoint Site Builder",
+      "status": "In development",
+      "description": "<p>This feature enables users to easily create new SharePoint sites with Copilot. Users can review and confirm a clear site plan before Copilot builds the site.</p>",
+      "created": "2026-10-26T23:15:50",
+      "modified": "2026-10-26T23:15:50",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "SharePoint",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "223befba3757224e"
+    },
     {
       "id": "578069",
       "title": "Dynamics 365 Contact Center: IVR capabilities - Equip voice agents with custom voice",
@@ -2649,7 +2715,7 @@
       "status": "Launched",
       "description": "<p>Session and Response Sharing let Microsoft 365 Copilot users share Copilot chat content through a link. Session Sharing shares a full chat session, while Response Sharing shares a single Copilot response. The shared content opens as a read-only view, and recipients can continue from it in their own Copilot chat. This gives Copilot users an easier and more controlled way to share useful Copilot outputs with coworkers instead of copying and pasting. It helps teams reuse work, share context, and collaborate more efficiently while keeping sharing within organizational controls.</p>",
       "created": "2026-07-16T23:08:19",
-      "modified": "2026-10-19T23:15:15",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -2862,10 +2928,10 @@
     {
       "id": "566998",
       "title": "Microsoft Copilot Studio: Invoke agents as workflow steps with the agent node",
-      "status": "In development",
-      "description": "The agent node lets you embed reasoning directly into your workflow. This means fewer manual handoffs, faster processing times, and workflows that can handle nuanced decisions without additional development effort, helping teams automate more of their end-to-end processes and reduce operational overhead.",
+      "status": "Launched",
+      "description": "<p>The agent node lets you embed reasoning directly into your workflow. This means fewer manual handoffs, faster processing times, and workflows that can handle nuanced decisions without additional development effort, helping teams automate more of their end-to-end processes and reduce operational overhead.</p>",
       "created": "2026-07-01T23:03:18",
-      "modified": "2026-07-01T23:03:18",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3111,9 +3177,9 @@
       "id": "562648",
       "title": "Microsoft Viva: Copilot Analytics - Identifiable Export metrics in the Copilot Dashboard",
       "status": "In development",
-      "description": "This enables users to export Identifiable row-level Copilot metrics from the Copilot Dashboard for reporting and deeper analysis. This capability can be tuned On by Admins in a tenant.",
+      "description": "<p>This enables users to export Identifiable row-level Copilot metrics from the Copilot Dashboard for reporting and deeper analysis. This capability can be tuned On by Admins in a tenant.</p>",
       "created": "2026-06-15T23:00:45",
-      "modified": "2026-06-15T23:00:45",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3426,10 +3492,10 @@
     {
       "id": "562220",
       "title": "Microsoft Copilot Studio: Supercharge your workflows with computer use",
-      "status": "In development",
-      "description": "Add resilient, AI-powered UI automation directly into your workflows with computer use tools. Makers can build reusable, goal-oriented automations that adapt dynamically to website or app changes, while admins maintain governance through access controls, hosted browser management, and environment-level permissions.",
+      "status": "Cancelled",
+      "description": "<p>Add resilient, AI-powered UI automation directly into your workflows with computer use tools. Makers can build reusable, goal-oriented automations that adapt dynamically to website or app changes, while admins maintain governance through access controls, hosted browser management, and environment-level permissions. Update: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
       "created": "2026-05-15T18:00:35",
-      "modified": "2026-05-15T18:00:35",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3438,7 +3504,7 @@
         "General Availability",
         "Preview"
       ],
-      "descHash": "5c3aa7528edbe0fb"
+      "descHash": "991ba84dc495df17"
     },
     {
       "id": "562412",
@@ -4287,17 +4353,17 @@
     {
       "id": "558595",
       "title": "Microsoft 365: Companion apps - Copilot prompts in the Files app now available for Copilot Chat users",
-      "status": "In development",
-      "description": "The Files companion app, part of the Microsoft 365 companion apps suite on the Windows taskbar, now surfaces AI-powered Copilot file prompts for Copilot Chat users. Previously available only to Microsoft 365 Copilot licensees, this update extends contextual file prompts to Microsoft 365 Copilot Chat users, enabling them to discover and interact with relevant files through intelligent suggestions. Users can find their most relevant files faster and take action on them directly from the Files app. ",
+      "status": "Cancelled",
+      "description": "<p>The Files companion app, part of the Microsoft 365 companion apps suite on the Windows taskbar, now surfaces AI-powered Copilot file prompts for Copilot Chat users. Previously available only to Microsoft 365 Copilot licensees, this update extends contextual file prompts to Microsoft 365 Copilot Chat users, enabling them to discover and interact with relevant files through intelligent suggestions. Users can find their most relevant files faster and take action on them directly from the Files app. Update: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
       "created": "2026-03-30T23:00:38",
-      "modified": "2026-03-31T23:15:47",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
         "Microsoft 365",
         "General Availability"
       ],
-      "descHash": "dc3e144667aa64bd"
+      "descHash": "43e399628906d3db"
     },
     {
       "id": "558538",
@@ -6135,10 +6201,10 @@
     {
       "id": "545896",
       "title": "Microsoft Copilot (Microsoft 365): Structured Document Generation with Forms",
-      "status": "Rolling out",
+      "status": "Launched",
       "description": "<p>Structured Document Generation with Forms enables organizations to create, manage, and generate standardized documents at scale with built-in governance and compliance in SharePoint. Business process owners can centrally build and maintain form-driven templates -- such as contracts, agreements, proposals, and HR documents -- ensuring content stays accurate and up to date. Users can then generate the right document every time by just filling out the form, without manual formatting, versioning issues, or compliance risk, simplifying high-volume, structured document workflows across the organization.</p>",
       "created": "2026-01-09T00:00:20",
-      "modified": "2026-10-06T22:56:31",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -11554,9 +11620,9 @@
       "id": "420335",
       "title": "Microsoft Edge: Rewrite by Copilot in Edge is being upgraded to include enterprise data protection compliance standards",
       "status": "In development",
-      "description": "Rewrite by Copilot in Edge, which lets users edit typed text for tone, format, and length within an open page in Microsoft Edge, is being updated to include enterprise data protection for commercial customers. Once Rewrite is available, users signed in with a Microsoft Entra ID will have enterprise data protection when using the feature in Microsoft Edge. Updated March 20, 2026: We have paused release of this feature temporarily and will announce new release timelines soon. We apologize for any inconvenience. ",
+      "description": "<p>Rewrite by Copilot in Edge, which lets users edit typed text for tone, format, and length within an open page in Microsoft Edge, is being updated to include enterprise data protection for commercial customers. Once Rewrite is available, users signed in with a Microsoft Entra ID will have enterprise data protection when using the feature in Microsoft Edge. Updated March 20, 2026: We have paused release of this feature temporarily and will announce new release timelines soon. We apologize for any inconvenience.</p>",
       "created": "2024-10-03T23:30:37",
-      "modified": "2026-06-25T23:15:45",
+      "modified": "2026-10-26T23:15:50",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",

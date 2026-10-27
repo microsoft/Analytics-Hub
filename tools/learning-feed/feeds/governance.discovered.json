@@ -1,11 +1,14 @@
 {
-  "generatedAt": "2026-10-26T11:15:51.825Z",
+  "generatedAt": "2026-10-27T11:16:01.277Z",
   "feed": "governance",
   "stats": {
-    "total": 56,
-    "newSincePrev": 0
+    "total": 54,
+    "newSincePrev": 2
   },
-  "newPages": [],
+  "newPages": [
+    "https://learn.microsoft.com/microsoft-agent-365/admin/agent-roles-perms",
+    "https://learn.microsoft.com/microsoft-agent-365/admin/manage-copilot-agents-integrated-apps"
+  ],
   "pages": [
     {
       "id": "https-learn-microsoft-com-copilot-manage-agents-copilot-chat",
@@ -76,11 +79,6 @@
       "id": "copilot-microsoft-365-copilot-tuning-admin-guide",
       "title": "Copilot Tuning Admin Guide",
       "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide"
-    },
-    {
-      "id": "copilot-microsoft-365-cowork-cowork-admin-governance",
-      "title": "Cowork Admin Governance",
-      "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/cowork/cowork-admin-governance"
     },
     {
       "id": "copilot-microsoft-365-discovery-setting-ai-experiences",
@@ -208,11 +206,6 @@
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide"
     },
     {
-      "id": "microsoft-365-copilot-cowork-cowork-admin-governance",
-      "title": "Cowork Admin Governance",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-admin-governance"
-    },
-    {
       "id": "microsoft-365-copilot-discovery-setting-ai-experiences",
       "title": "Discovery Setting Ai Experiences",
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/discovery-setting-ai-experiences"
@@ -273,14 +266,14 @@
       "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/workforce-insights-agent"
     },
     {
-      "id": "https-learn-microsoft-com-microsoft-365-admin-manage-agent-roles-perms",
+      "id": "https-learn-microsoft-com-microsoft-agent-365-admin-agent-roles-perms",
       "title": "Agent Roles Perms",
-      "url": "https://learn.microsoft.com/microsoft-365/admin/manage/agent-roles-perms"
+      "url": "https://learn.microsoft.com/microsoft-agent-365/admin/agent-roles-perms"
     },
     {
-      "id": "https-learn-microsoft-com-microsoft-365-admin-manage-manage-copilot-agents-integ",
+      "id": "https-learn-microsoft-com-microsoft-agent-365-admin-manage-copilot-agents-integr",
       "title": "Manage Copilot Agents Integrated Apps",
-      "url": "https://learn.microsoft.com/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps"
+      "url": "https://learn.microsoft.com/microsoft-agent-365/admin/manage-copilot-agents-integrated-apps"
     },
     {
       "id": "https-learn-microsoft-com-viva-learning-learning-agent-overview-deployment-steps",
