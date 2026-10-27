@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resource Viewer</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-snippet:0,max-image-preview:none,max-video-preview:0" />
+  <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-snippet:0,max-image-preview:none,max-video-preview:0" />
+  <meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet,noimageindex,max-snippet:0,max-image-preview:none,max-video-preview:0" />
+  <meta name="referrer" content="no-referrer" />
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      line-height: 1.35;
+    }
+    .app {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 12px;
+      padding: 12px;
+      min-height: 100vh;
+    }
+    .panel, .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: var(--cp-shadow);
+    }
+    .panel {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+    .title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .row { display: grid; gap: 4px; }
+    label { font-size: 0.8rem; color: var(--cp-text-muted); }
+    input, select, button, textarea {
+      border: 1px solid var(--cp-border);
+      border-radius: 10px;
+      padding: 8px;
+      font: inherit;
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+    }
+    input:focus, select:focus, button:focus, textarea:focus {
+      outline: 2px solid var(--cp-accent-soft);
+      border-color: var(--cp-accent);
+    }
+    button {
+      cursor: pointer;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-color: var(--cp-accent);
+    }
+    button:hover { background: var(--cp-accent-hover); }
+    button.secondary {
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      border-color: var(--cp-border);
+    }
+    .main {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .kpi { padding: 12px; border-radius: 16px; border: 1px solid var(--cp-border); background: var(--cp-surface); }
+    .kpi .k { font-size: 0.8rem; color: var(--cp-text-muted); }
+    .kpi .v { font-size: 1.3rem; font-weight: 700; margin-top: 4px; }
+    .viz-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .card { padding: 10px; }
+    .card h3 { margin: 0 0 8px; font-size: 0.95rem; }
+    .chart {
+      width: 100%;
+      height: 320px;
+      border: 1px solid var(--cp-border);
+      border-radius: 10px;
+      background: var(--cp-bg-elevated);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    th, td {
+      border-bottom: 1px solid var(--cp-border);
+      padding: 6px;
+      text-align: right;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    .table-wrap { max-height: 300px; overflow: auto; border: 1px solid var(--cp-border); border-radius: 10px; }
+    .muted { color: var(--cp-text-muted); font-size: 0.8rem; }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-text);
+      font-size: 0.75rem;
+      margin-right: 6px;
+    }
+    .dept-table td input { width: 100%; min-width: 90px; }
+    .danger { color: var(--cp-danger); }
+    .success { color: var(--cp-success); }
+    @media (max-width: 1280px) {
+      .app { grid-template-columns: 1fr; }
+      .viz-grid { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: repeat(2, minmax(180px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="panel">
+      <h1 class="title">Chargeback Forecast Waterfall App</h1>
+      <p class="subtitle">Scraped from v4 Direct Query PBIR defaults + checkpoint model logic.</p>
+
+      <div class="row">
+        <div>
+          <span class="pill">PBIR scraped defaults</span>
+          <span class="pill">Horizon 0-24</span>
+          <span class="pill">Committed 0-200M</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="row"><label>Baseline Users</label><input id="baseUsers" type="number" min="1" step="1" value="2837"></div>
+        <div class="row"><label>Baseline Avg Credits / User</label><input id="baseUsage" type="number" min="1" step="1" value="33043"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="row"><label>Time Period (Months)</label><input id="horizon" type="number" min="1" max="24" step="1" value="12"></div>
+        <div class="row"><label>Monthly Prepaid Credits</label><input id="committed" type="number" min="0" max="200000000" step="250000" value="1000000"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="row"><label>Rate per PAYG Credit</label><input id="paygRate" type="number" min="0" max="0.02" step="0.0001" value="0.01"></div>
+        <div class="row"><label>Prepaid Rate per Credit</label><input id="prepaidRate" type="number" min="0" max="0.2" step="0.001" value="0.08"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="row"><label>Checkpoint 1 (Month)</label><input id="cp1" type="number" min="1" max="24" step="1" value="4"></div>
+        <div class="row"><label>Checkpoint 2 (Month)</label><input id="cp2" type="number" min="1" max="24" step="1" value="12"></div>
+      </div>
+
+      <div class="row">
+        <label>Period Growth Inputs (can be positive or negative %)</label>
+        <div class="grid-3">
+          <div class="row"><label>Usage Growth P1 %</label><input id="ug1" type="number" min="-50" max="100" step="1" value="5"></div>
+          <div class="row"><label>Usage Growth P2 %</label><input id="ug2" type="number" min="-50" max="100" step="1" value="15"></div>
+          <div class="row"><label>Usage Growth P3 %</label><input id="ug3" type="number" min="-50" max="100" step="1" value="5"></div>
+          <div class="row"><label>User Growth P1 %</label><input id="ag1" type="number" min="-50" max="100" step="1" value="5"></div>
+          <div class="row"><label>User Growth P2 %</label><input id="ag2" type="number" min="-50" max="100" step="1" value="15"></div>
+          <div class="row"><label>User Growth P3 %</label><input id="ag3" type="number" min="-50" max="100" step="1" value="5"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Import Power BI export CSV (Organization, Users, Credits Used)</label>
+        <input id="csvFile" type="file" accept=".csv">
+      </div>
+
+      <div class="grid-2">
+        <button id="addDept" class="secondary" type="button">Add Department Row</button>
+        <button id="resetDefaults" class="secondary" type="button">Reset to PBIR Defaults</button>
+      </div>
+
+      <div class="row">
+        <label>Scenario Snapshot Name</label>
+        <div class="grid-2">
+          <input id="scenarioName" type="text" value="Scenario A">
+          <button id="saveScenario" type="button">Save Snapshot</button>
+        </div>
+      </div>
+
+      <p class="muted">Checkpoint logic matches your PBIR model: growth resets at each checkpoint and compounds per period.</p>
+    </aside>
+
+    <main class="main">
+      <section class="kpis">
+        <div class="kpi"><div class="k">Projected Credits (Selected Period)</div><div class="v" id="kpiCredits">-</div></div>
+        <div class="kpi"><div class="k">Projected Cost (Selected Period)</div><div class="v" id="kpiCost">-</div></div>
+        <div class="kpi"><div class="k">Total Credit Cost</div><div class="v" id="kpiTotal">-</div></div>
+        <div class="kpi"><div class="k">Potential Savings vs Full PAYG</div><div class="v" id="kpiSavings">-</div></div>
+      </section>
+
+      <section class="viz-grid">
+        <div class="card">
+          <h3>Checkpoint Waterfall Forecast (Monthly Credits)</h3>
+          <svg id="lineChart" class="chart" viewBox="0 0 1000 320" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="card">
+          <h3>Month-over-Month Credit Delta (Waterfall)</h3>
+          <svg id="waterfallChart" class="chart" viewBox="0 0 1000 320" preserveAspectRatio="none"></svg>
+        </div>
+      </section>
+
+      <section class="viz-grid">
+        <div class="card">
+          <h3>Month-by-Month Breakdown</h3>
+          <div class="table-wrap"><table id="monthlyTable"></table></div>
+        </div>
+        <div class="card">
+          <h3>Department Cost Breakdown</h3>
+          <div class="grid-2" style="margin-bottom:8px;">
+            <div class="row">
+              <label>Department Table Mode</label>
+              <select id="deptMode">
+                <option value="month">End Month Snapshot</option>
+                <option value="cumulative">Cumulative Through Horizon</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>Selected Month (snapshot mode)</label>
+              <input id="deptMonth" type="number" min="1" max="24" value="12">
+            </div>
+          </div>
+          <div class="table-wrap"><table id="deptTableOut"></table></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Department Driver Inputs (editable)</h3>
+        <div class="table-wrap"><table id="deptInputTable" class="dept-table"></table></div>
+      </section>
+
+      <section class="card">
+        <h3>Scenario Comparison</h3>
+        <div class="table-wrap"><table id="scenarioTable"></table></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fmtInt = (n) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+    const fmtMoney = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+    const fmtPct = (n) => `${(n * 100).toFixed(1)}%`;
+    const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+    const defaultDepts = [
+      { department: "Catherine Boeger", users: 709, avgUsage: 52080 },
+      { department: "Srini Raghavan", users: 535, avgUsage: 41436 },
+      { department: "Kirk Gregersen", users: 695, avgUsage: 19977 },
+      { department: "Paul Lorimer", users: 345, avgUsage: 26911 },
+      { department: "David Gainer", users: 463, avgUsage: 19249 },
+      { department: "Annice Jumani", users: 90, avgUsage: 28550 }
+    ];
+
+    let deptRows = structuredClone(defaultDepts);
+    let snapshots = [];
+
+    function num(id) { return Number($(id).value || 0); }
+
+    function getSettings() {
+      const horizon = Math.max(1, Math.min(24, Math.round(num("horizon"))));
+      const cp1 = Math.max(1, Math.min(horizon, Math.round(num("cp1"))));
+      const cp2 = Math.max(cp1 + 1, Math.min(horizon, Math.round(num("cp2"))));
+      return {
+        baseUsers: Math.max(1, num("baseUsers")),
+        baseUsage: Math.max(1, num("baseUsage")),
+        horizon,
+        committed: Math.max(0, num("committed")),
+        paygRate: Math.max(0, num("paygRate")),
+        prepaidRate: Math.max(0, num("prepaidRate")),
+        cp1,
+        cp2,
+        ug: [num("ug1") / 100, num("ug2") / 100, num("ug3") / 100],
+        ag: [num("ag1") / 100, num("ag2") / 100, num("ag3") / 100]
+      };
+    }
+
+    function growthExp(m, cp1, cp2) {
+      return [
+        Math.min(m, cp1),
+        Math.min(Math.max(m - cp1, 0), Math.max(cp2 - cp1, 0)),
+        Math.max(m - cp2, 0)
+      ];
+    }
+
+    function computeSeries(s) {
+      const months = [];
+      let totalCredits = 0;
+      let totalCost = 0;
+      let totalPaygo = 0;
+      for (let m = 1; m <= s.horizon; m += 1) {
+        const [e1, e2, e3] = growthExp(m, s.cp1, s.cp2);
+        const userFactor = Math.max(0, 1 + s.ag[0]) ** e1 * Math.max(0, 1 + s.ag[1]) ** e2 * Math.max(0, 1 + s.ag[2]) ** e3;
+        const usageFactor = Math.max(0, 1 + s.ug[0]) ** e1 * Math.max(0, 1 + s.ug[1]) ** e2 * Math.max(0, 1 + s.ug[2]) ** e3;
+        const users = s.baseUsers * userFactor;
+        const avgUsage = s.baseUsage * usageFactor;
+        const credits = users * avgUsage;
+        const paygoCost = credits * s.paygRate;
+        const prepaidCost = Math.min(credits, s.committed) * s.prepaidRate;
+        const totalMonthCost = prepaidCost + Math.max(0, credits - s.committed) * s.paygRate;
+        const savings = paygoCost - totalMonthCost;
+
+        totalCredits += credits;
+        totalCost += totalMonthCost;
+        totalPaygo += paygoCost;
+
+        months.push({
+          month: m, users, avgUsage, credits, paygoCost, prepaidCost, totalMonthCost, savings,
+          totalPaygoCost: totalPaygo, totalPrepaidCost: months.length ? months[months.length - 1].totalPrepaidCost + prepaidCost : prepaidCost
+        });
+      }
+
+      return {
+        months,
+        kpis: {
+          credits: totalCredits,
+          cost: totalCost,
+          total: totalCost,
+          savings: totalPaygo - totalCost
+        }
+      };
+    }
+
+    function renderKpis(kpis) {
+      $("kpiCredits").textContent = fmtInt(kpis.credits);
+      $("kpiCost").textContent = fmtMoney(kpis.cost);
+      $("kpiTotal").textContent = fmtMoney(kpis.total);
+      const savingsEl = $("kpiSavings");
+      savingsEl.textContent = fmtMoney(kpis.savings);
+      savingsEl.className = `v ${kpis.savings >= 0 ? "success" : "danger"}`;
+    }
+
+    function linePath(points) {
+      return points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+    }
+
+    function drawLineChart(series, s) {
+      const svg = $("lineChart");
+      const w = 1000, h = 320, m = { t: 20, r: 20, b: 42, l: 72 };
+      const iw = w - m.l - m.r, ih = h - m.t - m.b;
+      const maxY = Math.max(...series.months.map(d => d.credits), s.committed, 1);
+      const x = (i) => m.l + (iw * i) / Math.max(series.months.length - 1, 1);
+      const y = (v) => m.t + ih - (v / maxY) * ih;
+      const pointsCredits = series.months.map((d, i) => ({ x: x(i), y: y(d.credits) }));
+      const pointsCommitted = series.months.map((_, i) => ({ x: x(i), y: y(s.committed) }));
+      const cp1Idx = Math.max(0, Math.min(series.months.length - 1, s.cp1 - 1));
+      const cp2Idx = Math.max(0, Math.min(series.months.length - 1, s.cp2 - 1));
+
+      const axis = cssVar("--cp-border-strong");
+      const text = cssVar("--cp-text-muted");
+      const accent = cssVar("--cp-accent");
+      const warning = cssVar("--cp-warning");
+      const success = cssVar("--cp-success");
+      const surface = cssVar("--cp-surface");
+
+      svg.innerHTML = `
+        <rect x="0" y="0" width="${w}" height="${h}" fill="${cssVar("--cp-bg-elevated")}" />
+        <line x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${h - m.b}" stroke="${axis}" />
+        <line x1="${m.l}" y1="${h - m.b}" x2="${w - m.r}" y2="${h - m.b}" stroke="${axis}" />
+        <path d="${linePath(pointsCommitted)}" fill="none" stroke="${warning}" stroke-width="2" stroke-dasharray="6 4" />
+        <path d="${linePath(pointsCredits)}" fill="none" stroke="${accent}" stroke-width="3" />
+        <circle cx="${pointsCredits[cp1Idx].x}" cy="${pointsCredits[cp1Idx].y}" r="5" fill="${success}" />
+        <circle cx="${pointsCredits[cp2Idx].x}" cy="${pointsCredits[cp2Idx].y}" r="5" fill="${warning}" />
+        <text x="${pointsCredits[cp1Idx].x + 8}" y="${pointsCredits[cp1Idx].y - 8}" fill="${text}" font-size="11">CP1 M${s.cp1}</text>
+        <text x="${pointsCredits[cp2Idx].x + 8}" y="${pointsCredits[cp2Idx].y - 8}" fill="${text}" font-size="11">CP2 M${s.cp2}</text>
+        <text x="${m.l}" y="${m.t - 4}" fill="${text}" font-size="11">Credits</text>
+        <text x="${w - 60}" y="${h - 8}" fill="${text}" font-size="11">Month</text>
+        <rect x="${w - 220}" y="12" width="208" height="46" fill="${surface}" stroke="${axis}" rx="10" />
+        <line x1="${w - 205}" y1="30" x2="${w - 175}" y2="30" stroke="${accent}" stroke-width="3" />
+        <text x="${w - 170}" y="34" fill="${text}" font-size="11">Projected Credits</text>
+        <line x1="${w - 205}" y1="46" x2="${w - 175}" y2="46" stroke="${warning}" stroke-width="2" stroke-dasharray="6 4" />
+        <text x="${w - 170}" y="50" fill="${text}" font-size="11">Prepaid Credits</text>
+      `;
+    }
+
+    function drawWaterfall(series) {
+      const svg = $("waterfallChart");
+      const w = 1000, h = 320, m = { t: 20, r: 20, b: 42, l: 72 };
+      const iw = w - m.l - m.r, ih = h - m.t - m.b;
+      const baseline = series.months[0]?.credits || 0;
+      const deltas = series.months.map((d, i) => (i === 0 ? d.credits - baseline : d.credits - series.months[i - 1].credits));
+      const maxAbs = Math.max(...deltas.map(v => Math.abs(v)), 1);
+      const xw = iw / Math.max(deltas.length, 1);
+      const y0 = m.t + ih / 2;
+      const y = (v) => (v / maxAbs) * (ih * 0.45);
+      const axis = cssVar("--cp-border-strong");
+      const txt = cssVar("--cp-text-muted");
+      const pos = cssVar("--cp-success");
+      const neg = cssVar("--cp-danger");
+
+      let bars = "";
+      deltas.forEach((d, i) => {
+        const bx = m.l + i * xw + xw * 0.15;
+        const bw = xw * 0.7;
+        const bh = Math.abs(y(d));
+        const by = d >= 0 ? y0 - bh : y0;
+        bars += `<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" fill="${d >= 0 ? pos : neg}" rx="4" />`;
+      });
+
+      svg.innerHTML = `
+        <rect x="0" y="0" width="${w}" height="${h}" fill="${cssVar("--cp-bg-elevated")}" />
+        <line x1="${m.l}" y1="${y0}" x2="${w - m.r}" y2="${y0}" stroke="${axis}" />
+        <line x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${h - m.b}" stroke="${axis}" />
+        ${bars}
+        <text x="${m.l}" y="${m.t - 4}" fill="${txt}" font-size="11">MoM Delta Credits</text>
+        <text x="${w - 60}" y="${h - 8}" fill="${txt}" font-size="11">Month</text>
+      `;
+    }
+
+    function renderMonthlyTable(series) {
+      const t = $("monthlyTable");
+      const rows = series.months.map((d) => `
+        <tr>
+          <td>Month ${d.month}</td>
+          <td>${fmtInt(d.users)}</td>
+          <td>${fmtInt(d.avgUsage)}</td>
+          <td>${fmtInt(d.credits)}</td>
+          <td>${fmtMoney(d.paygoCost)}</td>
+          <td>${fmtMoney(d.prepaidCost)}</td>
+          <td>${fmtMoney(d.savings)}</td>
+          <td>${fmtMoney(d.totalMonthCost)}</td>
+        </tr>
+      `).join("");
+      t.innerHTML = `
+        <thead><tr>
+          <th>Month</th><th># Users</th><th>Avg Monthly Usage</th><th>Forecasted Usage</th>
+          <th>PayGo Cost</th><th>Prepaid Cost</th><th>Potential Savings</th><th>Total Cost</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      `;
+    }
+
+    function deptProjectionForRow(row, s, m) {
+      const [e1, e2, e3] = growthExp(m, s.cp1, s.cp2);
+      const userFactor = Math.max(0, 1 + s.ag[0]) ** e1 * Math.max(0, 1 + s.ag[1]) ** e2 * Math.max(0, 1 + s.ag[2]) ** e3;
+      const usageFactor = Math.max(0, 1 + s.ug[0]) ** e1 * Math.max(0, 1 + s.ug[1]) ** e2 * Math.max(0, 1 + s.ug[2]) ** e3;
+      const users = row.users * userFactor;
+      const avgUsage = row.avgUsage * usageFactor;
+      const forecastUsage = users * avgUsage;
+      const paygo = forecastUsage * s.paygRate;
+      const prepaid = Math.min(forecastUsage, s.committed) * s.prepaidRate;
+      const total = prepaid + Math.max(0, forecastUsage - s.committed) * s.paygRate;
+      const savings = paygo - total;
+      return { users, avgUsage, forecastUsage, paygo, prepaid, total, savings };
+    }
+
+    function renderDeptOutput(s) {
+      const mode = $("deptMode").value;
+      let month = Math.max(1, Math.min(s.horizon, Math.round(num("deptMonth"))));
+      if (mode === "cumulative") month = s.horizon;
+
+      const rows = deptRows.map((r) => {
+        if (mode === "month") {
+          return { department: r.department, ...deptProjectionForRow(r, s, month) };
+        }
+        const agg = { users: 0, avgUsage: 0, forecastUsage: 0, paygo: 0, prepaid: 0, total: 0, savings: 0 };
+        for (let m = 1; m <= month; m += 1) {
+          const d = deptProjectionForRow(r, s, m);
+          agg.users = d.users;
+          agg.avgUsage = d.avgUsage;
+          agg.forecastUsage += d.forecastUsage;
+          agg.paygo += d.paygo;
+          agg.prepaid += d.prepaid;
+          agg.total += d.total;
+          agg.savings += d.savings;
+        }
+        return { department: r.department, ...agg };
+      });
+
+      const out = $("deptTableOut");
+      out.innerHTML = `
+        <thead><tr>
+          <th>Department</th><th># Users</th><th>Avg Monthly Usage</th><th>Forecasted Usage</th>
+          <th>PayGo Cost</th><th>Prepaid Cost</th><th>Potential Savings</th><th>Total Cost</th>
+        </tr></thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr>
+              <td>${r.department}</td>
+              <td>${fmtInt(r.users)}</td>
+              <td>${fmtInt(r.avgUsage)}</td>
+              <td>${fmtInt(r.forecastUsage)}</td>
+              <td>${fmtMoney(r.paygo)}</td>
+              <td>${fmtMoney(r.prepaid)}</td>
+              <td class="${r.savings >= 0 ? "success" : "danger"}">${fmtMoney(r.savings)}</td>
+              <td>${fmtMoney(r.total)}</td>
+            </tr>`).join("")}
+        </tbody>
+      `;
+    }
+
+    function renderDeptInputTable() {
+      const t = $("deptInputTable");
+      t.innerHTML = `
+        <thead><tr><th>Department</th><th>Users</th><th>Avg Credits/User</th><th>Action</th></tr></thead>
+        <tbody>
+          ${deptRows.map((r, i) => `
+            <tr>
+              <td><input data-k="department" data-i="${i}" value="${r.department}"></td>
+              <td><input data-k="users" data-i="${i}" type="number" min="1" step="1" value="${Math.round(r.users)}"></td>
+              <td><input data-k="avgUsage" data-i="${i}" type="number" min="1" step="1" value="${Math.round(r.avgUsage)}"></td>
+              <td><button class="secondary" data-del="${i}" type="button">Remove</button></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      `;
+    }
+
+    function renderScenarioTable() {
+      const t = $("scenarioTable");
+      t.innerHTML = `
+        <thead><tr><th>Scenario</th><th>Horizon</th><th>Credits</th><th>Total Cost</th><th>Savings</th><th>Checkpoint Plan</th></tr></thead>
+        <tbody>
+          ${snapshots.map(s => `
+            <tr>
+              <td>${s.name}</td>
+              <td>${s.horizon} mo</td>
+              <td>${fmtInt(s.kpis.credits)}</td>
+              <td>${fmtMoney(s.kpis.total)}</td>
+              <td class="${s.kpis.savings >= 0 ? "success" : "danger"}">${fmtMoney(s.kpis.savings)}</td>
+              <td>CP1 M${s.cp1} / CP2 M${s.cp2}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      `;
+    }
+
+    function recalc() {
+      const s = getSettings();
+      $("cp1").value = s.cp1;
+      $("cp2").value = s.cp2;
+      $("horizon").value = s.horizon;
+      $("deptMonth").max = String(s.horizon);
+      if (Number($("deptMonth").value) > s.horizon) $("deptMonth").value = String(s.horizon);
+
+      const series = computeSeries(s);
+      renderKpis(series.kpis);
+      drawLineChart(series, s);
+      drawWaterfall(series);
+      renderMonthlyTable(series);
+      renderDeptOutput(s);
+      renderScenarioTable();
+    }
+
+    function importCsv(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const text = String(reader.result || "");
+        const lines = text.split(/\r?\n/).filter(Boolean);
+        if (lines.length < 2) return;
+        const headers = lines[0].split(",").map(h => h.trim().replace(/^\uFEFF/, ""));
+        const orgIdx = headers.findIndex(h => /organization/i.test(h));
+        const usersIdx = headers.findIndex(h => /^users$/i.test(h));
+        const creditsIdx = headers.findIndex(h => /credits used/i.test(h));
+        if (orgIdx < 0 || usersIdx < 0 || creditsIdx < 0) return;
+        const map = new Map();
+        for (let i = 1; i < lines.length; i += 1) {
+          const cols = lines[i].split(",");
+          if (cols.length <= Math.max(orgIdx, usersIdx, creditsIdx)) continue;
+          const org = cols[orgIdx].trim();
+          const users = Number(cols[usersIdx].replace(/[^\d.-]/g, "")) || 0;
+          const credits = Number(cols[creditsIdx].replace(/[^\d.-]/g, "")) || 0;
+          if (!org) continue;
+          const cur = map.get(org) || { department: org, users: 0, credits: 0 };
+          cur.users += users;
+          cur.credits += credits;
+          map.set(org, cur);
+        }
+        const rows = [...map.values()].filter(r => r.users > 0).sort((a, b) => b.credits - a.credits).slice(0, 12)
+          .map(r => ({ department: r.department, users: r.users, avgUsage: r.credits / r.users }));
+        if (rows.length) {
+          deptRows = rows;
+          const totalUsers = rows.reduce((a, r) => a + r.users, 0);
+          const totalCredits = rows.reduce((a, r) => a + (r.users * r.avgUsage), 0);
+          $("baseUsers").value = String(Math.round(totalUsers));
+          $("baseUsage").value = String(Math.round(totalCredits / Math.max(totalUsers, 1)));
+          renderDeptInputTable();
+          recalc();
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    document.addEventListener("input", (e) => {
+      const target = e.target;
+      if (target.matches("#deptInputTable input[data-k]")) {
+        const i = Number(target.getAttribute("data-i"));
+        const k = target.getAttribute("data-k");
+        if (!deptRows[i] || !k) return;
+        deptRows[i][k] = (k === "department") ? target.value : Number(target.value || 0);
+      }
+      recalc();
+    });
+
+    document.addEventListener("click", (e) => {
+      const del = e.target.getAttribute("data-del");
+      if (del !== null) {
+        deptRows.splice(Number(del), 1);
+        renderDeptInputTable();
+        recalc();
+      }
+    });
+
+    ["baseUsers", "baseUsage", "horizon", "committed", "paygRate", "prepaidRate", "cp1", "cp2", "ug1", "ug2", "ug3", "ag1", "ag2", "ag3", "deptMode", "deptMonth"]
+      .forEach(id => $(id).addEventListener("change", recalc));
+
+    $("addDept").addEventListener("click", () => {
+      deptRows.push({ department: `Dept ${deptRows.length + 1}`, users: 100, avgUsage: 10000 });
+      renderDeptInputTable();
+      recalc();
+    });
+
+    $("resetDefaults").addEventListener("click", () => {
+      $("baseUsers").value = "2837";
+      $("baseUsage").value = "33043";
+      $("horizon").value = "12";
+      $("committed").value = "1000000";
+      $("paygRate").value = "0.01";
+      $("prepaidRate").value = "0.08";
+      $("cp1").value = "4";
+      $("cp2").value = "12";
+      $("ug1").value = "5"; $("ug2").value = "15"; $("ug3").value = "5";
+      $("ag1").value = "5"; $("ag2").value = "15"; $("ag3").value = "5";
+      $("deptMode").value = "month";
+      $("deptMonth").value = "12";
+      deptRows = structuredClone(defaultDepts);
+      renderDeptInputTable();
+      recalc();
+    });
+
+    $("saveScenario").addEventListener("click", () => {
+      const s = getSettings();
+      const name = $("scenarioName").value.trim() || `Scenario ${snapshots.length + 1}`;
+      const series = computeSeries(s);
+      snapshots.unshift({ name, horizon: s.horizon, cp1: s.cp1, cp2: s.cp2, kpis: series.kpis });
+      snapshots = snapshots.slice(0, 8);
+      renderScenarioTable();
+    });
+
+    $("csvFile").addEventListener("change", (e) => {
+      const f = e.target.files?.[0];
+      if (f) importCsv(f);
+    });
+
+    renderDeptInputTable();
+    recalc();
+  </script>
+</body>
+</html>
