@@ -1,7 +1,37 @@
 {
-  "runAt": "2026-10-27T11:17:45.481Z",
+  "runAt": "2026-10-28T11:18:42.479Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "577841",
+      "title": "Microsoft Copilot (Microsoft 365): Copilot app mode handoffs",
+      "status": "In development",
+      "description": "<p>The Chat experience in the Copilot app will suggest a better-fit mode based on the user's prompt, if applicable. For example, it will suggest Cowork or other supported modes as they become available. Users will see a suggestion card after they send a prompt in Chat, with an explanation of the better-fit mode and an option for the user to switch to the suggested mode. Their chat conversation will be attached to the prompt in the new mode to maintain context.</p>",
+      "created": "2026-10-27T23:05:02",
+      "modified": "2026-10-27T23:05:02",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability"
+      ],
+      "descHash": "84c14c7cf0e9efb9"
+    },
+    {
+      "id": "576277",
+      "title": "Microsoft Viva: Insights and Copilot Analytics in DoD",
+      "status": "In development",
+      "description": "<p>Microsoft Viva Insights and Copilot Analytics are coming to the Microsoft 365 Department of Defense (DoD) environment, providing eligible organizations with privacy-protected, role-based analytics experiences to help them understand Microsoft 365 Copilot adoption, usage, and impact. Viva Insights also provides data-driven behavioral insights into how employees collaborate, helping organizations improve productivity and wellbeing within the DoD environment.</p>",
+      "created": "2026-10-27T23:05:02",
+      "modified": "2026-10-27T23:05:02",
+      "tags": [
+        "DoD",
+        "Web",
+        "Microsoft Viva",
+        "General Availability"
+      ],
+      "descHash": "3cf30bcef8a8ad0f"
+    },
     {
       "id": "577745",
       "title": "Excel: Get and transform data with Copilot in Excel",
@@ -1851,10 +1881,10 @@
     {
       "id": "570647",
       "title": "SharePoint: Changes to the FAQ web part authoring experience",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>The SharePoint FAQ web part will provide a standard, non-AI experience for manually creating, editing, and managing FAQs. The AI-assisted FAQ creation and import will move to the Copilot in SharePoint authoring experience, where authors can use natural-language prompts and selected grounding sources to generate FAQ content that is saved to the compatible FAQ web part. Existing FAQ web parts and their content will continue to render without migration.</p>",
       "created": "2026-09-09T22:36:54",
-      "modified": "2026-09-09T22:36:54",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",
@@ -2022,10 +2052,10 @@
     {
       "id": "569214",
       "title": "Microsoft Teams: Copilot Chat for chats, channels, calls, and meetings in GCC, GCC High, and DoD",
-      "status": "In development",
-      "description": "Copilot Chat will soon be available across chats, channels, calls, and meetings, helping users stay informed and catch up quickly.",
+      "status": "Rolling out",
+      "description": "<p>Copilot Chat will soon be available across chats, channels, calls, and meetings, helping users stay informed and catch up quickly.</p>",
       "created": "2026-09-01T22:59:38",
-      "modified": "2026-09-02T22:56:59",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "GCC",
         "GCC High",
@@ -2574,7 +2604,7 @@
       "status": "In development",
       "description": "<p>We've introduced a new experience for Copilot in the apps—a consistent entry point across apps that sits above your work and understands the context beneath it. Rather than scattering touchpoints across the interface, it anchors Copilot as one connected system across Microsoft 365, surfacing relevant actions that help you stay in flow. With this release, we are rolling out this new experience - already available across other Outlook endpoints, as well as in Word, Excel and PowerPoint - to classic Outlook.</p>",
       "created": "2026-07-22T22:41:54",
-      "modified": "2026-09-28T22:58:08",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",
@@ -2694,10 +2724,10 @@
     {
       "id": "567670",
       "title": "Microsoft Copilot (Microsoft 365): Use Agent 365 agents within Microsoft 365 Copilot Chat and Declarative Agents",
-      "status": "In development",
-      "description": "Agents that are published to Agents 365 are already managed in the Microsoft 365 Admin Center. If the agent implements the Agent2Agent protocol, it can be used as a connected agent for the agents that users build in Agent Builder or Copilot Studio.",
+      "status": "Rolling out",
+      "description": "<p>Agents that are published to Agents 365 are already managed in the Microsoft 365 Admin Center. If the agent implements the Agent2Agent protocol, it can be used as a connected agent for the agents that users build in Agent Builder or Copilot Studio.</p>",
       "created": "2026-07-17T22:12:56",
-      "modified": "2026-07-17T22:12:56",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -5683,10 +5713,10 @@
     {
       "id": "555240",
       "title": "Microsoft Copilot (Microsoft 365): Copilot Search Helps You Discover People",
-      "status": "Rolling out",
-      "description": "Now Copilot Search can return matching people for your broader people search queries. Allowing you to discover, disambiguate, and explore known and new people to contact. Discover Whether you're looking for people with a specific skill like \"Project leadership\" or \"Artificial Intelligence\" Copilot Search can help you explore potential contacts through the People data source. Disambiguate When there are multiple people matching in exact name, email, or alias Copilot Search will help you disambiguate through a new carousel on the main results page alongside other relevant results.",
+      "status": "Launched",
+      "description": "<p>Now Copilot Search can return matching people for your broader people search queries. Allowing you to discover, disambiguate, and explore known and new people to contact. Discover Whether you're looking for people with a specific skill like \"Project leadership\" or \"Artificial Intelligence\" Copilot Search can help you explore potential contacts through the People data source. Disambiguate When there are multiple people matching in exact name, email, or alias Copilot Search will help you disambiguate through a new carousel on the main results page alongside other relevant results.</p>",
       "created": "2026-02-06T00:00:51",
-      "modified": "2026-02-12T00:15:53",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -5747,7 +5777,7 @@
       "status": "In development",
       "description": "<p>Copilot Chat in Outlook expanding to support reasoning over a user's entire inbox, calendar and other enterprise data for Microsoft 365 Copilot Chat users (without a Microsoft 365 Copilot license) .</p>",
       "created": "2026-02-05T00:15:27",
-      "modified": "2026-09-25T22:37:50",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "GCC",
         "GCC High",
@@ -6346,10 +6376,10 @@
     {
       "id": "529843",
       "title": "Microsoft Copilot (Microsoft 365): Suggested References in Copilot Notebooks",
-      "status": "In development",
-      "description": "Users can now quickly enrich their Copilot Notebook with relevant Suggested References based on recent user work activity.",
+      "status": "Cancelled",
+      "description": "<p>Users can now quickly enrich their Copilot Notebook with relevant Suggested References based on recent user work activity. Update: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
       "created": "2025-12-19T23:00:49",
-      "modified": "2025-12-19T23:00:49",
+      "modified": "2026-10-27T23:05:02",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -6357,7 +6387,7 @@
         "Microsoft Copilot (Microsoft 365)",
         "General Availability"
       ],
-      "descHash": "46fb367881aeb924"
+      "descHash": "d3322e74892c75d9"
     },
     {
       "id": "529842",

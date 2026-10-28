@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-27T11:17:07.118Z",
+  "runAt": "2026-10-28T11:17:58.793Z",
   "feed": "governance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -428,6 +428,45 @@
         "Configure other settings",
         "Configure the Microsoft Copilot app experience",
         "Related content"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "agent-roles-perms",
+      "tier": 1,
+      "title": "Agent Roles Perms",
+      "url": "https://learn.microsoft.com/microsoft-agent-365/admin/agent-roles-perms",
+      "why": "New admin role and permission guidance for Microsoft 365 agent management, directly relevant to governance and access control.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-05-08T00:00:00Z",
+      "gitCommit": "e9059f5358fb4b94b7025ac5f4921a9c687b9ef4",
+      "wordCount": "245",
+      "bodyHash": "ffdc5682dbe202af",
+      "bodyLen": 3009,
+      "sections": [],
+      "inWindow": false
+    },
+    {
+      "id": "manage-copilot-agents-integrated-apps",
+      "tier": 1,
+      "title": "Manage Copilot Agents Integrated Apps",
+      "url": "https://learn.microsoft.com/microsoft-agent-365/admin/manage-copilot-agents-integrated-apps",
+      "why": "New guidance for managing Copilot agents as integrated apps, directly relevant to governance and lifecycle controls.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-07-09T00:00:00Z",
+      "gitCommit": "e9059f5358fb4b94b7025ac5f4921a9c687b9ef4",
+      "wordCount": "983",
+      "bodyHash": "163c2e4f1ca3c82c",
+      "bodyLen": 7858,
+      "sections": [
+        "Overview",
+        "Agent types you can manage",
+        "Get started",
+        "Related articles"
       ],
       "inWindow": true
     },
@@ -1547,45 +1586,6 @@
         "How can I provide feedback on the Workforce Insights agent?"
       ],
       "inWindow": false
-    },
-    {
-      "id": "https-learn-microsoft-com-microsoft-agent-365-admin-agent-roles-perms",
-      "tier": 3,
-      "title": "Agent Roles Perms",
-      "url": "https://learn.microsoft.com/microsoft-agent-365/admin/agent-roles-perms",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-05-08T00:00:00Z",
-      "gitCommit": "e9059f5358fb4b94b7025ac5f4921a9c687b9ef4",
-      "wordCount": "245",
-      "bodyHash": "ffdc5682dbe202af",
-      "bodyLen": 3009,
-      "sections": [],
-      "inWindow": false
-    },
-    {
-      "id": "https-learn-microsoft-com-microsoft-agent-365-admin-manage-copilot-agents-integr",
-      "tier": 3,
-      "title": "Manage Copilot Agents Integrated Apps",
-      "url": "https://learn.microsoft.com/microsoft-agent-365/admin/manage-copilot-agents-integrated-apps",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-07-09T00:00:00Z",
-      "gitCommit": "e9059f5358fb4b94b7025ac5f4921a9c687b9ef4",
-      "wordCount": "983",
-      "bodyHash": "163c2e4f1ca3c82c",
-      "bodyLen": 7858,
-      "sections": [
-        "Overview",
-        "Agent types you can manage",
-        "Get started",
-        "Related articles"
-      ],
-      "inWindow": true
     },
     {
       "id": "https-learn-microsoft-com-viva-learning-learning-agent-overview-deployment-steps",
