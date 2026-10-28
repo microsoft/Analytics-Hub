@@ -80,14 +80,26 @@
     .va-list .detail{font-size:.76rem;color:var(--text-muted);margin-top:.15rem;font-family:ui-monospace,Consolas,monospace;position:relative;z-index:1}
     .va-list .num{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;position:relative;z-index:1}
     .va-fill{position:absolute;left:-.45rem;right:auto;top:.25rem;bottom:.25rem;border-radius:8px;background:color-mix(in srgb,var(--accent) 9%,transparent);z-index:0}
-    .va-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
-    .va-table{width:100%;border-collapse:collapse;font-size:.9rem}
+    .va-top-sort{display:flex;gap:.5rem;flex-wrap:wrap;margin:.2rem 0 1rem}
+    .va-top-sort button{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--text-soft);font:inherit;font-size:.8rem;font-weight:700;padding:.35rem .7rem;border-radius:999px;cursor:pointer}
+    .va-top-sort button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+    .va-top-table-wrap{border:1px solid var(--border);border-radius:12px;overflow:auto}
+    .va-top-table{width:100%;border-collapse:collapse;font-size:.86rem;table-layout:fixed}
+    .va-top-table th,.va-top-table td{padding:.58rem .65rem;border-bottom:1px solid color-mix(in srgb,var(--border) 75%,transparent);vertical-align:top}
+    .va-top-table th{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);font-weight:800;background:var(--bg-alt)}
+    .va-top-table th.num,.va-top-table td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .va-top-table tr:last-child td{border-bottom:0}
+    .va-top-video{font-weight:700;color:var(--text);white-space:normal;overflow-wrap:anywhere;word-break:break-word;line-height:1.28}
+    .va-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:auto}
+    .va-table{width:100%;min-width:1060px;border-collapse:collapse;font-size:.86rem;table-layout:fixed}
     .va-table th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);font-weight:700;padding:.9rem 1rem;border-bottom:1px solid var(--border);background:var(--bg-alt);cursor:pointer}
     .va-table th.num,.va-table td.num{text-align:right}
     .va-table td{padding:.9rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
     .va-table tbody tr:hover{background:var(--bg-alt)}
     .va-table tbody tr:last-child td{border-bottom:0}
     .va-video-name{font-weight:700}.va-video-file{font-size:.75rem;color:var(--text-muted);font-family:ui-monospace,Consolas,monospace;margin-top:.12rem}
+    .va-trend{display:block;font-size:.72rem;line-height:1.2;margin-top:.32rem;font-weight:700}
+    .va-trend.pos{color:#107c10}.va-trend.neg{color:#c50f1f}.va-trend.flat{color:var(--text-muted)}
     .va-bar-track{height:6px;background:var(--border);border-radius:999px;margin-top:.42rem;overflow:hidden}
     .va-bar{height:100%;background:var(--accent);border-radius:999px}
     .va-pill{display:inline-block;font-size:.72rem;font-weight:700;padding:.18rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);white-space:nowrap}
@@ -97,6 +109,7 @@
     .yt-panel{margin-top:1.2rem;border:1px solid color-mix(in srgb,var(--accent) 26%,var(--border));background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 7%,var(--surface)) 0%,var(--surface) 58%);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
     .yt-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1.15rem 1.2rem;border-bottom:1px solid var(--border)}
     .yt-head h2{margin:0 0 .3rem;font-size:1.22rem;letter-spacing:-.01em}.yt-head p{margin:0;color:var(--text-muted);font-size:.88rem;line-height:1.45;max-width:78ch}
+    .yt-head .va-window{margin-top:.75rem}
     .yt-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));border-radius:10px;padding:.55rem .9rem;text-decoration:none;font-weight:700;font-size:.86rem;color:var(--accent);background:var(--surface);white-space:nowrap}
     .yt-body{padding:1.2rem}.yt-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1rem;margin-bottom:1.2rem}
     .yt-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow-sm)}
@@ -104,6 +117,17 @@
     .yt-kpi .value{display:block;font-size:1.55rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.yt-kpi .foot{display:block;font-size:.76rem;color:var(--text-muted);margin-top:.4rem;line-height:1.35}
     .yt-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:1.2rem}.yt-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:1.1rem}
     .yt-card h3{font-size:1.05rem;margin:0 0 .3rem}.yt-card .sub{color:var(--text-muted);font-size:.84rem;margin:0 0 1rem;line-height:1.45}
+    .yt-traffic{margin-top:.35rem}
+    .yt-traffic-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .yt-traffic-table td strong{font-size:1.05rem}
+    .yt-source-btn{display:inline-flex;align-items:center;gap:.65rem;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
+    .yt-source-row.is-selected td{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+    .yt-source-chip{width:14px;height:14px;border:2px solid var(--border);border-radius:2px;display:inline-block;flex:none}
+    .yt-source-label{font-weight:700}
+    .yt-metric{display:flex;justify-content:flex-end;gap:.55rem;font-variant-numeric:tabular-nums}
+    .yt-metric .share{color:var(--text-muted);font-size:.8rem}
+    .yt-traffic-note{font-size:.82rem;color:var(--text-muted);margin:0}
+    .yt-traffic-total td{background:var(--bg-alt)}
     @media(max-width:860px){.yt-head{display:block}.yt-link{margin-top:1rem}.yt-grid{grid-template-columns:1fr}}
     .va-callout code{font-family:ui-monospace,Consolas,monospace;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:.1rem .35rem;color:var(--text)}
     @media(max-width:860px){.va-grid{grid-template-columns:1fr}.va-title-row{display:block}.va-actions{margin-top:1rem}.va-video-file{display:none}}
@@ -147,12 +171,6 @@
           <a class="va-action primary" href="./">Pages Analytics</a>
         </div>
       </div>
-      <div class="va-window" role="group" aria-label="Video analytics time window">
-        <button type="button" data-window="3" aria-pressed="false">3d</button>
-        <button type="button" data-window="7" aria-pressed="true">7d</button>
-        <button type="button" data-window="14" aria-pressed="false">14d</button>
-        <button type="button" data-window="30" aria-pressed="false">30d</button>
-      </div>
     </div>
   </section>
 
@@ -169,32 +187,111 @@
       <div class="yt-panel" id="youtube-panel">
         <div class="yt-head">
           <div>
-            <h2>Official YouTube channel analytics</h2>
-            <p id="yt-meta-inline">Loading YouTube Analytics snapshot...</p>
+            <h2>Official Youtube Channel Analytics</h2>
+            <p id="yt-meta">Loading YouTube Analytics snapshot...</p>
+            <div class="va-window" role="group" aria-label="YouTube analytics time window">
+              <button type="button" data-window="lifetime" aria-pressed="true">Lifetime</button>
+              <button type="button" data-window="48h" aria-pressed="false">48 hrs</button>
+              <button type="button" data-window="7d" aria-pressed="false">7 days</button>
+              <button type="button" data-window="14d" aria-pressed="false">14 days</button>
+              <button type="button" data-window="30d" aria-pressed="false">30days</button>
+            </div>
           </div>
           <a class="yt-link" href="https://studio.youtube.com/channel/UC5vdN46PuzU-kYdZQAEO_BA/analytics" target="_blank" rel="noopener">Open YouTube Studio</a>
         </div>
         <div class="yt-body" id="yt-body">
           <div class="yt-kpis">
             <div class="yt-kpi"><span class="label">Views</span><span class="value" id="yt-kpi-views">-</span><span class="foot" id="yt-kpi-views-foot">Official YouTube views</span></div>
-            <div class="yt-kpi"><span class="label">Watch time</span><span class="value" id="yt-kpi-watch">-</span><span class="foot">Channel minutes watched</span></div>
             <div class="yt-kpi"><span class="label">Subscribers</span><span class="value" id="yt-kpi-subs">-</span><span class="foot">Net subscriber change</span></div>
-            <div class="yt-kpi"><span class="label">Avg view</span><span class="value" id="yt-kpi-avg-view">-</span><span class="foot">Average view duration</span></div>
-            <div class="yt-kpi"><span class="label">Avg watched</span><span class="value" id="yt-kpi-avg-pct">-</span><span class="foot">Average percent viewed</span></div>
+            <div class="yt-kpi"><span class="label">Watch time</span><span class="value" id="yt-kpi-watch">-</span><span class="foot">Channel watch hours</span></div>
+            <div class="yt-kpi"><span class="label">Avg View Duration</span><span class="value" id="yt-kpi-avg-view">-</span><span class="foot" id="yt-kpi-avg-view-foot">Average percent viewed: -</span></div>
+            <div class="yt-kpi"><span class="label">Likes</span><span class="value" id="yt-kpi-likes">-</span><span class="foot" id="yt-kpi-likes-foot">From analytics snapshot</span></div>
+            <div class="yt-kpi"><span class="label">Comments</span><span class="value" id="yt-kpi-comments">-</span><span class="foot" id="yt-kpi-comments-foot">From analytics snapshot</span></div>
+            <div class="yt-kpi"><span class="label">Shares</span><span class="value" id="yt-kpi-shares">-</span><span class="foot" id="yt-kpi-shares-foot">From analytics snapshot</span></div>
           </div>
           <div class="yt-grid">
             <div class="yt-card">
-              <h3>Daily YouTube trend</h3>
+              <h3>Daily Interactions Trend</h3>
               <p class="sub">Views and watch time from the official YouTube Analytics API.</p>
               <div id="yt-trend"><p class="va-message">Loading...</p></div>
               <div class="va-legend"><span><i></i>Views</span><span><i class="watch"></i>Watch time</span></div>
             </div>
             <div class="yt-card">
-              <h3>Top YouTube videos</h3>
-              <p class="sub">Ranked by views in the selected window.</p>
-              <ul class="va-list" id="yt-top-videos"></ul>
+              <h3>Top Engagement Drivers</h3>
+              <p class="sub">Sortable by watch time or views in the selected window.</p>
+              <div class="va-top-sort" role="group" aria-label="Top YouTube videos sort">
+                <button type="button" id="yt-top-sort-watch" data-yt-top-sort="watch" aria-pressed="true">Watch Time</button>
+                <button type="button" id="yt-top-sort-views" data-yt-top-sort="views" aria-pressed="false">Views</button>
+              </div>
+              <div class="va-top-table-wrap">
+                <table class="va-top-table" aria-label="Top YouTube videos">
+                  <thead>
+                    <tr>
+                      <th>Video Name</th>
+                      <th class="num">Watch Time</th>
+                      <th class="num">Views</th>
+                    </tr>
+                  </thead>
+                  <tbody id="yt-top-videos-body"><tr><td colspan="3" class="va-message">Loading...</td></tr></tbody>
+                </table>
+              </div>
             </div>
           </div>
+          <div class="va-insights" id="va-insights"></div>
+          <section class="va-section">
+            <h3>Per-Video Performance</h3>
+            <p class="sub">Click A Column Header To Sort. Window: <strong id="va-window-label">Sep 1 to today</strong>.</p>
+            <div class="va-table-wrap">
+              <table class="va-table" id="va-table">
+                <thead>
+                  <tr>
+                    <th data-sort="name">Video</th>
+                    <th class="num" data-sort="views">Views</th>
+                    <th class="num" data-sort="seconds">Watch Time</th>
+                    <th class="num" data-sort="avg">Avg View Duration</th>
+                    <th class="num" data-sort="completion">Completion</th>
+                    <th class="num" data-sort="likes">Likes</th>
+                    <th class="num" data-sort="comments">Comments</th>
+                    <th class="num" data-sort="shares">Shares</th>
+                  </tr>
+                </thead>
+                <tbody id="va-body"><tr><td colspan="8" class="va-message">Loading...</td></tr></tbody>
+              </table>
+            </div>
+          </section>
+          <section class="va-section yt-traffic">
+            <h3>Traffic Source</h3>
+            <p class="sub">Select a source row to drill into the expanded source detail view.</p>
+            <div class="yt-traffic-grid">
+              <div class="va-top-table-wrap">
+                <table class="va-top-table yt-traffic-table" aria-label="YouTube traffic sources">
+                  <thead>
+                    <tr>
+                      <th>Traffic source</th>
+                      <th class="num">Views</th>
+                      <th class="num">Watch time (hours)</th>
+                      <th class="num">Average view duration</th>
+                    </tr>
+                  </thead>
+                  <tbody id="yt-traffic-sources-body"><tr><td colspan="4" class="va-message">Loading...</td></tr></tbody>
+                </table>
+              </div>
+              <div class="va-top-table-wrap">
+                <table class="va-top-table yt-traffic-table" aria-label="YouTube traffic source details">
+                  <thead>
+                    <tr>
+                      <th id="yt-traffic-detail-heading">Traffic source</th>
+                      <th class="num">Views</th>
+                      <th class="num">Watch time (hours)</th>
+                      <th class="num">Average view duration</th>
+                    </tr>
+                  </thead>
+                  <tbody id="yt-traffic-details-body"><tr><td colspan="4" class="va-message">Select a traffic source to view details.</td></tr></tbody>
+                </table>
+              </div>
+            </div>
+            <p class="yt-traffic-note" id="yt-traffic-note"></p>
+          </section>
         </div>
       </div>
     </div>
