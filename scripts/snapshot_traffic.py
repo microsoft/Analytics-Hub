@@ -97,12 +97,10 @@ IMMUTABILITY_WINDOW_DAYS: int = 3
 #
 # Thresholds are per-site: a busy multi-page hub returning 4 URLs is a real
 # signal, whereas a low-traffic personal homepage can legitimately see only a
-# couple of distinct URLs on a quiet day. A single global value of 5 caused a
-# false-positive failure on 17 Aug 2026 when jordan-homepage returned 4.
+# couple of distinct URLs on a quiet day.
 MIN_URLS_PER_SNAPSHOT: int = 5
 MIN_URLS_PER_SITE: dict[str, int] = {
     "analytics-hub": 5,
-    "jordan-homepage": 2,
 }
 
 # Clarity Data Export API tokens are scoped per-project: the token alone
@@ -112,7 +110,6 @@ MIN_URLS_PER_SITE: dict[str, int] = {
 # Each entry: label -> (project_id_for_display, env_var_name_holding_token)
 CLARITY_SITES: dict[str, tuple[str, str]] = {
     "analytics-hub": ("wxb0r23ozh", "CLARITY_TOKEN_HUB"),
-    "jordan-homepage": ("wt5uwqabv0", "CLARITY_TOKEN_PERSONAL"),
 }
 
 OUTPUT = Path(__file__).resolve().parents[1] / "docs" / "data" / "traffic-history.json"
