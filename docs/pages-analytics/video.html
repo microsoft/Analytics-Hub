@@ -110,6 +110,7 @@
     .yt-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1.15rem 1.2rem;border-bottom:1px solid var(--border)}
     .yt-head h2{margin:0 0 .3rem;font-size:1.22rem;letter-spacing:-.01em}.yt-head p{margin:0;color:var(--text-muted);font-size:.88rem;line-height:1.45;max-width:78ch}
     .yt-head .va-window{margin-top:.75rem}
+    .yt-range{margin:.45rem 0 0;color:var(--text-muted);font-size:.84rem;font-weight:600}
     .yt-link{display:inline-flex;align-items:center;justify-content:center;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));border-radius:10px;padding:.55rem .9rem;text-decoration:none;font-weight:700;font-size:.86rem;color:var(--accent);background:var(--surface);white-space:nowrap}
     .yt-body{padding:1.2rem}.yt-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1rem;margin-bottom:1.2rem}
     .yt-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow-sm)}
@@ -196,6 +197,7 @@
               <button type="button" data-window="14d" aria-pressed="false">14 days</button>
               <button type="button" data-window="30d" aria-pressed="false">30days</button>
             </div>
+            <p class="yt-range" id="yt-selected-range">Selected range: -</p>
           </div>
           <a class="yt-link" href="https://studio.youtube.com/channel/UC5vdN46PuzU-kYdZQAEO_BA/analytics" target="_blank" rel="noopener">Open YouTube Studio</a>
         </div>
