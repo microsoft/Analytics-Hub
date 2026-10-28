@@ -107,7 +107,7 @@ def query_report(
     channel_id: str,
     start_date: str,
     end_date: str,
-    dimensions: str,
+    dimensions: str | None,
     metrics: list[str],
     sort: str | None = None,
     max_results: int | None = None,
@@ -116,9 +116,10 @@ def query_report(
         "ids": f"channel=={channel_id}",
         "startDate": start_date,
         "endDate": end_date,
-        "dimensions": dimensions,
         "metrics": ",".join(metrics),
     }
+    if dimensions:
+        params["dimensions"] = dimensions
     if sort:
         params["sort"] = sort
     if max_results:
@@ -153,6 +154,18 @@ def safe_float(value) -> float:
         return float(value or 0)
     except (TypeError, ValueError):
         return 0.0
+
+
+def parse_iso_date(value: str | None) -> str | None:
+    if not value:
+        return None
+    raw = str(value).strip()
+    if not raw:
+        return None
+    # Accept both YYYY-MM-DD and RFC3339 timestamps.
+    if len(raw) >= 10 and raw[4] == "-" and raw[7] == "-":
+        return raw[:10]
+    return None
 
 
 def fetch_video_metadata(access_token: str, video_ids: list[str]) -> dict[str, dict]:
@@ -240,6 +253,7 @@ def fetch_current_channel_snapshot(access_token: str, channel_id: str) -> dict:
             "id": item.get("id") or channel_id,
             "title": snippet.get("title") or channel_id,
             "url": f"https://www.youtube.com/channel/{channel_id}",
+            "publishedAt": snippet.get("publishedAt"),
             "viewCount": safe_int(stats.get("viewCount")),
             "subscriberCount": safe_int(stats.get("subscriberCount")),
             "videoCount": safe_int(stats.get("videoCount")),
@@ -358,6 +372,26 @@ def aggregate_summary(days: list[dict], videos: list[dict], include_revenue: boo
     return summary
 
 
+def summary_from_totals(columns: list[str], rows: list[list], include_revenue: bool) -> dict:
+    item = row_dict(columns, rows[0]) if rows else {}
+    views = safe_int(item.get("views"))
+    watch_minutes = safe_float(item.get("estimatedMinutesWatched"))
+    gained = safe_int(item.get("subscribersGained"))
+    lost = safe_int(item.get("subscribersLost"))
+    summary = {
+        "views": views,
+        "watchMinutes": watch_minutes,
+        "subscribersGained": gained,
+        "subscribersLost": lost,
+        "subscribersNet": gained - lost,
+        "averageViewDuration": safe_float(item.get("averageViewDuration")),
+        "averageViewPercentage": safe_float(item.get("averageViewPercentage")),
+    }
+    if include_revenue:
+        summary["estimatedRevenue"] = safe_float(item.get("estimatedRevenue"))
+    return summary
+
+
 def write_database(days: list[dict], videos: list[dict], payload: dict, include_revenue: bool) -> None:
     OUT_DB.parent.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(OUT_DB)
@@ -434,6 +468,7 @@ def build_payload(
     channel_id: str,
     start_date: str,
     end_date: str,
+    lifetime_start_date: str,
     fetched_at: str,
     days: list[dict],
     videos: list[dict],
@@ -449,6 +484,7 @@ def build_payload(
             "channelUrl": f"https://www.youtube.com/channel/{channel_id}",
             "startDate": start_date,
             "endDate": end_date,
+            "lifetimeStartDate": lifetime_start_date,
             "lookbackDays": len(days),
             "hasRevenue": include_revenue,
         },
@@ -485,6 +521,12 @@ def main() -> int:
     validate_access_token_scopes(token)
     validate_authorized_channel(token, args.channel_id)
     current = fetch_current_channel_snapshot(token, args.channel_id)
+    channel_published = parse_iso_date((current.get("channel") or {}).get("publishedAt"))
+    env_lifetime_start = parse_iso_date(os.environ.get("YOUTUBE_LIFETIME_START_DATE"))
+    lifetime_start_s = env_lifetime_start or channel_published or start_s
+    if lifetime_start_s > end_s:
+        lifetime_start_s = end_s
+
     daily_cols, daily_rows = rows_from_report(query_report(
         token,
         channel_id=args.channel_id,
@@ -535,11 +577,44 @@ def main() -> int:
         if window_days == max(1, args.lookback_days):
             videos = window_videos
 
+    lifetime_total_cols, lifetime_total_rows = rows_from_report(query_report(
+        token,
+        channel_id=args.channel_id,
+        start_date=lifetime_start_s,
+        end_date=end_s,
+        dimensions=None,
+        metrics=metrics,
+    ))
+    lifetime_video_cols, lifetime_video_rows = rows_from_report(query_report(
+        token,
+        channel_id=args.channel_id,
+        start_date=lifetime_start_s,
+        end_date=end_s,
+        dimensions="video",
+        metrics=metrics,
+        sort="-views",
+        max_results=TOP_VIDEO_LIMIT,
+    ))
+    lifetime_ids = sorted({
+        str(row_dict(lifetime_video_cols, row).get("video"))
+        for row in lifetime_video_rows
+        if row_dict(lifetime_video_cols, row).get("video")
+    })
+    lifetime_meta = fetch_video_metadata(token, lifetime_ids)
+    lifetime_videos = normalize_videos(lifetime_video_cols, lifetime_video_rows, lifetime_meta, args.include_revenue)
+    windows["lifetime"] = {
+        "startDate": lifetime_start_s,
+        "endDate": end_s,
+        "summary": summary_from_totals(lifetime_total_cols, lifetime_total_rows, args.include_revenue),
+        "videos": lifetime_videos,
+    }
+
     fetched_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     payload = build_payload(
         channel_id=args.channel_id,
         start_date=start_s,
         end_date=end_s,
+        lifetime_start_date=lifetime_start_s,
         fetched_at=fetched_at,
         days=days,
         videos=videos,

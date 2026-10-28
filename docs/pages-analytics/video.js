@@ -63,7 +63,7 @@ const WINDOW_OPTIONS = {
   "7d": { label: "last 7 days", days: 7 },
   "14d": { label: "last 14 days", days: 14 },
   "30d": { label: "last 30 days", days: 30 },
-  lifetime: { label: "Sep 1 to today", lifetime: true },
+  lifetime: { label: "Lifetime", lifetime: true },
 };
 const TRAFFIC_SOURCE_PRESET = [
   { key: "external", label: "External", color: "#0078d4" },
@@ -109,6 +109,10 @@ function fmtHoursFromMinutes(minutes) {
 
 function fmtPct(value) {
   return `${((Number(value) || 0) * 100).toFixed(1)}%`;
+}
+
+function fmtDay(date) {
+  return new Date(date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 }
 
 function normalizeKey(value) {
@@ -516,6 +520,7 @@ function render() {
 
 function youtubeWindow() {
   const cfg = windowConfig();
+  if (cfg.lifetime && rawYouTube?.windows?.lifetime?.summary) return rawYouTube.windows.lifetime;
   const keyed = !cfg.lifetime ? rawYouTube?.windows?.[String(cfg.days)] : null;
   if (keyed) return keyed;
   const days = filterDaysByWindow(rawYouTube?.days || []);
@@ -550,13 +555,13 @@ function renderYouTubeMeta() {
     setMeta(rawYouTube?.message || "No YouTube Analytics snapshot has been published yet.");
     return;
   }
+  const win = youtubeWindow();
   const days = filterDaysByWindow(rawYouTube.days || []);
-  const newest = days[0]?.date;
-  const oldest = days[days.length - 1]?.date;
-  const fmt = (date) => new Date(date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const newest = win?.endDate || days[0]?.date;
+  const oldest = win?.startDate || days[days.length - 1]?.date;
   const stamp = rawYouTube.lastUpdated ? new Date(rawYouTube.lastUpdated) : null;
   const parts = [];
-  if (oldest && newest) parts.push(`Date range: ${fmt(oldest)} to ${fmt(newest)}`);
+  if (oldest && newest) parts.push(`Date range: ${fmtDay(oldest)} to ${fmtDay(newest)}`);
   if (stamp && !Number.isNaN(stamp.valueOf())) {
     parts.push(`refreshed ${stamp.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}`);
   }
@@ -568,6 +573,7 @@ function renderYouTubeMeta() {
 function renderYouTubeKpis(win) {
   const summary = win?.summary || {};
   const windowDays = filterDaysByWindow(rawYouTube?.days || []);
+  const isLifetime = windowConfig().lifetime;
   const hasDayField = (field) => windowDays.some((day) => day[field] != null && Number.isFinite(Number(day[field])));
   const sumDayField = (field) => windowDays.reduce((sum, day) => sum + (Number(day[field]) || 0), 0);
   const currentChannel = rawYouTube?.current?.channel || {};
@@ -592,7 +598,7 @@ function renderYouTubeKpis(win) {
   setText("yt-kpi-likes-foot", likesAvailable ? "From analytics snapshot" : "Not included in current snapshot");
   setText("yt-kpi-comments-foot", commentsAvailable ? "From analytics snapshot" : "Not included in current snapshot");
   setText("yt-kpi-shares-foot", sharesAvailable ? "From analytics snapshot" : "Not included in current snapshot");
-  setText("yt-kpi-views-foot", hasWindowViews ? "Official YouTube Analytics views" : "Current public lifetime views");
+  setText("yt-kpi-views-foot", isLifetime ? "Official YouTube Analytics lifetime views" : (hasWindowViews ? "Official YouTube Analytics views" : "Current public lifetime views"));
 }
 
 function renderYouTubeTrend() {
