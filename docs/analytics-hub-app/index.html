@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="osCxYZt_4rM_dBEUcK15g-bl2Ny5g6I80gJlFZ6eKlY" />
+  <title>The Analytics Hub app · Analytics Hub</title>
+  <meta name="description" content="The Analytics Hub app shows how your organisation uses Microsoft 365 Copilot and agents, and the hours and value they deliver. One installer sets up the data pipeline, models and reports in your own tenant, on Microsoft Fabric or Azure, and refreshes them daily." />
+  <link rel="canonical" href="https://microsoft.github.io/Analytics-Hub/analytics-hub-app/" />
+  <meta name="theme-color" content="#0078d4" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="apple-touch-icon" href="../favicon.svg" />
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/analytics-hub-app/" />
+  <meta property="og:title" content="The Analytics Hub app · Analytics Hub" />
+  <meta property="og:description" content="One installer sets up the data pipeline, models and reports in your own tenant, on Microsoft Fabric or Azure, and refreshes them daily." />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Analytics Hub","item":"https://microsoft.github.io/Analytics-Hub/"},{"@type":"ListItem","position":2,"name":"Analytics Hub app","item":"https://microsoft.github.io/Analytics-Hub/analytics-hub-app/"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Analytics Hub app","alternateName":"Analytics Hub for Microsoft Copilot","url":"https://github.com/microsoft/AnalyticsHub-Dashboard","description":"See how your organisation uses Microsoft 365 Copilot and agents, and the hours and value they deliver. One installer sets up the data pipeline, models and reports in your own tenant, on Microsoft Fabric or Azure, and refreshes them daily.","applicationCategory":"BusinessApplication","license":"https://opensource.org/licenses/MIT","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"image":"https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/executive.png","isPartOf":{"@type":"WebSite","name":"Analytics Hub","url":"https://microsoft.github.io/Analytics-Hub/"}}</script>
+  <link rel="stylesheet" href="../styles.css?v=408041bd" />
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wxb0r23ozh");
+  </script>
+  <meta name="clarity-page" content="Analytics Hub app" />
+  <script src="../clarity-events.js?v=202610061540" defer></script>
+  <script src="../consent.js?v=1" defer></script>
+  <link rel="stylesheet" href="../palette.css?v=936728fb" />
+  <script src="../palette.js" defer></script>
+  <script src="../nudges.js" defer></script>
+  <style>
+    /* The one installed product on a site of templates. Facts that change
+       between releases (recommended path, costs, prerequisites) stay in the
+       app's own README and docs; this page links to them. */
+    .aha-page section[id], #watch { scroll-margin-top: 84px; }
+    .aha-hero { padding: 56px 0 56px; border-bottom: 1px solid var(--border);
+      background: radial-gradient(1000px 420px at 92% -10%, color-mix(in srgb, #8B5CF6 10%, transparent), transparent 70%),
+                  radial-gradient(800px 360px at -10% 110%, color-mix(in srgb, #0078d4 9%, transparent), transparent 70%), var(--bg); }
+    .aha-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.8rem; align-items: center; }
+    .aha-hero h1 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.1; letter-spacing: -.02em; margin: 4px 0 16px; font-weight: 700; color: var(--text); }
+    .aha-hero .lede { font-size: 18px; line-height: 1.5; color: var(--text); margin: 0 0 10px; max-width: 44ch; }
+    .aha-hero .lede-2 { font-size: 15.5px; line-height: 1.55; color: var(--text-soft); margin: 0 0 24px; max-width: 52ch; }
+    .aha-ctas { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .aha-video { margin: 0; }
+    .aha-video-frame { border-radius: 14px; overflow: hidden; background: #0d1117;
+      border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+      box-shadow: 0 18px 44px -18px rgba(40,48,90,.55), 0 2px 8px -2px rgba(40,48,90,.25); }
+    [data-theme="dark"] .aha-video-frame { box-shadow: 0 18px 44px -18px rgba(0,0,0,.75), 0 2px 8px -2px rgba(0,0,0,.45); }
+    .aha-video video { display: block; width: 100%; height: auto; aspect-ratio: 1281 / 766; background: #0d1117; }
+    .aha-video figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 10px; font-size: 13px; color: var(--text-soft); }
+    .aha-video figcaption b { color: var(--text); font-weight: 600; }
+    .aha-video figcaption .yt-watch { margin-left: auto; }
+
+    .aha-sec { padding: 64px 0; }
+    .aha-sec.alt { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .aha-sec h2 { font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -.01em; margin: 0 0 10px; color: var(--text); }
+    .aha-sec .sec-lead { font-size: 16px; line-height: 1.55; color: var(--text-soft); max-width: 68ch; margin: 0 0 28px; }
+    .aha-link { font-weight: 600; font-size: 14px; color: var(--accent); text-decoration: none; }
+    .aha-link:hover { text-decoration: underline; }
+
+    /* Which one is for me? */
+    .aha-vs-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 18px; align-items: stretch; }
+    .aha-choice { display: flex; flex-direction: column; padding: 24px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .aha-choice.is-app { border: 1.5px solid transparent; box-shadow: var(--shadow);
+      background: linear-gradient(var(--surface), var(--surface)) padding-box,
+                  linear-gradient(120deg, #0078d4, #8B5CF6 55%, #E24C8F) border-box; }
+    .aha-choice-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .aha-ico { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; background: var(--bg-alt); border: 1px solid var(--border); }
+    .aha-ico svg { width: 22px; height: 22px; fill: none; stroke: var(--text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .is-app .aha-ico, .aha-ico.is-grad { background: linear-gradient(135deg, #0078d4, #8B5CF6); border: 0; }
+    .is-app .aha-ico svg, .aha-ico.is-grad svg { stroke: #fff; }
+    .aha-choice h3 { margin: 0; font-size: 20px; font-weight: 700; }
+    .aha-choice-line { font-size: 16px; line-height: 1.5; margin: 0 0 16px; color: var(--text); }
+    .aha-choice dl { margin: 0 0 20px; }
+    .aha-choice dl div { display: grid; grid-template-columns: 112px 1fr; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); }
+    .aha-choice dt { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; padding-top: 2px; }
+    .aha-choice dd { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--text-soft); }
+    .aha-choice .btn { align-self: flex-start; margin-top: auto; }
+    .aha-vs { align-self: center; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border-strong); }
+
+    /* What it shows */
+    .aha-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .aha-tile { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .aha-tile img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 718; object-fit: cover; object-position: top left; background: #f3f4f6; border-bottom: 1px solid var(--border); }
+    .aha-tile-body { padding: 14px 16px 16px; }
+    .aha-tile h3 { margin: 0 0 4px; font-size: 16px; font-weight: 700; }
+    .aha-tile p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-soft); }
+    .aha-foot { margin: 18px 0 0; font-size: 14px; color: var(--text-soft); }
+    .aha-pbi { display: flex; gap: 12px; align-items: center; margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px dashed var(--border-strong); font-size: 14.5px; line-height: 1.5; color: var(--text-soft); }
+    .aha-pbi .aha-ico { width: 36px; height: 36px; border-radius: 9px; }
+    .aha-pbi .aha-ico svg { width: 19px; height: 19px; }
+
+    /* Two ways to run it */
+    .aha-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .aha-path { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .aha-path h3 { margin: 0; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+    .aha-path p { margin: 0; color: var(--text-soft); font-size: 14.5px; line-height: 1.55; }
+    .aha-path .aha-link { margin-top: auto; }
+    .aha-note { margin: 16px 0 0; font-size: 14px; color: var(--text-soft); }
+
+    /* Get started */
+    .aha-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .aha-step { display: flex; flex-direction: column; padding: 22px 20px 20px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .aha-step-n { display: inline-flex; width: 30px; height: 30px; border-radius: 50%; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #fff; background: linear-gradient(135deg, #0078d4, #8B5CF6); margin-bottom: 12px; }
+    .aha-step h3 { margin: 0 0 6px; font-size: 17px; font-weight: 700; }
+    .aha-step p { margin: 0 0 14px; font-size: 14.5px; color: var(--text-soft); line-height: 1.5; }
+    .aha-step .aha-link { margin-top: auto; }
+    .aha-good { margin-top: 30px; }
+    .aha-good-h { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); }
+    .aha-good-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .aha-good-item { padding: 14px 16px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); font-size: 14px; line-height: 1.5; color: var(--text-soft); }
+    .aha-good-item b { display: block; margin-bottom: 2px; font-size: 14.5px; color: var(--text); }
+
+    /* Related templates */
+    .aha-related { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; padding: 26px; border-radius: 16px;
+      background: color-mix(in srgb, var(--accent) 5%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border)); }
+    .aha-related h2 { font-size: 22px; margin: 4px 0 8px; }
+    .aha-related ul { margin: 0 0 16px; padding-left: 1.1rem; display: grid; gap: 6px; color: var(--text-soft); font-size: 14.5px; line-height: 1.5; }
+    .aha-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .aha-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface); font-size: 13.5px; font-weight: 600; color: var(--text); text-decoration: none; }
+    .aha-chip:hover { border-color: var(--c); }
+    .aha-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+
+    .aha-help { padding: 0 0 72px; }
+    .aha-help-h { margin: 0 0 6px; font-size: 20px; font-weight: 600; color: var(--text); }
+    .aha-help p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-soft); max-width: 78ch; }
+
+    @media (max-width: 980px) {
+      .aha-hero-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+      .aha-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .aha-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .aha-vs-grid { grid-template-columns: 1fr; }
+      .aha-vs { justify-self: center; margin: -6px 0; }
+      .aha-paths, .aha-good-grid { grid-template-columns: 1fr; }
+      .aha-related { grid-template-columns: 1fr; padding: 20px; }
+    }
+    @media (max-width: 560px) {
+      .aha-hero { padding: 40px 0; }
+      .aha-sec { padding: 48px 0; }
+      .aha-tiles { grid-template-columns: 1fr; }
+      .aha-choice { padding: 20px; }
+      .aha-choice dl div { grid-template-columns: 1fr; gap: 2px; }
+    }
+  </style>
+</head>
+<body>
+<a class="ah-skip" href="#top">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
+      <span class="brand-name">Analytics Hub</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="../choose-report/">Reports</a>
+      <a href="../cowork-billing/">Consumption &amp; Cost</a>
+      <a href="../case-studies/">Case Studies</a>
+      <a href="../community/">Community</a>
+      <div class="nav-dropdown" data-open="false">
+        <button class="nav-dropdown-trigger" type="button">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../tools/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128736;</span><span class="menu-text">Tools<span class="menu-sub">Web Tools for Cost Analysis and Planning</span></span></a>
+
+          <a href="../team/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128101;</span><span class="menu-text">Team<span class="menu-sub">Who operates the Hub</span></span></a>
+          <a href="../faq/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#10067;</span><span class="menu-text">FAQ<span class="menu-sub">Common questions answered</span></span></a>
+          <a href="../glossary/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128214;</span><span class="menu-text">Glossary<span class="menu-sub">Terms this site and the reports found here use</span></span></a>
+          <a href="../feedback/" role="menuitem"><span class="menu-icon" aria-hidden="true">&#128172;</span><span class="menu-text">Feedback<span class="menu-sub">Requests &middot; Suggestions &middot; Thanks</span></span></a>
+          <hr class="menu-sep" />
+          <a href="../demos/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128274;</span><span class="menu-text">Internal Demos<span class="menu-sub">Microsoft-only &middot; live customer walkthroughs</span></span></a>
+          <a href="../community/results/" role="menuitem" class="menu-internal"><span class="menu-icon" aria-hidden="true">&#128202;</span><span class="menu-text">Poll Results<span class="menu-sub">Team-only &middot; survey dashboard</span></span></a>
+        </div>
+      </div>
+      <a class="nav-subscribe" href="../updates/?from=nav">Stay Up To Date</a>
+      <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+      <a class="nav-cta nav-youtube" href="https://www.youtube.com/@MSFTAnalyticsHub/" target="_blank" rel="noopener">YouTube &#8599;</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
+  </div>
+</header>
+
+<main id="top" class="aha-page">
+
+  <section class="aha-hero">
+    <div class="wrap aha-hero-grid">
+      <div>
+        <p class="eyebrow">Open source · installs in your tenant</p>
+        <h1>The Analytics Hub app</h1>
+        <p class="lede">See how your organisation uses Microsoft 365 Copilot and agents, and the hours and value they deliver.</p>
+        <p class="lede-2">One installer sets up the data pipeline, models and reports in your own tenant, on Microsoft Fabric or Azure, and refreshes them daily.</p>
+        <div class="aha-ctas">
+          <a class="btn btn-primary" href="#get-started">Get started ↓</a>
+          <a class="btn btn-ghost" href="https://github.com/microsoft/AnalyticsHub-Dashboard" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+      </div>
+      <figure class="aha-video" id="watch">
+        <div class="aha-video-frame">
+          <video controls preload="metadata" playsinline
+                 poster="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/executive.png"
+                 aria-label="The Analytics Hub app, page by page">
+            <source src="https://github.com/microsoft/AnalyticsHub-Dashboard/raw/main/media/AnalyticsHub-Demo.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption><b>The app, page by page.</b> Silent, about 2 minutes, sample data. <a class="yt-watch" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/media/AnalyticsHub-Demo.mp4" target="_blank" rel="noopener">Watch on GitHub &#8599;</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="aha-sec" id="which-one">
+    <div class="wrap">
+      <p class="eyebrow">Templates or the app</p>
+      <h2>Which one is for me?</h2>
+      <p class="sec-lead">The Hub's templates are yours to download and set up. The Analytics Hub app is the one you install.</p>
+      <div class="aha-vs-grid">
+        <article class="aha-choice">
+          <div class="aha-choice-head">
+            <span class="aha-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14"/></svg></span>
+            <h3>Templates</h3>
+          </div>
+          <p class="aha-choice-line">Download one and connect your own data.</p>
+          <dl>
+            <div><dt>What you get</dt><dd>One report per question, from the catalog</dd></div>
+            <div><dt>Your data</dt><dd>You choose the source and how it refreshes</dd></div>
+            <div><dt>Good when</dt><dd>You want one specific answer, or to start small</dd></div>
+          </dl>
+          <a class="btn btn-ghost" href="../choose-report/">Browse the templates →</a>
+        </article>
+        <span class="aha-vs" aria-hidden="true">or</span>
+        <article class="aha-choice is-app">
+          <div class="aha-choice-head">
+            <span class="aha-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span>
+            <h3>The Analytics Hub app</h3>
+          </div>
+          <p class="aha-choice-line">One installer sets up the data pipeline, models and reports in your own tenant, and refreshes them daily.</p>
+          <dl>
+            <div><dt>What you get</dt><dd>Adoption, value, consumption, readiness, agents and governance in one app</dd></div>
+            <div><dt>Your data</dt><dd>A daily pipeline in your tenant, on Fabric or Azure</dd></div>
+            <div><dt>Good when</dt><dd>You want the whole picture, kept up to date</dd></div>
+          </dl>
+          <a class="btn btn-primary" href="#get-started">Get started ↓</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="aha-sec alt" id="what-it-shows">
+    <div class="wrap">
+      <p class="eyebrow">Inside the app</p>
+      <h2>What it shows</h2>
+      <p class="sec-lead">A few of its pages.</p>
+      <div class="aha-tiles">
+        <article class="aha-tile">
+          <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/adoption.png" width="1200" height="718" loading="lazy" decoding="async" alt="The Adoption page">
+          <div class="aha-tile-body"><h3>Adoption</h3><p>Who started, who stayed and who stuck.</p></div>
+        </article>
+        <article class="aha-tile">
+          <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/value.png" width="1200" height="718" loading="lazy" decoding="async" alt="The Value page">
+          <div class="aha-tile-body"><h3>Value</h3><p>The work Copilot helped with, the hours saved and what they're worth.</p></div>
+        </article>
+        <article class="aha-tile">
+          <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/consumption.png" width="1200" height="718" loading="lazy" decoding="async" alt="The Consumption page">
+          <div class="aha-tile-body"><h3>Consumption</h3><p>The credits you used and what they cost.</p></div>
+        </article>
+        <article class="aha-tile">
+          <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/readiness.png" width="1200" height="718" loading="lazy" decoding="async" alt="The Readiness page">
+          <div class="aha-tile-body"><h3>Readiness</h3><p>Who to license next, and who's ready for Cowork.</p></div>
+        </article>
+        <article class="aha-tile">
+          <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/agent-evaluation.png" width="1200" height="718" loading="lazy" decoding="async" alt="The Agent Evaluation page">
+          <div class="aha-tile-body"><h3>Agent Evaluation</h3><p>How well your Copilot Studio agents answer, and where they fall short.</p></div>
+        </article>
+        <article class="aha-tile">
+          <img src="https://raw.githubusercontent.com/microsoft/AnalyticsHub-Dashboard/main/media/pages/governance.png" width="1200" height="718" loading="lazy" decoding="async" alt="The Governance page">
+          <div class="aha-tile-body"><h3>Governance</h3><p>Who owns your agents, who can reach them, and what needs a review.</p></div>
+        </article>
+      </div>
+      <p class="aha-foot">Plus an executive summary, leaderboards and more. The Consumption and Agent Evaluation pages need their add-ons. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/APP-GUIDE.md" target="_blank" rel="noopener">See every page in the app guide &#8599;</a></p>
+      <div class="aha-pbi">
+        <span class="aha-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 20V12M10 20V7M15 20v-6M20 20V4"/></svg></span>
+        <span>The installer can also publish the ValueLens, Consumption Central and Agent Evaluator Power BI reports, on the same models as the app. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/APP-GUIDE.md#power-bi-reports" target="_blank" rel="noopener">The Power BI reports &#8599;</a></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="aha-sec" id="paths">
+    <div class="wrap">
+      <p class="eyebrow">Where it runs</p>
+      <h2>Two ways to run it</h2>
+      <p class="sec-lead">Both load the data and publish the models.</p>
+      <div class="aha-paths">
+        <article class="aha-path">
+          <h3><span class="aha-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4z"/><path d="M4 12l8 4 8-4"/><path d="M4 17l8 4 8-4"/></svg></span> On Microsoft Fabric</h3>
+          <p>Runs in a Fabric workspace on your own capacity. Set up with the installer, or by hand.</p>
+          <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard#path-1-fabric" target="_blank" rel="noopener">Fabric set-up &#8599;</a>
+        </article>
+        <article class="aha-path">
+          <h3><span class="aha-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.1 9.4 4.3 4.3 0 0 0 7 18z"/></svg></span> On Azure</h3>
+          <p>Runs in your own Azure subscription, with the reports in a Power BI workspace. Set up with the installer, or by hand.</p>
+          <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard#path-2-azure" target="_blank" rel="noopener">Azure set-up &#8599;</a>
+        </article>
+      </div>
+      <p class="aha-note">The README compares what each needs and what it costs. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard#getting-started" target="_blank" rel="noopener">Compare the paths &#8599;</a></p>
+    </div>
+  </section>
+
+  <section class="aha-sec alt" id="get-started">
+    <div class="wrap">
+      <p class="eyebrow">Get started</p>
+      <h2>Three steps to install it</h2>
+      <p class="sec-lead">The app's README has the current steps for each path. In short:</p>
+      <ol class="aha-steps">
+        <li class="aha-step">
+          <span class="aha-step-n" aria-hidden="true">1</span>
+          <h3>Check the prerequisites</h3>
+          <p>Each admin gets their own row: what to grant, and why.</p>
+          <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/PREREQUISITES.md" target="_blank" rel="noopener">Prerequisites &#8599;</a>
+        </li>
+        <li class="aha-step">
+          <span class="aha-step-n" aria-hidden="true">2</span>
+          <h3>Run the installer</h3>
+          <p>The README has the command and the download.</p>
+          <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard#run-the-installer" target="_blank" rel="noopener">Get the installer &#8599;</a>
+        </li>
+        <li class="aha-step">
+          <span class="aha-step-n" aria-hidden="true">3</span>
+          <h3>Check it worked</h3>
+          <p>The installer's Done page lists anything left to do, and who does it.</p>
+          <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/INSTALL.md#check-it-worked" target="_blank" rel="noopener">Check it worked &#8599;</a>
+        </li>
+      </ol>
+      <div class="aha-good">
+        <h3 class="aha-good-h">Good to know</h3>
+        <div class="aha-good-grid">
+          <div class="aha-good-item"><b>Cost</b>The app itself is free; what you pay depends on the path. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/ARCHITECTURE.md#running-costs" target="_blank" rel="noopener">Running costs &#8599;</a></div>
+          <div class="aha-good-item"><b>Data</b>What it collects, and where it keeps it. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/ARCHITECTURE.md#what-it-collects" target="_blank" rel="noopener">What it collects &#8599;</a></div>
+          <div class="aha-good-item"><b>Disclaimer</b>It isn't the official Copilot report, and you're responsible for the data once it's extracted. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard#disclaimer" target="_blank" rel="noopener">Read the disclaimer &#8599;</a></div>
+          <div class="aha-good-item"><b>Releases</b>The latest release and its notes. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/releases/latest" target="_blank" rel="noopener">Latest release &#8599;</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="aha-sec" id="related">
+    <div class="wrap">
+      <div class="aha-related">
+        <span class="aha-ico is-grad" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h11M4 12h16M4 17h9"/><path d="M17 4l3 3-3 3"/></svg></span>
+        <div>
+          <h2>Already use ValueLens, Consumption Central or Agent Evaluator?</h2>
+          <ul>
+            <li>They're still in the catalog as templates you set up yourself. Use one if you only want that report, or can't run the installer.</li>
+            <li>The app's installer publishes the ValueLens report, plus the Consumption Central and Agent Evaluator reports when you turn on their add-ons.</li>
+            <li>Used the installer from the ValueLens repository? That's this app, which now has its own repository. <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/docs/FAQ.md#i-used-valuelens-what-changes" target="_blank" rel="noopener">What changes &#8599;</a></li>
+          </ul>
+          <div class="aha-chips">
+            <a class="aha-chip" style="--c:#00B294" href="../choose-report/#d=value-lens"><i></i>ValueLens</a>
+            <a class="aha-chip" style="--c:#0078d4" href="../choose-report/#d=consumption-central"><i></i>Consumption Central</a>
+            <a class="aha-chip" style="--c:#e3008c" href="../choose-report/#d=agent-evaluator"><i></i>Agent Evaluator</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="aha-help" id="help">
+    <div class="wrap">
+      <h2 class="aha-help-h">Help</h2>
+      <p>Questions, bugs or ideas? <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/issues" target="_blank" rel="noopener">Open an issue in the app's repository &#8599;</a>. It isn't supported through Microsoft support channels; <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/blob/main/SUPPORT.md" target="_blank" rel="noopener">see how support works &#8599;</a>. More in the <a class="aha-link" href="https://github.com/microsoft/AnalyticsHub-Dashboard/tree/main/docs" target="_blank" rel="noopener">app's docs &#8599;</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-secondary"><a href="../faq/">FAQ</a> · <a href="../glossary/">Glossary</a> · <a href="../compare/">Compare</a> · <a href="../feedback/">Feedback</a> · <a href="../demos/">Internal Demos</a></div>
+    <div class="footer-fine">
+      © Microsoft Corporation · MIT Licensed · <a href="../">Analytics Hub home</a> · <a href="../choose-report/">Browse the templates</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* palette.js only follows the system setting; the click handler lives in app.js,
+     which this page does not load. Wired as on choose-report/, against the same
+     localStorage key, so the theme chosen on Home carries over. */
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var start = stored ||
+      (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    root.setAttribute('data-theme', start);
+    if (!btn) return;
+    btn.textContent = start === 'dark' ? '\u2600' : '\u25D0';
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      btn.textContent = next === 'dark' ? '\u2600' : '\u25D0';
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>

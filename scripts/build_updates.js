@@ -290,7 +290,7 @@ const page = `<!DOCTYPE html>
   </script>
   <meta name="clarity-page" content="Updates" />
   <link rel="stylesheet" href="../styles.css" />
-  <script src="../clarity-events.js?v=202609141210" defer></script>
+  <script src="../clarity-events.js?v=202610061540" defer></script>
   <script src="../consent.js?v=1" defer></script>
   <link rel="stylesheet" href="../palette.css?v=936728fb" />
   <script src="../palette.js" defer></script>
@@ -344,7 +344,6 @@ const page = `<!DOCTYPE html>
     <a class="brand" href="../">
       <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V11M9.5 19V6M15 19v-5M20.5 19V8"/></svg></span>
       <span class="brand-name">Analytics Hub</span>
-      <span class="brand-by">Open source toolkit</span>
     </a>
     <nav class="primary-nav">
       <a href="../choose-report/">Reports</a>
@@ -366,6 +365,7 @@ const page = `<!DOCTYPE html>
       </div>
       <a class="nav-subscribe" href="../updates/?from=nav" aria-current="page">Stay Up To Date</a>
       <a class="nav-cta" href="https://github.com/microsoft/Analytics-Hub" target="_blank" rel="noopener">GitHub &#8599;</a>
+      <a class="nav-cta nav-youtube" href="https://www.youtube.com/@MSFTAnalyticsHub/" target="_blank" rel="noopener">YouTube &#8599;</a>
     </nav>
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9680;</button>
   </div>
