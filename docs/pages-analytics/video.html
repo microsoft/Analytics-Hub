@@ -116,6 +116,8 @@
     .yt-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow-sm)}
     .yt-kpi .label{display:block;font-size:.72rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
     .yt-kpi .value{display:block;font-size:1.55rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.yt-kpi .foot{display:block;font-size:.76rem;color:var(--text-muted);margin-top:.4rem;line-height:1.35}
+    .yt-kpi .trend{display:block;font-size:.72rem;font-weight:700;line-height:1.3;margin-top:.38rem}
+    .yt-kpi .trend.pos{color:#107c10}.yt-kpi .trend.neg{color:#c50f1f}.yt-kpi .trend.flat{color:var(--text-muted)}
     .yt-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:1.2rem}.yt-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:1.1rem}
     .yt-card h3{font-size:1.05rem;margin:0 0 .3rem}.yt-card .sub{color:var(--text-muted);font-size:.84rem;margin:0 0 1rem;line-height:1.45}
     .yt-traffic{margin-top:.35rem}
@@ -203,13 +205,13 @@
         </div>
         <div class="yt-body" id="yt-body">
           <div class="yt-kpis">
-            <div class="yt-kpi"><span class="label">Views</span><span class="value" id="yt-kpi-views">-</span><span class="foot" id="yt-kpi-views-foot">Official YouTube views</span></div>
-            <div class="yt-kpi"><span class="label">Subscribers</span><span class="value" id="yt-kpi-subs">-</span><span class="foot">Net subscriber change</span></div>
-            <div class="yt-kpi"><span class="label">Watch time</span><span class="value" id="yt-kpi-watch">-</span><span class="foot">Channel watch hours</span></div>
-            <div class="yt-kpi"><span class="label">Avg View Duration</span><span class="value" id="yt-kpi-avg-view">-</span><span class="foot" id="yt-kpi-avg-view-foot">Average percent viewed: -</span></div>
-            <div class="yt-kpi"><span class="label">Likes</span><span class="value" id="yt-kpi-likes">-</span><span class="foot" id="yt-kpi-likes-foot">From analytics snapshot</span></div>
-            <div class="yt-kpi"><span class="label">Comments</span><span class="value" id="yt-kpi-comments">-</span><span class="foot" id="yt-kpi-comments-foot">From analytics snapshot</span></div>
-            <div class="yt-kpi"><span class="label">Shares</span><span class="value" id="yt-kpi-shares">-</span><span class="foot" id="yt-kpi-shares-foot">From analytics snapshot</span></div>
+            <div class="yt-kpi"><span class="label">Views</span><span class="value" id="yt-kpi-views">-</span><span class="trend flat" id="yt-kpi-views-trend">Trend: -</span><span class="foot" id="yt-kpi-views-foot">Official YouTube views</span></div>
+            <div class="yt-kpi"><span class="label">Subscribers</span><span class="value" id="yt-kpi-subs">-</span><span class="trend flat" id="yt-kpi-subs-trend">Trend: -</span><span class="foot">Net subscriber change</span></div>
+            <div class="yt-kpi"><span class="label">Watch time</span><span class="value" id="yt-kpi-watch">-</span><span class="trend flat" id="yt-kpi-watch-trend">Trend: -</span><span class="foot">Channel watch hours</span></div>
+            <div class="yt-kpi"><span class="label">Avg View Duration</span><span class="value" id="yt-kpi-avg-view">-</span><span class="trend flat" id="yt-kpi-avg-view-trend">Trend: -</span><span class="foot" id="yt-kpi-avg-view-foot">Average percent viewed: -</span></div>
+            <div class="yt-kpi"><span class="label">Likes</span><span class="value" id="yt-kpi-likes">-</span><span class="trend flat" id="yt-kpi-likes-trend">Trend: -</span><span class="foot" id="yt-kpi-likes-foot">From analytics snapshot</span></div>
+            <div class="yt-kpi"><span class="label">Comments</span><span class="value" id="yt-kpi-comments">-</span><span class="trend flat" id="yt-kpi-comments-trend">Trend: -</span><span class="foot" id="yt-kpi-comments-foot">From analytics snapshot</span></div>
+            <div class="yt-kpi"><span class="label">Shares</span><span class="value" id="yt-kpi-shares">-</span><span class="trend flat" id="yt-kpi-shares-trend">Trend: -</span><span class="foot" id="yt-kpi-shares-foot">From analytics snapshot</span></div>
           </div>
           <div class="yt-grid">
             <div class="yt-card">

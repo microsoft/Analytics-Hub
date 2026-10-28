@@ -115,6 +115,20 @@ function fmtDay(date) {
   return new Date(date + "T00:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 }
 
+function addDaysIso(dateStr, deltaDays) {
+  const d = new Date(`${dateStr}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + deltaDays);
+  return d.toISOString().slice(0, 10);
+}
+
+function daySpanInclusive(startDate, endDate) {
+  const s = new Date(`${startDate}T00:00:00Z`);
+  const e = new Date(`${endDate}T00:00:00Z`);
+  const ms = e - s;
+  if (!Number.isFinite(ms) || ms < 0) return 0;
+  return Math.floor(ms / 86400000) + 1;
+}
+
 function normalizeKey(value) {
   return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
@@ -140,6 +154,38 @@ function metricValue(row, keys) {
     if (value != null && Number.isFinite(Number(value))) return Number(value);
   }
   return 0;
+}
+
+function summarizeYouTubeDays(days) {
+  const rows = Array.isArray(days) ? days : [];
+  const hasField = (field) => rows.some((day) => day[field] != null && Number.isFinite(Number(day[field])));
+  const sumField = (field) => rows.reduce((sum, day) => sum + (Number(day[field]) || 0), 0);
+  const views = sumField("views");
+  const weightedDuration = rows.reduce((sum, day) => sum + (Number(day.averageViewDuration) || 0) * (Number(day.views) || 0), 0);
+  const weightedPercentage = rows.reduce((sum, day) => sum + (Number(day.averageViewPercentage) || 0) * (Number(day.views) || 0), 0);
+  return {
+    views,
+    watchMinutes: sumField("watchMinutes"),
+    subscribersNet: sumField("subscribersNet"),
+    averageViewDuration: views ? weightedDuration / views : 0,
+    averageViewPercentage: views ? weightedPercentage / views : 0,
+    likes: hasField("likes") ? sumField("likes") : null,
+    comments: hasField("comments") ? sumField("comments") : null,
+    shares: hasField("shares") ? sumField("shares") : null,
+  };
+}
+
+function setKpiTrend(id, delta, formatter) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (delta == null || !Number.isFinite(delta)) {
+    el.className = "trend flat";
+    el.textContent = "Trend: -";
+    return;
+  }
+  const cls = trendClass(delta);
+  el.className = `trend ${cls}`;
+  el.textContent = `Trend: ${signed(delta, formatter(Math.abs(delta)))}`;
 }
 
 function trendClass(delta) {
@@ -283,6 +329,11 @@ function lifetimeStartIsoUtc() {
 function filterDaysByWindow(days = []) {
   const cfg = windowConfig();
   if (!cfg.lifetime) return days.slice(0, cfg.days);
+  if (rawYouTube?.windows?.lifetime?.startDate && rawYouTube?.windows?.lifetime?.endDate) {
+    const start = rawYouTube.windows.lifetime.startDate;
+    const end = rawYouTube.windows.lifetime.endDate;
+    return days.filter((day) => day.date >= start && day.date <= end);
+  }
   const start = lifetimeStartIsoUtc();
   const end = todayIsoUtc();
   return days.filter((day) => day.date >= start && day.date <= end);
@@ -580,19 +631,29 @@ function renderYouTubeMeta() {
 function renderYouTubeKpis(win) {
   const summary = win?.summary || {};
   const windowDays = filterDaysByWindow(rawYouTube?.days || []);
+  const currentDailySummary = summarizeYouTubeDays(windowDays);
   const isLifetime = windowConfig().lifetime;
-  const hasDayField = (field) => windowDays.some((day) => day[field] != null && Number.isFinite(Number(day[field])));
-  const sumDayField = (field) => windowDays.reduce((sum, day) => sum + (Number(day[field]) || 0), 0);
   const currentChannel = rawYouTube?.current?.channel || {};
   const currentVideoViews = (rawYouTube?.current?.videos || []).reduce((sum, row) => sum + (Number(row.views) || 0), 0);
   const currentViews = Math.max(Number(currentChannel.viewCount) || 0, currentVideoViews);
   const hasWindowViews = Number(summary.views) > 0;
-  const likesAvailable = hasDayField("likes");
-  const commentsAvailable = hasDayField("comments");
-  const sharesAvailable = hasDayField("shares");
-  const likes = likesAvailable ? sumDayField("likes") : null;
-  const comments = commentsAvailable ? sumDayField("comments") : null;
-  const shares = sharesAvailable ? sumDayField("shares") : null;
+  const likesAvailable = currentDailySummary.likes != null;
+  const commentsAvailable = currentDailySummary.comments != null;
+  const sharesAvailable = currentDailySummary.shares != null;
+  const likes = currentDailySummary.likes;
+  const comments = currentDailySummary.comments;
+  const shares = currentDailySummary.shares;
+
+  const rangeStart = win?.startDate || windowDays[windowDays.length - 1]?.date;
+  const rangeEnd = win?.endDate || windowDays[0]?.date;
+  const span = (rangeStart && rangeEnd) ? daySpanInclusive(rangeStart, rangeEnd) : 0;
+  let priorSummary = null;
+  if (span > 0) {
+    const priorEnd = addDaysIso(rangeStart, -1);
+    const priorStart = addDaysIso(priorEnd, -(span - 1));
+    const priorRows = (rawYouTube?.days || []).filter((day) => day.date >= priorStart && day.date <= priorEnd);
+    if (priorRows.length) priorSummary = summarizeYouTubeDays(priorRows);
+  }
 
   setText("yt-kpi-views", fmtNum(hasWindowViews ? summary.views : currentViews));
   setText("yt-kpi-watch", fmtHoursFromMinutes(summary.watchMinutes));
@@ -606,6 +667,14 @@ function renderYouTubeKpis(win) {
   setText("yt-kpi-comments-foot", commentsAvailable ? "From analytics snapshot" : "Not included in current snapshot");
   setText("yt-kpi-shares-foot", sharesAvailable ? "From analytics snapshot" : "Not included in current snapshot");
   setText("yt-kpi-views-foot", isLifetime ? "Official YouTube Analytics lifetime views" : (hasWindowViews ? "Official YouTube Analytics views" : "Current public lifetime views"));
+
+  setKpiTrend("yt-kpi-views-trend", priorSummary ? (Number(summary.views) - Number(priorSummary.views || 0)) : null, fmtNum);
+  setKpiTrend("yt-kpi-subs-trend", priorSummary ? (Number(summary.subscribersNet) - Number(priorSummary.subscribersNet || 0)) : null, fmtNum);
+  setKpiTrend("yt-kpi-watch-trend", priorSummary ? ((Number(summary.watchMinutes) - Number(priorSummary.watchMinutes || 0)) * 60) : null, fmtHoursFromSeconds);
+  setKpiTrend("yt-kpi-avg-view-trend", priorSummary ? (Number(summary.averageViewDuration) - Number(priorSummary.averageViewDuration || 0)) : null, fmtHoursFromSeconds);
+  setKpiTrend("yt-kpi-likes-trend", (priorSummary && likesAvailable && priorSummary.likes != null) ? (Number(likes) - Number(priorSummary.likes || 0)) : null, fmtNum);
+  setKpiTrend("yt-kpi-comments-trend", (priorSummary && commentsAvailable && priorSummary.comments != null) ? (Number(comments) - Number(priorSummary.comments || 0)) : null, fmtNum);
+  setKpiTrend("yt-kpi-shares-trend", (priorSummary && sharesAvailable && priorSummary.shares != null) ? (Number(shares) - Number(priorSummary.shares || 0)) : null, fmtNum);
 }
 
 function renderYouTubeTrend() {
