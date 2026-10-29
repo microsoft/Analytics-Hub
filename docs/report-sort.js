@@ -9,7 +9,7 @@
    - Reports page: sorts the .pk-row list (#mkPkList). A MutationObserver
      re-applies the chosen sort if that list is re-rendered by its own app.
 
-   "Featured" restores the original, curated DOM order.
+   "Featured" leads with Cowork Super User, then restores curated DOM order.
    ========================================================================== */
 (function () {
   'use strict';
@@ -160,7 +160,11 @@
       captureOrder();
       var cards = Array.prototype.slice.call(grid.querySelectorAll(cardSel));
       cards.sort(function (a, b) {
-        if (mode === 'featured') return baseIndex(a) - baseIndex(b);
+        if (mode === 'featured') {
+          var ai = idOf(a) === 'cowork-super-user' ? -1 : baseIndex(a);
+          var bi = idOf(b) === 'cowork-super-user' ? -1 : baseIndex(b);
+          return ai - bi;
+        }
         var va = valueFor(a, mode), vb = valueFor(b, mode);
         if (va === null && vb === null) return baseIndex(a) - baseIndex(b);
         if (va === null) return 1;   // missing data sinks
@@ -184,11 +188,11 @@
     if (onReports && window.MutationObserver) {
       mo = new MutationObserver(function () {
         if (applying) return;
-        if (ctl.sel.value === 'featured') return;
         apply(ctl.sel.value);
       });
       mo.observe(grid, { childList: true });
     }
+    apply(ctl.sel.value);
   }
 
   function boot() {

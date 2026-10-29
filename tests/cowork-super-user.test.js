@@ -305,10 +305,63 @@ test('video helpers accept local MP4 assets but reject executable schemes', () =
   assert.equal(context.isEmbeddableVideo('data:video/mp4;base64,test.mp4'), false);
 });
 
-test('share stub has absolute media metadata and forwards to local SPA route', () => {
+test('Launch ticket occupies the Reports intro beside the unchanged lead, above instructions', () => {
+  const intro = html.match(/<div class="pk-intro">([\s\S]*?)<div class="pk-how">/)[1];
+  assert.match(intro, /class="pk-lead3"/);
+  assert.match(intro, /Filter by <span class="pk-hl-a">goal/);
+  assert.match(intro, /class="pk-launch-date"><span>Released<\/span><time datetime="2026-10-29">Oct 29, 2026<\/time>/);
+  assert.match(intro, /class="pk-launch-new">New</);
+  assert.match(intro, /<h2 id="pkLaunchTitle">Cowork Super User<\/h2>/);
+  assert.match(intro, /href="cowork-super-user\/\?route=2">Open enablement guide/);
+  assert.ok(intro.indexOf('pk-lead3') < intro.indexOf('pk-launch-date'));
+});
+
+test('Featured leads with Cowork Super User without changing metric sorts or remaining curated order', () => {
+  const sort = fs.readFileSync(path.join(docs, 'report-sort.js'), 'utf8');
+  const comparator = sort.match(/cards\.sort\((function \(a, b\) \{[\s\S]*?\n      \})\);/)[1];
+  const cards = ['first', 'second', 'cowork-super-user', 'fourth'];
+  const context = vm.createContext({
+    mode: 'featured', idOf: id => id, baseIndex: id => cards.indexOf(id),
+    valueFor: id => ({ first: 12, second: 30, fourth: 4 }[id] ?? null)
+  });
+  const compare = vm.runInContext('(' + comparator + ')', context);
+  assert.deepEqual([...cards].sort(compare), ['cowork-super-user', 'first', 'second', 'fourth']);
+  assert.deepEqual(['fourth', 'second'].sort(compare), ['second', 'fourth']);
+  for (const mode of ['pop-week', 'pop-month', 'stars', 'views', 'clones']) {
+    context.mode = mode;
+    assert.deepEqual([...cards].sort(compare), ['second', 'first', 'fourth', 'cowork-super-user']);
+  }
+  assert.doesNotMatch(sort, /if \(ctl\.sel\.value === 'featured'\) return/);
+  assert.match(sort, /apply\(ctl\.sel\.value\);\s*\n  \}/);
+  assert.match(html, /id === 'cowork-super-user' \? '<span class="rf-tag rf-tag--cowork-new">NEW<\/span>'/);
+  assert.match(html, /background:linear-gradient\(135deg,#ede9fe,#ddd6fe\);color:#4c1d95/);
+});
+
+test('share stub versions the catalog by content and preserves queries before the guide hash', () => {
   const stub = fs.readFileSync(path.join(reportDir, 'cowork-super-user', 'index.html'), 'utf8');
   assert.match(stub, /og:image" content="https:\/\/microsoft\.github\.io\/Analytics-Hub\/choose-report\/cowork-super-user\/media\/CoworkSuperUser-Overview\.png"/);
-  assert.match(stub, /location\.replace\('\.\.\/#r=cowork-super-user'/);
+  const version = require('node:crypto').createHash('sha256')
+    .update(html.replace(/\r\n/g, '\n')).digest('hex').slice(0, 16);
+  assert.ok(stub.includes('../?catalog=' + version + '#r=cowork-super-user'),
+    'Regenerate the Cowork stub after editing the catalog');
+  const script = stub.match(/<script>([\s\S]*?)<\/script>/)[1];
+  for (const search of ['', '?route=2&embed=1&campaign=customer', '?catalog=stale&route=2']) {
+    let redirected;
+    vm.runInNewContext(script, {
+      URL, URLSearchParams,
+      location: {
+        href: 'https://example.test/choose-report/cowork-super-user/' + search,
+        search, replace: value => { redirected = new URL(value); }
+      }
+    });
+    assert.equal(redirected.pathname, '/choose-report/');
+    assert.equal(redirected.hash, '#r=cowork-super-user');
+    assert.equal(redirected.searchParams.get('catalog'), version);
+    if (search.includes('embed')) assert.equal(redirected.searchParams.get('embed'), '1');
+    if (search.includes('route')) assert.equal(redirected.searchParams.get('route'), '2');
+  }
+  assert.match(html, /encodeURIComponent\(t\.id\) \+ '\/' \+ \(t\.id === 'cowork-super-user' \? '\?route=2'/);
+  assert.match(html, /gdSel\[0\] === 'cowork-super-user' \? '\?route=2'/);
 });
 
 test('sorting represents uncollected data as null rather than invented counts', () => {
@@ -323,6 +376,40 @@ test('sorting represents uncollected data as null rather than invented counts', 
 });
 
 const home = fs.readFileSync(path.join(docs, 'index.html'), 'utf8');
+test('homepage gives Cowork its own positioning section above the unchanged Recently added trio', () => {
+  const cowork = home.match(/<section[^>]*id="recent-cowork-super-user"[\s\S]*?<\/section>/)[0];
+  assert.ok(home.indexOf(cowork) < home.indexOf('id="flagship"'));
+  assert.match(cowork, /<h2 class="section-title" id="coworkWhyTitle">Cowork Super User<\/h2>/);
+  assert.match(cowork, /class="flagship-logo"/);
+  assert.match(cowork, /<p class="eyebrow">Recently Added<\/p>/);
+  assert.match(cowork, /data-theme="dark"/);
+  assert.doesNotMatch(cowork, /see who drives/i);
+  assert.ok(cowork.indexOf('Recently Added') < cowork.indexOf('id="coworkWhyTitle"'));
+  assert.ok(cowork.indexOf('class="flagship-desc"') < cowork.indexOf('<iframe'));
+  const section = home.slice(home.indexOf('id="flagship"'));
+  const grid = section.slice(section.indexOf('<div class="flagship-grid">'), section.indexOf('<!-- =========================================================== ALSO NEW -->'));
+  const cards = [...grid.matchAll(/<article class="flagship-card"[\s\S]*?<\/article>/g)].map(m => m[0]);
+  assert.equal(cards.length, 3);
+  assert.deepEqual(cards.map(card => card.match(/<h3>(.*?)<\/h3>/)[1]),
+    ['ValueLens', 'Consumption Central', 'Agent Evaluator']);
+  assert.match(section, /Three new dashboards, built to work together/);
+  assert.match(section, /One measures whether Copilot is landing\. One tracks what it costs\./);
+  assert.match(section, /Sample data ships with each, so you can look before setting anything up\./);
+  assert.doesNotMatch(grid, /Cowork Super User|c23BOhnDLVU/);
+  assert.match(cowork, /youtube-nocookie\.com\/embed\/c23BOhnDLVU\?rel=0&amp;enablejsapi=1/);
+  assert.doesNotMatch(cowork, /autoplay/i);
+  assert.match(cowork, /https:\/\/youtu\.be\/c23BOhnDLVU/);
+  assert.match(cowork, /href="choose-report\/cowork-super-user\/\?route=2">See the details/);
+  const description = cowork.match(/class="flagship-desc">([\s\S]*?)<\/p>/)[1];
+  assert.equal((description.match(/\./g) || []).length, 3);
+  assert.match(description, /which Cowork tasks use the most credits/);
+  assert.match(description, /how usage changes week by week/);
+  assert.match(description, /focus enablement/);
+  assert.match(description, /directional value scenarios.*not measured savings/);
+  for (const [index, video] of ['P0uHJb13ZR0', 'JdOVx_6kw5Y', 'Tg594Hst5MY'].entries()) {
+    assert.ok(cards[index].includes(video));
+  }
+});
 const announcements = home.match(/<script id="ah-home-announcements">([\s\S]*?)<\/script>/)[1];
 const launch = Date.UTC(2026, 9, 29);
 const expires = Date.UTC(2026, 10, 28);
@@ -363,7 +450,7 @@ test('homepage banner sits beneath the existing announcement and links straight 
   const hero = home.indexOf('<!-- =========================================================== HERO -->');
   assert.ok(existing < added && added < hero);
   const banner = home.match(/<aside[^>]*id="ah-cowork-super-user-banner"[\s\S]*?<\/aside>/)[0];
-  assert.match(banner, /href="choose-report\/cowork-super-user\/"/);
+  assert.match(banner, /href="choose-report\/cowork-super-user\/\?route=2"/);
   assert.match(banner, />\s*Cowork Super User Report\s*</);
   assert.match(banner, /aria-label="Dismiss the Cowork Super User Report announcement"/);
 });

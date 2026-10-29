@@ -10,11 +10,13 @@
  * same generic "Which report should I use?" card. These stubs give each report
  * a real URL (/choose-report/<id>/) that carries a unique <title> plus Open
  * Graph / Twitter tags for the preview card, then instantly forwards a human
- * visitor to the live guide at ../#r=<id>.
+ * visitor to the live guide at ../?catalog=<content-hash>#r=<id>. The stable
+ * content hash avoids reusing a catalog cached before a report was added.
  *
  * The stubs are generated, never hand-edited. The guide's #mk-data island in
  * index.html stays the single source of truth: add or rename a report there,
- * re-run this script, done.
+ * re-run this script, done. Regenerate a changed report's stub after catalog
+ * edits so its cache key describes the current HTML.
  *
  *   node scripts/gen-enablement-stubs.js
  *   node scripts/gen-enablement-stubs.js cowork-super-user
@@ -25,9 +27,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = path.resolve(__dirname, '..');            // docs/choose-report
 const INDEX = path.join(ROOT, 'index.html');
+// A content-derived cache key refreshes the catalog when a generated guide changes.
+const CATALOG_VERSION = crypto.createHash('sha256')
+  .update(fs.readFileSync(INDEX, 'utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 16);
 const SITE = 'https://microsoft.github.io/Analytics-Hub';
 const OG_FALLBACK = SITE + '/og-card.png';
 
@@ -85,7 +91,7 @@ function pageFor(t) {
     'roles you need, where the data comes from, and the template to download.';
   const ogDesc = (t.blurb && String(t.blurb).trim()) || desc;
   const url = SITE + '/choose-report/' + t.id + '/';
-  const guide = '../#r=' + t.id;
+  const guide = '../?catalog=' + CATALOG_VERSION + '#r=' + t.id;
   const img = new URL(previewOf(t) || OG_FALLBACK, SITE + '/choose-report/').href;
 
   return `<!DOCTYPE html>
@@ -116,8 +122,11 @@ function pageFor(t) {
   <meta http-equiv="refresh" content="0; url=${esc(guide)}" />
   <script>
     (function () {
-      try { location.replace('${guide}' + (location.search || '')); }
-      catch (e) { location.href = '${guide}'; }
+      var destination = new URL('${guide}', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>

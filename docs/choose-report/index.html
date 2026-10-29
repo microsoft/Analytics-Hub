@@ -1640,6 +1640,22 @@ html[data-theme="dark"]{
   /* v28 - three-step lead. .pk-step3 is deliberately not .pk-step: that class is
    already the <li> wrapper for each stage of the picker. */
 .pk-lead3{ max-width:62ch; }
+.pk-intro{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.pk-intro>.pk-lead3{min-width:0}
+.pk-launch{display:grid;grid-template-columns:100px 1fr;min-width:0;border:1px solid var(--mk-border);border-radius:14px;background:var(--mk-surface);color:var(--mk-text);overflow:hidden}
+.pk-launch-date{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:16px;background:var(--mk-surface-2);border-right:1px dashed var(--mk-border)}
+.pk-launch-date span{font-size:11px;text-transform:uppercase;color:var(--mk-muted);letter-spacing:.08em}
+.pk-launch-date time{font-size:18px;font-weight:650;line-height:1.5;color:var(--mk-text)}
+.pk-launch-content{min-width:0;padding:22px}
+.pk-launch-new{display:inline-flex;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.07em;padding:4px 8px;border-radius:5px;background:var(--mk-accent-strong);color:var(--mk-on-accent)}
+.pk-launch h2{font-size:25px;line-height:1.2;font-weight:700;margin:14px 0 10px;letter-spacing:-.02em;color:var(--mk-text)}
+.pk-launch p{font-size:14px;line-height:1.6;color:var(--mk-soft);margin:0 0 18px}
+.pk-launch-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--mk-accent);padding:10px 14px;border-radius:8px;font-size:13px;font-weight:650;color:var(--mk-accent-strong);text-decoration:none}
+.pk-launch-cta:hover{text-decoration:underline}
+.pk-launch-cta:focus-visible{outline:2px solid var(--mk-accent);outline-offset:3px}
+.pk-top .rf-tag--cowork-new{display:inline-flex;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:100px;line-height:1.4;white-space:nowrap;background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:#4c1d95}
+@media(max-width:800px){.pk-intro{grid-template-columns:1fr;gap:20px}.pk-intro .pk-lead3{margin:0}}
+@media(max-width:430px){.pk-launch{grid-template-columns:80px 1fr}.pk-launch-content{padding:16px}.pk-launch h2{font-size:23px}.pk-launch-cta{font-size:12px;padding:10px;gap:4px}}
 .pk-how{
   display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
   margin:36px 0 0; border-top:2px solid var(--mk-text);
@@ -1889,12 +1905,23 @@ html.mk-embed main.mk-page{ display:none !important; }
     <ol class="pk-steps">
 
       <li class="pk-step pk-step--choose">
+        <div class="pk-intro">
         <div class="pk-lead3">
           <p class="pk-lead-eyebrow">Which report should I use?</p>
           <h1 class="pk-lead2-h">Filter by <span class="pk-hl-a">goal</span>,
             <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h1>
           <p class="pk-lead2-p">Open-source reports and tools, each built alongside the customer
             who needed it first.</p>
+        </div>
+        <article class="pk-launch" aria-labelledby="pkLaunchTitle">
+          <div class="pk-launch-date"><span>Released</span><time datetime="2026-10-29">Oct 29, 2026</time></div>
+          <div class="pk-launch-content">
+            <span class="pk-launch-new">New</span>
+            <h2 id="pkLaunchTitle">Cowork Super User</h2>
+            <p>Explore weekly Cowork activity, credit concentration, and directional value scenarios.</p>
+            <a class="pk-launch-cta" href="cowork-super-user/?route=2">Open enablement guide <span aria-hidden="true">&#8594;</span></a>
+          </div>
+        </article>
         </div>
 
         <div class="pk-how">
@@ -8639,8 +8666,11 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
        Open Graph tags and then forwards to the live guide at ../#r=<id>. That
        means a link copied from here previews correctly in Teams/Slack/Outlook
        instead of showing the generic picker title. */
+    /* route=2 bypasses the old cached Cowork stub; its content-versioned
+       destination then bypasses catalogs cached before this report existed. */
     actions.push('<a class="mk-sharebtn" id="mkDlgShare" href="./' +
-      encodeURIComponent(t.id) + '/" target="_blank" rel="noopener">Enablement guide</a>');
+      encodeURIComponent(t.id) + '/' + (t.id === 'cowork-super-user' ? '?route=2' : '') +
+      '" target="_blank" rel="noopener">Enablement guide</a>');
     dlgFoot.innerHTML = actions.join('');
 
     dlgBody.scrollTop = 0;
@@ -8963,6 +8993,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       '" data-id="' + esc(id) + '">' +
       '<span class="pk-top">' +
         '<span class="pk-title">' + esc(titleOf(t)) + '</span>' +
+        (id === 'cowork-super-user' ? '<span class="rf-tag rf-tag--cowork-new">NEW</span>' : '') +
         (t.version ? '<span class="rf-ver" title="Report version">v' + esc(t.version) + '</span>' : '') +
         ((t.updated && isRecent(t.updated, 30))
           ? '<span class="rf-upd" title="Updated ' + esc(fmtShort(t.updated)) + '">Updated ' + esc(fmtShort(t.updated)) + '</span>'
@@ -9340,7 +9371,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   function gdLink() {
     if (!gdSel.length) return '';
     var dir = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
-    if (gdSel.length === 1) return dir + encodeURIComponent(gdSel[0]) + '/';
+    if (gdSel.length === 1) return dir + encodeURIComponent(gdSel[0]) + '/' +
+      (gdSel[0] === 'cowork-super-user' ? '?route=2' : '');
     return dir + '#r=' + gdSel.join(',');
   }
 
@@ -11029,7 +11061,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
 })();
 </script>
 <script src="../report-badges.js" defer></script>
-<script src="../report-sort.js" defer></script>
+<script src="../report-sort.js?v=cowork-featured-1" defer></script>
 <script id="vl-player">
 (function () {
   var reg = [];

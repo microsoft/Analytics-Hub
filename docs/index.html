@@ -113,7 +113,7 @@
 <aside class="ah-new-banner" id="ah-cowork-super-user-banner" role="region" aria-label="New Cowork Super User Report" hidden>
   <div class="wrap ah-new-banner-inner">
     <span class="ah-new-banner-pill" aria-hidden="true">NEW</span>
-    <a class="ah-new-banner-link" href="choose-report/cowork-super-user/">
+    <a class="ah-new-banner-link" href="choose-report/cowork-super-user/?route=2">
       Cowork Super User Report
       <span class="ah-new-banner-arrow" aria-hidden="true">&#8594;</span>
     </a>
@@ -347,6 +347,61 @@
 })();
 </script>
 
+<!-- =========================================================== COWORK SUPER USER -->
+<style>
+  .cowork-home-feature{background:var(--bg-band);color:var(--text)}
+  .cowork-home-feature .wrap>.flagship-head{flex-direction:row;align-items:center;margin-bottom:24px}
+  .cowork-home-feature .flagship-head .eyebrow{margin:0}
+  .cowork-home-card{display:grid;grid-template-columns:1fr 1fr;align-items:center}
+  .cowork-home-card .section-title{color:var(--text);margin:0 0 16px}
+  .cowork-home-card .flagship-desc{color:var(--text-soft)}
+  .cowork-home-card .flagship-ctas{margin-top:8px}
+  @media(max-width:800px){.cowork-home-card{grid-template-columns:1fr}}
+</style>
+<section class="band flagship-band cowork-home-feature" data-theme="dark" id="recent-cowork-super-user" aria-labelledby="coworkWhyTitle">
+  <div class="wrap">
+    <div class="flagship-head">
+      <span class="flagship-logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="58" height="58" focusable="false">
+          <defs>
+            <linearGradient id="coworkRecentlyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0078D4"/>
+              <stop offset=".5" stop-color="#8B5CF6"/>
+              <stop offset="1" stop-color="#E24C8F"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="32" fill="url(#coworkRecentlyGrad)"/>
+          <g fill="#fff">
+            <path d="M32 13l3.2 11.9a4 4 0 0 0 2.9 2.9L50 31l-11.9 3.2a4 4 0 0 0-2.9 2.9L32 49l-3.2-11.9a4 4 0 0 0-2.9-2.9L14 31l11.9-3.2a4 4 0 0 0 2.9-2.9z"/>
+            <circle cx="47" cy="18" r="2.4" opacity=".85"/>
+            <circle cx="19" cy="45" r="1.8" opacity=".7"/>
+          </g>
+        </svg>
+      </span>
+      <p class="eyebrow">Recently Added</p>
+    </div>
+    <article class="flagship-card cowork-home-card">
+      <div class="flagship-body">
+        <h2 class="section-title" id="coworkWhyTitle">Cowork Super User</h2>
+        <p class="flagship-desc">
+          Understand which Cowork tasks use the most credits, how usage changes week by week, and how patterns differ across teams.
+          Use those answers to focus enablement and plan your next conversation about consumption.
+          Explore directional value scenarios with explicit assumptions, not measured savings.
+        </p>
+        <div class="flagship-ctas">
+          <a class="btn btn-primary" href="choose-report/cowork-super-user/?route=2">See the details &#8594;</a>
+        </div>
+        <a class="yt-watch flagship-yt" href="https://youtu.be/c23BOhnDLVU" target="_blank" rel="noopener">Watch on YouTube &#8599;</a>
+      </div>
+      <div class="flagship-media">
+        <iframe class="yt-embed" src="https://www.youtube-nocookie.com/embed/c23BOhnDLVU?rel=0&amp;enablejsapi=1"
+                title="Cowork Super User report walkthrough" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </article>
+  </div>
+</section>
+
 <!-- =========================================================== FLAGSHIP -->
 <style>
   /* Horizontal lockup: sparkle icon LEFT-aligned, beside the eyebrow+title */
@@ -362,25 +417,7 @@
 <section class="band flagship-band" id="flagship">
   <div class="wrap">
     <div class="flagship-head">
-    <span class="flagship-logo" aria-hidden="true">
-      <svg viewBox="0 0 64 64" width="58" height="58" focusable="false">
-        <defs>
-          <linearGradient id="flagshipGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#0078D4"/>
-            <stop offset=".5" stop-color="#8B5CF6"/>
-            <stop offset="1" stop-color="#E24C8F"/>
-          </linearGradient>
-        </defs>
-        <circle cx="32" cy="32" r="32" fill="url(#flagshipGrad)"/>
-        <g fill="#fff">
-          <path d="M32 13l3.2 11.9a4 4 0 0 0 2.9 2.9L50 31l-11.9 3.2a4 4 0 0 0-2.9 2.9L32 49l-3.2-11.9a4 4 0 0 0-2.9-2.9L14 31l11.9-3.2a4 4 0 0 0 2.9-2.9z"/>
-          <circle cx="47" cy="18" r="2.4" opacity=".85"/>
-          <circle cx="19" cy="45" r="1.8" opacity=".7"/>
-        </g>
-      </svg>
-    </span>
       <div class="flagship-headtext">
-        <p class="eyebrow center">Recently added</p>
         <h2 class="section-title center">Three new dashboards, built to work together</h2>
       </div>
     </div>
@@ -752,7 +789,7 @@
 
 <script src="app.js"></script>
 <script src="report-badges.js" defer></script>
-<script src="report-sort.js" defer></script>
+<script src="report-sort.js?v=cowork-featured-1" defer></script>
 <script>
   // Report filter. Progressive enhancement: without JS every card is
   // already visible, so nothing is lost - the pills just narrow it down.

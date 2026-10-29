@@ -23,11 +23,14 @@
 
   <!-- A human visitor is forwarded straight to the live guide. The meta-refresh
        is the no-JS fallback; the script keeps any query string (e.g. embed). -->
-  <meta http-equiv="refresh" content="0; url=../#r=cowork-super-user" />
+  <meta http-equiv="refresh" content="0; url=../?catalog=4671ce0772b77a40#r=cowork-super-user" />
   <script>
     (function () {
-      try { location.replace('../#r=cowork-super-user' + (location.search || '')); }
-      catch (e) { location.href = '../#r=cowork-super-user'; }
+      var destination = new URL('../?catalog=4671ce0772b77a40#r=cowork-super-user', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>
@@ -38,6 +41,6 @@
 </head>
 <body>
   <p>Opening the enablement guide for <strong>Cowork Super User</strong>&hellip;</p>
-  <p>If you are not redirected, <a href="../#r=cowork-super-user">open the Cowork Super User enablement guide</a>.</p>
+  <p>If you are not redirected, <a href="../?catalog=4671ce0772b77a40#r=cowork-super-user">open the Cowork Super User enablement guide</a>.</p>
 </body>
 </html>
