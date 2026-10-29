@@ -1,7 +1,23 @@
 {
-  "runAt": "2026-10-28T11:18:42.479Z",
+  "runAt": "2026-10-29T11:18:13.274Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "574112",
+      "title": "Dynamics 365 Customer Service: Shared analytics for historical reporting",
+      "status": "Rolling out",
+      "description": "<p>Dynamics 365 Customer Service provides out-of-the-box historical reporting built on a shared analytics foundation: a scalable, open, and AI-ready data foundation for Customer Experience and AI analytics scenarios across Dynamics 365. It uses a lakehouse-based architecture that can scale with data volume, supports curated analytics datasets for direct querying, and enables consistent reporting and semantic definitions across reports, agents, and copilots.</p>",
+      "created": "2026-10-28T23:04:31",
+      "modified": "2026-10-28T23:04:31",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "Dynamics 365 Customer Service",
+        "General Availability"
+      ],
+      "descHash": "6b118f79b36921fe"
+    },
     {
       "id": "577841",
       "title": "Microsoft Copilot (Microsoft 365): Copilot app mode handoffs",
@@ -473,11 +489,11 @@
     },
     {
       "id": "576272",
-      "title": "Copilot Studio: Computer Use for web browsing on GitHub Copilot Harness",
+      "title": "Copilot Studio: Computer Use for web browsing on Microsoft Copilot Harness",
       "status": "In development",
-      "description": "<p>Enable Microsoft Copilot Studio agents to browse and interact with websites as a native capability powered by the GitHub Copilot Harness. Using natural-language instructions, agents can navigate web pages, extract information, and download files. Agents can then use that information and those files alongside other tools to complete end-to-end workflows, extending their reach beyond configured knowledge sources and API-based integrations.</p>",
+      "description": "<p>Enable Microsoft Copilot Studio agents to browse and interact with websites as a native capability powered by the Microsoft Copilot harness. Using natural-language instructions, agents can navigate web pages, extract information, and download files. Agents can then use that information and those files alongside other tools to complete end-to-end workflows, extending their reach beyond configured knowledge sources and API-based integrations.</p>",
       "created": "2026-10-19T23:15:15",
-      "modified": "2026-10-19T23:15:15",
+      "modified": "2026-10-28T20:19:16",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -485,7 +501,7 @@
         "General Availability",
         "Preview"
       ],
-      "descHash": "cc730c55fb307062"
+      "descHash": "4f0b5e5094b04405"
     },
     {
       "id": "571305",
@@ -1710,7 +1726,7 @@
       "status": "In development",
       "description": "<p>Some existing retention policies scoped to Microsoft Teams may currently also apply to Microsoft 365 Copilot interactions. As part of an upcoming change, these legacy Teams retention policies will be converted to—and treated as—Teams-only policies. They will no longer implicitly govern Copilot workloads.</p>",
       "created": "2026-09-18T22:00:04",
-      "modified": "2026-09-18T22:00:04",
+      "modified": "2026-10-28T23:04:31",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -2089,10 +2105,10 @@
     {
       "id": "569475",
       "title": "Microsoft Copilot Studio: Agent Sharing amongst makers",
-      "status": "In development",
-      "description": "Enables sharing of agents with other makers in the new GHCP harness. Makers can grant other makers Agent Viewer (view analytics/evaluations only) or Editor (view, edit, configure, share, publish) access to an agent, with auto-assigned security roles.",
+      "status": "Launched",
+      "description": "<p>Enables sharing of agents with other makers in the new Microsoft Copilot harness. Makers can grant other makers Agent Viewer (view analytics/evaluations only) or Editor (view, edit, configure, share, publish) access to an agent, with auto-assigned security roles.</p>",
       "created": "2026-08-27T22:38:48",
-      "modified": "2026-08-28T17:54:55",
+      "modified": "2026-10-28T23:04:31",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -2100,7 +2116,7 @@
         "General Availability",
         "Preview"
       ],
-      "descHash": "b393b1d189eeac40"
+      "descHash": "b84e5f5e8e0a5e66"
     },
     {
       "id": "568937",
@@ -2995,7 +3011,7 @@
       "status": "In development",
       "description": "<p>Ask Copilot about an image in Edge enables users to instantly analyze images from the web by sending them directly to Copilot from the Edge context menu, making it easy to ask questions, gain insights, and understand visual content without leaving their browsing experience. Admins can control availability to this feature using the EdgeEntraCopilotPageContext and Microsoft365CopilotChatIconEnabled policies.</p>",
       "created": "2026-07-01T23:03:18",
-      "modified": "2026-09-17T23:00:45",
+      "modified": "2026-10-28T23:04:31",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -10524,9 +10540,9 @@
       "id": "490738",
       "title": "Microsoft 365 Admin Center: Usage reports - Message consumption for Pay-as-you-go experiences in Copilot Chat.",
       "status": "In development",
-      "description": "A new report to help IT admins manage costs for billed messages that are Pay-as-you-go enabled for Copilot Chat. Reporting includes drill down of billed messages per user, per billing policy, per agent-level and agent-user level pair. #copilotcontrolsystem",
+      "description": "<p>A new report to help IT admins manage costs for billed messages that are Pay-as-you-go enabled for Copilot Chat. Reporting includes drill down of billed messages per user, per billing policy, per agent-level and agent-user level pair. #copilotcontrolsystem</p>",
       "created": "2025-04-23T16:15:28",
-      "modified": "2026-03-23T23:15:39",
+      "modified": "2026-10-28T23:04:31",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Microsoft 365 Admin Center",
