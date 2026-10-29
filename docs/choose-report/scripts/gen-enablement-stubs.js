@@ -17,6 +17,7 @@
  * re-run this script, done.
  *
  *   node scripts/gen-enablement-stubs.js
+ *   node scripts/gen-enablement-stubs.js cowork-super-user
  *
  * Run from docs/choose-report/ (or anywhere - paths are resolved from __dirname).
  */
@@ -85,7 +86,7 @@ function pageFor(t) {
   const ogDesc = (t.blurb && String(t.blurb).trim()) || desc;
   const url = SITE + '/choose-report/' + t.id + '/';
   const guide = '../#r=' + t.id;
-  const img = previewOf(t) || OG_FALLBACK;
+  const img = new URL(previewOf(t) || OG_FALLBACK, SITE + '/choose-report/').href;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -135,8 +136,14 @@ function pageFor(t) {
 
 function main() {
   const tools = readTools();
+  const requested = process.argv.slice(2);
+  requested.forEach(function (id) {
+    if (!tools.some(function (t) { return t.id === id; })) throw new Error('Unknown report: ' + id);
+  });
+  const selected = requested.length
+    ? tools.filter(function (t) { return requested.includes(t.id); }) : tools;
   let written = 0, skipped = 0;
-  tools.forEach(function (t) {
+  selected.forEach(function (t) {
     if (!safeId(t.id)) { console.warn('skip (unsafe id): ' + t.id); skipped++; return; }
     const dir = path.join(ROOT, t.id);
     fs.mkdirSync(dir, { recursive: true });

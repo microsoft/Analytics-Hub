@@ -4,6 +4,16 @@
   "generatedAt": "2026-09-21T06:49:35.019Z",
   "note": "stars/views/clones per report id. views & clones = daily counts summed. week=7d, month=30d. popWeek/popMonth/popTotal = popularity = unique visits + clone count over the window (overall traffic, NOT stars). Reports without a GitHub repo carry nulls and sort last.",
   "reports": {
+    "cowork-super-user": {
+      "stars": null,
+      "viewsTotal": null,
+      "viewsWeek": null,
+      "clonesTotal": null,
+      "clonesWeek": null,
+      "popWeek": null,
+      "popMonth": null,
+      "popTotal": null
+    },
     "super-usage": {
       "stars": 47,
       "viewsTotal": 4663,

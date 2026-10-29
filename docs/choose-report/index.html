@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Which report should I use? &mdash; Reports &middot; Analytics Hub</title>
-  <meta name="description" content="Filter twenty-four open-source Microsoft Copilot reporting templates by goal, by Copilot surface, or both. Every report carries a setup guide and a downloadable template on GitHub." />
+  <meta name="description" content="Filter open-source Microsoft Copilot reports and tools by goal, by Copilot surface, or both. Explore report details and step-by-step enablement guides." />
   <meta name="theme-color" content="#0078d4" />
   <meta name="color-scheme" content="light dark" />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
@@ -1893,7 +1893,7 @@ html.mk-embed main.mk-page{ display:none !important; }
           <p class="pk-lead-eyebrow">Which report should I use?</p>
           <h1 class="pk-lead2-h">Filter by <span class="pk-hl-a">goal</span>,
             <span class="pk-hl-b">product</span>, or <span class="pk-hl-c">both</span></h1>
-          <p class="pk-lead2-p">Twenty-four open-source templates, each built alongside the customer
+          <p class="pk-lead2-p">Open-source reports and tools, each built alongside the customer
             who needed it first.</p>
         </div>
 
@@ -3967,6 +3967,43 @@ html.mk-embed main.mk-page{ display:none !important; }
       ]
     },
     {
+      "id": "cowork-super-user",
+      "question": "I want to understand Cowork super-user activity, credit concentration, weekly trends, and directional value scenarios.",
+      "title": "Cowork Super User",
+      "icon": "\uD83D\uDD25",
+      "accent": "#0078d4",
+      "category": "adoption-behavior",
+      "tier": "specialty",
+      "measures": ["adoption", "impact", "roi"],
+      "source": "Customer Cowork task-level weekly export + matching people metadata",
+      "sourceKey": "Viva Insights",
+      "repo": "https://github.com/microsoft/CoworkSuperUser",
+      "download": "https://github.com/microsoft/CoworkSuperUser/raw/refs/heads/main/CoworkSuperUser.pbit",
+      "guide": "https://github.com/microsoft/CoworkSuperUser/blob/main/SETUP.md",
+      "preview": "cowork-super-user/media/CoworkSuperUser-Overview.png",
+      "demoVideos": [{"url": "https://www.youtube.com/watch?v=c23BOhnDLVU", "label": "Overview"}],
+      "blurb": "Nine-page Power BI report for analyzing customer Cowork activity: task and credit concentration, weekly trends, organization and function breakdowns, share shift, and directional value scenarios. Requires approved task-level weekly data in CoworkWeeklyMetrics.csv and matching PeopleMetaData.csv, joined on PeopleHistoricalId. The generic service-credit export is not a drop-in replacement. Public and in testing; modeled value is not measured or causal savings.",
+      "meta": {
+        "audience": "Cowork adoption leads, enablement teams, program owners, analysts",
+        "license": "Consumption Dashboard export eligibility (public preview); Power BI Pro/PPU and workspace access if publishing"
+      },
+      "requirements": {
+        "roles": [
+          {"label": "Data exporter: Insights Analyst with global partition access OR Microsoft 365 Global Administrator, with Consumption Dashboard access", "url": "https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics#prerequisites"},
+          {"label": "Report owner: authorized read access to the customer's Cowork CSV source folder"},
+          {"label": "If publishing to a shared Power BI workspace: Contributor, Member, or Admin; Pro or PPU license", "url": "https://learn.microsoft.com/power-bi/collaborate-share/service-roles-new-workspaces"}
+        ],
+        "software": [
+          {"label": "Power BI Desktop (current release)", "url": "https://www.microsoft.com/download/details.aspx?id=58494"}
+        ]
+      },
+      "related": [
+        {"id": "super-usage", "title": "Super Usage Adoption", "icon": "\uD83D\uDD25", "accent": "#8661c5", "score": 6, "shared": ["adoption"]},
+        {"id": "cowork-billing-report", "title": "Cowork Chargeback and Billing Report", "icon": "\uD83D\uDCB3", "accent": "#0078d4", "score": 5, "shared": ["impact"]},
+        {"id": "cowork-team-report", "title": "Cowork Team Report", "icon": "\uD83D\uDCEC", "accent": "#8661c5", "score": 4, "shared": ["impact", "roi"]}
+      ]
+    },
+    {
       "id": "cowork-adoption",
       "incubating": true,
       "question": "I want to see how Cowork is being adopted, who keeps coming back, and who could be a champion.",
@@ -4228,6 +4265,13 @@ html.mk-embed main.mk-page{ display:none !important; }
   },
   "note": "created = GitHub repo creation. viewsWeek = repo views over the trailing 7 finalised days. Reports without a GitHub repository carry nulls and sort last.",
   "reports": {
+    "cowork-super-user": {
+      "repo": "microsoft/CoworkSuperUser",
+      "stars": null,
+      "created": null,
+      "viewsWeek": null,
+      "viewsTotal": null
+    },
     "super-usage": {
       "repo": "microsoft/DecodingSuperUsage",
       "stars": 47,
@@ -5507,6 +5551,158 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 .ca-player:-webkit-full-screen .ca-img{width:100%;height:100%;object-fit:contain;border-radius:4px}
 .ca-player:-webkit-full-screen .ca-hint{display:none}
 </style>
+
+<style id="csu-hero-styles">
+.csu-hero{padding-bottom:76px}
+.csu-hero .su-controls{display:grid;grid-template-columns:repeat(3,34px);gap:8px 12px}
+.csu-hero .su-counter{grid-column:1 / -1}
+.csu-hero .su-player .su-hint[data-page-name]{display:block;font-size:13px;font-weight:600}
+.csu-hero p{color:#dbe6ff;font-size:12px;text-align:center;margin:10px 0 0}
+.csu-hero a{color:#fff;text-decoration:underline}
+.csu-connect{overflow-wrap:anywhere}
+</style>
+
+<template id="csuHero">
+  <div class="cc-hero csu-hero su-hero-card">
+    <h2>Cowork Super User</h2>
+    <div class="cc-tag">Power BI on weekly Cowork exports: activity, concentration, trends, and directional scenario value</div>
+    <div class="cc-oneliner">Who is active &middot; where tasks and credits concentrate &middot; what changes by week &middot; which assumptions drive value</div>
+    <div class="cc-badges"><span>POWER BI TEMPLATE</span><span>PUBLIC &middot; IN TESTING</span></div>
+    <div class="su-player" data-frames="9" data-base="cowork-super-user/media/pages" data-files='["01-overview.png","02-cost-concentration.png","03-trends.png","04-group-breakdown.png","05-value-assumptions.png","06-share-shift.png","07-weekly-detail.png","08-metric-glossary.png","09-category-assumptions.png"]' role="region" aria-label="Cowork Super User report pages" tabindex="0">
+      <div class="su-stage"><img class="su-img" src="cowork-super-user/media/pages/01-overview.png" alt="Cowork Super User: Overview; illustrative data, not customer results" width="2085" height="1172" loading="eager"></div>
+      <div class="su-controls">
+        <button class="su-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="su-btn" type="button" data-act="play" aria-label="Play or pause"><span class="su-playico">&#10074;&#10074;</span></button>
+        <button class="su-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="su-counter">1 / 9</span>
+      </div>
+      <div class="su-dots">
+        <button class="su-dot" type="button" data-idx="0" aria-selected="true" aria-label="Overview"></button>
+        <button class="su-dot" type="button" data-idx="1" aria-selected="false" aria-label="Cost Concentration"></button>
+        <button class="su-dot" type="button" data-idx="2" aria-selected="false" aria-label="Trends"></button>
+        <button class="su-dot" type="button" data-idx="3" aria-selected="false" aria-label="Group Breakdown"></button>
+        <button class="su-dot" type="button" data-idx="4" aria-selected="false" aria-label="Value assumptions"></button>
+        <button class="su-dot" type="button" data-idx="5" aria-selected="false" aria-label="Appendix &ndash; Share Shift"></button>
+        <button class="su-dot" type="button" data-idx="6" aria-selected="false" aria-label="Appendix &ndash; Weekly detail"></button>
+        <button class="su-dot" type="button" data-idx="7" aria-selected="false" aria-label="Metric Glossary"></button>
+        <button class="su-dot" type="button" data-idx="8" aria-selected="false" aria-label="Category assumptions"></button>
+      </div>
+      <div class="su-hint" data-page-name aria-live="polite">Overview</div>
+      <div class="su-hint">Auto-playing &middot; pause to inspect, or use the arrows and page dots to explore at your own pace.</div>
+    </div>
+    <p>Illustrative report pages, not customer results.</p>
+    <button class="su-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
+  </div>
+</template>
+
+<template id="csuStep4">
+  <div class="csu-connect">
+  <p class="gx-reads">Use your organization's approved data. Follow these steps in order; stop if a check fails.</p>
+  <div class="ccyd">
+    <section class="cc-panel active" aria-label="Deploy with customer data">
+      <h5>You need</h5>
+      <ul>
+        <li><code>CoworkWeeklyMetrics.csv</code> &mdash; weekly Cowork tasks and credits.</li>
+        <li><code>PeopleMetaData.csv</code> &mdash; matching people data approved by your data owner.</li>
+        <li>One protected folder for both files.</li>
+      </ul>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Request the weekly Cowork export</h5>
+        <p>Ask your authorized Cowork exporter to follow the report README's route: <strong>Copilot Dashboard &gt; Consumption Dashboard &gt; Explore Cowork &gt; Export data &gt; Create new &gt; Export by week &gt; Export to CSV</strong>.</p>
+        <div class="cc-callout cc-warn"><span class="ct">Stop if you receive the wrong export</span>If the file is <code>PersonServiceCreditsMetrics.csv</code>, or is missing any of <code>TaskCategory</code>, <code>TaskType</code>, or <code>Total Cowork tasks</code>, ask your <strong>Viva Insights analyst who handles Cowork exports or Microsoft 365 tenant administrator</strong> for the task-level weekly Cowork data and matching people file required by this report. <strong>Do not rename the service-credit export or use sessions as tasks.</strong> The required export may not be available in your tenant.</div>
+        <h5><span class="cc-num">2</span> Get both files checked by your data owner</h5>
+        <p>Ask them to check <strong>Exact columns and data-owner checks</strong> below, including matching <code>PeopleHistoricalId</code> values and verified organization, function, and license fields. <strong>Continue only when both files are approved.</strong> Never guess missing metadata or license values.</p>
+        <h5><span class="cc-num">3</span> Put the approved files in one folder</h5>
+        <p>Keep the names exactly <code>CoworkWeeklyMetrics.csv</code> and <code>PeopleMetaData.csv</code>. Use a protected folder you can read; keep identifiers de-identified unless identified data is explicitly authorized.</p>
+        <h5><span class="cc-num">4</span> Open the report template</h5>
+        <p>Download <a href="https://github.com/microsoft/CoworkSuperUser/raw/refs/heads/main/CoworkSuperUser.pbit" target="_blank" rel="noopener noreferrer">CoworkSuperUser.pbit</a> and open it in Power BI Desktop.</p>
+        <h5><span class="cc-num">5</span> Set DataFolder</h5>
+        <p>Copy your folder's full path from File Explorer's address bar. In the template's parameter prompt, paste it into <code>DataFolder</code>, then select <strong>Load</strong>. Use the folder path, not a CSV filename.</p>
+        <h5><span class="cc-num">6</span> Refresh the report</h5>
+        <p>On the <strong>Home</strong> tab, select <strong>Refresh</strong> and wait for it to finish. If an error appears, stop and use <strong>Fix a file or refresh problem</strong> below.</p>
+        <h5><span class="cc-num">7</span> Check the result on Overview</h5>
+        <p>Clear the report's filters and slicers. Compare its task and credit totals with the sums of <code>Total Cowork tasks</code> and <code>Total credits used</code> in your usage file for the same dates.</p>
+        <div class="cc-callout cc-good"><span class="ct">Success check</span>Refresh finishes without errors, totals match, and organization/function groups match the approved people file. If not, stop before sharing and ask your data owner to resolve the difference.</div>
+      </div>
+    </section>
+  </div>
+  <p class="gx-hint"><strong>Before sharing:</strong> this report is public and in testing, with no preconfigured row-level security role. Follow <strong>Publish and share with stakeholders</strong> below before granting access.</p>
+  <details class="cc-idbox" id="csu-file-checks">
+    <summary><strong>Exact columns and data-owner checks</strong></summary>
+    <div class="cc-idbody">
+      <p>For the data owner: confirm these requirements against the <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/SETUP.md#data-contract" target="_blank" rel="noopener noreferrer">report's data contract</a> before approving the files. This is a CSV-import template, not the historical Viva Insights Person Query or Direct Query projects in the repository's <code>src</code> folder.</p>
+      <p><code>CoworkWeeklyMetrics.csv</code>: one person, week, task category, and task type per row.</p>
+      <table class="cc-nb">
+        <thead><tr><th>Column</th><th>Type and validation</th></tr></thead>
+        <tbody>
+          <tr><td><code>PersonId</code></td><td>Stable nonblank text identifier</td></tr>
+          <tr><td><code>MetricDate</code></td><td>Date, <code>YYYY-MM-DD</code>; check complete-week coverage</td></tr>
+          <tr><td><code>TaskCategory</code></td><td>Source task category; validate values against the report's category assumptions</td></tr>
+          <tr><td><code>TaskType</code></td><td><code>UserInitiated</code>, <code>Scheduled</code>, or <code>Unknown</code></td></tr>
+          <tr><td><code>Total credits used</code></td><td>Nonnegative decimal number</td></tr>
+          <tr><td><code>Total Cowork tasks</code></td><td>Nonnegative whole number</td></tr>
+          <tr><td><code>PeopleHistoricalId</code></td><td>Text join key; no orphan values</td></tr>
+        </tbody>
+      </table>
+      <p><code>PeopleMetaData.csv</code>: one row per unique, nonblank <code>PeopleHistoricalId</code>, plus text <code>Organization</code>, text <code>FunctionType</code>, and Boolean <code>IsCopilotLicensed</code> (<code>true</code> or <code>false</code>). Every usage row must match exactly one metadata row. Keep identifiers as text, retain leading zeros, and keep exact header capitalization. The model renames <code>FunctionType</code> to <code>Function</code> after import; do not change the CSV header to <code>Function</code>.</p>
+      <p>The general consumption export documents <code>JobFunction</code>, not this template's <code>FunctionType</code>, and does not list the required metadata <code>IsCopilotLicensed</code>. The data owner must approve source-to-template mappings and supply verified values; do not default an unknown license status to false.</p>
+      <p>Confirm complete-week dates, nonnegative values, expected task categories, and no duplicate person/week/category/type rows. In Model view, check the <code>PeopleHistoricalId</code> relationship and unique metadata side.</p>
+    </div>
+  </details>
+  <details class="cc-idbox">
+    <summary><strong>Fix a file or refresh problem</strong></summary>
+    <div class="cc-idbody">
+      <ul>
+        <li><strong>No DataFolder prompt, or the wrong folder:</strong> select <strong>Transform data &gt; Edit parameters</strong>, update <code>DataFolder</code>, and apply changes. You can also inspect <strong>Transform data &gt; Data source settings &gt; Change Source</strong>.</li>
+        <li><strong>File not found or cannot be read:</strong> check both exact filenames and the folder path. Close any editor locking a CSV and confirm you have read access.</li>
+        <li><strong>Missing column or type error:</strong> ask the data owner to compare both files with <strong>Exact columns and data-owner checks</strong>. Do not remove required fields to force a refresh.</li>
+        <li><strong>Blank groups or totals that do not match:</strong> clear filters; have the data owner check matching keys, duplicate rows, and data types.</li>
+        <li><strong>Privacy/firewall prompt:</strong> use organization-approved privacy settings. Do not disable protections to bypass the error.</li>
+      </ul>
+      <p>For later manual refreshes, replace both CSVs with newly approved files of the same names and schema, then select <strong>Refresh</strong>.</p>
+    </div>
+  </details>
+  <details class="cc-idbox">
+    <summary><strong>Publish and share with stakeholders (only after checks pass)</strong></summary>
+    <div class="cc-idbody">
+      <p>Keep the report local until customer-data refresh, totals, model behavior, and privacy controls are validated. <strong>Do not share while any check is unresolved.</strong> Review scenario assumptions with the stakeholder before operational use.</p>
+      <p>If distributing through the Power BI service, the report publisher needs <strong>Power BI Pro or PPU</strong> and a <strong>Contributor, Member, or Admin</strong> role in the target shared workspace. A <strong>Member or Admin</strong> manages audience access or publishes a new app; Contributor alone does not grant those capabilities. See <a href="https://learn.microsoft.com/power-bi/collaborate-share/service-roles-new-workspaces" target="_blank" rel="noopener noreferrer">workspace role capabilities</a>. Recipients need approved report/semantic-model access and the applicable Pro/PPU license unless qualifying capacity permits free-user consumption; see <a href="https://learn.microsoft.com/power-bi/collaborate-share/service-share-dashboards#prerequisites" target="_blank" rel="noopener noreferrer">sharing prerequisites</a>.</p>
+      <p>Configure source credentials and service refresh. Local or on-premises files require an accessible <a href="https://learn.microsoft.com/power-bi/connect-data/refresh-data" target="_blank" rel="noopener noreferrer">gateway/refresh connection</a> and required permissions. Test refresh in the service before scheduling it.</p>
+      <p>This template has no preconfigured row-level security role. If viewers should see only a subset, implement and test model security before sharing. Dashboard restrictions do not automatically carry over to the exported model. Apply approved sensitivity labels, retention, minimum-group-size rules, and file/report access controls.</p>
+      <p>Identified data is not required. If explicitly approved, identification access policies are managed by a <strong>Microsoft 365 Global Administrator</strong> or <strong>AI Administrator</strong>; see <a href="https://learn.microsoft.com/viva/insights/identification-copilot-analytics" target="_blank" rel="noopener noreferrer">identification policy</a>. Do not seek broader administrative access solely to load this report.</p>
+    </div>
+  </details>
+  <details class="cc-idbox">
+    <summary><strong>Read all nine pages responsibly</strong></summary>
+    <div class="cc-idbody">
+      <table class="cc-nb">
+        <thead><tr><th>Page</th><th>What to inspect</th></tr></thead>
+        <tbody>
+          <tr><td>Overview</td><td>Population, active users, tasks, credits, credits per task, category and task-type mix</td></tr>
+          <tr><td>Cost Concentration</td><td>Task share versus credit share among high-usage tiers; concentration is not a personnel score</td></tr>
+          <tr><td>Trends</td><td>Complete-period tasks, credits, and intensity; latest-versus-prior calculations may not follow every week selection</td></tr>
+          <tr><td>Group Breakdown</td><td>Organization, function, or tier differences with group size and metadata coverage; descriptive, not causal</td></tr>
+          <tr><td>Value assumptions</td><td>Time, labor, credit, and realization inputs; compare scenario ranges, not a single claimed saving</td></tr>
+          <tr><td>Appendix - Share Shift</td><td>Share movement alongside absolute volume and denominator changes</td></tr>
+          <tr><td>Appendix - Weekly detail</td><td>Inspect weekly detail alongside the source coverage and active filters</td></tr>
+          <tr><td>Metric Glossary</td><td>Distinguish observed, calculated, modeled, and selected-input metrics before quoting results</td></tr>
+          <tr><td>Category assumptions</td><td>Review the time assumptions for each task category and document any changes</td></tr>
+        </tbody>
+      </table>
+      <p>Record exact reporting dates, population, filters, export date, identifier treatment, evidence class, and scenario inputs whenever you share a result. Tier membership can change with date and group context. Tasks and credits describe activity and consumption, not productivity, quality, or employee performance. The packaged report has nine pages, including <strong>Appendix - Weekly detail</strong>, even where older source prose says eight.</p>
+    </div>
+  </details>
+  <details class="cc-idbox">
+    <summary><strong>Why the export may differ, and the sources behind these steps</strong></summary>
+    <div class="cc-idbody">
+      <p>The <a href="https://github.com/microsoft/CoworkSuperUser#get-your-cowork-data" target="_blank" rel="noopener noreferrer">report README</a> supplies the Explore Cowork route above. Microsoft's <a href="https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics" target="_blank" rel="noopener noreferrer">general Consumption Dashboard export documentation</a> describes a different service/session-level file, <code>PersonServiceCreditsMetrics.csv</code>, not the task-level input needed here. A documented route is not proof that every tenant exposes this report's required data. Stop and obtain the correct Cowork data from your authorized tenant data owner if the files do not meet the contract.</p>
+      <p>Consumption Dashboard export is <strong>public preview</strong>. Its <a href="https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics#how-to-export-data" target="_blank" rel="noopener noreferrer">weekly export guidance</a> specifies complete weeks only, the previous five months plus current month-to-date, and activity usually <strong>2&ndash;8 days behind</strong> export. Check dates and population in the actual delivered files rather than assuming dashboard filters define the export.</p>
+      <p><strong>Validation limit:</strong> the packaged template's input queries, required <code>DataFolder</code>, join, and lack of model roles have been inspected. No fresh customer-export import or refresh has been run for this guide.</p>
+      <p>Evidence checked October 28, 2026: <a href="https://learn.microsoft.com/viva/insights/org-team-insights/ai-cost-dashboard#who-can-access-the-dashboard" target="_blank" rel="noopener noreferrer">Dashboard access</a> &middot; <a href="https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics#prerequisites" target="_blank" rel="noopener noreferrer">Export eligibility</a> &middot; <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/SETUP.md" target="_blank" rel="noopener noreferrer">Report setup</a> &middot; <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/INTERPRETATION_GUIDE.md" target="_blank" rel="noopener noreferrer">Interpretation guide</a> &middot; <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/RELEASE-MANIFEST.md" target="_blank" rel="noopener noreferrer">Release validation scope</a>.</p>
+    </div>
+  </details>
+  </div>
+</template>
 
 <template id="caHero">
   <div class="cc-hero ca-hero-card">
@@ -7424,6 +7620,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      the JSON island for the same reason PENDING_DATA_FIXES does: the island
      stays a faithful copy of live. These belong in the live dataset. */
   var TAGS = {
+    'cowork-super-user': ['cowork', 'super users', 'weekly', 'tasks', 'credits', 'concentration', 'share shift', 'scenario value', 'in testing'],
     'super-usage': ['adoption', 'super users', 'power users', 'champions', 'habits', 'behaviour', 'enablement'],
     'super-user-impact': ['impact', 'productivity', 'work patterns', 'collaboration', 'meetings', 'time saved'],
     'ai-in-one': ['executive', 'single pane', 'overview', 'adoption', 'chat', 'agents', 'licences', 'monthly review'],
@@ -7472,6 +7669,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   ];
 
   var GOALMAP = {
+    'cowork-super-user':          { adoption: 1, cost: 2, impact: 2 },
     'value-lens':                 { impact: 1 },
     'roi-calc':                   { impact: 2 },
     'ess-insights':               { impact: 2, agents: 2 },
@@ -7527,6 +7725,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   };
 
   var FACETS = {
+    'cowork-super-user':          { p: ['cowork'], d: ['viva','credits'], a: 'Cowork adoption leads, enablement teams, analysts' },
     'value-lens':                 { p: ['m365','studio','cowork'], d: ['purview','m365admin','sample'], a: 'Execs, BDMs, value teams' },
     'roi-calc':                   { p: ['m365'],                   d: ['viva'],                         a: 'Execs, change leads' },
     'ess-insights':               { p: ['studio'],                 d: ['copilotstudio','sample'],       a: 'ESS / HR service owners' },
@@ -7611,7 +7810,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     var u = safeUrl(v);
     return u ? u.replace(/[&<>"']/g, function (c) { return ESC[c]; }) : '';
   }
-  /* Same-origin asset URLs (preview GIF, deck slides, hosted-tool demo) may be
+  /* Same-origin asset URLs (previews, videos, deck slides, hosted-tool demo) may be
      given as repo-relative paths so they resolve on both the local mirror and
      the live project Pages base. Allow http(s) or a relative path, but never a
      scheme like javascript:/data: and never markup characters. */
@@ -7700,7 +7899,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   }
 
   function isEmbeddableVideo(v) {
-    var u = safeUrl(v);
+    var u = safeAsset(v);
     return !!u && (/\.(?:mp4|webm|ogv|ogg|m4v)(?:[?#].*)?$/i.test(u) || !!ytIdOf(u));
   }
   /* YouTube videos are stored as https://youtu.be/<id> and played through the
@@ -8150,13 +8349,13 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         '</div>' +
       '</div>';
   }
-  /* preload="metadata" only: these files are 1-5 MB and live on
-     raw.githubusercontent / github.io. Opening a flyout must not pull them.
+  /* preload="metadata" only: videos may be large or hosted remotely.
+     Opening a flyout must not pull the whole video.
      No autoplay, no loop, no muted-autoplay trick. */
   function videoSlotUrl(raw, title) {
     var yt = ytIdOf(raw);
     if (yt) return ytEmbedHtml(yt, 'mk-video', title);
-    var u = escUrl(raw);
+    var u = escAsset(raw);
     return '<video class="mk-video" id="mkVid" src="' + u + '" controls preload="metadata" playsinline>' +
       '<span class="mk-vfallback">This browser cannot play the demo video. ' +
       '<a href="' + u + '" target="_blank" rel="noopener noreferrer">Open the file directly</a>.</span>' +
@@ -8182,6 +8381,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      media, and if the report has no video at all, the whole "See what you are
      building" step is dropped (the hero already shows it). */
   var HERO_GIF_IDS = {
+    'cowork-super-user': 1,
     'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
     'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1, 'cowork-chargeback-app': 1, 'cowork-policy-helper-app': 1, 'consumption-central': 1
   };
@@ -8563,10 +8763,24 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
      which takes over from the picker and hands back on Start over. */
   var pickerPanel = document.getElementById('mkPanelPicker');
   var guidedPanel = document.getElementById('mkPanelGuided');
+  function pauseGuideVideos(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('video'), function (video) {
+      video.pause();
+    });
+    Array.prototype.forEach.call(root.querySelectorAll('iframe[src^="https://www.youtube-nocookie.com/embed/"]'), function (frame) {
+      if (frame.contentWindow) {
+        frame.contentWindow.postMessage(JSON.stringify({
+          event: 'command', func: 'pauseVideo', args: []
+        }), 'https://www.youtube-nocookie.com');
+      }
+    });
+  }
+
   function setView(id) {
     var guide = id === 'guided';
     guidedPanel.hidden = !guide;
     pickerPanel.hidden = guide;
+    if (!guide) pauseGuideVideos(guidedPanel);
     if (guide) window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -9166,7 +9380,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     if (it.kind === 'video') {
       var yt = ytIdOf(it.url);
       if (yt) return ytEmbedHtml(yt, '', decodeEnt(titleOf(t)) + ' ' + it.label);
-      return '<video src="' + escUrl(it.url) + '" controls preload="metadata" playsinline></video>';
+      return '<video src="' + escAsset(it.url) + '" controls preload="metadata" playsinline></video>';
     }
     if (it.kind === 'deck') return deckSlotHtml(t);
     return '<img src="' + escAsset(previewOf(t)) + '" alt="Preview of ' + esc(titleOf(t)) + '" loading="lazy">';
@@ -10227,6 +10441,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   /* An honest gap beats a plausible guess: a report with no verified entry
      says so and points at its README rather than inventing a portal path. */
   function gxConnect(t) {
+    if (t.id === 'cowork-super-user') {
+      var csuStep4 = document.getElementById('csuStep4');
+      if (csuStep4) return csuStep4.innerHTML;
+    }
     if (t.id === 'consumption-central') {
       var _ccStep4 = document.getElementById('ccStep4');
       if (_ccStep4) return _ccStep4.innerHTML;
@@ -10394,7 +10612,9 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     var heroHasPreview = !!HERO_GIF_IDS[t.id] && videosOf(t).length === 0;
     if (!heroHasPreview) {
       out += step('See what you are building',
-        '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>' +
+        (t.id === 'cowork-super-user'
+          ? '<p>Watch the narrated walkthrough, then follow the customer-data setup below. The preview is illustrative, not customer results.</p>'
+          : '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>') +
         (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
         ((watch || demo) ? '<div class="gx-links">' +
           (demo ? '<a href="' + demo + '" target="_blank" rel="noopener">Open the live demo on its own page</a>' : '') +
@@ -10462,6 +10682,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     });
     Array.prototype.forEach.call(gdPanelsEl.querySelectorAll('.gx-panel'), function (p) {
       p.hidden = p.id !== 'gx-p-' + id;
+      if (p.hidden) pauseGuideVideos(p);
     });
   }
 
@@ -10503,6 +10724,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         (t.id === 'cowork-roi-model-app' && document.getElementById('crmHero') ? document.getElementById('crmHero').innerHTML : '') +
         (t.id === 'roi-calc' && document.getElementById('roiHero') ? document.getElementById('roiHero').innerHTML : '') +
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
+        (t.id === 'cowork-super-user' && document.getElementById('csuHero') ? document.getElementById('csuHero').innerHTML : '') +
         (t.id === 'cowork-adoption' && document.getElementById('caHero') ? document.getElementById('caHero').innerHTML : '') +
         (t.id === 'cowork-team-report' && document.getElementById('cwtHero') ? document.getElementById('cwtHero').innerHTML : '') +
         (t.id === 'super-usage' && document.getElementById('suHero') ? document.getElementById('suHero').innerHTML : '') +
@@ -11213,20 +11435,29 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
   function show(st, idx){
     st.i = (idx + st.n) % st.n;
-    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.img) st.img.src = st.base + '/' + (st.files ? st.files[st.i] : 'frame_' + pad2(st.i) + '.jpg');
     if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
     for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+    if (st.pageName && st.dots[st.i]) {
+      var name = st.dots[st.i].getAttribute('aria-label');
+      st.pageName.textContent = name;
+      if (st.img) st.img.alt = name + '; illustrative report page, not customer results';
+    }
   }
   function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
   function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
   function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
   function init(el){
     if (findState(el)) return;
-    var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
+    var files = el.getAttribute('data-files');
+    files = files ? JSON.parse(files) : null;
+    var st = { el: el, i: 0, n: files ? files.length : parseInt(el.getAttribute('data-frames'),10)||0,
       base: el.getAttribute('data-base') || 'su-frames', playing:false, timer:null,
+      files: files, pageName: el.querySelector('[data-page-name]'),
       img: el.querySelector('.su-img'), counter: el.querySelector('.su-counter'),
       dots: el.querySelectorAll('.su-dot'), playIco: el.querySelector('.su-playico') };
-    reg.push(st); show(st,0); play(st);
+    reg.push(st); show(st,0);
+    if (el.getAttribute('data-autoplay') !== 'false') play(st);
   }
   function scan(){ var l=document.querySelectorAll('.su-player'); for (var i=0;i<l.length;i++) init(l[i]); }
   function toggleFs(el){
@@ -11256,6 +11487,15 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
   document.addEventListener('click', function (e){
     var img = e.target && e.target.closest ? e.target.closest('.su-stage .su-img') : null;
     if (!img) return; var el = img.closest('.su-player'); if (el) toggleFs(el);
+  });
+  document.addEventListener('keydown', function (e){
+    var el = e.target && e.target.closest ? e.target.closest('.su-player[data-files]') : null;
+    if (!el || e.altKey || e.ctrlKey || e.metaKey) return;
+    var move = { ArrowLeft:-1, ArrowRight:1 };
+    if (!(e.key in move) && e.key !== 'Home' && e.key !== 'End') return;
+    init(el); var st = findState(el); if (!st) return;
+    e.preventDefault(); pause(st);
+    show(st, e.key === 'Home' ? 0 : e.key === 'End' ? st.n-1 : st.i + move[e.key]);
   });
   if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
   if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
@@ -11438,7 +11678,10 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
     });
     Array.prototype.forEach.call(box.querySelectorAll('.cc-panel'), function (p) {
       if (p.getAttribute('data-cc') === id) p.classList.add('active');
-      else p.classList.remove('active');
+      else {
+        p.classList.remove('active');
+        Array.prototype.forEach.call(p.querySelectorAll('video'), function (video) { video.pause(); });
+      }
     });
   });
 })();

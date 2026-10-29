@@ -28,6 +28,7 @@
      reports-page id by GitHub repo slug, and by title for the repo-less web
      apps. Keys are lower-cased. */
   var ID_BY_REPO = {
+    'microsoft/coworksuperuser': 'cowork-super-user',
     'microsoft/ai-in-one-dashboard': 'ai-in-one',
     'microsoft/what-i-did-copilot': 'what-i-did',
     'microsoft/decodingsuperusage': 'super-usage',
@@ -67,6 +68,7 @@
     'tooling-extension':  '#4cc2ff'  // cyan
   };
   var ID_CATEGORY = {
+    'cowork-super-user': 'adoption-behavior',
     'ai-in-one': 'usage-intelligence', 'what-i-did': 'developer',
     'super-usage': 'adoption-behavior', 'cowork-impact': 'impact-roi',
     'pax': 'tooling-extension', 'chat-agent': 'usage-intelligence',

@@ -1,17 +1,17 @@
 # Analytics Hub — Microsoft Copilot & AI Adoption Toolkit
 
-> Eleven open-source Power BI templates, PowerShell exporters, and add-ons from Microsoft's Copilot ROI Advisory Team that turn your tenant's audit logs and Viva Insights data into a complete picture of Microsoft Copilot adoption, impact, sentiment, and readiness. The canonical source is https://microsoft.github.io/Analytics-Hub/ and https://github.com/microsoft/Analytics-Hub.
+> Open-source Power BI templates, exporters, apps, and add-ons from Microsoft's Copilot ROI Advisory Team for exploring Microsoft Copilot adoption, impact, consumption, sentiment, and readiness. The canonical source is https://microsoft.github.io/Analytics-Hub/ and https://github.com/microsoft/Analytics-Hub.
 
 ## What this site covers
 
-- Eleven open-source reports for Microsoft 365 Copilot, Copilot Chat, Copilot Agents, GitHub Copilot, and Microsoft 365 readiness
+- The reports catalog has 25 public entries plus two incubations for Microsoft 365 Copilot, Cowork, Copilot Chat, agents, GitHub Copilot, and readiness
 - A "Explore Reports" matrix that maps business questions (adoption, ROI, sentiment, license utilization, agent performance, super-user impact) to the right template
 - Customer case studies and a public team page
 
 ## Primary docs
 
 - Home: https://microsoft.github.io/Analytics-Hub/
-- Explore Reports: https://microsoft.github.io/Analytics-Hub/explore-reports/
+- Explore Reports: https://microsoft.github.io/Analytics-Hub/choose-report/
 - Case Studies: https://microsoft.github.io/Analytics-Hub/case-studies/
 - Team: https://microsoft.github.io/Analytics-Hub/team/
 
@@ -34,6 +34,8 @@ A daily, machine-readable aggregation of factual changes to public Microsoft Cop
 - Agent Intelligence Report: https://github.com/microsoft/CopilotChatAnalytics
 - M365 Copilot Readiness: https://github.com/microsoft/M365UsageAnalytics
 - Super User Adoption: https://github.com/microsoft/DecodingSuperUsage
+- Cowork Super User (public and in testing; weekly Cowork CSV import, not Person Query): https://github.com/microsoft/CoworkSuperUser
+- Cowork Super User enablement guide: https://microsoft.github.io/Analytics-Hub/choose-report/cowork-super-user/
 - Super User Impact: https://github.com/microsoft/superuserimpact
 - GitHub Copilot Impact: https://github.com/microsoft/GitHubCopilotImpact
 - GitHub Copilot Panel (adoption, engagement depth, realised value): https://github.com/microsoft/GitHubCopilotPanel
