@@ -2666,7 +2666,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "source": "Your OneDrive Cowork sessions (via Microsoft Graph)",
       "sourceKey": "Local",
       "repo": "https://github.com/microsoft/What-I-did-with-Cowork",
-      "download": "https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v41.zip",
+      "download": "",
       "preview": "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
       "demoVideo": "https://youtu.be/rNcVOnRO5IU",
       "demoVideoLabel": "Watch the overview",
@@ -7119,8 +7119,8 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
       <span class="cc-time">&#9201; ~5 minutes &middot; Copilot Cowork &middot; recommended</span>
       <p>Install the skill zip in Cowork and let the agent read your allowed OneDrive Cowork session folders.</p>
       <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Download the skill zip</h5>
-        <p>Download <a href="https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-skill-v42.zip" target="_blank" rel="noopener noreferrer"><code>cowork-roi-report-skill-v42.zip</code></a>. Do not unzip it.</p>
+        <h5><span class="cc-num">1</span> Get the skill from GitHub</h5>
+        <p>Go to the <a href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener noreferrer">Cowork ROI report repository on GitHub</a> and follow the README to get the latest skill zip. Do not unzip it.</p>
         <h5><span class="cc-num">2</span> Add the skill in Cowork</h5>
         <p>Open a Cowork session at <a href="https://aka.ms/cowork" target="_blank" rel="noopener noreferrer">aka.ms/cowork</a>, click <strong>+</strong> to attach the zip, then send <code>Add this skill</code>.</p>
         <h5><span class="cc-num">3</span> Generate the report</h5>
@@ -7132,7 +7132,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
           <p>The data source is your OneDrive <code>Documents/Cowork/</code> session history. Access is through Microsoft Graph and the Cowork app allow-list, not local files.</p>
         </div>
       </details>
-      <p class="cc-glink"><a href="https://github.com/microsoft/What-I-did-with-Cowork/tree/main/skill" target="_blank" rel="noopener noreferrer">Skill directory on GitHub &rarr;</a></p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener noreferrer">Repository on GitHub &rarr;</a></p>
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="2">
@@ -9994,9 +9994,7 @@ python C:\CoworkAdoptionRelease\Cowork_Purview_Preprocessor_v0.1.0.py `
         'The skill harvests your Cowork sessions from OneDrive, classifies them, and renders a ' +
           'self-contained HTML report, with an optional one-row-per-session CSV.'
       ],
-      note: 'Heads up: the repository now ships ' +
-        '<code>cowork-roi-report-skill-v37.zip</code>, but this catalog still points at the v24 ' +
-        'zip. Take the latest version from the repo.'
+      note: 'Follow the repository README for the latest skill zip and installation instructions.'
     },
 
     'cowork-team-report': {
