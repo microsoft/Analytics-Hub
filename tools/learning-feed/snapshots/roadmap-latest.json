@@ -1,7 +1,40 @@
 {
-  "runAt": "2026-10-29T11:18:13.274Z",
+  "runAt": "2026-10-30T11:18:06.398Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "577834",
+      "title": "Microsoft Copilot Studio: Copilot studio cost controls in MAC",
+      "status": "In development",
+      "description": "<p>We’re expanding cost management for Microsoft Copilot Studio into the Microsoft 365 admin center. This gives administrators a more centralized way to manage Copilot Credit spend across usage-based AI workloads while retaining Copilot Studio cost management capabilities in the Power Platform admin center.<br>\nWith this update, administrators can bring supported Copilot Studio environments and agents under Cost Management spending policies. Resource-based policies for environments and agents are the first planned scopes, with broader user and group policy support planned for a later phase.<br>\nFurthermore, this update will introduce cost data into cost management and agent registry for AI services and agents built on Microsoft platforms (e.g., Cowork, Microsoft Copilot Studio agents).</p>",
+      "created": "2026-10-29T23:01:00",
+      "modified": "2026-10-29T23:01:00",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft 365",
+        "Microsoft 365 admin center",
+        "Microsoft Copilot Studio",
+        "Microsoft Power Platform governance and administration",
+        "General Availability"
+      ],
+      "descHash": "0969e86d73231a67"
+    },
+    {
+      "id": "574114",
+      "title": "Dynamics 365 Customer Service: Shared analytics foundation for historical reporting",
+      "status": "Launched",
+      "description": "<p>Dynamics 365 Customer Service provides out-of-the-box historical reporting built on a shared analytics foundation: a scalable, open, and AI-ready data foundation for Customer Experience and AI analytics scenarios across Dynamics 365. It uses a lakehouse-based architecture that can scale with data volume, supports curated analytics datasets for direct querying, and enables consistent reporting and semantic definitions across reports, agents, and copilots.</p>",
+      "created": "2026-10-29T23:01:00",
+      "modified": "2026-10-29T23:01:00",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Customer Service",
+        "General Availability"
+      ],
+      "descHash": "6b118f79b36921fe"
+    },
     {
       "id": "574112",
       "title": "Dynamics 365 Customer Service: Shared analytics for historical reporting",
@@ -3339,10 +3372,10 @@
     {
       "id": "564609",
       "title": "Outlook: All Accounts view (Unified Inbox) brings your email into a single inbox view",
-      "status": "In development",
-      "description": "The All-Accounts view, also known as Unified Inbox, lets you see emails from multiple accounts in a single inbox view in the new Outlook for Windows, without merging your mailboxes.   Each account's inbox stays separate; the view brings them together so you can triage in one place.  Users can read, delete, move, archive, and mark messages across accounts without switching between mailboxes.   The experience integrates with Copilot for AI-assisted email workflows and supports Immersive Search for finding messages across your primary account.   Advanced scenarios such as cross-account search and shared mailbox support will follow in later releases.",
+      "status": "Rolling out",
+      "description": "<p>The All-Accounts view, also known as Unified Inbox, lets you see emails from multiple accounts in a single inbox view in the new Outlook for Windows, without merging your mailboxes.   Each account's inbox stays separate; the view brings them together so you can triage in one place.  Users can read, delete, move, archive, and mark messages across accounts without switching between mailboxes.   The experience integrates with Copilot for AI-assisted email workflows and supports Immersive Search for finding messages across your primary account.   Advanced scenarios such as cross-account search and shared mailbox support will follow in later releases.</p>",
       "created": "2026-05-27T23:15:50",
-      "modified": "2026-05-27T23:15:50",
+      "modified": "2026-10-29T23:01:00",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -5790,10 +5823,10 @@
     {
       "id": "554934",
       "title": "Microsoft Copilot (Microsoft 365): Copilot Chat in Outlook expands to reason over inbox, calendar, and enterprise data",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Copilot Chat in Outlook expanding to support reasoning over a user's entire inbox, calendar and other enterprise data for Microsoft 365 Copilot Chat users (without a Microsoft 365 Copilot license) .</p>",
       "created": "2026-02-05T00:15:27",
-      "modified": "2026-10-27T23:05:02",
+      "modified": "2026-10-29T23:01:00",
       "tags": [
         "GCC",
         "GCC High",
@@ -7201,22 +7234,6 @@
         "General Availability"
       ],
       "descHash": "84a54d3c9601fd92"
-    },
-    {
-      "id": "506753",
-      "title": "Microsoft Copilot (Microsoft 365): [Copilot Extensibility] [1.02] Generate Word, Excel, and PowerPoint documents from agents built in Microsoft 365 Copilot",
-      "status": "Launched",
-      "description": "With Agent Builder inside Microsoft 365 Copilot, users can now use Office skills like generating PowerPoint decks, Excel spreadsheets, and Word documents by chatting with the agent. This helps users save time by completing commonly used tasks. These Office skills will come as a part of the \"Generate documents, charts, and code\" capability in Agent Builder (formerly known as Code Interpreter).",
-      "created": "2025-11-11T00:15:41",
-      "modified": "2025-12-29T23:45:39",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Desktop",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "27a416398b396033"
     },
     {
       "id": "502530",
