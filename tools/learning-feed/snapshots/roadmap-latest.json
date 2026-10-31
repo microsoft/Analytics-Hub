@@ -1,7 +1,43 @@
 {
-  "runAt": "2026-10-30T11:18:06.398Z",
+  "runAt": "2026-10-31T11:17:37.016Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "578225",
+      "title": "Microsoft 365: Frontier expands to public previews in Teams, Outlook, OneDrive, and SharePoint",
+      "status": "In development",
+      "description": "<p>Frontier is expanding to bring eligible public preview features across Microsoft 365 into one program. Users enrolled in Frontier can get eligible previews for new Outlook for Windows, OneDrive, SharePoint, Microsoft Teams, and Copilot, managed through a single admin-controlled enrollment experience. Frontier enrollment is optional and separate from Standard and Deferred release preferences for generally available features. Existing Frontier users do not need to re-enroll.</p>",
+      "created": "2026-10-30T22:08:34",
+      "modified": "2026-10-30T22:08:34",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Android",
+        "Desktop",
+        "iOS",
+        "Mac",
+        "Teams and Surface Devices",
+        "Web",
+        "Microsoft 365",
+        "General Availability"
+      ],
+      "descHash": "13881b6dd4e370e9"
+    },
+    {
+      "id": "577392",
+      "title": "Microsoft Copilot (Microsoft 365): [Education] Create multi-week unit plans with Teach",
+      "status": "Rolling out",
+      "description": "<p>Educators can use Teach in Microsoft 365 Copilot to create structured unit plans that span multiple lessons or weeks. They can customize the plan components to organize connected lesson plans and quizzes across a unit.</p>\n<p>#education</p>",
+      "created": "2026-10-30T22:08:34",
+      "modified": "2026-10-30T22:08:34",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Desktop",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability"
+      ],
+      "descHash": "895ec185070f8ac5"
+    },
     {
       "id": "577834",
       "title": "Microsoft Copilot Studio: Copilot studio cost controls in MAC",
@@ -1701,10 +1737,10 @@
     {
       "id": "570964",
       "title": "Microsoft Copilot (Microsoft 365): Federated Copilot Connectors will support write, update and delete actions",
-      "status": "In development",
+      "status": "Launched",
       "description": "<p>Federated Copilot connectors (MCP type) currently let Microsoft 365 Copilot read data from third-party services in real time. With this update, the connector tools that create, update, and delete content in those services are unblocked in Copilot Chat, so users can complete work without leaving Copilot. Copilot acts with the user's own account and permissions at the third-party service, and every create, update, or delete action requires the user's explicit confirmation before it runs. Admins can view each connector's read and write/delete tools in the Microsoft 365 admin center and disable connectors that don't meet their organization's policies.</p>",
       "created": "2026-09-22T22:57:16",
-      "modified": "2026-09-22T22:57:16",
+      "modified": "2026-10-30T22:08:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -6871,25 +6907,6 @@
       "descHash": "98fe8cf1f7874c58"
     },
     {
-      "id": "532736",
-      "title": "Microsoft Copilot (Microsoft 365): Model Selector in Microsoft 365 Copilot",
-      "status": "Launched",
-      "description": "The Model Selector in Microsoft 365 Copilot gives users more control over reasoning depth, enabling automatic reasoning for simple tasks and explicit control when desired. The three modes that are supported as part of GPT-5 are: Auto (default) - system decides how long to think, Quick response - answers right away, Think deeper - Thinks longer for better answers.",
-      "created": "2025-11-21T23:15:16",
-      "modified": "2025-12-31T00:15:43",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "GCC",
-        "GCC High",
-        "DoD",
-        "Desktop",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "1437184dfb53578f"
-    },
-    {
       "id": "532735",
       "title": "Microsoft Copilot (Microsoft 365): Scheduling with Copilot",
       "status": "Launched",
@@ -7086,7 +7103,7 @@
       "status": "Rolling out",
       "description": "<p>We will support creating Planner tasks and plans querying Planner information in M365 Copilot chat, allowing users to manage their tasks and plans between Copilot and Planner seamlessly.</p>",
       "created": "2025-11-18T17:15:10",
-      "modified": "2026-09-25T22:37:50",
+      "modified": "2026-10-30T22:08:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -9620,11 +9637,11 @@
     },
     {
       "id": "499423",
-      "title": "Microsoft Edge: Ground Microsoft 365 Copilot Chat in Edge for Business in your open OneDrive and SharePoint documents",
-      "status": "In development",
-      "description": "<p>Get relevant answers and insights about your open cloud documents in Copilot Chat in Edge.</p>",
+      "title": "Microsoft Edge: Ground Microsoft 365 Copilot Chat in Edge for Business",
+      "status": "Launched",
+      "description": "<p>Get relevant answers and insights about your open browser tabs and YouTube videos directly from the Edge side pane</p>",
       "created": "2025-08-01T23:45:08",
-      "modified": "2026-09-25T22:37:50",
+      "modified": "2026-10-30T22:08:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -9632,7 +9649,7 @@
         "Microsoft Copilot (Microsoft 365)",
         "General Availability"
       ],
-      "descHash": "d0c75ea0dc4a3da0"
+      "descHash": "8f073df6cc232dae"
     },
     {
       "id": "499428",
