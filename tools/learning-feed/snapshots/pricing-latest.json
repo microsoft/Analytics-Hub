@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-10-31T11:17:28.847Z",
+  "runAt": "2026-11-01T12:17:53.191Z",
   "feed": "pricing",
   "windowStart": "2026-07-01",
   "pages": [
@@ -440,6 +440,34 @@
       "inWindow": true
     },
     {
+      "id": "usage-billing-manage-studio-costs",
+      "tier": 1,
+      "title": "Manage Copilot Studio costs in the Microsoft 365 admin center",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-studio-costs",
+      "why": "Explains resource-based spending policies for agents and environments, spending limits, and how Microsoft 365 admin center policies replace existing Power Platform cost controls for their scope.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-10-30T00:00:00Z",
+      "gitCommit": "8ee17084a64495a2dd0bfbff9f48cb535622a675",
+      "wordCount": "1511",
+      "bodyHash": "a32e89fd6f034517",
+      "bodyLen": 11413,
+      "sections": [
+        "Move Copilot Studio cost management to the Microsoft 365 admin center",
+        "Before you begin",
+        "Choose what the policy covers",
+        "Select agents or environments",
+        "Add Resource-based spending policy",
+        "Edit or remove a spending policy",
+        "Understand policy hierarchy",
+        "Understand what happens to Power Platform controls",
+        "Check where an environment's spending is managed",
+        "Monitor usage and troubleshoot"
+      ],
+      "inWindow": true
+    },
+    {
       "id": "copilot-microsoft-365-pay-as-you-go-copilot-capacity-packs",
       "tier": 3,
       "title": "Copilot Capacity Packs",
@@ -544,7 +572,7 @@
       "why": "Auto-discovered from the documentation tree for this product area.",
       "ok": true,
       "discovered": true,
-      "isNew": true,
+      "isNew": false,
       "msDate": "2026-10-30T00:00:00Z",
       "gitCommit": "8ee17084a64495a2dd0bfbff9f48cb535622a675",
       "wordCount": "1511",
@@ -852,34 +880,6 @@
         "Delete spending policy",
         "Related articles",
         "Model profiles"
-      ],
-      "inWindow": true
-    },
-    {
-      "id": "microsoft-365-copilot-usage-based-billing-manage-copilot-studio-costs",
-      "tier": 3,
-      "title": "Usage Based Billing Manage Copilot Studio Costs",
-      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-studio-costs",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-10-30T00:00:00Z",
-      "gitCommit": "8ee17084a64495a2dd0bfbff9f48cb535622a675",
-      "wordCount": "1511",
-      "bodyHash": "a32e89fd6f034517",
-      "bodyLen": 11413,
-      "sections": [
-        "Move Copilot Studio cost management to the Microsoft 365 admin center",
-        "Before you begin",
-        "Choose what the policy covers",
-        "Select agents or environments",
-        "Add Resource-based spending policy",
-        "Edit or remove a spending policy",
-        "Understand policy hierarchy",
-        "Understand what happens to Power Platform controls",
-        "Check where an environment's spending is managed",
-        "Monitor usage and troubleshoot"
       ],
       "inWindow": true
     },
