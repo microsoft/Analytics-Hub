@@ -66,7 +66,7 @@
       "estMinutes": 10,
       "requires": ["powerBiDesktop"],
       "requiresMode": "all",
-      "portal": { "label": "Sample data folder on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
+      "portal": { "label": "Sample-data setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "The report opens with every Cowork page populated from synthetic data.",
       "status": "stable"
     },
@@ -117,7 +117,7 @@
       "estMinutes": 5,
       "requires": ["powerBiDesktop"],
       "requiresMode": "all",
-      "portal": { "label": "Local CSV template on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/Consumption%20Central%20-%20Local%20CSV.pbit" },
+      "portal": { "label": "Local CSV template setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "The Cowork pages fill in from your own export.",
       "status": "stable"
     },
@@ -129,7 +129,7 @@
       "estMinutes": 5,
       "requires": ["powerBiDesktop"],
       "requiresMode": "all",
-      "portal": { "label": "Viva Direct template on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/3.%20Viva%20Direct/Consumption%20Central%20-%20Viva%20Direct.pbit" },
+      "portal": { "label": "Viva Direct template setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "The report refreshes straight from Viva with no download.",
       "pitfall": "If it returns (500) Internal Server Error, your identifiers point at the multi-table Consumption Dashboard export instead of a custom Analysis query.",
       "status": "stable"

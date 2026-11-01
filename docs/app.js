@@ -16,7 +16,6 @@ const TOOLS = [
     audience: ['ccm','exec'],
     goals: ['discover'],
     repo: 'https://github.com/microsoft/DecodingSuperUsage',
-    download: 'https://github.com/microsoft/DecodingSuperUsage/archive/refs/heads/main.zip',
   },
   {
     id: 'super-user-impact',
@@ -30,7 +29,6 @@ const TOOLS = [
     audience: ['exec','ccm'],
     goals: ['measure'],
     repo: 'https://github.com/microsoft/superuserimpact',
-    download: 'https://github.com/microsoft/superuserimpact/archive/refs/heads/main.zip',
   },
   {
     id: 'chat-agent',
@@ -44,7 +42,6 @@ const TOOLS = [
     audience: ['it','exec'],
     goals: ['discover','measure'],
     repo: 'https://github.com/microsoft/CopilotChatAnalytics',
-    download: 'https://github.com/microsoft/CopilotChatAnalytics/archive/refs/heads/main.zip',
   },
   {
     id: 'ai-in-one',
@@ -58,7 +55,6 @@ const TOOLS = [
     audience: ['exec','it'],
     goals: ['discover','measure'],
     repo: 'https://github.com/microsoft/AI-in-One-Dashboard',
-    download: 'https://github.com/microsoft/AI-in-One-Dashboard/archive/refs/heads/main.zip',
   },
   {
     id: 'm365-readiness',
@@ -72,7 +68,6 @@ const TOOLS = [
     audience: ['it'],
     goals: ['license'],
     repo: 'https://github.com/microsoft/M365UsageAnalytics',
-    download: 'https://github.com/microsoft/M365UsageAnalytics/archive/refs/heads/main.zip',
   },
   {
     id: 'ghcp-impact',
@@ -86,7 +81,6 @@ const TOOLS = [
     audience: ['dev'],
     goals: ['discover','measure'],
     repo: 'https://github.com/microsoft/GitHubCopilotImpact',
-    download: 'https://github.com/microsoft/GitHubCopilotImpact/archive/refs/heads/main.zip',
   },
   {
     id: 'ghcp-panel',
@@ -100,7 +94,6 @@ const TOOLS = [
     audience: ['dev','exec'],
     goals: ['discover','measure'],
     repo: 'https://github.com/microsoft/GitHubCopilotPanel',
-    download: 'https://github.com/microsoft/GitHubCopilotPanel/archive/refs/heads/main.zip',
   },
   {
     id: 'adoption-sentiment',
@@ -114,7 +107,6 @@ const TOOLS = [
     audience: ['exec','ccm'],
     goals: ['measure'],
     repo: 'https://github.com/olivierpecheux/copilot-adoption-sentiment-report',
-    download: 'https://github.com/olivierpecheux/copilot-adoption-sentiment-report/archive/refs/heads/main.zip',
   },
   {
     id: 'pax',
@@ -128,7 +120,6 @@ const TOOLS = [
     audience: ['it'],
     goals: ['automate'],
     repo: 'https://github.com/microsoft/PAX',
-    download: 'https://github.com/microsoft/PAX/archive/refs/heads/release.zip',
   },
   {
     id: 'customize',
@@ -142,7 +133,6 @@ const TOOLS = [
     audience: ['ccm','it'],
     goals: ['extend'],
     repo: 'https://github.com/microsoft/customizecopilot',
-    download: 'https://github.com/microsoft/customizecopilot/archive/refs/heads/main.zip',
   },
 ];
 
@@ -170,7 +160,6 @@ function renderCards(filter = 'all') {
       </div>
       <div class="card-links">
         <a class="primary" href="${t.repo}" target="_blank" rel="noopener">Open repository ↗</a>
-        <a href="${t.download}" target="_blank" rel="noopener">⬇ Download</a>
       </div>
     `;
     grid.appendChild(el);
@@ -218,7 +207,6 @@ function updatePickerResult() {
     <p>${best.sub}</p>
     <div class="card-links">
       <a class="primary" href="${best.repo}" target="_blank" rel="noopener">Open repository ↗</a>
-      <a href="${best.download}" target="_blank" rel="noopener">⬇ Download</a>
     </div>
   `;
   const wrap = document.getElementById('pickerResult');

@@ -57,7 +57,7 @@
       "body": "Run the <strong>Local CSV</strong> path against the bundled synthetic dataset covering all four products. Proves the numbers before you wire up a tenant \u2014 no permissions needed.",
       "optional": true, "estMinutes": 10,
       "requires": ["powerBiDesktop"], "requiresMode": "all",
-      "portal": { "label": "Sample data on GitHub", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV/sample-data" },
+      "portal": { "label": "Sample-data setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "The report opens with every page populated from synthetic data.",
       "status": "stable"
     },
@@ -158,7 +158,7 @@
       "body": "Put every export in one folder (names are auto-recognised), open <code>Consumption Central - Local CSV.pbit</code>, paste the folder into <code>DataFolder</code>, click Load.",
       "pathId": "local-csv", "estMinutes": 5,
       "requires": ["powerBiDesktop"], "requiresMode": "all",
-      "portal": { "label": "Local CSV template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/1.%20Local%20CSV/Consumption%20Central%20-%20Local%20CSV.pbit" },
+      "portal": { "label": "Local CSV template setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "Every product you loaded fills its pages.",
       "status": "stable"
     },
@@ -208,7 +208,7 @@
       "body": "Copy the Lakehouse SQL endpoint, paste it + the Lakehouse name into <code>Consumption Central - Fabric.pbit</code>, Load. Then schedule ingestion BEFORE the semantic-model refresh, on success only.",
       "pathId": "fabric", "estMinutes": 6,
       "requires": ["powerBiDesktop", "fabricCapacity"], "requiresMode": "all",
-      "portal": { "label": "Fabric template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/Consumption%20Central%20-%20Fabric.pbit" },
+      "portal": { "label": "Fabric template setup guide", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/2.%20Fabric/README.md" },
       "verify": "Report refreshes from the Lakehouse on schedule.",
       "status": "stable"
     },
@@ -219,7 +219,7 @@
       "body": "Paste the Partition + Query identifiers from your auto-refreshing Cowork query into <code>Consumption Central - Viva Direct.pbit</code>, Load. Cowork with no files at all; other products optional via a folder.",
       "pathId": "viva-direct", "products": ["cowork"], "estMinutes": 5,
       "requires": ["powerBiDesktop"], "requiresMode": "all",
-      "portal": { "label": "Viva Direct template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/3.%20Viva%20Direct/Consumption%20Central%20-%20Viva%20Direct.pbit" },
+      "portal": { "label": "Viva Direct template setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "Cowork pages refresh straight from Viva.",
       "pitfall": "(500) Internal Server Error = identifiers point at the multi-table Consumption Dashboard export, not a custom Analysis query.",
       "status": "stable"
@@ -258,7 +258,7 @@
       "body": "Fill DataverseServer / Database / Prefix in <code>Consumption Central - Power Automate + Dataverse.pbit</code>, Load, publish, schedule.",
       "pathId": "pa-dataverse", "estMinutes": 6,
       "requires": ["powerBiDesktop"], "requiresMode": "all",
-      "portal": { "label": "Power Automate template", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot/blob/main/4.%20Power%20Automate%20%2B%20Dataverse/Consumption%20Central%20-%20Power%20Automate%20%2B%20Dataverse.pbit" },
+      "portal": { "label": "Power Automate template setup in the README", "url": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot" },
       "verify": "Report reads the Dataverse tables and refreshes on schedule.",
       "status": "preview"
     },

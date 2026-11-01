@@ -23,7 +23,7 @@ test('catalog retains 25 public reports and both existing incubations', () => {
   assert.equal(report.title, 'Cowork Super User');
   assert.doesNotMatch(html, /[Tt]wenty-four open-source/);
   assert.equal(report.repo, 'https://github.com/microsoft/CoworkSuperUser');
-  assert.match(report.download, /CoworkSuperUser\.pbit$/);
+  assert.equal(report.download, '');
   assert.doesNotMatch(JSON.stringify(report), /\.pbix/i);
   assert.match(report.blurb, /Public and in testing/);
 });
@@ -114,7 +114,7 @@ test('connection defaults to seven concrete actions, with safeguards beside the 
     'Do not rename the service-credit export or use sessions as tasks',
     'Continue only when both files are approved', 'Never guess missing metadata or license values',
     'Put the approved files in one folder', 'CoworkWeeklyMetrics.csv', 'PeopleMetaData.csv',
-    'CoworkSuperUser.pbit', 'Set DataFolder', '<strong>Load</strong>',
+    'Cowork Super User README and setup guidance', 'Set DataFolder', '<strong>Load</strong>',
     '<strong>Home</strong>', '<strong>Refresh</strong>', 'Check the result on Overview',
     'filters and slicers', 'Total credits used', 'Success check',
     'stop before sharing', 'no preconfigured row-level security role']) {
