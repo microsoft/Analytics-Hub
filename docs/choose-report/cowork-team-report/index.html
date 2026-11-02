@@ -15,19 +15,22 @@
   <meta property="og:title" content="Cowork Team Report · Enablement guide" />
   <meta property="og:description" content="A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export." />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/choose-report/cowork-team-report/" />
-  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/cowork-team-report-preview.png" />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cowork Team Report · Enablement guide" />
   <meta name="twitter:description" content="A pair of Copilot Cowork skills. Each teammate runs the member skill, which posts a de-identified summary of hours saved and the value of that time into one shared Teams channel; the manager skill rolls those posts into an anonymized dashboard and emails the team a newsletter on a schedule. No admin rights and no tenant export." />
-  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/cowork-team-report-preview.png" />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
 
   <!-- A human visitor is forwarded straight to the live guide. The meta-refresh
        is the no-JS fallback; the script keeps any query string (e.g. embed). -->
-  <meta http-equiv="refresh" content="0; url=../#r=cowork-team-report" />
+  <meta http-equiv="refresh" content="0; url=../?catalog=4949568d4788652a#r=cowork-team-report" />
   <script>
     (function () {
-      try { location.replace('../#r=cowork-team-report' + (location.search || '')); }
-      catch (e) { location.href = '../#r=cowork-team-report'; }
+      var destination = new URL('../?catalog=4949568d4788652a#r=cowork-team-report', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>
@@ -38,6 +41,6 @@
 </head>
 <body>
   <p>Opening the enablement guide for <strong>Cowork Team Report</strong>&hellip;</p>
-  <p>If you are not redirected, <a href="../#r=cowork-team-report">open the Cowork Team Report enablement guide</a>.</p>
+  <p>If you are not redirected, <a href="../?catalog=4949568d4788652a#r=cowork-team-report">open the Cowork Team Report enablement guide</a>.</p>
 </body>
 </html>

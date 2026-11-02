@@ -54,12 +54,10 @@ test('guide wires the report-specific hero, data contract, and nine pages', () =
   assert.doesNotMatch(hero, /\.gif|Pages do not advance automatically/);
   assert.doesNotMatch(hero, /<video\b|role="tab|CoworkSuperUser-Overview\.png/);
   const connect = template('csuStep4');
-  for (const token of ['CoworkWeeklyMetrics.csv', 'PeopleMetaData.csv',
-    'PeopleHistoricalId', 'DataFolder', 'Export by week', 'Appendix - Weekly detail',
-    'Value assumptions', 'Category assumptions', 'no preconfigured row-level security']) {
+  for (const token of ['DataFolder', 'Export by week', 'CoworkSuperUser.pbit',
+    'no preconfigured row-level security']) {
     assert.ok(connect.includes(token), token);
   }
-  assert.equal((connect.match(/<tr><td>(?:Overview|Cost Concentration|Trends|Group Breakdown|Value assumptions|Appendix - Share Shift|Appendix - Weekly detail|Metric Glossary|Category assumptions)<\/td>/g) || []).length, 9);
   assert.doesNotMatch(hero + connect, /\.pbix/i);
 });
 
@@ -80,79 +78,26 @@ test('requirements describe authorized customer deployment, not a demonstration'
   assert.equal(context.FACETS[report.id].d.includes('sample'), false);
 });
 
-test('customer guide cites export evidence and enforces the task-level schema gate', () => {
+test('enablement guide is exactly three steps: enable export, export report, connect template', () => {
   const connect = template('csuStep4');
-  assert.doesNotMatch(connect, /\b(?:sample|synthetic|demo|fabricated)\b|14,599|240 metadata|219 distinct/i);
-  assert.doesNotMatch(connect, /data-cc="(?:sample|production)"/);
-  for (const text of ['public preview', 'PersonServiceCreditsMetrics.csv',
-    'Do not rename the service-credit export or use sessions as tasks',
-    'JobFunction', 'FunctionType', 'IsCopilotLicensed', '2&ndash;8 days behind',
-    'Power BI Pro or PPU', 'Contributor, Member, or Admin',
-    'AI Administrator', 'gateway', 'Stop and obtain the correct Cowork data',
-    'No fresh customer-export import or refresh has been run for this guide']) {
+  assert.doesNotMatch(connect, /\b(?:sample|synthetic|demo|fabricated)\b/i);
+  assert.doesNotMatch(connect, /<details\b|<table\b/);
+  assert.deepEqual([...connect.matchAll(/<span class="cc-num">(\d)<\/span> ([^<]+)<\/h5>/g)].map(m => m[1] + ' ' + m[2]),
+    ['1 Enable the export', '2 Export the report', '3 Connect the template']);
+  for (const text of ['Copilot Metrics Export', 'aka.ms/copilotdashboard', 'Explore Cowork',
+    'Export by week', 'CoworkSuperUser.pbit', 'DataFolder', '<strong>Load</strong>',
+    'microsoft/CoworkSuperUser', 'no preconfigured row-level security role']) {
     assert.ok(connect.includes(text), text);
   }
-  for (const source of ['export-ai-cost-metrics', 'identification-copilot-analytics',
-    'service-roles-new-workspaces', 'service-share-dashboards#prerequisites',
-    'SETUP.md#data-contract']) {
-    assert.ok(connect.includes(source), source);
-  }
 });
 
-test('connection defaults to seven concrete actions, with safeguards beside the affected action', () => {
-  const connect = template('csuStep4');
-  const visible = connect.replace(/<details\b[\s\S]*?<\/details>/g, '');
-  const plain = visible.replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ');
-  const wordCount = plain.trim().split(/\s+/).length;
-  assert.ok(wordCount <= 500, 'Default connection copy: ' + wordCount + ' words');
-  assert.deepEqual([...visible.matchAll(/<span class="cc-num">(\d)<\/span>/g)].map(m => m[1]),
-    ['1', '2', '3', '4', '5', '6', '7']);
-  for (const text of ['You need', 'Request the weekly Cowork export',
-    'Export by week', 'Export to CSV', 'PersonServiceCreditsMetrics.csv',
-    'TaskCategory', 'TaskType', 'Total Cowork tasks',
-    'Viva Insights analyst who handles Cowork exports or Microsoft 365 tenant administrator',
-    'Do not rename the service-credit export or use sessions as tasks',
-    'Continue only when both files are approved', 'Never guess missing metadata or license values',
-    'Put the approved files in one folder', 'CoworkWeeklyMetrics.csv', 'PeopleMetaData.csv',
-    'Cowork Super User README and setup guidance', 'Set DataFolder', '<strong>Load</strong>',
-    '<strong>Home</strong>', '<strong>Refresh</strong>', 'Check the result on Overview',
-    'filters and slicers', 'Total credits used', 'Success check',
-    'stop before sharing', 'no preconfigured row-level security role']) {
-    assert.ok(visible.includes(text), text);
-  }
-  assert.ok(visible.indexOf('Stop if you receive the wrong export') <
-    visible.indexOf('Get both files checked by your data owner'));
-  assert.ok(visible.indexOf('Continue only when both files are approved') <
-    visible.indexOf('Put the approved files in one folder'));
-  assert.doesNotMatch(visible, /<table\b|learn\.microsoft\.com|Power BI Pro or PPU|AI Administrator|Appendix - Weekly detail/);
-});
-
-test('technical help is closed by default, with descriptive native summaries and retained checks', () => {
-  const connect = template('csuStep4');
-  const details = [...connect.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)];
-  assert.equal(details.length, 5);
-  assert.ok(details.every(d => !/\bopen\b/.test(d[1])));
-  const summaries = details.map(d => d[2].match(/<summary><strong>([^<]+)<\/strong><\/summary>/)[1]);
-  assert.deepEqual(summaries, [
-    'Exact columns and data-owner checks',
-    'Fix a file or refresh problem',
-    'Publish and share with stakeholders (only after checks pass)',
-    'Read all nine pages responsibly',
-    'Why the export may differ, and the sources behind these steps'
-  ]);
-  assert.match(details[0][2], /Every usage row must match exactly one metadata row/);
-  assert.match(details[0][2], /do not default an unknown license status to false/);
-  assert.match(details[0][2], /renames <code>FunctionType<\/code> to <code>Function<\/code>/);
-  assert.match(details[1][2], /Transform data &gt; Edit parameters/);
-  assert.match(details[1][2], /Do not disable protections/);
-  assert.match(details[2][2], /Do not share while any check is unresolved/);
-  assert.match(details[2][2], /Test refresh in the service/);
-  assert.match(details[3][2], /not productivity, quality, or employee performance/);
-  assert.match(details[4][2], /No fresh customer-export import or refresh has been run/);
+test('Cowork Super User is labelled (Preview) in the hero and launch banner', () => {
+  assert.match(template('csuHero'), /<h2>Cowork Super User \(Preview\)<\/h2>/);
+  assert.match(html, /<h2 id="pkLaunchTitle">Cowork Super User \(Preview\)<\/h2>/);
 });
 
 test('Overview uses the corrected YouTube video and retains the local still Preview', () => {
-  assert.equal(report.demoVideos[0].url, 'https://www.youtube.com/watch?v=c23BOhnDLVU');
+  assert.equal(report.demoVideos[0].url, 'https://www.youtube.com/watch?v=zNMA3xz19O0');
   assert.equal(report.demoVideos[0].label, 'Overview');
   assert.match(report.preview, /CoworkSuperUser-Overview\.png$/);
   assert.ok(fs.existsSync(path.join(reportDir, report.preview)));
@@ -170,15 +115,15 @@ test('guide and flyout use the shared privacy-enhanced embed and accessible watc
   for (const name of ['safeUrl', 'ytIdOf', 'ytEmbedHtml', 'videoSlotUrl', 'gxSlot']) {
     vm.runInContext(html.match(new RegExp('  function ' + name + '\\([^]*?\\n  \\}'))[0], context);
   }
-  assert.equal(context.ytIdOf(report.demoVideos[0].url), 'c23BOhnDLVU');
+  assert.equal(context.ytIdOf(report.demoVideos[0].url), 'zNMA3xz19O0');
   for (const output of [
     context.videoSlotUrl(report.demoVideos[0].url, 'Cowork Super User Overview'),
     context.gxSlot(report, { kind: 'video', url: report.demoVideos[0].url, label: 'Overview' })
   ]) {
-    assert.match(output, /src="https:\/\/www\.youtube-nocookie\.com\/embed\/c23BOhnDLVU\?rel=0&amp;enablejsapi=1"/);
+    assert.match(output, /src="https:\/\/www\.youtube-nocookie\.com\/embed\/zNMA3xz19O0\?rel=0&amp;enablejsapi=1"/);
     assert.match(output, /title="Cowork Super User Overview"/);
     assert.match(output, /referrerpolicy="strict-origin-when-cross-origin"/);
-    assert.match(output, /href="https:\/\/youtu\.be\/c23BOhnDLVU"[^>]*>Watch on YouTube/);
+    assert.match(output, /href="https:\/\/youtu\.be\/zNMA3xz19O0"[^>]*>Watch on YouTube/);
     assert.doesNotMatch(output, /autoplay|<video\b/);
   }
 });
@@ -311,7 +256,7 @@ test('Launch ticket occupies the Reports intro beside the unchanged lead, above 
   assert.match(intro, /Filter by <span class="pk-hl-a">goal/);
   assert.match(intro, /class="pk-launch-date"><span>Released<\/span><time datetime="2026-10-29">Oct 29, 2026<\/time>/);
   assert.match(intro, /class="pk-launch-new">New</);
-  assert.match(intro, /<h2 id="pkLaunchTitle">Cowork Super User<\/h2>/);
+  assert.match(intro, /<h2 id="pkLaunchTitle">Cowork Super User \(Preview\)<\/h2>/);
   assert.match(intro, /href="cowork-super-user\/\?route=2">Open enablement guide/);
   assert.ok(intro.indexOf('pk-lead3') < intro.indexOf('pk-launch-date'));
 });
@@ -379,7 +324,7 @@ const home = fs.readFileSync(path.join(docs, 'index.html'), 'utf8');
 test('homepage gives Cowork its own positioning section above the unchanged Recently added trio', () => {
   const cowork = home.match(/<section[^>]*id="recent-cowork-super-user"[\s\S]*?<\/section>/)[0];
   assert.ok(home.indexOf(cowork) < home.indexOf('id="flagship"'));
-  assert.match(cowork, /<h2 class="section-title" id="coworkWhyTitle">Cowork Super User<\/h2>/);
+  assert.match(cowork, /<h2 class="section-title" id="coworkWhyTitle">Cowork Super User \(Preview\)<\/h2>/);
   assert.match(cowork, /class="flagship-logo"/);
   assert.match(cowork, /<p class="eyebrow">Recently Added<\/p>/);
   assert.match(cowork, /data-theme="dark"/);
@@ -395,10 +340,10 @@ test('homepage gives Cowork its own positioning section above the unchanged Rece
   assert.match(section, /Three new dashboards, built to work together/);
   assert.match(section, /One measures whether Copilot is landing\. One tracks what it costs\./);
   assert.match(section, /Sample data ships with each, so you can look before setting anything up\./);
-  assert.doesNotMatch(grid, /Cowork Super User|c23BOhnDLVU/);
-  assert.match(cowork, /youtube-nocookie\.com\/embed\/c23BOhnDLVU\?rel=0&amp;enablejsapi=1/);
+  assert.doesNotMatch(grid, /Cowork Super User|zNMA3xz19O0/);
+  assert.match(cowork, /youtube-nocookie\.com\/embed\/zNMA3xz19O0\?rel=0&amp;enablejsapi=1/);
   assert.doesNotMatch(cowork, /autoplay/i);
-  assert.match(cowork, /https:\/\/youtu\.be\/c23BOhnDLVU/);
+  assert.match(cowork, /https:\/\/youtu\.be\/zNMA3xz19O0/);
   assert.match(cowork, /href="choose-report\/cowork-super-user\/\?route=2">See the details/);
   const description = cowork.match(/class="flagship-desc">([\s\S]*?)<\/p>/)[1];
   assert.equal((description.match(/\./g) || []).length, 3);

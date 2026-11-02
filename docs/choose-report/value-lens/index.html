@@ -13,21 +13,24 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Analytics Hub" />
   <meta property="og:title" content="ValueLens for Microsoft Copilot · Enablement guide" />
-  <meta property="og:description" content="Business Value Advisory Power BI template that unifies every Copilot &amp; agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft&#39;s Frontier Firm framework. Ships with SharePoint, Fabric, and Dataverse deployment paths." />
+  <meta property="og:description" content="Business Value Advisory Power BI template that unifies every Copilot &amp; agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft&#39;s Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric (one-click installer), and Power Automate + Dataverse deployment paths." />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/choose-report/value-lens/" />
   <meta property="og:image" content="https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ValueLens for Microsoft Copilot · Enablement guide" />
-  <meta name="twitter:description" content="Business Value Advisory Power BI template that unifies every Copilot &amp; agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft&#39;s Frontier Firm framework. Ships with SharePoint, Fabric, and Dataverse deployment paths." />
+  <meta name="twitter:description" content="Business Value Advisory Power BI template that unifies every Copilot &amp; agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft&#39;s Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric (one-click installer), and Power Automate + Dataverse deployment paths." />
   <meta name="twitter:image" content="https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif" />
 
   <!-- A human visitor is forwarded straight to the live guide. The meta-refresh
        is the no-JS fallback; the script keeps any query string (e.g. embed). -->
-  <meta http-equiv="refresh" content="0; url=../#r=value-lens" />
+  <meta http-equiv="refresh" content="0; url=../?catalog=4949568d4788652a#r=value-lens" />
   <script>
     (function () {
-      try { location.replace('../#r=value-lens' + (location.search || '')); }
-      catch (e) { location.href = '../#r=value-lens'; }
+      var destination = new URL('../?catalog=4949568d4788652a#r=value-lens', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>
@@ -38,6 +41,6 @@
 </head>
 <body>
   <p>Opening the enablement guide for <strong>ValueLens for Microsoft Copilot</strong>&hellip;</p>
-  <p>If you are not redirected, <a href="../#r=value-lens">open the ValueLens for Microsoft Copilot enablement guide</a>.</p>
+  <p>If you are not redirected, <a href="../?catalog=4949568d4788652a#r=value-lens">open the ValueLens for Microsoft Copilot enablement guide</a>.</p>
 </body>
 </html>

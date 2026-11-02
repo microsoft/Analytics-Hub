@@ -15,19 +15,22 @@
   <meta property="og:title" content="Cowork ROI Model (Web App) · Enablement guide" />
   <meta property="og:description" content="Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required)." />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/choose-report/cowork-roi-model-app/" />
-  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/preview/roi-model-preview.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cowork ROI Model (Web App) · Enablement guide" />
   <meta name="twitter:description" content="Interactive ROI model with research-based category defaults and user-entered assumptions (no tenant payload required)." />
-  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/og-card.png" />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/preview/roi-model-preview.png" />
 
   <!-- A human visitor is forwarded straight to the live guide. The meta-refresh
        is the no-JS fallback; the script keeps any query string (e.g. embed). -->
-  <meta http-equiv="refresh" content="0; url=../#r=cowork-roi-model-app" />
+  <meta http-equiv="refresh" content="0; url=../?catalog=4949568d4788652a#r=cowork-roi-model-app" />
   <script>
     (function () {
-      try { location.replace('../#r=cowork-roi-model-app' + (location.search || '')); }
-      catch (e) { location.href = '../#r=cowork-roi-model-app'; }
+      var destination = new URL('../?catalog=4949568d4788652a#r=cowork-roi-model-app', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>
@@ -38,6 +41,6 @@
 </head>
 <body>
   <p>Opening the enablement guide for <strong>Cowork ROI Model (Web App)</strong>&hellip;</p>
-  <p>If you are not redirected, <a href="../#r=cowork-roi-model-app">open the Cowork ROI Model (Web App) enablement guide</a>.</p>
+  <p>If you are not redirected, <a href="../?catalog=4949568d4788652a#r=cowork-roi-model-app">open the Cowork ROI Model (Web App) enablement guide</a>.</p>
 </body>
 </html>

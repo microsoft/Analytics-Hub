@@ -15,19 +15,22 @@
   <meta property="og:title" content="Cowork Chargeback (Web App) · Enablement guide" />
   <meta property="og:description" content="Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs." />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/choose-report/cowork-chargeback-app/" />
-  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/choose-report/cca-frames/frame_00.jpg" />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/report-walkthrough.gif" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cowork Chargeback (Web App) · Enablement guide" />
   <meta name="twitter:description" content="Client-side chargeback app that allocates Cowork credits to departments and users with export-ready outputs." />
-  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/choose-report/cca-frames/frame_00.jpg" />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/cowork-billing/assets/report-walkthrough.gif" />
 
   <!-- A human visitor is forwarded straight to the live guide. The meta-refresh
        is the no-JS fallback; the script keeps any query string (e.g. embed). -->
-  <meta http-equiv="refresh" content="0; url=../#r=cowork-chargeback-app" />
+  <meta http-equiv="refresh" content="0; url=../?catalog=4949568d4788652a#r=cowork-chargeback-app" />
   <script>
     (function () {
-      try { location.replace('../#r=cowork-chargeback-app' + (location.search || '')); }
-      catch (e) { location.href = '../#r=cowork-chargeback-app'; }
+      var destination = new URL('../?catalog=4949568d4788652a#r=cowork-chargeback-app', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>
@@ -38,6 +41,6 @@
 </head>
 <body>
   <p>Opening the enablement guide for <strong>Cowork Chargeback (Web App)</strong>&hellip;</p>
-  <p>If you are not redirected, <a href="../#r=cowork-chargeback-app">open the Cowork Chargeback (Web App) enablement guide</a>.</p>
+  <p>If you are not redirected, <a href="../?catalog=4949568d4788652a#r=cowork-chargeback-app">open the Cowork Chargeback (Web App) enablement guide</a>.</p>
 </body>
 </html>

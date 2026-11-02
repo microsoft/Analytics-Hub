@@ -1917,7 +1917,7 @@ html.mk-embed main.mk-page{ display:none !important; }
           <div class="pk-launch-date"><span>Released</span><time datetime="2026-10-29">Oct 29, 2026</time></div>
           <div class="pk-launch-content">
             <span class="pk-launch-new">New</span>
-            <h2 id="pkLaunchTitle">Cowork Super User</h2>
+            <h2 id="pkLaunchTitle">Cowork Super User (Preview)</h2>
             <p>Explore weekly Cowork activity, credit concentration, and directional value scenarios.</p>
             <a class="pk-launch-cta" href="cowork-super-user/?route=2">Open enablement guide <span aria-hidden="true">&#8594;</span></a>
           </div>
@@ -4008,7 +4008,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "",
       "guide": "https://github.com/microsoft/CoworkSuperUser/blob/main/SETUP.md",
       "preview": "cowork-super-user/media/CoworkSuperUser-Overview.png",
-      "demoVideos": [{"url": "https://www.youtube.com/watch?v=c23BOhnDLVU", "label": "Overview"}],
+      "demoVideos": [{"url": "https://www.youtube.com/watch?v=zNMA3xz19O0", "label": "Overview"}],
       "blurb": "Nine-page Power BI report for analyzing customer Cowork activity: task and credit concentration, weekly trends, organization and function breakdowns, share shift, and directional value scenarios. Requires approved task-level weekly data in CoworkWeeklyMetrics.csv and matching PeopleMetaData.csv, joined on PeopleHistoricalId. The generic service-credit export is not a drop-in replacement. Public and in testing; modeled value is not measured or causal savings.",
       "meta": {
         "audience": "Cowork adoption leads, enablement teams, program owners, analysts",
@@ -5585,7 +5585,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 
 <template id="csuHero">
   <div class="cc-hero csu-hero su-hero-card">
-    <h2>Cowork Super User</h2>
+    <h2>Cowork Super User (Preview)</h2>
     <div class="cc-tag">Power BI on weekly Cowork exports: activity, concentration, trends, and directional scenario value</div>
     <div class="cc-oneliner">Who is active &middot; where tasks and credits concentrate &middot; what changes by week &middot; which assumptions drive value</div>
     <div class="cc-badges"><span>POWER BI TEMPLATE</span><span>PUBLIC &middot; IN TESTING</span></div>
@@ -5618,110 +5618,21 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 
 <template id="csuStep4">
   <div class="csu-connect">
-  <p class="gx-reads">Use your organization's approved data. Follow these steps in order; stop if a check fails.</p>
+  <p class="gx-reads">Three steps from export to report. Use your organization's approved data.</p>
   <div class="ccyd">
     <section class="cc-panel active" aria-label="Deploy with customer data">
-      <h5>You need</h5>
-      <ul>
-        <li><code>CoworkWeeklyMetrics.csv</code> &mdash; weekly Cowork tasks and credits.</li>
-        <li><code>PeopleMetaData.csv</code> &mdash; matching people data approved by your data owner.</li>
-        <li>One protected folder for both files.</li>
-      </ul>
       <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Request the weekly Cowork export</h5>
-        <p>Ask your authorized Cowork exporter to follow the report README's route: <strong>Copilot Dashboard &gt; Consumption Dashboard &gt; Explore Cowork &gt; Export data &gt; Create new &gt; Export by week &gt; Export to CSV</strong>.</p>
-        <div class="cc-callout cc-warn"><span class="ct">Stop if you receive the wrong export</span>If the file is <code>PersonServiceCreditsMetrics.csv</code>, or is missing any of <code>TaskCategory</code>, <code>TaskType</code>, or <code>Total Cowork tasks</code>, ask your <strong>Viva Insights analyst who handles Cowork exports or Microsoft 365 tenant administrator</strong> for the task-level weekly Cowork data and matching people file required by this report. <strong>Do not rename the service-credit export or use sessions as tasks.</strong> The required export may not be available in your tenant.</div>
-        <h5><span class="cc-num">2</span> Get both files checked by your data owner</h5>
-        <p>Ask them to check <strong>Exact columns and data-owner checks</strong> below, including matching <code>PeopleHistoricalId</code> values and verified organization, function, and license fields. <strong>Continue only when both files are approved.</strong> Never guess missing metadata or license values.</p>
-        <h5><span class="cc-num">3</span> Put the approved files in one folder</h5>
-        <p>Keep the names exactly <code>CoworkWeeklyMetrics.csv</code> and <code>PeopleMetaData.csv</code>. Use a protected folder you can read; keep identifiers de-identified unless identified data is explicitly authorized.</p>
-        <h5><span class="cc-num">4</span> Open the report template</h5>
-        <p>Follow the <a href="https://github.com/microsoft/CoworkSuperUser" target="_blank" rel="noopener noreferrer">Cowork Super User README and setup guidance</a> for the current template, then open it in Power BI Desktop.</p>
-        <h5><span class="cc-num">5</span> Set DataFolder</h5>
-        <p>Copy your folder's full path from File Explorer's address bar. In the template's parameter prompt, paste it into <code>DataFolder</code>, then select <strong>Load</strong>. Use the folder path, not a CSV filename.</p>
-        <h5><span class="cc-num">6</span> Refresh the report</h5>
-        <p>On the <strong>Home</strong> tab, select <strong>Refresh</strong> and wait for it to finish. If an error appears, stop and use <strong>Fix a file or refresh problem</strong> below.</p>
-        <h5><span class="cc-num">7</span> Check the result on Overview</h5>
-        <p>Clear the report's filters and slicers. Compare its task and credit totals with the sums of <code>Total Cowork tasks</code> and <code>Total credits used</code> in your usage file for the same dates.</p>
-        <div class="cc-callout cc-good"><span class="ct">Success check</span>Refresh finishes without errors, totals match, and organization/function groups match the approved people file. If not, stop before sharing and ask your data owner to resolve the difference.</div>
+        <h5><span class="cc-num">1</span> Enable the export</h5>
+        <p>You need at least <strong>50 Copilot or Viva Insights licenses</strong> and <strong>global access</strong> to the Copilot Dashboard. If <strong>Export data</strong> is missing, a Global Administrator goes to <strong>Microsoft 365 admin center &gt; Settings &gt; Microsoft Viva &gt; Settings &gt; Manage feature access &gt; Viva Insights</strong> and turns on <strong>Copilot Metrics Export</strong>. Changes can take up to 24 hours. See <a href="https://learn.microsoft.com/en-us/viva/insights/org-team-insights/export-copilot-metrics" target="_blank" rel="noopener noreferrer">export details</a>.</p>
+        <h5><span class="cc-num">2</span> Export the report</h5>
+        <p>Go to <a href="https://aka.ms/copilotdashboard" target="_blank" rel="noopener noreferrer">aka.ms/copilotdashboard</a> &gt; <strong>Consumption Dashboard</strong> &gt; <strong>Explore Cowork</strong> &gt; <strong>Export data</strong> and choose <strong>Export by week</strong>. Extract the downloaded zip file to a folder.</p>
+        <h5><span class="cc-num">3</span> Connect the template</h5>
+        <p>Open <code>CoworkSuperUser.pbit</code> from the <a href="https://github.com/microsoft/CoworkSuperUser" target="_blank" rel="noopener noreferrer">Cowork Super User repository</a> in Power BI Desktop. When prompted for <code>DataFolder</code>, paste the path of the extracted folder without quotes, then select <strong>Load</strong>. Start on <strong>Overview</strong>.</p>
       </div>
     </section>
   </div>
-  <p class="gx-hint"><strong>Before sharing:</strong> this report is public and in testing, with no preconfigured row-level security role. Follow <strong>Publish and share with stakeholders</strong> below before granting access.</p>
-  <details class="cc-idbox" id="csu-file-checks">
-    <summary><strong>Exact columns and data-owner checks</strong></summary>
-    <div class="cc-idbody">
-      <p>For the data owner: confirm these requirements against the <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/SETUP.md#data-contract" target="_blank" rel="noopener noreferrer">report's data contract</a> before approving the files. This is a CSV-import template, not the historical Viva Insights Person Query or Direct Query projects in the repository's <code>src</code> folder.</p>
-      <p><code>CoworkWeeklyMetrics.csv</code>: one person, week, task category, and task type per row.</p>
-      <table class="cc-nb">
-        <thead><tr><th>Column</th><th>Type and validation</th></tr></thead>
-        <tbody>
-          <tr><td><code>PersonId</code></td><td>Stable nonblank text identifier</td></tr>
-          <tr><td><code>MetricDate</code></td><td>Date, <code>YYYY-MM-DD</code>; check complete-week coverage</td></tr>
-          <tr><td><code>TaskCategory</code></td><td>Source task category; validate values against the report's category assumptions</td></tr>
-          <tr><td><code>TaskType</code></td><td><code>UserInitiated</code>, <code>Scheduled</code>, or <code>Unknown</code></td></tr>
-          <tr><td><code>Total credits used</code></td><td>Nonnegative decimal number</td></tr>
-          <tr><td><code>Total Cowork tasks</code></td><td>Nonnegative whole number</td></tr>
-          <tr><td><code>PeopleHistoricalId</code></td><td>Text join key; no orphan values</td></tr>
-        </tbody>
-      </table>
-      <p><code>PeopleMetaData.csv</code>: one row per unique, nonblank <code>PeopleHistoricalId</code>, plus text <code>Organization</code>, text <code>FunctionType</code>, and Boolean <code>IsCopilotLicensed</code> (<code>true</code> or <code>false</code>). Every usage row must match exactly one metadata row. Keep identifiers as text, retain leading zeros, and keep exact header capitalization. The model renames <code>FunctionType</code> to <code>Function</code> after import; do not change the CSV header to <code>Function</code>.</p>
-      <p>The general consumption export documents <code>JobFunction</code>, not this template's <code>FunctionType</code>, and does not list the required metadata <code>IsCopilotLicensed</code>. The data owner must approve source-to-template mappings and supply verified values; do not default an unknown license status to false.</p>
-      <p>Confirm complete-week dates, nonnegative values, expected task categories, and no duplicate person/week/category/type rows. In Model view, check the <code>PeopleHistoricalId</code> relationship and unique metadata side.</p>
-    </div>
-  </details>
-  <details class="cc-idbox">
-    <summary><strong>Fix a file or refresh problem</strong></summary>
-    <div class="cc-idbody">
-      <ul>
-        <li><strong>No DataFolder prompt, or the wrong folder:</strong> select <strong>Transform data &gt; Edit parameters</strong>, update <code>DataFolder</code>, and apply changes. You can also inspect <strong>Transform data &gt; Data source settings &gt; Change Source</strong>.</li>
-        <li><strong>File not found or cannot be read:</strong> check both exact filenames and the folder path. Close any editor locking a CSV and confirm you have read access.</li>
-        <li><strong>Missing column or type error:</strong> ask the data owner to compare both files with <strong>Exact columns and data-owner checks</strong>. Do not remove required fields to force a refresh.</li>
-        <li><strong>Blank groups or totals that do not match:</strong> clear filters; have the data owner check matching keys, duplicate rows, and data types.</li>
-        <li><strong>Privacy/firewall prompt:</strong> use organization-approved privacy settings. Do not disable protections to bypass the error.</li>
-      </ul>
-      <p>For later manual refreshes, replace both CSVs with newly approved files of the same names and schema, then select <strong>Refresh</strong>.</p>
-    </div>
-  </details>
-  <details class="cc-idbox">
-    <summary><strong>Publish and share with stakeholders (only after checks pass)</strong></summary>
-    <div class="cc-idbody">
-      <p>Keep the report local until customer-data refresh, totals, model behavior, and privacy controls are validated. <strong>Do not share while any check is unresolved.</strong> Review scenario assumptions with the stakeholder before operational use.</p>
-      <p>If distributing through the Power BI service, the report publisher needs <strong>Power BI Pro or PPU</strong> and a <strong>Contributor, Member, or Admin</strong> role in the target shared workspace. A <strong>Member or Admin</strong> manages audience access or publishes a new app; Contributor alone does not grant those capabilities. See <a href="https://learn.microsoft.com/power-bi/collaborate-share/service-roles-new-workspaces" target="_blank" rel="noopener noreferrer">workspace role capabilities</a>. Recipients need approved report/semantic-model access and the applicable Pro/PPU license unless qualifying capacity permits free-user consumption; see <a href="https://learn.microsoft.com/power-bi/collaborate-share/service-share-dashboards#prerequisites" target="_blank" rel="noopener noreferrer">sharing prerequisites</a>.</p>
-      <p>Configure source credentials and service refresh. Local or on-premises files require an accessible <a href="https://learn.microsoft.com/power-bi/connect-data/refresh-data" target="_blank" rel="noopener noreferrer">gateway/refresh connection</a> and required permissions. Test refresh in the service before scheduling it.</p>
-      <p>This template has no preconfigured row-level security role. If viewers should see only a subset, implement and test model security before sharing. Dashboard restrictions do not automatically carry over to the exported model. Apply approved sensitivity labels, retention, minimum-group-size rules, and file/report access controls.</p>
-      <p>Identified data is not required. If explicitly approved, identification access policies are managed by a <strong>Microsoft 365 Global Administrator</strong> or <strong>AI Administrator</strong>; see <a href="https://learn.microsoft.com/viva/insights/identification-copilot-analytics" target="_blank" rel="noopener noreferrer">identification policy</a>. Do not seek broader administrative access solely to load this report.</p>
-    </div>
-  </details>
-  <details class="cc-idbox">
-    <summary><strong>Read all nine pages responsibly</strong></summary>
-    <div class="cc-idbody">
-      <table class="cc-nb">
-        <thead><tr><th>Page</th><th>What to inspect</th></tr></thead>
-        <tbody>
-          <tr><td>Overview</td><td>Population, active users, tasks, credits, credits per task, category and task-type mix</td></tr>
-          <tr><td>Cost Concentration</td><td>Task share versus credit share among high-usage tiers; concentration is not a personnel score</td></tr>
-          <tr><td>Trends</td><td>Complete-period tasks, credits, and intensity; latest-versus-prior calculations may not follow every week selection</td></tr>
-          <tr><td>Group Breakdown</td><td>Organization, function, or tier differences with group size and metadata coverage; descriptive, not causal</td></tr>
-          <tr><td>Value assumptions</td><td>Time, labor, credit, and realization inputs; compare scenario ranges, not a single claimed saving</td></tr>
-          <tr><td>Appendix - Share Shift</td><td>Share movement alongside absolute volume and denominator changes</td></tr>
-          <tr><td>Appendix - Weekly detail</td><td>Inspect weekly detail alongside the source coverage and active filters</td></tr>
-          <tr><td>Metric Glossary</td><td>Distinguish observed, calculated, modeled, and selected-input metrics before quoting results</td></tr>
-          <tr><td>Category assumptions</td><td>Review the time assumptions for each task category and document any changes</td></tr>
-        </tbody>
-      </table>
-      <p>Record exact reporting dates, population, filters, export date, identifier treatment, evidence class, and scenario inputs whenever you share a result. Tier membership can change with date and group context. Tasks and credits describe activity and consumption, not productivity, quality, or employee performance. The packaged report has nine pages, including <strong>Appendix - Weekly detail</strong>, even where older source prose says eight.</p>
-    </div>
-  </details>
-  <details class="cc-idbox">
-    <summary><strong>Why the export may differ, and the sources behind these steps</strong></summary>
-    <div class="cc-idbody">
-      <p>The <a href="https://github.com/microsoft/CoworkSuperUser#get-your-cowork-data" target="_blank" rel="noopener noreferrer">report README</a> supplies the Explore Cowork route above. Microsoft's <a href="https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics" target="_blank" rel="noopener noreferrer">general Consumption Dashboard export documentation</a> describes a different service/session-level file, <code>PersonServiceCreditsMetrics.csv</code>, not the task-level input needed here. A documented route is not proof that every tenant exposes this report's required data. Stop and obtain the correct Cowork data from your authorized tenant data owner if the files do not meet the contract.</p>
-      <p>Consumption Dashboard export is <strong>public preview</strong>. Its <a href="https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics#how-to-export-data" target="_blank" rel="noopener noreferrer">weekly export guidance</a> specifies complete weeks only, the previous five months plus current month-to-date, and activity usually <strong>2&ndash;8 days behind</strong> export. Check dates and population in the actual delivered files rather than assuming dashboard filters define the export.</p>
-      <p><strong>Validation limit:</strong> the packaged template's input queries, required <code>DataFolder</code>, join, and lack of model roles have been inspected. No fresh customer-export import or refresh has been run for this guide.</p>
-      <p>Evidence checked October 28, 2026: <a href="https://learn.microsoft.com/viva/insights/org-team-insights/ai-cost-dashboard#who-can-access-the-dashboard" target="_blank" rel="noopener noreferrer">Dashboard access</a> &middot; <a href="https://learn.microsoft.com/viva/insights/org-team-insights/export-ai-cost-metrics#prerequisites" target="_blank" rel="noopener noreferrer">Export eligibility</a> &middot; <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/SETUP.md" target="_blank" rel="noopener noreferrer">Report setup</a> &middot; <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/INTERPRETATION_GUIDE.md" target="_blank" rel="noopener noreferrer">Interpretation guide</a> &middot; <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/RELEASE-MANIFEST.md" target="_blank" rel="noopener noreferrer">Release validation scope</a>.</p>
-    </div>
-  </details>
+  <p class="gx-hint">Optional: to show individual users instead of anonymized IDs, an administrator can turn on <strong>Identifiable Output</strong> for authorized analysts (<a href="https://learn.microsoft.com/en-us/viva/insights/identification-copilot-analytics" target="_blank" rel="noopener noreferrer">details</a>). Identified data is sensitive: restrict the report and its source files accordingly. The report has no preconfigured row-level security role.</p>
+  <p class="gx-hint">Need column details or help? See the <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/docs/SETUP.md" target="_blank" rel="noopener noreferrer">setup guide</a> and <a href="https://github.com/microsoft/CoworkSuperUser/blob/main/docs/TROUBLESHOOTING.md" target="_blank" rel="noopener noreferrer">troubleshooting</a>.</p>
   </div>
 </template>
 

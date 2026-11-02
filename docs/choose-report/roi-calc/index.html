@@ -15,19 +15,22 @@
   <meta property="og:title" content="M365 Copilot Productivity ROI Calculator · Enablement guide" />
   <meta property="og:description" content="Browser-only ROI modeler for Microsoft 365 Copilot. Export a Viva Insights person query as CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story with a one-click executive deck. Everything is modeled in your browser; the file is never uploaded. No install required." />
   <meta property="og:url" content="https://microsoft.github.io/Analytics-Hub/choose-report/roi-calc/" />
-  <meta property="og:image" content="../tools/copilot-roi-calculator/preview/roi-preview.gif" />
+  <meta property="og:image" content="https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/preview/roi-preview.gif" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="M365 Copilot Productivity ROI Calculator · Enablement guide" />
   <meta name="twitter:description" content="Browser-only ROI modeler for Microsoft 365 Copilot. Export a Viva Insights person query as CSV, drop it into the calculator, sweep assumptions, and generate a defensible value story with a one-click executive deck. Everything is modeled in your browser; the file is never uploaded. No install required." />
-  <meta name="twitter:image" content="../tools/copilot-roi-calculator/preview/roi-preview.gif" />
+  <meta name="twitter:image" content="https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/preview/roi-preview.gif" />
 
   <!-- A human visitor is forwarded straight to the live guide. The meta-refresh
        is the no-JS fallback; the script keeps any query string (e.g. embed). -->
-  <meta http-equiv="refresh" content="0; url=../#r=roi-calc" />
+  <meta http-equiv="refresh" content="0; url=../?catalog=4949568d4788652a#r=roi-calc" />
   <script>
     (function () {
-      try { location.replace('../#r=roi-calc' + (location.search || '')); }
-      catch (e) { location.href = '../#r=roi-calc'; }
+      var destination = new URL('../?catalog=4949568d4788652a#r=roi-calc', location.href);
+      new URLSearchParams(location.search).forEach(function (value, key) {
+        if (key !== 'catalog') destination.searchParams.append(key, value);
+      });
+      location.replace(destination.href);
     })();
   </script>
   <style>
@@ -38,6 +41,6 @@
 </head>
 <body>
   <p>Opening the enablement guide for <strong>M365 Copilot Productivity ROI Calculator</strong>&hellip;</p>
-  <p>If you are not redirected, <a href="../#r=roi-calc">open the M365 Copilot Productivity ROI Calculator enablement guide</a>.</p>
+  <p>If you are not redirected, <a href="../?catalog=4949568d4788652a#r=roi-calc">open the M365 Copilot Productivity ROI Calculator enablement guide</a>.</p>
 </body>
 </html>
