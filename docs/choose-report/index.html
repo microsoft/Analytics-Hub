@@ -3136,6 +3136,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "accent": "#0078d4",
       "category": "impact-roi",
       "tier": "core",
+      "isNew": true,
       "measures": ["impact", "roi"],
       "source": "Manual assumptions or supported credit consumption exports",
       "sourceKey": "Local",
@@ -3149,7 +3150,10 @@ html.mk-embed main.mk-page{ display:none !important; }
         "license": "No tenant export required for manual planning"
       },
       "requirements": {
-        "roles": [{"label": "None for manual planning; source exports require appropriate access"}],
+        "roles": [
+          {"label": "Manual planning: no role required"},
+          {"label": "Running a Viva Insights Consumption query: Insights Analyst with global-partition access", "url": "https://learn.microsoft.com/en-us/viva/insights/org-team-insights/ai-cost-dashboard#who-can-access-the-dashboard"}
+        ],
         "software": [{"label": "Modern browser"}]
       },
       "related": [
@@ -7432,7 +7436,15 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         <h5><span class="cc-num">1</span> Open the app</h5>
         <p>Open <a href="https://microsoft.github.io/Analytics-Hub/tools/cowork-credit-forecasting/" target="_blank" rel="noopener noreferrer">Cowork Credit Forecasting</a>. Choose <strong>Modeling</strong> to start without a file; users, usage, growth, credits, prices and budget start at zero, so enter your own values.</p>
         <h5><span class="cc-num">2</span> Choose a starting point</h5>
-        <p>In <strong>Your Data</strong>, try the fictional demo or import a Viva Insights Consumption query ZIP or a joined CSV with usage and organization details. To create the query, you need the Insights Analyst role and access to the global partition. Follow the in-app instructions or <a href="https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/ai-cost-query" target="_blank" rel="noopener noreferrer">Microsoft's query instructions</a>. Group by day or month and filter <code>ServiceName</code> to one Microsoft 365 Copilot service, such as Cowork. A service-level ZIP must contain a single service; GitHub credits are separate. Check the source yourself: opaque service names or IDs and joined CSVs cannot be authoritatively verified by the app. Person-level exports require appropriate data handling.</p>
+        <p>In <strong>Your Data</strong>, try the fictional demo or import a Viva Insights Consumption query ZIP or a joined CSV with usage and organization details.</p>
+        <p><strong>To run a Viva Insights Consumption query:</strong> you need the <strong>Insights Analyst</strong> role and access to the <strong>global partition</strong>. Manual modeling and the demo do not require these permissions.</p>
+        <ol>
+          <li>Open the <a href="https://go.microsoft.com/fwlink/?linkid=2201482" target="_blank" rel="noopener noreferrer">Viva Insights web app</a> and select <strong>Create analysis &rarr; Create custom query &rarr; Consumption query</strong>.</li>
+          <li>Choose your time period. Under <strong>More Settings</strong>, group by <strong>Day</strong> or <strong>Month</strong> for calendar-month analysis. Keep the preselected metrics.</li>
+          <li>Add a <code>ServiceName</code> condition for one Microsoft 365 Copilot service, such as Cowork. Select the organizational attributes you want to explore.</li>
+          <li>Select <strong>Run</strong>. In <strong>Analysis results</strong>, wait for success, then download the CSV results ZIP and open it in the app.</li>
+        </ol>
+        <p>See <a href="https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/ai-cost-query" target="_blank" rel="noopener noreferrer">Microsoft's query instructions</a>. A service-level ZIP must contain a single service; GitHub credits are separate. Check the source yourself: opaque service names or IDs and joined CSVs cannot be authoritatively verified by the app. Person-level exports require appropriate data handling.</p>
         <h5><span class="cc-num">3</span> Build and compare scenarios</h5>
         <p>Review the data and assumptions, select a group and starting month if using imported data, then adjust the inputs in Modeling. For a first imported-data forecast without an edited plan, prepaid credits, prices, budget and growth start at zero unless you explicitly select historical growth. Enter and review these values; the fictional demo uses its own defaults. Applying real data to an edited demo or unknown-origin plan requires confirmation and leaves a warning to review any retained assumptions. Use day or calendar-month data for calendar-month forecasts; check historical months for partial periods or incomplete data. A single month's change can exaggerate compounded growth, so review the rates before relying on them.</p>
         <h5><span class="cc-num">4</span> Interpret the result</h5>
@@ -8589,7 +8601,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     rolesEl.hidden = !roleItems.length;
     rolesEl.classList.toggle('is-none', noRole);
     rolesEl.innerHTML = roleItems.length
-      ? '<span class="mk-dlg-roles-l">' + (noRole ? 'Roles needed' : 'Roles required') + '</span>' +
+      ? '<span class="mk-dlg-roles-l">' + (noRole || t.id === 'cowork-credit-forecasting' ? 'Roles needed' : 'Roles required') + '</span>' +
         '<span class="mk-dlg-roles-i">' + roleItems.map(function (it) {
           var u = escUrl(it.url);
           return u
@@ -8968,7 +8980,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       '" data-id="' + esc(id) + '">' +
       '<span class="pk-top">' +
         '<span class="pk-title">' + esc(titleOf(t)) + '</span>' +
-        (id === 'cowork-super-user' ? '<span class="rf-tag rf-tag--cowork-new">NEW</span>' : '') +
+        (id === 'cowork-super-user' || id === 'cowork-credit-forecasting' ? '<span class="rf-tag rf-tag--cowork-new">NEW</span>' : '') +
         (t.version ? '<span class="rf-ver" title="Report version">v' + esc(t.version) + '</span>' : '') +
         ((t.updated && isRecent(t.updated, 30))
           ? '<span class="rf-upd" title="Updated ' + esc(fmtShort(t.updated)) + '">Updated ' + esc(fmtShort(t.updated)) + '</span>'
