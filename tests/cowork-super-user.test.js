@@ -330,7 +330,7 @@ test('homepage gives Cowork its own positioning section above the unchanged Rece
   assert.match(cowork, /class="flagship-logo"/);
   assert.match(cowork, /<p class="eyebrow">Recently Added<\/p>/);
   assert.match(cowork, /data-theme="dark"/);
-  assert.doesNotMatch(cowork, /see who drives/i);
+  assert.match(cowork, /See who drives your Cowork credits/);
   assert.ok(cowork.indexOf('Recently Added') < cowork.indexOf('id="coworkWhyTitle"'));
   assert.ok(cowork.indexOf('class="flagship-desc"') < cowork.indexOf('<iframe'));
   const section = home.slice(home.indexOf('id="flagship"'));
@@ -348,11 +348,7 @@ test('homepage gives Cowork its own positioning section above the unchanged Rece
   assert.match(cowork, /https:\/\/youtu\.be\/zNMA3xz19O0/);
   assert.match(cowork, /href="choose-report\/cowork-super-user\/\?route=2">See the details/);
   const description = cowork.match(/class="flagship-desc">([\s\S]*?)<\/p>/)[1];
-  assert.equal((description.match(/\./g) || []).length, 3);
-  assert.match(description, /which Cowork tasks use the most credits/);
-  assert.match(description, /how usage changes week by week/);
-  assert.match(description, /focus enablement/);
-  assert.match(description, /directional value scenarios.*not measured savings/);
+  assert.match(cowork, /class="flagship-desc">\s*See who drives your Cowork credits, what power users do differently, whether growth comes from more tasks or heavier ones, and which scheduled automations to rethink\.\s*<\/p>/);
   for (const [index, video] of ['P0uHJb13ZR0', 'JdOVx_6kw5Y', 'Tg594Hst5MY'].entries()) {
     assert.ok(cards[index].includes(video));
   }
