@@ -2,8 +2,8 @@ name: Daily video analytics snapshot
 
 on:
   schedule:
-    # 03:20 UTC daily, shortly after the main traffic snapshot.
-    - cron: "20 3 * * *"
+    # Every hour at :20 UTC.
+    - cron: "20 * * * *"
   workflow_dispatch: {}
 
 permissions:

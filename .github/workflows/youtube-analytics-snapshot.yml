@@ -2,8 +2,8 @@ name: Daily YouTube analytics snapshot
 
 on:
   schedule:
-    # 03:45 UTC daily, after the site and video telemetry snapshots.
-    - cron: "45 3 * * *"
+    # Every hour at :15 UTC, after the video telemetry snapshot.
+    - cron: "15 * * * *"
   workflow_dispatch: {}
 
 permissions:
