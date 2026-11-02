@@ -1,0 +1,30 @@
+Third-party components distributed with this tool
+
+The corresponding license texts are in this directory (font licenses are
+in fonts/). The standalone JSZip bundle is version 3.10.1; the PptxGenJS
+3.12.0 bundle also contains JSZip 3.5.0. Their upstream release lockfiles
+both list Pako 1.0.5. The minified bundles do not independently identify
+the Pako version; Pako's 1.0.5 license is identical to its 1.0.11 license.
+
+JSZip: JSZip-LICENSE.txt and JSZip-3.5.0-LICENSE.txt
+PptxGenJS: PptxGenJS-LICENSE.txt
+Pako: Pako-LICENSE.txt
+lie: Lie-LICENSE.txt
+immediate: Immediate-LICENSE.txt
+setImmediate: SetImmediate-LICENSE.txt
+set-immediate-shim: SetImmediateShim-LICENSE.txt
+core-js 2.6.11: CoreJS-LICENSE.txt
+Babel polyfill: Babel-LICENSE.txt
+regenerator runtime: Regenerator-LICENSE.txt
+
+Upstream license sources:
+https://raw.githubusercontent.com/Stuk/jszip/v3.10.1/LICENSE.markdown
+https://raw.githubusercontent.com/Stuk/jszip/v3.5.0/LICENSE.markdown
+https://raw.githubusercontent.com/nodeca/pako/1.0.5/LICENSE
+https://raw.githubusercontent.com/calvinmetcalf/lie/v3.3.0/license.md
+https://raw.githubusercontent.com/calvinmetcalf/immediate/v3.0.6/LICENSE.txt
+https://raw.githubusercontent.com/YuzuJS/setImmediate/master/LICENSE.txt
+https://raw.githubusercontent.com/sindresorhus/set-immediate-shim/v1.0.1/license
+https://raw.githubusercontent.com/zloirock/core-js/v2.6.11/LICENSE
+https://raw.githubusercontent.com/babel/babel/v7.8.7/LICENSE
+https://raw.githubusercontent.com/facebook/regenerator/v0.13.3/LICENSE

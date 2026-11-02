@@ -3129,6 +3129,36 @@ html.mk-embed main.mk-page{ display:none !important; }
       ]
     },
     {
+      "id": "cowork-credit-forecasting",
+      "question": "I want to forecast Cowork credit consumption and compare planning scenarios.",
+      "title": "Cowork Credit Forecasting",
+      "icon": "📈",
+      "accent": "#0078d4",
+      "category": "impact-roi",
+      "tier": "core",
+      "measures": ["impact", "roi"],
+      "source": "Manual assumptions or supported credit consumption exports",
+      "sourceKey": "Local",
+      "repo": "https://microsoft.github.io/Analytics-Hub/tools/cowork-credit-forecasting/",
+      "download": "",
+      "demoVideo": "https://www.youtube.com/watch?v=2atAy4Ni2lE",
+      "demoVideoLabel": "Watch the walkthrough",
+      "blurb": "Explore Cowork credit demand and compare scenarios in a browser-based planning tool. Start with manual inputs or bring supported consumption exports; files are processed locally. Forecasts and consumption values are scenarios, not invoices.",
+      "meta": {
+        "audience": "FinOps, finance partners, Copilot program owners",
+        "license": "No tenant export required for manual planning"
+      },
+      "requirements": {
+        "roles": [{"label": "None for manual planning; source exports require appropriate access"}],
+        "software": [{"label": "Modern browser"}]
+      },
+      "related": [
+        {"id": "cowork-chargeback-app", "title": "Cowork Chargeback (Web App)", "icon": "🧮", "accent": "#00B294", "score": 5, "shared": ["impact", "roi"]},
+        {"id": "consumption-central", "title": "Consumption Central for Microsoft Copilot", "icon": "💳", "accent": "#0078d4", "score": 5, "shared": ["impact", "roi"]},
+        {"id": "cowork-roi-model-app", "title": "Cowork ROI Model (Web App)", "icon": "📈", "accent": "#b11f4b", "score": 5, "shared": ["impact", "roi"]}
+      ]
+    },
+    {
       "id": "cowork-chargeback-app",
       "question": "I want a lightweight web app that lets me do scenario modeling for Cowork credits.",
       "title": "Cowork Chargeback (Web App)",
@@ -7365,6 +7395,53 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   </div>
 </template>
 
+<template id="forecastHero">
+  <div class="cc-hero cbr-hero-card">
+    <h2>Cowork Credit Forecasting</h2>
+    <div class="cc-tag">Plan credit demand and compare scenarios in your browser</div>
+    <div class="cc-oneliner">Manual assumptions &middot; optional consumption exports &middot; credit scenarios &middot; coverage planning</div>
+    <div class="cc-badges"><span>BROWSER-BASED</span><span>NO FILE REQUIRED</span><span>SCENARIO PLANNING</span></div>
+    <div class="cbr-player" data-frames="5" data-base="forecast-frames" data-interval="5000" data-respect-motion="true" data-descriptions='["Fictional demo: historical credit usage by month","Fictional demo: choose a data-based or assumptions-based forecast","Fictional demo: starting users, usage and forecast assumptions","Fictional demo: monthly credit demand and scenario estimates","Fictional demo: phase waterfall of forecast credit demand"]' role="region" aria-label="Cowork Credit Forecasting walkthrough">
+      <div class="cbr-stage"><a href="https://microsoft.github.io/Analytics-Hub/tools/cowork-credit-forecasting/" target="_blank" rel="noopener noreferrer"><span class="cbr-sr">Open Cowork Credit Forecasting. </span><img class="cbr-img" src="forecast-frames/frame_00.jpg" alt="Fictional demo: historical credit usage by month"></a></div>
+      <div class="cbr-controls">
+        <button class="cbr-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
+        <button class="cbr-btn" type="button" data-act="play" aria-label="Pause slideshow" aria-pressed="true"><span class="cbr-playico" aria-hidden="true">&#10074;&#10074;</span></button>
+        <button class="cbr-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
+        <span class="cbr-counter" aria-hidden="true">1 / 5</span>
+        <span class="cbr-sr cbr-status" role="status" aria-live="polite" aria-atomic="true"></span>
+      </div>
+      <div class="cbr-dots">
+        <button class="cbr-dot" type="button" data-idx="0" aria-current="true" aria-label="Page 1"></button>
+        <button class="cbr-dot" type="button" data-idx="1" aria-label="Page 2"></button>
+        <button class="cbr-dot" type="button" data-idx="2" aria-label="Page 3"></button>
+        <button class="cbr-dot" type="button" data-idx="3" aria-label="Page 4"></button>
+        <button class="cbr-dot" type="button" data-idx="4" aria-label="Page 5"></button>
+      </div>
+      <div class="cbr-hint">Fictional demo data &middot; use play or pause and &#8249; &#8250; to step through, or click a dot to jump. Select the image to open the app.</div>
+      <button class="cbr-fs-cta" type="button" data-act="fullscreen" aria-label="View slideshow full screen"><span class="ic" aria-hidden="true">&#9974;</span> <span class="cbr-fs-label">Full screen</span></button>
+    </div>
+  </div>
+</template>
+
+<template id="forecastStep4">
+  <p class="gx-reads">Start with <strong>manual assumptions and no files</strong>, or use supported exports to inform a scenario. Selected files are processed locally in your browser.</p>
+  <div class="ccyd">
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
+      <span class="cc-time">Browser only &middot; manual inputs or supported exports</span>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Open the app</h5>
+        <p>Open <a href="https://microsoft.github.io/Analytics-Hub/tools/cowork-credit-forecasting/" target="_blank" rel="noopener noreferrer">Cowork Credit Forecasting</a>. Choose <strong>Modeling</strong> to start without a file; users, usage, growth, credits, prices and budget start at zero, so enter your own values.</p>
+        <h5><span class="cc-num">2</span> Choose a starting point</h5>
+        <p>In <strong>Your Data</strong>, try the fictional demo or import a Viva Insights Consumption query ZIP or a joined CSV with usage and organization details. To create the query, you need the Insights Analyst role and access to the global partition. Follow the in-app instructions or <a href="https://learn.microsoft.com/en-us/viva/insights/advanced/analyst/ai-cost-query" target="_blank" rel="noopener noreferrer">Microsoft's query instructions</a>. Group by day or month and filter <code>ServiceName</code> to one Microsoft 365 Copilot service, such as Cowork. A service-level ZIP must contain a single service; GitHub credits are separate. Check the source yourself: opaque service names or IDs and joined CSVs cannot be authoritatively verified by the app. Person-level exports require appropriate data handling.</p>
+        <h5><span class="cc-num">3</span> Build and compare scenarios</h5>
+        <p>Review the data and assumptions, select a group and starting month if using imported data, then adjust the inputs in Modeling. For a first imported-data forecast without an edited plan, prepaid credits, prices, budget and growth start at zero unless you explicitly select historical growth. Enter and review these values; the fictional demo uses its own defaults. Applying real data to an edited demo or unknown-origin plan requires confirmation and leaves a warning to review any retained assumptions. Use day or calendar-month data for calendar-month forecasts; check historical months for partial periods or incomplete data. A single month's change can exaggerate compounded growth, so review the rates before relying on them.</p>
+        <h5><span class="cc-num">4</span> Interpret the result</h5>
+        <p>The consumption value is a scenario based on your assumptions, not an invoice or a billing reconciliation. A modeled shortfall does not guarantee that pay-as-you-go is available or enabled; confirm your actual commercial terms and settings. Review exported forecasts and presentations for sensitive inputs before sharing.</p>
+      </div>
+    </section>
+  </div>
+</template>
+
 <template id="crmHero">
   <div class="cc-hero cbr-hero-card">
     <h2>Cowork ROI Model (Web App)</h2>
@@ -7557,6 +7634,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     'roi-calc': ['roi', 'business case', 'payback', 'calculator', 'cost recovery', 'value'],
     'cowork-billing-report': ['chargeback', 'billing', 'cost allocation', 'departments', 'cowork', 'credits', 'showback'],
     'cowork-chargeback-app': ['chargeback', 'scenario modelling', 'what-if', 'credits', 'cowork', 'web app'],
+    'cowork-credit-forecasting': ['forecast', 'forecasting', 'budget', 'consumption', 'credits', 'cowork', 'scenario', 'planning'],
     'cowork-team-report':   ['cowork', 'cowork skills', 'team cowork skills', 'skill', 'teams channel', 'hours saved', 'newsletter', 'team roi'],
     'cowork-adoption':      ['cowork', 'adoption', 'engagement', 'delegation', 'champions', 'purview', 'incubating'],
     'ai-solutions-intelligence': ['shadow ai', 'third-party ai', 'defender', 'oauth', 'consent', 'risk', 'advanced hunting', 'kql', 'incubating'],
@@ -7602,6 +7680,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     'consumption-central':        { cost: 1 },
     'cowork-billing-report':      { cost: 1 },
     'cowork-chargeback-app':      { cost: 2 },
+    'cowork-credit-forecasting':  { cost: 1 },
     'agent-evaluator':            { agents: 1 },
     'chat-agent':                 { agents: 2, adoption: 2 },
     'm365-readiness':             { adoption: 2 },
@@ -7658,6 +7737,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     'consumption-central':        { p: ['cowork','github'],        d: ['credits'],                      a: 'FinOps, IT finance' },
     'cowork-billing-report':      { p: ['cowork'],                 d: ['credits','viva'],               a: 'Finance, cost centres' },
     'cowork-chargeback-app':      { p: ['cowork'],                 d: ['credits'],                      a: 'Finance, cost centres' },
+    'cowork-credit-forecasting':  { p: ['cowork'],                 d: ['credits'],                      a: 'FinOps, finance, program owners' },
     'agent-evaluator':            { p: ['studio'],                 d: ['copilotstudio'],                a: 'Agent owners, makers' },
     'chat-agent':                 { p: ['chat','studio'],          d: ['purview'],                      a: 'Analysts, CCMs' },
     'm365-readiness':             { p: ['m365'],                   d: ['m365admin'],                    a: 'Adoption & license owners' },
@@ -8305,7 +8385,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   var HERO_GIF_IDS = {
     'cowork-super-user': 1,
     'super-usage': 1, 'super-user-impact': 1, 'ess-insights': 1,
-    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1, 'cowork-chargeback-app': 1, 'cowork-policy-helper-app': 1, 'consumption-central': 1
+    'ai-in-one': 1, 'cowork-billing-report': 1, 'roi-calc': 1, 'ghcp-impact': 1, 'ghcp-panel': 1, 'what-i-did': 1, 'cowork-impact': 1, 'adoption-sentiment': 1, 'personal-copilot-dashboard': 1, 'customize': 1, 'cowork-roi-model-app': 1, 'cowork-chargeback-app': 1, 'cowork-policy-helper-app': 1, 'consumption-central': 1, 'cowork-credit-forecasting': 1
   };
   function mediaItems(t) {
     var vids = videosOf(t), items = [];
@@ -8914,7 +8994,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
             'View details</button>' +
           (repoUrl
             ? '<a class="pk-btn pk-btn--repo" href="' + esc(repoUrl) + '" target="_blank" ' +
-              'rel="noopener noreferrer">View repo</a>'
+              'rel="noopener noreferrer">' + (id === 'cowork-credit-forecasting' ? 'Open the app' : 'View repo') + '</a>'
             : '') +
         '</span>' +
       '</span>' +
@@ -10423,6 +10503,10 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       var _crmStep4 = document.getElementById('crmStep4');
       if (_crmStep4) return _crmStep4.innerHTML;
     }
+    if (t.id === 'cowork-credit-forecasting') {
+      var _forecastStep4 = document.getElementById('forecastStep4');
+      if (_forecastStep4) return _forecastStep4.innerHTML;
+    }
     if (t.id === 'roi-calc') {
       var _roiStep4 = document.getElementById('roiStep4');
       if (_roiStep4) return _roiStep4.innerHTML;
@@ -10538,14 +10622,16 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     var heroHasPreview = !!HERO_GIF_IDS[t.id] && videosOf(t).length === 0;
     if (!heroHasPreview) {
       out += step('See what you are building',
-        (t.id === 'cowork-super-user'
+        (t.id === 'cowork-credit-forecasting'
+          ? '<p>Watch the walkthrough, then build a scenario using manual assumptions or supported exports.</p>'
+          : t.id === 'cowork-super-user'
           ? '<p>Watch the narrated walkthrough, then follow the customer-data setup below. The preview is illustrative, not customer results.</p>'
           : '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>') +
         (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
         ((watch || demo) ? '<div class="gx-links">' +
           (demo ? '<a href="' + demo + '" target="_blank" rel="noopener">Open the live demo on its own page</a>' : '') +
           (watch ? '<a href="' + watch +
-            '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a>' : '') +
+            '" target="_blank" rel="noopener noreferrer">' + (t.id === 'cowork-credit-forecasting' ? 'Open the walkthrough on YouTube' : 'Open the demo on its own page') + '</a>' : '') +
           '</div>' : ''));
     }
     var lean = t.id === 'cowork-super-user';
@@ -10651,6 +10737,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         (t.id === 'customize' && document.getElementById('czHero') ? document.getElementById('czHero').innerHTML : '') +
         (t.id === 'finops-focus-app' && document.getElementById('ffaHero') ? document.getElementById('ffaHero').innerHTML : '') +
         (t.id === 'cowork-roi-model-app' && document.getElementById('crmHero') ? document.getElementById('crmHero').innerHTML : '') +
+        (t.id === 'cowork-credit-forecasting' && document.getElementById('forecastHero') ? document.getElementById('forecastHero').innerHTML : '') +
         (t.id === 'roi-calc' && document.getElementById('roiHero') ? document.getElementById('roiHero').innerHTML : '') +
         (t.id === 'value-lens' && document.getElementById('vlHero') ? document.getElementById('vlHero').innerHTML : '') +
         (t.id === 'cowork-super-user' && document.getElementById('csuHero') ? document.getElementById('csuHero').innerHTML : '') +
@@ -10980,7 +11067,8 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 .cbr-dots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:11px 0 0}
 .cbr-dot{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
 .cbr-dot:hover{background:rgba(255,255,255,.55)}
-.cbr-dot[aria-selected="true"]{background:#fff}
+.cbr-dot[aria-selected="true"],.cbr-dot[aria-current="true"]{background:#fff}
+.cbr-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .cbr-hint{font-size:11px;color:#9db4de;text-align:center;margin:9px 0 0}
 .cbr-fs-cta{position:absolute;left:20px;bottom:18px;z-index:3;appearance:none;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:9px;backdrop-filter:blur(2px);box-shadow:0 2px 10px rgba(0,0,0,.25)}
 .cbr-fs-cta:hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.7)}
@@ -11002,22 +11090,42 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   var reg = [];
   function pad2(n){ return (n < 10 ? '0' : '') + n; }
   function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
-  function show(st, idx){
+  function show(st, idx, manual){
     st.i = (idx + st.n) % st.n;
     if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.img && st.descriptions) st.img.alt = st.descriptions[st.i];
     if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
-    for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
+    for (var k=0;k<st.dots.length;k++){
+      if (st.descriptions) {
+        if (k === st.i) st.dots[k].setAttribute('aria-current', 'true');
+        else st.dots[k].removeAttribute('aria-current');
+      } else st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false');
+    }
+    if (manual && st.status) st.status.textContent = 'Slide ' + (st.i + 1) + ' of ' + st.n + ': ' + st.descriptions[st.i];
   }
-  function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
-  function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
+  function setIco(st){
+    if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;';
+    if (st.descriptions && st.playButton) {
+      st.playButton.setAttribute('aria-label', st.playing ? 'Pause slideshow' : 'Play slideshow');
+      st.playButton.setAttribute('aria-pressed', st.playing ? 'true' : 'false');
+    }
+  }
+  function play(st){ st.playing = true; setIco(st); if (st.status) st.status.textContent = ''; clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, st.interval); }
   function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
   function init(el){
     if (findState(el)) return;
+    var descriptions = el.getAttribute('data-descriptions');
+    if (descriptions) { try { descriptions = JSON.parse(descriptions); } catch (_) { descriptions = null; } }
     var st = { el: el, i: 0, n: parseInt(el.getAttribute('data-frames'),10)||0,
       base: el.getAttribute('data-base') || 'cbr-frames', playing:false, timer:null,
+      interval: parseInt(el.getAttribute('data-interval'),10) || 2000,
       img: el.querySelector('.cbr-img'), counter: el.querySelector('.cbr-counter'),
-      dots: el.querySelectorAll('.cbr-dot'), playIco: el.querySelector('.cbr-playico') };
-    reg.push(st); show(st,0); play(st);
+      dots: el.querySelectorAll('.cbr-dot'), playIco: el.querySelector('.cbr-playico'),
+      playButton: el.querySelector('[data-act="play"]'), status: el.querySelector('.cbr-status'),
+      descriptions: descriptions };
+    reg.push(st); show(st,0);
+    if (el.getAttribute('data-respect-motion') === 'true' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) pause(st);
+    else play(st);
   }
   function scan(){ var l=document.querySelectorAll('.cbr-player'); for (var i=0;i<l.length;i++) init(l[i]); }
   function toggleFs(el){
@@ -11039,14 +11147,24 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     }
     var el = btn.closest('.cbr-player'); if (!el) return;
     init(el); var st = findState(el); if (!st) return;
-    if (act === 'prev'){ pause(st); show(st, st.i-1); }
-    else if (act === 'next'){ pause(st); show(st, st.i+1); }
+    if (act === 'prev'){ pause(st); show(st, st.i-1, true); }
+    else if (act === 'next'){ pause(st); show(st, st.i+1, true); }
     else if (act === 'play'){ st.playing ? pause(st) : play(st); }
-    else if (btn.classList.contains('cbr-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0); }
+    else if (btn.classList.contains('cbr-dot')){ pause(st); show(st, parseInt(btn.getAttribute('data-idx'),10)||0, true); }
   });
+  function updateForecastFullscreen() {
+    var fs = document.fullscreenElement || document.webkitFullscreenElement;
+    document.querySelectorAll('.cbr-player[data-descriptions] .cbr-fs-cta').forEach(function (btn) {
+      var active = fs === btn.closest('.cbr-player');
+      btn.setAttribute('aria-label', active ? 'Exit slideshow full screen' : 'View slideshow full screen');
+      btn.querySelector('.cbr-fs-label').textContent = active ? 'Exit full screen' : 'Full screen';
+    });
+  }
+  document.addEventListener('fullscreenchange', updateForecastFullscreen);
+  document.addEventListener('webkitfullscreenchange', updateForecastFullscreen);
   document.addEventListener('click', function (e){
     var img = e.target && e.target.closest ? e.target.closest('.cbr-stage .cbr-img') : null;
-    if (!img) return; var el = img.closest('.cbr-player'); if (el) toggleFs(el);
+    if (!img || img.closest('a')) return; var el = img.closest('.cbr-player'); if (el) toggleFs(el);
   });
   if (window.MutationObserver) new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
   if (document.readyState !== 'loading') scan(); else document.addEventListener('DOMContentLoaded', scan);
