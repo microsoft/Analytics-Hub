@@ -10548,12 +10548,15 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
             '" target="_blank" rel="noopener noreferrer">Open the demo on its own page</a>' : '') +
           '</div>' : ''));
     }
-    out += step('Get the access you need',
-      '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>' +
-      (gxChecks(req.roles) || '<p class="gx-hint">No special roles required.</p>'));
-    out += step('Install the tools',
-      gxChecks(req.software) || '<p class="gx-hint">Nothing to install.</p>');
-    out += step('Connect your data', gxConnect(t));
+    var lean = t.id === 'cowork-super-user';
+    if (!lean) {
+      out += step('Get the access you need',
+        '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>' +
+        (gxChecks(req.roles) || '<p class="gx-hint">No special roles required.</p>'));
+      out += step('Install the tools',
+        gxChecks(req.software) || '<p class="gx-hint">Nothing to install.</p>');
+    }
+    out += step(lean ? 'Set up the report' : 'Connect your data', gxConnect(t));
     /* One destination only: the repository. The separate Download template
        button pointed at a raw file and confused people about where the
        template actually lives. */
@@ -10579,7 +10582,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       : isPbi
       ? 'Open the README and setup guidance'
       : (isRepo ? 'Open the repository on GitHub' : 'Open the app');
-    out += step(getHead,
+    out += lean ? '' : step(getHead,
       repo ? '<p>' + getCopy +
              (meta.time ? ' Expect around <strong>' + esc(meta.time) + '</strong>.' : '') + '</p>' +
            '<a class="gx-cta gx-cta--big" href="' + repo +

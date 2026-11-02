@@ -92,6 +92,8 @@ test('enablement guide is exactly three steps: enable export, export report, con
 });
 
 test('Cowork Super User is labelled (Preview) in the hero and launch banner', () => {
+  assert.match(html, /var lean = t\.id === 'cowork-super-user';\s*if \(!lean\) \{\s*out \+= step\('Get the access you need'/);
+  assert.match(html, /out \+= lean \? '' : step\(getHead,/);
   assert.match(template('csuHero'), /<h2>Cowork Super User \(Preview\)<\/h2>/);
   assert.match(html, /<h2 id="pkLaunchTitle">Cowork Super User \(Preview\)<\/h2>/);
 });
