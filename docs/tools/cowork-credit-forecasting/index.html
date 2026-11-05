@@ -50,45 +50,45 @@
 }
 :root {
   color-scheme: light;
-  --cp-bg: #f7f4ef;
-  --cp-bg-elevated: #fcfbf8;
+  --cp-bg: #f3f2f1;
+  --cp-bg-elevated: #f3f2f1;
   --cp-surface: #ffffff;
-  --cp-surface-soft: #f5f5f5;
-  --cp-border: #dedede;
-  --cp-border-strong: #919191;
-  --cp-text: #242424;
-  --cp-text-muted: #5c5c5c;
-  --cp-text-soft: #6f6f6f;
-  --cp-accent: #b11f4b;
-  --cp-accent-hover: #9a1a41;
-  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-surface-soft: #faf9f8;
+  --cp-border: #e1dfdd;
+  --cp-border-strong: #8a8886;
+  --cp-text: #201f1e;
+  --cp-text-muted: #605e5c;
+  --cp-text-soft: #6b6967;
+  --cp-accent: #0f6cbd;
+  --cp-accent-hover: #115ea3;
+  --cp-accent-soft: #eff6fc;
   --cp-accent-fg: #ffffff;
-  --cp-success: #16a34a;
-  --cp-danger: #dc2626;
+  --cp-success: #107c10;
+  --cp-danger: #c4314b;
   --cp-warning: #f59e0b;
-  --cp-link: #0078d4;
-  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-link: #0f6cbd;
+  --cp-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
   --cp-overlay: rgba(255, 255, 255, 0.8);
   --cp-panel: rgba(255, 255, 255, 0.86);
   --cp-panel-strong: rgba(255, 255, 255, 0.96);
   --cp-sheen: rgba(255, 255, 255, 0.55);
-  --cp-highlight: rgba(177, 31, 75, 0.12);
+  --cp-highlight: transparent;
 }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --cp-bg: #3d3b3a;
-  --cp-bg-elevated: #343231;
+  --cp-bg: #1f1f1f;
+  --cp-bg-elevated: #1f1f1f;
   --cp-surface: #292929;
   --cp-surface-soft: #2e2e2e;
-  --cp-border: #474747;
-  --cp-border-strong: #5f5f5f;
-  --cp-text: #dedede;
-  --cp-text-muted: #919191;
+  --cp-border: #3d3d3d;
+  --cp-border-strong: #6b6b6b;
+  --cp-text: #f0f0f0;
+  --cp-text-muted: #adadad;
   --cp-text-soft: #b0b0b0;
-  --cp-accent: #fd8ea1;
-  --cp-accent-hover: #fb7b91;
-  --cp-accent-soft: rgba(253, 142, 161, 0.14);
-  --cp-accent-fg: #1a1a1a;
+  --cp-accent: #479ef5;
+  --cp-accent-hover: #62abf5;
+  --cp-accent-soft: rgba(71, 158, 245, 0.14);
+  --cp-accent-fg: #0a0a0a;
   --cp-success: #4ade80;
   --cp-danger: #f87171;
   --cp-warning: #fbbf24;
@@ -104,58 +104,44 @@ html[data-theme="dark"] {
 body {
   margin: 0;
   color: var(--cp-text);
-  font: 15px/1.55 "IBM Plex Sans", "Segoe UI", Aptos, Calibri, sans-serif;
+  font: 14px/1.5 "Segoe UI", "Segoe UI Variable", -apple-system, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--cp-bg);
-  background-image:
-    radial-gradient(ellipse 75% 330px at 8% 0%, var(--cp-highlight), transparent 78%),
-    radial-gradient(ellipse 75% 330px at 95% 0%, var(--cp-accent-soft), transparent 80%),
-    linear-gradient(180deg, var(--cp-accent-soft) 0%, var(--cp-bg-elevated) 360px, var(--cp-bg) 720px);
-  background-attachment: fixed;
-}
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 300px;
-  pointer-events: none;
-  background: var(--cp-accent-soft);
-  border-radius: 0 0 55% 22%;
 }
 button, input, select, textarea { font: inherit; }
-button, .file-button { cursor: pointer; border: 1px solid var(--cp-border); color: var(--cp-text); background: var(--cp-surface); border-radius: 8px; padding: 9px 14px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px var(--cp-border); }
-button:hover, .file-button:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+button, .file-button { cursor: pointer; border: 1px solid var(--cp-border-strong); color: var(--cp-text); background: var(--cp-surface); border-radius: 4px; padding: 6px 14px; font-size: 14px; font-weight: 600; box-shadow: none; }
+button:hover, .file-button:hover { background: var(--cp-surface-soft); border-color: var(--cp-text-muted); color: var(--cp-text); }
 button.primary { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
-button.primary:hover { background: var(--cp-accent-hover); }
-button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, .file-button:focus-within { outline: 3px solid var(--cp-accent); outline-offset: 2px; }
-input, select, textarea { width: 100%; padding: 9px 10px; border: 1px solid var(--cp-border); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); }
+button.primary:hover { background: var(--cp-accent-hover); border-color: var(--cp-accent-hover); color: var(--cp-accent-fg); }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, .file-button:focus-within { outline: 2px solid var(--cp-accent); outline-offset: 1px; }
+input, select, textarea { width: 100%; padding: 6px 10px; border: 1px solid var(--cp-border-strong); border-radius: 4px; background: var(--cp-surface); color: var(--cp-text); }
+input::placeholder { color: var(--cp-text-soft); opacity: .8; }
 textarea { resize: vertical; min-height: 76px; }
 input[type=file] { max-width: 260px; font-size: 13px; }
 input[type=number] { min-width: 80px; }
-label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; }
-h1,h2,h3,p { margin: 0; }
-h1, h2, .card h3 { font-family: "Newsreader", Georgia, serif; font-weight: 600; }
-h1 { font-size: clamp(2.2rem,4vw,3.4rem); line-height: 1.03; letter-spacing: -.025em; }
-h2 { font-size: 1.6rem; letter-spacing: -.015em; }
-h3 { font-size: 1.2rem; }
-.shell { position: relative; max-width: 1500px; margin: auto; padding: 0 32px 64px; }
+label { display: grid; gap: 4px; font-size: 13px; font-weight: 400; color: var(--cp-text); align-content: start; }
+h1,h2,h3,h4,p { margin: 0; }
+h1, h2, h3, h4 { font-weight: 600; }
+h1 { font-size: 28px; line-height: 1.2; letter-spacing: 0; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+h4 { font-size: 14px; margin: 16px 0 8px; }
+.shell { position: relative; max-width: 1200px; margin: auto; padding: 0 24px 64px; }
 .topline { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 8px; gap: 16px; }
 .topline-actions { display: flex; align-items: center; gap: 8px; }
-.brand { font-weight: 750; letter-spacing: -.02em; }
-.brand-mark { display: inline-block; width: 10px; height: 10px; background: var(--cp-accent); margin-right: 9px; }
-.eyebrow { color: var(--cp-accent); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; font-weight: 750; }
-.page-hero { padding: 28px 0 34px; border-bottom: 1px solid var(--cp-border); }
-.page-hero p { margin-top: 12px; color: var(--cp-text-muted); font-size: 16px; }
+.brand { font-weight: 600; }
+.brand-mark { display: inline-block; width: 10px; height: 10px; background: var(--cp-accent); margin-right: 9px; border-radius: 2px; }
+.eyebrow { color: var(--cp-text-muted); font-size: 12px; text-transform: none; letter-spacing: 0; font-weight: 600; }
+.page-hero { padding: 20px 0 20px; border-bottom: 0; }
+.page-hero p { margin-top: 8px; color: var(--cp-text-muted); font-size: 14px; max-width: 760px; }
 .hero { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: end; padding: 12px 0 20px; }
-.hero p { color: var(--cp-text-muted); max-width: 760px; margin-top: 12px; font-size: 16px; }
-.badge { border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 100px; padding: 6px 11px; font-size: 12px; font-weight: 650; white-space: nowrap; }
-.notice { border-left: 3px solid var(--cp-accent); background: var(--cp-accent-soft); padding: 13px 16px; margin-bottom: 24px; color: var(--cp-text); }
+.hero p { color: var(--cp-text-muted); max-width: 760px; margin-top: 8px; font-size: 14px; }
+.badge { border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.notice { border-left: 3px solid var(--cp-accent); background: var(--cp-accent-soft); padding: 12px 16px; margin-bottom: 24px; color: var(--cp-text); }
 .notice p + p { margin-top: 4px; }
-.section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 30px 0 14px; }
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 24px 0 12px; }
 .subtle, .caption { color: var(--cp-text-muted); }
-.caption { font-size: 12px; }
-.card { min-width: 0; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 10px; padding: 24px; box-shadow: 0 1px 2px var(--cp-border); }
+.caption { font-size: 12px; line-height: 1.45; }
+.card { min-width: 0; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 6px; padding: 20px 24px; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
 .grid { display: grid; gap: 14px; }
 .scenario-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 .scenario-card { border-top: 3px solid var(--cp-border-strong); }
@@ -164,19 +150,19 @@ h3 { font-size: 1.2rem; }
 .scenario-title { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
 .metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 18px 12px; margin-top: 20px; }
 .decision-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
-.decision-grid .card { border-top: 3px solid var(--cp-accent); }
-.decision-grid .metric-value { font-size: clamp(1.3rem, 2vw, 1.8rem); }
-.decision-grid .metric-label { font-size: 13px; }
+.decision-grid .card { border-top: 0; padding: 16px 20px; }
+.decision-grid .metric-value { font-size: 24px; font-weight: 600; }
+.decision-grid .metric-label { font-size: 12px; }
 .input-group + .input-group { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--cp-border); }
 .input-group h3 { margin-bottom: 12px; }
 .input-group .settings { margin-top: 0; }
 .panel-heading { margin-bottom: 8px; }
 .decision-note { margin-top: 12px; }
-.journey { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
-.journey span { background: var(--cp-surface); border: 1px solid var(--cp-border-strong); border-radius: 8px; padding: 9px 14px; color: var(--cp-text); font-size: 14px; font-weight: 700; }
-.journey span[aria-current="step"] { border-color: var(--cp-accent); background: var(--cp-accent-soft); color: var(--cp-accent); }
-#scheduled-app .eyebrow.step-label { display: inline-block; font-size: 14px; letter-spacing: .04em; padding: 5px 10px; margin-bottom: 5px; background: var(--cp-accent-soft); border-left: 3px solid var(--cp-accent); }
-#data-panel .data-step-title { font-family: "Newsreader", Georgia, serif; font-size: 1.5rem; line-height: 1.25; color: var(--cp-text); border-left: 4px solid var(--cp-accent); padding-left: 12px; margin-bottom: 8px; }
+.journey { display: flex; flex-wrap: wrap; gap: 0; margin: 0 0 16px; border-bottom: 1px solid var(--cp-border); }
+.journey span { background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 16px 10px; color: var(--cp-text-muted); font-size: 14px; font-weight: 400; }
+.journey span[aria-current="step"] { border-bottom-color: var(--cp-accent); background: transparent; color: var(--cp-text); font-weight: 600; }
+#scheduled-app .eyebrow.step-label { display: block; font-size: 12px; letter-spacing: 0; padding: 0; margin-bottom: 4px; background: none; border-left: 0; color: var(--cp-text-muted); }
+#data-panel .data-step-title { font-size: 20px; line-height: 1.3; color: var(--cp-text); border-left: 0; padding-left: 0; margin-bottom: 8px; font-weight: 600; }
 #data-panel .modeling-notice { font-weight: 650; }
 #data-panel .viva-guide { margin: 18px 0; padding: 16px 18px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-surface-soft); }
 #data-panel .viva-guide h4 { margin: 0 0 8px; font-size: 15px; }
@@ -195,7 +181,7 @@ h3 { font-size: 1.2rem; }
 .waterfall-table th[scope="row"] { white-space: normal; overflow-wrap: anywhere; min-width: 180px; }
 input[aria-invalid="true"] { border-color: var(--cp-danger); }
 .metric-label { font-size: 12px; color: var(--cp-text-muted); }
-.metric-value { font-weight: 720; font-size: clamp(1.05rem,1.5vw,1.4rem); line-height: 1.2; margin-top: 4px; overflow-wrap: normal; word-break: normal; font-variant-numeric: tabular-nums; }
+.metric-value { font-weight: 600; font-size: 20px; line-height: 1.2; margin-top: 4px; overflow-wrap: normal; word-break: normal; font-variant-numeric: tabular-nums; }
 .negative { color: var(--cp-danger); }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .chart-layout { display: grid; grid-template-columns: minmax(0,2fr) minmax(270px,1fr); gap: 14px; }
@@ -211,14 +197,31 @@ input[aria-invalid="true"] { border-color: var(--cp-danger); }
 #scheduled-chart-legend .sensitivity-high { border-color: var(--cp-text-muted); border-top-style: dotted; }
 .checkpoint-copy { margin-top: 12px; font-size: 15px; }
 .checkpoint-copy strong { color: var(--cp-accent); }
-.settings { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.settings { grid-template-columns: repeat(auto-fill,minmax(200px,250px)); gap: 16px 20px; }
+.actions label { display: flex; align-items: center; gap: 6px; }
+input[type=checkbox], input[type=radio] { width: auto; accent-color: var(--cp-accent); }
 .settings .wide { grid-column: span 2; }
 .table-wrap { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 13px; }
-th,td { text-align: left; padding: 10px 9px; border-bottom: 1px solid var(--cp-border); vertical-align: middle; }
-th { color: var(--cp-text-muted); font-weight: 650; white-space: nowrap; }
+th,td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--cp-border); vertical-align: middle; }
+td { white-space: nowrap; }
+[hidden] { display: none !important; }
+.metric-sub { margin-top: 4px; font-size: 12px; color: var(--cp-muted, #605e5c); line-height: 1.4; }
+.whatif-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 12px; }
+.whatif-card { box-shadow: none; }
+.whatif-headline { margin: 16px 0 0; padding: 14px 16px; background: #eff6fc; border-left: 3px solid #0f6cbd; font-size: 15px; line-height: 1.5; }
+#scheduled-summary { display: block; }
+.dash-title { margin: 4px 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--cp-text-muted); }
+.dash-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; align-items: stretch; }
+.dash-card { padding: 14px 16px; }
+.dash-card .metric-label { font-weight: 600; }
+.dash-prepaid .metric-value { color: #107c10; }
+.dash-payg .metric-value { color: #c55a11; }
+.dash-highlight { background: #2f6f68; border-color: #2f6f68; }
+.dash-highlight .metric-label, .dash-highlight .metric-value, .dash-highlight .metric-sub { color: #fff; }
+th { color: var(--cp-text-muted); font-weight: 600; white-space: nowrap; background: var(--cp-surface-soft); }
 td { font-variant-numeric: tabular-nums; }
-.edit-table input { min-width: 100px; }
+.edit-table input { min-width: 100px; max-width: 220px; }
 .edit-table input[type=number] { min-width: 88px; }
 .edit-table button { padding: 6px 9px; }
 .stack { display: grid; gap: 14px; }
@@ -231,9 +234,10 @@ details > div { margin-top: 16px; }
 .foot { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--cp-border); font-size: 12px; color: var(--cp-text-muted); }
 @media (max-width: 1000px) { .metrics, .decision-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .chart-layout { grid-template-columns: minmax(0,1fr); } .settings { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 680px) { .shell { padding: 0 16px 40px; } .topline { align-items: start; } .hero { grid-template-columns: 1fr; padding: 28px 0 20px; } .scenario-grid, .decision-grid { grid-template-columns: 1fr; } .section-head { align-items: start; flex-direction: column; } .settings { grid-template-columns: 1fr; } .settings .wide { grid-column: auto; } .card { padding: 16px; } }
-  .tabs { display: flex; gap: 16px; margin: 30px 0 28px; border-bottom: 1px solid var(--cp-border); flex-wrap: wrap; }
-  .tabs [role="tab"] { border: 0; border-bottom: 2px solid transparent; border-radius: 6px 6px 0 0; background: transparent; color: var(--cp-text-muted); padding: 15px 16px; box-shadow: none; }
-  .tabs [role="tab"][aria-selected="true"] { border-bottom-color: var(--cp-accent); color: var(--cp-text); background: var(--cp-accent-soft); }
+  .tabs { display: flex; gap: 4px; margin: 16px 0 20px; border-bottom: 1px solid var(--cp-border); flex-wrap: wrap; }
+  .tabs [role="tab"] { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: var(--cp-text-muted); padding: 10px 16px; box-shadow: none; font-weight: 400; }
+  .tabs [role="tab"]:hover { background: var(--cp-surface-soft); color: var(--cp-text); }
+  .tabs [role="tab"][aria-selected="true"] { border-bottom-color: var(--cp-accent); color: var(--cp-text); background: transparent; font-weight: 600; }
   [role="tabpanel"][hidden] { display: none; }
   #data-panel .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 12px 0; }
   #data-panel .card { margin: 14px 0; }
@@ -258,9 +262,9 @@ details > div { margin-top: 16px; }
   .import-source { border-left: 3px solid var(--cp-accent); background: var(--cp-accent-soft); padding: 10px 14px; margin: 10px 0; }
   .forecast-help-heading { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .forecast-help-input { display: inline-flex; align-items: center; gap: 6px; }
-  .forecast-help { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; flex: 0 0 15px; border: 1px solid var(--cp-text-soft); border-radius: 50%; color: var(--cp-text-muted); font: 600 10px/1 "IBM Plex Sans", "Segoe UI", sans-serif; cursor: help; vertical-align: middle; }
+  .forecast-help { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; flex: 0 0 15px; border: 1px solid var(--cp-text-soft); border-radius: 50%; color: var(--cp-text-muted); font: 600 10px/1 "Segoe UI", sans-serif; cursor: help; vertical-align: middle; }
   .forecast-help:hover, .forecast-help:focus-visible { color: var(--cp-accent); border-color: var(--cp-accent); outline: 2px solid var(--cp-accent-soft); }
-  .forecast-tooltip { position: fixed; z-index: 9999; width: min(290px, calc(100vw - 16px)); padding: 10px 14px; border: 1px solid var(--cp-border-strong); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); box-shadow: var(--cp-shadow); font: 13px/1.45 "IBM Plex Sans", "Segoe UI", sans-serif; pointer-events: none; }
+  .forecast-tooltip { position: fixed; z-index: 9999; width: min(290px, calc(100vw - 16px)); padding: 10px 14px; border: 1px solid var(--cp-border-strong); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); box-shadow: var(--cp-shadow); font: 13px/1.45 "Segoe UI", sans-serif; pointer-events: none; }
   .forecast-tooltip ul { margin: 0; padding-left: 18px; }
   .forecast-tooltip li + li { margin-top: 4px; }
   </style>
@@ -276,39 +280,42 @@ details > div { margin-top: 16px; }
   <section id="panel-data" role="tabpanel" aria-labelledby="tab-data"><div id="data-panel"></div></section>
   <section id="panel-model" role="tabpanel" aria-labelledby="tab-model" hidden>
   <div id="scheduled-app">
-    <header class="hero"><div><div class="eyebrow">Scenario planning</div><p>Start with your current usage, explore what could change, then decide what to do next.</p></div><span class="badge">Local estimates only</span></header>
-    <div class="journey" aria-label="Planning steps"><span>Step 1 · Starting point</span><span>Step 2 · Explore changes</span><span>Step 3 · Your forecast</span><span>Step 4 · Share the decision</span></div>
+    <header class="hero"><div><div class="eyebrow">Scenario planning</div><p>Enter your assumptions, get your forecast, then share it.</p></div><span class="badge">Local estimates only</span></header>
+    <div class="journey" aria-label="Planning steps"><span>Step 1 · Your assumptions</span><span>Step 2 · Your forecast</span><span>Step 3 · Share</span></div>
     <div class="notice"><p><strong>Scenario estimates only.</strong> Review all starting values and prices. Data stays in this browser session; exports can contain your inputs. Estimates are not invoices or spending limits.</p></div>
-    <section><div class="section-head"><div><div class="eyebrow step-label">Step 1 / Where you are</div><h2>Set your starting point</h2><p class="subtle">Start with your users, expected usage, and credit budget. Results update as you make changes.</p></div></div>
+    <section><div class="section-head"><div><div class="eyebrow step-label">Step 1 / Your assumptions</div><h2>Enter your assumptions</h2><p class="subtle">Four short sections: where you start, how you grow, which credits you hold, and what they cost. Results update as you type.</p></div></div>
       <div class="stack">
         <div class="card">
           <div id="scheduled-import-source" class="import-source" hidden aria-live="polite"></div>
           <div id="scheduled-assumption-warning" class="import-source" hidden role="status">Retained assumptions are unverified and may include fictional demo values. Review growth, prepaid credits, prices, budget, rollout steps and purchases before relying on or sharing this forecast.</div>
           <div id="scheduled-manual-source" class="import-source" hidden><strong>Starting with your assumptions.</strong> Users, usage, growth, credits, prices and budget start at zero. Enter your own values before using the forecast to make a decision.</div>
-          <div class="input-group"><h3>Users and usage</h3><div id="scheduled-fields" class="settings grid"></div><div class="period-presets" role="group" aria-label="Quick forecast lengths"><span>Quick forecast length:</span><button type="button" data-horizon="3">3 months</button><button type="button" data-horizon="6">6 months</button><button type="button" data-horizon="12">12 months</button><button type="button" data-horizon="24">24 months</button></div><p id="scheduled-range-note" class="section-info" hidden aria-live="polite"></p><p id="scheduled-growth-mode-note" class="caption detail" hidden>Phased growth is selected. Set growth rates in “Set growth by phase” below.</p></div>
-          <div class="input-group"><div id="scheduled-errors" class="error hidden" role="alert"></div><h3>Credits and budget</h3><p class="caption panel-heading">Choose whether unused prepaid credits carry forward or reset each month. Enter both prices and your budget in the selected currency. Changing currency changes the symbol, not the amounts. Your budget is compared with the estimated cost of credits used, not when you buy them.</p><div id="scheduled-mode-note" class="section-info" hidden aria-live="polite"></div><div id="scheduled-funding-fields" class="settings grid"></div></div>
-          <details class="detail"><summary>More settings and calculation notes</summary><div><div id="scheduled-advanced-fields" class="settings grid"></div><p class="caption detail">User growth starts in month 1 and is rounded to whole people. A rollout step replaces the calculated total for that month, subject to your maximum. In a manual plan, usage per person starts growing in month 2. When you start from a past month of data, it also grows in forecast month 1. A rollout step does not reset usage growth. Growth may be as low as −100%.</p></div></details>
         </div>
-        <div class="section-head"><div><div class="eyebrow step-label">Step 2 / Where you could go</div><h2>Explore what could change</h2><p class="subtle">Add rollout steps, change growth over time, or plan prepaid purchases. Each change updates your forecast.</p></div></div>
-        <details class="card"><summary>Plan rollout steps</summary><div><div class="scenario-title"><p class="caption">Set the total users in a month, not the number added. Growth resumes from that total; the user cap still applies.</p><button type="button" id="add-step">Add step</button></div><div class="table-wrap detail"><table class="edit-table"><thead><tr><th>Month 1–36</th><th>New total users</th><th></th></tr></thead><tbody id="steps"></tbody></table></div><div class="forecast-action"><button type="button" class="view-forecast">View forecast</button><span class="section-status">Your forecast updates when you finish editing a field.</span></div></div></details>
-        <details class="card"><summary>Schedule prepaid purchases</summary><div><div class="scenario-title"><p class="caption">When unused credits carry forward, purchases become available at the start of the selected month. Purchases after the forecast period are saved but not included.</p><button type="button" id="add-purchase">Add purchase</button></div><p id="scheduled-purchase-note" class="section-info" hidden></p><div class="table-wrap detail"><table class="edit-table"><thead><tr><th>Month 1–36</th><th>Credits purchased</th><th></th></tr></thead><tbody id="purchases"></tbody></table></div><div class="forecast-action"><button type="button" class="view-forecast">View forecast</button><span class="section-status">Purchases are included when credits carry forward.</span></div></div></details>
-        <details class="card" id="scheduled-phase-details"><summary>Set growth by phase</summary><div><div class="scenario-title"><p class="caption">Adding a phase switches the forecast to phase-specific growth. Usage carries forward and does not reset.</p><button type="button" id="add-scheduled-phase">Add phase</button></div><div class="table-wrap detail"><table class="edit-table"><thead><tr><th>Label</th><th>Start month</th><th>User growth % / month</th><th>Usage growth % / month</th><th></th></tr></thead><tbody id="scheduled-phases"></tbody></table></div><div id="phase-explanation" class="caption detail"></div><div class="forecast-action"><button type="button" class="view-forecast">View forecast</button><span class="section-status">Check the forecast to see the effect of each phase.</span></div></div></details>
-        <details class="card" id="scheduled-department-details"><summary>Plan by department (optional)</summary><div><p class="caption">Enter explicit, non-overlapping groups. All groups share the one prepaid pool, purchases and budget; no allocation is repeated. Group estimates depend on your assumptions, not an inferred split of imported history.</p><div id="scheduled-department-editor"></div></div></details>
-        <details class="card"><summary>Set decision checkpoints</summary><div><p class="caption">Review points are planning notes, not automated alerts. Months outside the forecast are saved but not shown.</p><div class="actions"><button type="button" id="add-checkpoint">Add checkpoint</button></div><div class="table-wrap detail"><table class="edit-table"><thead><tr><th>Month</th><th>Owner (optional)</th><th>Trigger (optional)</th><th>Response (optional)</th><th></th></tr></thead><tbody id="scheduled-checkpoints"></tbody></table></div></div></details>
-        <div class="forecast-action"><button type="button" class="primary view-forecast">View forecast and next steps</button><span class="section-status">You can come back and change these inputs at any time.</span></div>
+        <div id="scheduled-errors" class="error hidden" role="alert"></div>
+        <div class="card">
+          <div class="input-group"><h3>1. Starting point</h3><div id="scheduled-fields" class="settings grid"></div><p class="caption detail">The first forecast month defaults to next month; change it if your plan starts at a different time. Find credits per user at <a href="https://aka.ms/copilotdashboard" target="_blank" rel="noopener">aka.ms/copilotdashboard</a> → Consumption Dashboard → Explore service insights.</p></div>
+          <div class="input-group"><h3>2. Credits and prices</h3><div id="scheduled-funding-fields" class="settings grid"></div><p class="caption detail">Your starting prepaid credits are used first and carry forward; only demand beyond them is billed at the pay-as-you-go price.</p></div>
+          <div class="input-group"><h3>3. Growth and planned schedule</h3><p class="caption panel-heading">Start with standard monthly rates. Then, optionally, use the planned schedule to override them for specific months.</p>
+            <h4>Standard assumptions</h4><div id="scheduled-growth-fields" class="settings grid"></div>
+            <p class="caption detail">Users grow by the monthly rate (rounded to whole people) until they reach the maximum allowed users. Usage per user compounds monthly starting in month 2.</p>
+            <h4>Planned schedule (optional)</h4><p class="caption"><strong>Use this to plan future expansion and purchases.</strong> Enter the <em>total users</em> you expect after a step-up, for example when a new department or region is enabled at once, and any <em>credits you plan to purchase</em> in a given month. Purchased credits are added on top of your starting credits and are available at the start of that month. Months you leave blank follow the standard assumptions above; months you fill in override them.</p>
+            <div class="table-wrap detail"><table class="edit-table"><thead><tr><th scope="col">Month</th><th scope="col">Date</th><th scope="col">Total users after step-up</th><th scope="col">Credits purchased</th></tr></thead><tbody id="scheduled-schedule"></tbody></table></div></div>
+        </div>
+        <div class="forecast-action"><button type="button" class="primary view-forecast">View forecast</button><span class="section-status">You can come back and change these inputs at any time.</span></div>
       </div>
     </section>
-    <section id="forecast-results" tabindex="-1"><div class="section-head"><div><div class="eyebrow step-label">Step 3 / Plan your next move</div><h2>Your forecast</h2><p class="subtle">See the credits you may need and their estimated cost. This is based on credits used, not necessarily what you pay during the period.</p></div></div>
+    <section id="forecast-results" tabindex="-1"><div class="section-head"><div><div class="eyebrow step-label">Step 2 / Your forecast</div><h2>Your forecast</h2><p class="subtle">See the credits you may need and their estimated cost. This is based on credits used, not necessarily what you pay during the period.</p></div></div>
       <div id="scheduled-summary" class="decision-grid"></div>
-      <div class="card detail"><h3>Explore your forecast</h3><div class="chart-switch" role="group" aria-label="Choose forecast chart"><button type="button" data-chart-view="demand" aria-pressed="true">Monthly demand</button><button type="button" data-chart-view="phases" aria-pressed="false">Phase waterfall</button><button type="button" data-chart-view="sensitivity" aria-pressed="false">Low / base / high</button></div><div class="settings grid detail"><label hidden>Chart view<select id="scheduled-chart-view"><option value="demand">Monthly demand</option><option value="sensitivity">Low / base / high scenarios</option><option value="phases">Phase waterfall</option></select></label><label>Usage-growth adjustment (percentage points)<input id="scheduled-sensitivity" type="number" step="any" min="0" value="2"></label></div><div id="scheduled-series-controls" class="actions detail"><label><input id="scheduled-show-low" type="checkbox" checked> Low</label><label><input id="scheduled-show-base" type="checkbox" checked> Base</label><label><input id="scheduled-show-high" type="checkbox" checked> High</label></div><p id="scheduled-chart-explanation" class="caption detail"></p><div id="scheduled-analysis-error" class="error hidden" role="alert"></div><div id="scheduled-chart" class="chart-box detail"></div><div id="scheduled-chart-legend" class="legend"></div><div id="scheduled-analysis-table" class="table-wrap detail"></div><p id="scheduled-overlay-note" class="caption" hidden>Saved plan omitted from the chart and monthly details because the periods or data sources differ, or the source is unknown. See Compare two plans.</p><p class="caption decision-note">Chart and table values are rounded; the monthly forecast CSV carries more precision. Imported actuals are separate and only appear in the demand view.</p></div>
+      <div class="card detail"><h3>Explore your forecast</h3><div class="chart-switch" role="group" aria-label="Choose forecast chart"><button type="button" data-chart-view="demand" aria-pressed="true">Monthly demand</button><button type="button" data-chart-view="sensitivity" aria-pressed="false">Low / base / high</button></div><div class="settings grid detail"><label hidden>Chart view<select id="scheduled-chart-view"><option value="demand">Monthly demand</option><option value="sensitivity">Low / base / high scenarios</option></select></label><label>Usage-growth adjustment (percentage points)<input id="scheduled-sensitivity" type="number" step="any" min="0" value="2"></label></div><div id="scheduled-series-controls" class="actions detail"><label><input id="scheduled-show-low" type="checkbox" checked> Low</label><label><input id="scheduled-show-base" type="checkbox" checked> Base</label><label><input id="scheduled-show-high" type="checkbox" checked> High</label></div><p id="scheduled-chart-explanation" class="caption detail"></p><div id="scheduled-analysis-error" class="error hidden" role="alert"></div><div id="scheduled-chart" class="chart-box detail"></div><div id="scheduled-chart-legend" class="legend"></div><div id="scheduled-analysis-table" class="table-wrap detail"></div><p id="scheduled-overlay-note" class="caption" hidden>Saved plan omitted from the chart and monthly details because the periods or data sources differ, or the source is unknown. See Compare two plans.</p><p class="caption decision-note">Chart and table values are rounded; the monthly forecast CSV carries more precision. Imported actuals are separate and only appear in the demand view.</p></div>
       <div id="scheduled-decision" class="import-source detail" aria-live="polite"></div>
-      <details class="card detail"><summary>Review checkpoints</summary><p class="caption">Planning reminders only; these do not trigger alerts or change the forecast.</p><div id="scheduled-checkpoint-output" class="table-wrap"></div></details>
       <details class="card detail"><summary>Monthly forecast details</summary><div id="scheduled-months" class="table-wrap"></div></details>
-      <details class="card detail"><summary>Department forecast details</summary><p class="caption">Forecast-only group estimates share the single plan's credits and budget. Costs are estimates, not allocated invoices.</p><button type="button" id="scheduled-department-csv">Export department monthly CSV</button><div id="scheduled-department-totals" class="table-wrap detail"></div><div id="scheduled-department-output" class="table-wrap detail"></div></details>
+      <details class="card detail" hidden><summary>Department forecast details</summary><p class="caption">Forecast-only group estimates share the single plan's credits and budget. Costs are estimates, not allocated invoices.</p><button type="button" id="scheduled-department-csv">Export department monthly CSV</button><div id="scheduled-department-totals" class="table-wrap detail"></div><div id="scheduled-department-output" class="table-wrap detail"></div></details>
       <details class="card detail"><summary>Prepaid and pay-as-you-go details</summary><p class="caption detail">Scheduled purchases are available at the start of the month. Depending on your selection, unused prepaid credits carry forward or reset each month.</p><div id="scheduled-funding" class="table-wrap"></div></details>
       <details class="card detail"><summary>How costs and savings are estimated</summary><p class="caption detail">Estimated cost = prepaid credits used × your prepaid price + pay-as-you-go credits used × your pay-as-you-go price. To estimate the difference, we compare that with paying the pay-as-you-go price for every credit used. The result can be negative. In the comparison, starting credits and scheduled purchases are valued at your prepaid price, but starting credits may already be paid for. Neither amount is an invoice or a forecast of when you will pay. Taxes, fees, expiration and other contract terms are not included. The budget comparison uses the estimated cost of credits used, not the amount paid to purchase them.</p></details>
-      <details id="scheduled-comparison" class="card detail"><summary>Compare two plans</summary><div><p class="caption">Save a plan as your starting point, then change the inputs to explore another plan. Compare the credits, costs and timing to see what your changes could mean. Your saved plan stays unchanged until you save it again.</p><div class="actions detail"><button type="button" id="scheduled-snapshot">Save current plan for comparison</button><button type="button" id="scheduled-restore" disabled>Restore saved plan</button></div><div id="scheduled-cards" class="table-wrap detail"></div></div></details>
-      <div class="card detail"><div class="eyebrow step-label">Step 4 / Share the decision</div><h3>Take this plan to your team</h3><p class="caption detail">Export the current forecast, assumptions, and any saved comparison. The PowerPoint also includes the selected group's history through your starting month when available. Amounts are estimates, not invoices.</p><div class="actions detail"><button type="button" id="scheduled-compare-shortcut">Save this plan to compare</button></div><label class="detail">What decision are you discussing? (optional)<textarea id="scheduled-decision-note" maxlength="300" placeholder="For example: Decide when to purchase additional credits"></textarea></label><fieldset class="detail"><legend>Additional PowerPoint views</legend><p class="caption">The selected forecast analysis is included, but its presentation may differ from the chart. Chart overlays for imported actuals, the saved baseline and checkpoint markers are not exported. Select Checkpoints below to include checkpoint details separately. Checkpoints and Departments are selected automatically when first added unless you have chosen otherwise; you can change either choice. The saved plan may be compared separately; selected usage history, when available, is separate from imported actuals.</p><div class="actions"><label><input type="checkbox" data-export-view="trend"> Monthly demand</label><label><input type="checkbox" data-export-view="sensitivity"> Sensitivity</label><label><input type="checkbox" data-export-view="phases"> Phase waterfall</label><label><input type="checkbox" data-export-view="checkpoints"> Checkpoints</label><label><input type="checkbox" data-export-view="departments"> Departments</label></div></fieldset><div class="actions detail"><button type="button" class="primary" id="scheduled-pptx">Export executive PowerPoint</button><button type="button" id="scheduled-csv">Export monthly forecast CSV</button></div><p id="scheduled-history-status" class="caption detail"></p><p class="caption">Exports are created in your browser and can contain sensitive group totals or notes. Review them before sharing.</p><p id="scheduled-export-status" class="caption" role="status" aria-live="polite"></p></div>
+      <div class="section-head" hidden><div><div class="eyebrow step-label">What if?</div><h2>Test a what-if</h2>      <p class="subtle">Optional.</p></div></div>
+            <div class="card" hidden><h3>Additional budget</h3><p class="caption">Money you could still spend, on top of the credits you already hold (starting balance and planned purchases, which are used first). See how many users it can support, how long it lasts and what usage it allows.</p><div id="scheduled-whatif-fields" class="settings grid"></div><div class="settings grid"><label>Budget is spent as<select id="scheduled-whatif-mode"><option value="payg">Pay-as-you-go, as credits are needed</option><option value="prepaid">Prepaid purchase upfront in month 1</option></select></label><label>Users reach the maximum in month<input id="scheduled-whatif-month" type="number" min="1" step="1" value="1"></label></div><div id="scheduled-whatif-results"></div></div>
+      <details class="card" id="scheduled-department-details" hidden><summary>Plan by department</summary><div><p class="caption">Enter explicit, non-overlapping groups. All groups share the one prepaid pool, purchases and budget; no allocation is repeated.</p><div id="scheduled-department-editor"></div></div></details>
+      <details id="scheduled-comparison" class="card detail" hidden><summary>Compare two plans</summary><div><p class="caption">Save a plan as your starting point, then change the inputs to explore another plan. Compare the credits, costs and timing to see what your changes could mean. Your saved plan stays unchanged until you save it again.</p><div class="actions detail"><button type="button" id="scheduled-snapshot">Save current plan for comparison</button><button type="button" id="scheduled-restore" disabled>Restore saved plan</button></div><div id="scheduled-cards" class="table-wrap detail"></div></div></details>
+      <div class="card detail"><div class="eyebrow step-label">Step 3 / Share the decision</div><h3>Take this plan to your team</h3><p class="caption detail">Export the current forecast, assumptions, and any saved comparison. The PowerPoint also includes the selected group's history through your starting month when available. Amounts are estimates, not invoices.</p><div class="actions detail" hidden><button type="button" id="scheduled-compare-shortcut">Save this plan to compare</button></div><label class="detail">What decision are you discussing? (optional)<textarea id="scheduled-decision-note" maxlength="300" placeholder="For example: Decide when to purchase additional credits"></textarea></label><fieldset class="detail"><legend>Additional PowerPoint views</legend><p class="caption">The selected forecast analysis is included, but its presentation may differ from the chart. Chart overlays for imported actuals and the saved baseline are not exported. Departments is selected automatically when first added unless you have chosen otherwise. The saved plan may be compared separately; selected usage history, when available, is separate from imported actuals.</p><div class="actions"><label><input type="checkbox" data-export-view="trend"> Monthly demand</label><label><input type="checkbox" data-export-view="sensitivity"> Sensitivity</label><label hidden><input type="checkbox" data-export-view="departments"> Departments</label></div></fieldset><div class="actions detail"><button type="button" class="primary" id="scheduled-pptx">Export executive PowerPoint</button><button type="button" id="scheduled-csv">Export monthly forecast CSV</button></div><p id="scheduled-history-status" class="caption detail"></p><p class="caption">Exports are created in your browser and can contain sensitive group totals or notes. Review them before sharing.</p><p id="scheduled-export-status" class="caption" role="status" aria-live="polite"></p></div>
     </section>
     <details class="card detail"><summary>Import actuals and save or reopen a scenario</summary><div><p class="caption">For actuals, use a CSV with the header <code>month,credits,cost,active</code>. These figures are shown on the chart and monthly table only; they are not included in forecast totals or exports.</p><div class="actions detail"><label>Import actuals CSV<input type="file" id="scheduled-actual-import" accept=".csv,text/csv"></label><button type="button" id="scheduled-actual-clear">Clear actuals</button><button type="button" id="scheduled-export">Export scenarios JSON</button><label class="file-button">Import scenarios JSON<input type="file" id="scheduled-import" accept=".json,application/json"></label></div><p class="caption detail">Scenario JSON saves assumptions, explicit departments, checkpoints, chart and PowerPoint settings, comparison, date-attribution caveats and your decision note, not imported usage history or source identity. After reopening, comparison differences are unavailable until you save the current plan again. Reapply your data to include history in a presentation; remove explicit department assumptions first, since imported aggregate data cannot provide a split.</p><p id="scheduled-actual-status" class="caption detail"></p></div></details>
     <details class="detail"><summary>Open an earlier version 1 scenario</summary><p class="caption detail">Version 1 files use a separate, earlier model and cannot be converted automatically. This opens that model without changing your current forecast.</p><button type="button" id="switch-model">Open earlier model</button></details>
@@ -373,12 +380,12 @@ details > div { margin-top: 16px; }
 </script>
 <script src="pptxgen.bundle.js"></script>
 <script src="jszip.min.js"></script>
-<script src="consumption-data.js?v=20261101-viva-guide-1"></script>
-<script src="rollout-engine.js?v=20261101-final-2030"></script>
-<script src="forecast-analysis.js?v=20261101-timeline-1"></script>
-<script src="forecast-export.js?v=20261101-timeline-1"></script>
-<script src="rollout-cockpit.js?v=20261101-import-safety-2"></script>
-<script src="consumption-ui.js?v=20261101-import-safety-2"></script>
-<script src="forecast-help.js?v=20261101-timeline-1"></script>
+<script src="consumption-data.js?v=20261105-ui15"></script>
+<script src="rollout-engine.js?v=20261105-ui15"></script>
+<script src="forecast-analysis.js?v=20261105-ui15"></script>
+<script src="forecast-export.js?v=20261105-ui15"></script>
+<script src="rollout-cockpit.js?v=20261105-ui15"></script>
+<script src="consumption-ui.js?v=20261105-ui15"></script>
+<script src="forecast-help.js?v=20261105-ui15"></script>
 </body>
 </html>

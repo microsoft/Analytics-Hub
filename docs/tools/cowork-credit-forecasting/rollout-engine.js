@@ -465,7 +465,7 @@
     integer(plan.initialUsers, "Starting users", 0, Number.MAX_SAFE_INTEGER);
     if (plan.userCap !== null) integer(plan.userCap, "Maximum users", 0, Number.MAX_SAFE_INTEGER);
     n(plan.avgCredits, "Starting credits per user", 0);
-    n(plan.userGrowth, "Monthly user growth", -1);
+    n(plan.userGrowth, "Monthly user growth", 0);
     n(plan.usageGrowth, "Monthly usage growth per user", -1);
     if (plan.firstMonthUsageGrowth !== undefined && typeof plan.firstMonthUsageGrowth !== "boolean")
       errors.push("First-month usage growth must be true or false");
@@ -503,7 +503,7 @@
         if (p.month <= previous || (i === 0 && p.month !== 1)) errors.push("Phases must start at month 1 and be strictly increasing");
         previous = p.month;
         if (typeof p.label !== "string" || p.label.length > 160) errors.push("Phase label must be text of at most 160 characters");
-        n(p.userGrowth, "Phase user growth", -1);
+        n(p.userGrowth, "Phase user growth", 0);
         n(p.usageGrowth, "Phase usage growth", -1);
       });
     }
@@ -620,7 +620,7 @@
       var phase = plan.phases[phaseIndex];
       var userGrowth = plan.growthMode === "phased" ? phase.userGrowth : plan.userGrowth;
       var usageGrowth = plan.growthMode === "phased" ? phase.usageGrowth : plan.usageGrowth;
-      var step = plan.steps.find(function (s) { return s.month === m; });
+      var step = plan.steps.find(function (s) { return s.month === m && s.users > 0; });
       var departmentDemand = null, departmentTargets = null;
       if (departmentState) {
         if (step) {

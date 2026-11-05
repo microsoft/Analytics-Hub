@@ -345,7 +345,7 @@
       ["manual", "Use the growth rates in Modeling"],
       ["historical", "Use the change from the previous month"]
     ];
-    if (state.demo) growthOptions.push(["demo", "Use fictional demo rollout phases"]);
+    if (state.demo) growthOptions.push(["demo", "Use fictional demo growth rates"]);
     const growthChoice = selectField("How should users and usage grow?", growthOptions,
       s.growth, v => { s.growth = v; s.ack = false; renderAll(); $("cu-growth-method").focus(); }, "cu-growth-method");
     growthChoice.querySelector("select").setAttribute("aria-describedby", "cu-growth-explanation");
@@ -359,7 +359,7 @@
     options.append(manual, historical);
     if (state.demo) {
       const demo = h("li");
-      demo.append(h("strong", "Fictional demo rollout phases: "), document.createTextNode("Replace your current growth mode and phases with example rates that gradually mature. Other assumptions, rollout steps and purchases remain unchanged. Review or edit the phases in Modeling."));
+      demo.append(h("strong", "Fictional demo growth rates: "), document.createTextNode("Replace your current monthly growth rates with example rates. Other assumptions and your schedule remain unchanged. Review or edit the rates in Modeling."));
       options.append(demo);
     }
     explanation.append(options); fromData.append(explanation);
