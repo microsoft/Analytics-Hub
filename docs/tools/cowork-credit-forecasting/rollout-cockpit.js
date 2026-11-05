@@ -560,9 +560,9 @@ function renderDemandTimeline(chart, details, timeline) {
     return Number(text.replace(/,/g, ""));
   };
   const fmt = value => new Intl.NumberFormat("en-US", value !== 0 && Math.abs(value) < 1
-    ? { maximumSignificantDigits: 6 } : { maximumFractionDigits: 2 }).format(value);
+    ? { maximumSignificantDigits: 6 } : { maximumFractionDigits: 0 }).format(value);
   let currency = "USD";
-  const cash = value => new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+  const cash = value => new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
   const inputNumber = value => String(value).replace(/^(-?)(\d+)(?=\.|e|$)/i, (_, sign, digits) => sign + digits.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   const inputValue = (value, currencyField) => currencyField ? `${value < 0 ? "-" : ""}${{ USD: "$", EUR: "€", GBP: "£" }[currency]}${inputNumber(Math.abs(value))}` : inputNumber(value);
   const percentValue = value => new Intl.NumberFormat("en-US", { useGrouping: false, maximumSignificantDigits: 15 }).format(value * 100);
@@ -571,14 +571,14 @@ function renderDemandTimeline(chart, details, timeline) {
   const when = value => value == null ? "Not reached" : `Month ${value}`;
   const initial = {
     horizon: 12, currentMonth: 0, startMonth: "2026-06",
-    initialUsers: 1000, userCap: null, avgCredits: 59708.108, userGrowth: .02, usageGrowth: .02,
+    initialUsers: 1000, userCap: 5000, avgCredits: 59708.108, userGrowth: .02, usageGrowth: .02,
     growthMode: "constant", phases: [{ label: "Initial", month: 1, userGrowth: .02, usageGrowth: .02 }],
     steps: [], fundingMode: "pool", openingPool: 650000000,
     purchases: [], monthlyAllocation: 0,
     prepaidRate: .008, paygRate: .01, budget: 8000000
   };
   let baseline = copy(initial), alternative = copy(initial), actuals = [], actualsStartMonth = null, results = null, baselineSaved = false, baselineSource = null, exportingDeck = false;
-  let planEstablished = false;
+  let planEstablished = false, attemptedView = false;
   let mayHaveIllustrativeAssumptions = true, showAssumptionWarning = false;
   const defaultViewSettings = () => ({ view: "demand", sensitivity: 2, low: true, base: true, high: true });
   const defaultExportViews = () => ({ trend: false, sensitivity: false, phases: false, checkpoints: false, departments: false });
@@ -617,7 +617,9 @@ function renderDemandTimeline(chart, details, timeline) {
       if (options.min !== undefined) input.min = options.min;
       if (options.max !== undefined) input.max = options.max;
     }
-    input.value = value == null ? "" : options.percent ? percentValue(value) : formattedFields.has(key) ? inputValue(value, key === "budget") : value;
+    const blankable = !["startMonth", "horizon"].includes(key);
+    input.value = value == null || (value === 0 && blankable) ? "" : options.percent ? percentValue(value) : formattedFields.has(key) ? inputValue(value, key === "budget") : value;
+    if (blankable) input.placeholder = options.percent ? "e.g. 5" : ({ initialUsers: "e.g. 1,000", avgCredits: "e.g. 8,000", openingPool: "e.g. 100,000,000", prepaidRate: "e.g. 0.008", paygRate: "e.g. 0.01", userCap: "e.g. 5,000", budget: "e.g. 5,000,000" }[key] || "Enter a number");
     input.dataset.scheduledField = key;
     if (options.percent) input.dataset.percent = "1";
     wrapper.append(input);
@@ -646,35 +648,66 @@ function renderDemandTimeline(chart, details, timeline) {
       td.append(button); tr.append(td); body.append(tr);
     });
   }
+  function monthLabel(start, offset) {
+    const m = /^(\d{4})-(\d{2})$/.exec(start || "");
+    if (!m) return "—";
+    const index = Number(m[1]) * 12 + Number(m[2]) - 1 + offset;
+    return new Date(Date.UTC(Math.floor(index / 12), index % 12, 1)).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+  }
+  function scheduleEditor() {
+    const body = $("scheduled-schedule"); body.replaceChildren();
+    const count = Number.isInteger(alternative.horizon) && alternative.horizon >= 1 ? Math.min(alternative.horizon, 36) : 0;
+    for (let m = 1; m <= count; m++) {
+      const tr = el("tr");
+      tr.append(el("td", String(m)), el("td", monthLabel(alternative.startMonth, m - 1)));
+      [["users", alternative.steps], ["credits", alternative.purchases]].forEach(([key, list]) => {
+        const td = el("td"), input = el("input"), entry = list.find(item => item.month === m);
+        input.type = "text"; input.inputMode = "decimal"; input.placeholder = "—";
+        input.value = entry ? inputNumber(entry[key]) : "";
+        input.dataset.schedule = key; input.dataset.month = m;
+        input.setAttribute("aria-label", `Month ${m} ${key === "users" ? "total users after step-up" : "credits purchased"}`);
+        td.append(input); tr.append(td);
+      });
+      body.append(tr);
+    }
+  }
+  function setSchedule(key, month, text) {
+    const list = key === "users" ? alternative.steps : alternative.purchases;
+    const value = text.trim() === "" ? 0 : num(text);
+    const index = list.findIndex(item => item.month === month);
+    if (!Number.isFinite(value) || value < 0) return false;
+    if (value === 0) {
+      if (index >= 0) list.splice(index, 1);
+      if (key === "users" && alternative.stepTargets) alternative.stepTargets = alternative.stepTargets.filter(target => target.month !== month);
+    } else if (index >= 0) list[index][key] = value;
+    else {
+      list.push({ month, [key]: value });
+      list.sort((a, b) => a.month - b.month);
+      if (key === "users" && alternative.departments) alternative.stepTargets.push({ month, targets: alternative.departments.map(d => ({ departmentId: d.id, users: 0 })) });
+    }
+    return true;
+  }
   function editors() {
     $("scheduled-fields").replaceChildren(
-      control("Forecast length (months)", "horizon", alternative.horizon, { min: 1, max: 36 }),
       control("First forecast month", "startMonth", alternative.startMonth, { type: "month" }),
+      control("Forecast length (months, 1–36)", "horizon", alternative.horizon, { min: 1, max: 36 }),
       control("Starting users", "initialUsers", alternative.initialUsers, { min: 0 }),
-      control("Starting credits per user per month", "avgCredits", alternative.avgCredits, { min: 0 }),
-      control("Monthly user growth (%)", "userGrowth", alternative.userGrowth, { percent: true, min: -100 }),
-      control("Monthly usage growth per user (%)", "usageGrowth", alternative.usageGrowth, { percent: true, min: -100 })
+      control("Starting credits per user per month", "avgCredits", alternative.avgCredits, { min: 0 })
+    );
+    $("scheduled-growth-fields").replaceChildren(
+      control("Monthly user growth (%)", "userGrowth", alternative.userGrowth, { percent: true, min: 0 }),
+      control("Monthly usage growth per user (%)", "usageGrowth", alternative.usageGrowth, { percent: true, min: -100 }),
+      control("Max allowed users (ceiling)", "userCap", alternative.userCap, { min: 0 })
     );
     $("scheduled-funding-fields").replaceChildren(
-      control("How do prepaid credits work?", "fundingMode", alternative.fundingMode, { choices: [["pool", "Carry unused credits forward"], ["monthly", "Reset credits each month"]] }),
-      control("Currency", "currency", currency, { choices: [["USD", "USD ($)"], ["EUR", "EUR (€)"], ["GBP", "GBP (£)"]] }),
-      control("Prepaid credits available at the start", "openingPool", alternative.openingPool, { min: 0 }),
-      control("Prepaid credits available each month", "monthlyAllocation", alternative.monthlyAllocation, { min: 0 }),
+      control("Credits available at the start", "openingPool", alternative.openingPool, { min: 0 }),
       control("Prepaid price per credit", "prepaidRate", alternative.prepaidRate, { min: 0 }),
-      control("Pay-as-you-go price per credit", "paygRate", alternative.paygRate, { min: 0 }),
-      control("Budget for estimated credit usage", "budget", alternative.budget, { min: 0 })
+      control("Pay-as-you-go price per credit", "paygRate", alternative.paygRate, { min: 0 })
     );
-    $("scheduled-advanced-fields").replaceChildren(
-      control("Maximum users (optional)", "userCap", alternative.userCap, { min: 0 }),
-      control("How should growth change?", "growthMode", alternative.growthMode, { choices: [["constant", "Same rate every month"], ["phased", "Different rates by phase"]] })
-    );
-    rows("steps", "steps", alternative.steps, [["month", "number"], ["users", "number"]]);
-    rows("purchases", "purchases", alternative.purchases, [["month", "number"], ["credits", "number"]]);
-    rows("scheduled-phases", "phases", alternative.phases, [["label", "text"], ["month", "number"], ["userGrowth", "percent"], ["usageGrowth", "percent"]]);
+    $("scheduled-whatif-fields").replaceChildren(control("Additional budget (optional)", "budget", alternative.budget, { min: 0 }));
+    scheduleEditor();
     departmentEditor();
-    checkpointEditor();
     updateGrowthMode();
-    updateFundingMode();
   }
   function departmentEditor() {
     const target = $("scheduled-department-editor"); target.replaceChildren();
@@ -706,23 +739,7 @@ function renderDemandTimeline(chart, details, timeline) {
       });
     }
   }
-  function checkpointEditor() {
-    const body = $("scheduled-checkpoints"); body.replaceChildren();
-    checkpoints.forEach((point, index) => {
-      const tr = el("tr");
-      ["month", "owner", "trigger", "response"].forEach(key => {
-        const td = el("td"), input = el("input");
-        input.type = key === "month" ? "number" : "text";
-        if (key !== "month") input.maxLength = 200;
-        input.value = point[key]; input.dataset.checkpointIndex = index; input.dataset.checkpointKey = key;
-        input.setAttribute("aria-label", `Checkpoint ${index + 1} ${key}`);
-        td.append(input); tr.append(td);
-      });
-      const td = el("td"), remove = el("button", "Remove");
-      remove.type = "button"; remove.dataset.checkpointRemove = index;
-      remove.setAttribute("aria-label", `Remove checkpoint ${index + 1}`); td.append(remove); tr.append(td); body.append(tr);
-    });
-  }
+  function checkpointEditor() {}
   function cleanCheckpoints(value) {
     if (value === undefined) return [];
     if (!Array.isArray(value) || value.length > 36) throw new Error("Checkpoints must be an array of at most 36 entries.");
@@ -759,60 +776,116 @@ function renderDemandTimeline(chart, details, timeline) {
     if (!value || typeof value !== "object" || Array.isArray(value) || !["checkpoints", "departments"].every(k => typeof value[k] === "boolean")) throw new Error("Invalid PowerPoint view preferences.");
     return { checkpoints: value.checkpoints, departments: value.departments };
   }
-  function updateFundingMode() {
-    const monthly = alternative.fundingMode === "monthly";
-    $("scheduled-funding-fields").querySelector('[data-scheduled-field="openingPool"]').closest("label").classList.toggle("hidden", monthly);
-    $("scheduled-funding-fields").querySelector('[data-scheduled-field="monthlyAllocation"]').closest("label").classList.toggle("hidden", !monthly);
-    const note = $("scheduled-mode-note");
-    note.hidden = !monthly && !(alternative.monthlyAllocation > 0);
-    note.textContent = monthly
-      ? "Unused credits reset each month. Starting prepaid credits and scheduled purchases are saved for the carry-forward option, but are not used in this forecast."
-      : "Unused prepaid credits carry forward. The monthly reset amount is saved but is not used in this forecast.";
-    const purchaseNote = $("scheduled-purchase-note");
-    purchaseNote.hidden = !monthly;
-    purchaseNote.textContent = "Scheduled purchases are saved, but are not included while credits reset each month. Choose carry forward to include them.";
-  }
   function updateGrowthMode() {
-    const phased = alternative.growthMode === "phased";
     ["initialUsers", "avgCredits"].forEach(key => { $("scheduled-fields").querySelector(`[data-scheduled-field="${key}"]`).disabled = !!alternative.departments; });
-    ["userGrowth", "usageGrowth"].forEach(key => {
-      const input = $("scheduled-fields").querySelector(`[data-scheduled-field="${key}"]`);
-      input.disabled = phased;
-    });
-    $("scheduled-growth-mode-note").hidden = !phased;
+  }
+  function mon(value) {
+    return /^\d{4}-\d{2}$/.test(value) ? new Date(Date.UTC(+value.slice(0, 4), +value.slice(5) - 1, 1)).toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" }) : value;
   }
   function table(id, headers, rowsData) {
     const target = $(id), t = el("table"), head = el("thead"), hr = el("tr"), body = el("tbody");
     headers.forEach(h => { const th = el("th", h); th.scope = "col"; hr.append(th); });
     head.append(hr); t.append(head);
-    rowsData.forEach(row => { const tr = el("tr"); row.forEach(v => tr.append(el("td", String(v)))); body.append(tr); });
+    rowsData.forEach(row => { const tr = el("tr"); row.forEach(v => tr.append(el("td", mon(String(v))))); body.append(tr); });
     t.append(body); target.replaceChildren(t);
   }
-  function metric(container, label, value, negative) {
-    const d = el("div"); d.append(el("div", label, "metric-label"), el("div", value, `metric-value${negative ? " negative" : ""}`)); container.append(d);
+  function metric(container, label, value, negative, sub) {
+    const d = el("div"); d.append(el("div", label, "metric-label"), el("div", value, `metric-value${negative ? " negative" : ""}`));
+    if (sub) d.append(el("div", sub, "metric-sub"));
+    container.append(d);
   }
+  function maxFit(fits, low, high, integer) {
+    if (!fits(low)) return null;
+    if (fits(high)) return Infinity;
+    for (let i = 0; i < 50 && high - low > (integer ? 1 : high * 1e-6); i++) {
+      const mid = integer ? Math.floor((low + high) / 2) : (low + high) / 2;
+      if (fits(mid)) low = mid; else high = mid;
+    }
+    return low;
+  }
+  function whatIf() {
+    const box = $("scheduled-whatif-results"), t = results.alternative.totals, B = alternative.budget;
+    box.replaceChildren();
+    if (!(B > 0)) { box.append(el("p", "Enter an additional budget to see how many users it can support, how long it lasts, and what usage it allows.", "caption")); return; }
+    if (alternative.departments) { box.append(el("p", "Budget sizing is not available while department planning is on.", "caption")); return; }
+    const prepaidMode = $("scheduled-whatif-mode").value === "prepaid", pr = alternative.prepaidRate, gr = alternative.paygRate;
+    if (prepaidMode && !(pr > 0)) { box.append(el("p", "Enter a prepaid price per credit in Step 1 to size a prepaid purchase.", "warn")); return; }
+    const n = alternative.horizon, k = Math.min(n, Math.max(1, Math.round(num($("scheduled-whatif-month").value) || 1)));
+    const funded = alternative.openingPool + alternative.purchases.reduce((sum, p) => sum + p.credits, 0);
+    const withBudget = plan => prepaidMode ? Object.assign({}, plan, { purchases: [...plan.purchases.filter(p => p.month !== 1), { month: 1, credits: B / pr + plan.purchases.filter(p => p.month === 1).reduce((sum, p) => sum + p.credits, 0) }] }) : plan;
+    const fitsPlan = plan => { try { const r = ForecastEngine.forecastScheduled(withBudget(plan)).totals; return prepaidMode ? r.paygCredits < 0.5 : r.paygCost <= B; } catch (e) { return false; } };
+    const bought = prepaidMode ? B / pr : B / gr;
+    const usersFor = U => Object.assign({}, alternative, { userGrowth: 0, userCap: null, steps: [{ month: k, users: Math.round(U) }] });
+    const users = maxFit(U => fitsPlan(usersFor(U)), Math.max(1, alternative.initialUsers), 10000000, true);
+    const usage = maxFit(v => fitsPlan(Object.assign({}, alternative, { avgCredits: v })), 0, Math.max(1, alternative.avgCredits) * 1000, false);
+    let runway = null;
+    try {
+      const long = ForecastEngine.forecastScheduled(withBudget(Object.assign({}, alternative, { horizon: 36 })));
+      if (prepaidMode) runway = long.totals.firstPayg ? long.totals.firstPayg - 1 : null;
+      else { let s = 0; const i = long.months.findIndex(m => (s += m.paygCost) > B); runway = i < 0 ? null : i; }
+    } catch (e) { runway = undefined; }
+    const needed = prepaidMode ? t.paygCredits * pr : t.paygCost;
+    const how = prepaidMode ? "buy prepaid credits upfront in month 1" : "pay as you go for credits beyond your funded balance";
+    const summary = el("div", undefined, "whatif-summary");
+    summary.append(el("p", users === null
+      ? `${cash(B)} cannot cover even your starting ${fmt(alternative.initialUsers)} users at ${fmt(alternative.avgCredits)} credits per user for ${n} months. Raise the budget or lower credits per user.`
+      : `With ${cash(B)} of additional budget (${how}) on top of ${fmt(funded)} funded credits, you can support up to ${users === Infinity ? "10,000,000+" : fmt(users)} users at ${fmt(alternative.avgCredits)} credits per user per month for ${n} months, reaching that headcount in month ${k}.`, "whatif-headline"));
+    box.append(summary);
+    const items = [], add = (title, value, note) => { const c = el("div", undefined, "card whatif-card"); c.append(el("div", title, "metric-label"), el("div", value, "metric-value"), el("div", note, "metric-sub")); items.push(c); };
+    add("Credits your money covers", fmt(funded + bought), `${fmt(funded)} already funded (starting balance and planned purchases, used first) + ${fmt(bought)} bought with ${cash(B)} at ${prepaidMode ? "the prepaid" : "the pay-as-you-go"} price.`);
+    add("Budget needed for your current plan", cash(needed), needed <= B ? `${cash(B - needed)} left from your budget.` : `${cash(needed - B)} more than your budget.`);
+    add("How long your current plan is covered", runway === undefined ? "—" : runway === null ? "Beyond 36 months" : `${runway} months`, prepaidMode ? "Months until the prepaid credits you can buy run out." : "Months until pay-as-you-go spend exceeds the budget.");
+    if (usage !== null && usage !== Infinity) add("Max credits per user per month", fmt(usage), `Average the budget supports for your planned users (you entered ${fmt(alternative.avgCredits)}).`);
+    const grid = el("div", undefined, "grid whatif-grid"); grid.append(...items); box.append(grid);
+    box.append(el("p", `Users in the headline start at ${fmt(alternative.initialUsers)} and step up once to the maximum in month ${k}; this replaces your growth and step-up schedule for this what-if only. Existing prepaid credits are always spent first.`, "caption"));
+  }
+  ["scheduled-whatif-mode", "scheduled-whatif-month"].forEach(id => $(id).addEventListener("change", () => { if (results) whatIf(); }));
   function cards() {
     const summary = $("scheduled-summary"), current = results.alternative.totals;
     summary.replaceChildren();
-    [
-      ["Credits needed", fmt(current.credits), false],
-      ["Estimated cost of credits used", cash(current.cost), false],
-      ["Budget left / over budget", cash(current.headroom), current.headroom < 0],
-      ["Pay-as-you-go credits needed", fmt(current.paygCredits), current.paygCredits > 0]
-    ].forEach(([label, value, negative]) => {
-      const card = el("div", undefined, "card");
-      metric(card, label, value, negative);
-      summary.append(card);
+    const gain = current.paygCredits * Math.max(0, alternative.paygRate - alternative.prepaidRate);
+    const lastMonth = results.alternative.months[results.alternative.months.length - 1];
+    const rate = v => `$${v.toFixed(4)}`;
+    const rows = [
+      [
+        ["Forecast months", String(alternative.horizon)],
+        ["Total credit need", fmt(current.credits)],
+        ["Prepaid-funded credits", fmt(current.prepaidCredits), "prepaid"],
+        ["Pay-as-you-go / additional credits", fmt(current.paygCredits), "payg"],
+        ["Ending users", lastMonth && lastMonth.users ? fmt(lastMonth.users) : "—"]
+      ],
+      [
+        ["Total forecast cost", cash(current.cost)],
+        ["Prepaid-funded cost", cash(current.prepaidCost), "prepaid"],
+        ["Pay-as-you-go cost", cash(current.paygCost), "payg"],
+        ["Prepaid rate / credit", rate(alternative.prepaidRate)],
+        ["Pay-as-you-go rate / credit", rate(alternative.paygRate)],
+        ["Potential prefunding savings", cash(gain), "highlight", "Pay-as-you-go credits bought at the prepaid price instead"]
+      ]
+    ];
+    const titles = ["Credits", "Cost"];
+    rows.forEach((row, index) => {
+      summary.append(el("div", titles[index], "dash-title"));
+      const line = el("div", undefined, "dash-row");
+      row.forEach(([label, value, tone, sub]) => {
+        const card = el("div", undefined, `card dash-card${tone ? " dash-" + tone : ""}`);
+        metric(card, label, value, false, sub);
+        line.append(card);
+      });
+      summary.append(line);
     });
     const decision = $("scheduled-decision");
     decision.replaceChildren();
     const gap = current.firstPayg;
+    let spent = 0;
+    const overIndex = results.alternative.months.findIndex(m => (spent += m.paygCost) > alternative.budget);
+    const firstOver = overIndex < 0 ? 0 : overIndex + 1;
     const message = current.credits === 0
       ? "No credit usage is forecast. Review your starting users, usage and growth assumptions."
       : gap
-      ? `Your prepaid credits are expected to run short in ${results.alternative.months[gap - 1].date} (month ${gap}). Compare buying more credits before then with paying for ${fmt(current.paygCredits)} credits as you go over the full forecast, if pay-as-you-go is available under your agreement. A shortfall does not mean coverage is automatic.`
+      ? `Your prepaid credits are expected to run short in ${mon(results.alternative.months[gap - 1].date)} (month ${gap}). Compare buying more credits before then with paying for ${fmt(current.paygCredits)} credits as you go over the full forecast, if pay-as-you-go is available under your agreement. A shortfall does not mean coverage is automatic.`
       : "Your prepaid credits cover the forecast. Check the credits left at the end before buying more.";
-    decision.append(el("strong", "03 · Plan your next move: "), document.createTextNode(` ${message} ${current.firstBudget ? `The estimated cost of credits used first goes over your budget in ${results.alternative.months[current.firstBudget - 1].date}.` : "The estimated cost of credits used stays within your budget."} This is not an invoice, a cash-spend forecast, or a spending limit.`));
+    decision.append(el("strong", "Takeaway: "), document.createTextNode(` ${message} ${alternative.budget > 0 ? (firstOver ? `Pay-as-you-go spend first goes over your additional budget in ${mon(results.alternative.months[firstOver - 1].date)}.` : "Pay-as-you-go spend stays within your additional budget.") : ""} This is not an invoice, a cash-spend forecast, or a spending limit.`));
     const target = $("scheduled-cards");
     target.replaceChildren();
     $("scheduled-restore").disabled = !baselineSaved;
@@ -856,7 +929,7 @@ function renderDemandTimeline(chart, details, timeline) {
       else { node.removeAttribute("tabindex"); node.removeAttribute("aria-label"); }
     });
     $("scheduled-series-controls").hidden = view !== "sensitivity";
-    $("scheduled-sensitivity").closest("label").hidden = view !== "sensitivity";
+    const sensLabel = $("scheduled-sensitivity").closest("label"); if (sensLabel) sensLabel.hidden = view !== "sensitivity";
     $("scheduled-overlay-note").hidden = view !== "demand" || !baselineSaved || comparablePlans();
     if (view !== "demand") {
       const sensitivity = view === "sensitivity";
@@ -906,58 +979,68 @@ function renderDemandTimeline(chart, details, timeline) {
       }
       return;
     }
-    $("scheduled-chart-explanation").textContent = "Monthly forecast demand. Review checkpoints are marked; imported actuals and a comparable saved plan, when displayed, remain separate from the current forecast.";
-    const w = 900, h = 300, left = 75, right = 20, top = 20, bottom = 40;
+    $("scheduled-chart-explanation").textContent = "Each month's credits are covered by your prepaid credits first (blue); only what remains is billed at the pay-as-you-go price (orange). Imported actuals and a comparable saved plan, when displayed, remain separate from the current forecast.";
+    const w = 900, h = 300, left = 75, right = 60, top = 20, bottom = 40;
     const showBaseline = comparablePlans() && $("scheduled-comparison").open;
     const n = showBaseline ? Math.max(baseline.horizon, alternative.horizon) : alternative.horizon;
     const max = Math.max(1, ...(showBaseline ? results.baseline.months.map(x => x.credits) : []), ...results.alternative.months.map(x => x.credits), ...actuals.map(x => x.credits)) * 1.1;
-    const x = m => left + (m - 1) * (w - left - right) / Math.max(1, n - 1), y = v => h - bottom - v / max * (h - top - bottom);
+    const band = (w - left - right) / Math.max(1, n), x = m => left + (m - .5) * band, y = v => h - bottom - v / max * (h - top - bottom);
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    function s(tag, attrs, text) { const e = document.createElementNS("http://www.w3.org/2000/svg", tag); Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v)); if (text !== undefined) e.textContent = text; svg.append(e); }
-    svg.setAttribute("viewBox", `0 0 ${w} ${h}`); svg.setAttribute("role", "img"); svg.setAttribute("aria-label", `Monthly credit demand: current forecast, solid${showBaseline ? "; saved baseline, dashed" : ""}${actuals.length ? "; imported actual credits, dotted" : ""}${checkpoints.some(p => p.month <= n) ? "; review checkpoints, vertical dotted lines" : ""}. Values in the table are rounded.`);
+    function s(tag, attrs, text) { const e = document.createElementNS("http://www.w3.org/2000/svg", tag); Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v)); if (text !== undefined) e.textContent = text; svg.append(e); return e; }
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`); svg.setAttribute("role", "img"); svg.setAttribute("aria-label", `Monthly credit demand as stacked bars: credits covered by prepaid, and credits billed at the pay-as-you-go price${showBaseline ? "; saved baseline total, dashed line" : ""}${actuals.length ? "; imported actual credits, dotted line" : ""}. Values in the table are rounded.`);
     const axis = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
     for (let i = 0; i <= 4; i++) { const v = max * i / 4; s("line", { x1: left, x2: w - right, y1: y(v), y2: y(v), stroke: "var(--cp-border)" }); s("text", { x: left - 8, y: y(v) + 4, "text-anchor": "end", fill: "var(--cp-text-muted)", "font-size": 11 }, axis.format(v)); }
     for (let i = 1; i <= n; i++) if (n <= 12 || i === 1 || i === n || i % 3 === 0) s("text", { x: x(i), y: h - 15, "text-anchor": "middle", fill: "var(--cp-text-muted)", "font-size": 11 }, `M${i}`);
-    checkpoints.filter(p => p.month <= n).forEach(p => s("line", { x1: x(p.month), x2: x(p.month), y1: top, y2: h - bottom, stroke: "var(--cp-warning)", "stroke-dasharray": "3 4" }));
+    const prepaidColor = "#0f6cbd", paygColor = "#f7630c", barW = Math.max(4, Math.min(48, band * .7));
+    results.alternative.months.forEach(m => {
+      const prepaid = Math.min(m.prepaidCredits, m.credits), payg = Math.max(0, m.credits - prepaid);
+      const tip = `Month ${m.month}: ${fmt(prepaid)} prepaid, ${fmt(payg)} pay-as-you-go, ${fmt(m.credits)} total`;
+      s("rect", { x: x(m.month) - barW / 2, y: y(prepaid), width: barW, height: Math.max(0, y(0) - y(prepaid)), fill: prepaidColor }).append(Object.assign(document.createElementNS("http://www.w3.org/2000/svg", "title"), { textContent: tip }));
+      if (payg > 0) s("rect", { x: x(m.month) - barW / 2, y: y(prepaid + payg), width: barW, height: Math.max(0, y(prepaid) - y(prepaid + payg)), fill: paygColor }).append(Object.assign(document.createElementNS("http://www.w3.org/2000/svg", "title"), { textContent: tip }));
+    });
     function series(data, color, dash) {
       let segment = [];
       function flush() { if (!segment.length) return; s("polyline", { points: segment.map(v => `${x(v.month)},${y(v.credits)}`).join(" "), fill: "none", stroke: color, "stroke-width": 3, "stroke-dasharray": dash || "" }); segment.forEach(v => s("circle", { cx: x(v.month), cy: y(v.credits), r: 3, fill: color })); segment = []; }
       data.forEach(v => { if (segment.length && v.month !== segment[segment.length - 1].month + 1) flush(); segment.push(v); }); flush();
     }
     if (showBaseline) series(results.baseline.months, "var(--cp-text-muted)", "7 5");
-    series(results.alternative.months, "var(--cp-accent)"); series(actuals, "var(--cp-success)", "2 4");
-    if (showBaseline) legendItem("Saved baseline, dashed", "base");
-    legendItem("Current forecast, solid");
+    series(actuals, "var(--cp-success)", "2 4");
+    const userColor = "#243a5e", userMax = Math.max(1, ...results.alternative.months.map(m => m.users || 0)) * 1.1;
+    if (results.alternative.months.some(m => m.users > 0)) {
+      const uy = v => h - bottom - v / userMax * (h - top - bottom);
+      for (let i = 0; i <= 4; i++) s("text", { x: w - right + 8, y: uy(userMax * i / 4) + 4, "text-anchor": "start", fill: userColor, "font-size": 11 }, axis.format(userMax * i / 4));
+      s("polyline", { points: results.alternative.months.map(m => `${x(m.month)},${uy(m.users)}`).join(" "), fill: "none", stroke: userColor, "stroke-width": 2.5 });
+      results.alternative.months.forEach(m => s("circle", { cx: x(m.month), cy: uy(m.users), r: 3.5, fill: "#fff", stroke: userColor, "stroke-width": 2 }).append(Object.assign(document.createElementNS("http://www.w3.org/2000/svg", "title"), { textContent: `Month ${m.month}: ${fmt(m.users)} users` })));
+    }
+    const swatch = (label, color) => { const item = el("span"), box = el("i"); box.setAttribute("aria-hidden", "true"); box.style.cssText = `display:inline-block;width:12px;height:12px;border:0;border-radius:2px;background:${color};margin-right:6px;vertical-align:-1px`; item.append(box, document.createTextNode(label)); legend.append(item); };
+    swatch("Prepaid credits used", prepaidColor);
+    swatch("Pay-as-you-go credits", paygColor);
+    if (results.alternative.months.some(m => m.users > 0)) swatch("Users (right axis)", userColor);
+    if (showBaseline) legendItem("Saved baseline total, dashed", "base");
     if (actuals.length) legendItem("Imported actual credits, dotted", "actual");
-    if (checkpoints.some(p => p.month <= n)) legendItem("Review checkpoint, vertical dotted line", "checkpoint");
     $("scheduled-chart").replaceChildren(svg);
   }
   function outputs() {
-    cards(); chart();
+    cards(); chart(); whatIf();
     const departmentResults = results.alternative.departments;
     $("scheduled-department-csv").disabled = !departmentResults;
     if (departmentResults) {
       table("scheduled-department-totals", ["Department", "Horizon credits", "Prepaid credits used", "Pay-as-you-go credits needed", "Estimated cost"], departmentResults.map(d => [d.name, fmt(d.totals.credits), fmt(d.totals.prepaidCredits), fmt(d.totals.paygCredits), cash(d.totals.cost)]));
       table("scheduled-department-output", ["Department", "Month", "Date", "Users", "Credits / user", "Forecast credits", "Prepaid credits used", "Pay-as-you-go credits needed", "Estimated cost"], departmentResults.flatMap(d => d.months.map(m => [d.name, m.month, m.date, fmt(m.users), fmt(m.usage), fmt(m.credits), fmt(m.prepaidCredits), fmt(m.paygCredits), cash(m.cost)])));
     } else { $("scheduled-department-totals").replaceChildren(); $("scheduled-department-output").replaceChildren(el("p", "No explicit department assumptions in this plan.", "caption")); }
-    const activeCheckpoints = checkpoints.filter(p => p.month <= alternative.horizon).sort((a, b) => a.month - b.month);
-    if (activeCheckpoints.length) table("scheduled-checkpoint-output", ["Month", "Date", "Owner", "Trigger", "Response"], activeCheckpoints.map(p => [p.month, results.alternative.months[p.month - 1].date, p.owner || "—", p.trigger || "—", p.response || "—"]));
-    else $("scheduled-checkpoint-output").replaceChildren(el("p", "No checkpoints in this forecast period.", "caption"));
     const monthRows = [], includeBaseline = comparablePlans(), n = alternative.horizon;
-    const headers = ["Month", "Date", "Phase", "Users", "Credits / user", "Forecast credits", "Estimated cost"];
+    const headers = ["Month", "Date", "Users", "Credits / user", "Forecast credits", "Estimated cost"];
     if (includeBaseline) headers.push("Saved plan date", "Saved plan users", "Saved plan credits", "Saved plan cost");
     if (actuals.length) headers.push("Actual credits", "Actual cost", "Actual users");
     for (let i = 0; i < n; i++) {
       const b = results.baseline.months[i], a = results.alternative.months[i], actual = actuals.find(x => x.month === i + 1);
-      const row = [i + 1, a ? a.date : "—", a ? a.phase : "—", a ? fmt(a.users) : "—", a ? (alternative.departments && !a.users ? "Unavailable" : fmt(a.usage)) : "—", a ? fmt(a.credits) : "—", a ? cash(a.cost) : "—"];
+      const row = [i + 1, a ? a.date : "—", a ? fmt(a.users) : "—", a ? (alternative.departments && !a.users ? "Unavailable" : fmt(a.usage)) : "—", a ? fmt(a.credits) : "—", a ? cash(a.cost) : "—"];
       if (includeBaseline) row.push(b ? b.date : "—", b ? fmt(b.users) : "—", b ? fmt(b.credits) : "—", b ? cash(b.cost) : "—");
       if (actuals.length) row.push(actual ? fmt(actual.credits) : "—", actual ? cash(actual.cost) : "—", actual ? fmt(actual.active) : "—");
       monthRows.push(row);
     }
     table("scheduled-months", headers, monthRows);
     table("scheduled-funding", ["Month", "Date", "Prepaid credits at start", "Credits purchased", "Credits available", "Credits needed", "Prepaid credits used", "Pay-as-you-go credits needed", "Prepaid credits left", "Estimated prepaid cost", "Estimated pay-as-you-go cost", "Estimated cost of credits used", "Estimated cost to date"], results.alternative.months.map(m => [m.month, m.date, fmt(m.opening), fmt(m.purchase), fmt(m.available), fmt(m.credits), fmt(m.prepaidCredits), fmt(m.paygCredits), fmt(m.remaining), cash(m.prepaidCost), cash(m.paygCost), cash(m.cost), cash(m.cumulativeCost)]));
-    const usageTiming = alternative.firstMonthUsageGrowth ? "month 1" : "month 2";
-    $("phase-explanation").textContent = alternative.growthMode === "constant" ? `The same rates are used each month: ${inputNumber(percentValue(alternative.userGrowth))}% for users and ${inputNumber(percentValue(alternative.usageGrowth))}% for usage per user. User growth starts in month 1; usage growth starts in ${usageTiming}. The rates below are not in use.` : alternative.phases.map(p => `${p.label || "Unnamed phase"}: from month ${p.month}, user growth ${inputNumber(percentValue(p.userGrowth))}%, usage growth ${inputNumber(percentValue(p.usageGrowth))}%.`).join(" ") + ` User growth starts in month 1; usage growth starts in ${usageTiming}.`;
   }
   let importedSource = null;
   function showImportSource() {
@@ -974,17 +1057,6 @@ function renderDemandTimeline(chart, details, timeline) {
   function render() {
     $("scheduled-assumption-warning").hidden = !showAssumptionWarning;
     showImportSource();
-    const beyond = [
-      ["Rollout steps", alternative.steps],
-      ["Purchases", alternative.fundingMode === "pool" ? alternative.purchases : []],
-      ["Phases", alternative.growthMode === "phased" ? alternative.phases : []]
-    ].map(([label, rows]) => {
-      const months = rows.filter(row => Number.isInteger(row.month) && row.month > alternative.horizon).map(row => row.month);
-      return months.length ? `${label} in month${months.length === 1 ? "" : "s"} ${months.join(", ")} are saved but outside the forecast.` : "";
-    }).filter(Boolean);
-    $("scheduled-range-note").textContent = beyond.join(" ");
-    $("scheduled-range-note").hidden = !beyond.length;
-    $("scheduled-app").querySelectorAll("[data-horizon]").forEach(button => button.setAttribute("aria-pressed", String(Number(button.dataset.horizon) === alternative.horizon)));
     $("scheduled-compare-shortcut").textContent = baselineSaved ? "View plan comparison" : "Save this plan to compare";
     $("scheduled-history-status").textContent = importedSource && importedSource.history.length
       ? `PowerPoint includes ${importedSource.history.length} month(s) of selected usage history through ${importedSource.month}. The forecast CSV includes projections and source caveats, not history; export history separately from Your Data.`
@@ -992,11 +1064,30 @@ function renderDemandTimeline(chart, details, timeline) {
     const displayError = e => e.replace(/((?:Monthly|Phase) (?:user|usage(?: growth per user)?) growth|Monthly usage growth per user) must be a finite number of at least -1$/, "$1 must be a finite percentage of at least -100%");
     let errors = [...ForecastEngine.validateScheduledPlan(baseline).map(e => `Saved plan: ${displayError(e)}`), ...ForecastEngine.validateScheduledPlan(alternative).map(e => `Current plan: ${displayError(e)}`)];
     try { cleanCheckpoints(checkpoints); } catch (e) { errors.push(e.message); }
+    const capInput = $("scheduled-growth-fields").querySelector('[data-scheduled-field="userCap"]');
+    const capMissing = alternative.userGrowth > 0 && alternative.userCap == null;
+    if (capMissing) errors.push("Set Max allowed users. Without a ceiling, monthly user growth would continue indefinitely.");
+    if (capInput) { capInput.toggleAttribute("aria-invalid", capMissing); if (capMissing) capInput.setAttribute("aria-invalid", "true"); }
     if (actuals.some(a => a.month > alternative.horizon)) errors.push("Actuals exceed the alternative horizon; restore the horizon or clear actuals.");
-    notice(errors.join("\n"));
+    const missing = [];
+    if (!alternative.departments) {
+      if (!(alternative.initialUsers > 0)) missing.push(["initialUsers", "Enter Starting users, the number of people with Cowork today (greater than 0)."]);
+      if (!(alternative.avgCredits > 0)) missing.push(["avgCredits", "Enter Starting credits per user per month, for example 8,000. Find it at aka.ms/copilotdashboard → Consumption Dashboard → Explore service insights."]);
+    }
+    if (!(alternative.paygRate > 0)) missing.push(["paygRate", "Enter the Pay-as-you-go price per credit, for example 0.01."]);
+    if ((alternative.openingPool > 0 || alternative.purchases.length) && !(alternative.prepaidRate > 0)) missing.push(["prepaidRate", "Enter the Prepaid price per credit, for example 0.008, because you have prepaid credits."]);
+    $("scheduled-app").querySelectorAll("[data-scheduled-field]").forEach(input => {
+      const bad = attemptedView && missing.some(([key]) => key === input.dataset.scheduledField);
+      if (bad) input.setAttribute("aria-invalid", "true");
+      else if (!input.dataset.percent && input.dataset.scheduledField !== "userCap" && input.getAttribute("aria-invalid") && Number.isFinite(num(input.value))) input.removeAttribute("aria-invalid");
+    });
+    if (attemptedView) missing.forEach(([, text]) => errors.push(text));
+    const waiting = missing.length > 0 && !errors.length;
+    if (waiting) errors.push("");
+    notice(errors.filter(Boolean).join("\n"));
     $("scheduled-app").querySelectorAll("[data-percent]").forEach(input => {
       const value = num(input.value);
-      if (!Number.isFinite(value) || value < -100) {
+      if (input.value.trim() !== "" && (!Number.isFinite(value) || value < -100)) {
         input.setAttribute("aria-invalid", "true");
         input.setAttribute("aria-describedby", "scheduled-errors");
       } else {
@@ -1008,11 +1099,11 @@ function renderDemandTimeline(chart, details, timeline) {
     if (exportingDeck) $("scheduled-pptx").disabled = true;
     if (errors.length) {
       results = null;
-      ["scheduled-summary", "scheduled-cards", "scheduled-months", "scheduled-funding", "phase-explanation", "scheduled-department-totals", "scheduled-department-output", "scheduled-checkpoint-output", "scheduled-analysis-table", "scheduled-chart-legend"].forEach(id => $(id).replaceChildren());
+      ["scheduled-summary", "scheduled-cards", "scheduled-months", "scheduled-funding", "scheduled-department-totals", "scheduled-department-output", "scheduled-analysis-table", "scheduled-chart-legend", "scheduled-whatif-results"].forEach(id => $(id).replaceChildren());
       $("scheduled-department-csv").disabled = true;
       $("scheduled-analysis-error").classList.add("hidden");
-      $("scheduled-decision").textContent = "The forecast is paused. Fix the highlighted message above Credits and budget, then select View forecast.";
-      $("scheduled-chart").replaceChildren(el("p", "Your forecast will appear here after the inputs are corrected.", "caption"));
+      $("scheduled-decision").textContent = waiting ? "Enter your starting users and credits per user, then select View forecast." : "The forecast is paused. Fix the highlighted message above Step 1, then select View forecast.";
+      $("scheduled-chart").replaceChildren(el("p", waiting ? "Your forecast will appear here once the required inputs are entered." : "Your forecast will appear here after the inputs are corrected.", "caption"));
       $("scheduled-overlay-note").hidden = true;
       return;
     }
@@ -1025,7 +1116,7 @@ function renderDemandTimeline(chart, details, timeline) {
   }
   function csv(value) { let s = String(value); if (typeof value === "string" && /^[\s]*[=+\-@\t\r]/.test(s)) s = "'" + s; return `"${s.replace(/"/g, '""')}"`; }
   function exportCsv() {
-    const data = [["scenario", "month", "date", "phase", "users", "credits_per_user", "credits", "opening_pool", "purchases", "prepaid_available", "prepaid_consumed", "payg_credits", "prepaid_remaining", "currency", "prepaid_value", "payg_cost", "consumption_cost", "cumulative_cost", "source_status", "date_attribution"]];
+    const data = [["scenario", "month", "date", "users", "credits_per_user", "credits", "opening_pool", "purchases", "prepaid_available", "prepaid_consumed", "payg_credits", "prepaid_remaining", "currency", "prepaid_value", "payg_cost", "consumption_cost", "cumulative_cost", "source_status", "date_attribution"]];
     const sourceStatus = (source, provenance) => (source
       ? (source.label.startsWith("Synthetic demo") ? "Synthetic demo" : "Imported data")
       : provenance === manualProvenance ? "Manual assumptions" : "Source unspecified") +
@@ -1033,7 +1124,7 @@ function renderDemandTimeline(chart, details, timeline) {
     const scenarios = baselineSaved
       ? [["Baseline", results.baseline, baselineSource, baselineProvenance, baselineDateAttribution, baseline], ["Alternative", results.alternative, importedSource, currentProvenance, currentDateAttribution, alternative]]
       : [["Current plan", results.alternative, importedSource, currentProvenance, currentDateAttribution, alternative]];
-    scenarios.forEach(([name, r, source, provenance, attribution, plan]) => r.months.forEach(m => data.push([name, m.month, m.date, m.phase, m.users, plan.departments && !m.users ? "" : m.usage, m.credits, m.opening, m.purchase, m.available, m.prepaidCredits, m.paygCredits, m.remaining, currency, m.prepaidCost, m.paygCost, m.cost, m.cumulativeCost, sourceStatus(source, provenance), attribution || ""])));
+    scenarios.forEach(([name, r, source, provenance, attribution, plan]) => r.months.forEach(m => data.push([name, m.month, m.date, m.users, plan.departments && !m.users ? "" : m.usage, m.credits, m.opening, m.purchase, m.available, m.prepaidCredits, m.paygCredits, m.remaining, currency, m.prepaidCost, m.paygCost, m.cost, m.cumulativeCost, sourceStatus(source, provenance), attribution || ""])));
     download("rollout-scheduled-monthly.csv", data.map(r => r.map(csv).join(",")).join("\r\n"), "text/csv;charset=utf-8");
   }
   function cleanPlan(p) {
@@ -1063,6 +1154,15 @@ function renderDemandTimeline(chart, details, timeline) {
     const errors = ForecastEngine.validateScheduledPlan(result);
     if (errors.length) throw new Error(errors.join("; "));
     return result;
+  }
+  function normalizeImported(plan) {
+    if (plan.growthMode === "phased" && plan.phases.length) {
+      plan.userGrowth = plan.phases[0].userGrowth; plan.usageGrowth = plan.phases[0].usageGrowth;
+    }
+    plan.growthMode = "constant"; plan.fundingMode = "pool";
+    plan.userGrowth = Math.max(0, plan.userGrowth);
+    plan.phases = [{ label: "Initial", month: 1, userGrowth: plan.userGrowth, usageGrowth: plan.usageGrowth }];
+    return plan;
   }
   function parseActuals(text) {
     const lines = text.replace(/^\uFEFF/, "").split(/\r\n|\n|\r/).filter(s => s.trim());
@@ -1096,35 +1196,33 @@ function renderDemandTimeline(chart, details, timeline) {
   $("return-scheduled").addEventListener("click", switchModel);
   $("scheduled-app").addEventListener("change", event => {
     const input = event.target;
-    if (input.dataset.scheduledField || input.dataset.scheduledRow || input.dataset.targetIndex !== undefined) planEstablished = true;
-    if (input.dataset.scheduledField) {
-      const key = input.dataset.scheduledField;
-      if (key === "currency") {
-        currency = input.value;
-        editors(); render();
-        return;
+    if (input.dataset.scheduledField || input.dataset.scheduledRow || input.dataset.schedule || input.dataset.targetIndex !== undefined) planEstablished = true;
+    if (input.dataset.schedule) {
+      if (!setSchedule(input.dataset.schedule, Number(input.dataset.month), input.value)) {
+        input.setAttribute("aria-invalid", "true"); notice("Schedule values must be non-negative numbers; leave a cell blank to use the standard assumptions."); return;
       }
+      input.removeAttribute("aria-invalid");
+      const entry = (input.dataset.schedule === "users" ? alternative.steps : alternative.purchases).find(item => item.month === Number(input.dataset.month));
+      input.value = entry ? inputNumber(entry[input.dataset.schedule]) : "";
+      departmentEditor(); render();
+    } else if (input.dataset.scheduledField) {
+      const key = input.dataset.scheduledField;
       if (key === "startMonth" && actuals.length && input.value !== actualsStartMonth) {
         input.value = alternative.startMonth;
         notice(`Actuals are anchored to ${actualsStartMonth}. Clear actuals before changing the first forecast month.`);
         return;
       }
-      alternative[key] = key === "userCap" && input.value === "" ? null : ["startMonth", "growthMode", "fundingMode"].includes(key) ? input.value : num(input.value) / (input.dataset.percent ? 100 : 1);
+      const blank = input.value.trim() === "" && !["startMonth", "horizon"].includes(key);
+      alternative[key] = key === "userCap" && blank ? null : blank ? 0 : key === "startMonth" ? input.value : num(input.value) / (input.dataset.percent ? 100 : 1);
       if (key === "horizon" && Number.isInteger(alternative.horizon) && alternative.horizon >= 1 && alternative.currentMonth > alternative.horizon) alternative.currentMonth = alternative.horizon;
-      if (input.dataset.formatted && Number.isFinite(alternative[key])) {
+      if (blank) input.removeAttribute("aria-invalid");
+      else if (input.dataset.formatted && Number.isFinite(alternative[key])) {
         input.value = inputValue(alternative[key], input.dataset.formatted === "currency");
         input.removeAttribute("aria-invalid");
       } else if (input.dataset.formatted && !(key === "userCap" && alternative[key] === null)) {
         input.setAttribute("aria-invalid", "true");
       }
-      if (key === "growthMode") {
-        updateGrowthMode();
-        if (alternative.growthMode === "phased") $("scheduled-phase-details").open = true;
-      }
-      if (key === "fundingMode") updateFundingMode();
-      render();
-    } else if (input.dataset.checkpointKey) {
-      checkpoints[Number(input.dataset.checkpointIndex)][input.dataset.checkpointKey] = input.dataset.checkpointKey === "month" ? num(input.value) : input.value;
+      if (key === "horizon" || key === "startMonth") scheduleEditor();
       render();
     } else if (input.dataset.targetIndex !== undefined) {
       const step = alternative.steps[Number(input.dataset.targetIndex)], group = alternative.departments[Number(input.dataset.targetGroup)];
@@ -1175,7 +1273,7 @@ function renderDemandTimeline(chart, details, timeline) {
       if (data.currency !== undefined && !["USD", "EUR", "GBP"].includes(data.currency)) throw new Error("Scenario currency must be USD, EUR or GBP.");
       if (data.decisionNote !== undefined && (typeof data.decisionNote !== "string" || data.decisionNote.length > 300)) throw new Error("Decision note must be text of 300 characters or fewer.");
       const savedAttribution = cleanDateAttribution(data.baselineDateAttribution), currentAttribution = cleanDateAttribution(data.dateAttribution);
-      const b = cleanPlan(data.baseline), a = cleanPlan(data.alternative);
+      const b = normalizeImported(cleanPlan(data.baseline)), a = normalizeImported(cleanPlan(data.alternative));
       const importedCheckpoints = cleanCheckpoints(data.checkpoints), importedBaselineCheckpoints = data.baselineCheckpoints == null ? null : cleanCheckpoints(data.baselineCheckpoints), importedView = cleanViewSettings(data.viewSettings), importedExportViews = cleanExportViews(data.exportViews), importedOverrides = cleanExportViewOverrides(data.exportViewOverrides, data.exportViews !== undefined);
       checkActualPeriod(a);
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
@@ -1191,30 +1289,17 @@ function renderDemandTimeline(chart, details, timeline) {
   });
   $("scheduled-app").addEventListener("click", event => {
     const b = event.target.closest("button"); if (!b) return;
-    if (b.dataset.scheduledRemove || b.dataset.horizon || [
-      "add-step", "add-purchase", "add-scheduled-phase", "add-scheduled-department",
+    if (b.dataset.scheduledRemove || [
+      "add-scheduled-department",
       "scheduled-snapshot", "scheduled-compare-shortcut", "scheduled-restore"
     ].includes(b.id)) planEstablished = true;
-    if (b.dataset.editPhases) {
-      const section = $("scheduled-phase-details");
-      section.open = true; section.scrollIntoView({ behavior: "smooth", block: "start" });
-      section.querySelector("summary").focus({ preventScroll: true });
-      return;
-    }
     if (b.dataset.chartView) {
       viewSettings.view = b.dataset.chartView;
       $("scheduled-chart-view").value = viewSettings.view;
       if (results) chart();
       return;
     }
-    if (b.dataset.checkpointRemove !== undefined) { checkpoints.splice(Number(b.dataset.checkpointRemove), 1); checkpointEditor(); render(); }
-    else if (b.id === "add-checkpoint") {
-      const used = new Set(checkpoints.map(p => p.month)), month = Array.from({ length: 36 }, (_, i) => i + 1).find(m => !used.has(m));
-      if (!month) { notice("All 36 checkpoint months are already used."); return; }
-      if (!checkpoints.length && !exportViewOverrides.checkpoints) { exportViews.checkpoints = true; syncViewSettings(); }
-      checkpoints.push({ month, owner: "", trigger: "", response: "" }); checkpointEditor(); render();
-    }
-    else if (b.dataset.scheduledRemove) {
+    if (b.dataset.scheduledRemove) {
       const kind = b.dataset.scheduledRemove, index = Number(b.dataset.rowIndex), removed = alternative[kind][index];
       alternative[kind].splice(index, 1);
       if (kind === "steps" && alternative.stepTargets) alternative.stepTargets = alternative.stepTargets.filter(target => target.month !== removed.month);
@@ -1236,38 +1321,15 @@ function renderDemandTimeline(chart, details, timeline) {
       alternative.stepTargets.forEach(target => target.targets.push({ departmentId: id, users: 0 }));
       editors(); render();
     }
-    else if (b.dataset.horizon) {
-      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
-      alternative.horizon = Number(b.dataset.horizon);
-      if (alternative.currentMonth > alternative.horizon) alternative.currentMonth = alternative.horizon;
-      editors(); render();
-    }
     else if (b.classList.contains("view-forecast")) {
       if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+      attemptedView = true;
       render();
+      const firstBad = $("scheduled-app").querySelector('[data-scheduled-field][aria-invalid="true"]');
       const target = results ? $("forecast-results") : $("scheduled-errors");
       target.scrollIntoView({ behavior: "smooth", block: "start" });
       target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true });
-    }
-    else if (b.id === "add-step") {
-      const used = new Set(alternative.steps.map(step => step.month));
-      const month = Array.from({ length: 36 }, (_, i) => i + 1).find(m => !used.has(m));
-      if (!month) { notice("All 36 months already have a rollout step."); return; }
-      const monthResult = results && results.alternative.months[month - 1];
-      alternative.steps.push({ month, users: monthResult ? monthResult.users : alternative.initialUsers });
-      if (alternative.departments) alternative.stepTargets.push({ month, targets: alternative.departments.map(d => ({ departmentId: d.id, users: 0 })) });
-      editors(); render();
-    }
-    else if (b.id === "add-purchase") { alternative.purchases.push({ month: 1, credits: 0 }); editors(); render(); }
-    else if (b.id === "add-scheduled-phase") {
-      const last = alternative.phases[alternative.phases.length - 1];
-      if (last && last.month >= 36) { notice("The last phase already starts in month 36."); return; }
-      if (alternative.growthMode === "constant" && alternative.phases.length === 1 && last.label === "Initial" && last.month === 1 && last.userGrowth === .02 && last.usageGrowth === .02) {
-        last.userGrowth = alternative.userGrowth; last.usageGrowth = alternative.usageGrowth;
-      }
-      alternative.phases.push({ label: "", month: last ? last.month + 1 : 1, userGrowth: last ? last.userGrowth : alternative.userGrowth, usageGrowth: last ? last.usageGrowth : alternative.usageGrowth });
-      alternative.growthMode = "phased";
-      editors(); render();
+      if (!results && firstBad) setTimeout(() => firstBad.focus({ preventScroll: true }), 400);
     }
     else if (b.id === "scheduled-snapshot" && results) { baseline = copy(alternative); baselineCheckpoints = copy(checkpoints); baselineSource = importedSource ? copy(importedSource) : null; baselineDateAttribution = currentDateAttribution; baselineProvenance = currentProvenance; baselineSaved = true; render(); }
     else if (b.id === "scheduled-compare-shortcut" && results) {
@@ -1347,14 +1409,17 @@ function renderDemandTimeline(chart, details, timeline) {
     planEstablished = false;
     mayHaveIllustrativeAssumptions = false; showAssumptionWarning = false;
     const today = new Date();
-    const startMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
+    const next = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    const startMonth = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}`;
     alternative = {
       horizon: 12, currentMonth: 0, startMonth, initialUsers: 0, userCap: null,
       avgCredits: 0, userGrowth: 0, usageGrowth: 0, growthMode: "constant",
       phases: [{ label: "Initial", month: 1, userGrowth: 0, usageGrowth: 0 }],
       steps: [], fundingMode: "pool", openingPool: 0, purchases: [], monthlyAllocation: 0,
-      prepaidRate: 0, paygRate: 0, budget: 0
+      prepaidRate: 0, paygRate: 0.01, budget: 0
     };
+    if (/[?&]prefill\b/.test(location.search)) Object.assign(alternative, { initialUsers: 178, avgCredits: 8000, userGrowth: .05, usageGrowth: .03, userCap: 2000, openingPool: 94000000, prepaidRate: .008, budget: 3000000 });
+    attemptedView = false;
     baseline = copy(alternative); baselineCheckpoints = []; baselineSaved = false; baselineSource = null; importedSource = null;
     baselineProvenance = currentProvenance = manualProvenance;
     baselineDateAttribution = currentDateAttribution = null;
@@ -1396,10 +1461,10 @@ function renderDemandTimeline(chart, details, timeline) {
       return;
     }
     if (d.demoRollout) {
-      const currentGrowth = { growthMode: alternative.growthMode, userGrowth: alternative.userGrowth, usageGrowth: alternative.usageGrowth, phases: alternative.phases };
-      const initialGrowth = { growthMode: initial.growthMode, userGrowth: initial.userGrowth, usageGrowth: initial.usageGrowth, phases: initial.phases };
+      const currentGrowth = { userGrowth: alternative.userGrowth, usageGrowth: alternative.usageGrowth };
+      const initialGrowth = { userGrowth: initial.userGrowth, usageGrowth: initial.usageGrowth };
       if (JSON.stringify(currentGrowth) !== JSON.stringify(initialGrowth) &&
-          !window.confirm("Use fictional demo rollout phases? This replaces your current growth mode and phases. Other assumptions, rollout steps and purchases remain unchanged.")) {
+          !window.confirm("Use fictional demo growth rates? This replaces your current monthly growth rates. Other assumptions and your schedule remain unchanged.")) {
         event.preventDefault();
         return;
       }
@@ -1413,7 +1478,7 @@ function renderDemandTimeline(chart, details, timeline) {
     }
     if (initializeImportedPlan) {
       alternative.openingPool = 0; alternative.monthlyAllocation = 0;
-      alternative.prepaidRate = 0; alternative.paygRate = 0; alternative.budget = 0;
+      alternative.prepaidRate = 0; alternative.paygRate = 0.01; alternative.budget = 0;
       alternative.userGrowth = 0; alternative.usageGrowth = 0; alternative.growthMode = "constant";
       alternative.phases = [{ label: "Initial", month: 1, userGrowth: 0, usageGrowth: 0 }];
       mayHaveIllustrativeAssumptions = false; showAssumptionWarning = false;
@@ -1423,24 +1488,20 @@ function renderDemandTimeline(chart, details, timeline) {
       if (mayHaveIllustrativeAssumptions) showAssumptionWarning = true;
     }
     const avg = d.credits / d.users;
-    alternative.initialUsers = d.users; alternative.avgCredits = avg; alternative.startMonth = start; alternative.currentMonth = 0; alternative.firstMonthUsageGrowth = true;
+    alternative.initialUsers = d.users; alternative.avgCredits = avg; alternative.startMonth = start; alternative.currentMonth = 0; alternative.firstMonthUsageGrowth = false;
     if (d.growth) {
       alternative.growthMode = "constant";
-      alternative.userGrowth = d.growth.users;
+      alternative.userGrowth = Math.max(0, d.growth.users);
       alternative.usageGrowth = d.growth.usage;
     } else if (d.demoRollout) {
       mayHaveIllustrativeAssumptions = true;
-      alternative.growthMode = "phased";
-      alternative.phases = [
-        { label: "Early adoption", month: 1, userGrowth: .015, usageGrowth: .015 },
-        { label: "Broader adoption", month: 4, userGrowth: .012, usageGrowth: .012 },
-        { label: "Established usage", month: 8, userGrowth: .008, usageGrowth: .008 },
-        { label: "Mature rollout", month: 13, userGrowth: .004, usageGrowth: .004 }
-      ];
+      alternative.growthMode = "constant";
+      alternative.userGrowth = .01; alternative.usageGrowth = .01;
     }
+    if (alternative.userGrowth > 0 && alternative.userCap == null) alternative.userCap = Math.max(d.users * 2, 1);
     if (initializeImportedPlan) baseline = copy(alternative);
     importedSource = { users: d.users, credits: d.credits, avg, month, start, label: String(d.label || "Imported data").slice(0, 160), sourceKey: d.sourceKey, history: copy(d.history), dateAttribution,
-      growthNote: d.demoRollout ? "Fictional demo rollout phases replaced the previous growth mode and phases; these example rates are not predictions." : d.growth ? `Growth assumptions use the observed change from ${d.growth.priorMonth} to ${month}; they are not predictions.` : initializeImportedPlan ? "Growth rates were initialized to zero." : "Growth assumptions remain unchanged.",
+      growthNote: d.demoRollout ? "Fictional demo growth rates replaced the previous monthly rates; these example rates are not predictions." : d.growth ? `Growth assumptions use the observed change from ${d.growth.priorMonth} to ${month} (negative user growth is treated as zero); they are not predictions.` : initializeImportedPlan ? "Growth rates were initialized to zero." : "Growth assumptions remain unchanged.",
       initializationNote: initializeImportedPlan ? "Prepaid credits, prices and budget were initialized to zero. Enter your values and review growth rates before using this forecast." : "" };
     currentDateAttribution = dateAttribution;
     currentProvenance = `data:${d.sourceKey}`;
@@ -1448,6 +1509,5 @@ function renderDemandTimeline(chart, details, timeline) {
     $("legacy-app").hidden = true; $("scheduled-app").hidden = false;
     notice(""); editors(); render();
   });
-  document.querySelector('[data-export-view="phases"]').closest("fieldset").append(el("p", "Phase waterfall: starting configured monthly demand, chronological changes through each phase, and final monthly forecast. Each change includes all growth, rollout steps and the user cap; it is not a causal breakdown.", "caption"));
   syncViewSettings(); editors(); actualStatus(); render();
 })();
