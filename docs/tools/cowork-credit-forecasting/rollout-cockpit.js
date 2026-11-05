@@ -1095,7 +1095,7 @@ function renderDemandTimeline(chart, details, timeline) {
         if (input.getAttribute("aria-describedby") === "scheduled-errors") input.removeAttribute("aria-describedby");
       }
     });
-    ["scheduled-snapshot", "scheduled-csv", "scheduled-export", "scheduled-pptx", "scheduled-compare-shortcut"].forEach(id => { $(id).disabled = !!errors.length; });
+    ["scheduled-snapshot", "scheduled-csv", "scheduled-xlsx", "scheduled-export", "scheduled-pptx", "scheduled-compare-shortcut"].forEach(id => { $(id).disabled = !!errors.length; });
     if (exportingDeck) $("scheduled-pptx").disabled = true;
     if (errors.length) {
       results = null;
@@ -1115,6 +1115,14 @@ function renderDemandTimeline(chart, details, timeline) {
     a.href = url; a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   function csv(value) { let s = String(value); if (typeof value === "string" && /^[\s]*[=+\-@\t\r]/.test(s)) s = "'" + s; return `"${s.replace(/"/g, '""')}"`; }
+  function exportXlsx() {
+    if (!globalThis.ExcelExport || !globalThis.JSZip) { $("scheduled-export-status").textContent = "Excel export could not load. Check excel-export.js and jszip.min.js."; return; }
+    ExcelExport.build(alternative, results.alternative).then(blob => {
+      const url = URL.createObjectURL(blob), a = el("a");
+      a.href = url; a.download = "credit-forecast.xlsx"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+      $("scheduled-export-status").textContent = "Excel workbook downloaded. Edit the yellow cells on the Inputs sheet to recalculate.";
+    }).catch(error => { $("scheduled-export-status").textContent = `Excel export failed: ${error.message}`; });
+  }
   function exportCsv() {
     const data = [["scenario", "month", "date", "users", "credits_per_user", "credits", "opening_pool", "purchases", "prepaid_available", "prepaid_consumed", "payg_credits", "prepaid_remaining", "currency", "prepaid_value", "payg_cost", "consumption_cost", "cumulative_cost", "source_status", "date_attribution"]];
     const sourceStatus = (source, provenance) => (source
@@ -1349,6 +1357,7 @@ function renderDemandTimeline(chart, details, timeline) {
       if (baselineCheckpoints === null) notice("This older scenario did not save baseline checkpoints. Current checkpoints were retained.");
     }
     else if (b.id === "scheduled-actual-clear") { actuals = []; actualsStartMonth = null; actualStatus(); render(); }
+    else if (b.id === "scheduled-xlsx" && results) exportXlsx();
     else if (b.id === "scheduled-csv" && results) exportCsv();
     else if (b.id === "scheduled-department-csv" && results && results.alternative.departments) {
       const data = [["department", "month", "date", "users", "credits_per_user", "credits", "prepaid_credits", "payg_credits", "currency", "prepaid_cost", "payg_cost", "cost"]];
