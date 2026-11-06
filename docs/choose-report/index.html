@@ -843,6 +843,37 @@ html[data-theme="dark"] .mk-viva{ color:#c3b0f0; background:color-mix(in srgb, #
 .pk-box-hint{ font-size:13px; color:var(--mk-muted); }
 .pk-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .pk-tiles--one{ grid-template-columns:1fr; }
+/* Ranked picker: driven by ../data/report-ranking.json (edited in report-ranking.xlsx).
+   The old goal/product tiles, search and results list stay in the DOM for the
+   scripts that still reference them, but are not shown. */
+.pk-how,.pk-choose,.pk-find,#mkPkActive,.pk-step--end{ display:none !important; }
+.rk{ --rk-ink:#242424; --rk-muted:#605e5c; --rk-line:#e1dfdd; --rk-panel:#f7f7f8; --rk-brand:#0f6cbd; --rk-navy:#0f3d6e; --rk-new:#107c41; color:var(--rk-ink); margin-top:8px; }
+.rk-bar{ border-bottom:1px solid var(--rk-line); padding:10px 0; }
+.rk-row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:4px 0; }
+.rk-lbl{ font-size:12px; font-weight:600; color:var(--rk-muted); text-transform:uppercase; letter-spacing:.04em; min-width:70px; }
+.rk-chip{ border:1px solid var(--rk-line); background:#fff; border-radius:999px; padding:6px 14px; font:inherit; font-size:13.5px; cursor:pointer; margin-right:6px; color:inherit; }
+.rk-chip[aria-pressed=true]{ background:var(--rk-navy); color:#fff; border-color:var(--rk-navy); }
+.rk h2{ font-size:20px; margin:34px 0 4px; color:var(--rk-navy); }
+.rk-sub{ color:var(--rk-muted); margin:0 0 14px; font-size:14px; }
+.rk-start{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+.rk-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.rk-card{ border:1px solid var(--rk-line); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:8px; background:#fff; }
+.rk-start .rk-card{ border-top:4px solid var(--rk-brand); }
+.rk-card h3{ margin:0; font-size:15.5px; }
+.rk-card p{ margin:0; color:var(--rk-muted); font-size:13.5px; line-height:1.4; flex:1; }
+.rk-meta{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:11.5px; }
+.rk-tag{ background:var(--rk-panel); border-radius:4px; padding:2px 7px; color:var(--rk-muted); }
+.rk-b{ border-radius:4px; padding:2px 7px; font-weight:600; color:#fff; }
+.rk-b.Popular{ background:var(--rk-brand); } .rk-b.New{ background:var(--rk-new); } .rk-b.Preview{ background:#8764b8; } .rk-b.spec{ background:#8a8886; }
+.rk-links{ display:flex; gap:14px; flex-wrap:wrap; margin-top:2px; }
+.rk-links a{ color:var(--rk-brand); font-size:13.5px; font-weight:600; text-decoration:none; }
+.rk-links a:hover{ text-decoration:underline; }
+.rk-more{ margin-top:10px; background:none; border:0; color:var(--rk-brand); font:inherit; font-size:14px; cursor:pointer; padding:4px 0; }
+.rk-hide{ display:none; }
+.rk-arch{ margin:36px 0 40px; border:1px dashed #c8c6c4; border-radius:10px; padding:14px 18px; }
+.rk-arch summary{ cursor:pointer; font-weight:600; }
+@media (max-width:900px){ .rk-start{ grid-template-columns:repeat(2,1fr); } .rk-grid{ grid-template-columns:1fr; } }
+@media (max-width:560px){ .rk-start{ grid-template-columns:1fr; } }
 @media (max-width:560px){ .pk-tiles{ grid-template-columns:1fr; } }
 .pk-tile{
   display:block; text-align:left; cursor:pointer; font:inherit;
@@ -1976,7 +2007,83 @@ html.mk-embed main.mk-page{ display:none !important; }
             <button type="button" class="pk-find-x" id="mkPkSearchClear" hidden>Clear</button>
           </div>
         </div>
-        <span class="mk-chips" id="mkPkActive"></span>      </li>
+        <span class="mk-chips" id="mkPkActive"></span>
+        <div class="rk" id="rk">
+          <div class="rk-bar">
+            <div class="rk-row"><span class="rk-lbl">Goal</span><span id="rkGoals"></span></div>
+            <div class="rk-row"><span class="rk-lbl">Product</span><span id="rkProds"></span></div>
+          </div>
+          <section id="rkStartSec"><h2>Start here</h2><p class="rk-sub">The reports most teams open first.</p><div class="rk-start" id="rkStart"></div></section>
+          <div id="rkGroups"></div>
+          <details class="rk-arch" id="rkArch"><summary>Older and specialist reports (<span id="rkArchN"></span>)</summary>
+            <p class="rk-sub">Lower usage, or covered by a stronger report above. Still fully supported.</p><div class="rk-grid" id="rkArchGrid"></div></details>
+        </div>
+        <script>
+        (function () {
+          var D, R, goal = null, prod = null, CAP = 3, open = {};
+          function $(id) { return document.getElementById(id); }
+          function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+          fetch('../data/report-ranking.json?' + Date.now()).then(function (r) { return r.json(); })
+            .then(function (d) { D = d; R = d.reports; render(); })
+            .catch(function () { $('rk').innerHTML = '<p class="rk-sub">The report list could not be loaded.</p>'; });
+          function pos(a, v) { var i = a.indexOf(v); return i < 0 ? 99 : i; }
+          function byRank(g, p) {
+            return function (a, b) {
+              return (g ? pos(a.goals, g) - pos(b.goals, g) : 0) || (p ? pos(a.products, p) - pos(b.products, p) : 0) || a.order - b.order;
+            };
+          }
+          function chip(label, on, fn) {
+            var b = document.createElement('button'); b.type = 'button'; b.className = 'rk-chip';
+            b.textContent = label; b.setAttribute('aria-pressed', on); b.onclick = fn; return b;
+          }
+          function card(r) {
+            var a = document.createElement('article'); a.className = 'rk-card';
+            var url = r.id + '/' + (r.id === 'cowork-super-user' ? '?route=2' : '');
+            var bd = r.tier === 'Archive' ? '<span class="rk-b spec">Specialist</span>' : (r.badge ? '<span class="rk-b ' + esc(r.badge) + '">' + esc(r.badge) + '</span>' : '');
+            var isGh = /github\.com/.test(r.repo || '');
+            a.innerHTML = '<h3>' + esc(r.title) + '</h3><p>' + esc(r.outcome) + '</p><div class="rk-meta">' + bd +
+              r.products.map(function (x) { return '<span class="rk-tag">' + esc(x) + '</span>'; }).join('') + '</div>' +
+              '<div class="rk-links"><a href="' + esc(url) + '">Enablement guide <span aria-hidden="true">&rarr;</span></a>' +
+              (r.repo ? '<a href="' + esc(r.repo) + '" target="_blank" rel="noopener noreferrer">' + (isGh ? 'Repo' : 'Open app') + ' <span aria-hidden="true">&#8599;</span></a>' : '') + '</div>';
+            return a;
+          }
+          function match(r) { return (!goal || r.goals.indexOf(goal) > -1) && (!prod || r.products.indexOf(prod) > -1); }
+          function render() {
+            var gb = $('rkGoals'); gb.innerHTML = '';
+            gb.appendChild(chip('All', !goal, function () { goal = null; render(); }));
+            D.goals.forEach(function (g) { gb.appendChild(chip(g.replace('?', ''), goal === g, function () { goal = goal === g ? null : g; render(); })); });
+            var pb = $('rkProds'); pb.innerHTML = '';
+            pb.appendChild(chip('Any', !prod, function () { prod = null; render(); }));
+            D.products.forEach(function (p) { pb.appendChild(chip(p, prod === p, function () { prod = prod === p ? null : p; render(); })); });
+            var filtering = goal || prod;
+            var st = $('rkStart'); st.innerHTML = '';
+            R.filter(function (r) { return r.tier === 'Featured'; }).sort(byRank()).forEach(function (r) { st.appendChild(card(r)); });
+            $('rkStartSec').style.display = filtering ? 'none' : '';
+            var gr = $('rkGroups'); gr.innerHTML = '';
+            D.goals.forEach(function (g) {
+              if (goal && goal !== g) return;
+              var all = R.filter(function (r) { return r.goals.indexOf(g) > -1 && r.tier !== 'Archive' && match(r); }).sort(byRank(g, prod));
+              if (!all.length) return;
+              var sec = document.createElement('section'); sec.innerHTML = '<h2>' + esc(g) + '</h2>';
+              var grid = document.createElement('div'); grid.className = 'rk-grid';
+              var showAll = open[g] || filtering;
+              all.forEach(function (r, i) { var c = card(r); if (!showAll && i >= CAP) c.classList.add('rk-hide'); grid.appendChild(c); });
+              sec.appendChild(grid);
+              if (!showAll && all.length > CAP) {
+                var m = document.createElement('button'); m.type = 'button'; m.className = 'rk-more';
+                m.textContent = 'Show ' + (all.length - CAP) + ' more'; m.onclick = function () { open[g] = true; render(); };
+                sec.appendChild(m);
+              }
+              gr.appendChild(sec);
+            });
+            var arch = R.filter(function (r) { return r.tier === 'Archive'; }).sort(byRank(goal, prod));
+            $('rkArchN').textContent = arch.length;
+            var ag = $('rkArchGrid'); ag.innerHTML = ''; arch.forEach(function (r) { ag.appendChild(card(r)); });
+            $('rkArch').open = !!(filtering && arch.some(match));
+          }
+        })();
+        </script>
+      </li>
 
       <li class="pk-step pk-step--end">
 
