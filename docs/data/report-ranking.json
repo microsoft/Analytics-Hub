@@ -1,0 +1,428 @@
+{
+ "goals": [
+  "How is adoption going?",
+  "What is it worth?",
+  "What does it cost?",
+  "Who are my power users?",
+  "Governance and readiness"
+ ],
+ "products": [
+  "M365",
+  "Cowork",
+  "GitHub",
+  "Agents",
+  "Azure AI",
+  "Copilot Chat"
+ ],
+ "reports": [
+  {
+   "id": "ai-in-one",
+   "title": "AI-in-One Dashboard",
+   "tier": "Featured",
+   "order": 1,
+   "badge": "Popular",
+   "outcome": "One view of Copilot adoption, usage and impact across your tenant.",
+   "goals": [
+    "How is adoption going?",
+    "What is it worth?"
+   ],
+   "products": [
+    "Copilot Chat",
+    "M365",
+    "Agents"
+   ],
+   "repo": "https://github.com/microsoft/AI-in-One-Dashboard"
+  },
+  {
+   "id": "consumption-central",
+   "title": "Consumption Central",
+   "tier": "Featured",
+   "order": 2,
+   "badge": "Popular",
+   "outcome": "See what you spend on Copilot credits across products, and where it goes.",
+   "goals": [
+    "What does it cost?"
+   ],
+   "products": [
+    "M365",
+    "Cowork",
+    "GitHub",
+    "Agents"
+   ],
+   "repo": "https://github.com/microsoft/ConsumptionCentral-for-Microsoft-Copilot"
+  },
+  {
+   "id": "value-lens",
+   "title": "Value Lens",
+   "tier": "Featured",
+   "order": 3,
+   "badge": "Popular",
+   "outcome": "Value of tasks performed and skills augmented",
+   "goals": [
+    "What is it worth?"
+   ],
+   "products": [
+    "M365",
+    "Cowork",
+    "Agents"
+   ],
+   "repo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot"
+  },
+  {
+   "id": "cowork-billing-report",
+   "title": "Cowork Chargeback & Billing",
+   "tier": "Featured",
+   "order": 4,
+   "badge": "",
+   "outcome": "Allocate Cowork credit cost to departments and users.",
+   "goals": [
+    "What does it cost?",
+    "Governance and readiness"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://github.com/microsoft/CreditUsage"
+  },
+  {
+   "id": "what-i-did",
+   "title": "What I Did: Copilot Impact",
+   "tier": "Standard",
+   "order": 5,
+   "badge": "",
+   "outcome": "Personal and team impact of Copilot, in plain terms.",
+   "goals": [
+    "What is it worth?"
+   ],
+   "products": [
+    "GitHub"
+   ],
+   "repo": "https://github.com/microsoft/What-I-Did-Copilot"
+  },
+  {
+   "id": "cowork-impact",
+   "title": "What Cowork Did For Me",
+   "tier": "Featured",
+   "order": 6,
+   "badge": "",
+   "outcome": "Hours saved and tasks done with Cowork, per person.",
+   "goals": [
+    "What is it worth?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://github.com/microsoft/What-I-did-with-Cowork"
+  },
+  {
+   "id": "cowork-super-user",
+   "title": "Cowork Super User",
+   "tier": "Featured",
+   "order": 7,
+   "badge": "New",
+   "outcome": "Who drives Cowork spend, and what power users do differently.",
+   "goals": [
+    "What does it cost?",
+    "What is it worth?",
+    "Who are my power users?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://github.com/microsoft/CoworkSuperUser"
+  },
+  {
+   "id": "cowork-credit-forecasting",
+   "title": "Cowork Credit Forecasting",
+   "tier": "Featured",
+   "order": 8,
+   "badge": "New",
+   "outcome": "Forecast credit demand, prepaid runway and when to commit.",
+   "goals": [
+    "What does it cost?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://microsoft.github.io/Analytics-Hub/tools/cowork-credit-forecasting/"
+  },
+  {
+   "id": "super-usage",
+   "title": "Super Usage Adoption",
+   "tier": "Standard",
+   "order": 9,
+   "badge": "",
+   "outcome": "Find habitual Copilot users and what separates them.",
+   "goals": [
+    "How is adoption going?",
+    "Who are my power users?"
+   ],
+   "products": [
+    "M365"
+   ],
+   "repo": "https://github.com/microsoft/DecodingSuperUsage"
+  },
+  {
+   "id": "m365-readiness",
+   "title": "M365 Copilot Readiness",
+   "tier": "Archive",
+   "order": 10,
+   "badge": "",
+   "outcome": "Check licensing, data and policy readiness before you scale.",
+   "goals": [
+    "Governance and readiness",
+    "How is adoption going?"
+   ],
+   "products": [
+    "Copilot Chat"
+   ],
+   "repo": "https://github.com/microsoft/M365UsageAnalytics"
+  },
+  {
+   "id": "chat-agent",
+   "title": "Copilot Chat & Agent Intelligence",
+   "tier": "Archive",
+   "order": 11,
+   "badge": "",
+   "outcome": "How Chat and agents are used, and by whom.",
+   "goals": [
+    "How is adoption going?"
+   ],
+   "products": [
+    "Copilot Chat",
+    "Agents"
+   ],
+   "repo": "https://github.com/microsoft/CopilotChatAnalytics"
+  },
+  {
+   "id": "personal-copilot-dashboard",
+   "title": "Personal Copilot Dashboard",
+   "tier": "Archive",
+   "order": 12,
+   "badge": "",
+   "outcome": "Your own Copilot, agent and Cowork activity.",
+   "goals": [
+    "How is adoption going?",
+    "What is it worth?"
+   ],
+   "products": [
+    "M365",
+    "Cowork"
+   ],
+   "repo": "https://github.com/microsoft/Personal-Dashboard"
+  },
+  {
+   "id": "cowork-roi-model-app",
+   "title": "Cowork ROI Model",
+   "tier": "Standard",
+   "order": 13,
+   "badge": "",
+   "outcome": "Model the return on Cowork under different assumptions.",
+   "goals": [
+    "What is it worth?",
+    "What does it cost?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-roi-model/app/"
+  },
+  {
+   "id": "cowork-chargeback-app",
+   "title": "Cowork Chargeback (Web App)",
+   "tier": "Standard",
+   "order": 14,
+   "badge": "",
+   "outcome": "Lightweight web app for credit scenario modeling.",
+   "goals": [
+    "What does it cost?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-chargeback/app/index.html"
+  },
+  {
+   "id": "finops-focus-app",
+   "title": "FinOps & FOCUS Cost Report",
+   "tier": "Standard",
+   "order": 15,
+   "badge": "",
+   "outcome": "Cost views in the FinOps FOCUS format.",
+   "goals": [
+    "What does it cost?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://microsoft.github.io/Analytics-Hub/FinOps-Cowork/app/finops.html"
+  },
+  {
+   "id": "ess-insights",
+   "title": "ESS Insights",
+   "tier": "Standard",
+   "order": 16,
+   "badge": "",
+   "outcome": "Business value of employee self-serve.",
+   "goals": [
+    "What is it worth?"
+   ],
+   "products": [
+    "Agents"
+   ],
+   "repo": "https://github.com/microsoft/ESS"
+  },
+  {
+   "id": "agent-evaluator",
+   "title": "Agent Evaluator",
+   "tier": "Standard",
+   "order": 17,
+   "badge": "",
+   "outcome": "Evaluate Copilot Studio agent quality.",
+   "goals": [
+    "Governance and readiness"
+   ],
+   "products": [
+    "Studio"
+   ],
+   "repo": "https://github.com/microsoft/AgentEvaluator-for-Copilot-Studio"
+  },
+  {
+   "id": "pax",
+   "title": "PAX: Portable Audit eXporter",
+   "tier": "Standard",
+   "order": 18,
+   "badge": "",
+   "outcome": "Export Copilot audit data for analysis.",
+   "goals": [
+    "Governance and readiness"
+   ],
+   "products": [
+    "M365"
+   ],
+   "repo": "https://github.com/microsoft/PAX"
+  },
+  {
+   "id": "cowork-policy-helper-app",
+   "title": "Cowork Policy Helper",
+   "tier": "Standard",
+   "order": 19,
+   "badge": "",
+   "outcome": "Draft and check Cowork governance policies.",
+   "goals": [
+    "Governance and readiness"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://microsoft.github.io/Analytics-Hub/cowork-billing/cowork-policy-helper/app/index.html"
+  },
+  {
+   "id": "super-user-impact",
+   "title": "Super User Impact",
+   "tier": "Archive",
+   "order": 20,
+   "badge": "",
+   "outcome": "Business impact of your power users.",
+   "goals": [
+    "Who are my power users?",
+    "What is it worth?"
+   ],
+   "products": [
+    "M365"
+   ],
+   "repo": "https://github.com/microsoft/superuserimpact"
+  },
+  {
+   "id": "cowork-team-report",
+   "title": "Cowork Team Report",
+   "tier": "Standard",
+   "order": 21,
+   "badge": "",
+   "outcome": "Team-level Cowork activity and value.",
+   "goals": [
+    "What is it worth?",
+    "How is adoption going?"
+   ],
+   "products": [
+    "Cowork"
+   ],
+   "repo": "https://microsoft.github.io/CoworkDashboard/"
+  },
+  {
+   "id": "ghcp-impact",
+   "title": "GitHub Copilot Impact",
+   "tier": "Archive",
+   "order": 22,
+   "badge": "",
+   "outcome": "Developer impact of GitHub Copilot.",
+   "goals": [
+    "What is it worth?"
+   ],
+   "products": [
+    "GitHub"
+   ],
+   "repo": "https://github.com/microsoft/GitHubCopilotImpact"
+  },
+  {
+   "id": "ghcp-panel",
+   "title": "GitHub Copilot Panel",
+   "tier": "Standard",
+   "order": 23,
+   "badge": "",
+   "outcome": "Panel view of GitHub Copilot usage.",
+   "goals": [
+    "How is adoption going?"
+   ],
+   "products": [
+    "GitHub"
+   ],
+   "repo": "https://github.com/microsoft/GitHubCopilotPanel"
+  },
+  {
+   "id": "customize",
+   "title": "CustomizeCopilot Add-on Library",
+   "tier": "Archive",
+   "order": 24,
+   "badge": "",
+   "outcome": "Library of Copilot add-ons.",
+   "goals": [
+    "Governance and readiness"
+   ],
+   "products": [
+    "M365"
+   ],
+   "repo": "https://github.com/microsoft/CustomizeCopilot"
+  },
+  {
+   "id": "roi-calc",
+   "title": "M365 Copilot ROI Calculator",
+   "tier": "Archive",
+   "order": 25,
+   "badge": "",
+   "outcome": "Simple productivity ROI calculator.",
+   "goals": [
+    "What is it worth?"
+   ],
+   "products": [
+    "M365"
+   ],
+   "repo": "https://microsoft.github.io/Analytics-Hub/tools/copilot-roi-calculator/"
+  },
+  {
+   "id": "adoption-sentiment",
+   "title": "Adoption & Sentiment",
+   "tier": "Archive",
+   "order": 26,
+   "badge": "",
+   "outcome": "Adoption alongside user sentiment.",
+   "goals": [
+    "How is adoption going?"
+   ],
+   "products": [
+    "M365"
+   ],
+   "repo": "https://github.com/olivierpecheux/copilot-adoption-sentiment-report"
+  }
+ ]
+}

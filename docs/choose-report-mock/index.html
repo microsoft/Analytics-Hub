@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOCKUP · Pick your report</title>
+<style>
+:root{--ink:#242424;--muted:#605e5c;--line:#e1dfdd;--panel:#f7f7f8;--brand:#0f6cbd;--navy:#0f3d6e;--new:#107c41}
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);background:#fff}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.mock{background:#fff4ce;border-bottom:1px solid #f2d58a;font-size:13px;padding:6px 0;text-align:center}
+h1{font-size:32px;margin:28px 0 6px;color:var(--navy)}.lead{color:var(--muted);margin:0 0 18px;font-size:16px}
+.bar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:5;padding:10px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0}
+.lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;min-width:70px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:inherit;font-size:13.5px;cursor:pointer;margin-right:6px}
+.chip[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sort{margin-left:auto;font-size:13px;color:var(--muted)}
+h2{font-size:20px;margin:34px 0 4px;color:var(--navy)}.sub{color:var(--muted);margin:0 0 14px;font-size:14px}
+.start{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;background:#fff;text-decoration:none;color:inherit;transition:box-shadow .15s}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.card h3{margin:0;font-size:15.5px}.card p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.4;flex:1}
+.meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11.5px}
+.tag{background:var(--panel);border-radius:4px;padding:2px 7px;color:var(--muted)}
+.b{border-radius:4px;padding:2px 7px;font-weight:600;color:#fff}.b.Popular{background:var(--brand)}.b.New{background:var(--new)}.b.Preview{background:#8764b8}.b.spec{background:#8a8886}
+.links{display:flex;gap:14px;flex-wrap:wrap;margin-top:2px}
+.guide{color:var(--brand);font-size:13.5px;font-weight:600;text-decoration:none;margin-top:2px}.guide:hover{text-decoration:underline}
+.start .card{border-top:4px solid var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.more{margin-top:10px;background:none;border:0;color:var(--brand);font:inherit;font-size:14px;cursor:pointer;padding:4px 0}
+.hide{display:none}
+details.arch{margin:36px 0 60px;border:1px dashed #c8c6c4;border-radius:10px;padding:14px 18px}
+details.arch summary{cursor:pointer;font-weight:600}
+@media(max-width:900px){.start{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style></head><body>
+<div class="mock">Design mockup. Ranking is read from docs/data/report-ranking.json (built from report-ranking.xlsx).</div>
+<div class="wrap">
+  <h1>Which report should I use?</h1>
+  <p class="lead">Open-source reports and tools, each built alongside the customer who needed it first. Start with the question you need answered.</p>
+</div>
+<div class="bar"><div class="wrap">
+  <div class="row"><span class="lbl">Goal</span><span id="goals"></span><span class="sort">Sort: <b>Recommended</b></span></div>
+  <div class="row"><span class="lbl">Product</span><span id="prods"></span></div>
+</div></div>
+<div class="wrap">
+  <section id="startSec"><h2>Start here</h2><p class="sub">The reports most teams open first.</p><div class="start" id="start"></div></section>
+  <div id="groups"></div>
+  <details class="arch" id="arch"><summary>Older and specialist reports (<span id="archN"></span>)</summary>
+    <p class="sub">Lower usage, or covered by a stronger report above. Still fully supported.</p><div class="grid" id="archGrid"></div></details>
+</div>
+<script>
+var D,R,goal=null,prod=null,CAP=3,open={};
+fetch("../data/report-ranking.json?"+Date.now()).then(function(r){return r.json()}).then(function(d){D=d;R=d.reports;render()});
+function pos(arr,v){var i=arr.indexOf(v);return i<0?99:i}
+function byRank(g,p){return function(a,b){
+ return (g?pos(a.goals,g)-pos(b.goals,g):0)||(p?pos(a.products,p)-pos(b.products,p):0)||a.order-b.order}}
+function chip(label,on,fn){var b=document.createElement("button");b.className="chip";b.textContent=label;b.setAttribute("aria-pressed",on);b.onclick=fn;return b}
+function card(r){var a=document.createElement("article");a.className="card";var url="../choose-report/"+r.id+"/"+(r.id==="cowork-super-user"?"?route=2":"");
+ var bd=r.tier==="Archive"?'<span class="b spec">Specialist</span>':(r.badge?'<span class="b '+r.badge+'">'+r.badge+'</span>':"");
+ a.innerHTML='<h3>'+r.title+'</h3><p>'+r.outcome+'</p><div class="meta">'+bd+r.products.map(function(x){return'<span class="tag">'+x+'</span>'}).join("")+'</div><div class="links"><a class="guide" href="'+url+'">Enablement guide <span aria-hidden="true">&rarr;</span></a>'+(r.repo?'<a class="guide repo" href="'+r.repo+'" target="_blank" rel="noopener">'+(/github\.com/.test(r.repo)?'Repo':'Open app')+' <span aria-hidden="true">&#8599;</span></a>':'')+'</div>';return a}
+function match(r){return(!goal||r.goals.indexOf(goal)>-1)&&(!prod||r.products.indexOf(prod)>-1)}
+function render(){
+ var gb=document.getElementById("goals");gb.innerHTML="";
+ gb.appendChild(chip("All",!goal,function(){goal=null;render()}));
+ D.goals.forEach(function(g){gb.appendChild(chip(g.replace("?",""),goal===g,function(){goal=goal===g?null:g;render()}))});
+ var pb=document.getElementById("prods");pb.innerHTML="";
+ pb.appendChild(chip("Any",!prod,function(){prod=null;render()}));
+ D.products.forEach(function(p){pb.appendChild(chip(p,prod===p,function(){prod=prod===p?null:p;render()}))});
+ var filtering=goal||prod;
+ var st=document.getElementById("start");st.innerHTML="";
+ R.filter(function(r){return r.tier==="Featured"}).sort(byRank()).forEach(function(r){st.appendChild(card(r))});
+ document.getElementById("startSec").style.display=filtering?"none":"";
+ var gr=document.getElementById("groups");gr.innerHTML="";
+ D.goals.forEach(function(g){
+  if(goal&&goal!==g)return;
+  var all=R.filter(function(r){return r.goals.indexOf(g)>-1&&r.tier!=="Archive"&&match(r)}).sort(byRank(g,prod));
+  if(!all.length)return;
+  var sec=document.createElement("section");sec.innerHTML="<h2>"+g+"</h2>";
+  var grid=document.createElement("div");grid.className="grid";
+  var showAll=open[g]||filtering;
+  all.forEach(function(r,i){var c=card(r);if(!showAll&&i>=CAP)c.classList.add("hide");grid.appendChild(c)});
+  sec.appendChild(grid);
+  if(!showAll&&all.length>CAP){var m=document.createElement("button");m.className="more";m.textContent="Show "+(all.length-CAP)+" more";m.onclick=function(){open[g]=true;render()};sec.appendChild(m)}
+  gr.appendChild(sec)});
+ var arch=R.filter(function(r){return r.tier==="Archive"}).sort(byRank(goal,prod));
+ document.getElementById("archN").textContent=arch.length;
+ var ag=document.getElementById("archGrid");ag.innerHTML="";arch.forEach(function(r){ag.appendChild(card(r))});
+ document.getElementById("arch").open=!!(filtering&&arch.some(match));
+}
+</script></body></html>
