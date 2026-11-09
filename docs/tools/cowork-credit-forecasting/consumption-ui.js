@@ -40,7 +40,9 @@
     });
   });
   selectTab(0);
-
+  document.querySelector(".tabs").hidden = true;
+  $("panel-data").hidden = true;
+  window.addEventListener("load", () => requestTab(1));
   const status = h("div", null, "bad", { role: "alert" });
   status.hidden = true;
   const body = h("div");
