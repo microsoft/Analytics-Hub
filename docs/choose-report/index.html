@@ -2038,13 +2038,13 @@ html.mk-embed main.mk-page{ display:none !important; }
           }
           function card(r) {
             var a = document.createElement('article'); a.className = 'rk-card';
-            var url = r.id + '/' + (r.id === 'cowork-super-user' ? '?route=2' : '');
+            var url = r.guide || r.id + '/' + (r.id === 'cowork-super-user' ? '?route=2' : '');
             var bd = r.tier === 'Archive' ? '<span class="rk-b spec">Specialist</span>' : (r.badge ? '<span class="rk-b ' + esc(r.badge) + '">' + esc(r.badge) + '</span>' : '');
             var isGh = /github\.com/.test(r.repo || '');
             a.innerHTML = '<h3>' + esc(r.title) + '</h3><p>' + esc(r.outcome) + '</p><div class="rk-meta">' + bd +
               r.products.map(function (x) { return '<span class="rk-tag">' + esc(x) + '</span>'; }).join('') + '</div>' +
               '<div class="rk-links"><a href="' + esc(url) + '">Enablement guide <span aria-hidden="true">&rarr;</span></a>' +
-              (r.repo ? '<a href="' + esc(r.repo) + '" target="_blank" rel="noopener noreferrer">' + (isGh ? 'Repo' : 'Open app') + ' <span aria-hidden="true">&#8599;</span></a>' : '') + '</div>';
+              (r.repo ? '<a href="' + esc(r.repo) + '" target="_blank" rel="noopener noreferrer">' + esc(r.repoLabel || (isGh ? 'Repo' : 'Open app')) + ' <span aria-hidden="true">&#8599;</span></a>' : '') + '</div>';
             return a;
           }
           function match(r) { return (!goal || r.goals.indexOf(goal) > -1) && (!prod || r.products.indexOf(prod) > -1); }

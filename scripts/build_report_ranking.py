@@ -22,6 +22,14 @@ for row in ws.iter_rows(min_row=2, values_only=True):
         "products": [p for p in (clean(x) for x in row[9:13]) if p],
         "repo": clean(row[13]) if len(row) > 13 else "",
     })
+# Keep the AI-in-One tile's published destinations when refreshing spreadsheet data.
+for report in reports:
+    if report["id"] == "ai-in-one":
+        report.update({
+            "repo": "https://microsoft.github.io/AI-in-One-Dashboard/index.html",
+            "repoLabel": "Repo",
+            "guide": "https://microsoft.github.io/AI-in-One-Dashboard/get-started.html",
+        })
 with open(os.path.join(root, "report-ranking.json"), "w", encoding="utf-8") as f:
     json.dump({"goals": goals, "products": products, "reports": reports}, f, indent=1, ensure_ascii=False)
 print("wrote", len(reports), "reports")
