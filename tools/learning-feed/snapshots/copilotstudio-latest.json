@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-01T12:16:39.730Z",
+  "runAt": "2026-11-10T15:50:56.941Z",
   "feed": "copilotstudio",
   "windowStart": "2026-07-01",
   "pages": [
@@ -93,20 +93,21 @@
       "ok": true,
       "discovered": false,
       "isNew": false,
-      "msDate": "2026-04-01T00:00:00Z",
-      "gitCommit": "cd1c78740e1b9bcf6701218a61a6a5328afb5318",
-      "wordCount": "647",
-      "bodyHash": "b654ef8967dabbcb",
-      "bodyLen": 5348,
+      "msDate": "2026-11-09T00:00:00Z",
+      "gitCommit": "cd094d89c75bcd61e4db623fa360044412234143",
+      "wordCount": "652",
+      "bodyHash": "c8b3755ffa5f531b",
+      "bodyLen": 5388,
       "sections": [
         "Copilot Credits consumption",
+        "Billing session trend",
         "Billing trend",
         "Cost distribution",
         "Monthly Credit limit",
         "Session consumption",
-        "Billed session trend"
+        "Related information"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "security-and-governance",
@@ -118,10 +119,10 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-09-24T00:00:00Z",
-      "gitCommit": "88ec82f5f6981ae14ecbff4002faf09855297d72",
-      "wordCount": "1087",
-      "bodyHash": "b50d95a68f989287",
-      "bodyLen": 9188,
+      "gitCommit": "ba8f0d911376c8d34a74d6cc45d606f3198cc733",
+      "wordCount": "1069",
+      "bodyHash": "8adf70ef4607a509",
+      "bodyLen": 9080,
       "sections": [
         "Security and governance controls",
         "Security Development Lifecycle",
@@ -260,8 +261,8 @@
       "msDate": "2026-06-04T00:00:00Z",
       "gitCommit": "ab0c13d9c24dab81672b1c34ef6eb7b3aed803e4",
       "wordCount": "1418",
-      "bodyHash": "8d3d57aa2d01d349",
-      "bodyLen": 11846,
+      "bodyHash": "32cf21f512798cc0",
+      "bodyLen": 12152,
       "sections": [
         "Agent properties",
         "Core properties",
@@ -399,10 +400,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-08-25T00:00:00Z",
-      "gitCommit": "ab0c13d9c24dab81672b1c34ef6eb7b3aed803e4",
-      "wordCount": "1406",
-      "bodyHash": "738e62cf6d66e7e7",
-      "bodyLen": 13630,
+      "gitCommit": "902177196df10334c2fe208db19b78a52d6cec84",
+      "wordCount": "1407",
+      "bodyHash": "11c6971ab5b7bcba",
+      "bodyLen": 13633,
       "sections": [
         "Part A: One-time tenant setup",
         "Step 1: Register the Microsoft Entra application",
@@ -441,31 +442,6 @@
         "Data covered by CMK"
       ],
       "inWindow": false
-    },
-    {
-      "id": "microsoft-copilot-studio-admin-logging-copilot-studio",
-      "tier": 3,
-      "title": "Admin Logging Copilot Studio",
-      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-logging-copilot-studio",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": false,
-      "msDate": "2026-08-18T00:00:00Z",
-      "gitCommit": "ab0c13d9c24dab81672b1c34ef6eb7b3aed803e4",
-      "wordCount": "1277",
-      "bodyHash": "3b00a93f4d8748f4",
-      "bodyLen": 10084,
-      "sections": [
-        "Access the logs",
-        "See audited events (agent authoring)",
-        "See audited events (agent usage)",
-        "Schema audit fields",
-        "Copilot Studio audit fields",
-        "Disable audit logging",
-        "Related information"
-      ],
-      "inWindow": true
     },
     {
       "id": "microsoft-copilot-studio-admin-network-isolation-firewall",
@@ -525,7 +501,7 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-07-30T00:00:00Z",
-      "gitCommit": "fa20a8c4940534e27a7874373992c48da3c980a2",
+      "gitCommit": "468f8c001eb78303c6ae8d167cc0ad76eeda0630",
       "wordCount": "3448",
       "bodyHash": "fe5864923eb82ff6",
       "bodyLen": 21812,
@@ -564,13 +540,16 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-07-20T00:00:00Z",
-      "gitCommit": "91288c6df16fa0c22b512b3150eac743906c38ef",
-      "wordCount": "598",
-      "bodyHash": "83f94b9a34fc5f6f",
-      "bodyLen": 5070,
+      "msDate": "2026-11-04T00:00:00Z",
+      "gitCommit": "a9c6d205850f9bf60ba8d820e5d8343a31a58d2e",
+      "wordCount": "1078",
+      "bodyHash": "ec09bae7c70f2244",
+      "bodyLen": 8316,
       "sections": [
         "Use the Editor and Viewer roles to control sharing",
+        "Control sharing of agents that use maker-provided credentials",
+        "What happens when the policy is enforced",
+        "Resolve a connection-sharing violation",
         "Related information"
       ],
       "inWindow": true
@@ -632,10 +611,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-10-12T00:00:00Z",
-      "gitCommit": "9cb4f3f98da5f6233178283be2d35690a0cf3ed7",
-      "wordCount": "771",
-      "bodyHash": "2196cd2ec64b93cc",
-      "bodyLen": 6161,
+      "gitCommit": "d6d5c6a1a35b3525803f66bae0266158318cc8db",
+      "wordCount": "787",
+      "bodyHash": "7f9fa180b728021d",
+      "bodyLen": 6276,
       "sections": [
         "Start a new evaluation",
         "Option 1: Upload conversations from a CSV file",
@@ -946,19 +925,24 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-05-05T00:00:00Z",
-      "gitCommit": "cd1c78740e1b9bcf6701218a61a6a5328afb5318",
-      "wordCount": "822",
-      "bodyHash": "b3a95c52be6e4f86",
-      "bodyLen": 6401,
+      "msDate": "2026-11-04T00:00:00Z",
+      "gitCommit": "2474d5eb25a41b8bab5bd7f0114a6a920ef5571e",
+      "wordCount": "1360",
+      "bodyHash": "b8641acad0a860f8",
+      "bodyLen": 10663,
       "sections": [
-        "Key value proposition",
+        "Custom metric types",
+        "Start from an example",
         "Create a custom metric",
+        "Preview a custom metric",
+        "Understand custom metric calculations",
         "Edit a custom metric",
-        "Preview and iterate on your custom metric's prompt",
-        "Delete a custom metric"
+        "Edit a metric created in the previous experience",
+        "Delete a custom metric",
+        "Limitations",
+        "Related information"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "microsoft-copilot-studio-analytics-drill-down-lists",
@@ -991,11 +975,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-10-21T00:00:00Z",
-      "gitCommit": "016dc5013fa090ad94cc75a706a94a216726dd34",
-      "wordCount": "2530",
-      "bodyHash": "b3ca67b7aa757367",
-      "bodyLen": 17431,
+      "msDate": "2026-11-04T00:00:00Z",
+      "gitCommit": "2474d5eb25a41b8bab5bd7f0114a6a920ef5571e",
+      "wordCount": "2554",
+      "bodyHash": "440316f0b4435f1a",
+      "bodyLen": 17573,
       "sections": [
         "Custom metrics (preview)",
         "Effectiveness",
@@ -1180,11 +1164,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-05-19T00:00:00Z",
-      "gitCommit": "ab0c13d9c24dab81672b1c34ef6eb7b3aed803e4",
-      "wordCount": "1905",
-      "bodyHash": "2dfb78d1244c580b",
-      "bodyLen": 14031,
+      "msDate": "2026-09-08T00:00:00Z",
+      "gitCommit": "2474d5eb25a41b8bab5bd7f0114a6a920ef5571e",
+      "wordCount": "2020",
+      "bodyHash": "279ffbc5d5fa4c3e",
+      "bodyLen": 14800,
       "sections": [
         "How is generative AI used for analytics?",
         "Quality of responses for generative answers",
@@ -1210,7 +1194,7 @@
         "What protections are in place for custom metrics within Copilot Studio for responsible AI?",
         "Related information"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "microsoft-copilot-studio-geo-data-residency-security",

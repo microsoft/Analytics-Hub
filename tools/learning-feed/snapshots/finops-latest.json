@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-01T12:17:00.793Z",
+  "runAt": "2026-11-10T15:51:25.932Z",
   "feed": "finops",
   "windowStart": "2026-07-01",
   "pages": [
@@ -3486,6 +3486,13 @@
     }
   ],
   "releases": [
+    {
+      "tag": "v1.5-cr",
+      "name": "v1.5-cr",
+      "published": "2026-11-02",
+      "url": "https://github.com/FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec/releases/tag/v1.5-cr",
+      "prerelease": true
+    },
     {
       "tag": "v1.4",
       "name": "v1.4",

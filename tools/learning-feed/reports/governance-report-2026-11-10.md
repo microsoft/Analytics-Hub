@@ -1,0 +1,228 @@
+# Copilot Admin Control & Governance Watch - 2026-11-10
+
+Discovery warning: both Copilot documentation TOCs returned HTTP 404. Previously discovered pages were retained before scanning; discovery coverage could not be re-verified.
+
+Run: 2026-11-10T15:52:03.389Z
+
+**107 change(s) detected.** 58 pages verified, 15 updated within window (since 2026-07-01). ⚠ 1 page(s) could not be fetched today; their last known-good snapshot was carried forward (not re-verified).
+
+
+## CRITICAL
+
+- **Discovery setting for AI experiences enabled by usage-based billing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/discovery-setting-ai-experiences))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Microsoft 365 Copilot AI security** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-ai-security))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Configure Brand Kit Governance Organizational Assets** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-brand-kit-governance-organizational-assets))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Admin Reports** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-admin-reports))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Search Admin Experience** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-search-admin-experience))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Overview** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-overview))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Management** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-management))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Security Governance** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-security-governance))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Measurement Reporting** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-measurement-reporting))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Security Microsoft Copilot** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/security-microsoft-copilot))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Configure Copilot Admin Center** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-copilot-admin-center))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Agent Install** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-agent-install))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Agent Store** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-agent-store))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Ai Admin Agent** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-ai-admin-agent))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Discovery Setting Ai Experiences** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/discovery-setting-ai-experiences))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Faq Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/faq-wordexcelppt-agents))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **People Skills Manage Ai Restricted Skills** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/people-skills-manage-ai-restricted-skills))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **People Skills Sharing Inferencing Controls** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/people-skills-sharing-inferencing-controls))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Perform Data Subject Requests For Workflows Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/perform-data-subject-requests-for-workflows-agents))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Researcher Agent** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/researcher-agent))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Researcher Agent Computer Use** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/researcher-agent-computer-use))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Researcher Agent Computer Use Faq** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/researcher-agent-computer-use-faq))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/wordexcelppt-agents))
+  - Body changed (-320 chars) ** DATE UNCHANGED **
+- **Workflows Environment Workflows Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/workflows-environment-workflows-agents))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Workforce Insights Agent** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/workforce-insights-agent))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Configure Brand Kit Governance Organizational Assets** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-brand-kit-governance-organizational-assets))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Configure Copilot Admin Center** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-copilot-admin-center))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Admin Reports** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-admin-reports))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Agent Install** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-install))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Agent Store** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-store))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Ai Admin Agent** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-ai-admin-agent))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Management** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-management))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Measurement Reporting** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-measurement-reporting))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Overview** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-overview))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Controls Security Governance** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-security-governance))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Search Admin Experience** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-search-admin-experience))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Faq Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/faq-wordexcelppt-agents))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **People Skills Manage Ai Restricted Skills** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/people-skills-manage-ai-restricted-skills))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **People Skills Sharing Inferencing Controls** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/people-skills-sharing-inferencing-controls))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Perform Data Subject Requests For Workflows Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/perform-data-subject-requests-for-workflows-agents))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Researcher Agent** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/researcher-agent))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Researcher Agent Computer Use** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/researcher-agent-computer-use))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Researcher Agent Computer Use Faq** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/researcher-agent-computer-use-faq))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Security Microsoft Copilot** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/security-microsoft-copilot))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/wordexcelppt-agents))
+  - Body changed (-320 chars) ** DATE UNCHANGED **
+- **Workflows Environment Workflows Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/workflows-environment-workflows-agents))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Workforce Insights Agent** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/workforce-insights-agent))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+
+## MAJOR
+
+- **Discovery setting for AI experiences enabled by usage-based billing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/discovery-setting-ai-experiences))
+  - git commit changed: fc832dc0 -> d269127e
+- **Microsoft 365 Copilot AI security** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-ai-security))
+  - git commit changed: 039bceb0 -> aa756697
+- **Configure Brand Kit Governance Organizational Assets** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-brand-kit-governance-organizational-assets))
+  - git commit changed: 06d2a646 -> 705972b6
+- **Copilot Admin Reports** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-admin-reports))
+  - git commit changed: bff0904c -> 705972b6
+- **Copilot Search Admin Experience** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-search-admin-experience))
+  - git commit changed: b94095cc -> d269127e
+- **Copilot Controls Overview** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-overview))
+  - git commit changed: fc832dc0 -> a5ed557d
+- **Copilot Controls Management** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-management))
+  - git commit changed: fc832dc0 -> a5ed557d
+- **Copilot Controls Security Governance** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-security-governance))
+  - git commit changed: b94095cc -> a5ed557d
+- **Copilot Controls Measurement Reporting** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-measurement-reporting))
+  - git commit changed: 1acdf9c9 -> 705972b6
+- **Security Microsoft Copilot** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/security-microsoft-copilot))
+  - git commit changed: 039bceb0 -> aa756697
+- **Manage Agents Copilot Chat** ([link](https://learn.microsoft.com/copilot/manage-agents-copilot-chat))
+  - ms.date changed: 2026-10-21T00:00:00Z -> 2026-11-09T00:00:00Z
+- **Manage Agents Copilot Chat** ([link](https://learn.microsoft.com/copilot/manage-agents-copilot-chat))
+  - git commit changed: 6624687e -> 7e959756
+- **Manage Agents Copilot Chat** ([link](https://learn.microsoft.com/copilot/manage-agents-copilot-chat))
+  - Body changed (-16 chars)
+- **Configure Copilot Admin Center** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/configure-copilot-admin-center))
+  - git commit changed: 039bceb0 -> 705972b6
+- **Architecture Data Protection Auditing** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing))
+  - ms.date changed: 2026-04-07T00:00:00Z -> 2026-11-09T00:00:00Z
+- **Architecture Data Protection Auditing** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing))
+  - git commit changed: 4f4006e9 -> 7e959756
+- **Architecture Data Protection Auditing** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing))
+  - Body changed (+3083 chars)
+- **Copilot Agent Install** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-agent-install))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Copilot Agent Store** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-agent-store))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Copilot Ai Admin Agent** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-ai-admin-agent))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - git commit changed: dd4e0b6c -> d269127e
+- **Discovery Setting Ai Experiences** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/discovery-setting-ai-experiences))
+  - git commit changed: fc832dc0 -> d269127e
+- **Faq Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/faq-wordexcelppt-agents))
+  - git commit changed: 64321e9b -> 705972b6
+- **People Skills Manage Ai Restricted Skills** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/people-skills-manage-ai-restricted-skills))
+  - git commit changed: a8c9d5a0 -> d269127e
+- **People Skills Sharing Inferencing Controls** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/people-skills-sharing-inferencing-controls))
+  - git commit changed: a8c9d5a0 -> a6af92b4
+- **Perform Data Subject Requests For Workflows Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/perform-data-subject-requests-for-workflows-agents))
+  - git commit changed: b94095cc -> d269127e
+- **Researcher Agent** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/researcher-agent))
+  - git commit changed: aaf1dc44 -> a5ed557d
+- **Researcher Agent Computer Use** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/researcher-agent-computer-use))
+  - git commit changed: aaf1dc44 -> a5ed557d
+- **Researcher Agent Computer Use Faq** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/researcher-agent-computer-use-faq))
+  - git commit changed: 64321e9b -> 705972b6
+- **Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/wordexcelppt-agents))
+  - git commit changed: aaf1dc44 -> b0c58b3f
+- **Workflows Environment Workflows Agents** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/workflows-environment-workflows-agents))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Workforce Insights Agent** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/workforce-insights-agent))
+  - git commit changed: aaf1dc44 -> fd79f81c
+- **Architecture Data Protection Auditing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/architecture-data-protection-auditing))
+  - ms.date changed: 2026-04-07T00:00:00Z -> 2026-11-09T00:00:00Z
+- **Architecture Data Protection Auditing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/architecture-data-protection-auditing))
+  - git commit changed: 4f4006e9 -> 7e959756
+- **Architecture Data Protection Auditing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/architecture-data-protection-auditing))
+  - Body changed (+3083 chars)
+- **Configure Brand Kit Governance Organizational Assets** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-brand-kit-governance-organizational-assets))
+  - git commit changed: 06d2a646 -> 705972b6
+- **Configure Copilot Admin Center** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/configure-copilot-admin-center))
+  - git commit changed: 039bceb0 -> 705972b6
+- **Copilot Admin Reports** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-admin-reports))
+  - git commit changed: bff0904c -> 705972b6
+- **Copilot Agent Install** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-install))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Copilot Agent Store** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-store))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Copilot Ai Admin Agent** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-ai-admin-agent))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Copilot Controls Management** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-management))
+  - git commit changed: fc832dc0 -> a5ed557d
+- **Copilot Controls Measurement Reporting** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-measurement-reporting))
+  - git commit changed: 1acdf9c9 -> 705972b6
+- **Copilot Controls Overview** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-overview))
+  - git commit changed: fc832dc0 -> a5ed557d
+- **Copilot Controls Security Governance** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-controls/copilot-controls-security-governance))
+  - git commit changed: b94095cc -> a5ed557d
+- **Copilot Search Admin Experience** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-search-admin-experience))
+  - git commit changed: b94095cc -> d269127e
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - git commit changed: dd4e0b6c -> d269127e
+- **Faq Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/faq-wordexcelppt-agents))
+  - git commit changed: 64321e9b -> 705972b6
+- **People Skills Manage Ai Restricted Skills** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/people-skills-manage-ai-restricted-skills))
+  - git commit changed: a8c9d5a0 -> d269127e
+- **People Skills Sharing Inferencing Controls** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/people-skills-sharing-inferencing-controls))
+  - git commit changed: a8c9d5a0 -> a6af92b4
+- **Perform Data Subject Requests For Workflows Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/perform-data-subject-requests-for-workflows-agents))
+  - git commit changed: b94095cc -> d269127e
+- **Researcher Agent** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/researcher-agent))
+  - git commit changed: aaf1dc44 -> a5ed557d
+- **Researcher Agent Computer Use** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/researcher-agent-computer-use))
+  - git commit changed: aaf1dc44 -> a5ed557d
+- **Researcher Agent Computer Use Faq** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/researcher-agent-computer-use-faq))
+  - git commit changed: 64321e9b -> 705972b6
+- **Security Microsoft Copilot** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/security-microsoft-copilot))
+  - git commit changed: 039bceb0 -> aa756697
+- **Wordexcelppt Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/wordexcelppt-agents))
+  - git commit changed: aaf1dc44 -> b0c58b3f
+- **Workflows Environment Workflows Agents** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/workflows-environment-workflows-agents))
+  - git commit changed: aaf1dc44 -> d269127e
+- **Workforce Insights Agent** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/workforce-insights-agent))
+  - git commit changed: aaf1dc44 -> fd79f81c

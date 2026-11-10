@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-01T12:18:33.611Z",
+  "generatedAt": "2026-11-10T15:53:17.837Z",
   "feeds": {
     "compliance-data-residency-watch": {
       "feedId": "compliance",
@@ -7,14 +7,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:16:30.007Z",
+      "lastScan": "2026-11-10T15:50:49.029Z",
       "pagesWatched": 30,
-      "updatedInWindow": 18,
+      "updatedInWindow": 20,
       "lastChange": {
-        "severity": "minor",
-        "date": "2026-08-18",
-        "count": 6,
-        "detectedAt": "2026-10-31"
+        "severity": "major",
+        "date": "2026-11-10",
+        "count": 9,
+        "detectedAt": "2026-11-10"
       }
     },
     "copilot-studio-agents-watch": {
@@ -23,14 +23,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:16:39.730Z",
-      "pagesWatched": 51,
-      "updatedInWindow": 27,
+      "lastScan": "2026-11-10T15:50:56.941Z",
+      "pagesWatched": 50,
+      "updatedInWindow": 29,
       "lastChange": {
         "severity": "major",
-        "date": "2026-11-01",
-        "count": 1,
-        "detectedAt": "2026-11-01"
+        "date": "2026-11-10",
+        "count": 10,
+        "detectedAt": "2026-11-10"
       }
     },
     "finops-focus-watch": {
@@ -39,14 +39,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:17:00.793Z",
+      "lastScan": "2026-11-10T15:51:25.932Z",
       "pagesWatched": 123,
       "updatedInWindow": 0,
       "lastChange": {
-        "severity": "minor",
-        "date": "2026-06-04",
+        "severity": "major",
+        "date": "2026-11-02",
         "count": 1,
-        "seeded": true
+        "detectedAt": "2026-11-10"
       }
     },
     "github-copilot-billing-watch": {
@@ -55,14 +55,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": true,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:17:14.682Z",
-      "pagesWatched": 30,
+      "lastScan": "2026-11-10T15:51:47.211Z",
+      "pagesWatched": 32,
       "updatedInWindow": 0,
       "lastChange": {
         "severity": "major",
-        "date": "2026-11-01",
-        "count": 8,
-        "detectedAt": "2026-11-01"
+        "date": "2026-11-10",
+        "count": 31,
+        "detectedAt": "2026-11-10"
       }
     },
     "admin-governance-watch": {
@@ -71,14 +71,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:17:24.000Z",
+      "lastScan": "2026-11-10T15:52:03.389Z",
       "pagesWatched": 59,
-      "updatedInWindow": 13,
+      "updatedInWindow": 15,
       "lastChange": {
         "severity": "major",
-        "date": "2026-10-31",
-        "count": 42,
-        "detectedAt": "2026-10-31"
+        "date": "2026-11-10",
+        "count": 52,
+        "detectedAt": "2026-11-10"
       }
     },
     "m365-copilot-usage-reports-watch": {
@@ -87,14 +87,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:17:39.648Z",
+      "lastScan": "2026-11-10T15:52:21.819Z",
       "pagesWatched": 51,
       "updatedInWindow": 10,
       "lastChange": {
         "severity": "minor",
-        "date": "2026-09-25",
-        "count": 16,
-        "detectedAt": "2026-10-31"
+        "date": "2026-11-04",
+        "count": 5,
+        "detectedAt": "2026-11-10"
       }
     },
     "message-center-watch": {
@@ -103,14 +103,14 @@
       "windowStart": "2026-06-01",
       "noMsDate": false,
       "mode": "roadmap",
-      "lastScan": "2026-11-01T12:17:41.554Z",
-      "pagesWatched": 14,
-      "updatedInWindow": 14,
+      "lastScan": "2026-11-10T15:52:23.322Z",
+      "pagesWatched": 20,
+      "updatedInWindow": 20,
       "lastChange": {
         "severity": "minor",
-        "date": "2026-10-29",
-        "count": 1,
-        "detectedAt": "2026-10-30"
+        "date": "2026-11-09",
+        "count": 6,
+        "detectedAt": "2026-11-10"
       }
     },
     "model-deprecation-tracker": {
@@ -119,14 +119,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:17:47.004Z",
+      "lastScan": "2026-11-10T15:52:28.559Z",
       "pagesWatched": 23,
       "updatedInWindow": 17,
       "lastChange": {
         "severity": "major",
-        "date": "2026-10-31",
-        "count": 6,
-        "detectedAt": "2026-10-31"
+        "date": "2026-11-10",
+        "count": 10,
+        "detectedAt": "2026-11-10"
       }
     },
     "pricing-licensing-watch": {
@@ -135,14 +135,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:17:53.191Z",
+      "lastScan": "2026-11-10T15:52:36.440Z",
       "pagesWatched": 41,
       "updatedInWindow": 36,
       "lastChange": {
         "severity": "major",
-        "date": "2026-10-31",
-        "count": 26,
-        "detectedAt": "2026-10-31"
+        "date": "2026-11-10",
+        "count": 31,
+        "detectedAt": "2026-11-10"
       }
     },
     "purview-copilot-audit-watch": {
@@ -151,14 +151,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:18:01.899Z",
+      "lastScan": "2026-11-10T15:52:44.659Z",
       "pagesWatched": 52,
       "updatedInWindow": 4,
       "lastChange": {
-        "severity": "major",
-        "date": "2026-10-30",
-        "count": 1,
-        "detectedAt": "2026-10-30"
+        "severity": "minor",
+        "date": "2026-11-09",
+        "count": 3,
+        "detectedAt": "2026-11-10"
       }
     },
     "roadmap-digest": {
@@ -167,14 +167,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "roadmap",
-      "lastScan": "2026-11-01T12:18:03.551Z",
-      "pagesWatched": 706,
-      "updatedInWindow": 344,
+      "lastScan": "2026-11-10T15:52:48.644Z",
+      "pagesWatched": 703,
+      "updatedInWindow": 361,
       "lastChange": {
         "severity": "major",
-        "date": "2026-10-30",
-        "count": 4,
-        "detectedAt": "2026-10-31"
+        "date": "2026-11-06",
+        "count": 30,
+        "detectedAt": "2026-11-10"
       }
     },
     "viva-insights-watch": {
@@ -183,14 +183,14 @@
       "windowStart": "2026-07-01",
       "noMsDate": false,
       "mode": "doc",
-      "lastScan": "2026-11-01T12:18:30.762Z",
+      "lastScan": "2026-11-10T15:53:15.570Z",
       "pagesWatched": 124,
       "updatedInWindow": 81,
       "lastChange": {
         "severity": "major",
-        "date": "2026-10-21",
-        "count": 9,
-        "detectedAt": "2026-10-21"
+        "date": "2026-11-10",
+        "count": 1,
+        "detectedAt": "2026-11-10"
       }
     }
   }

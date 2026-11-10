@@ -1,0 +1,156 @@
+# Copilot Pricing & Licensing Watch - 2026-11-10
+
+Discovery warning: both Copilot documentation TOCs returned HTTP 404. Previously discovered pages were retained before scanning; discovery coverage could not be fully re-verified.
+
+Run: 2026-11-10T15:52:36.440Z
+
+**71 change(s) detected.** 41 pages verified, 36 updated within window (since 2026-07-01).
+
+
+## CRITICAL
+
+- **Microsoft 365 Copilot licensing requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Microsoft 365 Copilot requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-requirements))
+  - SECTION ADDED: "Operating system requirements"
+- **Copilot Studio billing and licensing** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing))
+  - SECTION ADDED: "Billing for Microsoft 365 Copilot license holders"
+- **Copilot Studio billing and licensing** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing))
+  - SECTION REMOVED: "Copilot Studio in Microsoft Copilot"
+- **Copilot Studio message and credit rates** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management))
+  - Body changed (+173 chars) ** DATE UNCHANGED **
+- **Usage-Based Billing and Cost Management for Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **User Subscription License Usage Based Billing** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/user-subscription-license-usage-based-billing))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-copilot-requirements))
+  - SECTION ADDED: "Operating system requirements"
+- **Copilot License Options** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-license-options))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Setup** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-setup))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Monitor Spending** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-monitor-spending))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits CSP Partner MACC** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-csp-partner-macc))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Manage Copilot Studio costs in the Microsoft 365 admin center** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-studio-costs))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-cost))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Manage Copilot Studio Costs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-studio-costs))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Overview Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-overview-copilot-credits))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Copilot License Options** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-license-options))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-copilot-requirements))
+  - SECTION ADDED: "Operating system requirements"
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-cost))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Csp Partner Macc** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-csp-partner-macc))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Monitor Spending** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-monitor-spending))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Copilot Credits Setup** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-setup))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+- **User Subscription License Usage Based Billing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/user-subscription-license-usage-based-billing))
+  - Body changed (-333 chars) ** DATE UNCHANGED **
+
+## MAJOR
+
+- **Microsoft 365 Copilot licensing requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing))
+  - git commit changed: 51f2f8b2 -> 705972b6
+- **Microsoft 365 Copilot requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-requirements))
+  - ms.date changed: 2026-10-28T00:00:00Z -> 2026-11-04T00:00:00Z
+- **Microsoft 365 Copilot requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-requirements))
+  - git commit changed: b94095cc -> 5a33e880
+- **Microsoft 365 Copilot requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-requirements))
+  - Body changed (+426 chars)
+- **Copilot Studio billing and licensing** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing))
+  - ms.date changed: 2026-08-03T00:00:00Z -> 2026-11-04T00:00:00Z
+- **Copilot Studio billing and licensing** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing))
+  - git commit changed: 031b66d5 -> e3677266
+- **Copilot Studio billing and licensing** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing))
+  - Body changed (-57 chars)
+- **Copilot Studio requirements and quotas** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-quotas))
+  - git commit changed: d20da738 -> ba8f0d91
+- **Copilot Studio message and credit rates** ([link](https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management))
+  - git commit changed: 4f4dfeab -> 06106662
+- **Usage-Based Billing and Cost Management for Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-overview-copilot-credits))
+  - git commit changed: fc832dc0 -> d269127e
+- **Microsoft 365 Copilot overview (product page)** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-page))
+  - git commit changed: 039bceb0 -> 705972b6
+- **User Subscription License Usage Based Billing** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/user-subscription-license-usage-based-billing))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-credits))
+  - git commit changed: fc832dc0 -> d269127e
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-copilot-requirements))
+  - ms.date changed: 2026-10-28T00:00:00Z -> 2026-11-04T00:00:00Z
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-copilot-requirements))
+  - git commit changed: b94095cc -> 5a33e880
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-copilot-requirements))
+  - Body changed (+426 chars)
+- **Copilot License Options** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-license-options))
+  - git commit changed: 51f2f8b2 -> 705972b6
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - ms.date changed: 2026-10-23T00:00:00Z -> 2026-11-04T00:00:00Z
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - git commit changed: b94095cc -> 5a33e880
+- **Copilot Setup Assign Licenses** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-setup-assign-licenses))
+  - Body changed (-333 chars)
+- **Usage Based Billing Copilot Credits Setup** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-setup))
+  - git commit changed: fc832dc0 -> a5ed557d
+- **Usage Based Billing Copilot Credits Monitor Spending** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-monitor-spending))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Copilot Credits CSP Partner MACC** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-csp-partner-macc))
+  - git commit changed: fc832dc0 -> d269127e
+- **Manage Copilot Studio costs in the Microsoft 365 admin center** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-studio-costs))
+  - git commit changed: 8ee17084 -> 705972b6
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/pay-as-you-go/copilot-capacity-packs))
+  - git commit changed: a8696ecd -> aa756697
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-compare-dashboard-views))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-copilot-credits-cost))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Manage Copilot Studio Costs** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-manage-copilot-studio-costs))
+  - git commit changed: 8ee17084 -> 705972b6
+- **Usage Based Billing Overview Copilot Credits** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/usage-based-billing-overview-copilot-credits))
+  - git commit changed: fc832dc0 -> d269127e
+- **Copilot License Options** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-license-options))
+  - git commit changed: 51f2f8b2 -> 705972b6
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-copilot-requirements))
+  - ms.date changed: 2026-10-28T00:00:00Z -> 2026-11-04T00:00:00Z
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-copilot-requirements))
+  - git commit changed: b94095cc -> 5a33e880
+- **Microsoft Copilot Requirements** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-copilot-requirements))
+  - Body changed (+426 chars)
+- **Copilot Capacity Packs** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/pay-as-you-go/copilot-capacity-packs))
+  - git commit changed: a8696ecd -> aa756697
+- **Usage Based Billing Compare Dashboard Views** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-compare-dashboard-views))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Copilot Credits Cost** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-cost))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Copilot Credits Csp Partner Macc** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-csp-partner-macc))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Copilot Credits Monitor Spending** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-monitor-spending))
+  - git commit changed: fc832dc0 -> d269127e
+- **Usage Based Billing Copilot Credits Setup** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-copilot-credits-setup))
+  - git commit changed: fc832dc0 -> a5ed557d
+- **Usage Based Billing Manage Copilot Credits** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/usage-based-billing-manage-copilot-credits))
+  - git commit changed: fc832dc0 -> d269127e
+- **User Subscription License Usage Based Billing** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/user-subscription-license-usage-based-billing))
+  - git commit changed: fc832dc0 -> d269127e
