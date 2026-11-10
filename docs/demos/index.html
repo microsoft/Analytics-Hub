@@ -420,7 +420,7 @@
       iframe.height = r.height || 720;
       wrap.hidden = false;
       empty.hidden = true;
-      fsEl.href = r.embedUrl;
+      fsEl.href = r.reportUrl || r.embedUrl;
       fsEl.hidden = false;
       const isPbi = /powerbi\.com/i.test(r.embedUrl);
       fsEl.textContent = isPbi ? "\u26F6 Open in Power BI \u2197" : "\u26F6 Open in new tab \u2197";
