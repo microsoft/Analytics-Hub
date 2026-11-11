@@ -629,17 +629,20 @@ function renderHero(repos) {
   const until = currentUntil();
   const short = currentShort();
   let stars = 0, forks = 0, watchers = 0, views = 0, clones = 0, count = 0;
-  let downloads = 0, reposWithReleases = 0;
+  let downloads = 0, reposWithReleases = 0, uniqueViews = 0, uniqueClones = 0;
   for (const repo of Object.values(repos)) {
     count += 1;
     const meta = repo.meta || {};
     stars    += meta.stars    || 0;
     forks    += meta.forks    || 0;
     watchers += meta.watchers || 0;
-    const v = sumDaily(repo.dailyViews,  since, until).count;
-    const c = sumDaily(repo.dailyClones, since, until).count;
+    const vs = sumDaily(repo.dailyViews,  since, until);
+    const cs = sumDaily(repo.dailyClones, since, until);
+    const v = vs.count, c = cs.count;
     if (v != null) views  += v;
     if (c != null) clones += c;
+    uniqueViews  += vs.uniques || 0;
+    uniqueClones += cs.uniques || 0;
     if (repo.releases && repo.releases.totalDownloads) {
       downloads += repo.releases.totalDownloads;
       reposWithReleases += 1;
@@ -650,6 +653,8 @@ function renderHero(repos) {
   document.querySelector('[data-kpi="watchers"]').textContent = fmt(watchers);
   document.querySelector('[data-kpi="views"]').textContent    = fmt(views);
   document.querySelector('[data-kpi="clones"]').textContent   = fmt(clones);
+  document.querySelector('[data-kpi="uniqueViews"]').textContent  = fmt(uniqueViews);
+  document.querySelector('[data-kpi="uniqueClones"]').textContent = fmt(uniqueClones);
   document.querySelector('[data-kpi="repos"]').textContent    = fmt(count);
 
   /* Release downloads are a lifetime cumulative count from GitHub, not a

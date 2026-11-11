@@ -120,6 +120,16 @@
     <button type="button" class="ah-new-banner-dismiss" aria-label="Dismiss the Cowork Super User Report announcement">&#215;</button>
   </div>
 </aside>
+<aside class="ah-new-banner" id="ah-credit-forecast-banner" role="region" aria-label="New Cowork Credit Forecasting tool" hidden>
+  <div class="wrap ah-new-banner-inner">
+    <span class="ah-new-banner-pill" aria-hidden="true">NEW</span>
+    <a class="ah-new-banner-link" href="tools/cowork-credit-forecasting/">
+      Cowork Credit Forecasting
+      <span class="ah-new-banner-arrow" aria-hidden="true">&#8594;</span>
+    </a>
+    <button type="button" class="ah-new-banner-dismiss" aria-label="Dismiss the Cowork Credit Forecasting announcement">&#215;</button>
+  </div>
+</aside>
 <script id="ah-home-announcements">
   (function () {
     function showAnnouncement(id, key, launch) {
@@ -143,6 +153,8 @@
     /* Published 2026-10-29 UTC; expires after 30 days. */
     showAnnouncement('ah-cowork-super-user-banner', 'ah_new_cowork_super_user_dismissed_v1',
       Date.UTC(2026, 9, 29));
+    showAnnouncement('ah-credit-forecast-banner', 'ah_new_credit_forecast_dismissed_v1',
+      Date.UTC(2026, 10, 11));
   })();
 </script>
 
