@@ -1,7 +1,25 @@
 {
-  "runAt": "2026-11-10T15:52:48.644Z",
+  "runAt": "2026-11-11T12:17:21.723Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "573293",
+      "title": "Microsoft Copilot (Microsoft 365): Copilot Cowork: Access Business Applications with Work IQ",
+      "status": "In development",
+      "description": "<p>Users can access Business Applications through Work IQ in Copilot Cowork and use Business Skills to complete end-to-end business processes grounded in their enterprise data and apps. This helps users move from finding the right business application to taking action across key workflows with less context switching.</p>",
+      "created": "2026-11-11T00:53:34",
+      "modified": "2026-11-11T00:53:34",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Microsoft Dataverse",
+        "Work IQ",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "0514e3d1ae272b92"
+    },
     {
       "id": "578868",
       "title": "Microsoft Viva: Insights and Copilot Analytics in GCC and GCC High",
@@ -611,7 +629,7 @@
       "status": "In development",
       "description": "<p>Semantic model helps Sales Agent understand the structure and meaning of an organization’s CRM data. It creates a connected representation of CRM metadata, including tables or objects, fields, descriptions, data types, relationships, views, pick-list values, and glossary terms. Sales Agent can retrieve this context when responding to questions, improving its ability to interpret business language and answer complex questions that span related CRM records.</p>\n<p>Dynamics 365 admins can enable and turn on semantic model in Power Apps Maker Portal and configure the data coverage and signals that Sales Agent should use. Admins can configure the underlying data, views, metadata and relationships used in the model.</p>\n<p>For Salesforce customers, the semantic model will be based on existing Sales agent table and glossary configuration in Sales agent settings or Power Apps Maker Portal. In Power Apps Maker Portal, Salesforce admins will can configure additional Salesforce signals to use in semantic model such as relationships and views.</p>",
       "created": "2026-10-22T22:58:40",
-      "modified": "2026-10-22T22:58:40",
+      "modified": "2026-11-11T00:51:09",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -1410,7 +1428,7 @@
       "status": "In development",
       "description": "<p>Copilot in OneNote can generate new content and directly edit when in edit mode. In this mode you can create, rename, and delete pages, sections, or notebooks as well as add or edit content in pages. Copilot can bring content from across WorkIQ as well as complete actions across other workflows such as creating Word, Excel, and PowerPoint files.</p>",
       "created": "2026-10-08T23:04:12",
-      "modified": "2026-10-08T23:04:12",
+      "modified": "2026-11-11T00:51:09",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -1741,10 +1759,10 @@
     {
       "id": "571309",
       "title": "Microsoft Purview: Information Protection-Auto-labeling scale increase for SharePoint and OneDrive",
-      "status": "In development",
+      "status": "Launched",
       "description": "<p>We are increasing the maximum auto-labeling capacity for SharePoint and OneDrive from 100,000 up to 500,000 files per tenant per day. This helps organizations label and protect more of their data at rest, faster, closing labeling gaps across existing content. With sensitivity labels and protection settings applied to more files sooner, organizations can better prepare their data estate for Microsoft 365 Copilot with greater confidence.</p>",
       "created": "2026-09-28T22:58:08",
-      "modified": "2026-09-28T22:58:08",
+      "modified": "2026-11-11T00:51:09",
       "tags": [
         "GCC",
         "GCC High",
@@ -2008,7 +2026,7 @@
       "status": "In development",
       "description": "<p>We’re introducing the new readiness for Microsoft Copilot and data explorer experiences in Microsoft Purview Data Security Posture Management (DSPM). These new capabilities provide data security teams with greater visibility into their organization’s data security posture and help them assess risks, investigate findings, and prioritize remediation.</p>\n<p>The readiness for Microsoft Copilot experience in Purview DSPM helps organizations assess and improve their data readiness for Microsoft Copilot. It brings together insights into sensitive data exposure, oversharing, and protection coverage, helping security teams identify risks and assess progress toward a more secure Microsoft Copilot deployment.</p>\n<p>The new data explorer experience in Purview DSPM provides a centralized investigation experience that helps organizations understand where sensitive data exists across sites, review site-level access, and explore relevant data through preset views. It brings together sites, sensitive data, and preset views, to support more efficient investigations and reduce context switching.</p>",
       "created": "2026-09-15T23:00:36",
-      "modified": "2026-09-24T22:58:55",
+      "modified": "2026-11-11T00:52:46",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -2111,22 +2129,6 @@
         "General Availability"
       ],
       "descHash": "cfe4976673c90b7c"
-    },
-    {
-      "id": "570847",
-      "title": "Microsoft Viva: Copilot Analytics - Agent value insights in Agent 365 Dashboard",
-      "status": "In development",
-      "description": "<p>Customers can now view value insights in the Agent 365 Dashboard in Microsoft Viva Insights (Copilot Analytics). These insights help business leaders and change and adoption specialists understand not only whether agents are being used, but also the estimated assisted hours agents provide and the types of work contributing to that value.</p>\n<p>This update builds on the existing Agent 365 Dashboard adoption experience by connecting agent activity with a clearer view of the work agents support across the organization.</p>",
-      "created": "2026-09-08T22:57:21",
-      "modified": "2026-10-07T23:01:35",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Viva",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "bf838bc165654327"
     },
     {
       "id": "570845",
@@ -2456,9 +2458,9 @@
       "id": "569212",
       "title": "Microsoft Copilot (Microsoft 365): Federated Copilot Connectors in Microsoft 365 Copilot",
       "status": "In development",
-      "description": "Federated Copilot connectors enable users to securely connect Microsoft Copilot to their favorite third party sources, retrieving data in real-time using the Model Context Protocol (MCP). Federated Copilot connectors do not store or index customer data in Microsoft - access happens in real time using the user’s own identity, while administrators retain full governance and control through the Microsoft 365 Admin Center. With GA, federated Copilot connectors will be supported across Researcher agent and Microsoft 365 Chat, allowing users to bring data into their workflows.",
+      "description": "<p>Federated Copilot connectors enable users to securely connect Microsoft Copilot to their favorite third party sources, retrieving data in real-time using the Model Context Protocol (MCP). Federated Copilot connectors do not store or index customer data in Microsoft - access happens in real time using the user’s own identity, while administrators retain full governance and control through the Microsoft 365 Admin Center. With GA, federated Copilot connectors will be supported across Researcher agent and Microsoft 365 Chat, allowing users to bring data into their workflows.</p>",
       "created": "2026-08-18T23:05:00",
-      "modified": "2026-08-18T23:05:00",
+      "modified": "2026-11-11T00:52:46",
       "tags": [
         "GCC",
         "GCC High",
@@ -2562,10 +2564,10 @@
     {
       "id": "569208",
       "title": "SharePoint: HTML pages",
-      "status": "In development",
-      "description": "Create HTML with Copilot in SharePoint or upload your own HTML from another source. Once stored in the pages library, you can render HTML as a page in SharePoint, make additional edits, and share with your audience. HTML gives you new ways to present your content beautifully alongside our existing ASPX pages.",
+      "status": "Rolling out",
+      "description": "<p>Create HTML with Copilot in SharePoint or upload your own HTML from another source. Once stored in the pages library, you can render HTML as a page in SharePoint, make additional edits, and share with your audience. HTML gives you new ways to present your content beautifully alongside our existing ASPX pages.</p>",
       "created": "2026-08-11T22:53:53",
-      "modified": "2026-08-11T22:53:53",
+      "modified": "2026-11-11T00:52:46",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -2610,26 +2612,6 @@
         "Targeted Release"
       ],
       "descHash": "95fdd5febbcf16be"
-    },
-    {
-      "id": "568790",
-      "title": "Microsoft Copilot (Microsoft 365): Review PDFs using the Copilot context menu on OneDrive iOS",
-      "status": "Cancelled",
-      "description": "<p>Microsoft 365 Copilot makes PDF reviews faster and easier on mobile. Select text in any PDF in OneDrive iOS and tap Ask Copilot to explain, summarize, translate, or ask a custom question about the selection — the same in-context Copilot experience already generally available on desktop, now on OneDrive iOS. Updated October 20, 2026: We have decided not to move forward with this change at this time. We apologize for any inconvenience.</p>",
-      "created": "2026-08-10T22:43:02",
-      "modified": "2026-10-20T23:00:34",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "GCC",
-        "GCC High",
-        "DoD",
-        "iOS",
-        "OneDrive",
-        "SharePoint",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "e8e972e4e4f01c2a"
     },
     {
       "id": "569023",
@@ -3279,10 +3261,10 @@
     {
       "id": "566703",
       "title": "Microsoft Edge: Upgraded Copilot new tab page",
-      "status": "In development",
+      "status": "Launched",
       "description": "<p>Search, chat, and explore the web from one search box with Copilot-suggested actions and curated work content to help your users get things done faster on the Copilot new tab page. Users will see upgraded Copilot new tab page functionality and features.</p>",
       "created": "2026-06-26T22:01:51",
-      "modified": "2026-10-13T23:01:05",
+      "modified": "2026-11-11T00:52:46",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -3559,10 +3541,10 @@
     {
       "id": "564607",
       "title": "Microsoft Copilot (Microsoft 365): MCP-Based Agent Enablement for U.S. Government Clouds",
-      "status": "In development",
-      "description": "We’re introducing support for Model Context Protocol (MCP)-based agents in Microsoft 365 Copilot . This update enables developers to build Copilot agents using MCP servers and allows users to interact with these agents using familiar experiences. This change supports extensibility and improves agent capabilities for organizations.",
+      "status": "Launched",
+      "description": "<p>We’re introducing support for Model Context Protocol (MCP)-based agents in Microsoft 365 Copilot . This update enables developers to build Copilot agents using MCP servers and allows users to interact with these agents using familiar experiences. This change supports extensibility and improves agent capabilities for organizations.</p>",
       "created": "2026-05-27T23:15:50",
-      "modified": "2026-05-27T23:15:50",
+      "modified": "2026-11-11T00:52:46",
       "tags": [
         "GCC",
         "GCC High",
@@ -3674,29 +3656,12 @@
       "descHash": "a02318cd31dc49ad"
     },
     {
-      "id": "562351",
-      "title": "Microsoft Copilot (Microsoft 365): Get actionable suggestions from Copilot in your Copilot Page",
-      "status": "Cancelled",
-      "description": "<p>Request feedback from Copilot on your Page by selecting \"Suggested edits\" in the Copilot Shortcuts menu. Copilot will analyze the content on your page and provide actionable suggestions about what you can change to improve clarity and quality of your written content. You can then apply suggestions directly to the page. Updated October 23, 2026: We have decided not to move forward with this change at this time. We apologize for any inconvenience.</p>",
-      "created": "2026-05-15T22:00:42",
-      "modified": "2026-10-23T21:59:27",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft 365 app",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "a1e2f063daa6c123"
-    },
-    {
       "id": "561326",
       "title": "Microsoft Copilot (Microsoft 365): Copilot People Connectors introduces people data ingestions with differentiated access control",
       "status": "In development",
-      "description": "Copilot People Connector now supports importing people data with access controls into Microsoft 365. This release enables organizations to bring people data from external systems into Microsoft 365 along with associated access control lists (ACLs), ensuring Copilot respects existing permissions defined in source systems. The imported data can be scoped to specific individuals and groups, allowing Copilot to reason over people data while honoring access restrictions.",
+      "description": "<p>Copilot People Connector now supports importing people data with access controls into Microsoft 365. This release enables organizations to bring people data from external systems into Microsoft 365 along with associated access control lists (ACLs), ensuring Copilot respects existing permissions defined in source systems. The imported data can be scoped to specific individuals and groups, allowing Copilot to reason over people data while honoring access restrictions.</p>",
       "created": "2026-05-15T22:00:42",
-      "modified": "2026-05-15T22:00:42",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Developer",
@@ -3721,23 +3686,6 @@
         "Preview"
       ],
       "descHash": "b63a1c97388ea7d5"
-    },
-    {
-      "id": "562220",
-      "title": "Microsoft Copilot Studio: Supercharge your workflows with computer use",
-      "status": "Cancelled",
-      "description": "<p>Add resilient, AI-powered UI automation directly into your workflows with computer use tools. Makers can build reusable, goal-oriented automations that adapt dynamically to website or app changes, while admins maintain governance through access controls, hosted browser management, and environment-level permissions. Update: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
-      "created": "2026-05-15T18:00:35",
-      "modified": "2026-10-26T23:15:50",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "Microsoft Copilot Studio",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "991ba84dc495df17"
     },
     {
       "id": "562412",
@@ -4170,10 +4118,10 @@
     {
       "id": "561032",
       "title": "Microsoft Purview: Data Loss Prevention – New Guided Experience to Diagnose and Resolve DLP Issues",
-      "status": "Rolling out",
+      "status": "Launched",
       "description": "<p>We’re introducing a new guided diagnostics experience to help users understand why their DLP policies may not be behaving as expected. This experience provides a clear summary of why a DLP action was taken on a document, including which policies were triggered, the order of evaluation, and detailed insights into which conditions evaluated as true or false.<br>\nFor Microsoft 365 E5 customers, the experience also includes Copilot-powered insights and tailored recommendations to accelerate troubleshooting and policy optimization.</p>",
       "created": "2026-04-24T22:00:04",
-      "modified": "2026-10-14T23:01:02",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -4282,10 +4230,10 @@
     {
       "id": "560595",
       "title": "Microsoft Viva: Viva Glint - Copilot assisted commenting in Glint survey taking",
-      "status": "In development",
-      "description": "Viva Glint survey takers will be able to use a streamlined version of Microsoft Copilot in the Glint survey taking experience to help them rewrite their comments, helping survey takers feel more confident about the feedback they’re providing. By increasing perceived security through reducing identifiable writing patterns and minimizing the effort required to refine feedback, this experience can encourage greater participation, longer responses, and more candid comments, which can drive higher engagement and richer insights from surveys.",
+      "status": "Launched",
+      "description": "<p>Viva Glint survey takers will be able to use a streamlined version of Microsoft Copilot in the Glint survey taking experience to help them rewrite their comments, helping survey takers feel more confident about the feedback they’re providing. By increasing perceived security through reducing identifiable writing patterns and minimizing the effort required to refine feedback, this experience can encourage greater participation, longer responses, and more candid comments, which can drive higher engagement and richer insights from surveys.</p>",
       "created": "2026-04-17T22:15:50",
-      "modified": "2026-07-14T22:41:38",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",
@@ -4582,21 +4530,6 @@
         "General Availability"
       ],
       "descHash": "318f4d6c97795978"
-    },
-    {
-      "id": "558595",
-      "title": "Microsoft 365: Companion apps - Copilot prompts in the Files app now available for Copilot Chat users",
-      "status": "Cancelled",
-      "description": "<p>The Files companion app, part of the Microsoft 365 companion apps suite on the Windows taskbar, now surfaces AI-powered Copilot file prompts for Copilot Chat users. Previously available only to Microsoft 365 Copilot licensees, this update extends contextual file prompts to Microsoft 365 Copilot Chat users, enabling them to discover and interact with relevant files through intelligent suggestions. Users can find their most relevant files faster and take action on them directly from the Files app. Update: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
-      "created": "2026-03-30T23:00:38",
-      "modified": "2026-10-26T23:15:50",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Desktop",
-        "Microsoft 365",
-        "General Availability"
-      ],
-      "descHash": "43e399628906d3db"
     },
     {
       "id": "558538",
@@ -6577,22 +6510,6 @@
       "descHash": "8c7d4467419f2344"
     },
     {
-      "id": "529843",
-      "title": "Microsoft Copilot (Microsoft 365): Suggested References in Copilot Notebooks",
-      "status": "Cancelled",
-      "description": "<p>Users can now quickly enrich their Copilot Notebook with relevant Suggested References based on recent user work activity. Update: This roadmap item is no longer accurate and will be removed from the roadmap. We apologize for any inconvenience.</p>",
-      "created": "2025-12-19T23:00:49",
-      "modified": "2026-10-27T23:05:02",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft 365 app",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "d3322e74892c75d9"
-    },
-    {
       "id": "529842",
       "title": "Microsoft Copilot (Microsoft 365): Recommended Notebooks in Copilot Notebooks",
       "status": "In development",
@@ -8441,10 +8358,10 @@
     {
       "id": "503771",
       "title": "Microsoft Copilot (Microsoft 365): [Copilot Extensibility] Users in GCC-H will be able to use custom engine agents",
-      "status": "In development",
+      "status": "Launched",
       "description": "<p>Users in GCC-H will be able to use custom engine agents.</p>",
       "created": "2025-10-17T22:00:54",
-      "modified": "2026-10-05T23:03:05",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "GCC High",
         "Web",
@@ -8537,10 +8454,10 @@
     {
       "id": "511797",
       "title": "OneNote: Copilot Notebooks available in OneNote on Web",
-      "status": "In development",
-      "description": "Users will now have access to their Copilot Notebooks on the web version of OneNote.",
+      "status": "Launched",
+      "description": "<p>Users will now have access to their Copilot Notebooks on the web version of OneNote.</p>",
       "created": "2025-10-16T23:15:52",
-      "modified": "2026-02-12T00:15:53",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -8553,9 +8470,9 @@
       "id": "503767",
       "title": "Microsoft Copilot (Microsoft 365): [Copilot Extensibility] Users will be able to upload files stored locally or in one drive to custom engine agents",
       "status": "In development",
-      "description": "Users will be able to upload files stored locally or in one drive to custom engine agents.",
+      "description": "<p>Users will be able to upload files stored locally or in one drive to custom engine agents.</p>",
       "created": "2025-10-16T23:15:52",
-      "modified": "2025-10-16T23:15:52",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -8788,10 +8705,10 @@
     {
       "id": "510100",
       "title": "Microsoft 365 app: Add Search results as references to your Copilot Notebooks in the M365 Copilot app",
-      "status": "In development",
-      "description": "Users can quickly add a Search result as a reference to a Copilot Notebook within the M365 Copilot app.",
+      "status": "Launched",
+      "description": "<p>Users can quickly add a Search result as a reference to a Copilot Notebook within the M365 Copilot app.</p>",
       "created": "2025-10-03T22:00:02",
-      "modified": "2026-05-27T23:15:50",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -9014,17 +8931,17 @@
     {
       "id": "501785",
       "title": "Microsoft Copilot (Microsoft 365): Edit your Copilot-generated PowerPoint presentation outline via Pages in Chat",
-      "status": "In development",
-      "description": "You can now edit and collaborate on the presentation outline generated by Copilot in a Page before the PowerPoint deck is created.",
+      "status": "Cancelled",
+      "description": "<p>You can now edit and collaborate on the presentation outline generated by Copilot in a Page before the PowerPoint deck is created.  This item is no longer accurate and is being removed from the roadmap.  We apologize for any inconvenience</p>",
       "created": "2025-09-19T22:00:03",
-      "modified": "2025-09-19T22:00:03",
+      "modified": "2026-11-11T01:23:34",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
         "Microsoft Copilot (Microsoft 365)",
         "General Availability"
       ],
-      "descHash": "c83195b71dd3b22e"
+      "descHash": "a5b0952b664cba55"
     },
     {
       "id": "501585",
@@ -9096,10 +9013,10 @@
     {
       "id": "501451",
       "title": "Microsoft Copilot (Microsoft 365): Copilot in SharePoint",
-      "status": "In development",
+      "status": "Launched",
       "description": "<p>Simplifies SharePoint content management and ensures content is Copilot-ready by automating metadata, fixing stale content, enabling fast page creation, improving compliance, and enriching content so Copilot can deliver more accurate, grounded answers. Updated April 16: We are still in development for GA and have launched to Preview only.</p>",
       "created": "2025-09-18T16:15:27",
-      "modified": "2026-09-25T22:37:50",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -10541,22 +10458,6 @@
       "descHash": "f9567478156a5b6e"
     },
     {
-      "id": "485731",
-      "title": "Microsoft 365: Use Copilot in your search tab in the Microsoft 365 Copilot mobile app",
-      "status": "Cancelled",
-      "description": "<p>Quickly find your files and leverage Copilot to get a better understanding within the search tab on the go.  This item is no longer accurate and is being removed from the roadmap.  We apologize for the inconvenience.</p>",
-      "created": "2025-04-23T23:15:57",
-      "modified": "2026-10-12T23:01:05",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Android",
-        "iOS",
-        "Microsoft 365",
-        "General Availability"
-      ],
-      "descHash": "3def295a3a0a328e"
-    },
-    {
       "id": "490738",
       "title": "Microsoft 365 Admin Center: Usage reports - Message consumption for Pay-as-you-go experiences in Copilot Chat.",
       "status": "In development",
@@ -11655,7 +11556,7 @@
       "status": "In development",
       "description": "<p>Rewrite by Copilot in Edge, which lets users edit typed text for tone, format, and length within an open page in Microsoft Edge, is being updated to include enterprise data protection for commercial customers. Once Rewrite is available, users signed in with a Microsoft Entra ID will have enterprise data protection when using the feature in Microsoft Edge. Updated March 20, 2026: We have paused release of this feature temporarily and will announce new release timelines soon. We apologize for any inconvenience.</p>",
       "created": "2024-10-03T23:30:37",
-      "modified": "2026-10-26T23:15:50",
+      "modified": "2026-11-11T00:53:22",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
