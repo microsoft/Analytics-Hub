@@ -6,7 +6,7 @@
 const STORIES = [
   {
     id: "epam",
-    org: "EPAM",
+    org: "EPAM", domain: "epam.com",
     industry: "staffing",
     industryLabel: "Staffing & services",
     employees: "2,000+",
@@ -26,7 +26,7 @@ const STORIES = [
   },
   {
     id: "wipro",
-    org: "Wipro",
+    org: "Wipro", domain: "wipro.com",
     industry: "staffing",
     industryLabel: "Staffing & services",
     employees: "234,000+",
@@ -46,7 +46,7 @@ const STORIES = [
   },
   {
     id: "nhs",
-    org: "NHS",
+    org: "NHS", domain: "nhs.uk",
     industry: "public",
     industryLabel: "Public sector",
     employees: "1.4M",
@@ -66,7 +66,7 @@ const STORIES = [
   },
   {
     id: "allegis-1",
-    org: "Allegis Group",
+    org: "Allegis Group", domain: "allegisgroup.com",
     industry: "staffing",
     industryLabel: "Staffing & services",
     employees: "18,000+",
@@ -86,7 +86,7 @@ const STORIES = [
   },
   {
     id: "allegis-2",
-    org: "Allegis Group",
+    org: "Allegis Group", domain: "allegisgroup.com",
     industry: "staffing",
     industryLabel: "Staffing & services",
     employees: "18,000+",
@@ -106,7 +106,7 @@ const STORIES = [
   },
   {
     id: "lloyds",
-    org: "Lloyds Banking Group",
+    org: "Lloyds Banking Group", domain: "lloydsbankinggroup.com",
     industry: "financial",
     industryLabel: "Financial services",
     employees: "60,000+",
@@ -129,7 +129,7 @@ const STORIES = [
 // Aggregate KPIs across all stories — show on the hero strip
 const KPIS = [
   { value: STORIES.length,         label: "Published case studies" },
-  { value: "6",                    label: "Industries represented" },
+  { value: "3",                    label: "Industries represented" },
   { value: "180,000+",             label: "Hours saved (documented)" },
   { value: "$1.5M+",               label: "Cost savings (documented)" },
 ];
@@ -145,7 +145,6 @@ function renderKpis() {
 }
 
 function cardHtml(s, i) {
-  const grad = `linear-gradient(135deg, ${s.accent} 0%, ${s.accent2} 100%)`;
   const tags = s.tags.map(t => `<span class="cs-tag">${t}</span>`).join("");
   const metrics = s.metrics.map(m => `
     <div class="cs-metric">
@@ -153,15 +152,17 @@ function cardHtml(s, i) {
       <div class="cs-metric-label">${m.label}</div>
     </div>`).join("");
   return `
-    <article class="cs-card" data-industry="${s.industry}" style="--accent:${s.accent}; --accent2:${s.accent2}; animation-delay:${i * 50}ms">
-      <div class="cs-card-header" style="background:${grad}">
-        <div class="cs-card-mark">${s.initials}</div>
+    <article class="cs-card" data-industry="${s.industry}" style="animation-delay:${i * 50}ms">
+      <div class="cs-card-header">
+        <div class="cs-card-mark" data-initials="${s.initials}">
+          <img src="https://www.google.com/s2/favicons?domain=${s.domain}&sz=128" alt="${s.org} logo" loading="lazy" onerror="this.parentNode.textContent=this.parentNode.dataset.initials">
+        </div>
         <div class="cs-card-meta">
           <div class="cs-industry">${s.industryLabel}</div>
           <h2 class="cs-org">${s.org}</h2>
           <div class="cs-meta-row">
-            <span>👥 ${s.employees}</span>
-            <span>🌍 ${s.region}</span>
+            <span>${s.employees} employees</span>
+            <span>${s.region}</span>
           </div>
         </div>
       </div>
@@ -204,7 +205,6 @@ function wireFilters() {
 }
 
 function init() {
-  renderKpis();
   renderGrid("all");
   wireFilters();
 }

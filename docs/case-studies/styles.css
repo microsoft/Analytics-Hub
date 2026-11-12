@@ -388,3 +388,53 @@
 .btn-primary, .cta.primary, a.primary, .primary-btn {
   background: var(--accent);
 }
+
+/* ============================================================
+   Calm, single-accent cards (2026-11-12)
+   Neutral surfaces, one accent colour, customer logo on a white tile.
+   ============================================================ */
+.cs-hero .eyebrow { color: var(--accent); }
+.cs-hero .hero-bg { display: none; }
+.cs-kpi { backdrop-filter: none; background: var(--surface); }
+.cs-kpi-value, .cs-metric-value {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--accent);
+}
+.cs-filters .pill.active { background: var(--accent); }
+
+.cs-card {
+  border-radius: 14px;
+  box-shadow: none;
+}
+.cs-card:hover {
+  transform: none;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: 0 6px 20px -12px rgba(0,0,0,.25);
+}
+.cs-card-header {
+  background: none;
+  color: var(--text);
+  align-items: center;
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.cs-card-header::after { display: none; }
+.cs-card-mark {
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  backdrop-filter: none;
+  color: #444;
+  text-shadow: none;
+  font-size: 1rem;
+  overflow: hidden;
+}
+.cs-card-mark img { width: 36px; height: 36px; object-fit: contain; }
+.cs-industry { color: var(--text-muted); opacity: 1; }
+.cs-meta-row { color: var(--text-muted); opacity: 1; gap: .75rem; }
+.cs-meta-row span + span::before { content: "·"; margin-right: .75rem; }
+.cs-pull { border-left-color: var(--accent); font-style: normal; font-weight: 600; }
+.cs-metrics { background: var(--bg-alt); }
+.cs-cta-card { background: var(--bg-alt); }
