@@ -847,30 +847,43 @@ html[data-theme="dark"] .mk-viva{ color:#c3b0f0; background:color-mix(in srgb, #
    The old goal/product tiles, search and results list stay in the DOM for the
    scripts that still reference them, but are not shown. */
 .pk-how,.pk-choose,.pk-find,#mkPkActive,.pk-step--end{ display:none !important; }
-.rk{ --rk-ink:#242424; --rk-muted:#605e5c; --rk-line:#e1dfdd; --rk-panel:#f7f7f8; --rk-brand:#0f6cbd; --rk-navy:#0f3d6e; --rk-new:#107c41; color:var(--rk-ink); margin-top:8px; }
+.rk{ --rk-ink:#242424; --rk-muted:#605e5c; --rk-line:#e1dfdd; --rk-panel:#f7f7f8; --rk-surface:#fff; --rk-brand:#0f6cbd; --rk-navy:#0f3d6e; --rk-on-selected:#fff; --rk-badge-brand:#0f6cbd; --rk-new:#107c41; --rk-archive-line:#c8c6c4; color:var(--rk-ink); margin-top:8px; }
+/* The ranked catalog shares the page theme, while keeping its light palette. */
+html[data-theme="dark"] .rk{
+  --rk-ink:var(--mk-text);
+  --rk-muted:var(--mk-soft);
+  --rk-line:var(--mk-border);
+  --rk-panel:var(--mk-surface-2);
+  --rk-surface:var(--mk-surface);
+  --rk-brand:var(--mk-accent);
+  --rk-navy:var(--mk-accent-strong);
+  --rk-on-selected:var(--mk-on-accent);
+  --rk-archive-line:var(--mk-border-strong);
+}
 .rk-bar{ border-bottom:1px solid var(--rk-line); padding:10px 0; }
 .rk-row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:4px 0; }
 .rk-lbl{ font-size:12px; font-weight:600; color:var(--rk-muted); text-transform:uppercase; letter-spacing:.04em; min-width:70px; }
-.rk-chip{ border:1px solid var(--rk-line); background:#fff; border-radius:999px; padding:6px 14px; font:inherit; font-size:13.5px; cursor:pointer; margin-right:6px; color:inherit; }
-.rk-chip[aria-pressed=true]{ background:var(--rk-navy); color:#fff; border-color:var(--rk-navy); }
+.rk-chip{ border:1px solid var(--rk-line); background:var(--rk-surface); border-radius:999px; padding:6px 14px; font:inherit; font-size:13.5px; cursor:pointer; margin-right:6px; color:inherit; }
+.rk-chip[aria-pressed=true]{ background:var(--rk-navy); color:var(--rk-on-selected); border-color:var(--rk-navy); }
 .rk h2{ font-size:20px; margin:34px 0 4px; color:var(--rk-navy); }
 .rk-sub{ color:var(--rk-muted); margin:0 0 14px; font-size:14px; }
 .rk-start{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
 .rk-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-.rk-card{ border:1px solid var(--rk-line); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:8px; background:#fff; }
+.rk-card{ border:1px solid var(--rk-line); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:8px; background:var(--rk-surface); }
 .rk-start .rk-card{ border-top:4px solid var(--rk-brand); }
 .rk-card h3{ margin:0; font-size:15.5px; }
 .rk-card p{ margin:0; color:var(--rk-muted); font-size:13.5px; line-height:1.4; flex:1; }
 .rk-meta{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:11.5px; }
 .rk-tag{ background:var(--rk-panel); border-radius:4px; padding:2px 7px; color:var(--rk-muted); }
 .rk-b{ border-radius:4px; padding:2px 7px; font-weight:600; color:#fff; }
-.rk-b.Popular{ background:var(--rk-brand); } .rk-b.New{ background:var(--rk-new); } .rk-b.Preview{ background:#8764b8; } .rk-b.spec{ background:#8a8886; }
+.rk-b.Popular{ background:var(--rk-badge-brand); } .rk-b.New{ background:var(--rk-new); } .rk-b.Preview{ background:#8764b8; } .rk-b.spec{ background:#8a8886; }
+html[data-theme="dark"] .rk-b.spec{ background:var(--rk-panel); color:var(--rk-muted); }
 .rk-links{ display:flex; gap:14px; flex-wrap:wrap; margin-top:2px; }
 .rk-links a{ color:var(--rk-brand); font-size:13.5px; font-weight:600; text-decoration:none; }
 .rk-links a:hover{ text-decoration:underline; }
 .rk-more{ margin-top:10px; background:none; border:0; color:var(--rk-brand); font:inherit; font-size:14px; cursor:pointer; padding:4px 0; }
 .rk-hide{ display:none; }
-.rk-arch{ margin:36px 0 40px; border:1px dashed #c8c6c4; border-radius:10px; padding:14px 18px; }
+.rk-arch{ margin:36px 0 40px; border:1px dashed var(--rk-archive-line); border-radius:10px; padding:14px 18px; }
 .rk-arch summary{ cursor:pointer; font-weight:600; }
 @media (max-width:900px){ .rk-start{ grid-template-columns:repeat(2,1fr); } .rk-grid{ grid-template-columns:1fr; } }
 @media (max-width:560px){ .rk-start{ grid-template-columns:1fr; } }
