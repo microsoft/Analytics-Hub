@@ -276,6 +276,35 @@ details > div { margin-top: 16px; }
     <h1>Credit Forecasting<br>and Budget Planning</h1>
     <p>Turn usage and rollout plans into a clearer credit purchase decision.</p>
   </header>
+  <style>
+    .which-tool{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 18px}
+    .which-tool>div{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:10px;padding:14px 16px}
+    .which-tool>div.is-here{border-color:var(--cp-accent);background:var(--cp-accent-soft)}
+    .which-tool h2{margin:0 0 4px;font-size:.95rem}
+    .which-tool .wt-tag{display:block;margin-bottom:6px;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cp-accent)}
+    .which-tool p{margin:0;font-size:.85rem;line-height:1.5;color:var(--cp-text-muted)}
+    .which-tool .wt-list{margin:6px 0 0;padding-left:1.1rem;font-size:.85rem;line-height:1.5;color:var(--cp-text-muted)}
+    .which-tool .wt-list li{margin:3px 0}
+    .which-tool .wt-list strong{color:var(--cp-text)}
+    @media (max-width:680px){.which-tool{grid-template-columns:1fr}}
+  </style>
+  <section class="which-tool" aria-label="Credit Estimator or Credit Forecasting">
+    <div>
+      <span class="wt-tag">Credit Estimator &middot; first purchase</span>
+      <h2>Use it before you have usage history</h2>
+      <p>Size your initial purchase from the number of users in each persona and how each persona uses Cowork.</p>
+    </div>
+    <div class="is-here">
+      <span class="wt-tag">Credit Forecasting &middot; this tool</span>
+      <h2>Use it once you have usage history, from pilot to expansion</h2>
+      <ul class="wt-list">
+        <li><strong>Start from real usage:</strong> your average credits per user per month</li>
+        <li><strong>Model growth:</strong> plan non-linear rollouts, such as a pilot of 200 users expanding to 1,000 in one jump, then add ongoing monthly growth</li>
+        <li><strong>Know your runway:</strong> how long your credits last and when to buy next</li>
+        <li><strong>Close the loop:</strong> PowerPoint for Finance and business partners, or an Excel model to customize</li>
+      </ul>
+    </div>
+  </section>
   <div class="tabs" role="tablist" aria-label="Rollout cockpit views"><button type="button" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="true" tabindex="0">Your Data</button><button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="false" tabindex="-1">Modeling</button></div>
   <section id="panel-data" role="tabpanel" aria-labelledby="tab-data"><div id="data-panel"></div></section>
   <section id="panel-model" role="tabpanel" aria-labelledby="tab-model" hidden>
