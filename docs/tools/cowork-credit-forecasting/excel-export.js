@@ -26,7 +26,7 @@
   Sheet.prototype.blank = function (ref, style) { this.set(ref, { t: "b", s: style }); };
   Sheet.prototype.xml = function () {
     function colNum(ref) { var letters = /^[A-Z]+/.exec(ref)[0], n = 0; for (var i = 0; i < letters.length; i++) n = n * 26 + letters.charCodeAt(i) - 64; return n; }
-    var out = ['<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" showGridLines="0"'];
+    var out = ['<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheetViews><sheetView workbookViewId="0" showGridLines="0"'];
     out.push(this.name === "Inputs" ? ' tabSelected="1">' : ">");
     if (this.freeze) out.push('<pane xSplit="' + (this.freeze.x || 0) + '" ySplit="' + this.freeze.y + '" topLeftCell="' + col((this.freeze.x || 0) + 1) + (this.freeze.y + 1) + '" activePane="' + (this.freeze.x ? "bottomRight" : "bottomLeft") + '" state="frozen"/>');
     out.push("</sheetView></sheetViews><sheetFormatPr defaultRowHeight=\"15\"/>");
@@ -49,7 +49,7 @@
     }, this);
     out.push("</sheetData>");
     if (this.merges.length) out.push('<mergeCells count="' + this.merges.length + '">' + this.merges.map(function (m) { return '<mergeCell ref="' + m + '"/>'; }).join("") + "</mergeCells>");
-    out.push('<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/></worksheet>');
+    out.push('<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>' + (this.drawing ? '<drawing r:id="rId1"/>' : "") + "</worksheet>");
     return out.join("");
   };
 
@@ -229,9 +229,28 @@
     kpiMerge(fc, [3, 4], ["A", "C", "E", "G"]);
     kpiMerge(pc, [3, 4], ["A", "C", "E", "G", "I"]); kpiMerge(pc, [6, 7], ["A"]);
 
+    db.text("A17", "Monthly credits: prepaid vs PAYGO", S.bold);
+    db.drawing = true;
+    var catCache = cache.slice(0, n).map(function (c, i) { return '<c:pt idx="' + i + '"><c:v>' + c.date + "</c:v></c:pt>"; }).join("");
+    function ser(idx, name, colL, key, color) {
+      var pts = cache.slice(0, n).map(function (c, i) { return '<c:pt idx="' + i + '"><c:v>' + (c[key] || 0) + "</c:v></c:pt>"; }).join("");
+      return '<c:ser><c:idx val="' + idx + '"/><c:order val="' + idx + '"/><c:tx><c:v>' + name + '</c:v></c:tx><c:spPr><a:solidFill><a:srgbClr val="' + color + '"/></a:solidFill></c:spPr><c:invertIfNegative val="0"/>' +
+        '<c:cat><c:numRef><c:f>Forecast!$B$7:$B$' + (6 + n) + '</c:f><c:numCache><c:formatCode>mmm\\-yy</c:formatCode><c:ptCount val="' + n + '"/>' + catCache + "</c:numCache></c:numRef></c:cat>" +
+        '<c:val><c:numRef><c:f>Forecast!$' + colL + "$7:$" + colL + "$" + (6 + n) + '</c:f><c:numCache><c:formatCode>#,##0</c:formatCode><c:ptCount val="' + n + '"/>' + pts + "</c:numCache></c:numRef></c:val></c:ser>";
+    }
+    var chartXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><c:roundedCorners val="0"/><c:chart><c:autoTitleDeleted val="1"/><c:plotArea><c:layout/><c:barChart><c:barDir val="col"/><c:grouping val="stacked"/><c:varyColors val="0"/>' +
+      ser(0, "Prepaid credits used", "O", "used", "0F6CBD") + ser(1, "PAYGO / additional credits", "P", "over", "E8A33D") +
+      '<c:gapWidth val="50"/><c:overlap val="100"/><c:axId val="111111"/><c:axId val="222222"/></c:barChart>' +
+      '<c:catAx><c:axId val="111111"/><c:scaling><c:orientation val="minMax"/></c:scaling><c:delete val="0"/><c:axPos val="b"/><c:numFmt formatCode="mmm\\-yy" sourceLinked="0"/><c:tickLblPos val="nextTo"/><c:crossAx val="222222"/><c:crosses val="autoZero"/><c:auto val="0"/><c:lblAlgn val="ctr"/><c:lblOffset val="100"/><c:noMultiLvlLbl val="1"/></c:catAx>' +
+      '<c:valAx><c:axId val="222222"/><c:scaling><c:orientation val="minMax"/></c:scaling><c:delete val="0"/><c:axPos val="l"/><c:majorGridlines/><c:title><c:tx><c:rich><a:bodyPr rot="-5400000" vert="horz"/><a:p><a:r><a:t>Credits</a:t></a:r></a:p></c:rich></c:tx><c:overlay val="0"/></c:title><c:numFmt formatCode="#,##0" sourceLinked="0"/><c:tickLblPos val="nextTo"/><c:crossAx val="111111"/><c:crosses val="autoZero"/><c:crossBetween val="between"/></c:valAx>' +
+      '</c:plotArea><c:legend><c:legendPos val="b"/><c:overlay val="0"/></c:legend><c:plotVisOnly val="1"/><c:dispBlanksAs val="gap"/></c:chart></c:chartSpace>';
+    var drawingXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><xdr:twoCellAnchor><xdr:from><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>17</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:from><xdr:to><xdr:col>12</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>38</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:to><xdr:graphicFrame macro=""><xdr:nvGraphicFramePr><xdr:cNvPr id="2" name="Credits chart"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/></xdr:xfrm><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/chart"><c:chart xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:twoCellAnchor></xdr:wsDr>';
+    var REL = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+
     var sheets = [inp, db, fc, pc];
     var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
-      sheets.map(function (s, i) { return '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; }).join("") + "</Types>";
+      sheets.map(function (s, i) { return '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; }).join("") +
+      '<Override PartName="/xl/drawings/drawing1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/><Override PartName="/xl/charts/chart1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/></Types>';
     var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>';
     var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>' +
       sheets.map(function (s, i) { return '<sheet name="' + esc(s.name) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; }).join("") + '</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>';
@@ -243,6 +262,9 @@
     zip.file("[Content_Types].xml", ct); zip.file("_rels/.rels", rels);
     zip.file("xl/workbook.xml", wb); zip.file("xl/_rels/workbook.xml.rels", wrels); zip.file("xl/styles.xml", stylesXml());
     sheets.forEach(function (s, i) { zip.file("xl/worksheets/sheet" + (i + 1) + ".xml", s.xml()); });
+    zip.file("xl/charts/chart1.xml", chartXml); zip.file("xl/drawings/drawing1.xml", drawingXml);
+    zip.file("xl/drawings/_rels/drawing1.xml.rels", REL + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart" Target="../charts/chart1.xml"/></Relationships>');
+    zip.file("xl/worksheets/_rels/sheet2.xml.rels", REL + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/></Relationships>');
     return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", compression: "DEFLATE" });
   }
 
