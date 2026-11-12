@@ -1,7 +1,23 @@
 {
-  "runAt": "2026-11-11T12:17:21.723Z",
+  "runAt": "2026-11-12T12:17:47.710Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "579897",
+      "title": "Outlook: Copilot Chat Sheet UX Update for Mobile",
+      "status": "In development",
+      "description": "<p>Copilot Chat in Outlook on iOS and Android is getting updated! You'll notice smoother animations, improved strings, and some small changes to the header, such as the new/temporary chat button being moved behind the ... button.</p>",
+      "created": "2026-11-12T01:35:00",
+      "modified": "2026-11-12T01:35:00",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Android",
+        "iOS",
+        "Outlook",
+        "General Availability"
+      ],
+      "descHash": "5a9bb2a41841a3ce"
+    },
     {
       "id": "573293",
       "title": "Microsoft Copilot (Microsoft 365): Copilot Cowork: Access Business Applications with Work IQ",
@@ -2443,7 +2459,7 @@
       "status": "In development",
       "description": "<p>This release follows the availability of organization prompts, providing admins the ability to upload custom prompts for their organization in the Copilot app home screen. Now, admins can delegate organization prompt publishing to users, AAD security groups, and distribution groups. These delegated users and groups will be able to create, edit and delete organization prompts at the tenant level through the Prompt Lab, without having to access the Microsoft 365 Admin Center. Admins can continue to monitor and provide oversight through the current experience in the Microsoft 365 Admin Center.</p>",
       "created": "2026-08-18T23:05:00",
-      "modified": "2026-09-29T23:05:21",
+      "modified": "2026-11-12T01:50:56",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
