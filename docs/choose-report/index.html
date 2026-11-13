@@ -6607,17 +6607,17 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 </template>
 
 <template id="cbrStep4">
-  <p class="gx-reads">This report runs two ways: use the <strong>CSV variant</strong> for Microsoft 365 admin center (MAC) exports, with two CSV exports joined on user principal name (your <strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory), or use the self-refreshing <strong>Direct Query</strong> variant for <strong>live Viva Insights</strong> data. Wire up your own data on either path, or explore the shipped demo dataset first.</p>
+  <p class="gx-reads">This report runs two ways: use the self-refreshing <strong>Direct Query</strong> variant for <strong>live Viva Insights</strong> data, or use the <strong>CSV variant</strong> for Microsoft 365 admin center (MAC) exports, with two CSV exports joined on user principal name (<strong>Copilot credit consumption</strong> and a <strong>Microsoft Entra</strong> org directory). Wire up your own data on either path, or explore the shipped demo dataset first.</p>
 
   <div class="ccyd">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
-      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Your own data (CSV)</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Viva Direct (live)</button>
+      <button class="cc-tab" role="tab" aria-selected="true" data-cc="1"><span class="n">1</span> Viva Direct (live)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> CSV</button>
       <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Demo data (no tenant)</button>
     </div>
 
-    <!-- TAB 1: YOUR OWN DATA -->
-    <section class="cc-panel active" role="tabpanel" data-cc="1">
+    <!-- TAB 2: CSV -->
+    <section class="cc-panel" role="tabpanel" data-cc="2">
       <span class="cc-time">&#9201; ~45 minutes &middot; Power BI Desktop &middot; two admin exports</span>
       <p>Produce the two CSV exports, point the template at them, refresh.</p>
       <div class="cc-steps">
@@ -6643,12 +6643,12 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         <p class="cc-small">Label shown in the dropdown &middot; the real column &middot; the next sort number. It appears instantly as a new checkbox in the <strong>Slice By</strong> slicer on every page.</p>
       </div>
       <div class="cc-callout cc-info"><span class="ct">Refresh is manual on the CSV path</span>
-        Re-export the two CSVs on your cadence (for example monthly), overwrite the files at the same paths, and refresh the report. Want automated, scheduled refresh instead? Use the <strong>Viva Direct (live)</strong> path in tab 2, which connects straight to Viva Insights and self-refreshes in the Power BI Service.</div>
+        Re-export the two CSVs on your cadence (for example monthly), overwrite the files at the same paths, and refresh the report. Want automated, scheduled refresh instead? Use the <strong>Viva Direct (live)</strong> path in tab 1, which connects straight to Viva Insights and self-refreshes in the Power BI Service.</div>
       <p class="cc-glink"><a href="https://github.com/microsoft/CreditUsage#instructions" target="_blank" rel="noopener noreferrer">Full setup guide, roles and field list &rarr;</a></p>
     </section>
 
-    <!-- TAB 2: VIVA DIRECT (LIVE) -->
-    <section class="cc-panel" role="tabpanel" data-cc="2">
+    <!-- TAB 1: VIVA DIRECT (LIVE) -->
+    <section class="cc-panel active" role="tabpanel" data-cc="1">
       <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Desktop &middot; Viva Insights analyst &middot; self-refreshing</span>
       <p>Connect Power BI straight to Viva Insights. No CSV exports, and once published it refreshes on a schedule, so monitoring is hands-off.</p>
       <div class="cc-steps">
