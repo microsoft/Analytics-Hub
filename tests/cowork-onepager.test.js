@@ -8,7 +8,7 @@ const { JSDOM } = require('jsdom');
 const app = path.resolve(__dirname, '..', 'docs', 'tools', 'cowork-credit-forecasting');
 const source = name => fs.readFileSync(path.join(app, name), 'utf8');
 
-test('forecasting provides view and download actions before entering a scenario', () => {
+test('forecasting provides a single one-pager view action before entering a scenario', () => {
   const document = new JSDOM(source('index.html')).window.document;
   const actions = document.querySelector('.page-hero .onepager-actions');
   assert.ok(actions);
@@ -18,9 +18,8 @@ test('forecasting provides view and download actions before entering a scenario'
   assert.ok(view.relList.contains('noopener'));
   assert.ok(view.relList.contains('noreferrer'));
   assert.match(view.getAttribute('aria-label'), /new tab/);
-  const download = actions.querySelector('a[href="customer-onepager.pdf"]');
-  assert.equal(download.textContent, 'Download PDF');
-  assert.equal(download.download, 'Cowork-Credit-Forecasting-Customer-One-Pager.pdf');
+  assert.equal(actions.querySelectorAll('a').length, 1);
+  assert.equal(actions.querySelector('a[href="customer-onepager.pdf"]'), null);
   assert.equal(actions.closest('#scheduled-app'), null);
   assert.equal(actions.querySelector('[disabled]'), null);
   assert.equal(fs.readFileSync(path.join(app, 'customer-onepager.pdf')).subarray(0, 5).toString(), '%PDF-');
