@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-12T12:17:43.960Z",
+  "runAt": "2026-11-13T12:18:27.350Z",
   "feed": "purview",
   "windowStart": "2026-07-01",
   "pages": [
@@ -1247,11 +1247,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2024-05-22T00:00:00Z",
-      "gitCommit": "7a83fe926aa8fd68a12acd15c6b63c8dbb049359",
-      "wordCount": "842",
-      "bodyHash": "9d3cabbe12db9594",
-      "bodyLen": 6820,
+      "msDate": "2026-10-13T00:00:00Z",
+      "gitCommit": "0191fd3d9aae30a1aaa66ae284e07ed6e6048426",
+      "wordCount": "906",
+      "bodyHash": "4cf01e5554241a99",
+      "bodyLen": 7315,
       "sections": [
         "Enable audit and diagnostics",
         "Configure Event Hubs",
@@ -1259,7 +1259,7 @@
         "Read captured audit events",
         "Audit event categories"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "purview-data-security-posture-management-copilot",
