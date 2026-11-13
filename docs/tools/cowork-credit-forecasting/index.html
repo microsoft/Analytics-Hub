@@ -133,6 +133,9 @@ h4 { font-size: 14px; margin: 16px 0 8px; }
 .eyebrow { color: var(--cp-text-muted); font-size: 12px; text-transform: none; letter-spacing: 0; font-weight: 600; }
 .page-hero { padding: 20px 0 20px; border-bottom: 0; }
 .page-hero p { margin-top: 8px; color: var(--cp-text-muted); font-size: 14px; max-width: 760px; }
+.onepager-actions { margin-top: 14px; }
+.onepager-actions a { text-decoration: none; }
+.onepager-actions a:focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 2px; }
 .hero { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: end; padding: 12px 0 20px; }
 .hero p { color: var(--cp-text-muted); max-width: 760px; margin-top: 8px; font-size: 14px; }
 .badge { border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 600; white-space: nowrap; }
@@ -275,6 +278,10 @@ details > div { margin-top: 16px; }
   <header class="page-hero">
     <h1>Credit Forecasting<br>and Budget Planning</h1>
     <p>Turn usage and rollout plans into a clearer credit purchase decision.</p>
+    <div class="actions onepager-actions" aria-label="Customer one-pager">
+      <a class="file-button" href="customer-onepager.html" target="_blank" rel="noopener noreferrer" aria-label="View customer one-pager (opens in a new tab)">View customer one-pager</a>
+      <a class="file-button" href="customer-onepager.pdf" download="Cowork-Credit-Forecasting-Customer-One-Pager.pdf">Download PDF</a>
+    </div>
   </header>
   <style>
     .which-tool{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 18px}
