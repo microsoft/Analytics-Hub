@@ -1,7 +1,38 @@
 {
-  "runAt": "2026-11-13T12:18:29.294Z",
+  "runAt": "2026-11-14T12:18:08.008Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "579980",
+      "title": "Dynamics 365 Business Central: Copilot and agents - Fill forms faster with Autofill - Auto paste",
+      "status": "In development",
+      "description": "<p>Save time entering information into Business Central with Auto paste. Building on Autofill, Auto paste uses AI to identify relevant information from text or HTML copied to your clipboard and map it to the appropriate fields on a Business Central page.</p>\n<p><strong>Benefits</strong></p>\n<p>Reduce manual data entry when bringing information from external sources into Business Central.<br>\nPopulate multiple relevant fields from copied content instead of copying and pasting individual values.<br>\nExtend AI-assisted data entry to more everyday Business Central workflows.</p>",
+      "created": "2026-11-13T23:01:18",
+      "modified": "2026-11-13T23:01:18",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Business Central",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "b1dc5fc1c56efa2e"
+    },
+    {
+      "id": "579977",
+      "title": "Microsoft Copilot (Microsoft 365): Discover and act on recommended lead and opportunity actions in Sales agent",
+      "status": "In development",
+      "description": "<p>Sellers can discover and act on lead and opportunity recommendations that are already prioritized for them in Sales agent. A single prioritized list helps sellers see what needs attention without monitoring each agent separately or prioritizing the actions themselves. Sellers can review each recommended action, understand its details and business context, and take action from the same experience.</p>\n<p>The initial release focuses on lead outreach actions from Sales qualification agent and opportunity risk actions from Sales opportunity agent. Sellers can discover leads that need outreach and opportunities that need attention, review the recommended next step and its context, and act to move customer conversations and opportunities forward.</p>\n<p>Recommended actions will be turned on by default. Additional agents, including custom agents, are a future direction and are not part of this initial release commitment.</p>",
+      "created": "2026-11-13T19:37:39",
+      "modified": "2026-11-13T19:37:39",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability"
+      ],
+      "descHash": "1cd417b4c3bb2489"
+    },
     {
       "id": "579897",
       "title": "Outlook: Copilot Chat Sheet UX Update for Mobile",
@@ -1962,7 +1993,7 @@
       "status": "In development",
       "description": "<p>Express face enrollment makes it easier for users to create a face profile in Teams by using their camera during eligible meetings, after they opt in. Once enrolled, users can be recognized in supported Teams Rooms experiences, helping identify who is in the room and improving downstream meeting experiences such as Copilot and recap. Admins can enable or disable the feature for their organization.</p>",
       "created": "2026-09-18T22:00:04",
-      "modified": "2026-10-14T23:01:02",
+      "modified": "2026-11-13T19:41:44",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -5881,9 +5912,9 @@
       "id": "508526",
       "title": "Microsoft Copilot (Microsoft 365): Microsoft 365 Copilot Search Supports SharePoint Online Custom Properties Search",
       "status": "In development",
-      "description": "Discover and find people through Microsoft 365 Copilot Search based on your company's custom profile properties from SharePoint Online.",
+      "description": "<p>Discover and find people through Microsoft 365 Copilot Search based on your company's custom profile properties from SharePoint Online.</p>",
       "created": "2026-02-06T00:00:51",
-      "modified": "2026-02-06T00:00:51",
+      "modified": "2026-11-13T19:41:44",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -6667,9 +6698,9 @@
       "id": "537269",
       "title": "Microsoft Teams: Express voice enrollment in Microsoft Teams",
       "status": "Launched",
-      "description": "<p>Express voice enrollment makes registering your voice in Teams fast and easy. Your profile enables features like voice isolation, speaker recognition, identification in a meeting room and transcripts, and enhanced meeting recaps and insights from Microsoft 365 Copilot. If you don’t yet have a voice profile, just go to the recognition tab in Teams settings and opt-in to enroll your voice simply by speaking during a meeting.&nbsp; Admins can enable or disable this feature.</p>",
+      "description": "<p>Express voice enrollment makes registering your voice in Teams fast and easy. Your profile enables features like voice isolation, speaker recognition, identification in a meeting room and transcripts, and enhanced meeting recaps and insights from Microsoft 365 Copilot. If you don’t yet have a voice profile, just go to the recognition tab in Teams settings and opt-in to enroll your voice from audio during your Teams meetings. Admins can enable or disable this feature.</p>",
       "created": "2025-12-11T00:00:03",
-      "modified": "2026-09-15T23:00:36",
+      "modified": "2026-11-13T19:41:44",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -6680,7 +6711,7 @@
         "General Availability",
         "Targeted Release"
       ],
-      "descHash": "2e84ff47a6f47b15"
+      "descHash": "67a324b664e6dda5"
     },
     {
       "id": "503571",
@@ -7333,22 +7364,6 @@
         "Preview"
       ],
       "descHash": "563cd4a681f4bb7a"
-    },
-    {
-      "id": "505436",
-      "title": "Microsoft Copilot (Microsoft 365): Knowledge templates support for ServiceNow Knowledge Connector",
-      "status": "Launched",
-      "description": "Earlier ServiceNow Knowledge connector did not support ingestion of content for articles created using templates in ServiceNow. But now ServiceNow Knowledge connector supports ingestion of knowledge articles based on out-of-the-box templates like FAQ, How to, What is, etc. & even custom templates used by the customers in their organization.",
-      "created": "2025-11-07T00:30:39",
-      "modified": "2026-01-14T00:00:47",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "da1ab1f381a53376"
     },
     {
       "id": "515144",
@@ -9641,25 +9656,6 @@
       "descHash": "4ab63396eddf42d0"
     },
     {
-      "id": "499421",
-      "title": "Microsoft Viva: Enhancement to Copilot studio agents report ",
-      "status": "Launched",
-      "description": "Following further review, this feature continues in development. We apologize for any inconvenience. Enhancement to Copilot studio agents report (Preview) 1. Addition of Weekly active user count 2. Report aggregation changed to weekly to main consistency with other reports\n",
-      "created": "2025-07-30T23:15:18",
-      "modified": "2026-01-14T00:00:47",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Desktop",
-        "Mac",
-        "Web",
-        "Microsoft Viva",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "5180ed5452418531"
-    },
-    {
       "id": "499153",
       "title": "Microsoft Copilot (Microsoft 365): Enhanced personalization with memory in Copilot",
       "status": "Rolling out",
@@ -10539,23 +10535,6 @@
         "General Availability"
       ],
       "descHash": "1e762a866bbd2ab8"
-    },
-    {
-      "id": "485733",
-      "title": "Microsoft Purview Information Protection: Doc library default labeling for SharePoint Online and Copilot",
-      "status": "Launched",
-      "description": "This new capability further integrates SharePoint Online with Purview sensitivity labeling. SharePoint Online document library owners can set a new type of default label on the library, which automatically applies that label to all unprotected Word, Excel, PowerPoint, and PDF files within the library. This simplifies labeling in bulk across document libraries in an organization, enriches DLP and Copilot with signal to allow admins to monitor and restrict access to this content, and enables inheritance of sensitivity labels to output artifacts in Copilot. #copilotcontrolsystem",
-      "created": "2025-04-23T16:15:28",
-      "modified": "2026-01-14T00:00:47",
-      "tags": [
-        "GCC High",
-        "DoD",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "Microsoft Purview",
-        "General Availability"
-      ],
-      "descHash": "51bc233be48f15a5"
     },
     {
       "id": "487848",
