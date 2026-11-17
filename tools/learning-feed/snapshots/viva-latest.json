@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-14T12:18:24.942Z",
+  "runAt": "2026-11-17T12:18:32.774Z",
   "feed": "viva",
   "windowStart": "2026-07-01",
   "pages": [
@@ -3064,11 +3064,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2025-01-31T00:00:00Z",
-      "gitCommit": "ad914cbc08cb51dfc25ae4109b4bf1e35a767d75",
-      "wordCount": "731",
-      "bodyHash": "cd8b484ff02a5e30",
-      "bodyLen": 6121,
+      "msDate": "2026-11-17T00:00:00Z",
+      "gitCommit": "8b5570491f968b83dc05850619e794f186ae81b7",
+      "wordCount": "776",
+      "bodyHash": "37a3a41386fd1460",
+      "bodyLen": 6469,
       "sections": [
         "How does it work on the backend?",
         "What data does Copilot use to generate its responses?",
@@ -3079,7 +3079,7 @@
         "What operational factors and settings allow for effective and responsible use of Copilot in Insights?",
         "What safeguards does Copilot provide to address potentially offensive questions or responses or otherwise sensitive information?"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "viva-insights-get-insights-support",
@@ -3288,13 +3288,14 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-07-15T00:00:00Z",
-      "gitCommit": "ad914cbc08cb51dfc25ae4109b4bf1e35a767d75",
-      "wordCount": "2848",
-      "bodyHash": "3f4903d2cf8a79f8",
-      "bodyLen": 20257,
+      "gitCommit": "8b5570491f968b83dc05850619e794f186ae81b7",
+      "wordCount": "2998",
+      "bodyHash": "aab409fc9392e853",
+      "bodyLen": 21310,
       "sections": [
         "Key differences between week-level and day-level exports",
         "Admin management",
+        "User-level export and insights",
         "How to export data",
         "Example week-level export",
         "Metrics included in the exported data",

@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-14T12:16:49.647Z",
+  "runAt": "2026-11-17T12:16:35.767Z",
   "feed": "copilotstudio",
   "windowStart": "2026-07-01",
   "pages": [
@@ -119,10 +119,10 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-09-24T00:00:00Z",
-      "gitCommit": "ba8f0d911376c8d34a74d6cc45d606f3198cc733",
-      "wordCount": "1069",
-      "bodyHash": "8adf70ef4607a509",
-      "bodyLen": 9080,
+      "gitCommit": "35d617643a88374429181d335fac6aa036e61e60",
+      "wordCount": "1074",
+      "bodyHash": "16c48de6e23acc31",
+      "bodyLen": 9106,
       "sections": [
         "Security and governance controls",
         "Security Development Lifecycle",
@@ -142,10 +142,10 @@
       "discovered": false,
       "isNew": false,
       "msDate": "2026-10-01T00:00:00Z",
-      "gitCommit": "20e73bf89031b22ecfa6ea3bd2b50bd808ce4bdc",
-      "wordCount": "2682",
-      "bodyHash": "1dba34d1812d5cbf",
-      "bodyLen": 18615,
+      "gitCommit": "efe04c80a37e49f8ea1aa854ce6203339d08bb3b",
+      "wordCount": "2784",
+      "bodyHash": "9b767fa65a82b4eb",
+      "bodyLen": 19257,
       "sections": [
         "Copilot Studio connectors and data groups",
         "Common data policy use cases for Copilot Studio agents",
@@ -285,16 +285,16 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-04-06T00:00:00Z",
-      "gitCommit": "91288c6df16fa0c22b512b3150eac743906c38ef",
-      "wordCount": "348",
-      "bodyHash": "1a22b79a3d89d393",
-      "bodyLen": 3882,
+      "msDate": "2026-11-16T00:00:00Z",
+      "gitCommit": "b891a07d99cc69b0ae7ee5f85e1b22cb32a618a3",
+      "wordCount": "378",
+      "bodyHash": "e95af2fd5aa47cb3",
+      "bodyLen": 4069,
       "sections": [
         "API operations for agent deletion",
         "Delete agent"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "microsoft-copilot-studio-admin-api-quarantine",
@@ -328,10 +328,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-09-11T00:00:00Z",
-      "gitCommit": "91288c6df16fa0c22b512b3150eac743906c38ef",
-      "wordCount": "489",
-      "bodyHash": "bc8a1585f12a4185",
-      "bodyLen": 4725,
+      "gitCommit": "efe04c80a37e49f8ea1aa854ce6203339d08bb3b",
+      "wordCount": "511",
+      "bodyHash": "31950b3c12607024",
+      "bodyLen": 4861,
       "sections": [
         "API operations for reassigning agent ownership",
         "Reassign an agent ownership to a new owner"
@@ -541,10 +541,10 @@
       "discovered": true,
       "isNew": false,
       "msDate": "2026-11-04T00:00:00Z",
-      "gitCommit": "a9c6d205850f9bf60ba8d820e5d8343a31a58d2e",
-      "wordCount": "1078",
-      "bodyHash": "ec09bae7c70f2244",
-      "bodyLen": 8316,
+      "gitCommit": "efe04c80a37e49f8ea1aa854ce6203339d08bb3b",
+      "wordCount": "1107",
+      "bodyHash": "733c41ff24fd4cdb",
+      "bodyLen": 8549,
       "sections": [
         "Use the Editor and Viewer roles to control sharing",
         "Control sharing of agents that use maker-provided credentials",
