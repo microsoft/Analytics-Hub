@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-17T12:16:27.293Z",
+  "runAt": "2026-11-18T12:16:21.845Z",
   "feed": "compliance",
   "windowStart": "2026-07-01",
   "pages": [
@@ -37,17 +37,17 @@
       "ok": true,
       "discovered": false,
       "isNew": false,
-      "msDate": "2026-04-29T00:00:00Z",
-      "gitCommit": "ab0c13d9c24dab81672b1c34ef6eb7b3aed803e4",
-      "wordCount": "628",
-      "bodyHash": "76dfd379bb92d7fc",
-      "bodyLen": 5890,
+      "msDate": "2026-11-16T00:00:00Z",
+      "gitCommit": "708fe087cd4b9b9bf9524bfa6d19906cf2f7a06e",
+      "wordCount": "643",
+      "bodyHash": "b22369b4f419a49f",
+      "bodyLen": 6001,
       "sections": [
         "Data locations",
         "Customer data",
         "Related information"
       ],
-      "inWindow": false
+      "inWindow": true
     },
     {
       "id": "m365-copilot-privacy",
@@ -460,9 +460,9 @@
       "isNew": false,
       "msDate": "2026-05-18T00:00:00Z",
       "gitCommit": "777f84fbedeb0995f4fdea6c65bee2f2a4af1657",
-      "wordCount": "2800",
-      "bodyHash": "a17921b952dadbee",
-      "bodyLen": 19806,
+      "wordCount": "2910",
+      "bodyHash": "1d00747bd6ea9a90",
+      "bodyLen": 20537,
       "sections": [
         "What data does Foundry process to provide Models sold by Azure?",
         "How does Foundry process data to provide Models sold by Azure?",
@@ -472,6 +472,7 @@
         "Data storage for Models sold by Azure features",
         "Encryption of content stored by the Responses API",
         "Preventing abuse",
+        "What’s changing with Modified Abuse Monitoring",
         "Preventing harmful content generation",
         "How can a customer verify if data storage for abuse monitoring is off?",
         "Change log",

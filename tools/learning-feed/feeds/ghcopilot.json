@@ -17,6 +17,7 @@
     "includeExact": ["billing", "premium", "/plans", "usage", "entitlement", "quota", "allowance", "overage", "budget", "spending", "seat", "license", "requests", "cost"]
   },
   "docs": [
+    { "id": "https-docs-github-com-en-copilot-reference-copilot-usage-metrics-repository-insi", "tier": 1, "title": "Repository insights metrics", "url": "https://docs.github.com/en/copilot/reference/copilot-usage-metrics/repository-insights-metrics", "why": "Defines repository-level code review coverage, addressed-feedback rates, and interpretation limits for Copilot review outcomes." },
     { "id": "premium-requests", "tier": 1, "title": "About premium requests", "url": "https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests", "why": "Defines premium requests and the per-model multipliers \u2014 the unit that drives GitHub Copilot overage cost." },
     { "id": "billing-copilot", "tier": 1, "title": "About billing for GitHub Copilot", "url": "https://docs.github.com/en/billing/managing-billing-for-your-products/about-billing-for-github-copilot", "why": "How GitHub Copilot is billed, allowances, and overage handling." },
     { "id": "plans-copilot", "tier": 1, "title": "Plans for GitHub Copilot", "url": "https://docs.github.com/en/copilot/about-github-copilot/plans-for-github-copilot", "why": "Plan tiers and what each includes \u2014 the seat-level price and entitlement surface." },

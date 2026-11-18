@@ -1,7 +1,211 @@
 {
-  "runAt": "2026-11-17T12:18:10.775Z",
+  "runAt": "2026-11-18T12:18:15.141Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "580449",
+      "title": "Microsoft Copilot (Microsoft 365): Use Copilot to make on canvas edits on Pages",
+      "status": "In development",
+      "description": "<p>Bring Copilot into the flow of collaboration on your Page, not just the chat box. Leave comments on your Page to ask Copilot questions or request targeted edits directly, and have people and Copilot work across the Page while seeing their presence and changes</p>",
+      "created": "2026-11-17T22:45:29",
+      "modified": "2026-11-17T22:45:29",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "72cd57625d6b4b18"
+    },
+    {
+      "id": "580445",
+      "title": "Microsoft Copilot (Microsoft 365): Build interactive reports and dashboards with Pages",
+      "status": "In development",
+      "description": "<p>Turn ideas and source material into rich, interactive reports and dashboards with Pages. Start with a prompt and bring together content, visuals, charts, and interactive elements in one shareable Page where you can work with your collaborators and agents. Edit content on the Page directly just like any other Microsoft 365 file.</p>",
+      "created": "2026-11-17T22:45:29",
+      "modified": "2026-11-17T22:45:29",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "d3cfbade931d5372"
+    },
+    {
+      "id": "577829",
+      "title": "Microsoft Copilot (Microsoft 365): Service Agent in Microsoft 365 - your dedicated service specialist ",
+      "status": "In development",
+      "description": "<p>•\tRapid onboarding to a hybrid workforce:Service Agent in Microsoft 365 can be hired and onboard with your company's knowledge sources, communication guidelines and escalation rules etc. in minutes. Manager can choose the semi or full autonomous mode.<br>\n•\t24/7 support: Natively connects to Microsoft 365 ecosystem, accessing real-time data, documents, CRM records and thousands of knowledge connectors. Handles customer inquiries 24/7 with consistent quality and context, improving resolution rates and customer satisfaction over time.<br>\n•\tSecure and Compliant: Built from A365 platform and natively leverage WorkIQ, Service Agent in Microsoft 365 has both the intelligence of customer’s enterprise knowledge and enterprise-grade identity, be secure and compliant.<br>\n•\tAgent observability - full transparency and visibility: Managers can monitor the Service Agent's activities and drill through to see the reasoning (why it answers in this way); they can also see the performance metrics.<br>\n•\tCRM agnostic: CRM is not a prerequisite to use Service Agent in Microsoft 365. We treat CRMs as tools; customers can choose to connect to their CRMs to create a ticket or other operations.<br>\n•\tExtensibility: Service Agent can connect to various MCP tools and you are also allowed to create custom skills and capabilities rather than just use the out of box ones.</p>",
+      "created": "2026-11-17T22:45:29",
+      "modified": "2026-11-17T22:45:29",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "ff33806fceb65b4a"
+    },
+    {
+      "id": "577396",
+      "title": "Dynamics 365 Contact Center: Use after conversation presence status for wrap-up activities",
+      "status": "Rolling out",
+      "description": "<p>After conversation work presence is a system-generated status that's automatically set when a customer service representative is finishing tasks after a customer interaction, such as writing notes, updating records, selecting dispositions, or completing follow-up actions.</p>\n<p>Instead of showing the representative as Busy or Do Not Disturb (DND), the system displays one of the following dedicated statuses:</p>\n<ul>\n<li>Busy – After Conversation Work</li>\n<li>DND – After Conversation Work</li>\n</ul>\n<p>The system automatically sets the status based on the administrator configuration for the workstream in Copilot Service admin center.</p>\n<ul>\n<li><strong>Always block</strong>: Representatives remain unavailable until they close the session.</li>\n<li><strong>Custom time</strong>: Representatives remain unavailable for a configured time period.</li>\n<li><strong>Don't block</strong>: No routing restrictions during wrap-up.</li>\n</ul>\n<p>The representative can't change the status.</p>\n<p>After the feature is enabled, supervisors can view and filter representatives based on the after conversation work presence statuses.</p>",
+      "created": "2026-11-17T22:45:29",
+      "modified": "2026-11-17T22:45:29",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Contact Center",
+        "General Availability"
+      ],
+      "descHash": "1ee5a5aac88a45cd"
+    },
+    {
+      "id": "580440",
+      "title": "Dynamics 365 Sales: Plan accounts from Microsoft 365 Copilot Cowork with Sales Research Agent",
+      "status": "In development",
+      "description": "<p>Sellers can draft, review, and work their Dynamics 365 Sales account plans from Cowork. Sales Research Agent brings the same account-planning experience - objectives, targets, actions, and gaps grounded in CRM data - into the place sellers already work, and changes are saved to the plan in Dynamics 365 Sales.</p>",
+      "created": "2026-11-17T20:22:13",
+      "modified": "2026-11-17T20:22:13",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Dynamics 365 Sales",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "b8789ce13e0870fc"
+    },
+    {
+      "id": "580869",
+      "title": "Microsoft Copilot (Microsoft 365): Copilot Workspaces - Updated workspace memory",
+      "status": "In development",
+      "description": "<p>With Work IQ, Copilot can now retain useful context from how you work in a workspace so future responses are more relevant, consistent, and personalized. Copilot can use saved memory such as workspace details, working preferences, and recurring instructions to reduce repeated setup and help you continue work more efficiently across workspace sessions.</p>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Desktop",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "4535fb1f42fc94a9"
+    },
+    {
+      "id": "579979",
+      "title": "Power Apps: Build model-driven apps with Copilot Cowork",
+      "status": "In development",
+      "description": "<p>Information workers can now use model-app-builder skill in Copilot Cowork to create and refine model-driven apps from natural-language requirements. Cowork turns a business scenario into an app specification and build plan for review before creating the model-driven app and its supporting Power Apps and Microsoft Dataverse artifacts. By handling repetitive artifact creation, makers can move from an idea to a working app fast and spend more time refining the app's design and business experience. Makers can continue iterating through conversation in Cowork or open the generated artifacts in Power Apps for direct customization.</p>\n<h2>Availability</h2>\n<table>\n<thead>\n<tr>\n<th>Field</th>\n<th>Value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Release Channel</td>\n<td>Not applicable</td>\n</tr>\n<tr>\n<td>Applies to</td>\n<td>Model-driven apps</td>\n</tr>\n<tr>\n<td>Feature Scope</td>\n<td>Admins or makers</td>\n</tr>\n</tbody>\n</table>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Power Apps",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "0c178dd50ed9f133"
+    },
+    {
+      "id": "579905",
+      "title": "Microsoft Copilot (Microsoft 365): AI and Copilot Upskilling Nudges in Microsoft Teams by Learning Agent",
+      "status": "In development",
+      "description": "<p>Learning Agent proactively delivers personalized AI and Copilot upskilling notifications through Microsoft Teams, helping users discover relevant learning opportunities in their flow of work. These notifications are tailored to users' roles, Copilot adoption stages, and usage patterns, guiding them toward practical scenarios and skills they can apply in everyday tasks.</p>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "bd03b24fb816a2a3"
+    },
+    {
+      "id": "579889",
+      "title": "Microsoft Copilot (Microsoft 365): Copilot Workspaces updates",
+      "status": "In development",
+      "description": "<p>With new Copilot Workspaces updates, Work IQ can suggest relevant workspaces based on current workstreams to help people get started quickly. Once in a workspace, team members can work together on shared documents while Copilot connects the dots across the work, surfacing what changed, what remains unresolved, and which actions need attention so everyone can quickly catch up and keep the work moving.</p>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Desktop",
+        "Mobile",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "f241a2e2a10014b1"
+    },
+    {
+      "id": "577548",
+      "title": "Microsoft Copilot (Microsoft 365): Agent 365 Business Analytics experience",
+      "status": "In development",
+      "description": "<p>Agent 365 Business Analytics brings AI spend, usage, and value together in one place, helping leaders understand where AI investment is going, what value it’s delivering, and where to invest next. Explore cost across services, models, agents, and users, understand the business use cases AI supports and the value it creates, and forecast future spend to make more informed investment decisions.</p>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "GCC",
+        "GCC High",
+        "DoD",
+        "Web",
+        "Microsoft Viva",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "9eeae4d23d225a61"
+    },
+    {
+      "id": "571887",
+      "title": "Microsoft Copilot (Microsoft 365): Copilot Code",
+      "status": "In development",
+      "description": "<p>Copilot Code is a new AI-powered coding experience in Microsoft Copilot that helps people turn ideas into working software, starting from the work they already do and building through natural language, grounded in their work by Work IQ. Projects can be published as managed apps on Copilot Managed Runtime with IT in control, and can optionally extend when connected to GitHub repositories and pull requests for review and further development.</p>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Android",
+        "Desktop",
+        "iOS",
+        "Mac",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "3efa5036bdd7d361"
+    },
+    {
+      "id": "571885",
+      "title": "Word: legal plugin",
+      "status": "In development",
+      "description": "<p>Understand, summarize, edit, review and draft legal documents with Copilot in Word.</p>",
+      "created": "2026-11-17T18:36:41",
+      "modified": "2026-11-17T18:36:41",
+      "tags": [
+        "GCC",
+        "Desktop",
+        "Word",
+        "Microsoft Copilot (Microsoft 365)",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "4d5e79d022f91f1f"
+    },
     {
       "id": "579980",
       "title": "Dynamics 365 Business Central: Copilot and agents - Fill forms faster with Autofill - Auto paste",
@@ -271,10 +475,10 @@
     {
       "id": "577841",
       "title": "Microsoft Copilot (Microsoft 365): Copilot app mode handoffs",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>The Chat experience in the Copilot app will suggest a better-fit mode based on the user's prompt, if applicable. For example, it will suggest Cowork or other supported modes as they become available. Users will see a suggestion card after they send a prompt in Chat, with an explanation of the better-fit mode and an option for the user to switch to the suggested mode. Their chat conversation will be attached to the prompt in the new mode to maintain context.</p>",
       "created": "2026-10-27T23:05:02",
-      "modified": "2026-10-27T23:05:02",
+      "modified": "2026-11-17T18:36:41",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -2833,10 +3037,10 @@
     {
       "id": "567007",
       "title": "Outlook: New Copilot entry point in Classic Outlook",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>We've introduced a new experience for Copilot in the apps—a consistent entry point across apps that sits above your work and understands the context beneath it. Rather than scattering touchpoints across the interface, it anchors Copilot as one connected system across Microsoft 365, surfacing relevant actions that help you stay in flow. With this release, we are rolling out this new experience - already available across other Outlook endpoints, as well as in Word, Excel and PowerPoint - to classic Outlook.</p>",
       "created": "2026-07-22T22:41:54",
-      "modified": "2026-10-27T23:05:02",
+      "modified": "2026-11-17T18:36:41",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",

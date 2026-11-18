@@ -1,0 +1,170 @@
+# Copilot Admin Control & Governance Watch - 2026-11-18
+
+Run: 2026-11-18T12:17:24.764Z
+
+Discovery limitation: both Copilot documentation TOCs returned HTTP 404. Previously discovered URLs were retained to preserve watched coverage; discovery of new pages in those trees was not verified. The management-controls page returned HTTP 404 and was not re-verified.
+
+**78 change(s) detected.** 58 pages verified, 19 updated within window (since 2026-07-01). ⚠ 1 page(s) could not be fetched today; their last known-good snapshot was carried forward (not re-verified).
+
+
+## CRITICAL
+
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Scope and tuning entry points"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Enable Frontier Tuning"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Confirm eligibility and roles"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Configure a spending policy"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Manage tuning environment access"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Assign responsibilities and access"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Understand access changes"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Govern published agents and skills"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review published agents"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review published skills"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review tenant-wide agent settings"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Govern tuning environment containers"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Identify the container and review access"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Understand persisted content"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review protection and lifecycle"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Apply Microsoft Purview controls"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review posture and activity"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Protect and retain supported content"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Assess security and privacy"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Check data and tool permissions"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Preserve decision and version evidence"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review telemetry and improvement signals"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Plan removal and residency"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Monitor usage, quality, and costs"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Separate cost categories"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Record assumptions before you approve spend"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Contain and retire environments and published assets"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Existing Copilot Tuning and Agent Builder guidance — applicability pending"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data handling during tuning"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Snapshot behavior and retraining considerations"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data residency"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data residency scope and limitations"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "GDPR and data subject rights"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "GDPR, data subject rights, and DPIA considerations"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data protection impact assessments"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Microsoft access to customer data"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Scope and tuning entry points"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Enable Frontier Tuning"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Confirm eligibility and roles"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Configure a spending policy"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Manage tuning environment access"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Assign responsibilities and access"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Understand access changes"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Govern published agents and skills"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review published agents"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review published skills"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review tenant-wide agent settings"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Govern tuning environment containers"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Identify the container and review access"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Understand persisted content"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review protection and lifecycle"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Apply Microsoft Purview controls"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review posture and activity"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Protect and retain supported content"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Assess security and privacy"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Check data and tool permissions"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Preserve decision and version evidence"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Review telemetry and improvement signals"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Plan removal and residency"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Monitor usage, quality, and costs"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Separate cost categories"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Record assumptions before you approve spend"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Contain and retire environments and published assets"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION ADDED: "Existing Copilot Tuning and Agent Builder guidance — applicability pending"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data handling during tuning"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Snapshot behavior and retraining considerations"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data residency"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data residency scope and limitations"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "GDPR and data subject rights"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "GDPR, data subject rights, and DPIA considerations"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Data protection impact assessments"
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - SECTION REMOVED: "Microsoft access to customer data"
+
+## MAJOR
+
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - ms.date changed: 2026-04-13T00:00:00Z -> 2026-11-14T00:00:00Z
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - git commit changed: d269127e -> 7adb7a79
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-tuning-admin-guide))
+  - Body changed (+20481 chars)
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - ms.date changed: 2026-04-13T00:00:00Z -> 2026-11-14T00:00:00Z
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - git commit changed: d269127e -> 7adb7a79
+- **Copilot Tuning Admin Guide** ([link](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-tuning-admin-guide))
+  - Body changed (+20481 chars)
