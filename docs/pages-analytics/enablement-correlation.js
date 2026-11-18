@@ -20,6 +20,8 @@ const REPORTS = [
   { key: "m365-usage-analytics", label: "M365 Usage Analytics", needles: ["/m365-usage-analytics"], type: "Power BI", guideKey: "m365-usage-analytics" },
   { key: "cowork-chargeback", label: "Cowork Chargeback", needles: ["/cowork-chargeback"], type: "Power BI", guideKey: "cowork-chargeback" },
   { key: "cowork-team-report", label: "Cowork Team Report", needles: ["/cowork-team-report"], type: "Power BI", guideKey: "cowork-team-report" },
+  { key: "cowork-super-user", label: "Cowork Super User", needles: ["/cowork-super-user", "=cowork-super-user"], type: "Power BI", guideKey: "cowork-super-user" },
+  { key: "cowork-credit-forecasting", label: "Cowork Credit Forecasting", needles: ["/cowork-credit-forecasting", "=cowork-credit-forecasting"], type: "Web app", guideKey: "cowork-credit-forecasting" },
   { key: "finops-cowork", label: "FinOps and FOCUS", needles: ["/finops-cowork"], type: "Power BI", guideKey: "finops-cowork" },
   { key: "copilot-roi-calculator", label: "Copilot ROI Calculator", needles: ["/tools/copilot-roi-calculator"], type: "Web app", guideKey: "copilot-roi-calculator" },
   { key: "what-cowork-did-for-me", label: "What Cowork Did For Me", needles: ["/what-cowork-did-for-me"], type: "Web app", guideKey: "what-cowork-did-for-me" },

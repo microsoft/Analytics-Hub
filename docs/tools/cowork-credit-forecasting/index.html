@@ -17,6 +17,18 @@
     document.documentElement.setAttribute("data-theme", theme);
   })();
   </script>
+  <script>
+    if (location.protocol === "https:" && location.hostname === "microsoft.github.io") {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,"clarity","script","wxb0r23ozh");
+      window.clarity("set", "page", "Cowork Credit Forecasting");
+    }
+  </script>
+  <meta name="clarity-page" content="Cowork Credit Forecasting">
+  <script src="../../consent.js?v=1" defer></script>
   <style>
 @font-face {
   font-family: "Newsreader";
@@ -272,7 +284,7 @@ details > div { margin-top: 16px; }
   .forecast-tooltip li + li { margin-top: 4px; }
   </style>
 </head>
-<body>
+<body data-clarity-mask="true">
 <main class="shell">
   <div class="topline"><div class="brand"><span class="brand-mark"></span>CREDIT FORECASTING</div><div class="topline-actions"><a href="../">Analytics Hub tools</a><button type="button" id="theme-toggle" aria-label="Switch color theme">Dark mode</button></div></div>
   <header class="page-hero">
@@ -362,7 +374,7 @@ details > div { margin-top: 16px; }
     <div><div class="eyebrow">Plan with clarity</div><h1>From rollout to runway.</h1><p>Explore how adoption, usage and a shared prepaid allocation shape a phased credit budget. Compare a saved baseline with an editable alternative.</p></div>
     <span class="badge">Illustrative planning model</span>
   </header>
-  <div class="notice"><p><strong>Synthetic illustrative data only.</strong> No live Power BI connection. User-entered and imported data stays in this browser session; nothing is stored or sent by this page.</p><p>Estimated costs depend on assumptions and are not commitments. Do not enter sensitive information in a public or shared environment.</p></div>
+  <div class="notice"><p><strong>Synthetic illustrative data only.</strong> No live Power BI connection. User-entered and imported data stays in this browser session. Site usage analytics are collected with page content masked; manage your choice through the Privacy notice.</p><p>Estimated costs depend on assumptions and are not commitments. Do not enter sensitive information in a public or shared environment.</p></div>
   <div id="errors" class="error hidden" role="alert"></div>
   <section aria-labelledby="overview-title">
     <div class="section-head"><div><div class="eyebrow">01 / Decision overview</div><h2 id="overview-title">Two scenarios, one decision</h2><p class="subtle">Forecast-only totals across each scenario’s full horizon. Actuals are never blended into these totals.</p></div><div class="actions"><button id="snapshot" class="primary" type="button">Save alternative as baseline</button><button id="restore" type="button">Restore baseline to alternative</button></div></div>
@@ -402,7 +414,7 @@ details > div { margin-top: 16px; }
   <p id="manual-forecast-confirm-description">This replaces your current scheduled forecast, saved comparison, actuals and decision note. Your uploaded data and earlier phased model stay available. Export your current forecast first if you want to keep it.</p>
   <div class="actions"><button type="button" id="manual-forecast-cancel">Keep current plan</button><button type="button" class="primary" id="manual-forecast-confirm-start">Start new forecast</button></div>
 </dialog>
-  <footer class="foot">Your files and inputs stay in this browser session; nothing is uploaded. Exports can contain your inputs, so review them before sharing. <a href="forecast-assets/THIRD-PARTY-NOTICES.txt">Third-party notices</a></footer>
+  <footer class="foot site-footer">Your files and inputs stay in this browser session. Site usage analytics are collected with page content masked; manage your choice through the Privacy notice. Exports can contain your inputs, so review them before sharing. <a href="forecast-assets/THIRD-PARTY-NOTICES.txt">Third-party notices</a></footer>
 </main>
 <script>
   document.getElementById("theme-toggle").addEventListener("click", function () {

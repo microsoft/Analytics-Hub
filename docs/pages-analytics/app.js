@@ -213,6 +213,8 @@ function aggregateClarity(site, days) {
 // list the more-specific patterns before broader ones.
 const SUB_APP_FAMILIES = [
   { label: "Copilot ROI Calculator", needle: "tools/copilot-roi-calculator" },
+  { label: "Cowork Super User",     needle: "cowork-super-user" },
+  { label: "Cowork Credit Forecasting", needle: "cowork-credit-forecasting" },
   { label: "Cowork Chargeback",    needle: "cowork-chargeback" },
   { label: "Cowork Policy Helper", needle: "cowork-policy-helper" },
   { label: "Cowork Usage Tracker", needle: "cowork-usage-tracker" },
@@ -2121,8 +2123,8 @@ function renderSubAppRankings(sites) {
   const rows = families.map(fam => `
     <tr>
       <td>${fam.label}</td>
-      <td class="num">${fmt(fam.sessions)}</td>
-      <td class="num">${fmt(fam.pageViews)}</td>
+      <td class="num">${fam.urls.length ? fmt(fam.sessions) : "—"}</td>
+      <td class="num">${fam.urls.length ? fmt(fam.pageViews) : "—"}</td>
       <td class="num">${fam.urls.length}</td>
     </tr>
   `).join("");
