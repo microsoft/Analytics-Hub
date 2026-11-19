@@ -1,7 +1,23 @@
 {
-  "runAt": "2026-11-18T12:18:15.141Z",
+  "runAt": "2026-11-19T12:18:09.236Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "579968",
+      "title": "Microsoft Copilot Studio: PPAC Reporting API",
+      "status": "In development",
+      "description": "<p>The PPAC Reporting API gives customers scalable, programmatic access to Copilot Studio usage data from our lakehouse, replacing older unsupported methods for pulling consumption data. Daily JSON data by environment, user, agent and feature powers dashboards, FinOps reporting and automated cost controls.</p>",
+      "created": "2026-11-18T18:32:08",
+      "modified": "2026-11-18T18:32:08",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "31f969b52908005a"
+    },
     {
       "id": "580449",
       "title": "Microsoft Copilot (Microsoft 365): Use Copilot to make on canvas edits on Pages",
@@ -137,7 +153,7 @@
       "status": "In development",
       "description": "<p>With new Copilot Workspaces updates, Work IQ can suggest relevant workspaces based on current workstreams to help people get started quickly. Once in a workspace, team members can work together on shared documents while Copilot connects the dots across the work, surfacing what changed, what remains unresolved, and which actions need attention so everyone can quickly catch up and keep the work moving.</p>",
       "created": "2026-11-17T18:36:41",
-      "modified": "2026-11-17T18:36:41",
+      "modified": "2026-11-19T00:53:06",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -824,7 +840,7 @@
       "status": "In development",
       "description": "<p>Teams Meetings offer enhanced AI controls for Copilot and AI experiences. Organizers manage who can enable and access AI, while IT admins get a simpler policy model for governing AI across meetings and post-meeting experiences. These updates provide more predictable administration and greater flexibility for compliance and governance scenarios.</p>",
       "created": "2026-10-22T22:58:40",
-      "modified": "2026-11-04T00:02:09",
+      "modified": "2026-11-19T00:53:06",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -841,10 +857,10 @@
     {
       "id": "577173",
       "title": "Microsoft 365: [Education] Provide a Copilot starter prompt in Teams and LMS Assignments",
-      "status": "In development",
+      "status": "Rolling out",
       "description": "<p>Educators can provide a Copilot starter prompt from Student AI Guidelines in Teams and LMS Assignments. Students open Copilot with the educator's prompt ready in their chat, helping them begin with instructions tailored to the assignment.</p>",
       "created": "2026-10-22T22:58:40",
-      "modified": "2026-10-22T22:58:40",
+      "modified": "2026-11-19T00:53:06",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -9230,24 +9246,6 @@
       "descHash": "3de948acf0033d6c"
     },
     {
-      "id": "501451",
-      "title": "Microsoft Copilot (Microsoft 365): Copilot in SharePoint",
-      "status": "Launched",
-      "description": "<p>Simplifies SharePoint content management and ensures content is Copilot-ready by automating metadata, fixing stale content, enabling fast page creation, improving compliance, and enriching content so Copilot can deliver more accurate, grounded answers. Updated April 16: We are still in development for GA and have launched to Preview only.</p>",
-      "created": "2025-09-18T16:15:27",
-      "modified": "2026-11-11T00:53:22",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "SharePoint",
-        "SharePoint Syntex",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability",
-        "Preview"
-      ],
-      "descHash": "2cc64a3d47136cd1"
-    },
-    {
       "id": "499898",
       "title": "Microsoft Copilot (Microsoft 365): Viva Engage - Community Agent",
       "status": "In development",
@@ -11701,18 +11699,18 @@
     },
     {
       "id": "420335",
-      "title": "Microsoft Edge: Rewrite by Copilot in Edge is being upgraded to include enterprise data protection compliance standards",
+      "title": "Microsoft Edge: Writing Assistance with Copilot in Edge is being upgraded to include enterprise data protection compliance standards",
       "status": "In development",
-      "description": "<p>Rewrite by Copilot in Edge, which lets users edit typed text for tone, format, and length within an open page in Microsoft Edge, is being updated to include enterprise data protection for commercial customers. Once Rewrite is available, users signed in with a Microsoft Entra ID will have enterprise data protection when using the feature in Microsoft Edge. Updated March 20, 2026: We have paused release of this feature temporarily and will announce new release timelines soon. We apologize for any inconvenience.</p>",
+      "description": "<p>Writing Assistance with Copilot in Edge, which lets users edit typed text for tone, format, and length within an open page in Microsoft Edge, is being updated to include enterprise data protection for commercial customers. Once Writing Assistance is available, users signed in with a Microsoft Entra ID will have enterprise data protection when using the feature in Microsoft Edge.</p>",
       "created": "2024-10-03T23:30:37",
-      "modified": "2026-11-11T00:53:22",
+      "modified": "2026-11-19T00:53:06",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
         "Microsoft Edge",
         "General Availability"
       ],
-      "descHash": "a27243af58ebefa8"
+      "descHash": "af35b129770284e2"
     },
     {
       "id": "396287",

@@ -1,8 +1,55 @@
 {
-  "runAt": "2026-11-18T12:16:29.700Z",
+  "runAt": "2026-11-19T12:16:37.024Z",
   "feed": "copilotstudio",
   "windowStart": "2026-07-01",
   "pages": [
+    {
+      "id": "microsoft-copilot-studio-agents-experience-data-location-customer-conversation",
+      "tier": 2,
+      "title": "Data locations (Customer Conversation)",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/data-location-customer-conversation",
+      "why": "Documents supported Customer Conversation geographies and applicable customer data-location policies.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-11-16T00:00:00Z",
+      "gitCommit": "708fe087cd4b9b9bf9524bfa6d19906cf2f7a06e",
+      "wordCount": "168",
+      "bodyHash": "a3b2082e4bada030",
+      "bodyLen": 2676,
+      "sections": [
+        "Supported geographies",
+        "Customer data locations",
+        "Contact Center Intelligence availability",
+        "Related information"
+      ],
+      "inWindow": true
+    },
+    {
+      "id": "microsoft-copilot-studio-geo-data-residency-build-apps",
+      "tier": 1,
+      "title": "Data residency when building apps in Copilot Studio",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/geo-data-residency-build-apps",
+      "why": "Explains how maker profile and tenant settings determine app-building data geography, which can differ from environment geography.",
+      "ok": true,
+      "discovered": false,
+      "isNew": false,
+      "msDate": "2026-11-17T00:00:00Z",
+      "gitCommit": "12a46c4e93f2a08fa42084d2f13442a05b5c67e4",
+      "wordCount": "998",
+      "bodyHash": "acf69c76751db26a",
+      "bodyLen": 7897,
+      "sections": [
+        "How the app building geography is determined",
+        "EU Data Boundary customers",
+        "Check and update settings",
+        "Set a user's preferred data location with PowerShell",
+        "Set a user's Country or region with PowerShell",
+        "Review makers' Country or region values",
+        "Related information"
+      ],
+      "inWindow": true
+    },
     {
       "id": "analytics-overview",
       "tier": 1,
@@ -612,11 +659,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-10-12T00:00:00Z",
-      "gitCommit": "1e58d09d0bd829430ba682946c22d1c997972e9a",
-      "wordCount": "787",
-      "bodyHash": "866b082e6fa1280a",
-      "bodyLen": 6279,
+      "msDate": "2026-11-02T00:00:00Z",
+      "gitCommit": "01656af155d3e0a9d29eac85f16284ee62166b34",
+      "wordCount": "856",
+      "bodyHash": "13031442c6a2b9f6",
+      "bodyLen": 6690,
       "sections": [
         "Start a new evaluation",
         "Option 1: Upload conversations from a CSV file",
@@ -638,11 +685,11 @@
       "ok": true,
       "discovered": true,
       "isNew": false,
-      "msDate": "2026-10-05T00:00:00Z",
-      "gitCommit": "c19a540a9fd859818c1e373251135ee04c52f0a9",
-      "wordCount": "572",
-      "bodyHash": "6d85b5c4b3d53b36",
-      "bodyLen": 5131,
+      "msDate": "2026-11-09T00:00:00Z",
+      "gitCommit": "01656af155d3e0a9d29eac85f16284ee62166b34",
+      "wordCount": "816",
+      "bodyHash": "9e3788cc802de783",
+      "bodyLen": 6644,
       "sections": [
         "What is agent evaluation?",
         "Key concepts",
@@ -727,28 +774,6 @@
         "Error monitoring",
         "Download session transcripts",
         "Review sessions",
-        "Related information"
-      ],
-      "inWindow": true
-    },
-    {
-      "id": "microsoft-copilot-studio-agents-experience-data-location-customer-conversation",
-      "tier": 3,
-      "title": "Data Location Customer Conversation",
-      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/data-location-customer-conversation",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-11-16T00:00:00Z",
-      "gitCommit": "708fe087cd4b9b9bf9524bfa6d19906cf2f7a06e",
-      "wordCount": "168",
-      "bodyHash": "a3b2082e4bada030",
-      "bodyLen": 2676,
-      "sections": [
-        "Supported geographies",
-        "Customer data locations",
-        "Contact Center Intelligence availability",
         "Related information"
       ],
       "inWindow": true
@@ -1216,31 +1241,6 @@
         "What data is used to calculate custom metrics?",
         "What are the limitations of custom metrics and how can users minimize the effects of limitations?",
         "What protections are in place for custom metrics within Copilot Studio for responsible AI?",
-        "Related information"
-      ],
-      "inWindow": true
-    },
-    {
-      "id": "microsoft-copilot-studio-geo-data-residency-build-apps",
-      "tier": 3,
-      "title": "Geo Data Residency Build Apps",
-      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/geo-data-residency-build-apps",
-      "why": "Auto-discovered from the documentation tree for this product area.",
-      "ok": true,
-      "discovered": true,
-      "isNew": true,
-      "msDate": "2026-11-17T00:00:00Z",
-      "gitCommit": "12a46c4e93f2a08fa42084d2f13442a05b5c67e4",
-      "wordCount": "998",
-      "bodyHash": "acf69c76751db26a",
-      "bodyLen": 7897,
-      "sections": [
-        "How the app building geography is determined",
-        "EU Data Boundary customers",
-        "Check and update settings",
-        "Set a user's preferred data location with PowerShell",
-        "Set a user's Country or region with PowerShell",
-        "Review makers' Country or region values",
         "Related information"
       ],
       "inWindow": true
