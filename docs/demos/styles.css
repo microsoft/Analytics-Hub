@@ -213,7 +213,8 @@
   min-width: 0;
 }
 .demo-rail-list li { display: inline-flex; }
-.demo-rail-list li a {
+.demo-rail-list li a,
+.demo-rail-list .rail-placeholder {
   display: inline-flex;
   align-items: center;
   gap: .4rem;
@@ -227,6 +228,10 @@
   line-height: 1.2;
   white-space: nowrap;
   transition: background .12s, border-color .12s, transform .08s;
+}
+.demo-rail-list .rail-placeholder {
+  opacity: .72;
+  cursor: default;
 }
 .demo-rail-list li a:hover {
   background: color-mix(in srgb, var(--accent, #0078d4) 8%, var(--surface, #fff));

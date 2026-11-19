@@ -325,6 +325,9 @@
     }
     railList.innerHTML = items.map(it => {
       const icon = KIND_ICON[it.kind] || KIND_ICON.related;
+      if (it.url === "") {
+        return `<li><span class="rail-placeholder" role="link" aria-disabled="true" title="Coming soon"><span class="rail-icon" aria-hidden="true">${icon}</span><span class="rail-label">${escapeHtml(it.label)}</span></span></li>`;
+      }
       const isInternal = it.url.startsWith("#") || it.url.startsWith("../") || it.url.startsWith("./");
       const isDownload = it.kind === "download";
       const target = isInternal ? "" : ' target="_blank" rel="noopener"';

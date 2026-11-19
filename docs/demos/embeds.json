@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "note": "MSFT-internal Power BI embed URLs. autoAuth=true + ctid means the viewer must be signed into the Microsoft corp tenant to see the report. External visitors get a sign-in wall; that is by design. Add new reports by appending to the reports[] array. The resources[] block on each report drives the right-hand 'Related resources' rail on the demos page.",
+  "note": "MSFT-internal Power BI embed URLs. autoAuth=true + ctid means the viewer must be signed into the Microsoft corp tenant to see the report. External visitors get a sign-in wall; that is by design. Add new reports by appending to the reports[] array. The resources[] block on each report drives the right-hand 'Related resources' rail on the demos page. Set a resource's url to an empty string to show a non-clickable coming-soon placeholder.",
   "reports": [
     {
       "id": "super-user-adoption",
@@ -735,7 +735,39 @@
       "name": "Cowork Super User",
       "blurb": "Cowork Super User internal demo coming soon.",
       "embedUrl": "",
-      "height": 720
+      "height": 720,
+      "resources": [
+        {
+          "label": "Open repository",
+          "url": "",
+          "kind": "doc"
+        },
+        {
+          "label": "README & setup guide",
+          "url": "",
+          "kind": "doc"
+        },
+        {
+          "label": "Watch the 2-minute overview",
+          "url": "",
+          "kind": "video"
+        },
+        {
+          "label": "Interpretation Guide (PDF)",
+          "url": "",
+          "kind": "doc"
+        },
+        {
+          "label": "Storyboard (.pptx)",
+          "url": "",
+          "kind": "doc"
+        },
+        {
+          "label": "Admin email template",
+          "url": "",
+          "kind": "email"
+        }
+      ]
     }
   ]
 }
