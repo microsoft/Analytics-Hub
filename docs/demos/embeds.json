@@ -171,6 +171,61 @@
       ]
     },
     {
+      "id": "cowork-super-user",
+      "name": "Cowork Super User",
+      "blurb": "Find who drives Cowork spend, what they do differently, and where credits are trending next — with concentration, trends, group breakdowns, and directional value scenarios.",
+      "repo": "https://github.com/microsoft/CoworkSuperUser",
+      "sourceKey": "Viva Insights",
+      "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=4558db1c-08bc-430a-bc1f-9423349761b2&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
+      "height": 720,
+      "requirements": {
+        "roles": [
+          {
+            "label": "Viva Insights Analyst (Cowork export access)",
+            "url": "https://learn.microsoft.com/viva/insights/advanced/setup-maint/user-roles"
+          },
+          {
+            "label": "Power BI workspace Member or Viewer"
+          },
+          {
+            "label": "Global Administrator or AI Administrator (only if enabling identified-user views)",
+            "url": "https://learn.microsoft.com/viva/insights/identification-copilot-analytics"
+          }
+        ],
+        "software": [
+          {
+            "label": "Power BI Desktop (May 2024+)",
+            "url": "https://aka.ms/pbidesktopstore"
+          },
+          {
+            "label": "Modern browser (Edge / Chrome)"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "label": "README & setup guide",
+          "url": "https://github.com/microsoft/CoworkSuperUser#readme",
+          "kind": "doc"
+        },
+        {
+          "label": "Interpretation guide",
+          "url": "https://github.com/microsoft/CoworkSuperUser/blob/main/docs/INTERPRETATION_GUIDE.md",
+          "kind": "doc"
+        },
+        {
+          "label": "Interpretation guide (.pptx)",
+          "url": "https://github.com/microsoft/CoworkSuperUser/blob/main/docs/CoworkSuperUser%20Interpretation%20Guide.pptx",
+          "kind": "doc"
+        },
+        {
+          "label": "Troubleshooting",
+          "url": "https://github.com/microsoft/CoworkSuperUser/blob/main/docs/TROUBLESHOOTING.md",
+          "kind": "troubleshoot"
+        }
+      ]
+    },
+    {
       "id": "chat-intelligence",
       "name": "Chat Intelligence",
       "blurb": "Prompt-level analytics — surfaces, depth, department breakdown, maturity curve.",
