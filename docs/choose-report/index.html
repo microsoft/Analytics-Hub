@@ -5025,6 +5025,23 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   </div>
 </template>
 
+<template id="paxCsvTroubleshooting">
+  <details class="cc-idbox pax-csv-help">
+    <summary><strong>PAX collected data but stopped on a large CSV field?</strong></summary>
+    <div class="cc-idbody">
+      <p>If processing stops with <code>_csv.Error: field larger than field limit (131072)</code>, collection alone is not a completed dashboard run. The embedded processor reached Python's default CSV field limit. An <code>orjson</code> installation warning is not this failure.</p>
+      <p><strong>Specific preview fix, not a general upgrade:</strong> the <a href="https://github.com/microsoft/PAX/releases/tag/purview-v2.0.0-prerelease-20261110-16" target="_blank" rel="noopener noreferrer">PAX 20261110-16 release notes</a> document this correction for AIO and ValueLens. It remains a prerelease, not production. For normal production setup, use the <a href="https://github.com/microsoft/PAX/releases/latest" target="_blank" rel="noopener noreferrer">current stable PAX release</a> and its supported instructions.</p>
+      <p><strong>For a controlled trial of this exact fix:</strong> <a href="https://github.com/microsoft/PAX/releases/download/purview-v2.0.0-prerelease-20261110-16/PAX_Purview_Audit_Log_Processor_v2.0.0-prerelease-20261110-16.ps1" target="_blank" rel="noopener noreferrer">Download PAX_Purview_Audit_Log_Processor_v2.0.0-prerelease-20261110-16.ps1</a>. This exact public asset was checked on November 20, 2026. Check the release notes for later corrections before using it.</p>
+      <p class="cc-small">SHA256: <code>ECE52162A2DC0E9B563FA37DD3CEE5339ED1E637C47366D2AE5314452805512F</code>. Use <code>Get-FileHash -Algorithm SHA256</code> on the downloaded file and compare the full hash.</p>
+      <p>Keep retained exports, history, logs and the original checkpoint. Do not interrupt an active run or replace its script mid-recovery. Update Mini-Kitchen's <strong>PAX script path</strong> to the downloaded file before building a new command. Use the <a href="https://github.com/microsoft/PAX/blob/purview-v2.0.0-prerelease-20261110-16/README.md" target="_blank" rel="noopener noreferrer">matching prerelease instructions</a> to choose supported processing or recovery; do not assume a generic rerun can reuse every checkpoint or that fresh extraction is required.</p>
+      <p><strong>Confirm the outcome:</strong> processing and any publication/readback must finish, the required interactions and users outputs must exist, and the report must refresh against them with sensible row counts and dates. A successful sign-in, completed collection or available download does not prove the dashboard is working.</p>
+    </div>
+  </details>
+</template>
+<style>
+.pax-csv-help a,.pax-csv-help code{overflow-wrap:anywhere}
+</style>
+
 <template id="paxStep4">
   <p class="gx-reads">PAX is the tool that produces the data, so connecting your data here means running PAX. If you do not live in the command line, start with <strong>Mini-Kitchen</strong> (tab 1): it builds the exact PAX command for you in the browser, and you run it. Prefer to script it yourself, or send output to SharePoint or Fabric? Those are the next two tabs. Every path pulls the same records from Microsoft Purview, Microsoft Entra, and the Microsoft 365 admin center, and writes analysis-ready output you point Power BI at.</p>
 
@@ -10653,15 +10670,15 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     }
     if (t.id === 'ai-in-one') {
       var _aioStep4 = document.getElementById('aioStep4');
-      if (_aioStep4) return _aioStep4.innerHTML;
+      if (_aioStep4) return _aioStep4.innerHTML + document.getElementById('paxCsvTroubleshooting').innerHTML;
     }
     if (t.id === 'value-lens') {
       var _vlStep4 = document.getElementById('vlStep4');
-      if (_vlStep4) return _vlStep4.innerHTML;
+      if (_vlStep4) return _vlStep4.innerHTML + document.getElementById('paxCsvTroubleshooting').innerHTML;
     }
     if (t.id === 'pax') {
       var _paxStep4 = document.getElementById('paxStep4');
-      if (_paxStep4) return _paxStep4.innerHTML;
+      if (_paxStep4) return _paxStep4.innerHTML + document.getElementById('paxCsvTroubleshooting').innerHTML;
     }
     if (t.id === 'cowork-adoption') {
       var _caStep4 = document.getElementById('caStep4');

@@ -20,7 +20,9 @@ const template = id => catalog.match(new RegExp(
 
 test('live installation links delegate artifacts and current filenames to repository guidance', () => {
   for (const file of sources) {
-    const source = read(file);
+    // Dated, error-specific support evidence is not a normal installation path.
+    const source = read(file).replace(
+      /<template id="paxCsvTroubleshooting">[\s\S]*?<\/template>/, '');
     for (const match of source.matchAll(/https:\/\/(?:github\.com|raw\.githubusercontent\.com)\/[^\s"'<>`]+/g)) {
       const url = decodeURIComponent(match[0]);
       assert.doesNotMatch(url,
@@ -33,6 +35,28 @@ test('live installation links delegate artifacts and current filenames to reposi
     assert.doesNotMatch(source,
       /(?:[\w.-]+_v\d[\w.-]*\.(?:ps1|py)|(?:[ -]V\d|[ -]v\d)[\w.-]*\.(?:pbit|zip))/,
       file + ': stale command or template filename');
+  }
+});
+
+test('PAX CSV support pins only the verified diagnostic asset and preserves production guidance', () => {
+  const help = template('paxCsvTroubleshooting');
+  const release = 'https://github.com/microsoft/PAX/releases/';
+  const tag = 'purview-v2.0.0-prerelease-20261110-16';
+  const filename = 'PAX_Purview_Audit_Log_Processor_v2.0.0-prerelease-20261110-16.ps1';
+  const downloads = [...help.matchAll(/href="([^"]+\/download\/[^"]+)"/g)];
+  assert.deepEqual(downloads.map(match => match[1]), [release + 'download/' + tag + '/' + filename]);
+  assert.ok(help.includes(release + 'tag/' + tag));
+  assert.ok(help.includes(release + 'latest'));
+  for (const phrase of [
+    'field larger than field limit (131072)', 'remains a prerelease, not production',
+    'November 20, 2026', 'Keep retained exports', 'PAX script path',
+    'publication/readback must finish', 'does not prove the dashboard is working',
+    'ECE52162A2DC0E9B563FA37DD3CEE5339ED1E637C47366D2AE5314452805512F',
+  ]) assert.ok(help.includes(phrase), phrase);
+  assert.doesNotMatch(help, /Ashish|Sukhija|customer log/i);
+  for (const id of ['aioStep4', 'vlStep4', 'paxStep4']) {
+    assert.ok(catalog.includes("return _" + id +
+      ".innerHTML + document.getElementById('paxCsvTroubleshooting').innerHTML"));
   }
 });
 
