@@ -1,14 +1,74 @@
 {
-  "runAt": "2026-11-19T12:18:09.236Z",
+  "runAt": "2026-11-20T12:21:05.812Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "580866",
+      "title": "Microsoft Copilot Studio: Run Python code as a step in workflows",
+      "status": "In development",
+      "description": "<p>The new Code node lets makers run Python as a step in a workflow for logic that expressions and connectors can't handle.</p>\n<ul>\n<li>Data transforms, calculations, regex, and advanced parsing.</li>\n<li>File conversion and parsing (for example PDF → text, CSV, XML).</li>\n<li>Generate the code from natural language with AI, or write and edit it by hand.</li>\n</ul>",
+      "created": "2026-11-19T21:30:10",
+      "modified": "2026-11-19T21:30:10",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability"
+      ],
+      "descHash": "cbcea60fe39f03d3"
+    },
+    {
+      "id": "580865",
+      "title": "Microsoft Copilot Studio: Generate documents from the Agent node in workflows",
+      "status": "In development",
+      "description": "<p>The Agent node can now return files that the agent generates, such as PDF, Word, Excel, PowerPoint, and CSV, as workflow outputs.</p>\n<ul>\n<li>Works with both inline agents and existing (published) agents.</li>\n<li>Generated files appear as an ordered files output (name, content type, content) that's available to downstream steps.</li>\n<li>Pass files to connectors to email, save to SharePoint/OneDrive, or attach to records.</li>\n</ul>",
+      "created": "2026-11-19T21:30:10",
+      "modified": "2026-11-19T21:30:10",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability"
+      ],
+      "descHash": "49a3150c1d564d8e"
+    },
+    {
+      "id": "580864",
+      "title": "Microsoft Copilot Studio: Share workflows with co-owners for collaborative editing",
+      "status": "In development",
+      "description": "<p>Makers can share a workflow with other users as co-owners so they can view, edit, and manage it.</p>\n<ul>\n<li>Share from the workflows page or the designer.</li>\n<li>Review the connections the workflow uses and their permissions before sharing.</li>\n<li>See who the workflow is shared with when reopening Share.</li>\n<li>Co-owners can edit and run the workflow.</li>\n</ul>",
+      "created": "2026-11-19T21:30:10",
+      "modified": "2026-11-19T21:30:10",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability"
+      ],
+      "descHash": "f8c73389243b848b"
+    },
+    {
+      "id": "580863",
+      "title": "Microsoft Copilot Studio: Service principal owner for workflows",
+      "status": "In development",
+      "description": "<p>Workflows can now be owned under a service principal (a Microsoft Entra app registration) instead of a named user account.</p>",
+      "created": "2026-11-19T21:30:10",
+      "modified": "2026-11-19T21:30:10",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot Studio",
+        "General Availability"
+      ],
+      "descHash": "f351e54810dac4b0"
+    },
     {
       "id": "579968",
       "title": "Microsoft Copilot Studio: PPAC Reporting API",
       "status": "In development",
-      "description": "<p>The PPAC Reporting API gives customers scalable, programmatic access to Copilot Studio usage data from our lakehouse, replacing older unsupported methods for pulling consumption data. Daily JSON data by environment, user, agent and feature powers dashboards, FinOps reporting and automated cost controls.</p>",
+      "description": "<p>Power Platform reporting API for Copilot credits provides customers with access to Copilot Credit usage from Copilot Studio through the Power Platform API, extending the existing reports available in the Power Platform Admin Center.</p>\n<p>Details of the API methods are available in the <a href=\"https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Frest%2Fapi%2Fpower-platform%2F&amp;data=05%7C02%7Cv-lydiacarle%40microsoft.com%7C334aa6b330e54eb1778008df468f4f9e%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C639307253566604668%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=YtxsOi49ddxQiJuAPJtZ4rPagN%2BJynQbpQctwgwCTYI%3D&amp;reserved=0\">Microsoft Power Platform API reference - Power Platform API | Microsoft Learn</a>, providing insights into usage by resource, environment, user, and feature. New reports and capabilities will continue to be released.</p>\n<p>These reports can be used with Power Platform API credit allocations to monitor and optimize resources and environments that consume Copilot Credits.</p>",
       "created": "2026-11-18T18:32:08",
-      "modified": "2026-11-18T18:32:08",
+      "modified": "2026-11-20T01:24:53",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -16,7 +76,7 @@
         "General Availability",
         "Preview"
       ],
-      "descHash": "31f969b52908005a"
+      "descHash": "d27990102bb0aa06"
     },
     {
       "id": "580449",
@@ -2659,10 +2719,10 @@
     {
       "id": "568788",
       "title": "Microsoft Copilot (Microsoft 365): Self-serve sync connectors",
-      "status": "In development",
-      "description": "Self-serve sync connectors enable users to securely connect their own external data sources, such as Jira and Confluence Cloud, to Microsoft 365 Copilot. Using their own credentials and permissions, users can synchronize content they already have access to, making it discoverable in Copilot Chat and Microsoft Search. Administrators maintain oversight through tenant-level controls, including staged rollout, visibility management, and connector disablement.",
+      "status": "Cancelled",
+      "description": "<p>Self-serve sync connectors enable users to securely connect their own external data sources, such as Jira and Confluence Cloud, to Microsoft 365 Copilot. Using their own credentials and permissions, users can synchronize content they already have access to, making it discoverable in Copilot Chat and Microsoft Search. Administrators maintain oversight through tenant-level controls, including staged rollout, visibility management, and connector disablement.</p>",
       "created": "2026-08-20T22:38:45",
-      "modified": "2026-08-20T22:38:45",
+      "modified": "2026-11-19T21:32:07",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
@@ -7819,10 +7879,10 @@
     {
       "id": "505442",
       "title": "Microsoft Copilot (Microsoft 365): Improved content freshness using Copilot connectors with webhooks-led notifications",
-      "status": "In development",
-      "description": "Copilot connectors will offer improved content freshness with more frequent sync of updates using webhook event notifications. The following connectors are in scope - Azure DevOps, Jira cloud, Confluence cloud, Trello, Asana, Bitbucket, GitHub and Gitlab.  ",
+      "status": "Cancelled",
+      "description": "<p>Copilot connectors will offer improved content freshness with more frequent sync of updates using webhook event notifications. The following connectors are in scope - Azure DevOps, Jira cloud, Confluence cloud, Trello, Asana, Bitbucket, GitHub and Gitlab.</p>",
       "created": "2025-10-31T22:00:11",
-      "modified": "2026-07-01T23:03:18",
+      "modified": "2026-11-19T21:32:07",
       "tags": [
         "GCC",
         "GCC High",
@@ -7836,10 +7896,10 @@
     {
       "id": "505441",
       "title": "Microsoft Copilot (Microsoft 365): Improved content freshness using Copilot connectors with webhooks-led notifications",
-      "status": "In development",
-      "description": "Copilot connectors will offer improved content freshness with more frequent sync of updates using webhook event notifications. The following connectors are in scope - Azure DevOps, Jira cloud, Confluence cloud, Trello, Asana, Bitbucket, GitHub and Gitlab.  ",
+      "status": "Cancelled",
+      "description": "<p>Copilot connectors will offer improved content freshness with more frequent sync of updates using webhook event notifications. The following connectors are in scope - Azure DevOps, Jira cloud, Confluence cloud, Trello, Asana, Bitbucket, GitHub and Gitlab.</p>",
       "created": "2025-10-31T22:00:11",
-      "modified": "2026-07-09T23:00:39",
+      "modified": "2026-11-19T21:32:07",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
