@@ -21,7 +21,7 @@ A daily, deterministic feed of REAL changes to public Microsoft Copilot guidance
 - **`changes[]` — what actually moved.** Only pages/items that changed since the prior scan. This is the list to answer "what changed recently?" Each entry has `date, product, area, title, change, changeType, before, after, severity, url, kind, tags`.
 - **`catalog[]` — current state for grounding.** The current ms.date/status + url of every tracked page/item. Use this to answer "what is the current guidance/status/source for X?" Do NOT treat catalog rows as changes.
 
-Branch deterministically on `changeType` (no NLP needed): `revised` (routine date/body move), `silent-edit` (body changed, published date did NOT — high-stakes), `structure-change` (section added/removed), `new-page`, `status-changed` (roadmap/MC transition), `item-added`, `post-added`, `desc-updated`. Severity is `major` or `minor`. Filter by `tags` for topic retrieval (top tags: github-copilot, model, agent, copilot-credits, licensing, admin-center, in-development, api, adoption, teams, analytics, dashboard, copilot-studio, copilot-chat, ga, budget, insights, openai, compliance, worldwide).
+Branch deterministically on `changeType` (no NLP needed): `revised` (routine date/body move), `silent-edit` (body changed, published date did NOT — high-stakes), `structure-change` (section added/removed), `new-page`, `status-changed` (roadmap/MC transition), `item-added`, `post-added`, `desc-updated`. Severity is `major` or `minor`. Filter by `tags` for topic retrieval (top tags: github-copilot, model, agent, copilot-credits, licensing, admin-center, in-development, api, adoption, teams, analytics, dashboard, copilot-studio, copilot-chat, ga, budget, insights, openai, compliance, preview).
 
 ## Sources
 
@@ -31,16 +31,16 @@ Branch deterministically on `changeType` (no NLP needed): `revised` (routine dat
 - docs.github.com (GitHub Copilot docs)
 - FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec (FOCUS releases)
 
-## Most recent changes (sample — see the data endpoint for all 1952; catalog holds 1322 current-state rows)
+## Most recent changes (sample — see the data endpoint for all 1970; catalog holds 1323 current-state rows)
 
-- [2026-11-20] (revised) Copilot Studio: Copilot Studio data location — 6001 chars → 6001 chars (+0) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/data-location
-- [2026-11-20] (revised) Copilot in SharePoint: Architecture Data Protection Auditing — 8345 chars → 8345 chars (+0) — https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing
-- [2026-11-20] (revised) Copilot in PowerPoint: Privacy And Protections — 15480 chars → 15480 chars (+0) — https://learn.microsoft.com/copilot/privacy-and-protections
-- [2026-11-20] (revised) Copilot in Teams: Copilot Usage Metrics — 94463 chars → 95552 chars (+1089) — https://docs.github.com/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics
-- [2026-11-20] (revised) Copilot Studio: Copilot Admin Reports — 12587 chars → 12587 chars (+0) — https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-admin-reports
-- [2026-11-20] (revised) Microsoft 365 admin center (MAC): Copilot Controls Overview — 3637 chars → 3637 chars (+0) — https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-overview
-- [2026-11-20] (revised) Copilot Studio: Copilot Controls Management — 6793 chars → 6793 chars (+0) — https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-management
-- [2026-11-20] (revised) Microsoft 365 admin center (MAC): Copilot Controls Security Governance — 10153 chars → 10153 chars (+0) — https://learn.microsoft.com/en-us/copilot/microsoft-365/copilot-controls/copilot-controls-security-governance
+- [2026-11-21] (item-added) Microsoft 365 Copilot (general): Manage workforce requests in Microsoft 365 Copilot —  → Launched — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=581992
+- [2026-11-21] (structure-change) GitHub Copilot: Copilot Usage Metrics — 11 sections → 15 sections — https://docs.github.com/en/copilot/concepts/billing-and-usage/copilot-usage-metrics
+- [2026-11-21] (structure-change) GitHub Copilot: Billing — 14 sections → 15 sections — https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/billing
+- [2026-11-21] (structure-change) GitHub Copilot: Budgets — 14 sections → 17 sections — https://docs.github.com/en/copilot/concepts/billing-and-usage/organizations-and-enterprises/budgets
+- [2026-11-21] (structure-change) GitHub Copilot: Request Based Billing Legacy — 9 sections → 10 sections — https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy
+- [2026-11-21] (structure-change) GitHub Copilot: Copilot Requests — 9 sections → 12 sections — https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/copilot-requests
+- [2026-11-21] (structure-change) GitHub Copilot: Github Copilot Premium Requests — 9 sections → 14 sections — https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/github-copilot-premium-requests
+- [2026-11-21] (structure-change) GitHub Copilot: Model Multipliers For Annual Plans — 9 sections → 8 sections — https://docs.github.com/en/copilot/reference/copilot-billing/request-based-billing-legacy/model-multipliers-for-annual-plans
 
 ## Links
 
@@ -48,4 +48,4 @@ Branch deterministically on `changeType` (no NLP needed): `revised` (routine dat
 - Data endpoint: https://microsoft.github.io/Analytics-Hub/community/learning-feed/feed-data.json
 - Repository (MIT): https://github.com/microsoft/Analytics-Hub
 
-_Generated 2026-11-20T12:22:18.757Z. Confirm any change against its linked source before acting._
+_Generated 2026-11-21T12:17:42.133Z. Confirm any change against its linked source before acting._

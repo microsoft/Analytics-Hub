@@ -1,7 +1,24 @@
 {
-  "runAt": "2026-11-20T12:21:05.812Z",
+  "runAt": "2026-11-21T12:17:07.239Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "581992",
+      "title": "Manage workforce requests in Microsoft 365 Copilot",
+      "status": "Launched",
+      "description": "<p>Dynamics 365 Workforce Engagement Management (WEM) integrates with Microsoft 365 Copilot through Model Context Protocol (MCP) tools. These tools connect Microsoft 365 Copilot with Dynamics 365 and Dataverse so supervisors and customer service representatives can use natural language to work with workforce requests.</p>\n<p>Supervisors can list and filter the time-off, shift-swap, and shift-bid requests they are authorized to access. They can open an individual request to review its details and scheduling context. Supervisors with the required reviewer permission can also approve or reject pending time-off requests. When a supervisor rejects a request, the reason is saved as the reviewer note. The decision records the reviewer and updates the request in Dynamics 365.</p>\n<p>Customer service representatives can list their own time-off, shift-swap, and shift-bid requests, check request status, and open an individual request to review its details.</p>\n<p>The integration uses a registered WEM MCP tool set that enforces existing Dynamics 365 and Dataverse security roles and data boundaries. Supervisors can access only the workforce requests within their authorized scope, and customer service representatives can access only their own records. The integration uses the existing permission model, so organizations don't need to configure a separate permissions framework for these tools or build and maintain a standalone mobile application for these request scenarios.</p>\n<p>Request lists and request details appear as interactive app-in-chat experiences. Approval and rejection actions return a text confirmation. The current decision capability applies only to time-off requests; shift-swap and shift-bid requests can be listed and reviewed but not approved or rejected through these tools.</p>",
+      "created": "2026-11-21T02:55:45",
+      "modified": "2026-11-21T02:55:45",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Web",
+        "Microsoft Copilot (Microsoft 365)",
+        "Dynamics 365 Customer Service",
+        "General Availability",
+        "Preview"
+      ],
+      "descHash": "e1cd6ddda34300f9"
+    },
     {
       "id": "580866",
       "title": "Microsoft Copilot Studio: Run Python code as a step in workflows",
@@ -917,10 +934,10 @@
     {
       "id": "577173",
       "title": "Microsoft 365: [Education] Provide a Copilot starter prompt in Teams and LMS Assignments",
-      "status": "Rolling out",
+      "status": "Launched",
       "description": "<p>Educators can provide a Copilot starter prompt from Student AI Guidelines in Teams and LMS Assignments. Students open Copilot with the educator's prompt ready in their chat, helping them begin with instructions tailored to the assignment.</p>",
       "created": "2026-10-22T22:58:40",
-      "modified": "2026-11-19T00:53:06",
+      "modified": "2026-11-20T23:20:27",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Android",
@@ -3536,10 +3553,10 @@
     {
       "id": "566870",
       "title": "OneNote: Suggested Artifact Creation in Copilot Notebooks",
-      "status": "Rolling out",
+      "status": "Launched",
       "description": "<p>Copilot Notebooks in OneNote now suggests artifacts to create, such as Word documents, Excel workbooks, and PowerPoint presentations, based on Microsoft 365 knowledge and the content in your notebook. Select the suggestion and Copilot will generate the artifact.</p>",
       "created": "2026-06-30T22:57:58",
-      "modified": "2026-09-11T22:10:10",
+      "modified": "2026-11-21T00:31:46",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Desktop",
