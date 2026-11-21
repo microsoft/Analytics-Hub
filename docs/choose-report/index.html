@@ -3840,29 +3840,33 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "",
       "preview": "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
       "demoVideo": "https://youtu.be/P0uHJb13ZR0",
-      "blurb": "Business Value Advisory Power BI template that unifies every Copilot & agent adoption signal into hours saved, assisted value, and adoption/readiness — a defensible ROI story aligned to Microsoft's Frontier Firm framework. Ships with Local CSV, SharePoint, Fabric (one-click installer), and Power Automate + Dataverse deployment paths.",
+      "blurb": "Explore Copilot and agent adoption, hours saved and assisted value in the browser app or Power BI report. Start with the app's synthetic sample data. Scheduled reports use SharePoint or Fabric; Azure uses a separate DataHub installer. Installers are experimental. Local CSV and Power Automate + Dataverse are archived routes.",
       "meta": {
         "audience": "Business Value Advisory, execs, program leads",
-        "license": "Purview Audit Reader",
-        "time": "~1 hour for first build"
+        "license": "Own-data collection requires authorised audit access; the sample app does not",
+        "time": "Depends on the chosen route"
       },
       "requirements": {
         "roles": [
           {
-            "label": "Purview Audit Reader",
+            "label": "Purview Audit Reader (own-data collection only)",
             "url": "https://learn.microsoft.com/purview/audit-search?tabs=microsoft-purview-portal#before-you-search-the-audit-log"
           },
           {
-            "label": "Power BI workspace Member"
+            "label": "Power BI workspace Member (report publication only)"
           }
         ],
         "software": [
           {
-            "label": "Power BI Desktop (May 2024+)",
+            "label": "Edge or Chrome for the downloaded app",
+            "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/app/README.md"
+          },
+          {
+            "label": "Power BI Desktop (June 2024+) for manual report setup only",
             "url": "https://www.microsoft.com/download/details.aspx?id=58494"
           },
           {
-            "label": "Fabric capacity for the one-click installer, or Power BI Pro for the SharePoint path"
+            "label": "Power BI Pro/PPU for scheduled reports; Fabric capacity (F2+) for Fabric only, not the downloaded app"
           }
         ]
       },
@@ -5220,107 +5224,118 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 </template>
 
 <template id="vlStep4">
-  <p class="gx-reads">Every path builds the same dashboard from the same core sources: Copilot interactions from <strong>Microsoft Purview</strong> audit logs, your licensed users from the <strong>Microsoft 365 admin center</strong>, and department data from <strong>Microsoft Entra</strong>. The template reads two pre-processed <strong>rollup</strong> files, not a raw Purview or Entra export. New here, start with <strong>Local CSV</strong> and its bundled sample data.</p>
+  <p class="gx-reads">Start with the <strong>browser app</strong> and its labelled synthetic data, without Power BI, Fabric or Azure. For a scheduled Power BI report, choose <strong>SharePoint</strong> or <strong>Fabric</strong>. <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/2.%20Azure/README.md" target="_blank" rel="noopener">Azure</a> uses the separate DataHub installer and is work in progress. Local CSV and Power Automate + Dataverse are archived; existing installs keep working but no longer receive dashboard updates.</p>
 
   <div class="cc-callout cc-warn"><span class="ct">Do this first &mdash; turn on unified audit logging</span>
     ValueLens reads the Purview unified audit log. If it is off, the audit query comes back empty. It is on by default for most tenants but often off in demo, dev or brand-new tenants, so check before you start. In the <a href="https://purview.microsoft.com/audit/auditsearch" target="_blank" rel="noopener noreferrer">Purview portal</a>, if you see <strong>Start recording user and admin activity</strong>, click it. Turning it on <strong>does not backfill</strong>, collection starts from that moment and can take up to 24 hours to appear, so a new tenant's first export looks sparse. That is expected.</div>
 
-  <details class="cc-idbox" open>
-    <summary><strong>Start here &mdash; produce the two rollup files (Mini-Kitchen)</strong> <span class="cc-small"><em>(the no-install way, used by the Local CSV and SharePoint tabs)</em></span></summary>
+  <details class="cc-idbox">
+    <summary><strong>Prepare your own processed CSVs</strong> <span class="cc-small"><em>(not needed to try the sample app)</em></span></summary>
     <div class="cc-idbody">
-      <p>The template needs two pre-processed rollup files and cannot read a raw Purview CSV or a hand-exported Entra list. <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer"><strong>Mini-Kitchen</strong></a> is the guided, no-install way to produce them: it runs entirely in your browser, drives the open-source <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener noreferrer">PAX engine</a>, and ships an <strong>AI Business Value Dashboard</strong> preset that fills in exactly the right collection settings for this dashboard, so you do not have to understand the audit internals.</p>
+      <p>The browser app and CSV templates read processed rollups, not raw audit logs. Follow the maintained <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/shared/scripts/README.md#getting-the-raw-export" target="_blank" rel="noopener">PAX and shared processor guide</a> for current filenames, commands and permissions.</p>
       <ol>
-        <li>Open <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener noreferrer">Mini-Kitchen</a> and choose the <strong>AI Business Value Dashboard</strong> preset. It runs entirely in that browser tab, no tenant data is pulled here, no account info is collected, no secrets are stored.</li>
-        <li>Work down the builder (name the recipe, data scope, what to collect, date range, rollup, filters, output location, sign-in). Export the result as a <code>.paxlite</code> recipe if you want to reuse it.</li>
-        <li>Copy the command it built. Download the PAX engine from the <a href="https://github.com/microsoft/PAX" target="_blank" rel="noopener noreferrer">PAX repository</a>, open <strong>PowerShell 7</strong>, and paste the command. This is the step that reaches your tenant, Mini-Kitchen never did.</li>
+        <li>Obtain authorised audit, user and licensing exports, or use the documented PAX collection route.</li>
+        <li>Process the files using the route's current guidance. Keep retained exports and history; do not delete them or interrupt an active recovery.</li>
+        <li>Check the processed interactions and users files, then load them in the app or your existing CSV report. Confirm the expected rows and dates.</li>
       </ol>
-      <p class="cc-small">You get an <code>*_Interactions_*.csv</code> and a <code>*_Users_*.csv</code>. To keep the dashboard fresh, re-run the command on a cadence (for example a Windows Task Scheduler job).</p>
-      <p class="cc-small"><strong>Already export raw data another way?</strong> The report's standalone processor turns a raw Purview export plus Entra users and licensing CSVs into the same two rollup files, no Mini-Kitchen. Get the current processor and command from the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener noreferrer">ValueLens README and Local CSV setup guidance</a>.</p>
+      <p class="cc-small">Maintained sample files are in <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/shared/sample-data/README.md" target="_blank" rel="noopener">shared/sample-data</a>; helpers are in shared/scripts. Existing local data is not moved automatically.</p>
       <p class="cc-glink"><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener noreferrer">Data-export roles and field list &rarr;</a></p>
       <blockquote>Producing this data reads tenant audit and directory information. Typical roles: <strong>Audit Reader</strong> (Purview), <strong>Global Reader</strong> or <strong>User Administrator</strong> (Entra and licensing). If exported names come back as 32-character hex, clear <strong>Display concealed names</strong> in <a href="https://admin.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; Settings &rarr; Org settings &rarr; Reports, then re-run.</blockquote>
     </div>
   </details>
 
   <details class="cc-idbox">
-    <summary><strong>Register an app for automatic pulls</strong> <span class="cc-small"><em>(the SharePoint packaged scripts, Fabric, and Dataverse paths)</em></span></summary>
+    <summary><strong>Register an app for automatic pulls</strong> <span class="cc-small"><em>(SharePoint and Fabric report setup)</em></span></summary>
     <div class="cc-idbody">
-      <p>The packaged SharePoint pipeline and the Fabric and Dataverse paths pull from Microsoft Graph unattended, so they need one Entra app registration. The Mini-Kitchen route above does not, it signs in interactively when you run the command.</p>
+      <p>The packaged SharePoint pipeline and Fabric path pull from Microsoft Graph unattended, so they need an Entra app registration. The downloaded sample app needs no tenant access. For your own data, follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener">route-specific permissions</a> and obtain administrator approval.</p>
       <p>A <strong>Global Administrator</strong>, once:</p>
       <ol>
         <li><a href="https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" rel="noopener noreferrer">Microsoft Entra admin center</a> &rarr; <strong>App registrations</strong> &rarr; <strong>New registration</strong></li>
         <li>Add three <strong>Microsoft Graph application</strong> permissions and grant admin consent: <code>AuditLogsQuery.Read.All</code> (audit interactions), <code>Reports.Read.All</code> (licensed users), <code>User.Read.All</code> (org data). The packaged SharePoint scripts also use <code>Sites.Selected</code> to write to your library, and <code>Organization.Read.All</code> for the licence lookup fallback.</li>
-        <li>Create a client secret and store it in <strong>Azure Key Vault</strong>, not in a script or notebook</li>
+        <li>Use the route's documented secret storage: <strong>Azure Key Vault</strong> for manual Fabric setup, or the documented Windows credential storage for the SharePoint scheduled task. Never put secrets in a script or notebook.</li>
       </ol>
       <p class="cc-small">Optional Agents 365 needs <code>CopilotPackages.Read.All</code> + <code>Application.Read.All</code> + <code>User.Read.All</code> and an Agent 365 licence. Full least-privilege breakdown: <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener noreferrer">docs/PERMISSIONS.md</a>.</p>
     </div>
   </details>
 
-  <div class="ccyd">
+  <div class="ccyd vl-setup">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
-      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Local CSV</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> SharePoint</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Fabric</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="4"><span class="n">4</span> Power Automate + Dataverse</button>
+      <button class="cc-tab" role="tab" aria-selected="true" data-cc="5">Browser app</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2">SharePoint</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3">Fabric</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="1">Local CSV (archived)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="4">Dataverse (archived)</button>
     </div>
 
-    <section class="cc-panel active" role="tabpanel" data-cc="1">
+    <section class="cc-panel active" role="tabpanel" data-cc="5">
+      <span class="cc-time">Preview &middot; Edge or Chrome &middot; no Power BI licence for the downloaded app</span>
+      <div class="cc-steps">
+        <h5><span class="cc-num">1</span> Download the sample app</h5>
+        <p>Open <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/app/download/ValueLens-App.html" target="_blank" rel="noopener"><code>ValueLens-App.html</code> on GitHub</a>, choose <strong>Download raw file</strong>, then open the saved HTML file in Edge or Chrome. Check that the app shows labelled synthetic data, not a GitHub page or raw code.</p>
+        <h5><span class="cc-num">2</span> Use your own processed files</h5>
+        <p>Follow <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/shared/scripts/README.md#getting-the-raw-export" target="_blank" rel="noopener">PAX or the shared processor guidance</a> to prepare authorised exports. In the app, choose <strong>Change data</strong> and select the processed CSVs, not raw audit logs. Confirm the expected rows and date range replace the sample data.</p>
+      </div>
+      <p class="cc-small">The downloaded app reads files on your PC; it does not collect tenant data or schedule a report. File recipients can read every supplied row. Managed App and Fabric hosting are separate preview options with their own access and licence requirements. Follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/app/README.md" target="_blank" rel="noopener">app setup and sharing guide</a> before sharing.</p>
+    </section>
+
+    <section class="cc-panel" role="tabpanel" data-cc="1">
+      <div class="cc-callout cc-warn"><span class="ct">Archived standalone Desktop route</span>
+        Templates are frozen. Keep existing exports and local data; they are not moved for you. Use the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/archive/5.%20Local%20CSV/README.md" target="_blank" rel="noopener">archived Local CSV guide</a> for existing reports. New users should choose the browser app, SharePoint or Fabric.</div>
       <span class="cc-time">&#9201; ~2 min with sample data, ~20 min with your own &middot; Power BI Desktop only</span>
       <p>See the whole dashboard now on a bundled sample dataset, or point it at your own rollup files. Manual refresh by design.</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> See it now with sample data</h5>
-        <p>Get the current Local CSV template and sample files through the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">ValueLens README and Local CSV setup guidance</a>. Open the template in Power BI Desktop (its parameters take <strong>local file paths</strong>, do not open the SharePoint template here). Point each parameter at the matching sample file, then <strong>Load</strong>. Every page fills in, no tenant needed.</p>
+        <p>Follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/archive/5.%20Local%20CSV/README.md" target="_blank" rel="noopener">archived template guide</a> and <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/shared/sample-data/README.md" target="_blank" rel="noopener">maintained shared sample-data guide</a>. Open the archived template in Power BI Desktop (June 2024+). Its parameters take <strong>local file paths</strong>, not SharePoint URLs.</p>
         <table class="cc-kv">
           <tr><th>Copilot Interactions File</th><td><code>copilot_interactions_sample.csv</code></td></tr>
           <tr><th>Org Data File</th><td><code>copilot_users_sample.csv</code></td></tr>
           <tr><th>Agent 365 <span class="cc-small">(optional)</span></th><td><code>agents_365_sample.csv</code></td></tr>
         </table>
         <h5><span class="cc-num">2</span> Produce your two rollup files</h5>
-        <p>Use <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener">Mini-Kitchen</a> with the <strong>AI Business Value Dashboard</strong> preset, see <strong>Start here</strong> above. Pick a local output folder, then run the command it builds in PowerShell 7. You get an <code>*_Interactions_*.csv</code> and a <code>*_Users_*.csv</code>.</p>
+        <p>Follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/shared/scripts/README.md" target="_blank" rel="noopener">maintained shared processor guide</a> to produce <code>*_Interactions_*.csv</code> and <code>*_Users_*.csv</code> from authorised exports.</p>
         <h5><span class="cc-num">3</span> Point the template at your files</h5>
         <p>Open the same <code>ValueLens - Local CSV.pbit</code>, set <strong>Copilot Interactions File</strong> to your <code>*_Interactions_*.csv</code> and <strong>Org Data File</strong> to your <code>*_Users_*.csv</code>, then <strong>Load</strong>.</p>
         <h5><span class="cc-num">4</span> Refresh when you need to</h5>
-        <p>Re-run the Mini-Kitchen command to regenerate the files, then <strong>Refresh</strong> in Power BI Desktop.</p>
+        <p>Follow your existing route's refresh guidance, then <strong>Refresh</strong> in Power BI Desktop. Preserve exports and history, and check the refreshed report dates.</p>
       </div>
       <p class="cc-small">Blank visuals almost always mean the file is a raw export, not a rollup. The template reads the pre-processed <code>*_Interactions_*.csv</code> / <code>*_Users_*.csv</code> pair only.</p>
-      <p class="cc-small"><strong>Large tenant?</strong> The Purview UI export caps out early, but the PAX engine partitions the query and runs unattended, so the Mini-Kitchen route above scales where a hand export does not.</p>
+      <p class="cc-small">For collection limits and processing options, use the current PAX and shared processor guidance rather than assuming a hand export contains all activity.</p>
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="2">
       <span class="cc-time">&#9201; Scheduled, hands-off &middot; Power BI Pro &middot; no Fabric capacity</span>
-      <p>Land the two rollup files in a SharePoint library and let Power BI refresh from there on a timer. Two ways to produce and land them: <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen" target="_blank" rel="noopener">Mini-Kitchen</a> with the <strong>AI Business Value Dashboard</strong> preset set to a SharePoint output folder and re-run on a Task Scheduler cadence (see <strong>Start here</strong> above, no install), or the report's own packaged scripts below, which wrap the PAX engine with app-only auth, seed-then-append de-duplication, upload and scheduling in one. The packaged route needs the app registration above, a SharePoint library, and a host with PowerShell 7+ and Python 3.10+.</p>
+      <div class="cc-callout cc-warn"><span class="ct">ValueLens installer: test environment first</span>
+        Follow <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/INSTALL.md" target="_blank" rel="noopener">Install</a>, choose <strong>Set up ValueLens</strong>, then <strong>No Fabric: PAX + SharePoint</strong>. Run it on the Windows PC that will run the daily export, with PowerShell 7.2+ and Python 3.10+. No Fabric or Azure subscription is needed. Review the plan before approving it, then check the completed export, model refresh and actual report data.</div>
+      <p>A daily Windows task runs PAX and writes processed files to SharePoint; Power BI refreshes from that library. For manual setup, use the maintained <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/README.md" target="_blank" rel="noopener">SharePoint guide</a>, including permissions, credential storage, seeding and scheduling. File sharing is not row-level security.</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Grant the app write access to your site</h5>
-        <p>Run <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/scripts/ProvisionSiteAccess-SP-AppReg.ps1" target="_blank" rel="noopener"><code>ProvisionSiteAccess-SP-AppReg.ps1</code></a> to grant the app per-library <code>Sites.Selected</code> write. Save the <strong>SiteId</strong> and <strong>DriveId</strong> it prints, the upload step needs both.</p>
+        <p>Follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/README.md#steps" target="_blank" rel="noopener">manual SharePoint guide</a> to grant <code>Sites.Selected</code> write access to the selected site, not the whole tenant. Save its <strong>SiteId</strong> and <strong>DriveId</strong>, and set up the documented credential storage before the unattended export.</p>
         <h5><span class="cc-num">2</span> Seed, then append</h5>
         <p>The interactions data is a growing time series, so <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/scripts/Run-PAX-AIBV.ps1" target="_blank" rel="noopener"><code>Run-PAX-AIBV.ps1</code></a> seeds a back-fill once, then appends short windows. It de-duplicates on each message identity, so overlapping days reconcile.</p>
-        <pre># First run, seed the file with a back-fill
-.\Run-PAX-AIBV.ps1 -TenantId &lt;id&gt; -ClientId &lt;id&gt; -Days 30
-# Scheduled runs, append only the latest window
-.\Run-PAX-AIBV.ps1 -TenantId &lt;id&gt; -ClientId &lt;id&gt; -Days 2 `
-    -AppendFile Purview_CopilotInteraction_Rollup.csv</pre>
+        <p>Use the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/README.md#schedule-refresh" target="_blank" rel="noopener">current seed and schedule instructions</a> for the manifest, work folder and cumulative filename. Keep an existing task's retained history and checkpoints; do not replace them with a new generic seed.</p>
         <p>Add <code>-IncludeAgent365Info</code> for the optional Agents 365 output, or <code>-UserInfoFile</code> to supply your own org directory instead of pulling Entra live.</p>
         <h5><span class="cc-num">3</span> Upload the rollups</h5>
         <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/scripts/Upload-Rollups-SharePoint.ps1" target="_blank" rel="noopener"><code>Upload-Rollups-SharePoint.ps1</code></a> lands them as fixed names <code>copilot_interactions_rollup.csv</code> and <code>copilot_users_rollup.csv</code>, overwriting the previous run.</p>
         <h5><span class="cc-num">4</span> Put it on a schedule</h5>
         <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/scripts/Register-TaskScheduler.ps1" target="_blank" rel="noopener"><code>Register-TaskScheduler.ps1</code></a> registers a daily task with <code>-AppendFile</code>. The secret is not stored in the task.</p>
         <h5><span class="cc-num">5</span> Connect the template</h5>
-        <p>Get the current SharePoint template through the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">ValueLens README and SharePoint setup guidance</a>. Open it, and under <strong>Transform data &rarr; Edit parameters</strong> point <strong>Copilot Interactions File</strong> and <strong>Org Data File</strong> at the two SharePoint URLs. <strong>Load</strong> &rarr; <strong>Publish</strong>, then in the Power BI service set the SharePoint data-source credentials and a <strong>scheduled refresh</strong> timed after your extract.</p>
+        <p>Get the current template through the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/4.%20SharePoint/README.md" target="_blank" rel="noopener">SharePoint setup guide</a>. Under <strong>Transform data &rarr; Edit parameters</strong>, set <strong>Copilot Interactions File</strong> and <strong>Org Data File</strong> to the two SharePoint URLs. Set <strong>SharePoint Site URL</strong> even if both optional files are blank; optional files must be in that site. <strong>Load</strong> &rarr; <strong>Publish</strong>, set service credentials, then schedule refresh after the extract. Confirm the report's rows and dates, not just a successful upload.</p>
       </div>
       <p class="cc-small">Tops out at Power BI Pro's 1 GB model and 2-hour refresh window. Beyond that, move to <strong>Fabric</strong>.</p>
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="3">
-      <span class="cc-time">&#9201; Pipeline-orchestrated &middot; Fabric capacity (F2+ or trial), Premium or PPU &middot; recommended at scale</span>
+      <span class="cc-time">&#9201; Fabric capacity (F2+) and workspace &middot; Power BI Pro to publish</span>
       <p>PySpark notebooks pull straight from Graph into a Lakehouse, a processor builds the curated fact table, and an Import-mode template reads it. No file caps, and the optional feedback and Agent 365 sources plug into the same model. Needs the app registration above, with its secret in Key Vault.</p>
-      <div class="cc-callout cc-info"><span class="ct">Fastest way: the one-click installer</span>
-        A Windows installer sets everything up in your tenant and gives you the dashboard as a Fabric app called <strong>Analytics Hub</strong>, with no terminal and no Power BI Desktop. Follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md" target="_blank" rel="noopener noreferrer"><strong>Fabric README and installer setup guidance</strong></a> for the current installer and browser steps. You still need a Fabric capacity (F2+ or trial), an Azure subscription for a Key Vault, and permission to register an Entra app. An admin grants the Graph consent and turns on three Fabric tenant settings (<em>Service principals can call Fabric public APIs</em>, <em>Semantic Model Execute Queries REST API</em>, and <em>Fabric App items</em>). Check <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#before-you-start" target="_blank" rel="noopener noreferrer">what you need</a> first. Prefer to wire it by hand? The manual steps below use the same files.</div>
+      <div class="cc-callout cc-warn"><span class="ct">ValueLens installer: report only on Fabric</span>
+        The installer is work in progress. Try a test environment first; for production, follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/Manual%20setup/README.md" target="_blank" rel="noopener">manual Fabric setup</a>. The <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/INSTALL.md" target="_blank" rel="noopener">ValueLens installer</a> creates the Lakehouse, notebooks, daily pipeline, semantic model, report and viewer group. It does <strong>not</strong> deploy the app on this route. Choose <strong>Set up ValueLens</strong>, then <strong>Fabric</strong>, and review the prerequisites and plan before deployment. For the combined app, use the separate <a href="https://github.com/microsoft/DataHub-App-for-Microsoft-Copilot-Agents-Cowork-and-Autopilots" target="_blank" rel="noopener">DataHub installer</a>. A completed install is not proof of loaded data: check load status, model refresh and report dates.</div>
       <p class="cc-small"><strong>Manual setup</strong> (no installer), the same path the walkthrough video follows:</p>
       <figure class="vl-setup-video">
         <iframe src="https://www.youtube-nocookie.com/embed/-pAuSQSP5pc?rel=0&amp;enablejsapi=1"
                 title="Set up ValueLens using Fabric" loading="lazy"
                 allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <figcaption>&#9654; Full Fabric setup walkthrough &mdash; from a fresh app registration to a saved, self-refreshing Power BI report. Also on the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#watch-the-setup" target="_blank" rel="noopener noreferrer">1. Fabric setup page</a>. <a class="yt-watch" href="https://youtu.be/-pAuSQSP5pc" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></figcaption>
+        <figcaption>&#9654; Manual Fabric setup walkthrough. Check the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/1.%20Fabric/README.md#video" target="_blank" rel="noopener noreferrer">current Fabric guide</a> for prerequisites and any changed steps. <a class="yt-watch" href="https://youtu.be/-pAuSQSP5pc" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></figcaption>
       </figure>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Create a Lakehouse</h5>
@@ -5352,32 +5367,17 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="4">
-      <span class="cc-time">&#9201; Preview &middot; Power Automate premium + Dataverse capacity &middot; plus Power BI</span>
-      <p>A Power Automate collector writes full audit records to Dataverse, a scheduled runner uses the same ValueLens processor to prepare them, and the template reads the result. Use this only if you are already collecting Copilot interactions into Dataverse. For the settled routes, use SharePoint or Fabric.</p>
-      <div class="cc-callout cc-warn"><span class="ct">Preview, validated on a bounded interval</span>
-        This is not a flow-only deployment and not certified for production-scale or unattended refresh. You advance the snapshot parameter by hand. Benchmark it before committing to a cadence.</div>
-      <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Check prerequisites</h5>
-        <p>Run <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Power%20Automate%20%2B%20Dataverse/scripts/Test-PowerAutomateDataverse-Preflight.ps1" target="_blank" rel="noopener"><code>Test-PowerAutomateDataverse-Preflight.ps1</code></a> against your Dataverse environment URL.</p>
-        <h5><span class="cc-num">2</span> Provision the four companion tables</h5>
-        <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Power%20Automate%20%2B%20Dataverse/scripts/Deploy-DataverseCoreSchema.py" target="_blank" rel="noopener"><code>Deploy-DataverseCoreSchema.py</code></a> dry-runs with no credentials, then creates the tables with <code>--execute</code> and a <code>DATAVERSE_TOKEN</code>: raw audits, curated interactions, curated users, and run manifests.</p>
-        <h5><span class="cc-num">3</span> Import the collector flow</h5>
-        <p>Supply your authorized unmanaged <code>CopilotInteractionLogging.zip</code>, adapt it for full-record retention with <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Power%20Automate%20%2B%20Dataverse/scripts/Prepare-CollectorRawCapture.py" target="_blank" rel="noopener"><code>Prepare-CollectorRawCapture.py</code></a>, then import it into an <strong>isolated</strong> Power Platform environment. Run the manual back-fill before enabling its daily schedule.</p>
-        <h5><span class="cc-num">4</span> Build a snapshot</h5>
-        <p><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Power%20Automate%20%2B%20Dataverse/scripts/Invoke-DataverseCoreRefresh.ps1" target="_blank" rel="noopener"><code>Invoke-DataverseCoreRefresh.ps1</code></a> fetches Graph users and licences, reads the retained audits, runs the processor, and emits a <strong>Core Snapshot ID</strong> on success. Pin it to a completed collector run and its exact UTC window with <code>-SourceRunId</code>, <code>-RawStartUtc</code> and <code>-RawEndUtc</code>.</p>
-        <h5><span class="cc-num">5</span> Open the template</h5>
-        <p>Get the current Power Automate + Dataverse template through the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot" target="_blank" rel="noopener">ValueLens README and setup guidance</a>, open it and set:</p>
-        <table class="cc-kv">
-          <tr><th><code>Dataverse URL</code></th><td>Your environment origin, e.g. <code>https://contoso.crm.dynamics.com</code></td></tr>
-          <tr><th><code>Core Snapshot ID</code></th><td>The successful run ID from step 4</td></tr>
-          <tr><th><code>Use SharePoint CSV fallback</code></th><td>Leave <code>false</code> for this path</td></tr>
-        </table>
-        <p><strong>Load</strong>, then <strong>Publish</strong> and set organizational Dataverse credentials. To refresh, update <code>Core Snapshot ID</code> to a newer completed run.</p>
-      </div>
-      <p class="cc-small">Needs both an Entra app with Graph audit and directory permissions <em>and</em> a Dataverse application user, consent to Graph does not grant Dataverse access. See <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/3.%20Power%20Automate%20%2B%20Dataverse/README.md" target="_blank" rel="noopener">the path README</a>.</p>
+      <span class="cc-time">Archived since October 23, 2026 &middot; no longer supported</span>
+      <p>Existing scripts, templates and flows remain in the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/archive/3.%20Power%20Automate%20%2B%20Dataverse/README.md" target="_blank" rel="noopener">archived Power Automate + Dataverse guide</a>. Existing installs keep running, but this route no longer gets dashboard changes.</p>
+      <p>Keep existing processed files, private folders and retained exports. They are not moved for you. If a scheduled task runs from a clone, follow the archive notice to update its script path; do not delete data or interrupt an active refresh. For a new install, choose the browser app, SharePoint or Fabric.</p>
     </section>
   </div>
 </template>
+
+<style id="vl-guide-styles">
+.vl-setup .cc-kv,.vl-setup .cc-nb{table-layout:fixed}
+.vl-setup th,.vl-setup td,.vl-setup code{overflow-wrap:anywhere}
+</style>
 
 <style id="ess-player-styles">
 .ess-hero-card{position:relative}
@@ -10501,13 +10501,13 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         'users from the <strong>Microsoft 365 admin center</strong>, and org data from ' +
         '<strong>Microsoft Entra</strong>.',
       easy: 'take the ' +
-        lk('https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/tree/main/1.%20Local%20CSV',
-          '<strong>1. Local CSV</strong> path') +
+        lk('https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/archive/5.%20Local%20CSV/README.md',
+          '<strong>archived Local CSV</strong> path for an existing Desktop report') +
         '. It ships a fabricated sample dataset that fills the whole dashboard - open the ' +
         'template, point it at three CSVs, done. No tenant, no exports, no scripts.',
       steps: [
-        'Run the <strong>1. Local CSV</strong> path against its bundled sample data first. It ' +
-          'tells you whether the numbers are worth wiring up before you wire anything up.',
+        'For a new installation, start with the browser app and its synthetic sample data. ' +
+          'The standalone Local CSV and Dataverse routes are archived.',
         'When you want your own numbers, the three core sources are Copilot interactions from ' +
           'Purview, the licensed user list from the Microsoft 365 admin center, and department ' +
           'or function data from Microsoft Entra.',
@@ -10519,11 +10519,9 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
           lk('https://github.com/microsoft/ValueLens-for-Microsoft-Copilot', 'top-level README') +
           ' compares all three.'
       ],
-      note: 'Optional sources - Agent 365, Cowork consumption, product feedback, Copilot Studio ' +
-        'transcripts - are gated by <code>Enable_*</code> toggles and the dashboard works fine ' +
-        'without them. This report has no Mini-Kitchen preset, so there is no ' +
-        'second route here: it ships its own three deployment paths and its SharePoint and ' +
-        'Fabric paths use their own scripts and notebooks.'
+      note: 'Use the current README for app setup, SharePoint and Fabric report installation, ' +
+        'or the separate Azure/DataHub route. Keep existing exports and follow the archived ' +
+        'route guidance for existing Local CSV or Dataverse reports.'
     },
 
     'consumption-central': {
@@ -10787,7 +10785,9 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     var lean = t.id === 'cowork-super-user';
     if (!lean) {
       out += step('Get the access you need',
-        '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>' +
+        (t.id === 'value-lens'
+          ? '<p>The downloaded sample app needs no tenant access. These roles apply when collecting your own data or publishing a report; follow the chosen route permissions.</p>'
+          : '<p>Request these before you start. Missing permissions is the most common reason a setup stalls.</p>') +
         (gxChecks(req.roles) || '<p class="gx-hint">No special roles required.</p>'));
       out += step('Install the tools',
         gxChecks(req.software) || '<p class="gx-hint">Nothing to install.</p>');
@@ -10805,9 +10805,11 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     });
     var isRepo = /^https:\/\/github\.com\//i.test(t.repo || '');
     var isInstaller = t.id === 'cowork-team-report';
-    var getHead = isInstaller ? 'Get the two skills'
+    var getHead = t.id === 'value-lens' ? 'Choose the app or report setup' : isInstaller ? 'Get the two skills'
       : isPbi ? 'Get the template' : (isRepo ? 'Get it from GitHub' : 'Open the app');
-    var getCopy = isInstaller
+    var getCopy = t.id === 'value-lens'
+      ? 'Follow the current README for the downloaded browser app or scheduled SharePoint/Fabric report. Azure uses a separate DataHub installer. Local CSV and Dataverse are archived; retain existing data and use their archive guides.'
+      : isInstaller
       ? 'You build both skills in the Installer Studio and install them in Copilot Cowork - no GitHub, and no admin rights.'
       : (isPbi
           ? 'Follow the repository README and setup guidance for the current template, sample data, filenames, and commands. Then open the template in Power BI Desktop and point the parameters at your own data.'

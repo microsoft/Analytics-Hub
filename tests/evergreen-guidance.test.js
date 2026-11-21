@@ -26,7 +26,10 @@ test('live installation links delegate artifacts and current filenames to reposi
     for (const match of source.matchAll(/https:\/\/(?:github\.com|raw\.githubusercontent\.com)\/[^\s"'<>`]+/g)) {
       const url = decodeURIComponent(match[0]);
       assert.doesNotMatch(url,
-        /\/releases\/(?:latest\/)?download\/|\/archive\/|\.pbit\b|\.pbix\b|\.zip\b|\.exe\b/i,
+        /^https:\/\/github\.com\/[^/]+\/[^/]+\/archive\//i,
+        file + ': repository archive downloads must go through setup guidance');
+      assert.doesNotMatch(url,
+        /\/releases\/(?:latest\/)?download\/|\.pbit\b|\.pbix\b|\.zip\b|\.exe\b/i,
         file + ': external installation/sample asset must go through README or setup guidance');
       assert.doesNotMatch(url,
         /(?:_v\d|[ -]v\d)[^/]*\.(?:ps1|py|md|kql)\b/i,
@@ -106,6 +109,40 @@ test('processor choices, setup paths, privacy safeguards, and Fabric validation 
   assert.match(cowork, /https:\/\/github\.com\/microsoft\/What-I-did-with-Cowork/);
   assert.doesNotMatch(cowork, /\.zip/);
   assert.match(template('csuStep4'), /no preconfigured row-level security role/);
+});
+
+test('ValueLens setup distinguishes the sample app, active installers and archived routes', () => {
+  const tool = tools.find(tool => tool.id === 'value-lens');
+  const setup = template('vlStep4');
+  assert.match(tool.blurb, /browser app/);
+  assert.match(tool.blurb, /archived routes/);
+  assert.equal(tool.version, '2.0');
+  assert.match(tool.requirements.roles[0].label, /own-data collection only/);
+  assert.ok(tool.requirements.software[0].url.endsWith('/app/README.md'));
+  assert.match(tool.requirements.software[1].label, /June 2024/);
+  assert.match(setup, /aria-selected="true" data-cc="5">Browser app/);
+  assert.match(setup, /cc-panel active[^>]+data-cc="5"/);
+  assert.match(setup, /Download raw file/);
+  assert.match(setup, /app\/download\/ValueLens-App\.html/);
+  assert.match(setup, /No Fabric: PAX \+ SharePoint/);
+  assert.match(setup, /does <strong>not<\/strong> deploy the app/);
+  assert.match(setup, /SharePoint Site URL/);
+  assert.match(setup, /archive\/5\.%20Local%20CSV\/README\.md/);
+  assert.match(setup, /archive\/3\.%20Power%20Automate%20%2B%20Dataverse\/README\.md/);
+  assert.doesNotMatch(setup, /\/main\/3\.%20Power%20Automate%20%2B%20Dataverse\/scripts\//);
+  assert.doesNotMatch(catalog, /ValueLens-for-Microsoft-Copilot\/tree\/main\/1\.%20Local%20CSV/);
+  assert.doesNotMatch(setup, /dashboard as a Fabric app called|no terminal and no Power BI Desktop/);
+  assert.match(catalog, /\.vl-setup th,\.vl-setup td,\.vl-setup code\{overflow-wrap:anywhere\}/);
+});
+
+test('ValueLens demo requirements stay separate from installation and downloaded app requirements', () => {
+  const demo = demos.reports.find(report => report.id === 'value-lens');
+  assert.match(demo.blurb, /Power BI demo/);
+  assert.match(demo.requirements.software[0].label, /June 2024/);
+  assert.match(demo.requirements.software[1].label, /Fabric route only/);
+  assert.ok(demo.resources.some(resource => resource.url.endsWith('/app/README.md')));
+  assert.equal(new URL(demo.embedUrl).protocol, 'https:');
+  assert.equal(new URL(demo.embedUrl).searchParams.get('reportId'), '7d3da952-7b07-4ee9-a06f-378a7962775f');
 });
 
 test('changed live JavaScript, JSON, and executable inline scripts parse', () => {

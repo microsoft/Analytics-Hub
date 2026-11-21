@@ -620,7 +620,7 @@
     {
       "id": "value-lens",
       "name": "ValueLens",
-      "blurb": "Unifies every Copilot and agent adoption signal into hours saved, assisted value, and adoption/readiness - a defensible ROI story aligned to the Frontier Firm framework.",
+      "blurb": "Power BI demo of Copilot and agent adoption, hours saved and assisted value. The separate downloaded browser app can be tried without Power BI. Scheduled report setup uses SharePoint or Fabric; Azure uses the separate DataHub installer.",
       "repo": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
       "sourceKey": "Purview",
       "embedUrl": "https://msit.powerbi.com/reportEmbed?reportId=7d3da952-7b07-4ee9-a06f-378a7962775f&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47&actionBarEnabled=true&reportCopilotInEmbed=true",
@@ -637,11 +637,11 @@
         ],
         "software": [
           {
-            "label": "Power BI Desktop (May 2024+)",
+            "label": "Power BI Desktop (June 2024+) for manual report setup, not for viewing this demo",
             "url": "https://aka.ms/pbidesktopstore"
           },
           {
-            "label": "Fabric capacity for the one-click installer, or Power BI Pro for the SharePoint path"
+            "label": "Scheduled report setup: Power BI Pro/PPU; Fabric capacity (F2+) for the Fabric route only"
           }
         ]
       },
@@ -657,8 +657,8 @@
           "kind": "video"
         },
         {
-          "label": "Sample-data setup in the README",
-          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot",
+          "label": "Browser app setup and sharing",
+          "url": "https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/app/README.md",
           "kind": "doc"
         }
       ]
