@@ -99,12 +99,12 @@ function loadSnapshots(feedId) {
    headings, git commit). Pages with no change produce NO entry — that is the
    whole point: the feed lists what actually changed, not the catalog. */
 function diffDocPair(prev, curr, noMsDate, runDate) {
-  const prevById = {}; (prev.pages || []).forEach(p => { prevById[p.id] = p; });
+  const prevByUrl = new Map((prev.pages || []).map(p => [p.url, p]));
   const out = [];
   for (const p of (curr.pages || [])) {
     if (!p.ok) continue;
     const ctext = (p.title || '') + ' ' + (p.url || '') + ' ' + ((p.sections || []).join(' '));
-    const b = prevById[p.id];
+    const b = prevByUrl.get(p.url);
     if (!b) {
       // Absent in the prior run. This is almost always coverage expansion (the
       // auto-discoverer added the page to our watch list), NOT Microsoft

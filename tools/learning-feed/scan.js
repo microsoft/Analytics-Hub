@@ -132,8 +132,8 @@ function ensure(d) { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true })
 async function scanHtmlFeed(feed) {
   const latestPath = path.join(SNAP_DIR, feed.id + '-latest.json');
   const prev = loadJson(latestPath, null);
-  const prevById = {};
-  if (prev && prev.pages) prev.pages.forEach(p => { prevById[p.id] = p; });
+  // Discovery IDs are truncated and can collide; compare the actual watched URL.
+  const prevByUrl = new Map((prev && prev.pages || []).map(p => [p.url, p]));
   const winStart = feed.windowStart || '2026-07-01';
 
   // Merge curated registry docs with auto-discovered pages (deduped by URL).
@@ -161,7 +161,7 @@ async function scanHtmlFeed(feed) {
       // transient fetch failure does not erase its baseline (which would hide a
       // real change when the page recovers). The record is marked stale so the
       // report/page can surface that it was not re-verified today.
-      const prevRec = prevById[doc.id];
+      const prevRec = prevByUrl.get(doc.url);
       if (prevRec && prevRec.ok) {
         pages.push(Object.assign({}, prevRec, { staleSince: (prevRec.staleSince || (prev && prev.runAt) || null), fetchFailed: true, lastError: r.error, inWindow: prevRec.inWindow }));
       } else {
@@ -194,7 +194,7 @@ async function scanHtmlFeed(feed) {
   }
   if (prev && !BASELINE) {
     for (const p of pages) {
-      const b = prevById[p.id];
+      const b = prevByUrl.get(p.url);
       if (p.isNew) continue; // already reported above as NEW PAGE
       if (!b) { changes.push({ sev: 'new', id: p.id, title: p.title, detail: 'Newly added to the watch list.' }); continue; }
       if (!p.ok) { changes.push({ sev: 'warn', id: p.id, title: p.title, detail: 'Fetch failed: ' + p.error }); continue; }

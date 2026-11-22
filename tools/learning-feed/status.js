@@ -63,12 +63,11 @@ function priorSnapshot(feedId, currentRunAt) {
 
 /* Classify the day-over-day delta for an HTML (page-based) feed. */
 function classifyDocDelta(curr, prev, noMsDate, runDate) {
-  const prevById = {};
-  (prev.pages || []).forEach(p => { prevById[p.id] = p; });
+  const prevByUrl = new Map((prev.pages || []).map(p => [p.url, p]));
   let major = false, minor = false, date = null, count = 0;
   for (const p of (curr.pages || [])) {
     if (!p.ok) continue;
-    const b = prevById[p.id];
+    const b = prevByUrl.get(p.url);
     let pMajor = false, pMinor = false, pDate = null;
     if (p.isNew) { pMajor = true; pDate = dstr(p.msDate) || runDate; }
     else if (!b) { /* first observation, not a proven doc change */ continue; }

@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-21T12:17:07.239Z",
+  "runAt": "2026-11-22T12:18:05.620Z",
   "feed": "roadmap",
   "items": [
     {
@@ -7376,22 +7376,6 @@
       "descHash": "4b19d955addddab5"
     },
     {
-      "id": "513422",
-      "title": "Microsoft Copilot (Microsoft 365): Steer your presentation length, tone, style, and images when creating with Copilot.",
-      "status": "Launched",
-      "description": "You can now adjust the length of your presentation, the tone of your narrative, the style of your slides, and leverage AI-generated images when creating with Copilot.",
-      "created": "2025-11-19T00:15:24",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "PowerPoint",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "e790c093b481666d"
-    },
-    {
       "id": "508524",
       "title": "Outlook: User-initiated Copilot insights in classic Outlook ",
       "status": "Rolling out",
@@ -7853,27 +7837,6 @@
       "descHash": "48d122aacace9ae2"
     },
     {
-      "id": "506752",
-      "title": "Microsoft Copilot (Microsoft 365): Data source specific filters",
-      "status": "Launched",
-      "description": "We are introducing a dynamic filtering experience in Microsoft 365 Copilot search that empowers users to refine their results more precisely by leveraging data source-specific filters in the right rail. When a user selects a data source from the right rail, such as Outlook, SharePoint, Jira, or Copilot Chats, the interface dynamically presents a tailored set of filters specific to that source. These refiners allow users to narrow down results based on attributes unique to the selected data source, such as item type, status, or semantic labels.\n",
-      "created": "2025-10-31T22:00:11",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Android",
-        "Desktop",
-        "iOS",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "Microsoft 365",
-        "General Availability",
-        "Preview",
-        "Targeted Release"
-      ],
-      "descHash": "b4cb0bbf0d036ea6"
-    },
-    {
       "id": "506751",
       "title": "Microsoft Copilot (Microsoft 365): Copilot chats conversations",
       "status": "Launched",
@@ -8101,22 +8064,6 @@
         "General Availability"
       ],
       "descHash": "da499969f10cc7d0"
-    },
-    {
-      "id": "520772",
-      "title": "Microsoft Purview: Data Loss Prevention - Data Loss Prevention to restrict Microsoft 365 Copilot processing on content with sensitivity labels",
-      "status": "Launched",
-      "description": "Microsoft Purview Data Loss Prevention is extended to Microsoft 365 Copilot. This feature will allow DLP policies to provide detection of sensitivity labels in enterprise  grounding data and restrict access of the content in Microsoft 365 Copilot.",
-      "created": "2025-10-24T22:00:49",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "GCC High",
-        "Web",
-        "Microsoft Purview",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "7fe455e2c4612800"
     },
     {
       "id": "515168",
@@ -8485,39 +8432,6 @@
         "Preview"
       ],
       "descHash": "82e07388b519cd21"
-    },
-    {
-      "id": "513431",
-      "title": "Microsoft Copilot (Microsoft 365): Steer your presentation length, tone, style, and images when creating with Copilot.",
-      "status": "Launched",
-      "description": "You can now adjust the length of your presentation, the tone of your narrative, the style of your slides, and leverage AI-generated images when creating with Copilot.",
-      "created": "2025-10-22T23:15:17",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Mac",
-        "PowerPoint",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "e790c093b481666d"
-    },
-    {
-      "id": "513430",
-      "title": "Microsoft Copilot (Microsoft 365): Steer your presentation length, tone, style, and images when creating with Copilot.",
-      "status": "Launched",
-      "description": "You can now adjust the length of your presentation, the tone of your narrative, the style of your slides, and leverage AI-generated images when creating with Copilot.",
-      "created": "2025-10-22T23:15:17",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Desktop",
-        "Web",
-        "PowerPoint",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "e790c093b481666d"
     },
     {
       "id": "510099",
@@ -10781,25 +10695,6 @@
       "descHash": "eb13053fda2ae665"
     },
     {
-      "id": "488297",
-      "title": "SharePoint: Copilot actions in SharePoint document libraries",
-      "status": "Launched",
-      "description": "When you select an item in OneDrive on the Web, the Copilot button appears, offering a range of actions you can perform on that item. The same feature and actions are coming to document library views in SharePoint and Teams.",
-      "created": "2025-04-18T22:15:14",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "GCC",
-        "GCC High",
-        "DoD",
-        "Web",
-        "SharePoint",
-        "General Availability",
-        "Targeted Release"
-      ],
-      "descHash": "6ab9e799aee0f535"
-    },
-    {
       "id": "483949",
       "title": "Microsoft Copilot (Microsoft 365): Drafting on a selection includes being able to reference files, emails, and meetings",
       "status": "In development",
@@ -11124,22 +11019,6 @@
         "General Availability"
       ],
       "descHash": "c7899c93019185c2"
-    },
-    {
-      "id": "483519",
-      "title": "Microsoft Copilot (Microsoft 365): Catch up on a summary of document comments in the top of your document",
-      "status": "Launched",
-      "description": "Copilot will have a Discussion tab in the top of your document to summarize open comments, helping you quickly understand what people have said in comments.",
-      "created": "2025-03-26T00:00:04",
-      "modified": "2026-01-22T00:00:09",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "Word",
-        "General Availability"
-      ],
-      "descHash": "21eb84a511e68476"
     },
     {
       "id": "486696",
