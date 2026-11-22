@@ -145,6 +145,26 @@ test('ValueLens demo requirements stay separate from installation and downloaded
   assert.equal(new URL(demo.embedUrl).searchParams.get('reportId'), '7d3da952-7b07-4ee9-a06f-378a7962775f');
 });
 
+test('Cowork impact preview uses current public resources without promising removed demo artifacts', () => {
+  const tool = tools.find(tool => tool.id === 'cowork-impact');
+  const setup = template('cwiStep4');
+  assert.match(tool.blurb, /business processes, projects and Cowork-fit/);
+  assert.match(tool.meta.license, /Copilot Cowork access/);
+  assert.match(tool.requirements.roles[0].label, /Microsoft Graph/);
+  assert.match(setup, /Preview \(no data\)/);
+  assert.match(setup, /https:\/\/youtu\.be\/rNcVOnRO5IU/);
+  assert.match(setup, /What-I-did-with-Cowork#report-highlights/);
+  assert.match(setup, /What-I-did-with-Cowork#run-the-scripts-directly-dev/);
+  assert.match(setup, /--in/);
+  assert.match(setup, /--data/);
+  assert.doesNotMatch(catalog, /cowork-roi-report-demo\.pdf|skill\/examples\/demo_sessions\.json/);
+  assert.doesNotMatch(setup, /<code>python (?:classify|compute|build_report|to_csv)\.py<\/code>/);
+  assert.match(setup, /not an interactive report/);
+  assert.match(setup, /expected sessions/);
+  assert.match(template('cwiHero'), /data-frames="7"/);
+  assert.equal(tool.demoVideo, 'https://youtu.be/rNcVOnRO5IU');
+});
+
 test('changed live JavaScript, JSON, and executable inline scripts parse', () => {
   for (const file of ['app.js', 'report-ecosystem/library.js']) {
     new vm.Script(read(file), { filename: file });

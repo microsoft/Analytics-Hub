@@ -2790,16 +2790,16 @@ html.mk-embed main.mk-page{ display:none !important; }
       "preview": "https://raw.githubusercontent.com/microsoft/What-I-did-with-Cowork/main/images/report-hero.png",
       "demoVideo": "https://youtu.be/rNcVOnRO5IU",
       "demoVideoLabel": "Watch the overview",
-      "blurb": "Personal ROI report for Microsoft Copilot Cowork. Harvests your OneDrive Cowork session history, classifies each task into research-anchored categories, and renders a single-file HTML report with Time Saved, professional-services-equivalent value, and a mapping to the four Value Pillars.",
+      "blurb": "Personal impact report for Microsoft Copilot Cowork. Reads your own OneDrive Cowork session history and renders a single-file HTML report with research-anchored Time Saved, professional-services-equivalent value, business processes, projects and Cowork-fit. Preview the overview and screenshots without tenant data; generating your own report requires Cowork access.",
       "meta": {
         "audience": "Cowork users, IC leads, execs quantifying Cowork ROI",
-        "license": "None — runs locally",
+        "license": "Copilot Cowork access for your own report; public overview and screenshots need no tenant data",
         "time": "~2 minutes"
       },
       "requirements": {
         "roles": [
           {
-            "label": "None — runs against your own OneDrive data"
+            "label": "Access to your own OneDrive Cowork session history through Microsoft Graph"
           }
         ],
         "software": [
@@ -7147,7 +7147,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   <div class="cc-hero cbr-hero-card">
     <h2>What Cowork Did For Me</h2>
     <div class="cc-tag">Copilot Cowork skill that summarizes your OneDrive Cowork sessions into an impact report</div>
-    <div class="cc-oneliner">Sessions classified &middot; time saved &middot; value pillars &middot; professional-services equivalent &middot; email automation</div>
+    <div class="cc-oneliner">Time saved &middot; business processes and projects &middot; Cowork-fit &middot; professional-services equivalent</div>
     <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>COPILOT COWORK SKILL</span><span>ONEDRIVE VIA GRAPH</span></div>
     <div class="cbr-player" data-frames="7" data-base="cwi-frames">
       <div class="cbr-stage"><img class="cbr-img" src="cwi-frames/frame_00.jpg" alt="What Cowork Did For Me page 1 of 7"></div>
@@ -7173,13 +7173,13 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 </template>
 
 <template id="cwiStep4">
-  <p class="gx-reads">This skill reads your own <strong>Copilot Cowork</strong> session history under <strong>OneDrive Documents/Cowork/</strong> through Microsoft Graph, using the Cowork app allow-list. It is not reading local disk files. You need Copilot Cowork access and existing Cowork session history; synthetic demo artifacts are available only for preview.</p>
+  <p class="gx-reads">This skill reads your own <strong>Copilot Cowork</strong> session history under <strong>OneDrive Documents/Cowork/</strong> through Microsoft Graph, using the Cowork app allow-list. It is not reading local disk files. You need Copilot Cowork access and existing Cowork session history. To see the report without that access, use the public overview and screenshots in the Preview tab.</p>
 
   <div class="ccyd">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
       <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Install in Cowork</button>
       <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Run the scripts (dev)</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Demo (no data)</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Preview (no data)</button>
     </div>
 
     <section class="cc-panel active" role="tabpanel" data-cc="1">
@@ -7214,26 +7214,26 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       <details class="cc-idbox">
         <summary><strong>Exact commands</strong> <span class="cc-small"><em>plus optional CSV export</em></span></summary>
         <div class="cc-idbody">
-          <p><code>python reconcile_taxonomy.py</code><br><code>python classify.py</code><br><code>python compute.py</code><br><code>python build_report.py</code><br><code>python to_csv.py</code> <span class="cc-small">optional</span></p>
-          <p>This path is for development. It does not replace Cowork access or the agent-produced raw session harvest.</p>
+          <p>Follow the <a href="https://github.com/microsoft/What-I-did-with-Cowork#run-the-scripts-directly-dev" target="_blank" rel="noopener noreferrer">current developer commands in the README</a>. Run from the extracted skill folder containing <code>scripts/</code>, and supply the input/output arguments shown there: <code>--in</code> and <code>--out</code> for classification and computation, then <code>--data</code> and <code>--out</code> for the HTML report and optional CSV export.</p>
+          <p>This path needs your authorised harvested input. It does not collect OneDrive data by itself, replace Cowork access or supply a bundled synthetic dataset.</p>
         </div>
       </details>
       <p class="cc-glink"><a href="https://github.com/microsoft/What-I-did-with-Cowork" target="_blank" rel="noopener noreferrer">Repository &rarr;</a></p>
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="3">
-      <span class="cc-time">&#9201; ~1 minute &middot; synthetic inputs &middot; no OneDrive</span>
-      <p>Use the prebuilt demo to see the output shape without Cowork access, OneDrive data or a license.</p>
+      <span class="cc-time">Public overview and screenshots &middot; no OneDrive access</span>
+      <p>See what the report looks like before installing the skill. The current source provides an overview video and report screenshots, not the old demo PDF or bundled session examples.</p>
       <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Open the demo report</h5>
-        <p>Open <a href="https://github.com/microsoft/What-I-did-with-Cowork/raw/main/cowork-roi-report-demo.pdf" target="_blank" rel="noopener noreferrer"><code>cowork-roi-report-demo.pdf</code></a>.</p>
-        <h5><span class="cc-num">2</span> Inspect the synthetic inputs</h5>
-        <p>The repo ships synthetic inputs at <code>skill/examples/demo_sessions.json</code> behind the prebuilt demo report.</p>
+        <h5><span class="cc-num">1</span> Watch the overview</h5>
+        <p><a href="https://youtu.be/rNcVOnRO5IU" target="_blank" rel="noopener noreferrer">Watch the current Cowork impact overview</a>. It introduces Time Saved, professional-services-equivalent value and the report workflow.</p>
+        <h5><span class="cc-num">2</span> Inspect the report screenshots</h5>
+        <p>Open <a href="https://github.com/microsoft/What-I-did-with-Cowork#report-highlights" target="_blank" rel="noopener noreferrer">Report Highlights in the current README</a> for the hero, business-process and category views. Screenshots are illustrations, not a report generated from your own sessions.</p>
       </div>
       <details class="cc-idbox">
-        <summary><strong>Demo limits</strong> <span class="cc-small"><em>preview only</em></span></summary>
+        <summary><strong>Preview limits</strong> <span class="cc-small"><em>not an interactive report</em></span></summary>
         <div class="cc-idbody">
-          <p>The demo does not connect to OneDrive or read Cowork session folders. For your own impact report, use the Cowork skill path.</p>
+          <p>Watching the overview or reading screenshots does not connect to OneDrive, process sessions or prove that your report works. For your own impact report, use the Cowork skill path and check the generated HTML against the selected period and your expected sessions.</p>
         </div>
       </details>
     </section>
