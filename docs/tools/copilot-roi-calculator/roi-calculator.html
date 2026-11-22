@@ -569,20 +569,42 @@ document.getElementById('adoptionProfile').addEventListener('change', function()
     }
 });
 
+function projectionReturns(monthlyValue, monthlyCost) {
+    const roi = monthlyCost > 0 ? monthlyValue / monthlyCost : null;
+    const payback = monthlyCost > 0 && monthlyValue > 0 ? monthlyCost * 12 / monthlyValue : null;
+    return {
+        roi,
+        payback,
+        roiText: roi === null ? 'Not applicable (no license cost)' : `${roi.toFixed(1)}x`,
+        paybackText: monthlyCost === 0 ? 'Not applicable (no license cost)'
+            : payback === null ? 'No payback (no projected value)' : `${payback.toFixed(1)} mo`
+    };
+}
+
+function projectionReturnRange(low, high, monthlyCost) {
+    return monthlyCost === 0 ? 'ROI multiple not applicable (no license cost)'
+        : `${low.roiText} to ${high.roiText} return on investment`;
+}
+
 // Calculate projections
 function calculateProjections() {
     // Get input values
     const companyName = document.getElementById('companyName').value || 'Customer Organization';
-    const licensedUsers = parseInt(document.getElementById('licensedUsers').value);
+    const licensedUsers = Number(document.getElementById('licensedUsers').value);
     const activationRate = parseFloat(document.getElementById('activationRate').value) / 100;
     const actionsPerWeek = parseFloat(document.getElementById('actionsPerWeek').value);
     const licenseCost = parseFloat(document.getElementById('salesLicenseCost').value);
     const professionalRate = parseFloat(document.getElementById('salesProfessionalRate').value);
-    const recapActions = parseInt(document.getElementById('salesIntelligentRecap').value) || 0;
+    const recapInput = document.getElementById('salesIntelligentRecap').value.trim();
+    const recapActions = recapInput === '' ? 0 : Number(recapInput);
 
     // Validate inputs
-    if (!licensedUsers || licensedUsers < 1) {
-        alert('Please enter a valid number of licensed users');
+    if (![licensedUsers, activationRate, actionsPerWeek, licenseCost, professionalRate, recapActions].every(Number.isFinite)
+        || !Number.isInteger(licensedUsers) || licensedUsers < 1
+        || activationRate < 0 || activationRate > 1 || actionsPerWeek < 1
+        || licenseCost < 0 || professionalRate < 0
+        || !Number.isInteger(recapActions) || recapActions < 0) {
+        alert('Enter whole positive licensed users, activation between 0% and 100%, at least one action per week, non-negative costs and rates, and whole non-negative recap actions.');
         return;
     }
 
@@ -607,7 +629,7 @@ function calculateProjections() {
     const conservativeWeeklyHours = (weeklyActions * conservativeMins) / 60;
     const conservativeMonthlyValue = conservativeHoursPerMonth * professionalRate;
     const conservativeAnnualValue = conservativeMonthlyValue * 12;
-    const conservativeROI = monthlyCost > 0 ? conservativeMonthlyValue / monthlyCost : 0;
+    const conservativeReturns = projectionReturns(conservativeMonthlyValue, monthlyCost);
 
     // Base scenario (6 min per action)
     const baseMins = 6;
@@ -615,7 +637,7 @@ function calculateProjections() {
     const baseWeeklyHours = (weeklyActions * baseMins) / 60;
     const baseMonthlyValue = baseHoursPerMonth * professionalRate;
     const baseAnnualValue = baseMonthlyValue * 12;
-    const baseROI = monthlyCost > 0 ? baseMonthlyValue / monthlyCost : 0;
+    const baseReturns = projectionReturns(baseMonthlyValue, monthlyCost);
 
     // Optimistic scenario (10 min per action)
     const optimisticMins = 10;
@@ -623,12 +645,24 @@ function calculateProjections() {
     const optimisticWeeklyHours = (weeklyActions * optimisticMins) / 60;
     const optimisticMonthlyValue = optimisticHoursPerMonth * professionalRate;
     const optimisticAnnualValue = optimisticMonthlyValue * 12;
-    const optimisticROI = monthlyCost > 0 ? optimisticMonthlyValue / monthlyCost : 0;
+    const optimisticReturns = projectionReturns(optimisticMonthlyValue, monthlyCost);
 
-    // Payback period (months to recover annual cost)
-    const conservativePayback = annualCost / conservativeMonthlyValue;
-    const basePayback = annualCost / baseMonthlyValue;
-    const optimisticPayback = annualCost / optimisticMonthlyValue;
+    if (![activeUsers, weeklyActions, monthlyActions, monthlyCost, annualCost,
+        recapHoursSaved, recapMonthlyValue, recapAnnualValue,
+        conservativeWeeklyHours, conservativeHoursPerMonth, conservativeMonthlyValue, conservativeAnnualValue,
+        baseWeeklyHours, baseHoursPerMonth, baseMonthlyValue, baseAnnualValue,
+        optimisticWeeklyHours, optimisticHoursPerMonth, optimisticMonthlyValue, optimisticAnnualValue,
+        conservativeMonthlyValue + recapMonthlyValue, conservativeAnnualValue + recapAnnualValue,
+        baseMonthlyValue + recapMonthlyValue, baseAnnualValue + recapAnnualValue,
+        optimisticMonthlyValue + recapMonthlyValue, optimisticAnnualValue + recapAnnualValue].every(Number.isFinite)
+        || ![conservativeReturns, baseReturns, optimisticReturns,
+            projectionReturns(conservativeMonthlyValue + recapMonthlyValue, monthlyCost),
+            projectionReturns(baseMonthlyValue + recapMonthlyValue, monthlyCost),
+            projectionReturns(optimisticMonthlyValue + recapMonthlyValue, monthlyCost)]
+            .every(result => [result.roi, result.payback].every(value => value === null || Number.isFinite(value)))) {
+        alert('These inputs exceed the calculator numeric range. Reduce the user counts, actions, costs or rates before calculating.');
+        return;
+    }
 
     // Render results
     renderResults({
@@ -653,8 +687,7 @@ function calculateProjections() {
             monthlyHours: conservativeHoursPerMonth,
             monthlyValue: conservativeMonthlyValue,
             annualValue: conservativeAnnualValue,
-            roi: conservativeROI,
-            payback: conservativePayback
+            ...conservativeReturns
         },
         base: {
             mins: baseMins,
@@ -662,8 +695,7 @@ function calculateProjections() {
             monthlyHours: baseHoursPerMonth,
             monthlyValue: baseMonthlyValue,
             annualValue: baseAnnualValue,
-            roi: baseROI,
-            payback: basePayback
+            ...baseReturns
         },
         optimistic: {
             mins: optimisticMins,
@@ -671,8 +703,7 @@ function calculateProjections() {
             monthlyHours: optimisticHoursPerMonth,
             monthlyValue: optimisticMonthlyValue,
             annualValue: optimisticAnnualValue,
-            roi: optimisticROI,
-            payback: optimisticPayback
+            ...optimisticReturns
         }
     });
 }
@@ -685,22 +716,19 @@ function renderResults(data) {
     const conservativeWithRecap = {
         monthlyValue: data.conservative.monthlyValue + data.recapMonthlyValue,
         annualValue: data.conservative.annualValue + data.recapAnnualValue,
-        roi: (data.conservative.monthlyValue + data.recapMonthlyValue) / data.monthlyCost,
-        payback: data.annualCost / (data.conservative.monthlyValue + data.recapMonthlyValue)
+        ...projectionReturns(data.conservative.monthlyValue + data.recapMonthlyValue, data.monthlyCost)
     };
 
     const baseWithRecap = {
         monthlyValue: data.base.monthlyValue + data.recapMonthlyValue,
         annualValue: data.base.annualValue + data.recapAnnualValue,
-        roi: (data.base.monthlyValue + data.recapMonthlyValue) / data.monthlyCost,
-        payback: data.annualCost / (data.base.monthlyValue + data.recapMonthlyValue)
+        ...projectionReturns(data.base.monthlyValue + data.recapMonthlyValue, data.monthlyCost)
     };
 
     const optimisticWithRecap = {
         monthlyValue: data.optimistic.monthlyValue + data.recapMonthlyValue,
         annualValue: data.optimistic.annualValue + data.recapAnnualValue,
-        roi: (data.optimistic.monthlyValue + data.recapMonthlyValue) / data.monthlyCost,
-        payback: data.annualCost / (data.optimistic.monthlyValue + data.recapMonthlyValue)
+        ...projectionReturns(data.optimistic.monthlyValue + data.recapMonthlyValue, data.monthlyCost)
     };
 
     // Determine if we should show recap controls (only if recap actions > 0)
@@ -766,9 +794,9 @@ function renderResults(data) {
                     ${showRecap ? `$${conservativeWithRecap.annualValue.toLocaleString()} - $${optimisticWithRecap.annualValue.toLocaleString()}` : `$${data.conservative.annualValue.toLocaleString()} - $${data.optimistic.annualValue.toLocaleString()}`}
                 </div>
                 <p style="font-size: 1.2rem; margin: 0;" id="roiMultipleText"
-                   data-without-recap="${data.conservative.roi.toFixed(1)}x to ${data.optimistic.roi.toFixed(1)}x return on investment"
-                   data-with-recap="${conservativeWithRecap.roi.toFixed(1)}x to ${optimisticWithRecap.roi.toFixed(1)}x return on investment">
-                    ${showRecap ? `${conservativeWithRecap.roi.toFixed(1)}x to ${optimisticWithRecap.roi.toFixed(1)}x return on investment` : `${data.conservative.roi.toFixed(1)}x to ${data.optimistic.roi.toFixed(1)}x return on investment`}
+                   data-without-recap="${projectionReturnRange(data.conservative, data.optimistic, data.monthlyCost)}"
+                   data-with-recap="${projectionReturnRange(conservativeWithRecap, optimisticWithRecap, data.monthlyCost)}">
+                    ${projectionReturnRange(showRecap ? conservativeWithRecap : data.conservative, showRecap ? optimisticWithRecap : data.optimistic, data.monthlyCost)}
                 </p>
             </div>
 
@@ -810,18 +838,18 @@ function renderResults(data) {
                     <div class="scenario-metric" style="background: var(--light-gray); margin-top: 1rem; padding: 1rem; border-radius: 6px;">
                         <span class="scenario-metric-label" style="font-weight: bold;">ROI Multiple</span>
                         <span class="scenario-metric-value" id="conservativeROI" style="color: var(--green); font-size: 1.5rem;"
-                             data-without-recap="${data.conservative.roi.toFixed(1)}x"
-                             data-with-recap="${conservativeWithRecap.roi.toFixed(1)}x">
-                            ${showRecap ? `${conservativeWithRecap.roi.toFixed(1)}x` : `${data.conservative.roi.toFixed(1)}x`}
+                             data-without-recap="${data.conservative.roiText}"
+                             data-with-recap="${conservativeWithRecap.roiText}">
+                            ${showRecap ? conservativeWithRecap.roiText : data.conservative.roiText}
                         </span>
                     </div>
 
                     <div class="scenario-metric">
                         <span class="scenario-metric-label">Payback Period</span>
                         <span class="scenario-metric-value" id="conservativePayback"
-                             data-without-recap="${data.conservative.payback.toFixed(1)} mo"
-                             data-with-recap="${conservativeWithRecap.payback.toFixed(1)} mo">
-                            ${showRecap ? `${conservativeWithRecap.payback.toFixed(1)} mo` : `${data.conservative.payback.toFixed(1)} mo`}
+                             data-without-recap="${data.conservative.paybackText}"
+                             data-with-recap="${conservativeWithRecap.paybackText}">
+                            ${showRecap ? conservativeWithRecap.paybackText : data.conservative.paybackText}
                         </span>
                     </div>
                 </div>
@@ -863,18 +891,18 @@ function renderResults(data) {
                     <div class="scenario-metric" style="background: var(--copilot-orange); color: var(--white); margin-top: 1rem; padding: 1rem; border-radius: 6px;">
                         <span class="scenario-metric-label" style="font-weight: bold; color: var(--white);">ROI Multiple</span>
                         <span class="scenario-metric-value" id="baseROI" style="color: var(--white); font-size: 1.5rem;"
-                             data-without-recap="${data.base.roi.toFixed(1)}x"
-                             data-with-recap="${baseWithRecap.roi.toFixed(1)}x">
-                            ${showRecap ? `${baseWithRecap.roi.toFixed(1)}x` : `${data.base.roi.toFixed(1)}x`}
+                             data-without-recap="${data.base.roiText}"
+                             data-with-recap="${baseWithRecap.roiText}">
+                            ${showRecap ? baseWithRecap.roiText : data.base.roiText}
                         </span>
                     </div>
 
                     <div class="scenario-metric">
                         <span class="scenario-metric-label">Payback Period</span>
                         <span class="scenario-metric-value" id="basePayback"
-                             data-without-recap="${data.base.payback.toFixed(1)} mo"
-                             data-with-recap="${baseWithRecap.payback.toFixed(1)} mo">
-                            ${showRecap ? `${baseWithRecap.payback.toFixed(1)} mo` : `${data.base.payback.toFixed(1)} mo`}
+                             data-without-recap="${data.base.paybackText}"
+                             data-with-recap="${baseWithRecap.paybackText}">
+                            ${showRecap ? baseWithRecap.paybackText : data.base.paybackText}
                         </span>
                     </div>
                 </div>
@@ -916,18 +944,18 @@ function renderResults(data) {
                     <div class="scenario-metric" style="background: var(--light-gray); margin-top: 1rem; padding: 1rem; border-radius: 6px;">
                         <span class="scenario-metric-label" style="font-weight: bold;">ROI Multiple</span>
                         <span class="scenario-metric-value" id="optimisticROI" style="color: var(--green); font-size: 1.5rem;"
-                             data-without-recap="${data.optimistic.roi.toFixed(1)}x"
-                             data-with-recap="${optimisticWithRecap.roi.toFixed(1)}x">
-                            ${showRecap ? `${optimisticWithRecap.roi.toFixed(1)}x` : `${data.optimistic.roi.toFixed(1)}x`}
+                             data-without-recap="${data.optimistic.roiText}"
+                             data-with-recap="${optimisticWithRecap.roiText}">
+                            ${showRecap ? optimisticWithRecap.roiText : data.optimistic.roiText}
                         </span>
                     </div>
 
                     <div class="scenario-metric">
                         <span class="scenario-metric-label">Payback Period</span>
                         <span class="scenario-metric-value" id="optimisticPayback"
-                             data-without-recap="${data.optimistic.payback.toFixed(1)} mo"
-                             data-with-recap="${optimisticWithRecap.payback.toFixed(1)} mo">
-                            ${showRecap ? `${optimisticWithRecap.payback.toFixed(1)} mo` : `${data.optimistic.payback.toFixed(1)} mo`}
+                             data-without-recap="${data.optimistic.paybackText}"
+                             data-with-recap="${optimisticWithRecap.paybackText}">
+                            ${showRecap ? optimisticWithRecap.paybackText : data.optimistic.paybackText}
                         </span>
                     </div>
                 </div>
@@ -978,14 +1006,14 @@ function renderResults(data) {
                                 ${showRecap ? `$${conservativeWithRecap.annualValue.toLocaleString()}` : `$${data.conservative.annualValue.toLocaleString()}`}
                             </td>
                             <td id="tableConservativeROI" style="color: var(--green); font-weight: bold;"
-                                data-without-recap="${data.conservative.roi.toFixed(1)}x"
-                                data-with-recap="${conservativeWithRecap.roi.toFixed(1)}x">
-                                ${showRecap ? `${conservativeWithRecap.roi.toFixed(1)}x` : `${data.conservative.roi.toFixed(1)}x`}
+                                data-without-recap="${data.conservative.roiText}"
+                                data-with-recap="${conservativeWithRecap.roiText}">
+                                ${showRecap ? conservativeWithRecap.roiText : data.conservative.roiText}
                             </td>
                             <td id="tableConservativePayback"
-                                data-without-recap="${data.conservative.payback.toFixed(1)} mo"
-                                data-with-recap="${conservativeWithRecap.payback.toFixed(1)} mo">
-                                ${showRecap ? `${conservativeWithRecap.payback.toFixed(1)} mo` : `${data.conservative.payback.toFixed(1)} mo`}
+                                data-without-recap="${data.conservative.paybackText}"
+                                data-with-recap="${conservativeWithRecap.paybackText}">
+                                ${showRecap ? conservativeWithRecap.paybackText : data.conservative.paybackText}
                             </td>
                         </tr>
                         <tr class="highlight-row">
@@ -1003,14 +1031,14 @@ function renderResults(data) {
                                 ${showRecap ? `$${baseWithRecap.annualValue.toLocaleString()}` : `$${data.base.annualValue.toLocaleString()}`}
                             </td>
                             <td id="tableBaseROI" style="color: var(--green); font-weight: bold;"
-                                data-without-recap="${data.base.roi.toFixed(1)}x"
-                                data-with-recap="${baseWithRecap.roi.toFixed(1)}x">
-                                ${showRecap ? `${baseWithRecap.roi.toFixed(1)}x` : `${data.base.roi.toFixed(1)}x`}
+                                data-without-recap="${data.base.roiText}"
+                                data-with-recap="${baseWithRecap.roiText}">
+                                ${showRecap ? baseWithRecap.roiText : data.base.roiText}
                             </td>
                             <td id="tableBasePayback"
-                                data-without-recap="${data.base.payback.toFixed(1)} mo"
-                                data-with-recap="${baseWithRecap.payback.toFixed(1)} mo">
-                                ${showRecap ? `${baseWithRecap.payback.toFixed(1)} mo` : `${data.base.payback.toFixed(1)} mo`}
+                                data-without-recap="${data.base.paybackText}"
+                                data-with-recap="${baseWithRecap.paybackText}">
+                                ${showRecap ? baseWithRecap.paybackText : data.base.paybackText}
                             </td>
                         </tr>
                         <tr>
@@ -1028,14 +1056,14 @@ function renderResults(data) {
                                 ${showRecap ? `$${optimisticWithRecap.annualValue.toLocaleString()}` : `$${data.optimistic.annualValue.toLocaleString()}`}
                             </td>
                             <td id="tableOptimisticROI" style="color: var(--green); font-weight: bold;"
-                                data-without-recap="${data.optimistic.roi.toFixed(1)}x"
-                                data-with-recap="${optimisticWithRecap.roi.toFixed(1)}x">
-                                ${showRecap ? `${optimisticWithRecap.roi.toFixed(1)}x` : `${data.optimistic.roi.toFixed(1)}x`}
+                                data-without-recap="${data.optimistic.roiText}"
+                                data-with-recap="${optimisticWithRecap.roiText}">
+                                ${showRecap ? optimisticWithRecap.roiText : data.optimistic.roiText}
                             </td>
                             <td id="tableOptimisticPayback"
-                                data-without-recap="${data.optimistic.payback.toFixed(1)} mo"
-                                data-with-recap="${optimisticWithRecap.payback.toFixed(1)} mo">
-                                ${showRecap ? `${optimisticWithRecap.payback.toFixed(1)} mo` : `${data.optimistic.payback.toFixed(1)} mo`}
+                                data-without-recap="${data.optimistic.paybackText}"
+                                data-with-recap="${optimisticWithRecap.paybackText}">
+                                ${showRecap ? optimisticWithRecap.paybackText : data.optimistic.paybackText}
                             </td>
                         </tr>
                     </tbody>
@@ -1047,8 +1075,8 @@ function renderResults(data) {
                 <p>
                     • <strong>Lead with the Base Scenario:</strong> 6 minutes per action is backed by Microsoft research and industry averages<br>
                     • <strong>Show the range:</strong> Conservative to Optimistic demonstrates realistic bounds based on adoption<br>
-                    • <strong>Emphasize quick payback:</strong> ${data.base.payback.toFixed(1)} month payback period means rapid value realization<br>
-                    • <strong>ROI multiple:</strong> ${data.base.roi.toFixed(1)}x return shows compelling business case<br>
+                    • <strong>Review modeled payback:</strong> <span id="guidancePayback" data-without-recap="${data.base.paybackText}" data-with-recap="${baseWithRecap.paybackText}">${showRecap ? baseWithRecap.paybackText : data.base.paybackText}</span>. No projected value means the license investment is not recovered.<br>
+                    • <strong>Compare value with cost:</strong> <span id="guidanceROI" data-without-recap="${data.base.roiText}" data-with-recap="${baseWithRecap.roiText}">${showRecap ? baseWithRecap.roiText : data.base.roiText}</span>. A multiple below 1 does not cover license cost; projected productivity value is not realized financial savings.<br>
                     • <strong>Customize for industry:</strong> Adjust professional rate to match customer's sector<br>
                     • <strong>Scale with confidence:</strong> These projections are based on real-world deployment patterns
                 </p>
@@ -1102,7 +1130,8 @@ function toggleRecapDisplay() {
         'optimisticMonthlyValue', 'optimisticAnnualValue', 'optimisticROI', 'optimisticPayback',
         'tableConservativeMonthly', 'tableConservativeAnnual', 'tableConservativeROI', 'tableConservativePayback',
         'tableBaseMonthly', 'tableBaseAnnual', 'tableBaseROI', 'tableBasePayback',
-        'tableOptimisticMonthly', 'tableOptimisticAnnual', 'tableOptimisticROI', 'tableOptimisticPayback'
+        'tableOptimisticMonthly', 'tableOptimisticAnnual', 'tableOptimisticROI', 'tableOptimisticPayback',
+        'guidancePayback', 'guidanceROI'
     ];
 
     elementsToUpdate.forEach(id => {
