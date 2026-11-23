@@ -103,7 +103,8 @@ test('processor choices, setup paths, privacy safeguards, and Fabric validation 
     assert.ok(catalog.includes('https://github.com/microsoft/ESS/blob/main/' + page));
   }
   assert.match(catalog, /refresh against a live Lakehouse is not yet confirmed/);
-  assert.match(catalog, /Input and output must be different folders/);
+  assert.match(template('caStep4'), /same successful PAX run and reporting window/);
+  assert.match(template('caStep4'), /Keep exports outside Git/);
   assert.match(catalog, /Never commit tokens or client secrets/);
   const cowork = template('cwiStep4');
   assert.match(cowork, /https:\/\/github\.com\/microsoft\/What-I-did-with-Cowork/);

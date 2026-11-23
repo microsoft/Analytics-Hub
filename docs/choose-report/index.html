@@ -4191,17 +4191,18 @@ html.mk-embed main.mk-page{ display:none !important; }
     {
       "id": "cowork-adoption",
       "incubating": true,
-      "question": "I want to see how Cowork is being adopted, who keeps coming back, and who could be a champion.",
+      "question": "I want to understand Cowork adoption, recurring work patterns and modeled assisted time.",
       "title": "Cowork Adoption",
       "icon": "\uD83C\uDF31",
       "accent": "#d83b96",
       "category": "adoption-behavior",
       "tier": "specialty",
+      "version": "8.0.0-testing",
       "measures": [
         "adoption",
         "impact"
       ],
-      "source": "Purview audit (CopilotInteraction where AppHost is Cowork) + optional M365 Cowork usage export",
+      "source": "Paired PAX v2 Cowork Adoption Purview interactions and Entra users CSVs",
       "sourceKey": "Purview",
       "repo": "https://github.com/microsoft/Cowork-Adoption-Intelligence",
       "download": "",
@@ -4210,27 +4211,31 @@ html.mk-embed main.mk-page{ display:none !important; }
       "demoVideo": "https://github.com/microsoft/Cowork-Adoption-Intelligence#-watch-first",
       "demoVideos": [{"url": "https://youtu.be/hk0XBBimTT8", "label": "Overview"}],
       "demoVideoLabel": "Watch the overview",
-      "blurb": "A data-free Power BI template that turns approved Purview audit exports into a ten-page Cowork adoption report: activation, sustained usage, action patterns, delegation maturity and emerging champion signals. Still in testing - the metric definitions are exactly what we want your help pressure-testing before it ships.",
+      "blurb": "An eight-page Power BI template for Cowork adoption, recurring work patterns, maturity and category-user evidence. V8 reads the paired Purview and Users CSVs from one PAX v2 Cowork Adoption run, not the legacy Python entity bundle. Report and PAX prerequisites are Testing/prerelease, not production-supported. Assisted hours and labor value are modeled scenarios, not realized savings or employee performance ratings.",
       "meta": {
         "audience": "Cowork program owners, adoption leads, enablement teams",
-        "license": "Purview Audit Reader + Reports Reader",
-        "time": "~10 min on the sample data"
+        "license": "Authorized PAX collection and Power BI access",
+        "time": "Depends on collection window and source access"
       },
       "requirements": {
         "roles": [
           {
-            "label": "Purview Audit Reader",
-            "url": "https://learn.microsoft.com/purview/audit-get-started#step-2-assign-permissions-to-search-the-audit-log"
+            "label": "Approved PAX audit and directory access, or paired files from an authorized collection owner",
+            "url": "https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#pax-prerequisites"
           },
           {
-            "label": "Reports Reader (for Cowork usage detail)",
-            "url": "https://learn.microsoft.com/microsoft-365/admin/activity-reports/cowork-usage-report"
+            "label": "Organization approval for collection, storage and report sharing",
+            "url": "https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/docs/SECURITY_ROLES.md"
           }
         ],
         "software": [
           {
-            "label": "Power BI Desktop (May 2024+)",
+            "label": "Current Power BI Desktop",
             "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+          },
+          {
+            "label": "PowerShell 7+ for PAX collection only; PAX v2 prerelease required",
+            "url": "https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#generate-the-files-with-pax"
           }
         ]
       },
@@ -5811,29 +5816,28 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 <template id="caHero">
   <div class="cc-hero ca-hero-card">
     <h2>Cowork Adoption Intelligence</h2>
-    <div class="cc-tag">for Microsoft 365 Copilot, one Power BI template for Cowork adoption, delegation maturity, and champion signals</div>
-    <div class="cc-oneliner">Who is adopting &middot; who keeps coming back &middot; what they delegate &middot; who could be a champion</div>
-    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>IN TESTING</span></div>
-    <div class="ca-player" data-frames="10" data-base="ca-frames">
-      <div class="ca-stage"><img class="ca-img" src="ca-frames/frame_00.jpg" alt="Cowork Adoption Intelligence page 1 of 10"></div>
+    <div class="cc-tag">Testing template for Cowork adoption, recurring work patterns and modeled assisted time</div>
+    <div class="cc-oneliner">Observed adoption &middot; work patterns &middot; maturity &middot; editable scenario assumptions</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>VERSION 8.0.0-TESTING</span></div>
+    <div class="ca-player" data-frames="8" data-base="ca-v8-preview" data-files="01-cowork-adoption-scorecard.png,02-weekly-adoption-and-usage.png,03-scalable-work-patterns.png,04-demand-and-capacity-scenario.png,05-adoption-maturity.png,06-category-users.png,07-capacity-assumptions.png,08-adoption-metric-guide.png">
+      <div class="ca-stage"><img class="ca-img" src="ca-v8-preview/01-cowork-adoption-scorecard.png" alt="Cowork Adoption synthetic preview page 1 of 8"></div>
       <div class="ca-controls">
         <button class="ca-btn" type="button" data-act="prev" aria-label="Previous page">&#8249;</button>
         <button class="ca-btn" type="button" data-act="play" aria-label="Play or pause"><span class="ca-playico">&#10074;&#10074;</span></button>
         <button class="ca-btn" type="button" data-act="next" aria-label="Next page">&#8250;</button>
-        <span class="ca-counter">1 / 10</span>
+        <span class="ca-counter">1 / 8</span>
       </div>
       <div class="ca-dots">
-        <button class="ca-dot" type="button" data-idx="0" aria-selected="true" aria-label="Page 1"></button>
-        <button class="ca-dot" type="button" data-idx="1" aria-label="Page 2"></button>
-        <button class="ca-dot" type="button" data-idx="2" aria-label="Page 3"></button>
-        <button class="ca-dot" type="button" data-idx="3" aria-label="Page 4"></button>
-        <button class="ca-dot" type="button" data-idx="4" aria-label="Page 5"></button>
-        <button class="ca-dot" type="button" data-idx="5" aria-label="Page 6"></button>
-        <button class="ca-dot" type="button" data-idx="6" aria-label="Page 7"></button>
-        <button class="ca-dot" type="button" data-idx="7" aria-label="Page 8"></button>
-        <button class="ca-dot" type="button" data-idx="8" aria-label="Page 9"></button>
-        <button class="ca-dot" type="button" data-idx="9" aria-label="Page 10"></button>
+        <button class="ca-dot" type="button" data-idx="0" aria-selected="true" aria-label="Adoption Scorecard"></button>
+        <button class="ca-dot" type="button" data-idx="1" aria-label="Weekly Adoption and Usage"></button>
+        <button class="ca-dot" type="button" data-idx="2" aria-label="Scalable Work Patterns"></button>
+        <button class="ca-dot" type="button" data-idx="3" aria-label="Demand and Capacity Scenario"></button>
+        <button class="ca-dot" type="button" data-idx="4" aria-label="Adoption Maturity"></button>
+        <button class="ca-dot" type="button" data-idx="5" aria-label="Category Users"></button>
+        <button class="ca-dot" type="button" data-idx="6" aria-label="Capacity Assumptions"></button>
+        <button class="ca-dot" type="button" data-idx="7" aria-label="Adoption Metric Guide"></button>
       </div>
+      <p class="ca-hint">Source-published synthetic illustrations, labeled V7 in the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/images/report-pages/SYNTHETIC_PROVENANCE.json" target="_blank" rel="noopener">provenance manifest</a>. They illustrate the eight-page layout; they do not prove V8 rendering or customer results.</p>
       <div class="ca-hint">Auto-playing &middot; use &#8249; &#8250; to step through each page, or click a dot to jump</div>
     </div>
     <button class="ca-fs-cta" type="button" data-act="fullscreen" aria-label="View the clickthrough full screen"><span class="ic">&#9974;</span> Full screen</button>
@@ -5841,81 +5845,49 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 </template>
 
 <template id="caStep4">
-  <p class="gx-reads">Pick how your data gets in. Both paths use one small Python preprocessor that reads your exports once and writes the deterministic files the template loads. The one required source is a Microsoft Purview audit export; a Cowork usage export and optional consumption, organization, or identity files just fill in more pages. New to it, start with the fabricated sample: it needs no tenant role and runs in about ten minutes.</p>
-
-  <details class="cc-idbox">
-    <summary><strong>Show real names instead of anonymized identities</strong> <span class="cc-small"><em>(only if you want per-person or department views)</em></span></summary>
-    <div class="cc-idbody">
-      <p>Microsoft 365 usage reports conceal user, group, and site names by default, so the Cowork usage export and any per-person or department views come back de-identified. Adoption totals are correct either way, and <code>Reports Reader</code> does not override this.</p>
-      <p>A <strong>Global Administrator</strong>, about two minutes:</p>
-      <ol>
-        <li><a href="https://admin.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; <strong>Settings &rarr; Org settings &rarr; Reports</strong></li>
-        <li>Clear <strong>Display concealed user, group, and site names in all reports</strong></li>
-        <li><strong>Save</strong>, then re-run your Cowork usage export</li>
-      </ol>
-      <p class="cc-glink"><a href="https://learn.microsoft.com/microsoft-365/admin/activity-reports/cowork-usage-report" target="_blank" rel="noopener noreferrer">Cowork usage report reference &rarr;</a></p>
-      <blockquote>This is a tenant-wide privacy decision under your own policy, and it affects every admin-center report. Do not grant Global Administrator to the report operator.</blockquote>
-    </div>
-  </details>
+  <div class="ca-connect">
+  <p class="gx-reads">V8 reads two rolled-up CSVs from the same <strong>PAX v2 Cowork Adoption</strong> run. It does not use the previous Python preprocessor or a thirteen-file entity folder. Preview the synthetic pages without tenant access, or validate the Testing template with files from an authorized collection owner.</p>
+  <div class="cc-callout cc-warn"><span class="ct">Testing report and prerelease data contract</span>
+    V8 is <strong>8.0.0-testing</strong>; its PAX v2 dependency is also prerelease. This is not a production-supported upgrade. Keep existing exports, history and working deployments. Do not interrupt recovery or substitute AIO rollups. Review the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md" target="_blank" rel="noopener">current setup guide</a> and <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/docs/RELEASE_VERIFICATION.json" target="_blank" rel="noopener">release verification</a> before a bounded test.</div>
 
   <div class="ccyd">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
-      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> Sample data</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Production data</button>
+      <button class="cc-tab" role="tab" aria-selected="true" data-cc="1">Synthetic preview</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2">Validate paired PAX files</button>
     </div>
 
     <section class="cc-panel active" role="tabpanel" data-cc="1">
-      <span class="cc-time">&#9201; ~10 minutes &middot; Python 3.11+ and Power BI Desktop &middot; no tenant role</span>
-      <p>See the whole report on fabricated data before you collect anything. Every identity is fictional and ends in <code>@example.com</code>.</p>
-      <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Get the current packages from the setup guide</h5>
-        <p>Follow <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-a-try-the-report-with-fabricated-data" target="_blank" rel="noopener">Path A in the setup guide</a> for the current preprocessor bundle, data contract, template, and fabricated sample package. The repository is authoritative for filenames and commands.</p>
-        <h5><span class="cc-num">2</span> Extract both</h5>
-        <p>Unzip the sample into <code>C:\CoworkAdoptionSample</code> and the bundle into <code>C:\CoworkAdoptionRelease</code>. The sample folder holds four CSVs plus a <code>purview_audit\</code> subfolder of synthetic audit files.</p>
-        <h5><span class="cc-num">3</span> Preprocess the sample</h5>
-        <p>Use the current preprocessor command from Path A, with <code>C:\CoworkAdoptionSample</code> as input and <code>C:\CoworkAdoptionPreprocessed</code> as output. Input and output must be different folders.</p>
-        <h5><span class="cc-num">4</span> Open the template</h5>
-        <p>Open the Cowork Adoption Intelligence template obtained through the setup guide, set <code>PreprocessedOutputPath</code> to <code>C:\CoworkAdoptionPreprocessed</code>, and click <strong>Load</strong>.</p>
-      </div>
-      <div class="cc-callout cc-good"><span class="ct">Confirm it worked</span>
-        Executive Summary shows <strong>72 users</strong>, and Cowork Champions defaults to <strong>8</strong> Top-10% candidates (Top 5% / 10% / 20% show 4 / 8 / 15). No visual shows an error banner.</div>
-      <p class="cc-small">Script and instructions: <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/tree/main/scripts" target="_blank" rel="noopener">scripts/</a>. Full walkthrough: <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-a-try-the-report-with-fabricated-data" target="_blank" rel="noopener">Path A in the setup guide</a>.</p>
+      <p>Use the eight-page player above or the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence#synthetic-report-preview" target="_blank" rel="noopener">source preview</a>. The published images use fabricated data and a V7-labeled render set. They are not interactive V8 validation, a working customer report or evidence of realized savings.</p>
+      <p>Start on Adoption Scorecard, then inspect Weekly Adoption &amp; Usage, Scalable Work Patterns, Demand &amp; Capacity Scenario, Adoption Maturity, Category Users, Capacity Assumptions and Adoption Metric Guide. Use the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/INTERPRETATION_GUIDE.md" target="_blank" rel="noopener">interpretation guide</a> with care: it still names V7 in places, so do not assume exact V8 measure or visual equivalence.</p>
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="2">
-      <span class="cc-time">&#9201; An afternoon for first collection &middot; parameter <code>PreprocessedOutputPath</code> &middot; scheduled refresh needs an on-premises gateway</span>
-      <p>Collect your exports into one protected input folder, run the preprocessor once to a separate output folder, then point the template at that output. Bring only the sources you have; missing optional ones just leave their pages empty.</p>
       <div class="cc-steps">
-        <h5><span class="cc-num">1</span> Export the Purview audit (required)</h5>
-        <p>In <a href="https://purview.microsoft.com/" target="_blank" rel="noopener">Microsoft Purview</a> &rarr; <strong>Audit</strong>, search your reporting window in UTC with <strong>Activities - operation names</strong> set to <code>CopilotInteraction</code>, then <strong>Export</strong> and keep the raw CSV unchanged.</p>
-        <ul>
-          <li>The export must carry the outer columns <code>RecordId</code>, <code>CreationDate</code>, <code>Operation</code>, <code>UserId</code>, <code>AuditData</code>, and at least one row whose <code>AuditData</code> has <code>CopilotEventData.AppHost</code> containing <code>cowork</code>.</li>
-          <li>Do not expand or reformat the JSON inside <code>AuditData</code>.</li>
-          <li>A search covers at most 180 days. For a longer window, drop several non-overlapping exports in the same folder; the preprocessor combines them and drops duplicate <code>RecordId</code> values.</li>
-        </ul>
-        <h5><span class="cc-num">2</span> Add the optional exports</h5>
-        <p>Each one fills in more of the report. Match is by filename or by exact headers, so keep one current file per source.</p>
-        <table class="cc-nb">
-          <tr><th>Source</th><th>Where to get it (sign-in required)</th><th>Save as</th></tr>
-          <tr><td>Cowork usage <span class="cc-pill pref">recommended</span></td><td><a href="https://admin.microsoft.com/" target="_blank" rel="noopener">Microsoft 365 admin center</a> &rarr; Copilot &rarr; Cowork &rarr; Usage &rarr; <strong>Export</strong></td><td><code>CoworkUserDetails.csv</code></td></tr>
-          <tr><td>Consumption <span class="cc-pill fallback">optional</span></td><td>Microsoft 365 admin center Copilot <strong>Consumption - Users</strong> export</td><td><code>CoworkConsumptionDetails.csv</code></td></tr>
-          <tr><td>Organization <span class="cc-pill fallback">optional</span></td><td>Approved HR or Entra export (department, job title, manager, geography)</td><td><code>CoworkUserOrgDetails.csv</code></td></tr>
-          <tr><td>Identity <span class="cc-pill fallback">optional</span></td><td><a href="https://learn.microsoft.com/entra/identity/users/users-bulk-download" target="_blank" rel="noopener">Entra bulk user download</a> (friendly display names)</td><td><code>cowork_users.csv</code></td></tr>
-        </table>
-        <h5><span class="cc-num">3</span> Put the raw files in one protected input folder</h5>
-        <p>Use a folder outside the cloned repo, for example <code>C:\CoworkAdoptionData</code>. Purview CSVs can sit in a <code>purview_audit\</code> subfolder; discovery is recursive.</p>
-        <h5><span class="cc-num">4</span> Run the preprocessor, then validate</h5>
-        <p>Use the current preprocessing and output-validation commands in <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-b-connect-production-exports" target="_blank" rel="noopener">Path B of the setup guide</a>. Set the input to your protected raw-data folder and write the entity files to a separate output folder, such as <code>C:\CoworkAdoptionPreprocessed</code>, then validate that output.</p>
-        <p>A good run reports <code>"status": "valid"</code> and leaves <code>manifest.json</code> plus 13 <code>entity-*.csv</code> files. It never writes to the input folder, and needs no admin role, app registration, or extra Python packages.</p>
-        <h5><span class="cc-num">5</span> Open the template</h5>
-        <p>Get the current Cowork Adoption Intelligence template through <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-b-connect-production-exports" target="_blank" rel="noopener">Path B in the setup guide</a>, set <code>PreprocessedOutputPath</code> to the output folder, click <strong>Load</strong>, and validate against that guide.</p>
+        <h5><span class="cc-num">1</span> Obtain the correct pair</h5>
+        <p>Ask an authorized PAX collection owner for the rolled-up <code>_Interactions.csv</code> and <code>_Users.csv</code> from one <code>-Dashboard CoworkAdoption</code> run. Both must retain <code>_Entity</code> and <code>_RowId</code>. Do not use raw audit exports, pre-rollup Entra files, stable PAX v1.11.15 AIO rollups or manually merged windows.</p>
+        <p>If you collect the files yourself, use the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#generate-the-files-with-pax" target="_blank" rel="noopener">PAX requirements</a> and <a href="https://microsoft.github.io/PAX-Cookbook/mini-kitchen/" target="_blank" rel="noopener">Cowork Adoption preset</a>. Check the current exact prerelease filename, not the older filename in the setup example. Collection needs approved audit/directory permissions and tenant-admin consent; do not change permissions just to get a test running.</p>
+        <h5><span class="cc-num">2</span> Check the run and protected location</h5>
+        <p>Use the same successful PAX run and reporting window for both files. StartDate is inclusive and EndDate exclusive in UTC. Keep exports outside Git. Local/UNC paths need an approved gateway for service refresh; complete SharePoint HTTPS or OneLake URLs need the corresponding approved credentials.</p>
+        <h5><span class="cc-num">3</span> Load the Testing template</h5>
+        <p>Follow the <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#load-the-template" target="_blank" rel="noopener">current template and setup instructions</a>. Set <strong>Cowork Adoption Purview File</strong> to the interactions file and <strong>Cowork Adoption Users File</strong> to the paired users file, then select <strong>Load</strong>. The template accepts complete local/UNC, SharePoint or OneLake file paths, not a folder of entities.</p>
+        <h5><span class="cc-num">4</span> Reconcile before sharing</h5>
+        <p>Wait for queries and all eight pages, then check source coverage, observed tasks, distinct task users, departments, category totals and visible dates for the same window. Missing model attribution is not zero activity. Refresh only after both paired files are available and the PAX run succeeds, then check the refreshed report again. Apply your organization's required sensitivity label to the loaded customer report.</p>
       </div>
-      <div class="cc-callout cc-warn"><span class="ct">Keeping it current and scheduled refresh</span>
-        When exports change, drop the new files in the input folder, re-run the preprocessor to the same output folder, and <strong>Refresh</strong> in Power BI. The template reads local entity files, so the Power BI Service needs an <a href="https://learn.microsoft.com/data-integration/gateway/service-gateway-onprem" target="_blank" rel="noopener">on-premises data gateway</a> over the output folder; run the preprocessor on a cadence (for example a Windows Task Scheduler job) before each refresh window.</div>
-      <p class="cc-small">Prefer the current template. The earlier raw-Purview and SharePoint editions are kept in <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence/tree/main/release/archive" target="_blank" rel="noopener">release/archive/</a> for rollback only and are not paired with the preprocessor.</p>
+      <div class="cc-callout cc-warn"><span class="ct">Scenarios, not realized savings</span>
+        Review Capacity Assumptions before presenting modeled assisted hours or labor value. These are not measured human attention, available headcount, forecasts or financial savings. Category-user evidence supports authorized enablement, not performance, compensation or disciplinary ratings.</div>
     </section>
   </div>
+  <details class="cc-idbox">
+    <summary><strong>Existing legacy deployments and source gaps</strong></summary>
+    <div class="cc-idbody"><p>Earlier automation and sample bundles remain in <a href="https://github.com/microsoft/Cowork-Adoption-Intelligence#release-kit" target="_blank" rel="noopener">the repository release kit</a> for existing deployments; they are not V8 inputs. Retain existing data and use the instructions for that exact variant. Source interpretation and preview metadata still name V7 in places; author-reported QA is not independent V8 or customer qualification.</p></div>
+  </details>
+  </div>
 </template>
+
+<style id="ca-connect-styles">
+.ca-connect code,.ca-connect strong{overflow-wrap:anywhere}
+.ca-hero-card .ca-hint a{color:inherit;text-decoration:underline}
+</style>
 
 <style id="ae-connect-styles">
 /* ===== Agent Evaluator: gradient hero + clickthrough player + tabbed Step 4 ===== */
@@ -10218,43 +10190,15 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         'and the app and domain lists you configured.'
     },
     'cowork-adoption': {
-      reads: 'One required export - <strong>Microsoft Purview</strong> audit records for the ' +
-        '<code>CopilotInteraction</code> operation, kept as raw CSV - plus an optional ' +
-        '<strong>Microsoft 365</strong> Cowork usage export and optional organization files ' +
-        'for segmentation.',
-      easy: 'the repository ships a fabricated sample package, so you can load the template ' +
-        'and see all nine pages in about ten minutes with no tenant role at all. Do that first ' +
-        'and you will know what you are collecting for. ' +
-        lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-a-try-the-report-with-fabricated-data', 'Path A in the setup guide') +
-        ' walks it through.',
+      reads: 'Two paired rolled-up CSVs from one PAX v2 Cowork Adoption run: Purview interactions and Entra users.',
+      easy: 'View the source-published synthetic previews without tenant access. Testing V8 and its prerelease PAX contract require separate validation.',
       steps: [
-        'Follow ' +
-          lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#path-a-try-the-report-with-fabricated-data', 'the sample-data setup guide') +
-          ' for the current template, sample package, and preprocessing command. Open the template, ' +
-          'point <code>PreprocessedOutputPath</code> at the preprocessed output folder, and confirm you see 72 fictional users.',
-        'For real data, in ' + lk('https://purview.microsoft.com/', 'Microsoft Purview') +
-          ' open <strong>Audit</strong>, create a search over your reporting window in UTC, and ' +
-          'set <strong>Activities - operation names</strong> to <code>CopilotInteraction</code>. ' +
-          'Export the result and keep the raw CSV unchanged.',
-        'Check the export carries <code>RecordId</code>, <code>CreationDate</code>, ' +
-          '<code>Operation</code>, <code>UserId</code> and <code>AuditData</code>, and that at ' +
-          'least one row has <code>CopilotEventData.AppHost</code> containing <code>cowork</code>. ' +
-          'Do not expand or reformat the JSON inside <code>AuditData</code>.',
-        'Optional but recommended: in the ' + lk(URL_MAC, 'Microsoft 365 admin center') +
-          ' go to <strong>Copilot</strong> then <strong>Cowork</strong> then ' +
-          '<strong>Usage</strong> and export <strong>Cowork usage details</strong>. Save it as ' +
-          '<code>CoworkUserDetails.csv</code> with the headers the setup guide lists.',
-        'Put the files in one protected working folder, set <code>DataFolderPath</code> to it, ' +
-          'refresh, and validate the pages against the checks in ' +
-          lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md#step-7-load-and-validate', 'step 7 of the setup guide') + '.'
+        'Use the paired Cowork Adoption outputs from an authorized collection owner, with _Entity and _RowId preserved.',
+        'Set Cowork Adoption Purview File and Cowork Adoption Users File to the two complete paths.',
+        'Load all eight pages, reconcile rows and dates, and review modeled assumptions before sharing. Follow ' +
+          lk('https://github.com/microsoft/Cowork-Adoption-Intelligence/blob/main/SETUP.md', 'current setup guidance') + '.'
       ],
-      note: 'Audit searches accept a maximum 180-day range, so a longer window needs several ' +
-        'non-overlapping exports dropped into the same folder - the model combines them and drops ' +
-        'duplicate <code>RecordId</code> values. Note also that user identities are concealed by ' +
-        'default in Microsoft 365 usage reports, and <code>Reports Reader</code> does not override ' +
-        'that; changing the tenant-wide setting is a Global Administrator decision under your own ' +
-        'privacy policy. Do not grant Global Administrator to the report operator. This template is ' +
-        'still in testing, so validate the metric definitions before anyone acts on the numbers.'
+      note: 'V8 and PAX v2 remain Testing/prerelease. Stable AIO rollups and legacy entity bundles are not equivalent. Preserve existing exports and deployments.'
     },
     'adoption-sentiment': {
       reads: 'One required CSV - the Copilot activity export from the <strong>Microsoft 365 ' +
@@ -10770,7 +10714,9 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     var heroHasPreview = !!HERO_GIF_IDS[t.id] && videosOf(t).length === 0;
     if (!heroHasPreview) {
       out += step('See what you are building',
-        (t.id === 'cowork-credit-forecasting'
+        (t.id === 'cowork-adoption'
+          ? '<p>Review the overview and synthetic illustrations. They are not proof of V8 rendering or a completed customer refresh.</p>'
+          : t.id === 'cowork-credit-forecasting'
           ? '<p>Watch the walkthrough, then build a scenario using manual assumptions or supported exports.</p>'
           : t.id === 'cowork-super-user'
           ? '<p>Watch the narrated walkthrough, then follow the customer-data setup below. The preview is illustrative, not customer results.</p>'
@@ -10809,6 +10755,8 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       : isPbi ? 'Get the template' : (isRepo ? 'Get it from GitHub' : 'Open the app');
     var getCopy = t.id === 'value-lens'
       ? 'Follow the current README for the downloaded browser app or scheduled SharePoint/Fabric report. Azure uses a separate DataHub installer. Local CSV and Dataverse are archived; retain existing data and use their archive guides.'
+      : t.id === 'cowork-adoption'
+      ? 'Use the current V8 Testing template and setup guide. Bind the paired PAX v2 Cowork Adoption interactions and users files, then reconcile the loaded report. The old sample and automation bundles are for legacy deployments, not V8.'
       : isInstaller
       ? 'You build both skills in the Installer Studio and install them in Copilot Cowork - no GitHub, and no admin rights.'
       : (isPbi
@@ -11404,18 +11352,21 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
   function findState(el){ for (var i=0;i<reg.length;i++){ if (reg[i].el === el) return reg[i]; } return null; }
   function show(st, idx){
     st.i = (idx + st.n) % st.n;
-    if (st.img) st.img.src = st.base + '/frame_' + pad2(st.i) + '.jpg';
+    if (st.img) st.img.src = st.base + '/' + (st.files ? st.files[st.i] : 'frame_' + pad2(st.i) + '.jpg');
     if (st.counter) st.counter.textContent = (st.i + 1) + ' / ' + st.n;
     for (var k=0;k<st.dots.length;k++){ st.dots[k].setAttribute('aria-selected', k === st.i ? 'true' : 'false'); }
-    if (st.img) st.img.setAttribute('alt', 'Cowork Adoption Intelligence page ' + (st.i + 1) + ' of ' + st.n);
+    if (st.img) st.img.setAttribute('alt', 'Cowork Adoption synthetic illustration page ' + (st.i + 1) + ' of ' + st.n);
   }
   function setIco(st){ if (st.playIco) st.playIco.innerHTML = st.playing ? '&#10074;&#10074;' : '&#9658;'; }
   function play(st){ st.playing = true; setIco(st); clearInterval(st.timer); st.timer = setInterval(function(){ show(st, st.i + 1); }, 2000); }
   function pause(st){ st.playing = false; setIco(st); clearInterval(st.timer); }
   function init(el){
     if (findState(el)) return;
+    var files = el.getAttribute('data-files');
+    files = files ? files.split(',').map(function (file) { return file.trim(); }) : null;
     var st = {
-      el: el, i: 0, n: parseInt(el.getAttribute('data-frames'), 10) || 0,
+      el: el, i: 0, n: files ? files.length : parseInt(el.getAttribute('data-frames'), 10) || 0,
+      files: files,
       base: el.getAttribute('data-base') || 'ca-frames', playing: false, timer: null,
       img: el.querySelector('.ca-img'), counter: el.querySelector('.ca-counter'),
       dots: el.querySelectorAll('.ca-dot'), playIco: el.querySelector('.ca-playico')

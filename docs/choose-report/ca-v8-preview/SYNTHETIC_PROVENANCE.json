@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "renderSet": "cowork-adoption-v7-deterministic-synthetic",
+  "renderedOn": "2026-10-07",
+  "source": {
+    "generator": "build_sample_data.py",
+    "generatorSeed": 20260907,
+    "preprocessor": "automation/container/Cowork_Purview_Preprocessor_v0.1.0.py",
+    "identityDomain": "example.com",
+    "resourceHost": "tenant.example.com",
+    "modelPrefix": "Synthetic Model",
+    "purviewContractRows": 15148,
+    "userContractRows": 288,
+    "users": 72,
+    "tasks": 900,
+    "purviewContractSha256": "9798602B44319FF880DE4836B1F56B2394B833BC2D03724BBA7C32F58796CF42",
+    "userContractSha256": "7433046C05C9D0BF8F5CC131D8E684297F1050FF8862392FF9C9652B7AA9AEE8"
+  },
+  "validation": {
+    "nonExampleIdentities": 0,
+    "nonSyntheticResourceUrls": 0,
+    "drppDataUsed": false,
+    "customerDataUsed": false,
+    "recoveryBannersDetected": 0,
+    "externalChangeBannersDetected": 0,
+    "visualErrorsDetected": 0,
+    "usesSchedulingUsers": 50,
+    "reportedScheduledTasks": 96,
+    "delegatingCohortTasks": 212,
+    "tasksUsedBySchedulingCohort": 688,
+    "cohortTaskTotal": 900,
+    "visibleSchedulingTaskCountsReconciled": true
+  },
+  "files": [
+    {
+      "path": "01-cowork-adoption-scorecard.png",
+      "sha256": "1C1B71B4148BBF6E8188C5B21EFE9D22F77062CE29C152D3F0353F68E9643A80"
+    },
+    {
+      "path": "02-weekly-adoption-and-usage.png",
+      "sha256": "1CD810E89F483D333E6EA80739B4B41BB66636A91BF7062A26C17FD2CD3AA81E"
+    },
+    {
+      "path": "03-scalable-work-patterns.png",
+      "sha256": "03B7729E77C854A8A01DB058040C3B177A169D4BEB55EC7368D24CBDF8864CB2"
+    },
+    {
+      "path": "04-demand-and-capacity-scenario.png",
+      "sha256": "525632DDED30CDE4BB75190D423DB3EEACFFAA370E21A634AF61FCC4321871E9"
+    },
+    {
+      "path": "05-adoption-maturity.png",
+      "sha256": "5E566AF8C676C1152B5D38DA41D8FA70EADCD047EA1A4F1446D84D8D07E819CA"
+    },
+    {
+      "path": "06-category-users.png",
+      "sha256": "DAF1AFB69417235087A1A568A9FB2F087D0751732D80B4F4EF491C224EF7E8BF"
+    },
+    {
+      "path": "07-capacity-assumptions.png",
+      "sha256": "66AA2360C253E4E9C576A792FDDA45B7D16E8395644BAC3FFBF26F3A457DBCCA"
+    },
+    {
+      "path": "08-adoption-metric-guide.png",
+      "sha256": "AA2257057149C4CE051044F1D1671BF7A4889BC9913E17473AE7CAE3152E2BF2"
+    }
+  ]
+}
