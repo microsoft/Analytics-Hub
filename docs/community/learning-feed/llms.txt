@@ -21,7 +21,7 @@ A daily, deterministic feed of REAL changes to public Microsoft Copilot guidance
 - **`changes[]` — what actually moved.** Only pages/items that changed since the prior scan. This is the list to answer "what changed recently?" Each entry has `date, product, area, title, change, changeType, before, after, severity, url, kind, tags`.
 - **`catalog[]` — current state for grounding.** The current ms.date/status + url of every tracked page/item. Use this to answer "what is the current guidance/status/source for X?" Do NOT treat catalog rows as changes.
 
-Branch deterministically on `changeType` (no NLP needed): `revised` (routine date/body move), `silent-edit` (body changed, published date did NOT — high-stakes), `structure-change` (section added/removed), `new-page`, `status-changed` (roadmap/MC transition), `item-added`, `post-added`, `desc-updated`. Severity is `major` or `minor`. Filter by `tags` for topic retrieval (top tags: github-copilot, agent, model, copilot-credits, licensing, admin-center, in-development, teams, copilot-studio, api, copilot-chat, adoption, ga, insights, analytics, openai, compliance, dashboard, preview, worldwide).
+Branch deterministically on `changeType` (no NLP needed): `revised` (routine date/body move), `silent-edit` (body changed, published date did NOT — high-stakes), `structure-change` (section added/removed), `new-page`, `status-changed` (roadmap/MC transition), `item-added`, `post-added`, `desc-updated`. Severity is `major` or `minor`. Filter by `tags` for topic retrieval (top tags: github-copilot, agent, model, copilot-credits, licensing, admin-center, in-development, teams, api, copilot-studio, copilot-chat, adoption, ga, insights, analytics, openai, compliance, dashboard, preview, worldwide).
 
 ## Sources
 
@@ -31,16 +31,16 @@ Branch deterministically on `changeType` (no NLP needed): `revised` (routine dat
 - docs.github.com (GitHub Copilot docs)
 - FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec (FOCUS releases)
 
-## Most recent changes (sample — see the data endpoint for all 1750; catalog holds 1316 current-state rows)
+## Most recent changes (sample — see the data endpoint for all 1764; catalog holds 1316 current-state rows)
 
-- [2026-11-21] (item-added) Microsoft 365 Copilot (general): Manage workforce requests in Microsoft 365 Copilot —  → Launched — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=581992
-- [2026-11-21] (silent-edit) Purview: Data Gov Classic Audit Logs Diagnostics — 7315 chars → 7628 chars (+313) — https://learn.microsoft.com/en-us/purview/data-gov-classic-audit-logs-diagnostics
-- [2026-11-21] (status-changed) Copilot in OneNote: OneNote: Suggested Artifact Creation in Copilot Notebooks — Rolling out → Launched — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=566870
-- [2026-11-21] (structure-change) Viva Insights: Assign user roles in advanced insights — 10 sections → 10 sections — https://learn.microsoft.com/en-us/viva/insights/advanced/setup-maint/assign-user-roles
-- [2026-11-20] (revised) Copilot Studio: Copilot Studio data location — 6001 chars → 6001 chars (+0) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/data-location
-- [2026-11-20] (revised) Copilot in SharePoint: Architecture Data Protection Auditing — 8345 chars → 8345 chars (+0) — https://learn.microsoft.com/en-us/copilot/microsoft-365/architecture-data-protection-auditing
-- [2026-11-20] (revised) Copilot in PowerPoint: Privacy And Protections — 15480 chars → 15480 chars (+0) — https://learn.microsoft.com/copilot/privacy-and-protections
-- [2026-11-20] (revised) Copilot in Teams: Copilot Usage Metrics — 94463 chars → 95552 chars (+1089) — https://docs.github.com/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics
+- [2026-11-24] (item-added) Copilot in PowerPoint: Microsoft Copilot (Microsoft 365): The more you use Copilot in Office the better it gets —  → In development — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=580889
+- [2026-11-24] (silent-edit) Microsoft 365 Copilot (general): Microsoft 365 data residency overview — 10308 chars → 10032 chars (-276) — https://learn.microsoft.com/en-us/microsoft-365/enterprise/m365-dr-overview
+- [2026-11-24] (silent-edit) Microsoft 365 Copilot (general): M365 Dr What Is Data Residency — 10308 chars → 10032 chars (-276) — https://learn.microsoft.com/en-us/microsoft-365/enterprise/m365-dr-what-is-data-residency
+- [2026-11-24] (silent-edit) Copilot Studio: Analytics Questions Sessions — 10322 chars → 10540 chars (+218) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-questions-sessions
+- [2026-11-24] (silent-edit) Models: Azure AI Foundry model lifecycle and retirement — 15049 chars → 15090 chars (+41) — https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-lifecycle-retirement
+- [2026-11-24] (silent-edit) Models: Azure OpenAI Service models — 69992 chars → 71254 chars (+1262) — https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models
+- [2026-11-24] (silent-edit) Models: Models Sold Directly By Azure — 69992 chars → 71254 chars (+1262) — https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure
+- [2026-11-24] (silent-edit) Models: Model Retirement Schedule — 15049 chars → 15090 chars (+41) — https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirement-schedule
 
 ## Links
 
@@ -48,4 +48,4 @@ Branch deterministically on `changeType` (no NLP needed): `revised` (routine dat
 - Data endpoint: https://microsoft.github.io/Analytics-Hub/community/learning-feed/feed-data.json
 - Repository (MIT): https://github.com/microsoft/Analytics-Hub
 
-_Generated 2026-11-23T12:18:37.181Z. Confirm any change against its linked source before acting._
+_Generated 2026-11-24T12:18:58.227Z. Confirm any change against its linked source before acting._

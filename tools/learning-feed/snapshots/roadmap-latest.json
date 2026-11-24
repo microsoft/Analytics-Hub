@@ -1,7 +1,33 @@
 {
-  "runAt": "2026-11-23T12:18:01.089Z",
+  "runAt": "2026-11-24T12:18:21.561Z",
   "feed": "roadmap",
   "items": [
+    {
+      "id": "580889",
+      "title": "Microsoft Copilot (Microsoft 365): The more you use Copilot in Office the better it gets",
+      "status": "In development",
+      "description": "<p>Copilot in Word, Excel, PowerPoint, and Workspaces across Copilot App and OneNote will use memory to learn your work patterns and personalize responses. With memory, Copilot can offer more relevant suggestions, hold the pen in a way that represents you, and adapt to your preferences over time</p>",
+      "created": "2026-11-24T00:13:11",
+      "modified": "2026-11-24T00:13:11",
+      "tags": [
+        "Worldwide (Standard Multi-Tenant)",
+        "Desktop",
+        "Mac",
+        "Web",
+        "Excel",
+        "Microsoft 365",
+        "OneNote",
+        "PowerPoint",
+        "Word",
+        "Microsoft Copilot (Microsoft 365)",
+        "Work IQ",
+        "Current Channel",
+        "General Availability",
+        "Preview",
+        "Targeted Release"
+      ],
+      "descHash": "91ed69b8384a5944"
+    },
     {
       "id": "581992",
       "title": "Manage workforce requests in Microsoft 365 Copilot",
@@ -2446,10 +2472,10 @@
     {
       "id": "570647",
       "title": "SharePoint: Changes to the FAQ web part authoring experience",
-      "status": "Rolling out",
+      "status": "Launched",
       "description": "<p>The SharePoint FAQ web part will provide a standard, non-AI experience for manually creating, editing, and managing FAQs. The AI-assisted FAQ creation and import will move to the Copilot in SharePoint authoring experience, where authors can use natural-language prompts and selected grounding sources to generate FAQ content that is saved to the compatible FAQ web part. Existing FAQ web parts and their content will continue to render without migration.</p>",
       "created": "2026-09-09T22:36:54",
-      "modified": "2026-10-27T23:05:02",
+      "modified": "2026-11-24T00:13:11",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "GCC",
@@ -3972,7 +3998,7 @@
       "status": "In development",
       "description": "<p>With the introduction of file archiving support in SharePoint Online, administrators are looking to seamlessly include archiving actions within their existing data retention policies. This means that, in addition to keeping or deleting data, admins want to now leverage Purview DLM to archive files according to organizational requirements, ensuring comprehensive governance across all stages of the content lifecycle in SPO. Retention based file archiving moves inactive content to low-cost storage, lowering costs with no compromise on Compliance, keeping data discoverable and making Copilot results highly relevant.</p>",
       "created": "2026-05-18T22:30:51",
-      "modified": "2026-10-19T23:15:15",
+      "modified": "2026-11-24T00:13:11",
       "tags": [
         "GCC",
         "GCC High",
@@ -4256,7 +4282,7 @@
       "status": "In development",
       "description": "<p>We are introducing file archiving support in SharePoint Online, utilizing this feature administrators can seamlessly include archiving actions within their existing data retention policies. This means that, in addition to keeping or deleting data, admins can now leverage Purview DLM to archive files according to organizational requirements, ensuring comprehensive governance across all stages of the content lifecycle in SharePoint Online. Retention based file archiving moves inactive content to low-cost storage, lowering costs with no compromise on Compliance, keeping data discoverable and making Copilot results highly relevant.</p>",
       "created": "2026-05-05T23:00:02",
-      "modified": "2026-10-12T23:01:05",
+      "modified": "2026-11-24T00:13:11",
       "tags": [
         "Worldwide (Standard Multi-Tenant)",
         "Web",
@@ -10678,21 +10704,6 @@
         "General Availability"
       ],
       "descHash": "1e762a866bbd2ab8"
-    },
-    {
-      "id": "487848",
-      "title": "Microsoft Copilot (Microsoft 365): Copilot can now answer questions about opened Copilot Pages in chat",
-      "status": "Launched",
-      "description": "When using Copilot Pages side-by-side in Copilot Chat, you can now ask questions in chat about your open page, and Copilot will provide answers based on the contents of that page.",
-      "created": "2025-04-21T23:00:33",
-      "modified": "2026-01-23T23:00:31",
-      "tags": [
-        "Worldwide (Standard Multi-Tenant)",
-        "Web",
-        "Microsoft Copilot (Microsoft 365)",
-        "General Availability"
-      ],
-      "descHash": "eb13053fda2ae665"
     },
     {
       "id": "483949",
