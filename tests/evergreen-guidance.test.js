@@ -63,18 +63,61 @@ test('PAX CSV support pins only the verified diagnostic asset and preserves prod
   }
 });
 
-test('all 27 catalog entries retain their repository action without redundant download actions', () => {
-  assert.equal(tools.length, 27);
-  for (const tool of tools) {
-    assert.ok(tool.repo, tool.id);
+const guideAliases = fs.readdirSync(path.join(docs, 'choose-report'), { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .map(entry => ({ id: entry.name, file: path.join('choose-report', entry.name, 'index.html') }))
+  .filter(alias => fs.existsSync(path.join(docs, alias.file)))
+  .filter(alias => /<link\b[^>]*rel="canonical"[^>]*href="https:\/\/microsoft\.github\.io\/Analytics-Hub\/choose-report\//.test(read(alias.file)));
+
+function assertCatalogRoutes(entries) {
+  const ids = entries.map(tool => tool.id);
+  assert.ok(guideAliases.length > 0, 'Published guide aliases must be discoverable');
+  assert.equal(new Set(ids).size, ids.length, 'Catalog IDs must be unique');
+  assert.deepEqual([...ids].sort(), guideAliases.map(alias => alias.id).sort(),
+    'Every published guide alias must have exactly one canonical catalog entry');
+  for (const tool of entries) {
+    assert.match(tool.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Route-safe catalog ID');
+    assert.ok(tool.title && tool.title.trim(), tool.id + ': title');
+    assert.ok(tool.repo, tool.id + ': repository action');
+    assert.equal(new URL(tool.repo).protocol, 'https:', tool.id + ': HTTPS repository action');
     assert.equal(tool.download, '', tool.id);
   }
+  for (const alias of guideAliases) {
+    const source = read(alias.file);
+    const canonical = 'https://microsoft.github.io/Analytics-Hub/choose-report/' + alias.id + '/';
+    assert.ok(source.includes('href="' + canonical + '"'), alias.id + ': canonical URL');
+    const refresh = source.match(/<meta http-equiv="refresh" content="([^"]+)"/);
+    assert.ok(refresh, alias.id + ': no-JS redirect');
+    const scripted = source.match(/new URL\('([^']+)', location.href\)/);
+    assert.ok(scripted, alias.id + ': scripted redirect');
+    for (const destination of [refresh[1].replace(/^0;\s*url=/, ''), scripted[1]]) {
+      const url = new URL(destination, canonical);
+      assert.equal(url.origin + url.pathname,
+        'https://microsoft.github.io/Analytics-Hub/choose-report/', alias.id + ': served catalog');
+      assert.equal(url.hash, '#r=' + alias.id, alias.id + ': guide destination');
+    }
+  }
+}
+
+test('all catalog entries match published guide aliases and retain repository actions', () => {
+  assertCatalogRoutes(tools);
+  assert.ok(tools.some(tool => tool.id === 'ai-solutions-intelligence'),
+    'AI Solutions Intelligence must remain covered by the catalog regression');
   assert.doesNotMatch(catalog, /Download this template on GitHub/);
   assert.match(catalog, /Open the README and setup guidance/);
   assert.match(catalog, /Follow the repository README and setup guidance for the current template/);
   assert.match(catalog, /"download": "\.\.\/tools\/copilot-roi-calculator\/preview\/Copilot-ROI-Executive-Deck\.pptx"/);
   assert.match(catalog, /'" download>Download the executive deck \(PPTX\)<\/a>'/);
   assert.doesNotMatch(read('app.js'), /\$\{(?:t|best)\.download\}/);
+});
+
+test('catalog route checks reject omissions, duplicate IDs and invalid repository actions', () => {
+  assert.throws(() => assertCatalogRoutes(tools.slice(1)), /Every published guide alias/);
+  assert.throws(() => assertCatalogRoutes([...tools, tools[0]]), /unique/);
+  for (const change of [{ repo: '' }, { repo: 'http://example.com' }, { download: 'template.pbit' }]) {
+    assert.throws(() => assertCatalogRoutes(
+      tools.map((tool, index) => index === 0 ? { ...tool, ...change } : tool)));
+  }
 });
 
 test('demo and ecosystem resource kinds and labels honestly describe documentation', () => {
