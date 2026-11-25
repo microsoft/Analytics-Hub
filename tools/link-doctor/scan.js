@@ -140,6 +140,7 @@ function trimUrl(raw) {
 function parseGitHubUrl(raw) {
   let u;
   try { u = new URL(raw); } catch (e) { return null; }
+  if (u.hostname !== 'github.com' && u.hostname !== 'raw.githubusercontent.com') return null;
   const segs = u.pathname.split('/').filter(Boolean).map(decodeURIComponent);
   if (u.hostname === 'raw.githubusercontent.com') {
     // /owner/repo/<ref>/path...   where <ref> may be a branch, a sha, or the
@@ -157,7 +158,10 @@ function parseGitHubUrl(raw) {
   }
   // github.com
   if (segs.length < 2) return null;
-  const [owner, repo, kind, ref, ...rest] = segs;
+  const [owner, repoSegment, kind, ref, ...rest] = segs;
+  // Personal settings are account pages, not an owner named "settings".
+  if (owner.toLowerCase() === 'settings') return null;
+  const repo = repoSegment.replace(/\.git$/i, '');
   if (!kind) return { host: u.hostname, owner, repo, kind: 'repo', raw };
   if (PATH_KINDS.has(kind)) {
     return { host: u.hostname, owner, repo, kind, ref: ref || 'HEAD', path: rest.join('/'), raw };

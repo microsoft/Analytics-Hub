@@ -16,6 +16,12 @@ one against the **live repository tree**. Rather than HEAD-checking hundreds of 
 (slow, rate-limited), it pulls each repo's recursive git tree **once** and resolves all of
 that repo's links offline against it.
 
+Repository checks exclude personal `github.com/settings/...` account pages; this
+does not validate their availability or the viewer's account access. Clone URLs
+ending in `.git` use the repository name without that suffix for API lookups,
+while the original link is retained. Repository-level settings URLs such as
+`github.com/microsoft/Analytics-Hub/settings/pages` are still checked.
+
 For every broken link it proposes a fix: it finds tree entries whose final path segment
 matches the broken one and ranks them by how many trailing path segments they share. It is
 **renumber-aware** - it strips leading `N. ` ordering prefixes, so a folder that moved from
