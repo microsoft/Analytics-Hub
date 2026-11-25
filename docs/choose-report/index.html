@@ -2037,7 +2037,11 @@ html.mk-embed main.mk-page{ display:none !important; }
           function $(id) { return document.getElementById(id); }
           function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
           fetch('../data/report-ranking.json?' + Date.now()).then(function (r) { return r.json(); })
-            .then(function (d) { D = d; R = d.reports; render(); })
+            .then(function (d) {
+              function ready() { D = d; R = d.reports; render(); }
+              if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, { once: true });
+              else ready();
+            })
             .catch(function () { $('rk').innerHTML = '<p class="rk-sub">The report list could not be loaded.</p>'; });
           function pos(a, v) { var i = a.indexOf(v); return i < 0 ? 99 : i; }
           function byRank(g, p) {
@@ -2053,8 +2057,14 @@ html.mk-embed main.mk-page{ display:none !important; }
             var a = document.createElement('article'); a.className = 'rk-card';
             var url = r.guide || r.id + '/' + (r.id === 'cowork-super-user' ? '?route=2' : '');
             var bd = r.tier === 'Archive' ? '<span class="rk-b spec">Specialist</span>' : (r.badge ? '<span class="rk-b ' + esc(r.badge) + '">' + esc(r.badge) + '</span>' : '');
+            var ess = r.id === 'ess-insights' ? JSON.parse(document.getElementById('mk-data').textContent).TOOLS.find(function (t) { return t.id === r.id; }) : null;
+            var outcome = r.outcome;
+            if (ess) {
+              bd += '<span class="rf-ver" title="Stable Dataverse package">v' + esc(ess.version) + '</span>';
+              outcome = 'Stable Dataverse v' + ess.version + '. Validate Desktop, then publish the separate Service-ready output. RC is test-only.';
+            }
             var isGh = /github\.com/.test(r.repo || '');
-            a.innerHTML = '<h3>' + esc(r.title) + '</h3><p>' + esc(r.outcome) + '</p><div class="rk-meta">' + bd +
+            a.innerHTML = '<h3>' + esc(r.title) + '</h3><p>' + esc(outcome) + '</p><div class="rk-meta">' + bd +
               r.products.map(function (x) { return '<span class="rk-tag">' + esc(x) + '</span>'; }).join('') + '</div>' +
               '<div class="rk-links"><a href="' + esc(url) + '">Enablement guide <span aria-hidden="true">&rarr;</span></a>' +
               (r.repo ? '<a href="' + esc(r.repo) + '" target="_blank" rel="noopener noreferrer">' + esc(r.repoLabel || (isGh ? 'Repo' : 'Open app')) + ' <span aria-hidden="true">&#8599;</span></a>' : '') + '</div>';
@@ -3737,6 +3747,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "accent": "#8661c5",
       "category": "impact-roi",
       "tier": "specialty",
+      "version": "23.2",
       "measures": [
         "agents",
         "impact",
@@ -3748,29 +3759,35 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "",
       "preview": "https://raw.githubusercontent.com/microsoft/ESS/main/images/dashboard-preview.gif",
       "demoVideo": "https://youtu.be/dQqgcUs9Ly4",
-      "blurb": "Drop-in Power BI template for the Microsoft ESS Copilot Studio agent (works for any agent). A nine-page executive dashboard built from the ConversationTranscript Dataverse table — adoption, resolution vs escalation, time-to-knowledge, tickets deflected, hours saved and dollar value, plus in-conversation feedback. No custom logging or extra pipelines.",
+      "blurb": "ESS Copilot Studio adoption, outcomes, feedback and modeled business value from ConversationTranscript. Dataverse V23.2 is the stable package; V23.2.1 RC1 is a test-only visual hotfix, not the production default. Validate in Desktop, then publish the separate Service-ready output. CSV V18 and Fabric V2 are distinct routes; the retained nine-page preview is illustrative, not the current ten-page Dataverse package.",
       "meta": {
         "audience": "HR/IT program owners, ESS sponsors, execs",
-        "license": "Power Platform / Dataverse export",
-        "time": "~45 min"
+        "license": "Dataverse access; Power BI sharing license/capacity",
+        "time": "Dataverse: 15-25 min"
       },
       "requirements": {
         "roles": [
           {
-            "label": "Dataverse read (ConversationTranscript)",
-            "url": "https://learn.microsoft.com/microsoft-copilot-studio/"
+            "label": "Dataverse Direct: Bot Transcript Viewer + ESS Power BI Transcript Reader, or approved organization-level Read on conversationtranscript and systemuser",
+            "url": "https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md#action-1---prepare-access-and-copy-the-url"
           },
           {
-            "label": "Power BI workspace Member"
+            "label": "Publication: Power BI workspace Contributor, Member or Admin; viewers need report access and Pro/PPU unless report and model use qualifying capacity",
+            "url": "https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-embed-secure"
           }
         ],
         "software": [
           {
-            "label": "Power BI Desktop (May 2024+)",
-            "url": "https://www.microsoft.com/download/details.aspx?id=58494"
+            "label": "Current Power BI Desktop",
+            "url": "https://powerbi.microsoft.com/desktop/"
           },
           {
-            "label": "Copilot Studio agent writing transcripts to Dataverse"
+            "label": "Complete validated ESS package from the README; Python 3.10-3.14 for guided setup/tools, not URL-only Dataverse",
+            "url": "https://github.com/microsoft/ESS#start-here"
+          },
+          {
+            "label": "Agent transcript capture in supported Dataverse environment; CSV needs a validated registry, Fabric needs capacity and Application User",
+            "url": "https://github.com/microsoft/ESS#choose-your-data-path"
           }
         ]
       },
@@ -5416,9 +5433,10 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 <template id="essHero">
   <div class="cc-hero ess-hero-card">
     <h2>ESS Insights</h2>
-    <div class="cc-tag">Employee Self-Serve Business Value &mdash; one Power BI template for your Copilot Studio agent</div>
-    <div class="cc-oneliner">Who&rsquo;s adopting it &middot; what it resolves &middot; tickets deflected &middot; hours and dollars saved</div>
-    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span></div>
+    <div class="cc-tag">Employee Self-Serve Business Value - choose the report for your data path</div>
+    <div class="cc-oneliner">Adoption &middot; outcomes &middot; modeled ticket deflection, hours and value</div>
+    <div class="cc-badges"><span>BUILT BY MICROSOFT</span><span>POWER BI TEMPLATE</span><span>DATAVERSE STABLE VERSION 23.2</span></div>
+    <p class="cc-small">Retained nine-page illustrative preview. The stable Dataverse package has ten pages, including Glossary; CSV and Fabric have separate layouts. These images do not establish package or demo version equivalence.</p>
     <div class="ess-player" data-frames="9" data-base="ess-frames">
       <div class="ess-stage"><img class="ess-img" src="ess-frames/frame_00.jpg" alt="ESS Insights page 1 of 9"></div>
       <div class="ess-controls">
@@ -5445,72 +5463,85 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
 </template>
 
 <template id="essStep4">
-  <p class="gx-reads">Pick how your data gets in. All three paths read the same Copilot Studio conversation transcripts and drive the same nine pages; they differ only in how the data arrives and how it refreshes. Want to see it first with zero setup? Follow the <a href="https://github.com/microsoft/ESS" target="_blank" rel="noopener">ESS README sample-data guidance</a> to explore all nine pages before you arrange any access.</p>
+  <p class="gx-reads">Choose one data path, validate its transcript-only baseline, then add only the enhancements you need. Dataverse Direct is recommended for ongoing reporting from one environment. CSV is a snapshot; Fabric uses a separate Studio/Lakehouse layout. Explore synthetic data through the <a href="https://github.com/microsoft/ESS#readme" target="_blank" rel="noopener">ESS README preview resources</a>; a preview is not a validated customer report.</p>
+  <div class="cc-callout cc-info"><span class="ct">Use the complete stable package, not the newest prerelease</span>
+    Checked November 25, 2026: <a href="https://github.com/microsoft/ESS/releases/tag/dataverse-v23.2" target="_blank" rel="noopener">dataverse-v23.2</a> (November 12) is stable. Follow the <a href="https://github.com/microsoft/ESS#start-here" target="_blank" rel="noopener">current README installation guidance</a> and choose its complete validated asset, currently <code>ESS-039417f-optional-fixes-V23.2.zip</code>. Select <strong>Extract All</strong>, open the inner extracted folder if nested, and keep its structure intact. Do not use GitHub's Source code ZIP or mix individually downloaded scripts/templates.
+    <a href="https://github.com/microsoft/ESS/releases/tag/dataverse-v23.2.1-rc1" target="_blank" rel="noopener">V23.2.1 RC1</a> (November 13) is a test-only rendering/Filters hotfix, not the production default. Keep stable V23.2 and working reports as rollback; do not publish the RC validation report.</div>
+  <p class="cc-small">Guided setup and optional local tools require <a href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener">Python 3.10-3.14</a> on PATH. Python 3.15 is not supported by this package's NumPy/ONNX Runtime dependencies. URL-only Dataverse needs Power BI Desktop, not Python. Some CSV/Fabric source instructions still reference an older V23 package and older transcript settings; use the current README's validated package and the preflight below, and resolve conflicting route details with the maintainer rather than mixing versions.</p>
 
   <details class="cc-idbox">
     <summary><strong>Turn on transcript capture</strong> <span class="cc-small"><em>(do this once before any of the paths below)</em></span></summary>
     <div class="cc-idbody">
-      <p>The dashboard reads the transcripts Copilot Studio writes for each conversation. Those exist only if the agent is set to save them, and Dataverse keeps them for 30 days by default. A Copilot Studio maker or admin, a few minutes:</p>
+      <p>Transcript capture affects future conversations. Dataverse commonly deletes records after 30 days; a 90-day report lookback cannot restore deleted transcripts. Ask the agent owner and an authorised administrator to confirm:</p>
       <ol>
-        <li>In <a href="https://copilotstudio.microsoft.com" target="_blank" rel="noopener">Copilot Studio</a>, open the agent &rarr; <strong>Settings &rarr; Advanced &rarr; Conversation transcripts</strong>. Confirm <strong>Save conversation transcripts to Dataverse</strong> is <strong>On</strong> and node-level details are included, then save or publish.</li>
-        <li>Confirm the agent runs in a <strong>Production</strong>, <strong>Sandbox</strong>, or <strong>Default</strong> Dataverse environment. Teams and Microsoft 365 Copilot environments do not write transcripts and cannot be used.</li>
-        <li>Grant the analyst the <strong>Bot Transcript Viewer</strong> security role on that environment. Environment Maker is not enough. (The Fabric path uses an app registration instead, see tab 3.)</li>
-        <li>To keep more than 30 days of history, have an admin extend the environment&rsquo;s retention window before the data you want exists.</li>
+        <li>In <a href="https://admin.powerplatform.microsoft.com" target="_blank" rel="noopener">Power Platform admin center</a>: <strong>Manage &rarr; Environments &rarr; selected environment &rarr; Settings &rarr; Product &rarr; Features &rarr; Copilot Studio agents</strong>, enable saving transcripts to Dataverse.</li>
+        <li>In <a href="https://copilotstudio.microsoft.com" target="_blank" rel="noopener">Copilot Studio</a>: <strong>Settings &rarr; Advanced &rarr; Conversation transcripts</strong>, enable <strong>Include node-level details in transcripts</strong>, then save and publish the agent.</li>
+        <li>Use a <strong>Production</strong>, <strong>Sandbox</strong>, or <strong>Default</strong> Dataverse environment. Teams and Microsoft 365 Copilot are valid publishing channels, not environment types. Developer environments are demo-only.</li>
+        <li>Test through an enabled published channel, end the conversation and allow approximately <strong>30 minutes of inactivity</strong> for its Dataverse row. Confirm the row before refreshing; generic webchat is not required.</li>
+        <li>Dataverse Direct needs <strong>Bot Transcript Viewer plus ESS Power BI Transcript Reader</strong>, or an approved custom role with organization-level Read on <code>conversationtranscript</code> and <code>systemuser</code>. CSV needs transcript Read; Fabric uses a Dataverse Application User. Environment Maker alone is insufficient; System Administrator is not required.</li>
       </ol>
-      <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/README.md#prerequisites--details" target="_blank" rel="noopener">Full prerequisites and environment-type table &rarr;</a></p>
+      <p class="cc-glink"><a href="https://github.com/microsoft/ESS#before-collecting-data" target="_blank" rel="noopener">Current transcript preflight and retention guidance &rarr;</a></p>
     </div>
   </details>
 
   <div class="ccyd">
     <div class="cc-tablist" role="tablist" aria-label="Setup path">
-      <button class="cc-tab" role="tab" aria-selected="true"  data-cc="1"><span class="n">1</span> CSV Upload</button>
-      <button class="cc-tab" role="tab" aria-selected="false" data-cc="2"><span class="n">2</span> Dataverse Direct</button>
+      <button class="cc-tab" role="tab" aria-selected="false" data-cc="1"><span class="n">1</span> CSV Upload</button>
+      <button class="cc-tab" role="tab" aria-selected="true" data-cc="2"><span class="n">2</span> Dataverse Direct</button>
       <button class="cc-tab" role="tab" aria-selected="false" data-cc="3"><span class="n">3</span> Fabric</button>
     </div>
 
-    <section class="cc-panel active" role="tabpanel" data-cc="1">
-      <span class="cc-time">&#9201; ~10 minutes &middot; Power BI Pro &middot; one-time export</span>
-      <p>Export the transcript table once, point the template at the file. Best for a snapshot, a demo, or sharing outside your tenant.</p>
+    <section class="cc-panel" role="tabpanel" data-cc="1">
+      <span class="cc-time">&#9201; 20-30 minutes &middot; snapshot/manual refresh</span>
+      <p>Use the included <code>ESS Dashboard - Dynamic Topics (CSV) V18.pbit</code> for an evaluation or controlled snapshot. Sharing requires approved access and data handling, not just a copied file.</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Export your transcripts</h5>
         <p>Open the <a href="https://make.powerapps.com" target="_blank" rel="noopener">Power Apps maker portal</a>, switch to the agent&rsquo;s environment, go to <strong>Tables</strong> then <strong>All</strong>, search <code>conversation</code>, open <strong>ConversationTranscript</strong>, then <strong>Export</strong> then <strong>Export data</strong>. Download the result and unzip the CSV. The default window is the last 30 days.</p>
         <div class="cc-callout cc-warn"><span class="ct">Do not open this CSV in Excel</span>
           Excel silently corrupts the JSON in the <code>Content</code> column and the template fails to load with a <code>Token Identifier expected</code> error. If you opened it, re-export from Dataverse rather than trying to repair it.</div>
-        <h5><span class="cc-num">2</span> Add org data and credits <span class="cc-pill fallback">optional</span></h5>
-        <p>A roster CSV that maps <code>UserPrincipalName</code> to <code>Department</code> and <code>Country</code> unlocks the Organization and Country breakdowns. From the <a href="https://admin.microsoft.com" target="_blank" rel="noopener">Microsoft 365 admin center</a>: <strong>Users &rarr; Active users &rarr; Export users &rarr; Confirm</strong> (the template normalizes the column names). For the credit-consumption leaderboard, add an export from <a href="https://copilotstudio.microsoft.com" target="_blank" rel="noopener">Copilot Studio</a> &rarr; <strong>Analytics &rarr; Message Consumption</strong>. Both are optional; the report loads without them.</p>
+        <h5><span class="cc-num">2</span> Validate the required agent registry</h5>
+        <p>Follow the <a href="https://github.com/microsoft/ESS/blob/main/AGENT-REGISTRY.md#step-7---build-registry-json-for-csv-v18" target="_blank" rel="noopener">CSV V18 registry instructions</a> in the extracted package to create <code>agent-registry.json</code>. Confirm an active approved agent; use <strong>ESS Safe</strong> scope.</p>
         <h5><span class="cc-num">3</span> Open the template</h5>
-        <p>Get the current CSV template through the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" target="_blank" rel="noopener">ESS CSV setup guide</a>. Open it, paste the full path to each CSV into <strong>Transcript File</strong> (and the optional <strong>Org Data File</strong> / <strong>Agent Credits File</strong>), click <strong>Load</strong>.</p>
+        <p>Follow the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" target="_blank" rel="noopener">ESS CSV setup guide</a>: set <strong>Copilot Studio Transcript</strong> to the untouched CSV path, <strong>Agent Scope Mode</strong> to ESS Safe, and <strong>Agent Registry JSON</strong> to the validated JSON. Leave enhancements blank, select <strong>Load</strong>, then <strong>Home &rarr; Refresh</strong>. Confirm plausible conversations/users, intended agent and Glossary diagnostics.</p>
+        <h5><span class="cc-num">4</span> Add only the optional inputs you need</h5>
+        <p>Organization: <a href="https://admin.microsoft.com" target="_blank" rel="noopener">Microsoft 365 admin center</a> &rarr; <strong>Users &rarr; Active users &rarr; Export users</strong>, with approved export access. Credits: <a href="https://admin.powerplatform.microsoft.com" target="_blank" rel="noopener">Power Platform admin center</a> &rarr; <strong>Licensing &rarr; Copilot Studio &rarr; Summary &rarr; Download report</strong> &rarr; <strong>User-Level Credit Consumption</strong> (Copilot Credits, 30-day window); Power Platform Administrator is recommended. Validate registry CreditId aliases. Credits are observed; cost per conversation, net value and ROI are modeled allocations.</p>
       </div>
       <p class="cc-small"><strong>Want scheduled refresh without a gateway?</strong> Host the transcript CSV on SharePoint or OneDrive and point the parameter at its direct file URL, then bind credentials in the service. See <a href="https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" target="_blank" rel="noopener">AUTO-REFRESH.md</a>.</p>
       <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" target="_blank" rel="noopener">Full CSV setup guide &rarr;</a></p>
     </section>
 
-    <section class="cc-panel" role="tabpanel" data-cc="2">
-      <span class="cc-time">&#9201; ~5 minutes &middot; no gateway &middot; recommended for production</span>
-      <p>Connect the template straight to the Dataverse environment that hosts your agent and let it refresh itself. No file exports, no gateway.</p>
+    <section class="cc-panel active" role="tabpanel" data-cc="2">
+      <span class="cc-time">&#9201; 15-25 minutes &middot; one environment &middot; recommended</span>
+      <p>Dataverse Direct reads <code>ConversationTranscript</code> through the connector. Do not supply a transcript CSV. Desktop validation and Service publication are separate checkpoints.</p>
       <div class="cc-steps">
         <h5><span class="cc-num">1</span> Get the environment URL</h5>
-        <p><a href="https://make.powerapps.com" target="_blank" rel="noopener">Power Apps</a> &rarr; switch to the agent&rsquo;s environment &rarr; <strong>&#9881; gear icon &rarr; Session details</strong> &rarr; copy the <strong>Instance url</strong> (like <code>https://orgXXXXXXXX.crm.dynamics.com</code>). Drop the trailing slash; the connector is picky about it.</p>
-        <h5><span class="cc-num">2</span> Add org data and credits <span class="cc-pill fallback">optional</span></h5>
-        <p>Same optional roster and Message Consumption files as the CSV path (see tab 1). Paste their paths into the matching parameters.</p>
-        <h5><span class="cc-num">3</span> Open the template</h5>
-        <p>Get the current Dataverse template through the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" target="_blank" rel="noopener">ESS Dataverse setup guide</a>. Open it and fill in:</p>
+        <p>Confirm the two reporting roles from preflight. In <a href="https://make.powerapps.com" target="_blank" rel="noopener">Power Apps</a>, select the agent's environment &rarr; <strong>Developer resources &rarr; Environment URL</strong>. Remove its trailing slash.</p>
+        <h5><span class="cc-num">2</span> Choose URL-only or guided Desktop validation</h5>
+        <p><strong>URL-only, no Python:</strong> open the included <code>ESS Dashboard - Dynamic Topics (Dataverse) V23 - Power BI Service - PUBLISH THIS.pbit</code> using the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md#option-a---url-only-no-python-or-script" target="_blank" rel="noopener">URL-only guide</a>. This customer-neutral Service baseline has no registry, Organization or Credits file parameters.</p>
         <table class="cc-kv">
-          <tr><th><code>Dataverse Environment URL</code></th><td>The instance URL you just copied</td></tr>
-          <tr><th><code>Transcript Lookback Days</code></th><td>Leave blank for 90. The filter runs server-side, so a smaller window refreshes faster.</td></tr>
+          <tr><th scope="row">Dataverse Environment URL</th><td>Required URL from Developer resources</td></tr>
+          <tr><th scope="row">Transcript Lookback Days</th><td>Blank defaults to 90 days; limited to records still retained</td></tr>
+          <tr><th scope="row">Topic overrides / Feedback Events JSON</th><td>Leave blank for baseline. Direct feedback accepts prepared Monitor events with one exact loaded Conversation ID; Product Feedback uses guided setup and an approved registry.</td></tr>
         </table>
-        <p>Click <strong>Load</strong>.</p>
-        <h5><span class="cc-num">4</span> Sign in to Dataverse</h5>
-        <p>When prompted, choose <strong>Organizational account</strong>, sign in with an account that holds the <strong>Bot Transcript Viewer</strong> role on that environment, then <strong>Connect</strong>. If it returns zero conversations, the account is missing that role, tenant admin is not the same thing.</p>
+        <p><strong>Guided optional inputs:</strong> from the extracted package run <code>.\START-HERE-DATAVERSE.cmd</code>. It runs <code>tools\guided_dataverse_setup.py --mode desktop-validation</code> and generates <strong>Desktop Validation - LOCAL ONLY</strong>. Independently select organization, credits, registry, topics or feedback. New choices default to skip; for saved choices choose keep, replace or skip, and Enter skips. Check the selected/skipped summary.</p>
+        <p>Local Organization and Credits files are Desktop/manual-refresh only. Organization-only setup is supported; Product Feedback requires an approved registry, while Monitor events with exact Conversation IDs do not. A saved Environment URL does not require keeping saved enhancements. See <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md#command-line-selection-and-saved-settings" target="_blank" rel="noopener">explicit CLI skip controls</a>.</p>
+        <h5><span class="cc-num">3</span> Refresh and validate in Desktop</h5>
+        <p>Wait until prefilled parameters are visible and stable before <strong>Load</strong>. Choose <strong>Organizational account</strong>, sign in with the required table access, then <strong>Connect</strong> and <strong>Home &rarr; Refresh</strong>. Confirm plausible non-zero conversations/users, expected dates and agent, no blocking Glossary parser diagnostics and no Apply changes banner. Stop if baseline fails; optional files cannot fix permissions, retention or the wrong environment.</p>
+        <h5><span class="cc-num">4</span> Prepare the separate Service publication output</h5>
+        <p>URL-only users continue with their validated Service-ready PBIT. Guided users run <code>.\BUILD-SERVICE-REFRESH.cmd</code> from the same package; the packaged launcher runs <code>tools\guided_dataverse_setup.py --mode service-refresh</code>. Publish only the resulting <strong>Power BI Service - PUBLISH THIS</strong> output, never the <strong>Desktop Validation - LOCAL ONLY</strong> PBIX. Open the Service output, wait for stable parameters, refresh successfully in Desktop and save a separately named PBIX.</p>
+        <p>The builder excludes local Organization and Credits files. For organization refresh, supply an approved <strong>direct SharePoint Online/OneDrive for Business CSV path</strong>, not a sharing link. It validates URL format and emits a static <code>SharePoint.Files</code> source; Power BI refresh must still validate file existence, access and schema. Rebuild when the file location changes. Use Fabric for automated credits or Graph/Entra organization ingestion.</p>
+        <p class="cc-small">The stable publication launcher currently selects <code>py -3</code>, which may pick an unsupported side-by-side Python. If needed, explicitly use <code>py -3.14 tools\guided_dataverse_setup.py --mode service-refresh</code> from the extracted package. A successful build is not a data refresh.</p>
+        <h5><span class="cc-num">5</span> Publish and verify in Power BI Service</h5>
+        <p><strong>Home &rarr; Publish</strong> the Service-ready PBIX to an approved workspace where you have <strong>Contributor, Member or Admin</strong> access. In the semantic model's <strong>Settings &rarr; Gateway and cloud connections</strong>, map Dataverse to a cloud connection with <strong>OAuth2 / Organizational</strong> and the required reporting access; no on-premises or VNet gateway is needed for this cloud route. Map the SharePoint cloud connection too if selected. Run <strong>Refresh now</strong>, confirm <strong>Refresh history: Completed</strong> and expected report readback, then enable a schedule.</p>
       </div>
-      <div class="cc-callout cc-info"><span class="ct">Gateway-free scheduled refresh</span>
-        Publishing to the Power BI service refreshes cloud-to-cloud with no gateway. Bind the Dataverse credential (<code>OAuth2</code>, <strong>Organizational</strong>) once, then set a schedule. Steps in <a href="https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" target="_blank" rel="noopener">AUTO-REFRESH.md</a>.</div>
+      <div class="cc-callout cc-info"><span class="ct">Sharing is not permission or refresh validation</span>
+        Viewers need report access and Pro/PPU unless both report and semantic model use qualifying Premium or Fabric F64+ capacity. Use the approved secure <strong>Website or portal</strong> embed on HTTPS if needed; it grants no access. Never use <strong>Publish to web</strong> for private transcripts. A build, sign-in or iframe load does not prove report refresh/readback. Follow <a href="https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" target="_blank" rel="noopener">Service refresh guidance</a> and <a href="https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-embed-secure" target="_blank" rel="noopener">secure embedding requirements</a>.</div>
       <p class="cc-small"><strong>One environment per file.</strong> For agents spread across several environments, either build one copy of the template per environment or use the Fabric path.</p>
       <p class="cc-glink"><a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" target="_blank" rel="noopener">Full Dataverse Direct guide &rarr;</a></p>
     </section>
 
     <section class="cc-panel" role="tabpanel" data-cc="3">
-      <span class="cc-time">&#9201; An afternoon &middot; needs Fabric capacity (F SKU or eligible trial) &middot; advanced</span>
+      <span class="cc-time">&#9201; 45-90 minutes &middot; capacity-backed Fabric workspace &middot; advanced</span>
       <p>Notebooks land your transcripts and credit data in a Lakehouse, and the template reads from there. Use this only if you are consolidating <strong>multiple environments</strong>, hitting refresh limits at <strong>very large scale</strong>, or want <strong>built-in credit-consumption analytics</strong> and <strong>automatic offline topic classification</strong>. Otherwise stay on CSV Upload or Dataverse Direct.</p>
       <div class="cc-callout cc-warn"><span class="ct">Validate before production</span>
         The ESS Fabric template is structurally validated, but its refresh against a live Lakehouse is not yet confirmed. Check the current repository validation status and run the full ingest to Lakehouse to refresh loop once, end to end, before you rely on it.</div>
@@ -5521,11 +5552,11 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
         <p>Import <a href="https://github.com/microsoft/ESS/blob/main/Fabric/notebooks/Copilot_Agent_Transcript_Parser.ipynb" target="_blank" rel="noopener">Copilot_Agent_Transcript_Parser.ipynb</a> (<strong>New &rarr; Import notebook</strong>), then in the Explorer pane <strong>add your Lakehouse and set it as the default</strong>. In the CONFIG cell keep <code>SOURCE_MODE = 'dataverse'</code> and set <code>TENANT_ID</code>, <code>CLIENT_ID</code>, <code>CLIENT_SECRET</code> for an Entra app registration (read it from Key Vault with <code>notebookutils.credentials.getSecret</code> in production), plus <code>DATAVERSE_URL</code>, or a list in <code>DATAVERSE_URLS</code> to consolidate several environments. Run the <strong>preflight</strong> cell to confirm auth, then <strong>Run all</strong>. It writes <code>agent_sessions</code> and its companion tables and classifies every conversation by topic offline, with no data leaving your workspace.</p>
         <div class="cc-callout cc-info"><span class="ct">The app registration is a higher bar than the other paths</span>
           It must be added as a Dataverse <strong>Application User</strong> with read on Conversation Transcript in <em>every</em> environment you ingest from, which usually needs a Dataverse or Entra admin. To skip it, set <code>SOURCE_MODE = 'files'</code> and drop an exported transcript CSV into the Lakehouse <code>Files/</code> folder instead.</div>
-        <p class="cc-small">The parser is scoped to ESS agents by default (a filter keys on the <code>copilotforemployeeselfservice</code> schema). Comment out that one filter cell to ingest any Copilot Studio agent. Stage 2 of the offline classifier is toggleable with <code>ENABLE_SEMANTIC_FALLBACK</code>.</p>
+        <p class="cc-small">Fabric requires workspace Contributor, Member or Admin and a reviewed <code>Files/config/agent-registry.csv</code>. Set <strong>ESS Safe</strong> or <strong>Selected Agents</strong> scope; All Agents is an explicit broader-scope choice, not a filter-removal shortcut. Confirm all eight transcript tables and intended agent rows before adding enhancements.</p>
         <h5><span class="cc-num">3</span> Import the credit ingester <span class="cc-pill fallback">optional</span></h5>
-        <p>Import <a href="https://github.com/microsoft/ESS/blob/main/Fabric/notebooks/Copilot_Credit_Consumption_Ingester.ipynb" target="_blank" rel="noopener">Copilot_Credit_Consumption_Ingester.ipynb</a> the same way. It reads the <strong>Message Consumption</strong> exports (the <code>EntitlementConsumption...</code> CSVs from Copilot Studio) from <code>Files/credit_consumption</code> in the Lakehouse, dropped there by hand or by a Power Automate flow, and writes the <code>credit_consumption</code> tables.</p>
+        <p>Use <a href="https://github.com/microsoft/ESS/blob/main/Fabric/notebooks/Copilot_Credit_Consumption_Ingester.ipynb" target="_blank" rel="noopener">Copilot_Credit_Consumption_Ingester.ipynb</a> after baseline validation. It uses Environment, Agent-Level and User-Level credit exports from <strong>Power Platform admin center &rarr; Licensing &rarr; Copilot Studio &rarr; Summary &rarr; Download report</strong>. Validate the file-landing process separately; the notebook is not an automatic export from the admin center.</p>
         <h5><span class="cc-num">4</span> Open the template</h5>
-        <p>Get the current Fabric template through the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Fabric.md" target="_blank" rel="noopener">ESS Fabric setup guide</a>. Open it, point it at your Lakehouse <strong>SQL analytics endpoint</strong> (Import or DirectQuery) or <strong>Direct Lake</strong>, then <strong>Refresh</strong>. Org data is still a separate roster file, the same one used on the other paths.</p>
+        <p>Use the included <code>ESS - Fabric V2.pbit</code> through the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Fabric.md" target="_blank" rel="noopener">ESS Fabric setup guide</a>. It uses <strong>Import</strong>, with <strong>Fabric SQL Endpoint</strong> and <strong>Lakehouse Name</strong>, not an interchangeable Direct Lake template. Refresh and validate expected totals. Organization segmentation requires customer-managed Lakehouse ingestion; no organization-ingestion notebook is included.</p>
         <h5><span class="cc-num">5</span> Schedule the notebooks <span class="cc-pill pref">recommended</span></h5>
         <p>Schedule both notebooks, or wrap them in a Fabric pipeline, so the Lakehouse stays current without manual runs.</p>
       </div>
@@ -10412,34 +10443,32 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     'ess-insights': {
       reads: 'Copilot Studio conversation transcripts from the Dataverse ' +
         '<code>ConversationTranscript</code> table - the data your agent already writes.',
-      easy: 'the repo ships <strong>ESS Dashboard - DEMO PBIX.pbix</strong>. Open ' +
-        lk('https://github.com/microsoft/ESS', 'that file from the repository') +
-        ' to explore the nine pages before you arrange any Dataverse access.',
+      easy: 'follow the ' + lk('https://github.com/microsoft/ESS#start-here', 'current ESS README') +
+        ' for the complete validated stable package and synthetic preview. Dataverse V23.2 is stable; ' +
+        'V23.2.1 RC1 is a test-only visual hotfix, not the production default.',
       steps: [
-        'Check the agent environment actually persists transcripts. In Copilot Studio confirm ' +
-          '<strong>Save conversation transcripts to Dataverse</strong> is <strong>ON</strong>. ' +
-          'Agents running in Teams or Microsoft 365 Copilot environments do not write ' +
-          'transcripts to Dataverse and cannot be used.',
-        'Get the <strong>Bot Transcript Viewer</strong> security role on that environment. ' +
-          'Environment Maker is not enough.',
-        'Export the transcripts: open the ' +
-          lk('https://make.powerapps.com', 'Power Apps maker portal') + ', switch to the agent ' +
-          'environment, go to <strong>Tables</strong> then <strong>All</strong>, search ' +
-          '<code>conversation</code>, open <strong>ConversationTranscript</strong>, then ' +
-          '<strong>Export</strong> then <strong>Export data</strong>, and unzip the CSV.',
-        'Open the CSV Upload template and point the transcript parameter at that file, following ' +
-          'the ' +
-          lk('https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md', 'CSV setup guide') +
-          '. Optionally add an org roster exported from the admin centre and an agent credits ' +
-          'export from Copilot Studio Analytics.'
+        'Confirm environment-level transcript saving and agent node-level details in a supported ' +
+          'Production, Sandbox or Default environment. Teams and Microsoft 365 Copilot are channels. ' +
+          'Allow about 30 minutes of inactivity after a published-channel test.',
+        'Dataverse Direct requires Bot Transcript Viewer plus ESS Power BI Transcript Reader, or ' +
+          'approved organization-level Read on conversationtranscript and systemuser. Environment Maker ' +
+          'is insufficient; System Administrator is not required.',
+        'Copy Environment URL from Power Apps Developer resources. For URL-only reporting open the ' +
+          'included Service-ready PBIT without Python. Guided setup requires the complete package ' +
+          'and Python 3.10-3.14; START-HERE-DATAVERSE.cmd creates Desktop Validation - LOCAL ONLY.',
+        'Refresh and validate the baseline in Desktop. Guided users then run BUILD-SERVICE-REFRESH.cmd ' +
+          'and publish only the separate Power BI Service - PUBLISH THIS output. Local Organization ' +
+          'and Credits are excluded; optional cloud organization uses a validated static SharePoint source.',
+        'Publish to an approved Contributor/Member/Admin workspace, map OAuth2 cloud connections, ' +
+          'run Refresh now and confirm Completed plus expected readback before scheduling. Follow ' +
+          lk('https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md', 'the Dataverse guide') +
+          '. CSV requires an untouched export and validated registry; Fabric has a separate layout.'
       ],
-      note: 'Do not open the transcript CSV in Excel - Excel corrupts the JSON in the ' +
-        '<code>Content</code> column and the template fails to load. Dataverse also deletes ' +
-        'transcripts after 30 days by default, and extending that has to be done before the data ' +
-        'you want exists. Once you are ready to put it in front of stakeholders on a schedule, ' +
-        'the <a href="https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" ' +
-        'target="_blank" rel="noopener noreferrer">Dataverse Direct path</a> pulls live and only ' +
-        'needs the environment URL.'
+      note: 'Do not edit transcript CSVs in Excel. Lookback cannot recover expired records. ' +
+        'Use current README package/preflight guidance where older CSV/Fabric instructions conflict. ' +
+        'The retained nine-page preview is illustrative, not the ten-page stable Dataverse package. ' +
+        'Secure sharing needs authorised access and licensing; never Publish to web private transcripts. ' +
+        'A build or iframe load does not prove authenticated refresh/readback.'
     },
 
     'value-lens': {
@@ -10722,6 +10751,8 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
           ? '<p>Watch the walkthrough, then build a scenario using manual assumptions or supported exports.</p>'
           : t.id === 'cowork-super-user'
           ? '<p>Watch the narrated walkthrough, then follow the customer-data setup below. The preview is illustrative, not customer results.</p>'
+          : t.id === 'ess-insights'
+          ? '<p>Watch the synthetic overview. Its retained preview is not proof of the current stable or RC package, or a completed customer refresh.</p>'
           : '<p>Two minutes here saves an hour later. This is the finished report running on sample data.</p>') +
         (media || '<p class="gx-hint">No preview is published for this one yet.</p>') +
         ((watch || demo) ? '<div class="gx-links">' +
@@ -10753,12 +10784,15 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     });
     var isRepo = /^https:\/\/github\.com\//i.test(t.repo || '');
     var isInstaller = t.id === 'cowork-team-report';
-    var getHead = t.id === 'value-lens' ? 'Choose the app or report setup' : isInstaller ? 'Get the two skills'
+    var getHead = t.id === 'value-lens' ? 'Choose the app or report setup'
+      : t.id === 'ess-insights' ? 'Get the complete validated package' : isInstaller ? 'Get the two skills'
       : isPbi ? 'Get the template' : (isRepo ? 'Get it from GitHub' : 'Open the app');
     var getCopy = t.id === 'value-lens'
       ? 'Follow the current README for the downloaded browser app or scheduled SharePoint/Fabric report. Azure uses a separate DataHub installer. Local CSV and Dataverse are archived; retain existing data and use their archive guides.'
       : t.id === 'cowork-adoption'
       ? 'Use the current V8 Testing template and setup guide. Bind the paired PAX v2 Cowork Adoption interactions and users files, then reconcile the loaded report. The old sample and automation bundles are for legacy deployments, not V8.'
+      : t.id === 'ess-insights'
+      ? 'Follow the current README for the complete validated stable ESS package, Extract All and keep the folder intact. V23.2.1 RC1 is test-only. Use Python 3.10-3.14 for guided setup; URL-only Dataverse does not need Python. Validate Desktop first, then publish only the separate Service-ready output.'
       : isInstaller
       ? 'You build both skills in the Installer Studio and install them in Copilot Cowork - no GitHub, and no admin rights.'
       : (isPbi
