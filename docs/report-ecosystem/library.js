@@ -47,9 +47,10 @@ const RESOURCES = {
   ],
   ess: [
     { kind: "doc",      label: "README & setup guide", url: "https://github.com/microsoft/ESS#readme" },
+    { kind: "doc",      label: "Stable Dataverse V23.2 release (not RC)", url: "https://github.com/microsoft/ESS/releases/tag/dataverse-v23.2" },
     { kind: "video",    label: "ESS Insights overview (video)", url: "https://youtu.be/dQqgcUs9Ly4" },
     { kind: "doc",      label: "Setup path — CSV Upload", url: "https://github.com/microsoft/ESS/blob/main/SETUP-CSV-Download.md" },
-    { kind: "doc",      label: "Setup path — Dataverse Direct", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" },
+    { kind: "doc",      label: "Dataverse: Desktop validation then Service publication", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Dataverse.md" },
     { kind: "doc",      label: "Setup path — Fabric auto-refresh", url: "https://github.com/microsoft/ESS/blob/main/SETUP-Fabric.md" },
     { kind: "doc",      label: "Scheduled refresh guide", url: "https://github.com/microsoft/ESS/blob/main/AUTO-REFRESH.md" },
     { kind: "doc",      label: "Interpretation Guide (.pptx)", url: "https://github.com/microsoft/ESS/blob/main/ESS%20Insights%20Dashboard%20-%20Interpretation%20Guide.pptx" },

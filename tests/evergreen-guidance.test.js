@@ -22,7 +22,13 @@ test('live installation links delegate artifacts and current filenames to reposi
   for (const file of sources) {
     // Dated, error-specific support evidence is not a normal installation path.
     const source = read(file).replace(
-      /<template id="paxCsvTroubleshooting">[\s\S]*?<\/template>/, '');
+      /<template id="paxCsvTroubleshooting">[\s\S]*?<\/template>/, '')
+      // Dated ESS identities are text only; installation URLs still delegate to source docs.
+      .replace(/<template id="essStep4">[\s\S]*?<\/template>/, block => block
+        .replaceAll('<code>ESS-039417f-optional-fixes-V23.2.zip</code>', '<code>verified-package</code>')
+        .replaceAll('<code>ESS Dashboard - Dynamic Topics (CSV) V18.pbit</code>', '<code>verified-csv-template</code>')
+        .replaceAll('<code>ESS Dashboard - Dynamic Topics (Dataverse) V23 - Power BI Service - PUBLISH THIS.pbit</code>', '<code>verified-service-template</code>')
+        .replaceAll('<code>ESS - Fabric V2.pbit</code>', '<code>verified-fabric-template</code>'));
     for (const match of source.matchAll(/https:\/\/(?:github\.com|raw\.githubusercontent\.com)\/[^\s"'<>`]+/g)) {
       const url = decodeURIComponent(match[0]);
       assert.doesNotMatch(url,

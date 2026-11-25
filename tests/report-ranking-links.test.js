@@ -7,7 +7,12 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'docs/choose-report/index.html'), 'utf8');
 const ranking = JSON.parse(fs.readFileSync(path.join(root, 'docs/data/report-ranking.json'), 'utf8'));
-const context = { document: { createElement: () => ({}) } };
+const context = { document: {
+  createElement: () => ({}),
+  getElementById: id => id === 'mk-data' ? {
+    textContent: html.match(/<script id="mk-data" type="application\/json">([\s\S]*?)<\/script>/)[1],
+  } : null,
+} };
 vm.runInNewContext(
   html.match(/          function esc\(s\) \{[^\n]+/)[0] + '\n' +
   html.match(/          function card\(r\) \{[\s\S]*?\n          \}/)[0], context);
@@ -30,6 +35,17 @@ test('other tiles retain their internal guides and existing action labels', () =
       assert.ok(card.includes(/github\.com/.test(report.repo) ? '>Repo ' : '>Open app '), report.id);
     }
   }
+});
+
+test('served ESS tile inherits the canonical stable package badge and publication distinction', () => {
+  const report = ranking.reports.find(r => r.id === 'ess-insights');
+  const card = context.card(report).innerHTML;
+  assert.match(card, /class="rf-ver" title="Stable Dataverse package">v23.2/);
+  assert.match(card, /Stable Dataverse v23.2/);
+  assert.match(card, /Validate Desktop, then publish the separate Service-ready output/);
+  assert.match(card, /RC is test-only/);
+  assert.equal(report.outcome, 'Business value of employee self-serve.',
+    'Do not fork package guidance into the generated ranking workbook/JSON');
 });
 
 test('ranked catalog maps its dark palette to the existing page theme', () => {
