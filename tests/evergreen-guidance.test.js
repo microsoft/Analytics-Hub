@@ -160,6 +160,7 @@ test('ValueLens setup distinguishes the sample app, active installers and archiv
   const setup = template('vlStep4');
   assert.match(tool.blurb, /browser app/);
   assert.match(tool.blurb, /archived routes/);
+  assert.match(tool.blurb, /scenarios, not measured savings/);
   assert.equal(tool.version, '2.0');
   assert.match(tool.requirements.roles[0].label, /own-data collection only/);
   assert.ok(tool.requirements.software[0].url.endsWith('/app/README.md'));
@@ -171,12 +172,21 @@ test('ValueLens setup distinguishes the sample app, active installers and archiv
   assert.match(setup, /No Fabric: PAX \+ SharePoint/);
   assert.match(setup, /does <strong>not<\/strong> deploy the app/);
   assert.match(setup, /SharePoint Site URL/);
+  assert.match(setup, /not a combined permission list/);
+  assert.match(setup, /gives no site access until an authorised administrator/);
+  assert.match(setup, /tenant-wide report privacy settings needs your organisation's approval/);
   assert.match(setup, /archive\/5\.%20Local%20CSV\/README\.md/);
   assert.match(setup, /archive\/3\.%20Power%20Automate%20%2B%20Dataverse\/README\.md/);
   assert.doesNotMatch(setup, /\/main\/3\.%20Power%20Automate%20%2B%20Dataverse\/scripts\//);
   assert.doesNotMatch(catalog, /ValueLens-for-Microsoft-Copilot\/tree\/main\/1\.%20Local%20CSV/);
   assert.doesNotMatch(setup, /dashboard as a Fabric app called|no terminal and no Power BI Desktop/);
   assert.match(catalog, /\.vl-setup th,\.vl-setup td,\.vl-setup code\{overflow-wrap:anywhere\}/);
+  const getCopy = catalog.match(/var getCopy = ([\s\S]*?);\s*var /)[1];
+  const evaluateCopy = id => vm.runInNewContext(getCopy, {
+    t: { id }, isInstaller: false, isPbi: true, isRepo: true,
+  });
+  assert.match(evaluateCopy('value-lens'), /downloaded browser app/);
+  assert.match(evaluateCopy('cowork-adoption'), /paired PAX v2/);
 });
 
 test('ValueLens demo requirements stay separate from installation and downloaded app requirements', () => {

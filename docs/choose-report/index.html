@@ -3840,7 +3840,7 @@ html.mk-embed main.mk-page{ display:none !important; }
       "download": "",
       "preview": "https://raw.githubusercontent.com/microsoft/ValueLens-for-Microsoft-Copilot/main/Images/ValueLens-Preview.gif",
       "demoVideo": "https://youtu.be/P0uHJb13ZR0",
-      "blurb": "Explore Copilot and agent adoption, hours saved and assisted value in the browser app or Power BI report. Start with the app's synthetic sample data. Scheduled reports use SharePoint or Fabric; Azure uses a separate DataHub installer. Installers are experimental. Local CSV and Power Automate + Dataverse are archived routes.",
+      "blurb": "Explore Copilot and agent adoption, estimated assisted hours and modeled value in the browser app or Power BI report. These estimates are scenarios, not measured savings. Start with the app's synthetic sample data. Scheduled reports use SharePoint or Fabric; Azure uses a separate DataHub installer. Installers are experimental. Local CSV and Power Automate + Dataverse are archived routes.",
       "meta": {
         "audience": "Business Value Advisory, execs, program leads",
         "license": "Own-data collection requires authorised audit access; the sample app does not",
@@ -5245,7 +5245,7 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
       </ol>
       <p class="cc-small">Maintained sample files are in <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/shared/sample-data/README.md" target="_blank" rel="noopener">shared/sample-data</a>; helpers are in shared/scripts. Existing local data is not moved automatically.</p>
       <p class="cc-glink"><a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener noreferrer">Data-export roles and field list &rarr;</a></p>
-      <blockquote>Producing this data reads tenant audit and directory information. Typical roles: <strong>Audit Reader</strong> (Purview), <strong>Global Reader</strong> or <strong>User Administrator</strong> (Entra and licensing). If exported names come back as 32-character hex, clear <strong>Display concealed names</strong> in <a href="https://admin.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft 365 admin center</a> &rarr; Settings &rarr; Org settings &rarr; Reports, then re-run.</blockquote>
+      <blockquote>Producing this data reads tenant audit and directory information. Use the route-specific roles and permissions above. Concealed report identities may prevent joins; do not assume they can be reverse-resolved. Any change to tenant-wide report privacy settings needs your organisation's approval before an authorised administrator changes it.</blockquote>
     </div>
   </details>
 
@@ -5253,10 +5253,10 @@ python Deploy-DataverseSchema.py --environment https://your-org.crm.dynamics.com
     <summary><strong>Register an app for automatic pulls</strong> <span class="cc-small"><em>(SharePoint and Fabric report setup)</em></span></summary>
     <div class="cc-idbody">
       <p>The packaged SharePoint pipeline and Fabric path pull from Microsoft Graph unattended, so they need an Entra app registration. The downloaded sample app needs no tenant access. For your own data, follow the <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener">route-specific permissions</a> and obtain administrator approval.</p>
-      <p>A <strong>Global Administrator</strong>, once:</p>
+      <p>Have an authorised administrator review the chosen route before granting access:</p>
       <ol>
         <li><a href="https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" rel="noopener noreferrer">Microsoft Entra admin center</a> &rarr; <strong>App registrations</strong> &rarr; <strong>New registration</strong></li>
-        <li>Add three <strong>Microsoft Graph application</strong> permissions and grant admin consent: <code>AuditLogsQuery.Read.All</code> (audit interactions), <code>Reports.Read.All</code> (licensed users), <code>User.Read.All</code> (org data). The packaged SharePoint scripts also use <code>Sites.Selected</code> to write to your library, and <code>Organization.Read.All</code> for the licence lookup fallback.</li>
+        <li>Use the route-specific <strong>Microsoft Graph application</strong> permissions, not a combined permission list. The core Fabric route documents <code>AuditLogsQuery.Read.All</code>, <code>Reports.Read.All</code> and <code>User.Read.All</code>. The packaged SharePoint route documents <code>AuditLogsQuery.Read.All</code>, <code>User.Read.All</code>, <code>Organization.Read.All</code> and <code>Sites.Selected</code>. The latter gives no site access until an authorised administrator grants access to the selected site. Optional sources have separate requirements; obtain approval before consent or site grants.</li>
         <li>Use the route's documented secret storage: <strong>Azure Key Vault</strong> for manual Fabric setup, or the documented Windows credential storage for the SharePoint scheduled task. Never put secrets in a script or notebook.</li>
       </ol>
       <p class="cc-small">Optional Agents 365 needs <code>CopilotPackages.Read.All</code> + <code>Application.Read.All</code> + <code>User.Read.All</code> and an Agent 365 licence. Full least-privilege breakdown: <a href="https://github.com/microsoft/ValueLens-for-Microsoft-Copilot/blob/main/docs/PERMISSIONS.md" target="_blank" rel="noopener noreferrer">docs/PERMISSIONS.md</a>.</p>
