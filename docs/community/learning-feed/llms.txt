@@ -21,7 +21,7 @@ A daily, deterministic feed of REAL changes to public Microsoft Copilot guidance
 - **`changes[]` — what actually moved.** Only pages/items that changed since the prior scan. This is the list to answer "what changed recently?" Each entry has `date, product, area, title, change, changeType, before, after, severity, url, kind, tags`.
 - **`catalog[]` — current state for grounding.** The current ms.date/status + url of every tracked page/item. Use this to answer "what is the current guidance/status/source for X?" Do NOT treat catalog rows as changes.
 
-Branch deterministically on `changeType` (no NLP needed): `revised` (routine date/body move), `silent-edit` (body changed, published date did NOT — high-stakes), `structure-change` (section added/removed), `new-page`, `status-changed` (roadmap/MC transition), `item-added`, `post-added`, `desc-updated`. Severity is `major` or `minor`. Filter by `tags` for topic retrieval (top tags: github-copilot, agent, model, copilot-credits, licensing, admin-center, in-development, teams, api, copilot-chat, copilot-studio, adoption, openai, ga, insights, analytics, compliance, dashboard, preview, worldwide).
+Branch deterministically on `changeType` (no NLP needed): `revised` (routine date/body move), `silent-edit` (body changed, published date did NOT — high-stakes), `structure-change` (section added/removed), `new-page`, `status-changed` (roadmap/MC transition), `item-added`, `post-added`, `desc-updated`. Severity is `major` or `minor`. Filter by `tags` for topic retrieval (top tags: github-copilot, agent, model, copilot-credits, licensing, admin-center, in-development, teams, api, copilot-chat, copilot-studio, analytics, adoption, openai, ga, insights, compliance, dashboard, preview, worldwide).
 
 ## Sources
 
@@ -31,16 +31,16 @@ Branch deterministically on `changeType` (no NLP needed): `revised` (routine dat
 - docs.github.com (GitHub Copilot docs)
 - FinOps-Open-Cost-and-Usage-Spec/FOCUS_Spec (FOCUS releases)
 
-## Most recent changes (sample — see the data endpoint for all 1835; catalog holds 1315 current-state rows)
+## Most recent changes (sample — see the data endpoint for all 1842; catalog holds 1315 current-state rows)
 
+- [2026-11-27] (silent-edit) Copilot Studio: Admin Agent Inventory — 12152 chars → 12188 chars (+36) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-agent-inventory
+- [2026-11-27] (silent-edit) Copilot Studio: Analytics Agent Evaluation Create — 15359 chars → 15376 chars (+17) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-create
+- [2026-11-27] (silent-edit) Copilot Studio: Analytics Agent Evaluation Edit — 7024 chars → 7041 chars (+17) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-edit
+- [2026-11-27] (silent-edit) Copilot Studio: Analytics Agent Evaluation Edit Cases — 6237 chars → 6271 chars (+34) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-edit-cases
+- [2026-11-27] (structure-change) Copilot Studio: Analytics Agent Evaluation Overview — 9 sections → 9 sections — https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-overview
 - [2026-11-26] (revised) GitHub Copilot: Billing — 21849 chars → 21849 chars (+0) — https://docs.github.com/en/copilot/concepts/billing-and-usage/individuals/billing
 - [2026-11-26] (item-added) Viva Insights: Microsoft Viva: Access Management for Copilot Analytics —  → In development — https://www.microsoft.com/en-us/microsoft-365/roadmap?featureid=578862
 - [2026-11-26] (silent-edit) Copilot Studio: Admin Transcript Controls — 7380 chars → 7932 chars (+552) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-transcript-controls
-- [2026-11-26] (silent-edit) Copilot Studio: Analytics Agent Evaluation Create — 6690 chars → 6730 chars (+40) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-create
-- [2026-11-26] (silent-edit) Copilot Studio: Analytics Agent Evaluation Intro — 6644 chars → 6684 chars (+40) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-intro
-- [2026-11-26] (silent-edit) Copilot Studio: Analytics Agent Evaluation Results — 4244 chars → 4284 chars (+40) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-results
-- [2026-11-26] (silent-edit) Copilot Studio: Analytics Agent Evaluation View — 5078 chars → 5118 chars (+40) — https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/analytics-agent-evaluation-view
-- [2026-11-26] (silent-edit) Models: Azure AI Foundry model lifecycle and retirement — 15090 chars → 15090 chars (+0) — https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/model-lifecycle-retirement
 
 ## Links
 
@@ -48,4 +48,4 @@ Branch deterministically on `changeType` (no NLP needed): `revised` (routine dat
 - Data endpoint: https://microsoft.github.io/Analytics-Hub/community/learning-feed/feed-data.json
 - Repository (MIT): https://github.com/microsoft/Analytics-Hub
 
-_Generated 2026-11-26T12:18:06.455Z. Confirm any change against its linked source before acting._
+_Generated 2026-11-27T12:18:22.562Z. Confirm any change against its linked source before acting._
